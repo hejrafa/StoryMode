@@ -9,14 +9,6 @@ local GAP   = 6     -- px between nameplate bottom and our widget
 -- Active cast table: plate -> { startTimeMS, endTimeMS, isChannel }
 local activeCasts = {}
 
-local function SyncAlpha(plate)
-    if not plate.CP_Widget then return end
-    local a = plate:GetAlpha()
-    plate.CP_Widget:SetAlpha(a)
-    if plate.CP_IconFrame then plate.CP_IconFrame:SetAlpha(a) end
-    if plate.CP_Spark     then plate.CP_Spark:SetAlpha(a)     end
-end
-
 -- Single OnUpdate driver for smooth bar progress across all nameplates
 local driver = CreateFrame("Frame")
 driver:Hide()
@@ -34,7 +26,6 @@ driver:SetScript("OnUpdate", function()
                 plate.CP_Spark:ClearAllPoints()
                 plate.CP_Spark:SetPoint("CENTER", plate.CP_Bar, "LEFT", pct * plate.CP_Bar:GetWidth(), 0)
             end
-            SyncAlpha(plate)
             any = true
         end
     end
@@ -60,7 +51,6 @@ local function ShowBar(plate, name, icon, startTimeMS, endTimeMS, isChannel)
             plate.CP_IconFrame:Hide()
         end
     end
-    SyncAlpha(plate)
     plate.CP_Widget:Show()
     if plate.CP_Spark then plate.CP_Spark:Show() end
     if plate.CP_NativeCastBar then plate.CP_NativeCastBar:Hide() end
@@ -126,7 +116,7 @@ local function SetupPlate(plate, unit)
     -- Total width (icon + 2px gap + bar) matches the nameplate health bar width
     local ref   = TargetFrameSpellBar
     local refH  = (ref and ref:GetHeight() and ref:GetHeight() > 0) and ref:GetHeight() or 13
-    local barH  = math.max(1, math.floor(refH * SCALE))
+    local barH  = 8
     local iconSize = math.max(1, math.floor(barH * 1.6))  -- match the unit frame castbar icon proportion
     local rawW
     if healthBar and healthBar:GetWidth() and healthBar:GetWidth() > 0 then
@@ -134,14 +124,13 @@ local function SetupPlate(plate, unit)
     else
         rawW = tonumber(GetCVar("nameplateWidth")) or math.floor((ref and ref:GetWidth() and ref:GetWidth() > 0) and ref:GetWidth() or 110)
     end
-    local totalW = rawW - 8
+    local totalW = math.floor(rawW * 0.83)
     -- Guard: ensure totalW is large enough to hold the icon, and barW is always positive
     totalW = math.max(iconSize + 10, totalW)
     local barW = math.max(4, totalW - iconSize - 2)  -- 2px gap between icon and bar left edge
 
-    -- Icon frame (UIParent child, anchored left of the bar)
-    local iconFrame = CreateFrame("Frame", nil, UIParent)
-    iconFrame:SetFrameStrata("TOOLTIP")
+    -- Icon frame (plate child, inherits strata + alpha from nameplate)
+    local iconFrame = CreateFrame("Frame", nil, plate)
     iconFrame:SetSize(iconSize, iconSize)
     iconFrame:Hide()
 
@@ -149,9 +138,8 @@ local function SetupPlate(plate, unit)
     iconTex:SetAllPoints(iconFrame)
     -- Default tex coords (0,1,0,1) — preserves the natural dark border baked into spell icons
 
-    -- Main bar (UIParent child, anchored below the nameplate castbar)
-    local widget = CreateFrame("StatusBar", nil, UIParent)
-    widget:SetFrameStrata("TOOLTIP")
+    -- Main bar (plate child, inherits strata + alpha from nameplate)
+    local widget = CreateFrame("StatusBar", nil, plate)
     widget:SetSize(barW, barH)
     -- Shift right by half the icon+gap width so the full assembly is centered under the nameplate
     widget:SetPoint("TOP", anchor, "BOTTOM", math.floor((iconSize + 2) / 2), -GAP)
@@ -176,7 +164,7 @@ local function SetupPlate(plate, unit)
     -- Dark background
     local bg = widget:CreateTexture(nil, "BACKGROUND")
     bg:SetTexture(sbTexPath)
-    bg:SetVertexColor(0.1, 0.1, 0.1, 1)
+    bg:SetVertexColor(0.1, 0.1, 0.1, 0.6)
     bg:SetAllPoints(widget)
 
     -- Border — copied from reference, height trimmed by 4px
@@ -197,21 +185,20 @@ local function SetupPlate(plate, unit)
         end
     end
 
-    -- Spark / glow — separate UIParent frame so it renders above all other layers
-    local sparkFrame = CreateFrame("Frame", nil, UIParent)
-    sparkFrame:SetFrameStrata("TOOLTIP")
-    sparkFrame:SetFrameLevel(widget:GetFrameLevel() + 10)
+    -- Spark / glow — child of widget; child frames naturally draw above
+    -- parent textures/FontStrings, so no explicit SetFrameLevel needed.
+    local sparkFrame = CreateFrame("Frame", nil, widget)
     local spark = sparkFrame:CreateTexture(nil, "ARTWORK")
     local refSpark = ref and ref.Spark
     if refSpark and refSpark:GetTexture() then
         spark:SetTexture(refSpark:GetTexture())
         local sw, sh = refSpark:GetSize()
-        local sparkH = barH * 2
+        local sparkH = math.floor(barH * 2)
         local ratio  = (sh and sh > 0) and (sparkH / sh) or 1
-        sparkFrame:SetSize(math.max(1, math.floor((sw or 10) * ratio)), sparkH)
+        sparkFrame:SetSize(math.max(1, math.floor((sw or 10) * ratio)), math.max(1, sparkH))
     else
         spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
-        sparkFrame:SetSize(10, barH * 2)
+        sparkFrame:SetSize(10, math.max(1, math.floor(barH * 2)))
     end
     spark:SetAllPoints(sparkFrame)
     spark:SetBlendMode("ADD")
@@ -224,12 +211,12 @@ local function SetupPlate(plate, unit)
     if ref and ref.Text then
         local font, size, flags = ref.Text:GetFont()
         if font and size and size > 0 then
-            text:SetFont(font, size, flags)
+            text:SetFont(font, 8, flags)
             fontSet = true
         end
     end
     if not fontSet then
-        text:SetFont(STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF", 10)
+        text:SetFont(STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF", 8)
     end
     text:SetPoint("CENTER", widget, "CENTER", 0, 0)
     text:SetTextColor(1, 1, 1)
@@ -301,7 +288,6 @@ frame:SetScript("OnEvent", function(self, event, unit)
                 -- Hide spark: bar is frozen, no animation
                 if plate.CP_Spark then plate.CP_Spark:Hide() end
                 -- Icon stays visible (same as unit frame castbar behaviour)
-                SyncAlpha(plate)
                 plate.CP_Widget:Show()
                 activeCasts[plate] = nil
                 C_Timer.After(1.1, function()
@@ -332,7 +318,6 @@ C_Timer.NewTicker(0.5, function()
                     SetupPlate(plate, unit)
                 else
                     UpdateCast(plate, unit)
-                    SyncAlpha(plate)
                 end
             end
         end
