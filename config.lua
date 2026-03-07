@@ -579,9 +579,9 @@ if IsFeatureAvailable("nameplateComboEnabled") then
         "Interface\\AddOns\\ClassicPlus\\Images\\nameplatecombo.png")
 end
 if IsFeatureAvailable("nameplateCastNamesEnabled") then
-    CreateCheckbox("nameplateCastNamesEnabled", "Spell Names",
-        LightGrey .. "That enemy is casting something. What is it? The game won't tell you.\n\n" ..
-        "Shows the " .. LighterCream .. "spell name" .. LightGrey .. " on enemy nameplate cast bars. The " .. LighterCream .. "Blizzard nameplate cast bar setting" .. LightGrey .. " is enabled automatically. Now you know what's coming.", nil,
+    CreateCheckbox("nameplateCastNamesEnabled", "Cast Bar",
+        LightGrey .. "That enemy is casting something. What is it? How long do you have?\n\n" ..
+        "Adds a full " .. LighterCream .. "cast bar" .. LightGrey .. " below enemy nameplates — " .. LighterCream .. "spell icon" .. LightGrey .. ", " .. LighterCream .. "spell name" .. LightGrey .. ", " .. LighterCream .. "progress bar" .. LightGrey .. ", and " .. LighterCream .. "spark glow" .. LightGrey .. ". Color-coded: " .. LighterCream .. "gold" .. LightGrey .. " for casts, " .. LighterCream .. "green" .. LightGrey .. " for channels, " .. LighterCream .. "red" .. LightGrey .. " on interrupt. Identical to the unit frame cast bar.", nil,
         "Interface\\AddOns\\ClassicPlus\\Images\\spellname.png")
 end
 if IsFeatureAvailable("nameplateClassHealthEnabled") then
