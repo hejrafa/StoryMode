@@ -559,13 +559,15 @@ merchantFrame:SetScript("OnEvent", function(self, event)
         -- then the dedicated AutoSellGreys/AutoRepair lines already told
         -- the whole story; skip the generic merchant summary.
         if adjusted == 0 then
-            self.isOpen = false
+            -- Defer clearing so late CHAT_MSG_MONEY from auto-sell/auto-repair
+            -- is still suppressed and doesn't duplicate the gain message.
+            C_Timer.After(0.5, function() self.isOpen = false end)
             return
         end
         net = adjusted
         -- Sanity: you can't lose more than you have; if reported loss > current gold, GetMoney() was wrong (e.g. during zone transition)
         if net < 0 and (-net) > current then
-            self.isOpen = false
+            C_Timer.After(0.5, function() self.isOpen = false end)
             return
         end
         if net > 0 then
