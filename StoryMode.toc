@@ -6,4 +6,6 @@
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\storymode_icon
 
+SuramarData.lua
+RogueCampaignData.lua
 StoryMode.lua
