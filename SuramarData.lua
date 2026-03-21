@@ -11,12 +11,12 @@ local addonName, SM = ...
 
 SM.SuramarData = {
     -- Questline metadata
-    title = "The Suramar Campaign",
-    description = "An ancient elven city under Legion occupation. Aid First Arcanist Thalyssra and the nightfallen rebellion to free Suramar from Grand Magistrix Elisande.",
+    title = "Insurrection",
+    description = "An ancient elven city under Legion occupation, sealed behind a magical barrier for ten thousand years. Aid First Arcanist Thalyssra and the nightfallen rebellion as they gather allies, infiltrate the noble houses, and prepare an assault to free Suramar from the grip of Grand Magistrix Elisande and her pact with the Burning Legion.",
     zone = "Suramar",
     expansion = "Legion",
-    achievementID = 11124,
-    achievementName = "Good Suramaritan",
+    achievementID = 11340,
+    achievementName = "Insurrection",
     color = { 0.45, 0.78, 0.23 },  -- Legion fel green
     icon = 236565,  -- Achievement_zone_suramar (atlas texture ID)
 

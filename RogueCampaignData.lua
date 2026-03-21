@@ -6,12 +6,12 @@ local addonName, SM = ...
 -- =============================================================================
 
 SM.RogueCampaignData = {
-    title = "The Uncrowned",
-    description = "Join the secret order of rogues hidden beneath Dalaran. Obtain legendary weapons, uncover a conspiracy within SI:7, and unmask a dreadlord infiltrator.",
+    title = "Saga of the Shadowblade",
+    description = "A secret order of rogues operates from the shadows beneath Dalaran. As the newest member of The Uncrowned, you must obtain legendary artifact weapons, uncover a deadly conspiracy that has infiltrated SI:7, and hunt down a dreadlord hiding in plain sight among your allies.",
     zone = "Dalaran / Broken Isles",
     expansion = "Legion",
     class = "ROGUE",
-    achievementID = 10994,  -- Forged for Battle
+    achievementID = 60970,  -- Legendary Research of the Uncrowned
     color = { 0.45, 0.78, 0.23 },  -- Legion fel green
 
     startQuest = { id = 40832, name = "Call of The Uncrowned", npc = "Ravenholdt Courier", location = "Dalaran" },
