@@ -1045,6 +1045,793 @@ local category = Settings.RegisterCanvasLayoutCategory(settingsPanel, "StoryMode
 Settings.RegisterAddOnCategory(category)
 
 -- ============================================================================
+-- Standalone Story Mode Window (Order Hall Report Style)
+-- ============================================================================
+
+local STORY_FRAME_W, STORY_FRAME_H = 830, 538
+local STORY_CONTENT_PAD = 20
+local STORY_ROW_H = 58
+local STORY_ICON_SIZE = 44
+
+local storyFrame = CreateFrame("Frame", "StoryModeFrame", UIParent)
+storyFrame:SetSize(STORY_FRAME_W, STORY_FRAME_H)
+storyFrame:SetPoint("CENTER")
+storyFrame:SetMovable(true)
+storyFrame:EnableMouse(true)
+storyFrame:RegisterForDrag("LeftButton")
+storyFrame:SetScript("OnDragStart", storyFrame.StartMoving)
+storyFrame:SetScript("OnDragStop", storyFrame.StopMovingOrSizing)
+storyFrame:SetFrameStrata("HIGH")
+storyFrame:Hide()
+
+tinsert(UISpecialFrames, "StoryModeFrame")
+
+-- ── Background: tiling parchment ──
+local storyBg = storyFrame:CreateTexture(nil, "BACKGROUND", nil, -1)
+storyBg:SetAtlas("GarrLanding-MiddleTile", false)
+storyBg:SetHorizTile(true)
+storyBg:SetVertTile(true)
+storyBg:SetPoint("TOPLEFT", 25, -25)
+storyBg:SetPoint("BOTTOMRIGHT", -25, 25)
+
+-- ── Corner textures ──
+local sTL = storyFrame:CreateTexture("StoryModeFrameTL", "BACKGROUND", nil, 2)
+sTL:SetAtlas("GarrLanding-upperleft", true)
+sTL:SetPoint("TOPLEFT", -2, 1)
+
+local sTR = storyFrame:CreateTexture("StoryModeFrameTR", "BACKGROUND", nil, 2)
+sTR:SetAtlas("GarrLanding-upperright", true)
+sTR:SetPoint("TOPRIGHT", 0, 1)
+
+local sBL = storyFrame:CreateTexture("StoryModeFrameBL", "BACKGROUND", nil, 2)
+sBL:SetAtlas("GarrLanding-lowerleft", true)
+sBL:SetPoint("BOTTOMLEFT", -2, -2)
+
+local sBR = storyFrame:CreateTexture("StoryModeFrameBR", "BACKGROUND", nil, 2)
+sBR:SetAtlas("GarrLanding-lowerright", true)
+sBR:SetPoint("BOTTOMRIGHT", 0, -2)
+
+-- ── Edge textures (stretched between corners) ──
+local sTop = storyFrame:CreateTexture(nil, "BACKGROUND", nil, 2)
+sTop:SetAtlas("GarrLanding-Top", true)
+sTop:SetPoint("TOPLEFT", sTL, "TOPRIGHT", 0, -1)
+sTop:SetPoint("TOPRIGHT", sTR, "TOPLEFT", 0, -1)
+
+local sBot = storyFrame:CreateTexture(nil, "BACKGROUND", nil, 2)
+sBot:SetAtlas("GarLanding-Bottom", true)
+sBot:SetPoint("BOTTOMLEFT", sBL, "BOTTOMRIGHT", 0, 2)
+sBot:SetPoint("BOTTOMRIGHT", sBR, "BOTTOMLEFT", 0, 2)
+
+local sLeft = storyFrame:CreateTexture(nil, "BACKGROUND", nil, 2)
+sLeft:SetAtlas("GarLanding-Left", true)
+sLeft:SetPoint("TOPLEFT", sTL, "BOTTOMLEFT", 2, 0)
+sLeft:SetPoint("BOTTOMLEFT", sBL, "TOPLEFT", 2, 0)
+
+local sRight = storyFrame:CreateTexture(nil, "BACKGROUND", nil, 2)
+sRight:SetAtlas("GarLanding-Right", true)
+sRight:SetPoint("TOPRIGHT", sTR, "BOTTOMRIGHT", 0, 0)
+sRight:SetPoint("BOTTOMRIGHT", sBR, "TOPRIGHT", 0, 0)
+
+-- ── Header bar ──
+local headerBar = storyFrame:CreateTexture(nil, "ARTWORK", nil, 1)
+headerBar:SetAtlas("GarrLanding-HeaderBar", true)
+headerBar:SetPoint("TOP", 0, -18)
+
+-- ── Title (bigger, centered in header bar) ──
+local storyTitle = storyFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Enormous")
+storyTitle:SetPoint("CENTER", headerBar, "CENTER", 0, 0)
+storyTitle:SetText("Story Mode")
+storyTitle:SetTextColor(1, 0.82, 0)
+storyTitle:SetShadowOffset(0, 0)
+
+-- ── Close button ──
+local closeBtn = CreateFrame("Button", nil, storyFrame, "UIPanelCloseButton")
+closeBtn:SetPoint("TOPRIGHT", -8, -8)
+
+-- Helper: strip shadow from a FontString
+local function NoShadow(fs)
+    fs:SetShadowOffset(0, 0)
+    return fs
+end
+
+-- ── Layout constants ──
+local CONTENT_LEFT = 50
+local CONTENT_RIGHT = -50
+local CONTENT_TOP = -74
+local CONTENT_BOT = 30
+local CONTENT_W = STORY_FRAME_W - 100  -- 730
+local SLEFT_W = math.floor(CONTENT_W / 3)  -- ~243
+local SRIGHT_W = CONTENT_W - SLEFT_W - 1
+local SP = 14  -- inner padding
+
+-- Parchment colors (brighter, no shadow)
+local CLR_TITLE = { 0.95, 0.85, 0.55 }      -- warm gold (titles)
+local CLR_BODY = { 0.92, 0.88, 0.78 }        -- bright cream
+local CLR_DIM = { 0.78, 0.74, 0.64 }         -- muted cream
+local CLR_GREEN = { 0.55, 0.82, 0.40 }       -- complete
+local CLR_YELLOW = { 0.95, 0.82, 0.40 }      -- active
+local CLR_GRAY = { 0.65, 0.60, 0.50 }        -- not started
+
+-- ══════════════════════════════════════════════════════════════
+-- Left Panel — Story List
+-- ══════════════════════════════════════════════════════════════
+
+local storyLeftPanel = CreateFrame("Frame", nil, storyFrame)
+storyLeftPanel:SetPoint("TOPLEFT", CONTENT_LEFT, CONTENT_TOP)
+storyLeftPanel:SetPoint("BOTTOMLEFT", CONTENT_LEFT, CONTENT_BOT)
+storyLeftPanel:SetWidth(SLEFT_W)
+
+-- Subtle vertical divider
+local storyDivider = storyFrame:CreateTexture(nil, "ARTWORK", nil, 1)
+storyDivider:SetTexture(SOLID)
+storyDivider:SetVertexColor(0.40, 0.32, 0.20, 0.35)
+storyDivider:SetWidth(1)
+storyDivider:SetPoint("TOPLEFT", storyLeftPanel, "TOPRIGHT", 0, -6)
+storyDivider:SetPoint("BOTTOMLEFT", storyLeftPanel, "BOTTOMRIGHT", 0, 6)
+
+-- ══════════════════════════════════════════════════════════════
+-- Right Panel — Detail / Intro
+-- ══════════════════════════════════════════════════════════════
+
+local storyRightScroll = CreateFrame("ScrollFrame", nil, storyFrame, "ScrollFrameTemplate")
+storyRightScroll:SetPoint("TOPLEFT", storyLeftPanel, "TOPRIGHT", 1, 0)
+storyRightScroll:SetPoint("BOTTOMRIGHT", CONTENT_RIGHT, CONTENT_BOT)
+-- Keep scrollbar visible for the right panel
+
+local storyRightChild = CreateFrame("Frame", nil, storyRightScroll)
+storyRightChild:SetWidth(SRIGHT_W)
+storyRightScroll:SetScrollChild(storyRightChild)
+
+-- ── Intro text (shown when no story selected or as default) ──
+local introText = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+introText:SetPoint("TOPLEFT", 20, -20)
+introText:SetPoint("RIGHT", storyRightChild, "RIGHT", -20, 0)
+introText:SetJustifyH("LEFT")
+introText:SetSpacing(4)
+introText:SetTextColor(unpack(CLR_BODY))
+introText:SetText(
+    "Azeroth is full of stories worth experiencing. Grand campaigns that shape the fate of nations. Quiet journeys through forgotten places. Tales of heroes, betrayals, and worlds beyond the stars."
+    .. "\n\n"
+    .. "Story Mode helps you find them and follow each one from beginning to end, at your own pace. Be an unknown adventurer uncovering ancient secrets — or the champion your order hall needs."
+    .. "\n\n"
+    .. "With Chromie Time, any of these can become your leveling journey — or simply a reason to dive deeper into the world you love."
+    .. "\n\n"
+    .. "Select a story from the left to begin."
+)
+
+-- ── Detail elements (hidden until a story is selected) ──
+local D_PAD = 20
+local D_ICON = 40
+
+local dIconBtn = CreateFrame("Button", nil, storyRightChild)
+dIconBtn:SetSize(D_ICON, D_ICON)
+dIconBtn:SetPoint("TOPLEFT", D_PAD, -D_PAD)
+
+local dIconBg = dIconBtn:CreateTexture(nil, "BACKGROUND")
+dIconBg:SetAllPoints()
+dIconBg:SetTexture("Interface\\Buttons\\UI-Quickslot")
+dIconBg:SetTexCoord(0.15, 0.85, 0.15, 0.85)
+
+local dIcon = dIconBtn:CreateTexture(nil, "BORDER")
+dIcon:SetAllPoints()
+dIcon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+
+dIconBtn:SetNormalTexture("Interface\\Buttons\\UI-Quickslot2")
+local dBorder = dIconBtn:GetNormalTexture()
+dBorder:ClearAllPoints()
+dBorder:SetPoint("CENTER")
+dBorder:SetSize(D_ICON * 1.75, D_ICON * 1.75)
+
+local dTitle = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+dTitle:SetPoint("LEFT", dIconBtn, "RIGHT", 8, 0)
+dTitle:SetPoint("TOP", storyRightChild, "TOP", 0, -D_PAD)
+dTitle:SetPoint("RIGHT", storyRightChild, "RIGHT", -D_PAD, 0)
+dTitle:SetJustifyH("LEFT")
+dTitle:SetJustifyV("TOP")
+dTitle:SetWordWrap(false)
+dTitle:SetTextColor(unpack(CLR_TITLE))
+
+local dSub = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall"))
+dSub:SetPoint("TOPLEFT", dTitle, "BOTTOMLEFT", 0, -3)
+dSub:SetTextColor(unpack(CLR_DIM))
+dSub:SetShadowOffset(0, 0)
+dSub:SetJustifyH("LEFT")
+
+local dDesc = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+dDesc:SetPoint("TOPLEFT", storyRightChild, "TOPLEFT", D_PAD, -(D_PAD + D_ICON + 12))
+dDesc:SetPoint("RIGHT", storyRightChild, "RIGHT", -D_PAD, 0)
+dDesc:SetJustifyH("LEFT")
+dDesc:SetSpacing(3)
+dDesc:SetWordWrap(true)
+dDesc:SetTextColor(unpack(CLR_BODY))
+
+-- Progress divider
+local dProgLabel = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+dProgLabel:SetJustifyH("CENTER")
+dProgLabel:SetTextColor(unpack(CLR_BODY))
+dProgLabel:SetShadowOffset(0, 0)
+
+local dProgLineL = storyRightChild:CreateTexture(nil, "ARTWORK")
+dProgLineL:SetTexture(SOLID)
+dProgLineL:SetHeight(1)
+
+local dProgLineR = storyRightChild:CreateTexture(nil, "ARTWORK")
+dProgLineR:SetTexture(SOLID)
+dProgLineR:SetHeight(1)
+
+-- Chapter list container
+local dChapterContainer = CreateFrame("Frame", nil, storyRightChild)
+local dChapterLabels = {}
+local CH_ROW_H = 16
+local CH_GAP = 4
+
+-- Next Step divider
+local dNextLabel = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+dNextLabel:SetJustifyH("CENTER")
+dNextLabel:SetTextColor(unpack(CLR_BODY))
+dNextLabel:SetShadowOffset(0, 0)
+dNextLabel:SetText("Next Step")
+
+local dNextLineL = storyRightChild:CreateTexture(nil, "ARTWORK")
+dNextLineL:SetTexture(SOLID)
+dNextLineL:SetHeight(1)
+
+local dNextLineR = storyRightChild:CreateTexture(nil, "ARTWORK")
+dNextLineR:SetTexture(SOLID)
+dNextLineR:SetHeight(1)
+
+local dNextBody = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+dNextBody:SetJustifyH("LEFT")
+dNextBody:SetSpacing(3)
+dNextBody:SetWordWrap(true)
+dNextBody:SetTextColor(unpack(CLR_BODY))
+
+local dTrackBtn = CreateFrame("Button", nil, storyRightChild, "UIPanelButtonTemplate")
+dTrackBtn:SetSize(130, 22)
+dTrackBtn:SetText("Track Story")
+dTrackBtn:SetNormalFontObject("GameFontNormal")
+
+local dCompleteText = NoShadow(storyRightChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+dCompleteText:SetTextColor(unpack(CLR_GREEN))
+dCompleteText:SetText("Campaign Complete")
+dCompleteText:Hide()
+
+-- Hide all detail elements initially
+local function ShowDetail(show)
+    local m = show and "Show" or "Hide"
+    dIconBtn[m](dIconBtn); dTitle[m](dTitle); dSub[m](dSub)
+    dDesc[m](dDesc); dProgLabel[m](dProgLabel)
+    dProgLineL[m](dProgLineL); dProgLineR[m](dProgLineR)
+    dChapterContainer[m](dChapterContainer)
+end
+ShowDetail(false)
+dNextLabel:Hide(); dNextLineL:Hide(); dNextLineR:Hide()
+dNextBody:Hide(); dTrackBtn:Hide(); dCompleteText:Hide()
+
+-- ══════════════════════════════════════════════════════════════
+-- Selection State
+-- ══════════════════════════════════════════════════════════════
+
+local storyLeftRows = {}
+local storySelectedIdx = nil
+
+local function UpdateStoryDetail(data)
+    if not data then
+        ShowDetail(false)
+        dNextLabel:Hide(); dNextLineL:Hide(); dNextLineR:Hide()
+        dNextBody:Hide(); dTrackBtn:Hide(); dCompleteText:Hide()
+        introText:Show()
+        -- Ensure scroll child has height so content renders
+        C_Timer.After(0, function()
+            local w = storyRightChild:GetWidth()
+            if w > 40 then introText:SetWidth(w - 40) end
+            C_Timer.After(0, function()
+                local h = introText:GetStringHeight()
+                storyRightChild:SetHeight(math.max((h or 0) + 60, 400))
+            end)
+        end)
+        return
+    end
+
+    introText:Hide()
+    ShowDetail(true)
+
+    -- Icon
+    local iconID
+    if data.achievementID then
+        local _, _, _, _, _, _, _, _, _, achIcon = GetAchievementInfo(data.achievementID)
+        iconID = achIcon
+    end
+    iconID = iconID or data.icon
+    if iconID then dIcon:SetTexture(iconID) end
+
+    -- Title
+    local displayTitle = data.title
+    if data.achievementID then
+        local _, achName = GetAchievementInfo(data.achievementID)
+        if achName then displayTitle = achName end
+    end
+    dTitle:SetText(displayTitle)
+    dSub:SetText(data.expansion .. "  ·  " .. data.zone)
+    dDesc:SetText(data.description)
+
+    -- Divider layout helper
+    local function LayoutDiv(label, lineL, lineR, anchorTo, yOff)
+        label:ClearAllPoints()
+        label:SetPoint("TOP", anchorTo, "BOTTOM", 0, yOff)
+
+        local LR, LG, LB, LA = 0.60, 0.50, 0.35, 0.35
+        lineL:ClearAllPoints()
+        lineL:SetPoint("LEFT", storyRightChild, "LEFT", D_PAD, 0)
+        lineL:SetPoint("RIGHT", label, "LEFT", -8, 0)
+        lineL:SetPoint("TOP", label, "CENTER", 0, 0)
+        lineL:SetHeight(1)
+        lineL:SetGradient("HORIZONTAL",
+            CreateColor(LR, LG, LB, 0), CreateColor(LR, LG, LB, LA))
+
+        lineR:ClearAllPoints()
+        lineR:SetPoint("LEFT", label, "RIGHT", 8, 0)
+        lineR:SetPoint("RIGHT", storyRightChild, "RIGHT", -D_PAD, 0)
+        lineR:SetPoint("TOP", label, "CENTER", 0, 0)
+        lineR:SetHeight(1)
+        lineR:SetGradient("HORIZONTAL",
+            CreateColor(LR, LG, LB, LA), CreateColor(LR, LG, LB, 0))
+    end
+
+    -- Chapter list
+    for _, lbl in ipairs(dChapterLabels) do lbl:Hide() end
+    local chapters = GetAllChapters(data)
+
+    for i, ch in ipairs(chapters) do
+        if not dChapterLabels[i] then
+            dChapterLabels[i] = NoShadow(dChapterContainer:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall"))
+            dChapterLabels[i]:SetJustifyH("LEFT")
+            dChapterLabels[i]:SetWordWrap(false)
+            dChapterLabels[i]:SetShadowOffset(0, 0)
+        end
+        local lbl = dChapterLabels[i]
+        lbl:ClearAllPoints()
+
+        local col = (i - 1) % 2
+        local row = math.floor((i - 1) / 2)
+        local yPos = -(row * (CH_ROW_H + CH_GAP))
+
+        if col == 0 then
+            lbl:SetPoint("TOPLEFT", 0, yPos)
+            lbl:SetPoint("RIGHT", dChapterContainer, "CENTER", -4, 0)
+        else
+            lbl:SetPoint("TOPLEFT", dChapterContainer, "TOP", 4, yPos)
+            lbl:SetPoint("RIGHT", dChapterContainer, "RIGHT", 0, 0)
+        end
+
+        local chDone, chTotal = GetChapterProgress(ch)
+        local check = "|A:common-icon-checkmark:0:0|a "
+        if chDone == chTotal and chTotal > 0 then
+            lbl:SetText(check .. ch.chapter)
+            lbl:SetTextColor(unpack(CLR_GREEN))
+        elseif chDone > 0 then
+            lbl:SetText(ch.chapter)
+            lbl:SetTextColor(unpack(CLR_YELLOW))
+        else
+            lbl:SetText(ch.chapter)
+            lbl:SetTextColor(unpack(CLR_GRAY))
+        end
+        lbl:Show()
+    end
+
+    local done, total = GetCampaignProgress(data)
+    dProgLabel:SetText("Progress  ·  " .. done .. " / " .. total)
+
+    local numRows = math.ceil(#chapters / 2)
+    dChapterContainer:SetHeight(math.max(numRows * (CH_ROW_H + CH_GAP), 1))
+
+    -- Two-pass layout
+    C_Timer.After(0, function()
+        dDesc:SetWidth(storyRightChild:GetWidth() - D_PAD * 2)
+        dDesc:SetText(data.description)
+
+        C_Timer.After(0, function()
+            LayoutDiv(dProgLabel, dProgLineL, dProgLineR, dDesc, -18)
+
+            dChapterContainer:ClearAllPoints()
+            dChapterContainer:SetPoint("TOP", dProgLabel, "BOTTOM", 0, -10)
+            dChapterContainer:SetPoint("LEFT", storyRightChild, "LEFT", D_PAD, 0)
+            dChapterContainer:SetPoint("RIGHT", storyRightChild, "RIGHT", -D_PAD, 0)
+
+            local quest, chapter = FindNextQuest(data)
+
+            if quest then
+                dNextLabel:Show(); dNextLineL:Show(); dNextLineR:Show()
+                dNextBody:Show(); dTrackBtn:Show()
+                dCompleteText:Hide()
+
+                LayoutDiv(dNextLabel, dNextLineL, dNextLineR, dChapterContainer, -14)
+
+                dNextBody:ClearAllPoints()
+                dNextBody:SetPoint("TOP", dNextLabel, "BOTTOM", 0, -12)
+                dNextBody:SetPoint("LEFT", storyRightChild, "LEFT", D_PAD, 0)
+                dNextBody:SetPoint("RIGHT", storyRightChild, "RIGHT", -D_PAD, 0)
+                dNextBody:SetText("|cffffd200" .. quest.name .. "|r\nSeek out |cffffffff" .. quest.npc .. "|r in " .. (data.zone or "the world"))
+
+                dTrackBtn:ClearAllPoints()
+                dTrackBtn:SetPoint("TOP", dNextBody, "BOTTOM", 0, -12)
+
+                dTrackBtn:SetScript("OnClick", function()
+                    local result = SetWaypointForQuest(data, quest)
+                    PrintTrackResult(result, quest, data)
+                end)
+
+                C_Timer.After(0, function()
+                    local chH = dChapterContainer:GetHeight()
+                    local totalH = D_PAD + D_ICON + 12
+                                 + dDesc:GetHeight() + 18
+                                 + dProgLabel:GetHeight() + 10
+                                 + chH + 14
+                                 + dNextLabel:GetHeight() + 12
+                                 + dNextBody:GetHeight() + 12
+                                 + 30 + D_PAD + 10
+                    storyRightChild:SetHeight(math.max(totalH, 300))
+                end)
+            else
+                dNextLabel:Hide(); dNextLineL:Hide(); dNextLineR:Hide()
+                dNextBody:Hide(); dTrackBtn:Hide()
+                dCompleteText:Show()
+                dCompleteText:ClearAllPoints()
+                dCompleteText:SetPoint("TOP", dChapterContainer, "BOTTOM", 0, -18)
+                storyRightChild:SetHeight(400)
+            end
+        end)
+    end)
+end
+
+-- ══════════════════════════════════════════════════════════════
+-- Select a Story
+-- ══════════════════════════════════════════════════════════════
+
+local function SelectStory(index)
+    storySelectedIdx = index
+
+    for i, row in pairs(storyLeftRows) do
+        if i == index then
+            row.selBgL:Show(); row.selBgR:Show()
+            row.selTopL:Show(); row.selTopR:Show()
+            row.selBotL:Show(); row.selBotR:Show()
+        else
+            row.selBgL:Hide(); row.selBgR:Hide()
+            row.selTopL:Hide(); row.selTopR:Hide()
+            row.selBotL:Hide(); row.selBotR:Hide()
+        end
+    end
+
+    if index == 0 then
+        UpdateStoryDetail(nil)  -- shows intro text
+    else
+        UpdateStoryDetail(allQuestlines[index])
+    end
+end
+
+-- ══════════════════════════════════════════════════════════════
+-- Build Left Panel
+-- ══════════════════════════════════════════════════════════════
+
+local storyContentBuilt = false
+
+-- Parchment category divider (warm brown fading lines, no shadow)
+local function CreateParchmentDivider(parent, text, yOffset, disabled)
+    local DR, DG, DB = 0.55, 0.48, 0.32
+    local DA = 0.45
+    if disabled then DR, DG, DB = 0.50, 0.44, 0.30; DA = 0.25 end
+
+    local label = NoShadow(parent:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+    label:SetPoint("TOP", parent, "TOP", 0, yOffset)
+    label:SetJustifyH("CENTER")
+    label:SetText(text)
+    label:SetShadowOffset(0, 0)
+    if disabled then
+        label:SetTextColor(0.55, 0.48, 0.38)
+    else
+        label:SetTextColor(unpack(CLR_BODY))
+    end
+
+    local lineL = parent:CreateTexture(nil, "ARTWORK")
+    lineL:SetTexture(SOLID)
+    lineL:SetHeight(1)
+    lineL:ClearAllPoints()
+    lineL:SetPoint("LEFT", parent, "LEFT", SP, 0)
+    lineL:SetPoint("RIGHT", label, "LEFT", -8, 0)
+    lineL:SetPoint("TOP", label, "CENTER", 0, 0)
+    lineL:SetGradient("HORIZONTAL",
+        CreateColor(DR, DG, DB, 0), CreateColor(DR, DG, DB, DA))
+
+    local lineR = parent:CreateTexture(nil, "ARTWORK")
+    lineR:SetTexture(SOLID)
+    lineR:SetHeight(1)
+    lineR:ClearAllPoints()
+    lineR:SetPoint("LEFT", label, "RIGHT", 8, 0)
+    lineR:SetPoint("RIGHT", parent, "RIGHT", -SP, 0)
+    lineR:SetPoint("TOP", label, "CENTER", 0, 0)
+    lineR:SetGradient("HORIZONTAL",
+        CreateColor(DR, DG, DB, DA), CreateColor(DR, DG, DB, 0))
+
+    return label:GetStringHeight() or 12
+end
+
+local function BuildStoryWindow()
+    if storyContentBuilt then return end
+    storyContentBuilt = true
+
+    for _, data in ipairs(allQuestlines) do
+        ResolveAchievementID(data)
+    end
+
+    local yOffset = -SP - 10
+    local globalIdx = 0
+
+    -- ── Introduction row (special index 0) ──
+    local introDivH = CreateParchmentDivider(storyLeftPanel, "Introduction", yOffset)
+    yOffset = yOffset - introDivH - 10
+
+    do
+        local row = CreateFrame("Frame", nil, storyLeftPanel)
+        row:EnableMouse(true)
+        row:SetHeight(ROW_HEIGHT)
+        row:SetPoint("TOPLEFT", 6, yOffset)
+        row:SetPoint("RIGHT", storyLeftPanel, "RIGHT", -6, 0)
+
+        -- Selected background (warm)
+        local SR, SG, SB = 0.45, 0.38, 0.25
+        local selBgL = row:CreateTexture(nil, "BACKGROUND")
+        selBgL:SetTexture(SOLID)
+        selBgL:SetPoint("TOPLEFT")
+        selBgL:SetPoint("BOTTOMRIGHT", row, "BOTTOM")
+        selBgL:SetGradient("HORIZONTAL", CreateColor(SR, SG, SB, 0), CreateColor(SR, SG, SB, 0.5))
+        selBgL:Hide()
+
+        local selBgR = row:CreateTexture(nil, "BACKGROUND")
+        selBgR:SetTexture(SOLID)
+        selBgR:SetPoint("TOPLEFT", row, "TOP")
+        selBgR:SetPoint("BOTTOMRIGHT")
+        selBgR:SetGradient("HORIZONTAL", CreateColor(SR, SG, SB, 0.5), CreateColor(SR, SG, SB, 0))
+        selBgR:Hide()
+
+        local selTopL, selTopR = CreateFadingLine(row, 0.70, 0.58, 0.35, 0.35, 1, "ARTWORK", 2)
+        selTopL:SetPoint("TOPLEFT", 4, 0)
+        selTopL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+        selTopR:SetPoint("LEFT", row, "CENTER", 0, 0)
+        selTopR:SetPoint("TOPRIGHT", -4, 0)
+        selTopL:Hide(); selTopR:Hide()
+
+        local selBotL, selBotR = CreateFadingLine(row, 0.70, 0.58, 0.35, 0.35, 1, "ARTWORK", 2)
+        selBotL:SetPoint("BOTTOMLEFT", 4, 0)
+        selBotL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+        selBotR:SetPoint("LEFT", row, "CENTER", 0, 0)
+        selBotR:SetPoint("BOTTOMRIGHT", -4, 0)
+        selBotL:Hide(); selBotR:Hide()
+
+        -- Hover background
+        local HW = 0.45
+        local hovBgL = row:CreateTexture(nil, "BACKGROUND", nil, 1)
+        hovBgL:SetTexture(SOLID)
+        hovBgL:SetPoint("TOPLEFT")
+        hovBgL:SetPoint("BOTTOMRIGHT", row, "BOTTOM")
+        hovBgL:SetGradient("HORIZONTAL", CreateColor(HW, HW, HW, 0), CreateColor(HW, HW, HW, 0.2))
+        hovBgL:Hide()
+
+        local hovBgR = row:CreateTexture(nil, "BACKGROUND", nil, 1)
+        hovBgR:SetTexture(SOLID)
+        hovBgR:SetPoint("TOPLEFT", row, "TOP")
+        hovBgR:SetPoint("BOTTOMRIGHT")
+        hovBgR:SetGradient("HORIZONTAL", CreateColor(HW, HW, HW, 0.2), CreateColor(HW, HW, HW, 0))
+        hovBgR:Hide()
+
+        local hovTopL, hovTopR = CreateFadingLine(row, 0.6, 0.5, 0.35, 0.2, 1, "ARTWORK", 3)
+        hovTopL:SetPoint("TOPLEFT", 4, 0)
+        hovTopL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+        hovTopR:SetPoint("LEFT", row, "CENTER", 0, 0)
+        hovTopR:SetPoint("TOPRIGHT", -4, 0)
+        hovTopL:Hide(); hovTopR:Hide()
+
+        local hovBotL, hovBotR = CreateFadingLine(row, 0.6, 0.5, 0.35, 0.2, 1, "ARTWORK", 3)
+        hovBotL:SetPoint("BOTTOMLEFT", 4, 0)
+        hovBotL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+        hovBotR:SetPoint("LEFT", row, "CENTER", 0, 0)
+        hovBotR:SetPoint("BOTTOMRIGHT", -4, 0)
+        hovBotL:Hide(); hovBotR:Hide()
+
+        local label = NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+        label:SetPoint("LEFT", 12, 0)
+        label:SetPoint("RIGHT", row, "RIGHT", -8, 0)
+        label:SetJustifyH("LEFT")
+        label:SetJustifyV("MIDDLE")
+        label:SetWordWrap(false)
+        label:SetText("About Story Mode")
+        label:SetTextColor(unpack(CLR_TITLE))
+        label:SetShadowOffset(0, 0)
+
+        row:SetScript("OnEnter", function()
+            if storySelectedIdx ~= 0 then
+                hovBgL:Show(); hovBgR:Show()
+                hovTopL:Show(); hovTopR:Show()
+                hovBotL:Show(); hovBotR:Show()
+            end
+        end)
+        row:SetScript("OnLeave", function()
+            hovBgL:Hide(); hovBgR:Hide()
+            hovTopL:Hide(); hovTopR:Hide()
+            hovBotL:Hide(); hovBotR:Hide()
+        end)
+        row:SetScript("OnMouseUp", function()
+            SelectStory(0)
+        end)
+
+        storyLeftRows[0] = {
+            selBgL = selBgL, selBgR = selBgR,
+            selTopL = selTopL, selTopR = selTopR,
+            selBotL = selBotL, selBotR = selBotR,
+            label = label, data = nil,
+        }
+        yOffset = yOffset - ROW_HEIGHT - 4
+    end
+
+    yOffset = yOffset - 10
+
+    for _, cat in ipairs(categories) do
+        local divH = CreateParchmentDivider(storyLeftPanel, cat.name, yOffset, cat.disabled)
+        yOffset = yOffset - divH - 10
+
+        if not cat.disabled then
+            for _, data in ipairs(cat.questlines) do
+                globalIdx = globalIdx + 1
+                local idx = globalIdx
+
+                local row = CreateFrame("Frame", nil, storyLeftPanel)
+                row:EnableMouse(true)
+                row:SetHeight(ROW_HEIGHT)
+                row:SetPoint("TOPLEFT", 6, yOffset)
+                row:SetPoint("RIGHT", storyLeftPanel, "RIGHT", -6, 0)
+
+                -- Selected background (warm)
+                local SR, SG, SB = 0.45, 0.38, 0.25
+                local selBgL = row:CreateTexture(nil, "BACKGROUND")
+                selBgL:SetTexture(SOLID)
+                selBgL:SetPoint("TOPLEFT")
+                selBgL:SetPoint("BOTTOMRIGHT", row, "BOTTOM")
+                selBgL:SetGradient("HORIZONTAL", CreateColor(SR, SG, SB, 0), CreateColor(SR, SG, SB, 0.5))
+                selBgL:Hide()
+
+                local selBgR = row:CreateTexture(nil, "BACKGROUND")
+                selBgR:SetTexture(SOLID)
+                selBgR:SetPoint("TOPLEFT", row, "TOP")
+                selBgR:SetPoint("BOTTOMRIGHT")
+                selBgR:SetGradient("HORIZONTAL", CreateColor(SR, SG, SB, 0.5), CreateColor(SR, SG, SB, 0))
+                selBgR:Hide()
+
+                local selTopL, selTopR = CreateFadingLine(row, 0.70, 0.58, 0.35, 0.35, 1, "ARTWORK", 2)
+                selTopL:SetPoint("TOPLEFT", 4, 0)
+                selTopL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+                selTopR:SetPoint("LEFT", row, "CENTER", 0, 0)
+                selTopR:SetPoint("TOPRIGHT", -4, 0)
+                selTopL:Hide(); selTopR:Hide()
+
+                local selBotL, selBotR = CreateFadingLine(row, 0.70, 0.58, 0.35, 0.35, 1, "ARTWORK", 2)
+                selBotL:SetPoint("BOTTOMLEFT", 4, 0)
+                selBotL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+                selBotR:SetPoint("LEFT", row, "CENTER", 0, 0)
+                selBotR:SetPoint("BOTTOMRIGHT", -4, 0)
+                selBotL:Hide(); selBotR:Hide()
+
+                -- Hover background
+                local HW = 0.45
+                local hovBgL = row:CreateTexture(nil, "BACKGROUND", nil, 1)
+                hovBgL:SetTexture(SOLID)
+                hovBgL:SetPoint("TOPLEFT")
+                hovBgL:SetPoint("BOTTOMRIGHT", row, "BOTTOM")
+                hovBgL:SetGradient("HORIZONTAL", CreateColor(HW, HW, HW, 0), CreateColor(HW, HW, HW, 0.2))
+                hovBgL:Hide()
+
+                local hovBgR = row:CreateTexture(nil, "BACKGROUND", nil, 1)
+                hovBgR:SetTexture(SOLID)
+                hovBgR:SetPoint("TOPLEFT", row, "TOP")
+                hovBgR:SetPoint("BOTTOMRIGHT")
+                hovBgR:SetGradient("HORIZONTAL", CreateColor(HW, HW, HW, 0.2), CreateColor(HW, HW, HW, 0))
+                hovBgR:Hide()
+
+                local hovTopL, hovTopR = CreateFadingLine(row, 0.6, 0.5, 0.35, 0.2, 1, "ARTWORK", 3)
+                hovTopL:SetPoint("TOPLEFT", 4, 0)
+                hovTopL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+                hovTopR:SetPoint("LEFT", row, "CENTER", 0, 0)
+                hovTopR:SetPoint("TOPRIGHT", -4, 0)
+                hovTopL:Hide(); hovTopR:Hide()
+
+                local hovBotL, hovBotR = CreateFadingLine(row, 0.6, 0.5, 0.35, 0.2, 1, "ARTWORK", 3)
+                hovBotL:SetPoint("BOTTOMLEFT", 4, 0)
+                hovBotL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+                hovBotR:SetPoint("LEFT", row, "CENTER", 0, 0)
+                hovBotR:SetPoint("BOTTOMRIGHT", -4, 0)
+                hovBotL:Hide(); hovBotR:Hide()
+
+                -- Icon (spellbook style)
+                local iconBtn = CreateFrame("Button", nil, row)
+                iconBtn:SetSize(24, 24)
+                iconBtn:SetPoint("LEFT", 8, 0)
+
+                local iconBg = iconBtn:CreateTexture(nil, "BACKGROUND")
+                iconBg:SetAllPoints()
+                iconBg:SetTexture("Interface\\Buttons\\UI-Quickslot")
+                iconBg:SetTexCoord(0.15, 0.85, 0.15, 0.85)
+
+                local icon = iconBtn:CreateTexture(nil, "BORDER")
+                icon:SetAllPoints()
+                icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+
+                iconBtn:SetNormalTexture("Interface\\Buttons\\UI-Quickslot2")
+                local normalTex = iconBtn:GetNormalTexture()
+                normalTex:ClearAllPoints()
+                normalTex:SetPoint("CENTER")
+                normalTex:SetSize(42, 42)
+
+                if data.achievementID then
+                    local _, _, _, _, _, _, _, _, _, achIcon = GetAchievementInfo(data.achievementID)
+                    if achIcon then icon:SetTexture(achIcon) end
+                end
+
+                -- Title
+                local label = NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+                label:SetPoint("LEFT", iconBtn, "RIGHT", 4, 0)
+                label:SetPoint("RIGHT", row, "RIGHT", -8, 0)
+                label:SetPoint("CENTER", row, "CENTER", 0, 0)
+                label:SetJustifyH("LEFT")
+                label:SetJustifyV("MIDDLE")
+                label:SetWordWrap(false)
+                label:SetText(data.title)
+                label:SetTextColor(unpack(CLR_TITLE))
+                label:SetShadowOffset(0, 0)
+
+                -- Hover
+                row:SetScript("OnEnter", function()
+                    if idx ~= storySelectedIdx then
+                        hovBgL:Show(); hovBgR:Show()
+                        hovTopL:Show(); hovTopR:Show()
+                        hovBotL:Show(); hovBotR:Show()
+                    end
+                end)
+                row:SetScript("OnLeave", function()
+                    hovBgL:Hide(); hovBgR:Hide()
+                    hovTopL:Hide(); hovTopR:Hide()
+                    hovBotL:Hide(); hovBotR:Hide()
+                end)
+                row:SetScript("OnMouseUp", function()
+                    SelectStory(idx)
+                end)
+
+                storyLeftRows[idx] = {
+                    selBgL = selBgL, selBgR = selBgR,
+                    selTopL = selTopL, selTopR = selTopR,
+                    selBotL = selBotL, selBotR = selBotR,
+                    label = label, data = data,
+                }
+                yOffset = yOffset - ROW_HEIGHT - 4
+            end
+        end
+
+        yOffset = yOffset - 10
+    end
+end
+
+storyFrame:SetScript("OnShow", function()
+    for _, data in ipairs(allQuestlines) do
+        ResolveAchievementID(data)
+    end
+    BuildStoryWindow()
+
+    C_Timer.After(0, function()
+        local rw = storyRightScroll:GetWidth()
+        if rw > 10 then storyRightChild:SetWidth(rw) end
+        SelectStory(0)
+    end)
+end)
+
+-- ============================================================================
 -- Slash Commands
 -- ============================================================================
 
@@ -1065,8 +1852,14 @@ SlashCmdList["STORYMODE"] = function(msg)
             end
         end
         print("|cff64b5f6StoryMode:|r All questlines complete!")
-    else
+    elseif msg == "settings" or msg == "config" then
         Settings.OpenToCategory(category:GetID())
+    else
+        if storyFrame:IsShown() then
+            storyFrame:Hide()
+        else
+            storyFrame:Show()
+        end
     end
 end
 
