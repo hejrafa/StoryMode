@@ -154,19 +154,37 @@ SM.SuramarData = {
     -- GOOD SURAMARITAN CHAPTERS (Achievement 11124)
     -- Each sub-section is a criteria of the meta-achievement
     -- =========================================================================
+    -- Chapters are ordered by approximate unlock progression (rep gates).
+    -- (An Ancient Gift / achievement 10756 shares its final quest
+    --  "The Stuff of Dreams" with A Growing Crisis — tracked there.)
     chapters = {
         -- -----------------------------------------------------------------
-        -- 1. An Ancient Gift (Achievement 10756)
+        -- 1. The Waning Crescent (Achievement 10759) — unlocks at Friendly
         -- -----------------------------------------------------------------
         {
-            chapter = "An Ancient Gift",
-            achievementID = 10756,
+            chapter = "The Waning Crescent",
+            achievementID = 10759,
             quests = {
-                { id = 43362, name = "The Stuff of Dreams",             npc = "Valewalker Farodin" },
-                -- An Ancient Gift is a short storyline; The Stuff of Dreams
-                -- is the final quest tracked by the achievement criteria.
-                -- It is unlocked after completing The Light Below prereqs
-                -- and reaching sufficient Ancient Mana / Nightfallen rep.
+                { id = 41877, name = "Lady Lunastre",                   npc = "Ly'leth Lunastre" },
+                { id = 40746, name = "One of the People",               npc = "Ly'leth Lunastre" },
+                { id = 41148, name = "Dispensing Compassion",           npc = "Silgryn" },
+                { id = 42859, name = "A Draught of Hope",               npc = "Silgryn" },
+                { id = 40947, name = "Special Delivery",                npc = "Silgryn" },
+                { id = 44744, name = "Secret Correspondence",           npc = "Silgryn" },
+                { id = 41878, name = "The Gondolier",                   npc = "Silgryn" },
+                { id = 40727, name = "All Along the Waterways",         npc = "Silgryn" },
+                { id = 42724, name = "Redistribution",                  npc = "Silgryn" },
+                { id = 42725, name = "Sharing the Wealth",              npc = "Silgryn" },
+                { id = 42726, name = "Lifelines",                       npc = "Silgryn" },
+                { id = 40745, name = "Shift Change",                    npc = "Silgryn" },
+                { id = 42969, name = "A Spy in Our Midst",              npc = "Silgryn" },
+                { id = 42722, name = "Friends in Cages",                npc = "Silgryn" },
+                { id = 42723, name = "Freeing the Taken",               npc = "Silgryn" },
+                { id = 42486, name = "Little One Lost",                 npc = "Silgryn" },
+                { id = 42487, name = "Friends On the Outside",          npc = "Silgryn" },
+                { id = 44051, name = "Wasted Potential",                npc = "Silgryn" },
+                { id = 42488, name = "Thalyssra's Abode",               npc = "Silgryn" },
+                { id = 42489, name = "Thalyssra's Drawers",             npc = "First Arcanist Thalyssra" },
             },
         },
         -- -----------------------------------------------------------------
@@ -214,36 +232,7 @@ SM.SuramarData = {
             },
         },
         -- -----------------------------------------------------------------
-        -- 4. The Waning Crescent (Achievement 10759)
-        -- -----------------------------------------------------------------
-        {
-            chapter = "The Waning Crescent",
-            achievementID = 10759,
-            quests = {
-                { id = 41877, name = "Lady Lunastre",                   npc = "Ly'leth Lunastre" },
-                { id = 40746, name = "One of the People",               npc = "Ly'leth Lunastre" },
-                { id = 41148, name = "Dispensing Compassion",           npc = "Silgryn" },
-                { id = 42859, name = "A Draught of Hope",               npc = "Silgryn" },
-                { id = 40947, name = "Special Delivery",                npc = "Silgryn" },
-                { id = 44744, name = "Secret Correspondence",           npc = "Silgryn" },
-                { id = 41878, name = "The Gondolier",                   npc = "Silgryn" },
-                { id = 40727, name = "All Along the Waterways",         npc = "Silgryn" },
-                { id = 42724, name = "Redistribution",                  npc = "Silgryn" },
-                { id = 42725, name = "Sharing the Wealth",              npc = "Silgryn" },
-                { id = 42726, name = "Lifelines",                       npc = "Silgryn" },
-                { id = 40745, name = "Shift Change",                    npc = "Silgryn" },
-                { id = 42969, name = "A Spy in Our Midst",              npc = "Silgryn" },
-                { id = 42722, name = "Friends in Cages",                npc = "Silgryn" },
-                { id = 42723, name = "Freeing the Taken",               npc = "Silgryn" },
-                { id = 42486, name = "Little One Lost",                 npc = "Silgryn" },
-                { id = 42487, name = "Friends On the Outside",          npc = "Silgryn" },
-                { id = 44051, name = "Wasted Potential",                npc = "Silgryn" },
-                { id = 42488, name = "Thalyssra's Abode",               npc = "Silgryn" },
-                { id = 42489, name = "Thalyssra's Drawers",             npc = "First Arcanist Thalyssra" },
-            },
-        },
-        -- -----------------------------------------------------------------
-        -- 5. Statecraft (Achievement 10760)
+        -- 4. Statecraft (Achievement 10760)
         -- -----------------------------------------------------------------
         {
             chapter = "Statecraft",

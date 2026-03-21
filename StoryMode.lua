@@ -10,6 +10,27 @@ local defaults = {
 }
 
 -- ============================================================================
+-- Achievement Resolver — find achievement ID by name at runtime
+-- ============================================================================
+
+local function ResolveAchievementID(data)
+    if data.achievementID then
+        local _, name = GetAchievementInfo(data.achievementID)
+        if name then return end  -- ID is valid
+    end
+    -- Search by name across achievement ID ranges
+    if data.achievementName then
+        for id = 1, 50000 do
+            local _, name = GetAchievementInfo(id)
+            if name == data.achievementName then
+                data.achievementID = id
+                return
+            end
+        end
+    end
+end
+
+-- ============================================================================
 -- Quest Utility Functions
 -- ============================================================================
 
@@ -24,13 +45,22 @@ end
 local function GetAllChapters(data)
     local all = {}
     if data.prereqs then
-        for _, ch in ipairs(data.prereqs) do all[#all + 1] = ch end
+        for _, ch in ipairs(data.prereqs) do
+            ch._section = 1  -- prereqs (lowest priority)
+            all[#all + 1] = ch
+        end
     end
     if data.chapters then
-        for _, ch in ipairs(data.chapters) do all[#all + 1] = ch end
+        for _, ch in ipairs(data.chapters) do
+            ch._section = 2  -- main story
+            all[#all + 1] = ch
+        end
     end
     if data.insurrection then
-        for _, ch in ipairs(data.insurrection) do all[#all + 1] = ch end
+        for _, ch in ipairs(data.insurrection) do
+            ch._section = 3  -- finale (highest priority)
+            all[#all + 1] = ch
+        end
     end
     return all
 end
@@ -55,6 +85,32 @@ local function GetCampaignProgress(data)
     return done, total
 end
 
+-- Check if an achievement criterion is complete for THIS character (not warbound)
+-- Drills into sub-achievements and checks actual quest flags
+local function IsCriterionDoneForCharacter(achID, criteriaIdx)
+    local _, criteriaType, _, _, _, _, _, assetID = GetAchievementCriteriaInfo(achID, criteriaIdx)
+
+    if criteriaType == 8 then  -- sub-achievement: check its quest criteria
+        local subNum = GetAchievementNumCriteria(assetID)
+        if subNum == 0 then
+            local _, _, _, completed = GetAchievementInfo(assetID)
+            return completed
+        end
+        for j = 1, subNum do
+            local _, subType, _, _, _, _, _, subAsset = GetAchievementCriteriaInfo(assetID, j)
+            if subType == 27 then  -- quest
+                if not IsQuestComplete(subAsset) then return false end
+            end
+        end
+        return true
+    elseif criteriaType == 27 then  -- direct quest
+        return IsQuestComplete(assetID)
+    else
+        local _, _, completed = GetAchievementCriteriaInfo(achID, criteriaIdx)
+        return completed
+    end
+end
+
 local function GetChapterProgress(ch)
     local total, done = 0, 0
     for _, q in ipairs(ch.quests) do
@@ -67,34 +123,140 @@ end
 local function FindNextQuest(data)
     local chapters = GetAllChapters(data)
 
-    -- First: check if any quest is actively in the log
+    -- Check if player has completed any prereq chapters (meaning they've progressed)
+    local hasPrereqProgress = false
+    if data.prereqs then
+        for _, ch in ipairs(data.prereqs) do
+            local d, t = GetChapterProgress(ch)
+            if d > 0 then hasPrereqProgress = true; break end
+        end
+    end
+
+    local logCandidates = {}    -- quests in the quest log
+    local readyCandidates = {}  -- quests ready to pick up
+
+    for chIdx, ch in ipairs(chapters) do
+        local chDone, chTotal = GetChapterProgress(ch)
+        if chDone >= chTotal then
+            -- Chapter complete, skip
+        else
+            local section = ch._section or 1
+
+            for j, q in ipairs(ch.quests) do
+                if IsQuestInLog(q.id) then
+                    logCandidates[#logCandidates + 1] = {
+                        quest = q, chapter = ch.chapter,
+                        section = section, depth = j, order = chIdx,
+                    }
+                    break
+                elseif not IsQuestComplete(q.id) then
+                    -- Skip stuck quests: if the quest AFTER this one is already
+                    -- done, the player bypassed it (rep gate, resource gate, etc.)
+                    local nextQuest = ch.quests[j + 1]
+                    if nextQuest and IsQuestComplete(nextQuest.id) then
+                        -- Stuck/bypassed — keep scanning this chapter
+                    elseif j == 1 then
+                        -- First quest in chapter: candidate if it's a main story
+                        -- chapter and the player has made prereq progress
+                        if section >= 2 and hasPrereqProgress then
+                            readyCandidates[#readyCandidates + 1] = {
+                                quest = q, chapter = ch.chapter,
+                                section = section, depth = j, order = chIdx,
+                            }
+                        elseif section == 1 and chDone == 0 and not hasPrereqProgress then
+                            -- Very start of the questline
+                            readyCandidates[#readyCandidates + 1] = {
+                                quest = q, chapter = ch.chapter,
+                                section = section, depth = j, order = chIdx,
+                            }
+                        end
+                        break
+                    elseif IsQuestComplete(ch.quests[j - 1].id) then
+                        -- Predecessor done, not stuck → ready to pick up
+                        readyCandidates[#readyCandidates + 1] = {
+                            quest = q, chapter = ch.chapter,
+                            section = section, depth = j, order = chIdx,
+                        }
+                        break
+                    else
+                        break  -- predecessor not done, can't start here
+                    end
+                end
+            end
+        end
+    end
+
+    -- Track which sections have any quest progress at all
+    local sectionHasProgress = {}
     for _, ch in ipairs(chapters) do
-        for _, q in ipairs(ch.quests) do
-            if IsQuestInLog(q.id) then
-                return q, ch.chapter
+        local s = ch._section or 1
+        if not sectionHasProgress[s] then
+            local d = GetChapterProgress(ch)
+            if d > 0 then sectionHasProgress[s] = true end
+        end
+    end
+
+    -- Track the last completed chapter order per section.
+    -- Used to prefer the chapter right after the player's furthest completion.
+    local lastCompleteOrder = {}
+    for chIdx, ch in ipairs(chapters) do
+        local d, t = GetChapterProgress(ch)
+        local s = ch._section or 1
+        if d >= t and t > 0 then
+            if not lastCompleteOrder[s] or chIdx > lastCompleteOrder[s] then
+                lastCompleteOrder[s] = chIdx
             end
         end
     end
 
-    -- Second: find the latest chapter with progress
-    local activeChapterIdx = nil
-    for i, ch in ipairs(chapters) do
-        local done, total = GetChapterProgress(ch)
-        if done > 0 and done < total then
-            activeChapterIdx = i
-        elseif done == total and total > 0 then
-            activeChapterIdx = i + 1
-        end
+    -- Log candidates: prefer higher section, then deeper quest, then earlier chapter
+    local function sortLogCandidates(a, b)
+        if a.section ~= b.section then return a.section > b.section end
+        if a.depth ~= b.depth then return a.depth > b.depth end
+        return a.order < b.order
     end
 
-    local startIdx = activeChapterIdx or 1
-    for i = startIdx, #chapters do
-        local ch = chapters[i]
-        for _, q in ipairs(ch.quests) do
-            if not IsQuestComplete(q.id) then
-                return q, ch.chapter
-            end
+    -- Ready candidates sorting:
+    -- 1. Sections with progress beat sections without
+    -- 2. Within that, prefer quests mid-chapter (depth > 1) over chapter starts
+    -- 3. For chapter starts (depth == 1), prefer the one right after the last
+    --    completed chapter (the natural next step) over random unstarted ones
+    -- 4. Tiebreaker: earlier chapter order
+    local function sortReadyCandidates(a, b)
+        local aP = sectionHasProgress[a.section] and true or false
+        local bP = sectionHasProgress[b.section] and true or false
+        if aP ~= bP then return aP end
+        if aP then
+            if a.section ~= b.section then return a.section > b.section end
+        else
+            if a.section ~= b.section then return a.section < b.section end
         end
+
+        -- Prefer mid-chapter quests (predecessor confirmed complete)
+        if a.depth ~= b.depth then return a.depth > b.depth end
+
+        -- Both at depth 1 (unstarted chapters): prefer the one closest
+        -- after the last completed chapter in this section
+        local aLast = lastCompleteOrder[a.section] or 0
+        local bLast = lastCompleteOrder[b.section] or 0
+        local aAfter = a.order > aLast
+        local bAfter = b.order > bLast
+        if aAfter ~= bAfter then return aAfter end
+
+        -- Both after (or both before) last complete: pick closest
+        return a.order < b.order
+    end
+
+    -- Priority 1: quest in log
+    if #logCandidates > 0 then
+        table.sort(logCandidates, sortLogCandidates)
+        return logCandidates[1].quest, logCandidates[1].chapter
+    end
+
+    -- Priority 2: ready quest
+    if #readyCandidates > 0 then
+        table.sort(readyCandidates, sortReadyCandidates)
+        return readyCandidates[1].quest, readyCandidates[1].chapter
     end
 
     return nil, nil
@@ -416,17 +578,18 @@ local function UpdateDetailView(data)
     iconID = iconID or data.icon
     if iconID then detailIcon:SetTexture(iconID) end
 
-    -- Title in yellow
-    detailTitle:SetText(data.title)
+    -- Title: use achievement name if resolved, otherwise data title
+    local displayTitle = data.title
+    if data.achievementID then
+        local _, achName = GetAchievementInfo(data.achievementID)
+        if achName then displayTitle = achName end
+    end
+    detailTitle:SetText(displayTitle)
     detailTitle:SetTextColor(1, 0.82, 0)
 
     -- Subtitle in light white
     detailSub:SetText(data.expansion .. "  ·  " .. data.zone)
     detailDesc:SetText(data.description)
-
-    -- Progress
-    local done, total = GetCampaignProgress(data)
-    progDivLabel:SetText("Progress  ·  " .. done .. " / " .. total)
 
     -- Helper to layout a centered divider with fading lines
     local function LayoutDivider(label, lineL, lineR, anchorTo, yOff)
@@ -453,11 +616,11 @@ local function UpdateDetailView(data)
             CreateColor(0.85, 0.85, 0.85, 0))
     end
 
-    -- Build chapter list (two columns)
-    local chapters = GetAllChapters(data)
-
-    -- Hide all pooled labels first
+    -- Build chapter list from quest data (always character-specific)
     for _, lbl in ipairs(chapterLabels) do lbl:Hide() end
+
+    local chapters = GetAllChapters(data)
+    local chaptersDone = 0
 
     for i, ch in ipairs(chapters) do
         if not chapterLabels[i] then
@@ -468,7 +631,7 @@ local function UpdateDetailView(data)
         local lbl = chapterLabels[i]
         lbl:ClearAllPoints()
 
-        local col = (i - 1) % 2   -- 0 = left, 1 = right
+        local col = (i - 1) % 2
         local row = math.floor((i - 1) / 2)
         local yPos = -(row * (CH_ROW_H + CH_GAP))
 
@@ -481,25 +644,26 @@ local function UpdateDetailView(data)
         end
 
         local chDone, chTotal = GetChapterProgress(ch)
-        local prefix, color
         local check = "|A:common-icon-checkmark:0:0|a "
         if chDone == chTotal and chTotal > 0 then
-            prefix = check
-            color = { 0.40, 0.78, 0.30 }
+            lbl:SetText(check .. ch.chapter)
+            lbl:SetTextColor(0.40, 0.78, 0.30)
+            chaptersDone = chaptersDone + 1
         elseif chDone > 0 then
-            prefix = ""
-            color = { 1, 0.82, 0 }
+            lbl:SetText(ch.chapter)
+            lbl:SetTextColor(1, 0.82, 0)
         else
-            prefix = ""
-            color = { 0.45, 0.45, 0.45 }
+            lbl:SetText(ch.chapter)
+            lbl:SetTextColor(0.45, 0.45, 0.45)
         end
-        lbl:SetText(prefix .. ch.chapter)
-        lbl:SetTextColor(unpack(color))
         lbl:Show()
     end
 
+    local done, total = GetCampaignProgress(data)
+    progDivLabel:SetText("Progress  ·  " .. done .. " / " .. total)
+
     local numRows = math.ceil(#chapters / 2)
-    chapterContainer:SetHeight(numRows * (CH_ROW_H + CH_GAP))
+    chapterContainer:SetHeight(math.max(numRows * (CH_ROW_H + CH_GAP), 1))
 
     -- Two-pass layout: first pass forces width so description wraps properly
     -- Second pass reads the correct heights
@@ -577,10 +741,15 @@ end
 local function UpdateActiveStates()
     for _, row in pairs(leftRows) do
         local active = row.data and IsQuestlineActive(row.data)
+        row.label:ClearAllPoints()
+        row.label:SetPoint("LEFT")
+        row.label:SetPoint("RIGHT")
         if active then
             row.activeLabel:Show()
+            row.label:SetPoint("BOTTOM", row.label:GetParent(), "CENTER", 0, 0)
         else
             row.activeLabel:Hide()
+            row.label:SetPoint("CENTER", row.label:GetParent(), "CENTER", 0, 0)
         end
     end
 end
@@ -848,6 +1017,11 @@ end
 -- ============================================================================
 
 settingsPanel:SetScript("OnShow", function()
+    -- Resolve achievement IDs by name if needed
+    for _, data in ipairs(allQuestlines) do
+        ResolveAchievementID(data)
+    end
+
     C_Timer.After(0, function()
         BuildLeftPanel()
         local startIdx = (StoryModeDB and StoryModeDB.selectedQuestline) or 1
@@ -897,13 +1071,384 @@ SlashCmdList["STORYMODE"] = function(msg)
 end
 
 -- ============================================================================
+-- World Map Tab (uses Blizzard's native tab system)
+-- ============================================================================
+
+local DISPLAY_MODE = "StoryMode"
+local mapTabCreated = false
+local mapEntries = {}
+
+local function SetupWorldMapTab()
+    if mapTabCreated then return end
+    if not QuestMapFrame then return end
+    mapTabCreated = true
+
+    -- Resolve achievements so icons work
+    for _, data in ipairs(allQuestlines) do
+        ResolveAchievementID(data)
+    end
+
+    -- ── Content Panel (mirrors MapLegendFrameTemplate structure) ──
+    local panel = CreateFrame("Frame", "StoryModeMapPanel", QuestMapFrame)
+    panel:Hide()
+    panel:EnableMouse(true)
+    panel.displayMode = DISPLAY_MODE
+
+    local contentsAnchor = QuestMapFrame.ContentsAnchor or QuestMapFrame
+    panel:SetPoint("TOPLEFT", contentsAnchor, "TOPLEFT", 0, -29)
+    panel:SetPoint("BOTTOMRIGHT", contentsAnchor, "BOTTOMRIGHT", -22, 0)
+
+    -- Border frame (QuestLogBorderFrameTemplate equivalent)
+    local borderFrame = CreateFrame("Frame", nil, panel)
+    borderFrame:SetFrameLevel(panel:GetFrameLevel() + 100)
+    borderFrame:SetPoint("TOPLEFT", -3, 7)
+    borderFrame:SetPoint("BOTTOMRIGHT", 3, -6)
+
+    local border = borderFrame:CreateTexture(nil, "BORDER")
+    border:SetAtlas("questlog-frame")
+    border:SetAllPoints()
+
+    local filigree = borderFrame:CreateTexture(nil, "ARTWORK")
+    filigree:SetAtlas("questlog-frame-filigree", true)
+    filigree:SetPoint("TOP", borderFrame, "TOP", 0, 1)
+
+    -- Title: "Story Mode" in white, centered above the filigree (same as Map Legend)
+    local titleText = panel:CreateFontString(nil, "ARTWORK", "Game15Font_Shadow")
+    titleText:SetPoint("BOTTOM", borderFrame, "TOP", -1, 3)
+    titleText:SetText("Story Mode")
+
+    -- Scroll frame with quest-log background
+    local scroll = CreateFrame("ScrollFrame", nil, panel, "ScrollFrameTemplate")
+    scroll:SetAllPoints()
+
+    local scrollBg = scroll:CreateTexture(nil, "BACKGROUND")
+    scrollBg:SetAtlas("QuestLog-main-background", true)
+    scrollBg:SetPoint("TOPLEFT")
+    scrollBg:SetPoint("BOTTOMRIGHT")
+
+    if scroll.ScrollBar then
+        scroll.ScrollBar.scrollBarX = 8
+        scroll.ScrollBar.scrollBarTopY = 2
+        scroll.ScrollBar.scrollBarBottomY = -4
+    end
+
+    local child = CreateFrame("Frame", nil, scroll)
+    child:SetWidth(280)
+    scroll:SetScrollChild(child)
+
+    -- Helper: create a centered fading-line category divider in the map panel
+    local function CreateMapDivider(parent, text, yOffset, disabled)
+        local DR, DG, DB = 0.85, 0.85, 0.85
+        local DA = 0.35
+        if disabled then DR, DG, DB = 0.72, 0.72, 0.72; DA = 0.2 end
+
+        local label = parent:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+        label:SetPoint("TOP", parent, "TOP", 0, yOffset)
+        label:SetJustifyH("CENTER")
+        label:SetText(text)
+        label:SetTextColor(disabled and 0.72 or 0.85, disabled and 0.72 or 0.85, disabled and 0.72 or 0.85)
+
+        local lineL = parent:CreateTexture(nil, "ARTWORK")
+        lineL:SetTexture(SOLID)
+        lineL:SetHeight(1)
+        lineL:ClearAllPoints()
+        lineL:SetPoint("LEFT", parent, "LEFT", 12, 0)
+        lineL:SetPoint("RIGHT", label, "LEFT", -8, 0)
+        lineL:SetPoint("TOP", label, "CENTER", 0, 0)
+        lineL:SetGradient("HORIZONTAL",
+            CreateColor(DR, DG, DB, 0),
+            CreateColor(DR, DG, DB, DA))
+
+        local lineR = parent:CreateTexture(nil, "ARTWORK")
+        lineR:SetTexture(SOLID)
+        lineR:SetHeight(1)
+        lineR:ClearAllPoints()
+        lineR:SetPoint("LEFT", label, "RIGHT", 8, 0)
+        lineR:SetPoint("RIGHT", parent, "RIGHT", -12, 0)
+        lineR:SetPoint("TOP", label, "CENTER", 0, 0)
+        lineR:SetGradient("HORIZONTAL",
+            CreateColor(DR, DG, DB, DA),
+            CreateColor(DR, DG, DB, 0))
+
+        return label:GetStringHeight() or 12
+    end
+
+    -- Build entry rows
+    local yOff = -20
+
+    for _, cat in ipairs(categories) do
+        -- Centered fading-line category divider (same style as settings panel)
+        local divH = CreateMapDivider(child, cat.name, yOff, cat.disabled)
+        yOff = yOff - divH - 10
+
+        if not cat.disabled then
+            for _, data in ipairs(cat.questlines) do
+                local row = CreateFrame("Frame", nil, child)
+                row:EnableMouse(true)
+                row:SetHeight(ROW_HEIGHT)
+                row:SetPoint("TOPLEFT", child, "TOPLEFT", 4, yOff)
+                row:SetPoint("RIGHT", child, "RIGHT", -4, 0)
+
+                -- Hover background: fading white (same as settings panel)
+                local HW = 0.25
+                local hovBgL = row:CreateTexture(nil, "BACKGROUND", nil, 1)
+                hovBgL:SetTexture(SOLID)
+                hovBgL:SetPoint("TOPLEFT")
+                hovBgL:SetPoint("BOTTOMRIGHT", row, "BOTTOM")
+                hovBgL:SetGradient("HORIZONTAL", CreateColor(HW, HW, HW, 0), CreateColor(HW, HW, HW, 0.3))
+                hovBgL:Hide()
+
+                local hovBgR = row:CreateTexture(nil, "BACKGROUND", nil, 1)
+                hovBgR:SetTexture(SOLID)
+                hovBgR:SetPoint("TOPLEFT", row, "TOP")
+                hovBgR:SetPoint("BOTTOMRIGHT")
+                hovBgR:SetGradient("HORIZONTAL", CreateColor(HW, HW, HW, 0.3), CreateColor(HW, HW, HW, 0))
+                hovBgR:Hide()
+
+                -- Hover fading edge lines (light white)
+                local hovTopL, hovTopR = CreateFadingLine(row, 0.8, 0.8, 0.8, 0.2, 1, "ARTWORK", 3)
+                hovTopL:SetPoint("TOPLEFT", 4, 0)
+                hovTopL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+                hovTopR:SetPoint("LEFT", row, "CENTER", 0, 0)
+                hovTopR:SetPoint("TOPRIGHT", -4, 0)
+                hovTopL:Hide(); hovTopR:Hide()
+
+                local hovBotL, hovBotR = CreateFadingLine(row, 0.8, 0.8, 0.8, 0.2, 1, "ARTWORK", 3)
+                hovBotL:SetPoint("BOTTOMLEFT", 4, 0)
+                hovBotL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+                hovBotR:SetPoint("LEFT", row, "CENTER", 0, 0)
+                hovBotR:SetPoint("BOTTOMRIGHT", -4, 0)
+                hovBotL:Hide(); hovBotR:Hide()
+
+                -- Spellbook-style icon
+                local iconBtn = CreateFrame("Button", nil, row)
+                iconBtn:SetSize(28, 28)
+                iconBtn:SetPoint("LEFT", 8, 0)
+
+                local iconBg = iconBtn:CreateTexture(nil, "BACKGROUND")
+                iconBg:SetAllPoints()
+                iconBg:SetTexture("Interface\\Buttons\\UI-Quickslot")
+                iconBg:SetTexCoord(0.15, 0.85, 0.15, 0.85)
+
+                local icon = iconBtn:CreateTexture(nil, "BORDER")
+                icon:SetAllPoints()
+                icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+
+                iconBtn:SetNormalTexture("Interface\\Buttons\\UI-Quickslot2")
+                local bdrTex = iconBtn:GetNormalTexture()
+                bdrTex:ClearAllPoints()
+                bdrTex:SetPoint("CENTER")
+                bdrTex:SetSize(28 * 1.75, 28 * 1.75)
+
+                if data.achievementID then
+                    local _, _, _, _, _, _, _, _, _, achIcon = GetAchievementInfo(data.achievementID)
+                    if achIcon then icon:SetTexture(achIcon) end
+                end
+
+                -- Title
+                local title = row:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+                title:SetPoint("TOPLEFT", iconBtn, "TOPRIGHT", 8, -2)
+                title:SetPoint("RIGHT", row, "RIGHT", -8, 0)
+                title:SetJustifyH("LEFT")
+                title:SetWordWrap(false)
+                title:SetText(data.title)
+
+                -- Progress + next step subtitle
+                local sub = row:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+                sub:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -2)
+                sub:SetPoint("RIGHT", row, "RIGHT", -8, 0)
+                sub:SetJustifyH("LEFT")
+                sub:SetWordWrap(false)
+                sub:SetTextColor(0.55, 0.55, 0.55)
+
+                -- Hover handlers
+                row:SetScript("OnEnter", function()
+                    hovBgL:Show(); hovBgR:Show()
+                    hovTopL:Show(); hovTopR:Show()
+                    hovBotL:Show(); hovBotR:Show()
+                end)
+                row:SetScript("OnLeave", function()
+                    hovBgL:Hide(); hovBgR:Hide()
+                    hovTopL:Hide(); hovTopR:Hide()
+                    hovBotL:Hide(); hovBotR:Hide()
+                end)
+
+                -- Click → track next quest
+                row:SetScript("OnMouseUp", function()
+                    local q, ch = FindNextQuest(data)
+                    if q then
+                        local result = SetWaypointForQuest(data, q)
+                        local cr, cg, cb = unpack(data.color or { 1, 0.82, 0 })
+                        local hex = HexColor(cr, cg, cb)
+                        print("|cff64b5f6StoryMode:|r |cff" .. hex .. data.title .. " — " .. ch .. "|r")
+                        PrintTrackResult(result, q, data)
+                    else
+                        print("|cff64b5f6StoryMode:|r " .. data.title .. " — complete!")
+                    end
+                end)
+
+                mapEntries[#mapEntries + 1] = {
+                    data = data, icon = icon, sub = sub,
+                }
+
+                yOff = yOff - ROW_HEIGHT - 4
+            end
+        end
+
+        yOff = yOff - 10
+    end
+
+    child:SetHeight(math.abs(yOff) + 20)
+
+    -- Refresh progress on show
+    local function RefreshMapEntries()
+        for _, entry in ipairs(mapEntries) do
+            local data = entry.data
+            local done, total = GetCampaignProgress(data)
+            local quest = FindNextQuest(data)
+
+            if data.achievementID then
+                local _, _, _, _, _, _, _, _, _, achIcon = GetAchievementInfo(data.achievementID)
+                if achIcon then entry.icon:SetTexture(achIcon) end
+            end
+
+            if quest then
+                entry.sub:SetText(done .. "/" .. total .. "  |cff888888·|r  " .. quest.name)
+                entry.sub:SetTextColor(0.55, 0.55, 0.55)
+            else
+                entry.sub:SetText(done .. "/" .. total .. "  |cff888888·|r  Complete")
+                entry.sub:SetTextColor(0.25, 0.75, 0.25)
+            end
+        end
+    end
+
+    panel:SetScript("OnShow", function()
+        child:SetWidth(panel:GetWidth())
+        RefreshMapEntries()
+    end)
+
+    -- ── Tab Button (QuestLogTabButtonTemplate — same as Quests/Map Legend) ──
+    local tabButton = CreateFrame("Button", "StoryModeWorldMapTab", QuestMapFrame, "QuestLogTabButtonTemplate")
+    tabButton.displayMode = DISPLAY_MODE
+    tabButton.tooltipText = "Story Mode"
+
+    -- Hide the template's default atlas icon, use our own
+    if tabButton.Icon then tabButton.Icon:SetAlpha(0) end
+
+    local customIcon = tabButton:CreateTexture(nil, "ARTWORK")
+    customIcon:SetPoint("CENTER", -2, 0)
+    customIcon:SetSize(20, 20)
+    customIcon:SetTexture("Interface\\AddOns\\StoryMode\\storymode_icon")
+    customIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    tabButton.CustomIcon = customIcon
+
+    -- Prevent Blizzard from re-showing the default icon
+    if tabButton.Icon then
+        hooksecurefunc(tabButton.Icon, "Show", function(self) self:SetAlpha(0) end)
+        hooksecurefunc(tabButton.Icon, "SetAtlas", function(self) self:SetAlpha(0) end)
+    end
+
+    -- Anchor below the last existing tab
+    local anchor = QuestMapFrame.MapLegendTab
+                 or QuestMapFrame.QuestsTab
+                 or (QuestMapFrame.DetailsFrame and QuestMapFrame.DetailsFrame.BackFrame)
+    if anchor then
+        tabButton:SetPoint("TOP", anchor, "BOTTOM", 0, -3)
+    else
+        tabButton:SetPoint("TOPRIGHT", QuestMapFrame, "TOPRIGHT", -6, -100)
+    end
+
+    -- ── Register with Blizzard's tab system ──
+
+    -- Insert panel into ContentFrames so SetDisplayMode manages show/hide
+    if QuestMapFrame.ContentFrames then
+        local exists = false
+        for _, f in ipairs(QuestMapFrame.ContentFrames) do
+            if f == panel then exists = true; break end
+        end
+        if not exists then table.insert(QuestMapFrame.ContentFrames, panel) end
+    end
+
+    -- Insert tab into TabButtons so Blizzard manages checked state
+    if QuestMapFrame.TabButtons then
+        local exists = false
+        for _, b in ipairs(QuestMapFrame.TabButtons) do
+            if b == tabButton then exists = true; break end
+        end
+        if not exists then table.insert(QuestMapFrame.TabButtons, tabButton) end
+    end
+
+    -- Let Blizzard recalculate tab layout
+    if QuestMapFrame.ValidateTabs then
+        QuestMapFrame:ValidateTabs()
+    end
+
+    -- Tab click → use Blizzard's SetDisplayMode
+    tabButton:SetScript("OnMouseUp", function(self, button, upInside)
+        if button ~= "LeftButton" or not upInside then return end
+        if QuestMapFrame.SetDisplayMode then
+            QuestMapFrame:SetDisplayMode(DISPLAY_MODE)
+        end
+    end)
+
+    -- Listen for display mode changes (keeps us in sync with other tabs)
+    if EventRegistry then
+        EventRegistry:RegisterCallback("QuestLog.SetDisplayMode", function(_, mode)
+            if mode == DISPLAY_MODE then
+                if tabButton.SelectedTexture then tabButton.SelectedTexture:Show() end
+                panel:Show()
+            else
+                if tabButton.SelectedTexture then tabButton.SelectedTexture:Hide() end
+                panel:Hide()
+            end
+        end, tabButton)
+    end
+
+    -- Belt-and-suspenders: also hook SetDisplayMode directly
+    if QuestMapFrame.SetDisplayMode then
+        hooksecurefunc(QuestMapFrame, "SetDisplayMode", function(_, mode)
+            if mode == DISPLAY_MODE then
+                panel:Show()
+            else
+                panel:Hide()
+            end
+        end)
+    end
+
+    -- Ensure our tab starts deselected
+    if tabButton.SelectedTexture then tabButton.SelectedTexture:Hide() end
+    panel:Hide()
+
+    -- When the map reopens, reset to Quests tab so we don't show stale state
+    if WorldMapFrame then
+        WorldMapFrame:HookScript("OnShow", function()
+            if panel:IsShown() then
+                if QuestMapFrame.SetDisplayMode and QuestLogDisplayMode then
+                    QuestMapFrame:SetDisplayMode(QuestLogDisplayMode.Quests)
+                else
+                    if tabButton.SelectedTexture then tabButton.SelectedTexture:Hide() end
+                    panel:Hide()
+                end
+            end
+        end)
+    end
+end
+
+-- ============================================================================
 -- Initialization
 -- ============================================================================
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:SetScript("OnEvent", function(self, event, loadedAddon)
-    if loadedAddon ~= addonName then return end
-    StoryModeDB = StoryModeDB or CopyTable(defaults)
-    self:UnregisterEvent("ADDON_LOADED")
+    if loadedAddon == addonName then
+        StoryModeDB = StoryModeDB or CopyTable(defaults)
+    elseif loadedAddon == "Blizzard_WorldMap" then
+        C_Timer.After(0, SetupWorldMapTab)
+    end
 end)
+
+-- In case Blizzard_WorldMap was already loaded before us
+if C_AddOns.IsAddOnLoaded("Blizzard_WorldMap") then
+    C_Timer.After(0, SetupWorldMapTab)
+end
