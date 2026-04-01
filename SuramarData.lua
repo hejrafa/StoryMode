@@ -17,7 +17,7 @@ SM.SuramarData = {
     expansion = "Legion",
     achievementID = 11340,
     achievementName = "Insurrection",
-    color = { 0.45, 0.78, 0.23 },  -- Legion fel green
+    color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 236565,  -- Achievement_zone_suramar (atlas texture ID)
 
     -- Start location: Archmage Khadgar in the Violet Citadel, Dalaran (Legion)
@@ -44,6 +44,26 @@ SM.SuramarData = {
         ["Ancient Keeper"]              = { mapID = 680, x = 0.3000, y = 0.1350 },  -- Moon Guard Stronghold
     },
 
+    -- NPC creature display IDs for chapter portraits
+    -- Used with SetPortraitTextureFromCreatureDisplayID()
+    -- Look up on wowhead.com model viewer or /run print(UnitCreatureDisplayID("target"))
+    npcDisplayIDs = {
+        ["Archmage Khadgar"]            = 65834,
+        ["First Arcanist Thalyssra"]    = 65100,
+        ["Chief Telemancer Oculeth"]    = 66159,
+        ["Arcanist Valtrois"]           = 67696,
+        ["Arcanist Kel'danath"]         = 70943,
+        ["Valewalker Farodin"]          = 69847,
+        ["Ly'leth Lunastre"]            = 68731,
+        ["Silgryn"]                     = 68890,
+        ["Theryn"]                      = 68238,
+        ["Mylune"]                      = 72120,
+        ["Keeper Remulos"]              = 11906,
+        ["Toryl"]                       = 67580,
+        ["Lyana Darksorrow"]            = 67019,
+        ["Ancient Keeper"]              = 70768,
+    },
+
     -- =========================================================================
     -- PRE-REQUISITE CHAINS (Nightfallen But Not Forgotten - Achievement 10617)
     -- These must be completed before the Good Suramaritan chapters unlock
@@ -55,6 +75,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Nightfall",
+            summary = "Discover the nightfallen exiles hiding in the ruins of Shal'Aran and learn the desperate truth behind Suramar's shimmering barrier.",
             achievement = nil, -- Part of Nightfallen But Not Forgotten (10617)
             quests = {
                 { id = 39985, name = "Khadgar's Discovery",             npc = "Archmage Khadgar" },
@@ -75,6 +96,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Arcanist Kel'danath",
+            summary = "Rescue a brilliant arcanist trapped by withered nightfallen and secure his knowledge for the growing rebellion.",
             achievement = nil,
             quests = {
                 { id = 40012, name = "An Old Ally",                     npc = "First Arcanist Thalyssra" },
@@ -90,6 +112,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Chief Telemancer Oculeth",
+            summary = "Help Chief Telemancer Oculeth restore the teleportation network, opening new paths across Suramar.",
             achievement = nil,
             quests = {
                 { id = 40011, name = "Oculeth's Workshop",              npc = "First Arcanist Thalyssra" },
@@ -106,6 +129,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Feeding Shal'Aran",
+            summary = "Establish a supply of ancient mana to sustain the nightfallen rebels and prevent them from withering.",
             achievement = nil,
             quests = {
                 { id = 40010, name = "Tapping the Leylines",            npc = "First Arcanist Thalyssra" },
@@ -122,6 +146,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Masquerade",
+            summary = "Disguise yourself as a Nightborne noble and infiltrate Suramar City to gather intelligence for the rebellion.",
             achievement = nil,
             quests = {
                 { id = 41762, name = "Sympathizers Among the Shal'dorei", npc = "First Arcanist Thalyssra" },
@@ -136,6 +161,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "The Light Below",
+            summary = "Explore ancient ley line tunnels beneath Suramar, discovering forgotten power that could turn the tide.",
             achievement = nil,
             quests = {
                 { id = 40324, name = "Arcane Communion",                npc = "Arcanist Kel'danath" },
@@ -163,6 +189,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "The Waning Crescent",
+            summary = "Make contact with nightfallen refugees hiding in the slums of Suramar City, right under Elisande's nose.",
             achievementID = 10759,
             quests = {
                 { id = 41877, name = "Lady Lunastre",                   npc = "Ly'leth Lunastre" },
@@ -192,6 +219,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Blood and Wine",
+            summary = "Infiltrate the Nightborne wine trade, disrupting the flow of arcwine that keeps the populace loyal to the Grand Magistrix.",
             achievementID = 10758,
             quests = {
                 { id = 42828, name = "Moths to a Flame",                npc = "First Arcanist Thalyssra" },
@@ -221,6 +249,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "A Growing Crisis",
+            summary = "The Arcan'dor is struggling to survive. Race against time to find what it needs before the tree withers.",
             achievementID = 10757,
             quests = {
                 { id = 44152, name = "A Growing Crisis",                npc = "Valewalker Farodin" },
@@ -236,6 +265,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Statecraft",
+            summary = "Navigate the treacherous politics of Suramar's noble houses alongside the cunning Ly'leth Lunastre.",
             achievementID = 10760,
             quests = {
                 { id = 43309, name = "The Perfect Opportunity",         npc = "Ly'leth Lunastre" },
@@ -258,6 +288,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "A Change of Seasons",
+            summary = "Journey to the ancient groves of Val'sharah to find a seed that could save the Arcan'dor.",
             achievementID = 10761,
             quests = {
                 { id = 43502, name = "A Change of Seasons",             npc = "First Arcanist Thalyssra" },
@@ -275,6 +306,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Breaking The Lightbreaker",
+            summary = "Lead an assault on a Legion stronghold in Felsoul Hold to destroy a weapon aimed at Shal'Aran.",
             achievementID = 10762,
             quests = {
                 { id = 40297, name = "Lyana Darksorrow",                npc = "Lyana Darksorrow" },
@@ -294,6 +326,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Moon Guard Stronghold",
+            summary = "Reclaim the fallen Moon Guard fortress from the Legion and restore its ancient defenses.",
             achievementID = 10763,
             quests = {
                 { id = 40883, name = "Fate of the Guard",               npc = "Ancient Keeper" },
@@ -320,6 +353,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Tidying Tel'anor",
+            summary = "Clear the withered from the ancient ruins of Tel'anor and uncover what happened to its guardians.",
             achievementID = 10764,
             quests = {
                 { id = 40266, name = "The Lost Advisor",                npc = "Theryn" },
@@ -339,6 +373,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Eminent Grow-main",
+            summary = "Tend the Arcan'dor as it grows stronger, bringing hope to the nightfallen that a cure is within reach.",
             achievementID = 10765,
             quests = {
                 { id = 41452, name = "Feline Frantic",                  npc = "Mylune" },
@@ -365,6 +400,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Jandvik's Jarl",
+            summary = "Win the trust of the vrykul of Jandvik by proving yourself worthy, earning their swords for the coming rebellion.",
             achievementID = 10766,
             quests = {
                 { id = 40907, name = "Removing Obstacles",              npc = "Toryl" },
@@ -402,6 +438,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Lockdown",
+            summary = "Elisande seals Suramar's gates and tightens her grip. The resistance must find a way through the lockdown.",
             criteriaQuest = { id = 44955, name = "Visitor in Shal'Aran" },
             quests = {
                 { id = 45260, name = "One Day at a Time",               npc = "First Arcanist Thalyssra" },
@@ -420,6 +457,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Missing Persons",
+            summary = "Key members of the resistance have vanished. Search the city to find them before it's too late.",
             criteriaQuest = { id = 44814, name = "Waning Refuge" },
             quests = {
                 { id = 45261, name = "Continuing the Cure",             npc = "First Arcanist Thalyssra" },
@@ -437,6 +475,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Waxing Crescent",
+            summary = "The rebellion grows bolder, establishing a foothold in the Waning Crescent district of Suramar City.",
             criteriaQuest = { id = 44756, name = "Sign of the Dusk Lily" },
             quests = {
                 { id = 44752, name = "A Message From Ly'leth",          npc = "Ly'leth Lunastre" },
@@ -453,6 +492,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "An Elven Problem",
+            summary = "Seek aid from the night elves and blood elves, bridging ten thousand years of division for a common cause.",
             criteriaQuest = { id = 44845, name = "Break An Arm" },
             quests = {
                 { id = 44843, name = "Eating Before the Meeting",       npc = "First Arcanist Thalyssra" },
@@ -472,6 +512,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Crafting War",
+            summary = "Prepare the rebellion's weapons, armor, and siege equipment for the final assault on Suramar.",
             criteriaQuest = { id = 44790, name = "Trial by Demonfire" },
             quests = {
                 { id = 44791, name = "Feeding the Rebellion",           npc = "First Arcanist Thalyssra" },
@@ -497,6 +538,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "March on Suramar",
+            summary = "Lead the allied armies through the streets of Suramar in a desperate push toward the Nighthold.",
             criteriaQuest = { id = 44740, name = "Staging Point" },
             quests = {
                 { id = 44736, name = "A United Front",                  npc = "First Arcanist Thalyssra" },
@@ -511,6 +553,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Elisande's Retort",
+            summary = "Face Grand Magistrix Elisande herself as she unleashes the power of the Nightwell against the rebellion.",
             criteriaQuest = { id = 44833, name = "The Seal's Power" },
             quests = {
                 { id = 44831, name = "Before the Siege",                npc = "First Arcanist Thalyssra" },
@@ -526,6 +569,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "As Strong As Our Will",
+            summary = "Lady Liadrin and the blood elves of Silvermoon answer the call, joining the fight for their distant kin.",
             criteriaQuest = { id = 45064, name = "Felborne No More" },
             quests = {
                 { id = 45062, name = "The Advisor and the Arcanist",    npc = "First Arcanist Thalyssra" },
@@ -544,6 +588,7 @@ SM.SuramarData = {
         -- -----------------------------------------------------------------
         {
             chapter = "Breaking the Nighthold",
+            summary = "The allied forces breach the Nighthold itself, confronting the source of Elisande's power.",
             criteriaQuest = { id = 44719, name = "Breaching the Sanctum" },
             quests = {
                 { id = 44717, name = "A Taste of Freedom",              npc = "First Arcanist Thalyssra" },
