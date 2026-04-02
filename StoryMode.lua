@@ -269,23 +269,26 @@ end
 local function SetWaypointForQuest(data, quest)
     if not quest then return "no_location" end
 
+    -- Quest already in log → super-track it directly
     if IsQuestInLog(quest.id) then
         C_QuestLog.AddQuestWatch(quest.id)
         C_SuperTrack.SetSuperTrackedQuestID(quest.id)
         return "supertracked"
     end
 
-    if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
-        C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, quest.id)
-        return "map_pin"
-    end
-
+    -- Quest not in log → place a user waypoint on the quest giver's location
     local loc = data.npcLocations and data.npcLocations[quest.npc]
     if loc and C_Map.CanSetUserWaypointOnMap(loc.mapID) then
         local point = UiMapPoint.CreateFromCoordinates(loc.mapID, loc.x, loc.y)
         C_Map.SetUserWaypoint(point)
         C_SuperTrack.SetSuperTrackedUserWaypoint(true)
         return "waypoint"
+    end
+
+    -- Fallback: try quest offer map pin (may not always produce a visible pin)
+    if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
+        C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, quest.id)
+        return "map_pin"
     end
 
     return "no_location"
@@ -407,9 +410,9 @@ local PERKS_LAYOUT = {
 local function CreateStoryPanel(section)
     local f = CreateFrame("Frame", nil, section, "NineSlicePanelTemplate")
     f:SetAllPoints(section)
-    f:SetFrameLevel(section:GetFrameLevel())   -- keep behind child content
+    f:SetFrameLevel(section:GetFrameLevel())
     NineSliceUtil.ApplyLayout(f, PERKS_LAYOUT)
-    -- Tint border pieces to gold-bronze (matching companion card border)
+    -- Tint border pieces gold-bronze
     local br, bg, bb = 1.0, 0.80, 0.45
     for _, key in ipairs({"TopLeftCorner","TopRightCorner","BottomLeftCorner","BottomRightCorner",
                           "TopEdge","BottomEdge","LeftEdge","RightEdge"}) do
@@ -433,28 +436,15 @@ local function EnableMouseWheelScroll(scrollFrame)
     end)
 end
 
--- ─── Major divider (Trading Post style: center-out fade) ───────────────────
+-- ─── Major divider (Journeys renown divider atlas) ─────────────────────────
 local function CreateMajorDivider(parent)
     local f = CreateFrame("Frame", nil, parent)
-    f:SetHeight(12)
-    -- Left half: transparent → bright at center
-    local left = f:CreateTexture(nil, "OVERLAY")
-    left:SetTexture(SOLID)
-    left:SetHeight(1)
-    left:SetPoint("LEFT",  f, "LEFT",   0, 0)
-    left:SetPoint("RIGHT", f, "CENTER", 0, 0)
-    left:SetGradient("HORIZONTAL",
-        CreateColor(1.0, 0.80, 0.45, 0),
-        CreateColor(1.0, 0.80, 0.45, 0.6))
-    -- Right half: bright at center → transparent
-    local right = f:CreateTexture(nil, "OVERLAY")
-    right:SetTexture(SOLID)
-    right:SetHeight(1)
-    right:SetPoint("LEFT",  f, "CENTER", 0, 0)
-    right:SetPoint("RIGHT", f, "RIGHT",  0, 0)
-    right:SetGradient("HORIZONTAL",
-        CreateColor(1.0, 0.80, 0.45, 0.6),
-        CreateColor(1.0, 0.80, 0.45, 0))
+    f:SetHeight(16)
+    local tex = f:CreateTexture(nil, "ARTWORK")
+    tex:SetAtlas("ui-journeys-renown-divider", false)
+    tex:SetPoint("LEFT",  f, "LEFT",  0, 0)
+    tex:SetPoint("RIGHT", f, "RIGHT", 0, 0)
+    tex:SetHeight(16)
     return f
 end
 
@@ -562,8 +552,8 @@ smHeaderSub:SetJustifyH("RIGHT")
 
 -- Divider at bottom of header
 local headerDiv = CreateMajorDivider(rightSection)
-headerDiv:SetPoint("LEFT",  rightHeader, "BOTTOMLEFT",  32, 0)
-headerDiv:SetPoint("RIGHT", rightHeader, "BOTTOMRIGHT", -32, 0)
+headerDiv:SetPoint("LEFT",  rightHeader, "BOTTOMLEFT",  28, 0)
+headerDiv:SetPoint("RIGHT", rightHeader, "BOTTOMRIGHT", -36, 0)
 
 -- ── Tab container  (fills right section below header) ────────────────────────
 local tabContainer = CreateFrame("Frame", nil, rightSection)
@@ -610,36 +600,39 @@ introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -180)
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
 introText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 introText:SetText(
-    "A story companion for World of Warcraft. "
-    .."Step-by-step quest guidance like RestedXP, "
-    .."built for narrative instead of speed \194\183 "
-    .."paired with the immersive presentation of Dialogue UI."
-    .."\n\nEvery campaign is laid out chapter by chapter, "
-    .."quest by quest. Key characters, story context, "
-    .."and your progress in one place \194\183 "
-    .."no wiki tabs, no spoilers, no guesswork."
-    .."\n\nPick a story on the left to get started.")
+    "Story Mode is a quest companion that walks you through "
+    .."Azeroth's campaigns from start to finish. "
+    .."Think of it as a narrative guide: "
+    .."the structure and direction of RestedXP, "
+    .."with the story-first mindset of Dialogue UI."
+    .."\n\nEach questline is broken down into chapters. "
+    .."You get the key characters, the context, "
+    .."and a clear path forward. "
+    .."No wiki tabs. No spoilers. No guesswork."
+    .."\n\nSelect a story on the left to begin.")
 
 -- ══════════════════════════════════════════════════════════════════════════════
--- Detail view — circular portrait hero + structured sections with dividers
+-- Detail view — centered portrait hero + clean sections
 -- ══════════════════════════════════════════════════════════════════════════════
 
-local HERO_ICON = 64
+local HERO_ICON = 96
 
--- ── Hero: circular portrait + title + subtitle (shared across tabs) ─────────
+-- ── Hero: centered circular portrait + title below (shared across tabs) ─────
 local heroFrame = CreateFrame("Frame", nil, detailChild)
-heroFrame:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -20)
-heroFrame:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, 0)
-heroFrame:SetHeight(HERO_ICON + 8)
+heroFrame:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  0, 0)
+heroFrame:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", 0, 0)
+heroFrame:SetHeight(HERO_ICON + 60)  -- icon + gap + title
 
 local heroPort = CreateFrame("Frame", nil, heroFrame)
 heroPort:SetSize(HERO_ICON, HERO_ICON)
-heroPort:SetPoint("LEFT", heroFrame, "LEFT", 0, 0)
+heroPort:SetPoint("TOP", heroFrame, "TOP", 0, -30)
 
 local heroIcon = heroPort:CreateTexture(nil, "ARTWORK")
 heroIcon:SetSize(HERO_ICON - 8, HERO_ICON - 8)
 heroIcon:SetPoint("CENTER")
 heroIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+heroIcon:SetTexelSnappingBias(0)
+heroIcon:SetSnapToPixelGrid(false)
 
 local heroMask = heroPort:CreateMaskTexture()
 heroMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
@@ -654,95 +647,64 @@ heroRing:SetPoint("BOTTOMRIGHT", heroIcon, "BOTTOMRIGHT",  3, -3)
 heroRing:SetVertexColor(1.0, 0.82, 0.5)
 heroRing:SetAlpha(0.85)
 
--- Title + subtitle vertically centered against portrait
-local heroTextAnchor = CreateFrame("Frame", nil, heroFrame)
-heroTextAnchor:SetPoint("LEFT",  heroPort, "RIGHT", 14, 0)
-heroTextAnchor:SetPoint("RIGHT", heroFrame, "RIGHT", 0,  0)
-heroTextAnchor:SetPoint("TOP",   heroPort,  "TOP",   0,  0)
-heroTextAnchor:SetPoint("BOTTOM",heroPort,  "BOTTOM",0,  0)
-
-local dTitle = NoShadow(heroTextAnchor:CreateFontString(nil, "OVERLAY", "QuestFont_Huge"))
-dTitle:SetPoint("LEFT",  heroTextAnchor, "LEFT",   0, 0)
-dTitle:SetPoint("RIGHT", heroTextAnchor, "RIGHT",  0, 0)
-dTitle:SetPoint("BOTTOM",heroTextAnchor, "CENTER", 0, 1)
-dTitle:SetJustifyH("LEFT"); dTitle:SetJustifyV("BOTTOM"); dTitle:SetWordWrap(false)
+local dTitle = NoShadow(heroFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge"))
+dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
+dTitle:SetJustifyH("CENTER"); dTitle:SetWordWrap(false)
 dTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-
-local dSub = NoShadow(heroTextAnchor:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"))
-dSub:SetPoint("TOPLEFT", dTitle, "BOTTOMLEFT", 0, -2)
-dSub:SetJustifyH("LEFT")
-dSub:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- STORY TAB elements
 -- ════════════════════════════════════════════════════════════════════════════
-
-local sDiv1 = CreateMajorDivider(detailChild)
 
 -- Story intro paragraph
 local sIntro = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sIntro:SetJustifyH("LEFT"); sIntro:SetSpacing(4); sIntro:SetWordWrap(true)
 sIntro:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
-local sDiv2 = CreateMajorDivider(detailChild)
-
--- "At a Glance" line (expansion · zone · N chapters)
-local sGlanceLabel = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
-sGlanceLabel:SetJustifyH("LEFT")
-sGlanceLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
-
-local sDiv3 = CreateMajorDivider(detailChild)
-
--- Key Characters header + entries
-local sCharHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
-sCharHeader:SetJustifyH("LEFT")
-sCharHeader:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
+-- Key Characters header + entries (centered, title style)
+local sCharHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+sCharHeader:SetJustifyH("CENTER")
+sCharHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 sCharHeader:SetText("Key Characters")
 
 local sCharText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sCharText:SetJustifyH("LEFT"); sCharText:SetSpacing(4); sCharText:SetWordWrap(true)
 sCharText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
-local sDiv4 = CreateMajorDivider(detailChild)
-
--- CTA button on story tab
-local sTrackBtn = CreateFrame("Button", nil, detailChild, "UIPanelButtonTemplate")
-sTrackBtn:SetSize(260, 40)
+-- CTA button on story tab (big red Trading Post style)
+local sTrackBtnTemplate = C_XMLUtil and C_XMLUtil.GetTemplateInfo
+    and C_XMLUtil.GetTemplateInfo("SharedButtonLargeTemplate")
+    and "SharedButtonLargeTemplate" or "UIPanelButtonTemplate"
+local sTrackBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
+sTrackBtn:SetSize(240, 40)
 sTrackBtn:SetText("Begin This Story")
+sTrackBtn:RegisterForClicks("AnyUp")
 
 local sCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sCompleteText:SetTextColor(0.40, 0.82, 0.35)
 sCompleteText:SetText("|A:common-icon-checkmark:0:0|a Campaign Complete")
 
-local storyElements = { sDiv1, sIntro, sDiv2, sGlanceLabel, sDiv3, sCharHeader, sCharText, sDiv4, sTrackBtn, sCompleteText }
+local storyElements = { sIntro, sCharHeader, sCharText, sTrackBtn, sCompleteText }
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- PROGRESS TAB elements
 -- ════════════════════════════════════════════════════════════════════════════
 
-local pDiv1 = CreateMajorDivider(detailChild)
-
-local dProgLine = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
-dProgLine:SetJustifyH("CENTER")
-dProgLine:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
-
 local dCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 dCompleteText:SetTextColor(0.40, 0.82, 0.35)
 dCompleteText:SetText("|A:common-icon-checkmark:0:0|a Campaign Complete")
 
-local pDiv2 = CreateMajorDivider(detailChild)
-
-local chapHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
-chapHeader:SetJustifyH("CENTER")
-chapHeader:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
-chapHeader:SetText("Chapters")
+-- Progress summary (shown at top of progress tab, under hero)
+local dProgSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+dProgSummary:SetJustifyH("CENTER")
+dProgSummary:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
 
 -- Chapter rows as interactive line items with hover + tooltip
 local dChapterRows = {}   -- array of Button frames
-local CH_ROW_H = 28
-local CH_GAP   = 2
-local CH_PORT  = 22       -- portrait circle size
-local CH_LIST_W = 340     -- fixed width for chapter list (centered in panel)
+local CH_ROW_H = 40
+local CH_GAP   = 4
+local CH_PORT  = 26       -- portrait circle size
+local CH_LIST_W = 380     -- fixed width for chapter list (centered in panel)
 
 -- Set a 2D NPC portrait from a pre-stored creature display ID
 local function SetChapterPortrait(portraitTex, displayID)
@@ -754,29 +716,62 @@ local function SetChapterPortrait(portraitTex, displayID)
 end
 
 local function CreateChapterRow(parent, index)
-    local row = CreateFrame("Button", nil, parent, "BackdropTemplate")
+    local row = CreateFrame("Frame", nil, parent)
+    row:EnableMouse(true)
     row:SetHeight(CH_ROW_H)
 
-    -- Rounded hover background via tooltip backdrop
-    row:SetBackdrop({
-        bgFile   = "Interface/Tooltips/UI-Tooltip-Background",
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        edgeSize = 8,
-        insets   = { left = 2, right = 2, top = 2, bottom = 2 },
-    })
-    row:SetBackdropColor(1, 1, 1, 0)
-    row:SetBackdropBorderColor(1, 1, 1, 0)
+    -- Hover: Blizzard list highlight (has natural fade built in) + top/bottom lines
+    local hBg = row:CreateTexture(nil, "HIGHLIGHT")
+    hBg:SetTexture("Interface/BUTTONS/UI-Listbox-Highlight2")
+    hBg:SetBlendMode("ADD")
+    hBg:SetPoint("TOPLEFT", row, "TOPLEFT", -30, 0)
+    hBg:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", 30, 0)
+    hBg:SetVertexColor(1.0, 0.82, 0.50, 0.15)
+
+    local W8 = "Interface/Buttons/WHITE8x8"
+    local BLK = CreateColor(0, 0, 0)
+    local lC = CreateColor(0.15, 0.13, 0.09)
+
+    local hLineTopL = row:CreateTexture(nil, "HIGHLIGHT")
+    hLineTopL:SetTexture(W8); hLineTopL:SetBlendMode("ADD")
+    hLineTopL:SetHeight(1)
+    hLineTopL:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0)
+    hLineTopL:SetPoint("TOPRIGHT", row, "TOP", 0, 0)
+    hLineTopL:SetGradient("HORIZONTAL", BLK, lC)
+
+    local hLineTopR = row:CreateTexture(nil, "HIGHLIGHT")
+    hLineTopR:SetTexture(W8); hLineTopR:SetBlendMode("ADD")
+    hLineTopR:SetHeight(1)
+    hLineTopR:SetPoint("TOPLEFT", row, "TOP", 0, 0)
+    hLineTopR:SetPoint("TOPRIGHT", row, "TOPRIGHT", 0, 0)
+    hLineTopR:SetGradient("HORIZONTAL", lC, BLK)
+
+    local hLineBotL = row:CreateTexture(nil, "HIGHLIGHT")
+    hLineBotL:SetTexture(W8); hLineBotL:SetBlendMode("ADD")
+    hLineBotL:SetHeight(1)
+    hLineBotL:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", 0, 0)
+    hLineBotL:SetPoint("BOTTOMRIGHT", row, "BOTTOM", 0, 0)
+    hLineBotL:SetGradient("HORIZONTAL", BLK, lC)
+
+    local hLineBotR = row:CreateTexture(nil, "HIGHLIGHT")
+    hLineBotR:SetTexture(W8); hLineBotR:SetBlendMode("ADD")
+    hLineBotR:SetHeight(1)
+    hLineBotR:SetPoint("BOTTOMLEFT", row, "BOTTOM", 0, 0)
+    hLineBotR:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", 0, 0)
+    hLineBotR:SetGradient("HORIZONTAL", lC, BLK)
 
     -- Portrait container
     local portFrame = CreateFrame("Frame", nil, row)
     portFrame:SetSize(CH_PORT, CH_PORT)
-    portFrame:SetPoint("LEFT", row, "LEFT", 6, 0)
+    portFrame:SetPoint("LEFT", row, "LEFT", 12, 0)
 
     -- NPC portrait texture (ARTWORK layer — behind OVERLAY ring)
     local portrait = portFrame:CreateTexture(nil, "ARTWORK")
     portrait:SetSize(CH_PORT - 2, CH_PORT - 2)
     portrait:SetPoint("CENTER")
     portrait:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+    portrait:SetTexelSnappingBias(0)
+    portrait:SetSnapToPixelGrid(false)
 
     -- Circular mask for portrait
     local mask = portFrame:CreateMaskTexture()
@@ -795,18 +790,40 @@ local function CreateChapterRow(parent, index)
     ring:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
     ring:SetVertexColor(0.8, 0.68, 0.45)
     ring:SetAlpha(0.6)
+    row.ring = ring
 
-    -- Chapter title label (left-aligned, after portrait)
-    local label = NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
-    label:SetPoint("LEFT", portFrame, "RIGHT", 8, 0)
-    label:SetPoint("RIGHT", row, "RIGHT", -8, 0)
-    label:SetJustifyH("LEFT"); label:SetWordWrap(false)
+    -- Checkmark overlay on portrait (shown when chapter is complete)
+    local checkmark = portFrame:CreateTexture(nil, "OVERLAY", nil, 2)
+    checkmark:SetAtlas("common-icon-checkmark", false)
+    checkmark:SetSize(CH_PORT * 0.6, CH_PORT * 0.6)
+    checkmark:SetPoint("CENTER", portFrame, "CENTER", 0, 0)
+    checkmark:Hide()
+    row.checkmark = checkmark
+
+    -- Text anchor (vertically centered pair: title + subtitle)
+    local textAnchor = CreateFrame("Frame", nil, row)
+    textAnchor:SetPoint("LEFT",   portFrame, "RIGHT", 10, 0)
+    textAnchor:SetPoint("RIGHT",  row,       "RIGHT", -12, 0)
+    textAnchor:SetPoint("TOP",    row,       "TOP",    0, 0)
+    textAnchor:SetPoint("BOTTOM", row,       "BOTTOM", 0, 0)
+
+    -- Chapter title label
+    local label = NoShadow(textAnchor:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+    label:SetPoint("LEFT",   textAnchor, "LEFT",   0, 0)
+    label:SetPoint("RIGHT",  textAnchor, "RIGHT",  0, 0)
+    label:SetPoint("BOTTOM", textAnchor, "CENTER", 0, 0)
+    label:SetJustifyH("LEFT"); label:SetJustifyV("BOTTOM"); label:SetWordWrap(false)
     row.label = label
+
+    -- Progress subtitle (e.g. "3 / 5 quests") in divider text color
+    local progressLabel = NoShadow(textAnchor:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+    progressLabel:SetPoint("TOPLEFT", label, "BOTTOMLEFT", 0, -1)
+    progressLabel:SetJustifyH("LEFT")
+    progressLabel:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
+    row.progressLabel = progressLabel
 
     -- Hover / tooltip
     row:SetScript("OnEnter", function(self)
-        self:SetBackdropColor(1, 1, 1, 0.07)
-        self:SetBackdropBorderColor(0.5, 0.5, 0.5, 0.06)
         if self.tooltipTitle then
             GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
             GameTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
@@ -821,15 +838,13 @@ local function CreateChapterRow(parent, index)
         end
     end)
     row:SetScript("OnLeave", function(self)
-        self:SetBackdropColor(1, 1, 1, 0)
-        self:SetBackdropBorderColor(1, 1, 1, 0)
         GameTooltip:Hide()
     end)
 
     return row
 end
 
-local progressElements = { pDiv1, dProgLine, dCompleteText, pDiv2, chapHeader }
+local progressElements = { dCompleteText, dProgSummary }
 
 local function ShowDetail(show)
     heroFrame[show and "Show" or "Hide"](heroFrame)
@@ -887,40 +902,13 @@ local function LayoutDetailTab()
 
     if activeTab == "story" then
         -- ── STORY TAB layout ────────────────────────────────────────────
-        -- Simple top-down chain. Each element anchors TOPLEFT to BOTTOMLEFT
-        -- of the previous. Dividers use DP offset, content uses CP offset.
+        -- Clean top-down chain: hero icon → title → intro → characters → CTA
 
-        local cpOff = CP - DP  -- from divider left to content left
-
-        -- sDiv1 below hero
-        sDiv1:ClearAllPoints()
-        sDiv1:SetPoint("TOPLEFT", heroFrame, "BOTTOMLEFT", DP - CP, -10)
-        sDiv1:SetWidth(divW)
-
-        -- Story intro
+        -- Story intro below hero
         sIntro:ClearAllPoints()
-        sIntro:SetPoint("TOPLEFT", sDiv1, "BOTTOMLEFT", cpOff, -14)
+        sIntro:SetPoint("TOPLEFT",  heroFrame, "BOTTOMLEFT",  CP, -10)
+        sIntro:SetPoint("TOPRIGHT", heroFrame, "BOTTOMRIGHT", -CP, -10)
         if contentW > 20 then sIntro:SetWidth(contentW) end
-
-        -- sDiv2 below intro
-        sDiv2:ClearAllPoints()
-        sDiv2:SetPoint("TOPLEFT", sIntro, "BOTTOMLEFT", -cpOff, -14)
-        sDiv2:SetWidth(divW)
-
-        -- At a Glance line
-        local chapters = GetAllChapters(data)
-        local glanceParts = {}
-        if data.expansion then table.insert(glanceParts, data.expansion) end
-        if data.zone then table.insert(glanceParts, data.zone) end
-        table.insert(glanceParts, #chapters .. " chapters")
-        sGlanceLabel:SetText(table.concat(glanceParts, "  \194\183  "))
-        sGlanceLabel:ClearAllPoints()
-        sGlanceLabel:SetPoint("TOPLEFT", sDiv2, "BOTTOMLEFT", cpOff, -12)
-
-        -- sDiv3 below at-a-glance
-        sDiv3:ClearAllPoints()
-        sDiv3:SetPoint("TOPLEFT", sGlanceLabel, "BOTTOMLEFT", -cpOff, -12)
-        sDiv3:SetWidth(divW)
 
         -- Key Characters
         local npcNames = {}
@@ -935,27 +923,21 @@ local function LayoutDetailTab()
             table.sort(npcNames)
         end
 
-        local lastAnchor = sDiv3
-        local lastIsDiv = true
+        local lastAnchor = sIntro
         if #npcNames > 0 then
             sCharHeader:ClearAllPoints()
-            sCharHeader:SetPoint("TOPLEFT", sDiv3, "BOTTOMLEFT", cpOff, -12)
+            sCharHeader:SetPoint("TOP", sIntro, "BOTTOM", 0, -20)
             sCharHeader:Show()
 
             sCharText:ClearAllPoints()
-            sCharText:SetPoint("TOPLEFT", sCharHeader, "BOTTOMLEFT", 0, -6)
+            sCharText:SetPoint("TOP", sCharHeader, "BOTTOM", 0, -8)
             if contentW > 20 then sCharText:SetWidth(contentW) end
             sCharText:SetText(table.concat(npcNames, "  \194\183  "))
             sCharText:Show()
 
-            sDiv4:ClearAllPoints()
-            sDiv4:SetPoint("TOPLEFT", sCharText, "BOTTOMLEFT", -cpOff, -14)
-            sDiv4:SetWidth(divW)
-            sDiv4:Show()
-            lastAnchor = sDiv4
-            lastIsDiv = true
+            lastAnchor = sCharText
         else
-            sCharHeader:Hide(); sCharText:Hide(); sDiv4:Hide()
+            sCharHeader:Hide(); sCharText:Hide()
         end
 
         -- CTA button
@@ -964,7 +946,7 @@ local function LayoutDetailTab()
         if quest then
             sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
             sTrackBtn:ClearAllPoints()
-            sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -18)
+            sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
             sTrackBtn:SetScript("OnClick", function()
                 local result = SetWaypointForQuest(data, quest)
                 PrintTrackResult(result, quest, data)
@@ -972,7 +954,7 @@ local function LayoutDetailTab()
             sTrackBtn:Show(); sCompleteText:Hide()
         else
             sCompleteText:ClearAllPoints()
-            sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -18)
+            sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
             sCompleteText:Show(); sTrackBtn:Hide()
         end
 
@@ -990,25 +972,34 @@ local function LayoutDetailTab()
 
     else
         -- ── PROGRESS TAB layout ─────────────────────────────────────────
-        local done, total = GetCampaignProgress(data)
         local chapters = GetAllChapters(data)
+
+        -- CTA
+        -- Progress summary line
+        local done, total = GetCampaignProgress(data)
         local chapDone = 0
         for _, ch in ipairs(chapters) do
             local cd, ct = GetChapterProgress(ch)
             if cd == ct and ct > 0 then chapDone = chapDone + 1 end
         end
-        dProgLine:SetText("Chapter " .. chapDone .. " of " .. #chapters
+        dProgSummary:SetText("Chapter " .. chapDone .. " of " .. #chapters
             .. "  \194\183  " .. done .. "/" .. total .. " quests")
+        dProgSummary:ClearAllPoints()
+        dProgSummary:SetPoint("TOP", heroFrame, "BOTTOM", 0, -6)
+        dProgSummary:Show()
 
         -- CTA
         local quest = FindNextQuest(data)
         if not quest then
             dCompleteText:Show()
+            dCompleteText:ClearAllPoints()
+            dCompleteText:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -10)
         else
             dCompleteText:Hide()
         end
 
         -- Chapter rows (single-column list with hover + tooltip)
+        local GREEN_R, GREEN_G, GREEN_B = 0.35, 0.78, 0.28
         for _, row in ipairs(dChapterRows) do row:Hide() end
         for i, ch in ipairs(chapters) do
             if not dChapterRows[i] then
@@ -1016,16 +1007,36 @@ local function LayoutDetailTab()
             end
             local row = dChapterRows[i]
             local cDone, cTotal = GetChapterProgress(ch)
+            local isComplete = cDone == cTotal and cTotal > 0
 
-            if cDone == cTotal and cTotal > 0 then
-                row.label:SetText("|A:common-icon-checkmark:0:0|a " .. ch.chapter)
-                row.label:SetTextColor(0.35, 0.78, 0.28)
+            if isComplete then
+                row.label:SetText(ch.chapter)
+                row.label:SetTextColor(GREEN_R, GREEN_G, GREEN_B)
+                row.progressLabel:SetText(cDone .. " / " .. cTotal .. " quests")
+                row.progressLabel:SetTextColor(GREEN_R, GREEN_G, GREEN_B, 0.7)
+                -- Green tint on portrait + ring for completed
+                row.portrait:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
+                row.ring:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
+                row.ring:SetAlpha(0.8)
+                row.checkmark:Show()
             elseif cDone > 0 then
                 row.label:SetText(ch.chapter)
                 row.label:SetTextColor(1, 1, 1)
+                row.progressLabel:SetText(cDone .. " / " .. cTotal .. " quests")
+                row.progressLabel:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
+                row.portrait:SetVertexColor(1, 1, 1)
+                row.ring:SetVertexColor(0.8, 0.68, 0.45)
+                row.ring:SetAlpha(0.6)
+                row.checkmark:Hide()
             else
                 row.label:SetText(ch.chapter)
                 row.label:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
+                row.progressLabel:SetText(cDone .. " / " .. cTotal .. " quests")
+                row.progressLabel:SetTextColor(C_DIM[1]*0.70, C_DIM[2]*0.70, C_DIM[3]*0.70)
+                row.portrait:SetVertexColor(1, 1, 1)
+                row.ring:SetVertexColor(0.8, 0.68, 0.45)
+                row.ring:SetAlpha(0.6)
+                row.checkmark:Hide()
             end
 
             -- Set NPC portrait from first quest's quest giver
@@ -1042,44 +1053,21 @@ local function LayoutDetailTab()
         end
         for i = #chapters + 1, #dChapterRows do dChapterRows[i]:Hide() end
 
-        local cpOff = CP - DP
-
-        -- Layout progress elements top-to-bottom
-        pDiv1:ClearAllPoints()
-        pDiv1:SetPoint("TOPLEFT", heroFrame, "BOTTOMLEFT", DP - CP, -10)
-        pDiv1:SetWidth(divW)
-
-        dProgLine:ClearAllPoints()
-        dProgLine:SetPoint("TOP", pDiv1, "BOTTOM", 0, -14)
-
-        local ctaAnchor
-        if not quest then
-            dCompleteText:ClearAllPoints()
-            dCompleteText:SetPoint("TOP", dProgLine, "BOTTOM", 0, -16)
-            ctaAnchor = dCompleteText
-        else
-            ctaAnchor = dProgLine
-        end
-
-        pDiv2:ClearAllPoints()
-        pDiv2:SetPoint("TOP", ctaAnchor, "BOTTOM", 0, -16)
-        pDiv2:SetWidth(divW)
-
-        chapHeader:ClearAllPoints()
-        chapHeader:SetPoint("TOP", pDiv2, "BOTTOM", 0, -10)
-
-        -- Layout chapter rows single-column below header (fixed width, centered)
+        -- Layout chapter rows below summary (centered)
+        local firstAnchor = quest and dProgSummary or dCompleteText
+        local w = detailChild:GetWidth()
+        local listLeft = math.max(0, math.floor((w - CH_LIST_W) / 2))
         for i = 1, #chapters do
             local row = dChapterRows[i]
             row:ClearAllPoints()
+            row:SetWidth(CH_LIST_W)
             if i == 1 then
-                row:SetPoint("TOP", chapHeader, "BOTTOM", 0, -8)
+                row:SetPoint("TOP", firstAnchor, "BOTTOM", 0, -12)
+                row:SetPoint("LEFT", detailChild, "LEFT", listLeft, 0)
             else
                 row:SetPoint("TOP", dChapterRows[i-1], "BOTTOM", 0, -CH_GAP)
+                row:SetPoint("LEFT", detailChild, "LEFT", listLeft, 0)
             end
-            row:SetWidth(CH_LIST_W)
-            row:SetPoint("LEFT", detailChild, "LEFT",
-                math.floor((detailChild:GetWidth() - CH_LIST_W) / 2), 0)
         end
 
         -- Set scroll height
@@ -1105,7 +1093,7 @@ tabStoryHit:SetScript("OnLeave", function()
 end)
 tabStoryHit:SetScript("OnClick", function()
     if activeTab ~= "story" and currentStoryData then
-        PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
         SetActiveTab("story")
         detailScroll:SetVerticalScroll(0)
         LayoutDetailTab()
@@ -1120,7 +1108,7 @@ tabProgressHit:SetScript("OnLeave", function()
 end)
 tabProgressHit:SetScript("OnClick", function()
     if activeTab ~= "progress" and currentStoryData then
-        PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
         SetActiveTab("progress")
         detailScroll:SetVerticalScroll(0)
         LayoutDetailTab()
@@ -1182,7 +1170,6 @@ local function UpdateStoryDetail(data)
 
     smHeaderSub:SetText("")
     dTitle:SetText(displayTitle)
-    dSub:SetText((data.expansion or "") .. "  \194\183  " .. (data.zone or ""))
     sIntro:SetText(data.description or "")
 
     -- Layout the active tab
@@ -1207,17 +1194,22 @@ local PORT = 46
 local ICON = 34
 
 local function SelectStory(index)
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
     storySelectedIdx = index
     for i, row in pairs(storyLeftRows) do
         local sel = (i == index)
-        row.bg:SetAtlas("ui-journeys-delve-companion-button", false)
-        row.bg:SetAlpha(sel and 1.0 or 0.80)
-        if row.cr then row.bg:SetVertexColor(row.cr*0.35+0.65, row.cg*0.35+0.65, row.cb*0.35+0.65) end
-        row.portBorder:SetAlpha(sel and 1.0 or 0.75)
-        -- text brightness
-        local tb = sel and 1.0 or 0.80
+        if row.btn then
+            if sel then
+                row.btn:LockHighlight()
+            else
+                row.btn:UnlockHighlight()
+            end
+        end
+        row.bg:SetAlpha(sel and 1.0 or 0.6)
+        row.portBorder:SetAlpha(sel and 1.0 or 0.5)
+        local tb = sel and 1.0 or 0.60
         row.nameLabel:SetTextColor(C_BODY[1]*tb, C_BODY[2]*tb, C_BODY[3]*tb)
-        row.zoneLabel:SetTextColor(C_DIM[1]*tb,  C_DIM[2]*tb,  C_DIM[3]*tb)
+        if row.zoneLabel then row.zoneLabel:SetTextColor(C_DIM[1]*tb, C_DIM[2]*tb, C_DIM[3]*tb) end
     end
     if index == 0 or not allQuestlines[index] then
         UpdateStoryDetail(nil)
@@ -1276,16 +1268,18 @@ local function BuildStoryWindow()
     local introDivH = CreateCatDivider(leftChild, "Story Mode", yOffset)
     yOffset = yOffset - introDivH - 4
 
-    local introCard = CreateFrame("Frame", nil, leftChild)
-    introCard:EnableMouse(true); introCard:SetHeight(CARD_H)
+    local introCard = CreateFrame("Button", nil, leftChild)
+    introCard:SetHeight(CARD_H)
     introCard:SetPoint("TOPLEFT",  leftChild, "TOPLEFT",  CARD_PAD, yOffset)
     introCard:SetPoint("TOPRIGHT", leftChild, "TOPRIGHT", -CARD_PAD, yOffset)
+    introCard:RegisterForClicks("AnyUp")
 
     local introBg = introCard:CreateTexture(nil, "BACKGROUND")
-    introBg:SetAtlas("ui-journeys-delve-companion-button", false)
+    introBg:SetAtlas("housefinder_neighborhood-list-item-default", false)
     introBg:SetAllPoints()
-    introBg:SetVertexColor(0.75, 0.70, 0.65)
-    introBg:SetAlpha(0.80)
+
+    introCard:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
+    introCard:GetHighlightTexture():SetAllPoints()
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
@@ -1311,45 +1305,23 @@ local function BuildStoryWindow()
     introRing:SetAlpha(0.85)
 
     local introName = NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-    introName:SetPoint("LEFT",   introPort, "RIGHT",  1,  0)
-    introName:SetPoint("RIGHT",  introCard, "RIGHT", -8,  0)
-    introName:SetPoint("BOTTOM", introCard, "CENTER", 0,  1)
-    introName:SetJustifyH("LEFT"); introName:SetJustifyV("BOTTOM")
+    introName:SetPoint("LEFT",  introPort, "RIGHT",  1,  0)
+    introName:SetPoint("RIGHT", introCard, "RIGHT", -8,  0)
+    introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
     introName:SetText("Introduction")
-    introName:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
+    introName:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
-    local introZone = NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
-    introZone:SetPoint("TOPLEFT", introName, "BOTTOMLEFT", 0, -2)
-    introZone:SetPoint("RIGHT",   introCard, "RIGHT",     -8,  0)
-    introZone:SetJustifyH("LEFT")
-    introZone:SetText("What is Story Mode?")
-    introZone:SetTextColor(C_DIM[1]*0.80, C_DIM[2]*0.80, C_DIM[3]*0.80)
+    local introZone = nil  -- no subline
 
-    introCard:SetScript("OnEnter", function()
-        if storySelectedIdx ~= 0 then
-            introBg:SetAlpha(1.0)
-            introBg:SetVertexColor(1, 1, 1)
-            introName:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-            introZone:SetTextColor(C_DIM[1],  C_DIM[2],  C_DIM[3])
-        end
-    end)
-    introCard:SetScript("OnLeave", function()
-        if storySelectedIdx ~= 0 then
-            introBg:SetAlpha(0.80)
-            introBg:SetVertexColor(0.75, 0.70, 0.65)
-            introName:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
-            introZone:SetTextColor(C_DIM[1]*0.80,  C_DIM[2]*0.80,  C_DIM[3]*0.80)
-        end
-    end)
-    introCard:SetScript("OnMouseUp", function() SelectStory(0) end)
+    introCard:SetScript("OnClick", function() SelectStory(0) end)
 
     -- Store intro card for select styling
     storyLeftRows[0] = {
+        btn       = introCard,
         bg        = introBg,
         portBorder= introRing,
         nameLabel = introName,
         zoneLabel = introZone,
-        cr=0.75, cg=0.70, cb=0.65,
     }
 
     yOffset = yOffset - CARD_H - 4
@@ -1366,28 +1338,31 @@ local function BuildStoryWindow()
                 local cr, cg, cb = unpack(data.color or {0.5, 0.3, 0.9})
 
                 -- ── Card frame ────────────────────────────────────────────────
-                local card = CreateFrame("Frame", nil, leftChild)
-                card:EnableMouse(true); card:SetHeight(CARD_H)
+                local card = CreateFrame("Button", nil, leftChild)
+                card:SetHeight(CARD_H)
                 card:SetPoint("TOPLEFT",  leftChild, "TOPLEFT",  CARD_PAD, yOffset)
                 card:SetPoint("TOPRIGHT", leftChild, "TOPRIGHT", -CARD_PAD, yOffset)
+                card:RegisterForClicks("AnyUp")
 
-                -- Journeys delve card background, tinted with questline colour
+                -- House Finder card background
                 local bg = card:CreateTexture(nil, "BACKGROUND")
-                bg:SetAtlas("ui-journeys-delve-companion-button", false)
+                bg:SetAtlas("housefinder_neighborhood-list-item-default", false)
                 bg:SetAllPoints()
-                bg:SetVertexColor(cr*0.35 + 0.65, cg*0.35 + 0.65, cb*0.35 + 0.65)
-                bg:SetAlpha(0.80)
 
-                -- ── Portrait circle (Delve companion card style) ──────────────
+                card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
+                card:GetHighlightTexture():SetAllPoints()
+
+                -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
                 portFrame:SetSize(PORT, PORT)
                 portFrame:SetPoint("LEFT", card, "LEFT", 16, 2)
 
-                -- Circular-masked achievement icon
                 local iconTex = portFrame:CreateTexture(nil, "ARTWORK")
                 iconTex:SetSize(ICON, ICON)
                 iconTex:SetPoint("CENTER", portFrame, "CENTER", 0, 0)
                 iconTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+                iconTex:SetTexelSnappingBias(0)
+                iconTex:SetSnapToPixelGrid(false)
 
                 local iconMask = portFrame:CreateMaskTexture()
                 iconMask:SetTexture(
@@ -1403,7 +1378,7 @@ local function BuildStoryWindow()
                     iconTex:SetTexture(data.icon)
                 end
 
-                -- Gold circle border around the portrait (tinted gold, thin)
+                -- Gold circle border around the portrait
                 local portBorder = portFrame:CreateTexture(nil, "OVERLAY")
                 portBorder:SetAtlas("ui-frame-genericplayerchoice-portrait-border", false)
                 portBorder:SetPoint("TOPLEFT",     iconTex, "TOPLEFT",     -3,  3)
@@ -1412,7 +1387,6 @@ local function BuildStoryWindow()
                 portBorder:SetAlpha(0.85)
 
                 -- ── Text labels (vertically centred on card) ──────────────────
-                -- Anchor group: name sits just above card center, zone just below
                 local nameLabel = NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
                 nameLabel:SetPoint("LEFT",   portFrame, "RIGHT",  1,  0)
                 nameLabel:SetPoint("RIGHT",  card,      "RIGHT", -8,  0)
@@ -1420,42 +1394,24 @@ local function BuildStoryWindow()
                 nameLabel:SetJustifyH("LEFT"); nameLabel:SetJustifyV("BOTTOM")
                 nameLabel:SetMaxLines(1); nameLabel:SetWordWrap(false)
                 nameLabel:SetText(data.title)
-                nameLabel:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
+                nameLabel:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
                 local zoneLabel = NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
                 zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
                 zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -8,  0)
                 zoneLabel:SetJustifyH("LEFT")
                 zoneLabel:SetText(data.zone or "")
-                zoneLabel:SetTextColor(C_DIM[1]*0.80, C_DIM[2]*0.80, C_DIM[3]*0.80)
+                zoneLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
 
-                -- ── Hover / select scripts ─────────────────────────────────────
-                card:SetScript("OnEnter", function()
-                    if idx ~= storySelectedIdx then
-                        bg:SetAlpha(1.0)
-                        bg:SetVertexColor(1, 1, 1)
-                        portBorder:SetAlpha(1.0)
-                        nameLabel:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-                        zoneLabel:SetTextColor(C_DIM[1],  C_DIM[2],  C_DIM[3])
-                    end
-                end)
-                card:SetScript("OnLeave", function()
-                    if idx ~= storySelectedIdx then
-                        bg:SetAlpha(0.80)
-                        bg:SetVertexColor(cr*0.35 + 0.65, cg*0.35 + 0.65, cb*0.35 + 0.65)
-                        portBorder:SetAlpha(0.55)
-                        nameLabel:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
-                        zoneLabel:SetTextColor(C_DIM[1]*0.80,  C_DIM[2]*0.80,  C_DIM[3]*0.80)
-                    end
-                end)
-                card:SetScript("OnMouseUp", function() SelectStory(idx) end)
+                -- ── Click ──────────────────────────────────────────────────────
+                card:SetScript("OnClick", function() SelectStory(idx) end)
 
                 storyLeftRows[idx] = {
+                    btn       = card,
                     bg        = bg,
                     portBorder= portBorder,
                     nameLabel = nameLabel,
                     zoneLabel = zoneLabel,
-                    cr=cr, cg=cg, cb=cb,
                 }
                 yOffset = yOffset - CARD_H - 5
             end
@@ -1466,6 +1422,7 @@ local function BuildStoryWindow()
 end
 
 storyFrame:SetScript("OnShow", function()
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPEN)
     BuildStoryWindow()
     -- Frame 1: let layout settle so detailScroll has a real width
     C_Timer.After(0, function()
@@ -1476,6 +1433,10 @@ storyFrame:SetScript("OnShow", function()
             SelectStory(0)  -- default to Introduction card
         end)
     end)
+end)
+
+storyFrame:SetScript("OnHide", function()
+    PlaySound(SOUNDKIT.IG_MAINMENU_CLOSE)
 end)
 
 
