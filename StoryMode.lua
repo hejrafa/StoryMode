@@ -38,6 +38,42 @@ local function IsQuestComplete(questID)
     return C_QuestLog.IsQuestFlaggedCompleted(questID)
 end
 
+-- A quest is "effectively complete" if flagged complete OR if any later
+-- quest in the same chapter is complete (handles skipped breadcrumbs).
+-- However, if the quest is currently in the player's quest log it is
+-- NOT complete — they are actively working on it.
+-- Optional: pass nextChapterQuests to handle edge cases where the last
+-- quest in a chapter is repeatable/unflagged but later chapters have progress.
+local function IsQuestEffectivelyComplete(questIndex, chapterQuests, nextChapterQuests)
+    local qid = chapterQuests[questIndex].id
+    if C_QuestLog.IsOnQuest(qid) then return false end
+    if IsQuestComplete(qid) then return true end
+    for i = questIndex + 1, #chapterQuests do
+        if IsQuestComplete(chapterQuests[i].id) then return true end
+    end
+    -- If this is the last quest in the chapter and all prior quests are done,
+    -- check if ANY quest in the next chapter has progress — implies this one was done.
+    if nextChapterQuests and questIndex == #chapterQuests then
+        local allPriorDone = true
+        for i = 1, questIndex - 1 do
+            if not IsQuestComplete(chapterQuests[i].id) and not C_QuestLog.IsOnQuest(chapterQuests[i].id) then
+                -- Check if a later quest covers it
+                local covered = false
+                for j = i + 1, #chapterQuests do
+                    if IsQuestComplete(chapterQuests[j].id) then covered = true; break end
+                end
+                if not covered then allPriorDone = false; break end
+            end
+        end
+        if allPriorDone then
+            for _, nq in ipairs(nextChapterQuests) do
+                if IsQuestComplete(nq.id) or C_QuestLog.IsOnQuest(nq.id) then return true end
+            end
+        end
+    end
+    return false
+end
+
 local function IsQuestInLog(questID)
     return C_QuestLog.GetLogIndexForQuestID(questID) ~= nil
 end
@@ -111,11 +147,12 @@ local function IsCriterionDoneForCharacter(achID, criteriaIdx)
     end
 end
 
-local function GetChapterProgress(ch)
+local function GetChapterProgress(ch, nextChapter)
     local total, done = 0, 0
-    for _, q in ipairs(ch.quests) do
+    local nextQuests = nextChapter and nextChapter.quests or nil
+    for i, q in ipairs(ch.quests) do
         total = total + 1
-        if IsQuestComplete(q.id) then done = done + 1 end
+        if IsQuestEffectivelyComplete(i, ch.quests, nextQuests) then done = done + 1 end
     end
     return done, total
 end
@@ -124,7 +161,8 @@ local function FindNextQuest(data)
     local chapters = GetAllChapters(data)
 
     -- Check if player has completed any prereq chapters (meaning they've progressed)
-    local hasPrereqProgress = false
+    -- If there are no prereqs at all, the gate is open — treat as already satisfied
+    local hasPrereqProgress = not data.prereqs
     if data.prereqs then
         for _, ch in ipairs(data.prereqs) do
             local d, t = GetChapterProgress(ch)
@@ -136,7 +174,7 @@ local function FindNextQuest(data)
     local readyCandidates = {}  -- quests ready to pick up
 
     for chIdx, ch in ipairs(chapters) do
-        local chDone, chTotal = GetChapterProgress(ch)
+        local chDone, chTotal = GetChapterProgress(ch, chapters[chIdx + 1])
         if chDone >= chTotal then
             -- Chapter complete, skip
         else
@@ -149,13 +187,9 @@ local function FindNextQuest(data)
                         section = section, depth = j, order = chIdx,
                     }
                     break
-                elseif not IsQuestComplete(q.id) then
-                    -- Skip stuck quests: if the quest AFTER this one is already
-                    -- done, the player bypassed it (rep gate, resource gate, etc.)
-                    local nextQuest = ch.quests[j + 1]
-                    if nextQuest and IsQuestComplete(nextQuest.id) then
-                        -- Stuck/bypassed — keep scanning this chapter
-                    elseif j == 1 then
+                elseif not IsQuestEffectivelyComplete(j, ch.quests) then
+                    -- Quest not done and no later quest is done either
+                    if j == 1 then
                         -- First quest in chapter: candidate if it's a main story
                         -- chapter and the player has made prereq progress
                         if section >= 2 and hasPrereqProgress then
@@ -171,7 +205,7 @@ local function FindNextQuest(data)
                             }
                         end
                         break
-                    elseif IsQuestComplete(ch.quests[j - 1].id) then
+                    elseif IsQuestEffectivelyComplete(j - 1, ch.quests) then
                         -- Predecessor done, not stuck → ready to pick up
                         readyCandidates[#readyCandidates + 1] = {
                             quest = q, chapter = ch.chapter,
@@ -266,14 +300,101 @@ end
 -- Waypoint / Tracking
 -- ============================================================================
 
+-- Ensure trivial (low-level) quest markers are visible on the minimap & map
+local function EnsureTrivialQuestsVisible()
+    for i = 1, C_Minimap.GetNumTrackingTypes() do
+        local info = C_Minimap.GetTrackingInfo(i)
+        if info and not info.active then
+            -- Match by the global string constant or by known English name
+            local isTrivial = (MINIMAP_TRACKING_TRIVIAL_QUESTS and info.name == MINIMAP_TRACKING_TRIVIAL_QUESTS)
+                or info.name == "Trivial Quests"
+                or info.name == "Low Level Quests"
+            if isTrivial then
+                C_Minimap.SetTracking(i, true)
+                print("|cff64b5f6StoryMode:|r Enabled |cffffd200" .. info.name .. "|r tracking so you can see quest markers for this storyline.")
+                return
+            end
+        end
+    end
+end
+
+-- ── Map ping animation (expanding gold ring at waypoint) ──────────────────
+local pingFrame
+local function GetPingFrame()
+    if pingFrame then return pingFrame end
+
+    local f = CreateFrame("Frame")
+    f:SetSize(32, 32)
+    f:SetFrameStrata("TOOLTIP")
+    f:Hide()
+
+    local tex = f:CreateTexture(nil, "ARTWORK")
+    tex:SetAllPoints()
+    tex:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask")
+    tex:SetVertexColor(1, 0.78, 0.1)
+    f.tex = tex
+
+    local ag = f:CreateAnimationGroup()
+    ag:SetLooping("NONE")
+
+    local s = ag:CreateAnimation("Scale")
+    s:SetScaleFrom(0.6, 0.6)
+    s:SetScaleTo(3.0, 3.0)
+    s:SetDuration(0.75)
+    s:SetSmoothing("OUT")
+
+    local a = ag:CreateAnimation("Alpha")
+    a:SetFromAlpha(0.9)
+    a:SetToAlpha(0)
+    a:SetDuration(0.75)
+    a:SetSmoothing("OUT")
+
+    ag:SetScript("OnFinished", function() f:Hide() end)
+    f.anim = ag
+
+    pingFrame = f
+    return f
+end
+
+local function PingOnWorldMap(mapID, x, y)
+    if not WorldMapFrame then return end
+    OpenWorldMap(mapID)
+    PlaySound(SOUNDKIT.UI_MAP_WAYPOINT_SUPER_TRACK_ON or 167425)
+
+    C_Timer.After(0.15, function()
+        if not WorldMapFrame:IsShown() then return end
+        local canvas = WorldMapFrame.ScrollContainer.Child
+        if not canvas then return end
+
+        local f = GetPingFrame()
+        f:SetParent(canvas)
+        f:ClearAllPoints()
+        f:SetPoint("CENTER", canvas, "TOPLEFT",
+            canvas:GetWidth() * x, -canvas:GetHeight() * y)
+        f:SetAlpha(1)
+        f:SetScale(1)
+        f:Show()
+        f.anim:Stop()
+        f.anim:Play()
+    end)
+end
+
 local function SetWaypointForQuest(data, quest)
-    if not quest then return "no_location" end
+    if not quest then return "no_location", nil, nil end
+
+    -- Make sure low-level quest markers are visible (critical for legacy content)
+    EnsureTrivialQuestsVisible()
 
     -- Quest already in log → super-track it directly
     if IsQuestInLog(quest.id) then
         C_QuestLog.AddQuestWatch(quest.id)
         C_SuperTrack.SetSuperTrackedQuestID(quest.id)
-        return "supertracked"
+        -- Open map to the quest's zone if we know it
+        local loc = data.npcLocations and data.npcLocations[quest.npc]
+        if loc then
+            PingOnWorldMap(loc.mapID, loc.x, loc.y)
+        end
+        return "supertracked", loc and loc.mapID, loc
     end
 
     -- Quest not in log → place a user waypoint on the quest giver's location
@@ -282,28 +403,56 @@ local function SetWaypointForQuest(data, quest)
         local point = UiMapPoint.CreateFromCoordinates(loc.mapID, loc.x, loc.y)
         C_Map.SetUserWaypoint(point)
         C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-        return "waypoint"
+        PingOnWorldMap(loc.mapID, loc.x, loc.y)
+        return "waypoint", loc.mapID, loc
     end
 
-    -- Fallback: try quest offer map pin (may not always produce a visible pin)
+    -- Fallback: try quest offer map pin + still open the map if we know the location
     if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
         C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, quest.id)
-        return "map_pin"
+    end
+    if loc then
+        PingOnWorldMap(loc.mapID, loc.x, loc.y)
+        return "waypoint_approx", loc.mapID, loc
     end
 
-    return "no_location"
+    -- Last resort: open the questline's start map so the player has SOME orientation
+    if data.startMapID then
+        OpenWorldMap(data.startMapID)
+    end
+    return "no_location", nil, nil
+end
+
+local function GetZoneName(mapID)
+    local info = mapID and C_Map.GetMapInfo(mapID)
+    return info and info.name or nil
 end
 
 local function PrintTrackResult(result, quest, data)
     local P = "|cff64b5f6StoryMode:|r "
+    local loc = data.npcLocations and data.npcLocations[quest.npc]
+    local zone = loc and GetZoneName(loc.mapID) or nil
+
     if result == "supertracked" then
-        print(P .. "Tracking: " .. quest.name)
-    elseif result == "map_pin" then
-        print(P .. "Tracking quest: |cffffd200" .. quest.name .. "|r — follow the navigation arrow.")
-    elseif result == "waypoint" then
-        print(P .. "Waypoint set for |cffffd200" .. quest.npc .. "|r — open your map to see it.")
+        -- Quest is in the log, player already has it
+        if zone then
+            print(P .. "Tracking: |cffffd200" .. quest.name .. "|r — check your map.")
+        else
+            print(P .. "Tracking: |cffffd200" .. quest.name .. "|r")
+        end
+    elseif result == "waypoint" or result == "waypoint_approx" then
+        -- Quest not picked up yet — tell them exactly where to go
+        if zone then
+            print(P .. "Find |cffffd200" .. quest.npc .. "|r in |cff64b5f6" .. zone .. "|r to accept: " .. quest.name)
+        else
+            print(P .. "Find |cffffd200" .. quest.npc .. "|r to accept: " .. quest.name)
+        end
     else
-        print(P .. "Next: " .. quest.name .. " from |cffffd200" .. quest.npc .. "|r")
+        if zone then
+            print(P .. "Next: |cffffd200" .. quest.name .. "|r from " .. quest.npc .. " in |cff64b5f6" .. zone .. "|r")
+        else
+            print(P .. "Next: |cffffd200" .. quest.name .. "|r from |cffffd200" .. quest.npc .. "|r")
+        end
     end
 end
 
@@ -370,6 +519,7 @@ end
 -- ============================================================================
 
 RegisterQuestline(SM.SuramarData, "Epic Storylines")
+RegisterQuestline(SM.LilianVossData, "Epic Storylines")
 RegisterQuestline(SM.RogueCampaignData, "Class Identity")
 
 
@@ -684,7 +834,27 @@ local sCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "Que
 sCompleteText:SetTextColor(0.40, 0.82, 0.35)
 sCompleteText:SetText("|A:common-icon-checkmark:0:0|a Campaign Complete")
 
-local storyElements = { sIntro, sCharHeader, sCharText, sTrackBtn, sCompleteText }
+-- Progressive story journal entries (chapter recaps, revealed as quests are completed)
+local sJournalHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+sJournalHeader:SetJustifyH("CENTER")
+sJournalHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+sJournalHeader:SetText("Your Story So Far")
+
+local sJournalEntries = {}  -- pool of { title = FontString, body = FontString }
+
+local function GetJournalEntry(idx)
+    if sJournalEntries[idx] then return sJournalEntries[idx] end
+    local title = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
+    title:SetJustifyH("CENTER")
+    title:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    local body = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+    body:SetJustifyH("LEFT"); body:SetSpacing(4); body:SetWordWrap(true)
+    body:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+    sJournalEntries[idx] = { title = title, body = body }
+    return sJournalEntries[idx]
+end
+
+local storyElements = { sIntro, sCharHeader, sCharText, sTrackBtn, sCompleteText, sJournalHeader }
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- PROGRESS TAB elements
@@ -844,7 +1014,457 @@ local function CreateChapterRow(parent, index)
     return row
 end
 
-local progressElements = { dCompleteText, dProgSummary }
+-- Forward declarations for cross-referenced variables
+local currentStoryData = nil   -- set by UpdateStoryDetail, read by LayoutSelectedChapter
+
+-- ══ Renown-Track Style Chapter Selector + Quest Cards ══════════════════
+-- Horizontal chapter track with quest detail cards below
+
+local TRACK_NODE_SIZE = 40      -- portrait circle diameter
+local TRACK_ARROW_GAP = 20     -- space between nodes (contains arrow)
+local TRACK_STEP = TRACK_NODE_SIZE + TRACK_ARROW_GAP  -- 60px per step
+local TRACK_H = 60              -- track container height
+
+local QCARD_H = 44 + 8         -- quest card height (44 + 4px top/bottom padding)
+local QCARD_GAP = 3            -- gap between cards
+
+-- (quest cards now use housefinder atlas, no backdrop needed)
+
+-- State
+local dSelectedChapter = 1
+local dTrackScrollOffset = 0
+local dTrackMaxScroll = 0
+local dTrackChapterCount = 0
+
+-- Forward-declare pools (used by CenterTrackOnSelected)
+local dTrackNodes = {}
+local dTrackArrows = {}
+
+-- ── Track container (persistent, created once) ──────────────────────
+local dTrackContainer = CreateFrame("Frame", nil, detailChild)
+dTrackContainer:SetHeight(TRACK_H)
+dTrackContainer:Hide()
+
+-- Clip frame — full width, fades are done via node alpha instead of overlays
+local dTrackClip = CreateFrame("Frame", nil, dTrackContainer)
+dTrackClip:SetClipsChildren(true)
+dTrackClip:SetPoint("TOPLEFT", dTrackContainer, "TOPLEFT", 0, 0)
+dTrackClip:SetPoint("BOTTOMRIGHT", dTrackContainer, "BOTTOMRIGHT", 0, 0)
+
+-- Inner frame that slides left/right
+local dTrackInner = CreateFrame("Frame", nil, dTrackClip)
+dTrackInner:SetPoint("LEFT", dTrackClip, "LEFT", 0, 0)
+dTrackInner:SetHeight(TRACK_H)
+
+-- Centers the track so selected chapter is in the middle of the clip
+-- Also applies distance-based alpha fade to each node
+local function CenterTrackOnSelected(clipW)
+    if clipW <= 0 then clipW = 350 end
+    local selCenterX = (dSelectedChapter - 1) * TRACK_STEP + TRACK_NODE_SIZE / 2
+    local offset = selCenterX - clipW / 2
+    dTrackInner:ClearAllPoints()
+    dTrackInner:SetPoint("LEFT", dTrackClip, "LEFT", -offset, 0)
+    -- Apply distance-based alpha fade to nodes
+    local center = clipW / 2
+    local fadeStart = center - TRACK_NODE_SIZE  -- start fading past this distance
+    local fadeEnd = clipW / 2 + 10             -- fully faded at edge
+    for i, node in ipairs(dTrackNodes) do
+        if not node:IsShown() then break end
+        local nodeCenter = (i - 1) * TRACK_STEP + TRACK_NODE_SIZE / 2 - offset
+        local dist = math.abs(nodeCenter - center)
+        if dist <= fadeStart then
+            node:SetAlpha(1.0)
+        elseif dist >= fadeEnd then
+            node:SetAlpha(0.0)
+        else
+            node:SetAlpha(1.0 - (dist - fadeStart) / (fadeEnd - fadeStart))
+        end
+    end
+    -- Same for between-node arrows
+    for i, arrow in ipairs(dTrackArrows) do
+        if not arrow:IsShown() then break end
+        local arrowX = (i - 1) * TRACK_STEP + TRACK_NODE_SIZE + TRACK_ARROW_GAP / 2 - offset
+        local dist = math.abs(arrowX - center)
+        if dist <= fadeStart then
+            arrow:SetAlpha(1.0)
+        elseif dist >= fadeEnd then
+            arrow:SetAlpha(0.0)
+        else
+            arrow:SetAlpha(1.0 - (dist - fadeStart) / (fadeEnd - fadeStart))
+        end
+    end
+end
+
+-- Navigation arrows — always visible, navigate between chapters
+local LayoutSelectedChapter  -- forward declare for arrow callbacks
+
+local NAV_ARROW_SIZE = 22
+local NAV_ARROW_INSET = 12
+
+-- Left arrow
+local dTrackLeftBtn = CreateFrame("Button", nil, dTrackContainer)
+dTrackLeftBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
+dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 5)
+dTrackLeftBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
+local dTrackLeftTex = dTrackLeftBtn:CreateTexture(nil, "ARTWORK")
+dTrackLeftTex:SetAtlas("common-icon-forwardarrow", false)
+dTrackLeftTex:SetSize(NAV_ARROW_SIZE, NAV_ARROW_SIZE)
+dTrackLeftTex:SetPoint("CENTER")
+dTrackLeftTex:SetRotation(math.pi)
+dTrackLeftTex:SetVertexColor(0.85, 0.75, 0.55)
+dTrackLeftBtn:SetScript("OnEnter", function() dTrackLeftTex:SetVertexColor(1, 0.90, 0.65) end)
+dTrackLeftBtn:SetScript("OnLeave", function() dTrackLeftTex:SetVertexColor(0.85, 0.75, 0.55) end)
+dTrackLeftBtn:SetScript("OnClick", function()
+    if dSelectedChapter > 1 then
+        PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        dSelectedChapter = dSelectedChapter - 1
+        LayoutSelectedChapter()
+        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+    end
+end)
+
+-- Right arrow
+local dTrackRightBtn = CreateFrame("Button", nil, dTrackContainer)
+dTrackRightBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
+dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 5)
+dTrackRightBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
+local dTrackRightTex = dTrackRightBtn:CreateTexture(nil, "ARTWORK")
+dTrackRightTex:SetAtlas("common-icon-forwardarrow", false)
+dTrackRightTex:SetSize(NAV_ARROW_SIZE, NAV_ARROW_SIZE)
+dTrackRightTex:SetPoint("CENTER")
+dTrackRightTex:SetVertexColor(0.85, 0.75, 0.55)
+dTrackRightBtn:SetScript("OnEnter", function() dTrackRightTex:SetVertexColor(1, 0.90, 0.65) end)
+dTrackRightBtn:SetScript("OnLeave", function() dTrackRightTex:SetVertexColor(0.85, 0.75, 0.55) end)
+dTrackRightBtn:SetScript("OnClick", function()
+    if dSelectedChapter < dTrackChapterCount then
+        PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        dSelectedChapter = dSelectedChapter + 1
+        LayoutSelectedChapter()
+        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+    end
+end)
+
+-- Mousewheel on track changes selection
+dTrackContainer:EnableMouseWheel(true)
+dTrackContainer:SetScript("OnMouseWheel", function(_, delta)
+    if delta > 0 and dSelectedChapter > 1 then
+        PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        dSelectedChapter = dSelectedChapter - 1
+        LayoutSelectedChapter()
+        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+    elseif delta < 0 and dSelectedChapter < dTrackChapterCount then
+        PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+        dSelectedChapter = dSelectedChapter + 1
+        LayoutSelectedChapter()
+        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+    end
+end)
+
+-- Chapter title + summary below track
+local dChapterTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+dChapterTitle:SetJustifyH("CENTER")
+dChapterTitle:Hide()
+
+local dChapterSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+dChapterSummary:SetJustifyH("LEFT"); dChapterSummary:SetSpacing(4); dChapterSummary:SetWordWrap(true)
+dChapterSummary:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+dChapterSummary:Hide()
+
+-- ── Track node pool ─────────────────────────────────────────────────
+local function CreateTrackNode(parent)
+    local btn = CreateFrame("Button", nil, parent)
+    btn:SetSize(TRACK_NODE_SIZE, TRACK_NODE_SIZE)
+
+    -- Portrait
+    local portrait = btn:CreateTexture(nil, "ARTWORK")
+    portrait:SetSize(TRACK_NODE_SIZE - 4, TRACK_NODE_SIZE - 4)
+    portrait:SetPoint("TOP", btn, "TOP", 0, 0)
+    portrait:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+    portrait:SetTexelSnappingBias(0)
+    portrait:SetSnapToPixelGrid(false)
+
+    local mask = btn:CreateMaskTexture()
+    mask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
+        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    mask:SetAllPoints(portrait)
+    portrait:AddMaskTexture(mask)
+    btn.portrait = portrait
+
+    -- Ring
+    local ring = btn:CreateTexture(nil, "OVERLAY")
+    ring:SetAtlas("ui-frame-genericplayerchoice-portrait-border", false)
+    ring:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
+    ring:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
+    btn.ring = ring
+
+    -- Number badge
+    -- Checkmark badge (top-right)
+    local checkmark = btn:CreateTexture(nil, "OVERLAY", nil, 2)
+    checkmark:SetAtlas("common-icon-checkmark", false)
+    checkmark:SetSize(14, 14)
+    checkmark:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 4, -4)
+    checkmark:Hide()
+    btn.checkmark = checkmark
+
+    -- Hover highlight (masked to circle)
+    local hl = btn:CreateTexture(nil, "HIGHLIGHT")
+    hl:SetTexture("Interface/Buttons/WHITE8x8")
+    hl:SetAllPoints(portrait)
+    hl:SetVertexColor(1, 0.82, 0.50, 0.2)
+    local hlMask = btn:CreateMaskTexture()
+    hlMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
+        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    hlMask:SetAllPoints(portrait)
+    hl:AddMaskTexture(hlMask)
+
+    -- Active glow (same as hover but always-on for selected node)
+    local activeGlow = btn:CreateTexture(nil, "ARTWORK", nil, 3)
+    activeGlow:SetTexture("Interface/Buttons/WHITE8x8")
+    activeGlow:SetAllPoints(portrait)
+    activeGlow:SetVertexColor(1, 0.82, 0.50, 0.25)
+    local glowMask = btn:CreateMaskTexture()
+    glowMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
+        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    glowMask:SetAllPoints(portrait)
+    activeGlow:AddMaskTexture(glowMask)
+    activeGlow:Hide()
+    btn.activeGlow = activeGlow
+
+    -- Down-arrow indicator (below node, points to quest cards)
+    local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
+    downArrow:SetAtlas("common-icon-forwardarrow", false)
+    downArrow:SetSize(14, 14)
+    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 2)
+    downArrow:SetRotation(-math.pi / 2) -- rotate 90° clockwise to point down
+    downArrow:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    downArrow:Hide()
+    btn.downArrow = downArrow
+
+    -- Tooltip
+    btn:SetScript("OnEnter", function(self)
+        if self.tooltipTitle then
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
+            if self.tooltipBody then
+                GameTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
+            end
+            if self.tooltipProgress then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine(self.tooltipProgress, C_DIM[1], C_DIM[2], C_DIM[3])
+            end
+            GameTooltip:Show()
+        end
+    end)
+    btn:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+    return btn
+end
+
+-- ── Quest card pool ─────────────────────────────────────────────────
+local dQuestCards = {}
+
+local function CreateQuestCard(parent)
+    local card = CreateFrame("Button", nil, parent)
+    card:EnableMouse(true)
+    card:SetHeight(QCARD_H)
+
+    -- Housing endeavor-style card background
+    local bg = card:CreateTexture(nil, "BACKGROUND")
+    bg:SetAtlas("housing-dashboard-initiatives-tasks-listitem-bg", false)
+    bg:SetAllPoints()
+    card.bg = bg
+
+    -- Hover highlight
+    card:SetHighlightAtlas("housing-dashboard-initiatives-tasks-listitem-bg")
+    card:GetHighlightTexture():SetAllPoints()
+    card:GetHighlightTexture():SetAlpha(0.3)
+
+    -- Status icon (always 14x14 for consistent text alignment)
+    local ICON_LEFT = 10
+    local TEXT_LEFT = ICON_LEFT + 14 + 8  -- icon width + gap
+    local icon = card:CreateTexture(nil, "ARTWORK")
+    icon:SetSize(14, 14)
+    icon:SetPoint("LEFT", card, "LEFT", ICON_LEFT, 0)
+    card.icon = icon
+
+    -- Quest name (top line)
+    local title = NoShadow(card:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+    title:SetPoint("LEFT", card, "LEFT", TEXT_LEFT, 0)
+    title:SetPoint("RIGHT", card, "RIGHT", -10, 0)
+    title:SetPoint("BOTTOM", card, "CENTER", 0, 1)
+    title:SetJustifyH("LEFT")
+    title:SetJustifyV("BOTTOM")
+    title:SetWordWrap(false)
+    card.title = title
+
+    -- NPC name (bottom line, same left edge as title)
+    local npcLabel = NoShadow(card:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+    npcLabel:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -2)
+    npcLabel:SetPoint("RIGHT", card, "RIGHT", -10, 0)
+    npcLabel:SetJustifyH("LEFT")
+    npcLabel:SetWordWrap(false)
+    card.npcLabel = npcLabel
+
+    -- Tooltip — native quest tooltip with requirements lines removed
+    card:SetScript("OnEnter", function(self)
+        if not self.questID then return end
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        -- Quest name
+        local qName = QuestUtils_GetQuestName(self.questID) or self.tooltipTitle or ""
+        GameTooltip:AddLine(qName, 1, 1, 1)
+        -- Quest giver
+        if self.tooltipNPC then
+            GameTooltip:AddLine(self.tooltipNPC, C_BODY[1], C_BODY[2], C_BODY[3])
+        end
+        -- Objectives
+        local objectives = C_QuestLog.GetQuestObjectives(self.questID)
+        if objectives and #objectives > 0 then
+            GameTooltip:AddLine(" ")
+            for _, obj in ipairs(objectives) do
+                if obj.text and obj.text ~= "" then
+                    if obj.finished then
+                        GameTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
+                    else
+                        GameTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
+                    end
+                end
+            end
+        end
+        -- Status
+        if self.tooltipStatus then
+            GameTooltip:AddLine(" ")
+            GameTooltip:AddLine(self.tooltipStatus)
+        end
+
+        GameTooltip:Show()
+    end)
+    card:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+    return card
+end
+
+-- ── Render quest cards for selected chapter ─────────────────────────
+LayoutSelectedChapter = function()
+    local data = currentStoryData
+    if not data then return end
+    local chapters = GetAllChapters(data)
+    local ch = chapters[dSelectedChapter]
+    if not ch then return end
+
+    -- Update nav arrow enabled state
+    local canGoLeft = dSelectedChapter > 1
+    local canGoRight = dSelectedChapter < dTrackChapterCount
+    dTrackLeftBtn:SetEnabled(canGoLeft)
+    dTrackLeftTex:SetVertexColor(canGoLeft and 0.85 or 0.3, canGoLeft and 0.75 or 0.25, canGoLeft and 0.55 or 0.2)
+    dTrackLeftTex:SetAlpha(canGoLeft and 1.0 or 0.3)
+    dTrackRightBtn:SetEnabled(canGoRight)
+    dTrackRightTex:SetVertexColor(canGoRight and 0.85 or 0.3, canGoRight and 0.75 or 0.25, canGoRight and 0.55 or 0.2)
+    dTrackRightTex:SetAlpha(canGoRight and 1.0 or 0.3)
+
+    -- Update track selection visuals
+    for i, node in ipairs(dTrackNodes) do
+        if not node:IsShown() then break end
+        if i == dSelectedChapter then
+            node.ring:SetAlpha(1.0)
+            node.ring:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            node.activeGlow:Show()
+            node.downArrow:Show()
+        else
+            node.activeGlow:Hide()
+            node.downArrow:Hide()
+        end
+    end
+
+    -- Chapter title + summary
+    dChapterTitle:SetText(ch.chapter)
+    dChapterTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    dChapterTitle:Show()
+
+    if ch.summary then
+        dChapterSummary:SetText(ch.summary)
+        dChapterSummary:Show()
+    else
+        dChapterSummary:Hide()
+    end
+
+    -- Quest cards
+    local nextQuest = FindNextQuest(data)
+    local nextQuestID = nextQuest and nextQuest.id
+
+    for i, q in ipairs(ch.quests) do
+        if not dQuestCards[i] then
+            dQuestCards[i] = CreateQuestCard(detailChild)
+        end
+        local card = dQuestCards[i]
+        local nextCh = chapters[dSelectedChapter + 1]
+        local qDone = IsQuestEffectivelyComplete(i, ch.quests, nextCh and nextCh.quests)
+        local qInLog = not qDone and IsQuestInLog(q.id)
+        local qIsCurrent = (q.id == nextQuestID) or qInLog
+
+        card.title:SetText(q.name)
+        card.npcLabel:SetText(q.npc or "")
+        card.questID = q.id
+        card.tooltipTitle = q.name
+        card.tooltipNPC = q.npc
+        card.tooltipStatus = qDone and "|cff59c746Completed|r" or qIsCurrent and "|cffffd223In Progress|r" or "|cff808080Not yet available|r"
+
+        card.icon:SetSize(14, 14)
+        card.icon:SetDesaturation(0)
+        if qDone then
+            card.icon:SetAtlas("common-icon-checkmark", false)
+            card.icon:SetVertexColor(0.45, 0.90, 0.35)
+            card.icon:Show()
+            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.8)
+            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.6)
+            card:SetAlpha(1.0)
+        elseif qIsCurrent then
+            card.icon:SetAtlas("common-icon-forwardarrow", false)
+            card.icon:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            card.icon:Show()
+            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.7)
+            card:SetAlpha(1.0)
+        else
+            card.icon:Hide()
+            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.6)
+            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.4)
+            card:SetAlpha(0.8)
+        end
+
+        card:Show()
+    end
+    for i = #ch.quests + 1, #dQuestCards do dQuestCards[i]:Hide() end
+
+    -- Position cards below summary (centered, fixed width)
+    local CARD_W = 280
+    for i = 1, #ch.quests do
+        local card = dQuestCards[i]
+        card:ClearAllPoints()
+        card:SetWidth(CARD_W)
+        if i == 1 then
+            local anchor = dChapterSummary:IsShown() and dChapterSummary or dChapterTitle
+            card:SetPoint("TOP", anchor, "BOTTOM", 0, -20)
+        else
+            card:SetPoint("TOP", dQuestCards[i - 1], "BOTTOM", 0, -QCARD_GAP)
+        end
+        -- Center horizontally: anchor LEFT relative to detailChild center
+        card:SetPoint("LEFT", detailChild, "CENTER", -CARD_W / 2, 0)
+    end
+
+    -- Update scroll height
+    local lastCard = dQuestCards[#ch.quests]
+    C_Timer.After(0, function()
+        if lastCard then
+            local bot = lastCard:GetBottom()
+            local top = detailChild:GetTop()
+            if bot and top then
+                detailChild:SetHeight(math.max(top - bot + 30, 400))
+            end
+        end
+    end)
+end
+
+local progressElements = { dCompleteText, dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary }
 
 local function ShowDetail(show)
     heroFrame[show and "Show" or "Hide"](heroFrame)
@@ -853,8 +1473,12 @@ end
 local function ShowTab(tab)
     -- Hide all tab-specific elements
     for _, el in ipairs(storyElements) do el:Hide() end
+    for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
     for _, el in ipairs(progressElements) do el:Hide() end
     for _, row in ipairs(dChapterRows) do row:Hide() end
+    for _, node in ipairs(dTrackNodes) do node:Hide() end
+    for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
+    for _, card in ipairs(dQuestCards) do card:Hide() end
     sTrackBtn:Hide(); sCompleteText:Hide()
     dCompleteText:Hide()
 
@@ -885,7 +1509,6 @@ for _, el in ipairs(progressElements) do el:Hide() end
 -- ════════════════════════════════════════════════════════════════════════════
 
 local storySelectedIdx = nil
-local currentStoryData = nil   -- cached for tab switching
 
 -- ── Layout the currently active tab ─────────────────────────────────────────
 local function LayoutDetailTab()
@@ -902,7 +1525,7 @@ local function LayoutDetailTab()
 
     if activeTab == "story" then
         -- ── STORY TAB layout ────────────────────────────────────────────
-        -- Clean top-down chain: hero icon → title → intro → characters → CTA
+        -- Clean top-down chain: hero → intro → CTA → journal recaps
 
         -- Story intro below hero
         sIntro:ClearAllPoints()
@@ -950,15 +1573,71 @@ local function LayoutDetailTab()
             sTrackBtn:SetScript("OnClick", function()
                 local result = SetWaypointForQuest(data, quest)
                 PrintTrackResult(result, quest, data)
+                storyFrame:Hide()
             end)
             sTrackBtn:Show(); sCompleteText:Hide()
+            lastAnchor = sTrackBtn
         else
             sCompleteText:ClearAllPoints()
             sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
             sCompleteText:Show(); sTrackBtn:Hide()
+            lastAnchor = sCompleteText
         end
 
-        local storyBottomEl = quest and sTrackBtn or sCompleteText
+        -- ── Progressive story journal ───────────────────────────────────
+        -- Show recap for each completed chapter (no spoilers for future ones)
+        local chapters = GetAllChapters(data)
+        local journalIdx = 0
+        local hasAnyRecap = false
+
+        for ci, ch in ipairs(chapters) do
+            local cd, ct = GetChapterProgress(ch, chapters[ci + 1])
+            local chComplete = cd == ct and ct > 0
+            if chComplete and ch.recap then
+                journalIdx = journalIdx + 1
+                hasAnyRecap = true
+                local entry = GetJournalEntry(journalIdx)
+
+                -- Chapter title
+                entry.title:ClearAllPoints()
+                if journalIdx == 1 then
+                    -- First entry anchors to the journal header
+                    sJournalHeader:ClearAllPoints()
+                    sJournalHeader:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -30)
+                    sJournalHeader:Show()
+                    entry.title:SetPoint("TOP", sJournalHeader, "BOTTOM", 0, -16)
+                else
+                    local prev = sJournalEntries[journalIdx - 1]
+                    entry.title:SetPoint("TOP", prev.body, "BOTTOM", 0, -20)
+                end
+                entry.title:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
+                entry.title:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
+                entry.title:SetText(ch.chapter)
+                entry.title:Show()
+
+                -- Recap body
+                entry.body:ClearAllPoints()
+                entry.body:SetPoint("TOP", entry.title, "BOTTOM", 0, -6)
+                entry.body:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
+                entry.body:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
+                entry.body:SetText(ch.recap)
+                entry.body:Show()
+
+                lastAnchor = entry.body
+            end
+        end
+
+        if not hasAnyRecap then
+            sJournalHeader:Hide()
+        end
+
+        -- Hide unused journal entries
+        for i = journalIdx + 1, #sJournalEntries do
+            sJournalEntries[i].title:Hide()
+            sJournalEntries[i].body:Hide()
+        end
+
+        local storyBottomEl = lastAnchor
         -- Set scroll height
         C_Timer.After(0, function()
             local bot = storyBottomEl:GetBottom()
@@ -978,8 +1657,8 @@ local function LayoutDetailTab()
         -- Progress summary line
         local done, total = GetCampaignProgress(data)
         local chapDone = 0
-        for _, ch in ipairs(chapters) do
-            local cd, ct = GetChapterProgress(ch)
+        for ci, ch in ipairs(chapters) do
+            local cd, ct = GetChapterProgress(ch, chapters[ci + 1])
             if cd == ct and ct > 0 then chapDone = chapDone + 1 end
         end
         dProgSummary:SetText("Chapter " .. chapDone .. " of " .. #chapters
@@ -998,89 +1677,138 @@ local function LayoutDetailTab()
             dCompleteText:Hide()
         end
 
-        -- Chapter rows (single-column list with hover + tooltip)
+        -- ── Horizontal chapter track + quest cards ────────────────────
         local GREEN_R, GREEN_G, GREEN_B = 0.35, 0.78, 0.28
-        for _, row in ipairs(dChapterRows) do row:Hide() end
+        local GOLD_R, GOLD_G, GOLD_B = 1.0, 0.82, 0.35
+        local DIM_R, DIM_G, DIM_B = C_DIM[1], C_DIM[2], C_DIM[3]
+
+        -- Hide old pools
+        for _, node in ipairs(dTrackNodes) do node:Hide() end
+        for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
+        for _, card in ipairs(dQuestCards) do card:Hide() end
+
+        -- Determine which chapter to auto-select (first incomplete, or last)
+        local autoSelect = #chapters
         for i, ch in ipairs(chapters) do
-            if not dChapterRows[i] then
-                dChapterRows[i] = CreateChapterRow(detailChild, i)
+            local cd, ct = GetChapterProgress(ch, chapters[i + 1])
+            if cd < ct or ct == 0 then autoSelect = i; break end
+        end
+        dSelectedChapter = autoSelect
+        dTrackChapterCount = #chapters
+
+        -- Build horizontal track nodes
+        local totalTrackW = #chapters * TRACK_NODE_SIZE + math.max(0, #chapters - 1) * TRACK_ARROW_GAP
+        dTrackInner:SetWidth(totalTrackW)
+        local lineY = math.floor(TRACK_NODE_SIZE / 2)
+
+        for i, ch in ipairs(chapters) do
+            if not dTrackNodes[i] then
+                dTrackNodes[i] = CreateTrackNode(dTrackInner)
             end
-            local row = dChapterRows[i]
-            local cDone, cTotal = GetChapterProgress(ch)
+            local node = dTrackNodes[i]
+            local cDone, cTotal = GetChapterProgress(ch, chapters[i + 1])
             local isComplete = cDone == cTotal and cTotal > 0
+            local isActive = cDone > 0 and not isComplete
 
-            if isComplete then
-                row.label:SetText(ch.chapter)
-                row.label:SetTextColor(GREEN_R, GREEN_G, GREEN_B)
-                row.progressLabel:SetText(cDone .. " / " .. cTotal .. " quests")
-                row.progressLabel:SetTextColor(GREEN_R, GREEN_G, GREEN_B, 0.7)
-                -- Green tint on portrait + ring for completed
-                row.portrait:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
-                row.ring:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
-                row.ring:SetAlpha(0.8)
-                row.checkmark:Show()
-            elseif cDone > 0 then
-                row.label:SetText(ch.chapter)
-                row.label:SetTextColor(1, 1, 1)
-                row.progressLabel:SetText(cDone .. " / " .. cTotal .. " quests")
-                row.progressLabel:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
-                row.portrait:SetVertexColor(1, 1, 1)
-                row.ring:SetVertexColor(0.8, 0.68, 0.45)
-                row.ring:SetAlpha(0.6)
-                row.checkmark:Hide()
-            else
-                row.label:SetText(ch.chapter)
-                row.label:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
-                row.progressLabel:SetText(cDone .. " / " .. cTotal .. " quests")
-                row.progressLabel:SetTextColor(C_DIM[1]*0.70, C_DIM[2]*0.70, C_DIM[3]*0.70)
-                row.portrait:SetVertexColor(1, 1, 1)
-                row.ring:SetVertexColor(0.8, 0.68, 0.45)
-                row.ring:SetAlpha(0.6)
-                row.checkmark:Hide()
-            end
-
-            -- Set NPC portrait from first quest's quest giver
+            -- NPC portrait
             local npcName = ch.quests and ch.quests[1] and ch.quests[1].npc
-            local displayID = npcName and data.npcDisplayIDs
-                and data.npcDisplayIDs[npcName]
-            SetChapterPortrait(row.portrait, displayID)
+            local displayID = npcName and data.npcDisplayIDs and data.npcDisplayIDs[npcName]
+            SetChapterPortrait(node.portrait, displayID)
 
-            row.tooltipTitle = ch.chapter
-            row.tooltipBody = ch.summary or nil
-            row.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
+            -- Tooltip
+            node.tooltipTitle = ch.chapter
+            node.tooltipBody = ch.summary or nil
+            node.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
 
-            row:Show()
-        end
-        for i = #chapters + 1, #dChapterRows do dChapterRows[i]:Hide() end
-
-        -- Layout chapter rows below summary (centered)
-        local firstAnchor = quest and dProgSummary or dCompleteText
-        local w = detailChild:GetWidth()
-        local listLeft = math.max(0, math.floor((w - CH_LIST_W) / 2))
-        for i = 1, #chapters do
-            local row = dChapterRows[i]
-            row:ClearAllPoints()
-            row:SetWidth(CH_LIST_W)
-            if i == 1 then
-                row:SetPoint("TOP", firstAnchor, "BOTTOM", 0, -12)
-                row:SetPoint("LEFT", detailChild, "LEFT", listLeft, 0)
+            -- Status styling
+            if isComplete then
+                node.portrait:SetVertexColor(1, 1, 1)
+                node.portrait:SetDesaturation(0)
+                node.ring:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
+                node.ring:SetAlpha(0.8)
+                node.checkmark:Show()
+            elseif isActive then
+                node.portrait:SetVertexColor(1, 1, 1)
+                node.portrait:SetDesaturation(0)
+                node.ring:SetVertexColor(GOLD_R, GOLD_G, GOLD_B)
+                node.ring:SetAlpha(0.9)
+                node.checkmark:Hide()
             else
-                row:SetPoint("TOP", dChapterRows[i-1], "BOTTOM", 0, -CH_GAP)
-                row:SetPoint("LEFT", detailChild, "LEFT", listLeft, 0)
+                node.portrait:SetVertexColor(0.6, 0.6, 0.6)
+                node.portrait:SetDesaturation(0.7)
+                node.ring:SetVertexColor(0.4, 0.35, 0.30)
+                node.ring:SetAlpha(0.5)
+                node.checkmark:Hide()
+            end
+
+            -- Position
+            node:ClearAllPoints()
+            local x = (i - 1) * TRACK_STEP
+            node:SetPoint("TOP", dTrackInner, "TOPLEFT", x + TRACK_NODE_SIZE / 2, -6)
+
+            -- Click handler
+            local idx = i
+            node:SetScript("OnClick", function()
+                PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+                dSelectedChapter = idx
+                LayoutSelectedChapter()
+                C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+            end)
+
+            node:Show()
+
+            -- Arrow between nodes (except after last)
+            if i < #chapters then
+                if not dTrackArrows[i] then
+                    dTrackArrows[i] = dTrackInner:CreateTexture(nil, "ARTWORK")
+                    dTrackArrows[i]:SetAtlas("common-icon-forwardarrow", false)
+                    dTrackArrows[i]:SetSize(10, 10)
+                end
+                local arrow = dTrackArrows[i]
+                arrow:ClearAllPoints()
+                arrow:SetPoint("LEFT", dTrackInner, "TOPLEFT",
+                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 10) / 2, -(lineY + 6))
+
+                -- Arrow color
+                local nextCh = chapters[i + 1]
+                local nd, nt = GetChapterProgress(nextCh)
+                if isComplete then
+                    arrow:SetVertexColor(GREEN_R, GREEN_G, GREEN_B, 0.6)
+                else
+                    arrow:SetVertexColor(DIM_R, DIM_G, DIM_B, 0.3)
+                end
+                arrow:Show()
             end
         end
+        for i = #chapters + 1, #dTrackNodes do dTrackNodes[i]:Hide() end
+        for i = #chapters, #dTrackArrows do if dTrackArrows[i] then dTrackArrows[i]:Hide() end end
 
-        -- Set scroll height
-        local lastRow = dChapterRows[#chapters]
+        -- Position track container
+        dTrackContainer:ClearAllPoints()
+        dTrackContainer:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -10)
+        dTrackContainer:SetPoint("LEFT", detailChild, "LEFT", 0, 0)
+        dTrackContainer:SetPoint("RIGHT", detailChild, "RIGHT", 0, 0)
+        dTrackContainer:Show()
+
+        -- Center track on selected chapter + apply node fading
         C_Timer.After(0, function()
-            local bot = lastRow and lastRow:GetBottom() or nil
-            local top = detailChild:GetTop()
-            if bot and top then
-                detailChild:SetHeight(math.max(top - bot + 30, 400))
-            else
-                detailChild:SetHeight(500)
-            end
+            local clipW = dTrackClip:GetWidth()
+            CenterTrackOnSelected(clipW)
+            dTrackLeftBtn:Show()
+            dTrackRightBtn:Show()
         end)
+
+        -- Chapter title + summary below track
+        dChapterTitle:ClearAllPoints()
+        dChapterTitle:SetPoint("TOPLEFT", dTrackContainer, "BOTTOMLEFT", CP, -10)
+        dChapterTitle:SetPoint("TOPRIGHT", dTrackContainer, "BOTTOMRIGHT", -CP, -10)
+
+        dChapterSummary:ClearAllPoints()
+        dChapterSummary:SetPoint("TOPLEFT", dChapterTitle, "BOTTOMLEFT", 0, -4)
+        dChapterSummary:SetPoint("TOPRIGHT", dChapterTitle, "BOTTOMRIGHT", 0, -4)
+
+        -- Render quest cards for selected chapter
+        LayoutSelectedChapter()
     end
 end
 
@@ -1122,8 +1850,12 @@ local function UpdateStoryDetail(data)
         ShowDetail(false)
         -- Hide all tab elements
         for _, el in ipairs(storyElements) do el:Hide() end
+        for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
         for _, el in ipairs(progressElements) do el:Hide() end
         for _, row in ipairs(dChapterRows) do row:Hide() end
+        for _, node in ipairs(dTrackNodes) do node:Hide() end
+        for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
+        for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
         dCompleteText:Hide()
         introIcon2:Show(); introTitle:Show(); introText:Show()
@@ -1153,14 +1885,18 @@ local function UpdateStoryDetail(data)
     tabStoryLabel:Show(); tabProgressLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show()
 
-    -- Portrait icon
-    local iconID
-    if data.achievementID then
-        local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
-        if achIcon and achIcon ~= 0 then iconID = achIcon end
+    -- Portrait icon (creature portrait or texture)
+    if data.portraitDisplayID then
+        SetPortraitTextureFromCreatureDisplayID(heroIcon, data.portraitDisplayID)
+    else
+        local iconID
+        if data.achievementID then
+            local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
+            if achIcon and achIcon ~= 0 then iconID = achIcon end
+        end
+        iconID = iconID or data.icon
+        if iconID and iconID ~= 0 then heroIcon:SetTexture(iconID) else heroIcon:SetTexture(nil) end
     end
-    iconID = iconID or data.icon
-    if iconID and iconID ~= 0 then heroIcon:SetTexture(iconID) else heroIcon:SetTexture(nil) end
 
     local displayTitle = data.title
     if data.achievementID then
@@ -1371,7 +2107,9 @@ local function BuildStoryWindow()
                 iconMask:SetAllPoints(iconTex)
                 iconTex:AddMaskTexture(iconMask)
 
-                if data.achievementID then
+                if data.portraitDisplayID then
+                    SetPortraitTextureFromCreatureDisplayID(iconTex, data.portraitDisplayID)
+                elseif data.achievementID then
                     local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
                     if achIcon and achIcon ~= 0 then iconTex:SetTexture(achIcon) end
                 elseif data.icon then
@@ -1440,11 +2178,29 @@ storyFrame:SetScript("OnHide", function()
 end)
 
 
+local ShowStoryBanner  -- forward declaration (defined in Banner section below)
+
 SLASH_STORYMODE1 = "/sm"
 SLASH_STORYMODE2 = "/storymode"
 SlashCmdList["STORYMODE"] = function(msg)
     msg = msg and msg:trim():lower() or ""
-    if msg == "track" or msg == "next" then
+    if msg == "banner" then
+        local data = allQuestlines[1]
+        if data then
+            ShowStoryBanner("QUEST COMPLETE", data.title, data, nil, false)
+        else
+            print("|cff64b5f6StoryMode:|r No questline data to test banner.")
+        end
+        return
+    elseif msg == "banner chapter" then
+        local data = allQuestlines[1]
+        if data then
+            ShowStoryBanner("CHAPTER COMPLETE", data.title, data, nil, true)
+        else
+            print("|cff64b5f6StoryMode:|r No questline data to test banner.")
+        end
+        return
+    elseif msg == "track" or msg == "next" then
         for _, data in ipairs(allQuestlines) do
             local quest, chapter = FindNextQuest(data)
             if quest then
@@ -1467,14 +2223,249 @@ SlashCmdList["STORYMODE"] = function(msg)
 end
 
 -- ============================================================================
+-- Minimap Button
+-- ============================================================================
+
+local minimapBtn = CreateFrame("Button", nil, Minimap)
+minimapBtn:SetSize(42, 42)
+minimapBtn:SetFrameStrata("MEDIUM")
+minimapBtn:SetFrameLevel(9)
+
+-- Soft shadow (multiple offset copies for fake blur)
+for _, s in ipairs({{0.5, -0.5, 0.25}, {-0.5, -0.5, 0.15}, {0, -1, 0.3}, {1, 0, 0.15}}) do
+    local sh = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 1)
+    sh:SetSize(38, 38)
+    sh:SetPoint("CENTER", s[1], s[2])
+    sh:SetAtlas("majorfactions_icons_flame512", false)
+    sh:SetVertexColor(0, 0, 0)
+    sh:SetAlpha(s[3])
+end
+
+-- Icon
+local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
+minimapIcon:SetSize(36, 36)
+minimapIcon:SetPoint("CENTER", 0, 2)
+minimapIcon:SetAtlas("majorfactions_icons_flame512", false)
+
+-- Circular mask
+local minimapMask = minimapBtn:CreateMaskTexture()
+minimapMask:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask",
+    "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+minimapMask:SetAllPoints(minimapIcon)
+minimapIcon:AddMaskTexture(minimapMask)
+
+
+local function MinimapButton_UpdatePosition(angle)
+    local r = (Minimap:GetWidth() / 2) + 8  -- sit on the edge
+    local x = math.cos(angle) * r
+    local y = math.sin(angle) * r
+    minimapBtn:ClearAllPoints()
+    minimapBtn:SetPoint("CENTER", Minimap, "CENTER", x, y)
+end
+
+minimapBtn:RegisterForDrag("LeftButton")
+minimapBtn:SetScript("OnDragStart", function(self)
+    self.dragging = true
+    self:SetScript("OnUpdate", function(s)
+        local mx, my = Minimap:GetCenter()
+        local cx, cy = GetCursorPosition()
+        local scale = Minimap:GetEffectiveScale()
+        cx, cy = cx / scale, cy / scale
+        local angle = math.atan2(cy - my, cx - mx)
+        MinimapButton_UpdatePosition(angle)
+        StoryModeDB.minimapAngle = angle
+    end)
+end)
+minimapBtn:SetScript("OnDragStop", function(self)
+    self.dragging = false
+    self:SetScript("OnUpdate", nil)
+end)
+
+minimapBtn:SetScript("OnClick", function()
+    if storyFrame:IsShown() then
+        storyFrame:Hide()
+    else
+        storyFrame:Show()
+    end
+end)
+
+minimapBtn:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+    GameTooltip:AddLine("StoryMode", 1, 1, 1)
+    GameTooltip:AddLine("Click to toggle", C_BODY[1], C_BODY[2], C_BODY[3])
+    GameTooltip:Show()
+end)
+minimapBtn:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+-- Idle hide: invisible until cursor is near the minimap
+minimapBtn:SetAlpha(0)
+local mmFadeIn = minimapBtn:CreateAnimationGroup()
+local mmFiAlpha = mmFadeIn:CreateAnimation("Alpha")
+mmFiAlpha:SetFromAlpha(0); mmFiAlpha:SetToAlpha(1); mmFiAlpha:SetDuration(0.25); mmFiAlpha:SetSmoothing("OUT")
+mmFadeIn:SetScript("OnFinished", function() minimapBtn:SetAlpha(1) end)
+
+local mmFadeOut = minimapBtn:CreateAnimationGroup()
+local mmFoAlpha = mmFadeOut:CreateAnimation("Alpha")
+mmFoAlpha:SetFromAlpha(1); mmFoAlpha:SetToAlpha(0); mmFoAlpha:SetDuration(0.4); mmFoAlpha:SetSmoothing("IN")
+mmFadeOut:SetScript("OnFinished", function() minimapBtn:SetAlpha(0) end)
+
+local mmProximity = CreateFrame("Frame", nil, Minimap)
+mmProximity:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -30, 30)
+mmProximity:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 30, -30)
+mmProximity.isNear = false
+mmProximity:SetScript("OnUpdate", function(self, dt)
+    local cx, cy = GetCursorPosition()
+    local scale = self:GetEffectiveScale()
+    cx, cy = cx / scale, cy / scale
+    local l, b, w, h = self:GetRect()
+    local inside = cx >= l and cx <= l + w and cy >= b and cy <= b + h
+    if inside and not self.isNear then
+        self.isNear = true
+        if self.fadeTimer then self.fadeTimer:Cancel(); self.fadeTimer = nil end
+        mmFadeOut:Stop()
+        mmFadeIn:Play()
+    elseif not inside and self.isNear then
+        self.isNear = false
+        mmFadeIn:Stop()
+        if not self.fadeTimer then
+            self.fadeTimer = C_Timer.NewTimer(1.0, function()
+                mmProximity.fadeTimer = nil
+                if not mmProximity.isNear then mmFadeOut:Play() end
+            end)
+        end
+    end
+end)
+
+-- Position is loaded after ADDON_LOADED via StoryModeDB.minimapAngle
+local function MinimapButton_Init()
+    local angle = StoryModeDB and StoryModeDB.minimapAngle or 4.4  -- default: bottom
+    MinimapButton_UpdatePosition(angle)
+end
+
+-- ============================================================================
+-- Chapter / Quest Completion Alert  (minimal top-center text fade)
+-- ============================================================================
+
+local alertFrame = CreateFrame("Frame", nil, UIParent)
+alertFrame:SetPoint("TOP", UIParent, "TOP", 0, -24)
+alertFrame:SetSize(400, 60)
+alertFrame:SetFrameStrata("FULLSCREEN_DIALOG")
+alertFrame:Hide()
+
+local alertHeader = alertFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+alertHeader:SetPoint("BOTTOM", alertFrame, "CENTER", 0, 2)
+alertHeader:SetJustifyH("CENTER")
+alertHeader:SetTextColor(0.95, 0.85, 0.55)
+alertHeader:SetShadowOffset(1, -1)
+
+local alertTitle = alertFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge")
+alertTitle:SetPoint("TOP", alertFrame, "CENTER", 0, -2)
+alertTitle:SetJustifyH("CENTER")
+alertTitle:SetTextColor(1, 1, 1)
+alertTitle:SetShadowOffset(1, -1)
+
+local alertFadeIn = alertFrame:CreateAnimationGroup()
+local alphaIn = alertFadeIn:CreateAnimation("Alpha")
+alphaIn:SetFromAlpha(0)
+alphaIn:SetToAlpha(1)
+alphaIn:SetDuration(0.6)
+alphaIn:SetSmoothing("OUT")
+alertFadeIn:SetScript("OnFinished", function() alertFrame:SetAlpha(1) end)
+
+local alertFadeOut = alertFrame:CreateAnimationGroup()
+local alphaOut = alertFadeOut:CreateAnimation("Alpha")
+alphaOut:SetFromAlpha(1)
+alphaOut:SetToAlpha(0)
+alphaOut:SetDuration(1.0)
+alphaOut:SetSmoothing("IN")
+alertFadeOut:SetScript("OnFinished", function() alertFrame:Hide(); alertFrame:SetAlpha(1) end)
+
+ShowStoryBanner = function(headerText, titleText, questlineData, npcName, isChapter)
+    alertHeader:SetText(string.upper(headerText))
+    alertTitle:SetText(titleText)
+
+    alertFadeOut:Stop()
+    alertFadeIn:Stop()
+    alertFrame:SetAlpha(0)
+    alertFrame:Show()
+    alertFadeIn:Play()
+
+    local hold = isChapter and 4.0 or 3.0
+    C_Timer.After(hold, function()
+        if alertFrame:IsShown() then alertFadeOut:Play() end
+    end)
+end
+
+-- ============================================================================
+-- Quest Completion Tracking — detect chapter completion
+-- ============================================================================
+
+local chapterCompletionCache = {}  -- [questlineTitle..chapterName] = true if already fired
+
+local function CheckQuestCompletion(completedQuestID)
+    for _, data in ipairs(allQuestlines) do
+        for _, ch in ipairs(GetAllChapters(data)) do
+            local questName, questNpc
+            for _, q in ipairs(ch.quests) do
+                if q.id == completedQuestID then
+                    questName = q.name
+                    questNpc = q.npc
+                    break
+                end
+            end
+            if not questName then
+                -- quest not in this chapter, skip
+            else
+                -- Check if entire chapter is now complete
+                local done, total = GetChapterProgress(ch)
+                local isChapterDone = done >= total and total > 0
+                local key = (data.title or "") .. "|" .. (ch.chapter or "")
+
+                if isChapterDone and not chapterCompletionCache[key] then
+                    -- Chapter just completed — show chapter banner
+                    chapterCompletionCache[key] = true
+                    local chName = ch.chapter
+                    local npc = questNpc
+                    C_Timer.After(1.5, function()
+                        ShowStoryBanner("CHAPTER COMPLETE", chName, data, npc, true)
+                    end)
+                else
+                    -- Individual quest — show quest banner
+                    local qName = questName
+                    local npc = questNpc
+                    local qData = data
+                    C_Timer.After(1.0, function()
+                        ShowStoryBanner("QUEST COMPLETE", qName, qData, npc, false)
+                    end)
+                end
+                break
+            end
+        end
+    end
+end
+
+-- ============================================================================
 -- Initialization
 -- ============================================================================
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", function(self, event, loadedAddon)
-    if loadedAddon == addonName then
+frame:RegisterEvent("QUEST_TURNED_IN")
+frame:SetScript("OnEvent", function(self, event, arg1)
+    if event == "ADDON_LOADED" and arg1 == addonName then
         StoryModeDB = StoryModeDB or CopyTable(defaults)
+        MinimapButton_Init()
+        -- Pre-populate cache so already-completed chapters don't re-fire
+        for _, data in ipairs(allQuestlines) do
+            for _, ch in ipairs(GetAllChapters(data)) do
+                local d, t = GetChapterProgress(ch)
+                if d >= t and t > 0 then
+                    chapterCompletionCache[(data.title or "") .. "|" .. (ch.chapter or "")] = true
+                end
+            end
+        end
+    elseif event == "QUEST_TURNED_IN" then
+        CheckQuestCompletion(arg1)
     end
 end)
 

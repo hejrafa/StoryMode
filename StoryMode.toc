@@ -8,4 +8,5 @@
 
 SuramarData.lua
 RogueCampaignData.lua
+LilianVossData.lua
 StoryMode.lua
