@@ -88,12 +88,11 @@ SM.SuramarData = {
                 { id = 43994, name = "Feed Thalyssra",                  npc = "First Arcanist Thalyssra" },
                 { id = 42229, name = "Shal'Aran",                       npc = "First Arcanist Thalyssra" },
                 { id = 44672, name = "Ancient Mana",                    npc = "First Arcanist Thalyssra" },
-                { id = 40011, name = "Oculeth's Workshop",              npc = "First Arcanist Thalyssra" },
-                { id = 40012, name = "An Old Ally",                     npc = "First Arcanist Thalyssra" },
             },
         },
         -- -----------------------------------------------------------------
         -- Chapter: Arcanist Kel'danath
+        -- Branches from Shal'Aran (42229) in parallel with Oculeth's Workshop
         -- -----------------------------------------------------------------
         {
             chapter = "Arcanist Kel'danath",
@@ -111,6 +110,7 @@ SM.SuramarData = {
         },
         -- -----------------------------------------------------------------
         -- Chapter: Chief Telemancer Oculeth
+        -- Branches from Shal'Aran (42229) in parallel with An Old Ally
         -- -----------------------------------------------------------------
         {
             chapter = "Chief Telemancer Oculeth",
@@ -172,11 +172,11 @@ SM.SuramarData = {
             quests = {
                 { id = 40324, name = "Arcane Communion",                npc = "Arcanist Kel'danath" },
                 { id = 40325, name = "Scenes from a Memory",            npc = "Arcanist Kel'danath" },
-                { id = 41463, name = "Cloaked in Moonshade",            npc = "Arcanist Kel'danath" },
-                { id = 41464, name = "Breaking the Seal",               npc = "Arcanist Kel'danath" },
-                { id = 41467, name = "Moonshade Holdout",               npc = "Arcanist Kel'danath" },
-                { id = 41475, name = "Into the Crevasse",               npc = "Arcanist Kel'danath" },
-                { id = 41478, name = "The Hidden City",                 npc = "Arcanist Kel'danath" },
+                { id = 42224, name = "Cloaked in Moonshade",            npc = "Arcanist Kel'danath" },
+                { id = 42225, name = "Breaking the Seal",               npc = "Arcanist Kel'danath" },
+                { id = 42226, name = "Moonshade Holdout",               npc = "Arcanist Kel'danath" },
+                { id = 42227, name = "Into the Crevasse",               npc = "Arcanist Kel'danath" },
+                { id = 42228, name = "The Hidden City",                 npc = "Arcanist Kel'danath" },
                 { id = 42230, name = "The Valewalker's Burden",         npc = "Valewalker Farodin" },
             },
         },
@@ -376,9 +376,9 @@ SM.SuramarData = {
             quests = {
                 { id = 43502, name = "A Change of Seasons",             npc = "First Arcanist Thalyssra" },
                 { id = 43562, name = "Giving It All We've Got",         npc = "First Arcanist Thalyssra" },
-                { id = 43563, name = "Bring Home the Beacon",           npc = "Arcanist Valtrois" },
-                { id = 43564, name = "Ephemeral Manastorm Projector",   npc = "Chief Telemancer Oculeth" },
-                { id = 43565, name = "Flow Control",                    npc = "Arcanist Valtrois" },
+                { id = 43563, name = "Ephemeral Manastorm Projector",   npc = "Chief Telemancer Oculeth" },
+                { id = 43564, name = "Flow Control",                    npc = "Arcanist Valtrois" },
+                { id = 43565, name = "Bring Home the Beacon",           npc = "Arcanist Valtrois" },
                 { id = 43567, name = "All In",                          npc = "First Arcanist Thalyssra" },
                 { id = 43568, name = "Arcan'dor, Gift of the Ancient Magi", npc = "First Arcanist Thalyssra" },
                 { id = 43569, name = "Arluin's Request",                npc = "Arluin" },
