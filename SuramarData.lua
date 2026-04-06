@@ -186,9 +186,11 @@ SM.SuramarData = {
     -- GOOD SURAMARITAN CHAPTERS (Achievement 11124)
     -- Each sub-section is a criteria of the meta-achievement
     -- =========================================================================
-    -- Chapters are ordered by approximate unlock progression (rep gates).
-    -- (An Ancient Gift / achievement 10756 shares its final quest
-    --  "The Stuff of Dreams" with A Growing Crisis — tracked there.)
+    -- Chapters ordered by Blizzard's intended progression (Nightfallen rep gates).
+    -- Main storyline (rep-gated): Waning Crescent → Blood and Wine → Statecraft
+    --   → A Growing Crisis → A Change of Seasons → Eminent Grow-main
+    -- Side zones (no rep gate, slotted between gated chapters as rep-building):
+    --   Moon Guard Stronghold, Tidying Tel'anor, Breaking The Lightbreaker, Jandvik's Jarl
     chapters = {
         -- -----------------------------------------------------------------
         -- 1. The Waning Crescent (Achievement 10759) — unlocks at Friendly
@@ -222,7 +224,7 @@ SM.SuramarData = {
             },
         },
         -- -----------------------------------------------------------------
-        -- 2. Blood and Wine (Achievement 10758)
+        -- 2. Blood and Wine (Achievement 10758) — unlocks at Friendly
         -- -----------------------------------------------------------------
         {
             chapter = "Blood and Wine",
@@ -253,24 +255,7 @@ SM.SuramarData = {
             },
         },
         -- -----------------------------------------------------------------
-        -- 3. A Growing Crisis (Achievement 10757)
-        -- -----------------------------------------------------------------
-        {
-            chapter = "A Growing Crisis",
-            summary = "The Arcan'dor is struggling to survive. Race against time to find what it needs before the tree withers.",
-            recap = "The Arcan'dor — the ancient tree nurtured in Shal'Aran — began to wither, its roots cracking and leaves curling despite all efforts. Valewalker Farodin led you on a desperate search for fragments of arcane power scattered across Suramar's ruins. In the end, you secured a branch of the Arcan'dor itself, stabilizing the tree and keeping alive the dream of a cure for the nightfallen.",
-            achievementID = 10757,
-            quests = {
-                { id = 44152, name = "A Growing Crisis",                npc = "Valewalker Farodin" },
-                { id = 43361, name = "Fragments of Disaster",           npc = "Valewalker Farodin" },
-                { id = 43360, name = "The Shardmaidens",                npc = "Valewalker Farodin" },
-                { id = 43364, name = "Another Arcan'dor Closes...",     npc = "Valewalker Farodin" },
-                { id = 40125, name = "Branch of the Arcan'dor",         npc = "First Arcanist Thalyssra" },
-                { id = 43362, name = "The Stuff of Dreams",             npc = "First Arcanist Thalyssra" },
-            },
-        },
-        -- -----------------------------------------------------------------
-        -- 4. Statecraft (Achievement 10760)
+        -- 3. Statecraft (Achievement 10760) — unlocks at Honored
         -- -----------------------------------------------------------------
         {
             chapter = "Statecraft",
@@ -294,47 +279,7 @@ SM.SuramarData = {
             },
         },
         -- -----------------------------------------------------------------
-        -- 6. A Change of Seasons (Achievement 10761)
-        -- -----------------------------------------------------------------
-        {
-            chapter = "A Change of Seasons",
-            summary = "Journey to the ancient groves of Val'sharah to find a seed that could save the Arcan'dor.",
-            recap = "The Arcan'dor needed something that could not be found in Suramar — a seed blessed by the wild magic of Val'sharah. You journeyed with Thalyssra's allies to retrieve it, channeling ley energy through Oculeth's projectors and Valtrois's calculations. The seed took root, and the Arcan'dor bloomed with renewed strength, its fruit offering the first true cure for the nightfallen's dependence on the Nightwell.",
-            achievementID = 10761,
-            quests = {
-                { id = 43502, name = "A Change of Seasons",             npc = "First Arcanist Thalyssra" },
-                { id = 43562, name = "Giving It All We've Got",         npc = "First Arcanist Thalyssra" },
-                { id = 43563, name = "Bring Home the Beacon",           npc = "Arcanist Valtrois" },
-                { id = 43564, name = "Ephemeral Manastorm Projector",   npc = "Chief Telemancer Oculeth" },
-                { id = 43565, name = "Flow Control",                    npc = "Arcanist Valtrois" },
-                { id = 43567, name = "All In",                          npc = "First Arcanist Thalyssra" },
-                { id = 43568, name = "Arcan'dor, Gift of the Ancient Magi", npc = "First Arcanist Thalyssra" },
-                { id = 43569, name = "Arluin's Request",                npc = "Arluin" },
-            },
-        },
-        -- -----------------------------------------------------------------
-        -- 7. Breaking The Lightbreaker (Achievement 10762)
-        -- -----------------------------------------------------------------
-        {
-            chapter = "Breaking The Lightbreaker",
-            summary = "Lead an assault on a Legion stronghold in Felsoul Hold to destroy a weapon aimed at Shal'Aran.",
-            recap = "The Legion's forces in Felsoul Hold aimed a devastating weapon at Shal'Aran — the Lightbreaker, capable of annihilating the rebels' sanctuary in a single blast. You fought alongside the demon hunter Lyana Darksorrow through waves of felguard and eredar, destroying the weapon's power sources shard by shard before bringing down the demon lord Azoran who commanded it.",
-            achievementID = 10762,
-            quests = {
-                { id = 40297, name = "Lyana Darksorrow",                npc = "Lyana Darksorrow" },
-                { id = 40307, name = "Glaive Circumstances",            npc = "Lyana Darksorrow" },
-                { id = 40898, name = "Fresh Meat",                      npc = "Lyana Darksorrow" },
-                { id = 40901, name = "Grimwing the Devourer",           npc = "Lyana Darksorrow" },
-                { id = 40328, name = "A Fate Worse Than Dying",         npc = "Lyana Darksorrow" },
-                { id = 40929, name = "Symbols of Power",                npc = "Lyana Darksorrow" },
-                { id = 42169, name = "Left for Dead",                   npc = "Lyana Darksorrow" },
-                { id = 41097, name = "Shard of Vorgos",                 npc = "Lyana Darksorrow" },
-                { id = 41098, name = "Shard of Kozak",                  npc = "Lyana Darksorrow" },
-                { id = 40412, name = "Azoran Must Die",                 npc = "Lyana Darksorrow" },
-            },
-        },
-        -- -----------------------------------------------------------------
-        -- 8. Moon Guard Stronghold (Achievement 10763)
+        -- 4. Moon Guard Stronghold (Achievement 10763) — no rep gate
         -- -----------------------------------------------------------------
         {
             chapter = "Moon Guard Stronghold",
@@ -362,7 +307,24 @@ SM.SuramarData = {
             },
         },
         -- -----------------------------------------------------------------
-        -- 9. Tidying Tel'anor (Achievement 10764)
+        -- 5. A Growing Crisis (Achievement 10757) — unlocks at Honored
+        -- -----------------------------------------------------------------
+        {
+            chapter = "A Growing Crisis",
+            summary = "The Arcan'dor is struggling to survive. Race against time to find what it needs before the tree withers.",
+            recap = "The Arcan'dor — the ancient tree nurtured in Shal'Aran — began to wither, its roots cracking and leaves curling despite all efforts. Valewalker Farodin led you on a desperate search for fragments of arcane power scattered across Suramar's ruins. In the end, you secured a branch of the Arcan'dor itself, stabilizing the tree and keeping alive the dream of a cure for the nightfallen.",
+            achievementID = 10757,
+            quests = {
+                { id = 44152, name = "A Growing Crisis",                npc = "Valewalker Farodin" },
+                { id = 43361, name = "Fragments of Disaster",           npc = "Valewalker Farodin" },
+                { id = 43360, name = "The Shardmaidens",                npc = "Valewalker Farodin" },
+                { id = 43364, name = "Another Arcan'dor Closes...",     npc = "Valewalker Farodin" },
+                { id = 40125, name = "Branch of the Arcan'dor",         npc = "First Arcanist Thalyssra" },
+                { id = 43362, name = "The Stuff of Dreams",             npc = "First Arcanist Thalyssra" },
+            },
+        },
+        -- -----------------------------------------------------------------
+        -- 6. Tidying Tel'anor (Achievement 10764) — no rep gate
         -- -----------------------------------------------------------------
         {
             chapter = "Tidying Tel'anor",
@@ -383,35 +345,47 @@ SM.SuramarData = {
             },
         },
         -- -----------------------------------------------------------------
-        -- 10. Eminent Grow-main (Achievement 10765)
+        -- 7. Breaking The Lightbreaker (Achievement 10762) — no rep gate
         -- -----------------------------------------------------------------
         {
-            chapter = "Eminent Grow-main",
-            summary = "Tend the Arcan'dor as it grows stronger, bringing hope to the nightfallen that a cure is within reach.",
-            recap = "Mylune and Keeper Remulos answered the call to nurture the Arcan'dor, bringing the wild magic of the Cenarion Circle to Suramar. You rescued lost creatures, fought corrupted ancients, and gathered rare reagents from the wilds of Irongrove Retreat. Under their care, the tree grew stronger than ever — a living monument to the alliance between nature and arcane.",
-            achievementID = 10765,
+            chapter = "Breaking The Lightbreaker",
+            summary = "Lead an assault on a Legion stronghold in Felsoul Hold to destroy a weapon aimed at Shal'Aran.",
+            recap = "The Legion's forces in Felsoul Hold aimed a devastating weapon at Shal'Aran — the Lightbreaker, capable of annihilating the rebels' sanctuary in a single blast. You fought alongside the demon hunter Lyana Darksorrow through waves of felguard and eredar, destroying the weapon's power sources shard by shard before bringing down the demon lord Azoran who commanded it.",
+            achievementID = 10762,
             quests = {
-                { id = 41452, name = "Feline Frantic",                  npc = "Mylune" },
-                { id = 41453, name = "Homeward Bounding",               npc = "Mylune" },
-                { id = 41454, name = "You've Got to Be Kitten Me Right Meow", npc = "Mylune" },
-                { id = 41455, name = "Cut the Cattitude",               npc = "Mylune" },
-                { id = 41469, name = "Missing Along the Way",           npc = "Mylune" },
-                { id = 41470, name = "Not Here, Not Now, Not Ever",     npc = "Keeper Remulos" },
-                { id = 41471, name = "Not There, Not Then, Not Forever", npc = "Keeper Remulos" },
-                { id = 41472, name = "The Only Choice We Can Make",     npc = "Keeper Remulos" },
-                { id = 41473, name = "Redhoof the Ancient",             npc = "Keeper Remulos" },
-                { id = 41474, name = "Fertilizing the Future",          npc = "Mylune" },
-                { id = 41480, name = "Prongs and Fangs",                npc = "Mylune" },
-                { id = 41481, name = "The Final Blessing",              npc = "Mylune" },
-                { id = 41482, name = "Natural Adversaries",             npc = "Keeper Remulos" },
-                { id = 41483, name = "Managazer",                       npc = "Keeper Remulos" },
-                { id = 41484, name = "Moonwhisper Rescue",              npc = "Mylune" },
-                { id = 41493, name = "Return to Irongrove Retreat",     npc = "Mylune" },
-                { id = 41494, name = "Eminent Grow-main",               npc = "Keeper Remulos" },
+                { id = 40297, name = "Lyana Darksorrow",                npc = "Lyana Darksorrow" },
+                { id = 40307, name = "Glaive Circumstances",            npc = "Lyana Darksorrow" },
+                { id = 40898, name = "Fresh Meat",                      npc = "Lyana Darksorrow" },
+                { id = 40901, name = "Grimwing the Devourer",           npc = "Lyana Darksorrow" },
+                { id = 40328, name = "A Fate Worse Than Dying",         npc = "Lyana Darksorrow" },
+                { id = 40929, name = "Symbols of Power",                npc = "Lyana Darksorrow" },
+                { id = 42169, name = "Left for Dead",                   npc = "Lyana Darksorrow" },
+                { id = 41097, name = "Shard of Vorgos",                 npc = "Lyana Darksorrow" },
+                { id = 41098, name = "Shard of Kozak",                  npc = "Lyana Darksorrow" },
+                { id = 40412, name = "Azoran Must Die",                 npc = "Lyana Darksorrow" },
             },
         },
         -- -----------------------------------------------------------------
-        -- 11. Jandvik's Jarl (Achievement 10766)
+        -- 8. A Change of Seasons (Achievement 10761) — unlocks at Revered
+        -- -----------------------------------------------------------------
+        {
+            chapter = "A Change of Seasons",
+            summary = "Journey to the ancient groves of Val'sharah to find a seed that could save the Arcan'dor.",
+            recap = "The Arcan'dor needed something that could not be found in Suramar — a seed blessed by the wild magic of Val'sharah. You journeyed with Thalyssra's allies to retrieve it, channeling ley energy through Oculeth's projectors and Valtrois's calculations. The seed took root, and the Arcan'dor bloomed with renewed strength, its fruit offering the first true cure for the nightfallen's dependence on the Nightwell.",
+            achievementID = 10761,
+            quests = {
+                { id = 43502, name = "A Change of Seasons",             npc = "First Arcanist Thalyssra" },
+                { id = 43562, name = "Giving It All We've Got",         npc = "First Arcanist Thalyssra" },
+                { id = 43563, name = "Bring Home the Beacon",           npc = "Arcanist Valtrois" },
+                { id = 43564, name = "Ephemeral Manastorm Projector",   npc = "Chief Telemancer Oculeth" },
+                { id = 43565, name = "Flow Control",                    npc = "Arcanist Valtrois" },
+                { id = 43567, name = "All In",                          npc = "First Arcanist Thalyssra" },
+                { id = 43568, name = "Arcan'dor, Gift of the Ancient Magi", npc = "First Arcanist Thalyssra" },
+                { id = 43569, name = "Arluin's Request",                npc = "Arluin" },
+            },
+        },
+        -- -----------------------------------------------------------------
+        -- 9. Jandvik's Jarl (Achievement 10766) — no rep gate
         -- -----------------------------------------------------------------
         {
             chapter = "Jandvik's Jarl",
@@ -438,6 +412,34 @@ SM.SuramarData = {
                 { id = 41540, name = "Turning the Tidemistress",        npc = "Toryl" },
                 { id = 41545, name = "Shatter the Sashj'tar",           npc = "Toryl" },
                 { id = 41499, name = "Squid Out of Water",              npc = "Toryl" },
+            },
+        },
+        -- -----------------------------------------------------------------
+        -- 10. Eminent Grow-main (Achievement 10765) — unlocks at Revered
+        -- -----------------------------------------------------------------
+        {
+            chapter = "Eminent Grow-main",
+            summary = "Tend the Arcan'dor as it grows stronger, bringing hope to the nightfallen that a cure is within reach.",
+            recap = "Mylune and Keeper Remulos answered the call to nurture the Arcan'dor, bringing the wild magic of the Cenarion Circle to Suramar. You rescued lost creatures, fought corrupted ancients, and gathered rare reagents from the wilds of Irongrove Retreat. Under their care, the tree grew stronger than ever — a living monument to the alliance between nature and arcane.",
+            achievementID = 10765,
+            quests = {
+                { id = 41452, name = "Feline Frantic",                  npc = "Mylune" },
+                { id = 41453, name = "Homeward Bounding",               npc = "Mylune" },
+                { id = 41454, name = "You've Got to Be Kitten Me Right Meow", npc = "Mylune" },
+                { id = 41455, name = "Cut the Cattitude",               npc = "Mylune" },
+                { id = 41469, name = "Missing Along the Way",           npc = "Mylune" },
+                { id = 41470, name = "Not Here, Not Now, Not Ever",     npc = "Keeper Remulos" },
+                { id = 41471, name = "Not There, Not Then, Not Forever", npc = "Keeper Remulos" },
+                { id = 41472, name = "The Only Choice We Can Make",     npc = "Keeper Remulos" },
+                { id = 41473, name = "Redhoof the Ancient",             npc = "Keeper Remulos" },
+                { id = 41474, name = "Fertilizing the Future",          npc = "Mylune" },
+                { id = 41480, name = "Prongs and Fangs",                npc = "Mylune" },
+                { id = 41481, name = "The Final Blessing",              npc = "Mylune" },
+                { id = 41482, name = "Natural Adversaries",             npc = "Keeper Remulos" },
+                { id = 41483, name = "Managazer",                       npc = "Keeper Remulos" },
+                { id = 41484, name = "Moonwhisper Rescue",              npc = "Mylune" },
+                { id = 41493, name = "Return to Irongrove Retreat",     npc = "Mylune" },
+                { id = 41494, name = "Eminent Grow-main",               npc = "Keeper Remulos" },
             },
         },
     },

@@ -13,6 +13,7 @@ SM.LilianVossData = {
     description = "Lilian Voss was trained from birth to serve the Scarlet Crusade and destroy the undead. When the Val'kyr raise her as Forsaken in Deathknell, she refuses to accept what she has become. Desperate for acceptance, she seeks out her father — High Priest Benedictus Voss — only to be condemned to death by the man who raised her.\n\nWhat follows is a saga of vengeance and identity that stretches across years: a trail of fire and shadow through the Scarlet Halls and Monastery, a descent into the cursed halls of Scholomance, and ultimately a new war on the shores of Kul Tiras — where Lilian must decide whether she is still a weapon, or something more.",
     zone = "Tirisfal Glades / Kul Tiras",
     expansion = "Cataclysm — Battle for Azeroth",
+    faction = "Horde",
     color = { 0.75, 0.12, 0.18 },  -- Scarlet Crusade crimson
     portraitDisplayID = 85799,  -- Lilian Voss (BfA model) as card portrait
 
@@ -152,6 +153,7 @@ SM.LilianVossData = {
         -- CHAPTER 7: Tiragarde Sound — The First Assault
         {
             chapter = "The First Assault",
+            note = "Requires: Battle for Azeroth. Complete the Horde War Campaign introduction and travel to Zuldazar before this chapter becomes available.",
             summary = "Nathanos Blightcaller and Lilian Voss lead a covert strike into the heart of Tiragarde Sound. While Nathanos secures the mountain outpost, Lilian takes command of the Bridgeport operation — sabotaging Ashvane foundries, planting explosives, and riding through the chaos she created.",
             recap = "Years later, Lilian served the Horde on the shores of Kul Tiras. While Nathanos Blightcaller secured a mountain outpost, Lilian led you through Bridgeport — sabotaging foundries, planting explosives, and riding through the flames of your own making. She was efficient, ruthless, and completely in her element. The girl who once trembled in Deathknell was gone.",
             quests = {

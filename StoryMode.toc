@@ -7,6 +7,18 @@
 ## IconTexture: Interface\AddOns\StoryMode\storymode_icon
 
 SuramarData.lua
+DrustvarData.lua
+DeathKnightCampaignData.lua
+DemonHunterCampaignData.lua
+DruidCampaignData.lua
+HunterCampaignData.lua
+MageCampaignData.lua
+MonkCampaignData.lua
+PaladinCampaignData.lua
+PriestCampaignData.lua
 RogueCampaignData.lua
+ShamanCampaignData.lua
+WarlockCampaignData.lua
+WarriorCampaignData.lua
 LilianVossData.lua
 StoryMode.lua

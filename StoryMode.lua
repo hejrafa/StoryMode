@@ -310,8 +310,11 @@ local function EnsureTrivialQuestsVisible()
                 or info.name == "Trivial Quests"
                 or info.name == "Low Level Quests"
             if isTrivial then
-                C_Minimap.SetTracking(i, true)
-                print("|cff64b5f6StoryMode:|r Enabled |cffffd200" .. info.name .. "|r tracking so you can see quest markers for this storyline.")
+                local idx, name = i, info.name
+                C_Timer.After(0, function()
+                    C_Minimap.SetTracking(idx, true)
+                    print("|cff64b5f6StoryMode:|r Enabled |cffffd200" .. name .. "|r tracking so you can see quest markers for this storyline.")
+                end)
                 return
             end
         end
@@ -349,7 +352,7 @@ local function GetPingFrame()
     a:SetDuration(0.75)
     a:SetSmoothing("OUT")
 
-    ag:SetScript("OnFinished", function() f:Hide() end)
+    ag:SetScript("OnFinished", function() f:Hide(); f:SetParent(UIParent) end)
     f.anim = ag
 
     pingFrame = f
@@ -386,9 +389,14 @@ local function SetWaypointForQuest(data, quest)
     EnsureTrivialQuestsVisible()
 
     -- Quest already in log → super-track it directly
+    -- Defer watch/super-track to the next frame so they don't taint
+    -- the QuestMapFrame refresh (Blizzard reads secret difficultyLevel).
     if IsQuestInLog(quest.id) then
-        C_QuestLog.AddQuestWatch(quest.id)
-        C_SuperTrack.SetSuperTrackedQuestID(quest.id)
+        local qid = quest.id
+        C_Timer.After(0, function()
+            C_QuestLog.AddQuestWatch(qid)
+            C_SuperTrack.SetSuperTrackedQuestID(qid)
+        end)
         -- Open map to the quest's zone if we know it
         local loc = data.npcLocations and data.npcLocations[quest.npc]
         if loc then
@@ -402,14 +410,19 @@ local function SetWaypointForQuest(data, quest)
     if loc and C_Map.CanSetUserWaypointOnMap(loc.mapID) then
         local point = UiMapPoint.CreateFromCoordinates(loc.mapID, loc.x, loc.y)
         C_Map.SetUserWaypoint(point)
-        C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+        C_Timer.After(0, function()
+            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+        end)
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
         return "waypoint", loc.mapID, loc
     end
 
     -- Fallback: try quest offer map pin + still open the map if we know the location
     if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
-        C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, quest.id)
+        local qid = quest.id
+        C_Timer.After(0, function()
+            C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
+        end)
     end
     if loc then
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
@@ -515,17 +528,58 @@ local function RegisterQuestline(data, categoryName)
 end
 
 -- ============================================================================
+-- Player filtering helpers
+-- ============================================================================
+
+local _, playerClass = UnitClass("player")   -- English token: "ROGUE", "WARRIOR", etc.
+local playerFaction = UnitFactionGroup("player")  -- "Horde" or "Alliance"
+
+local function CanShowQuestline(data)
+    if data.class and data.class ~= playerClass then return false end
+    if data.faction and data.faction ~= playerFaction then return false end
+    return true
+end
+
+-- ============================================================================
 -- Register Questlines
 -- ============================================================================
 
-RegisterQuestline(SM.SuramarData, "Epic Storylines")
-RegisterQuestline(SM.LilianVossData, "Epic Storylines")
-RegisterQuestline(SM.RogueCampaignData, "Class Identity")
+if CanShowQuestline(SM.SuramarData) then
+    RegisterQuestline(SM.SuramarData, "Epic Storylines")
+end
+if CanShowQuestline(SM.LilianVossData) then
+    RegisterQuestline(SM.LilianVossData, "Epic Storylines")
+end
+if CanShowQuestline(SM.DrustvarData) then
+    RegisterQuestline(SM.DrustvarData, "Epic Storylines")
+end
+local classCampaigns = {
+    SM.DeathKnightCampaignData,
+    SM.DemonHunterCampaignData,
+    SM.DruidCampaignData,
+    SM.HunterCampaignData,
+    SM.MageCampaignData,
+    SM.MonkCampaignData,
+    SM.PaladinCampaignData,
+    SM.PriestCampaignData,
+    SM.RogueCampaignData,
+    SM.ShamanCampaignData,
+    SM.WarlockCampaignData,
+    SM.WarriorCampaignData,
+}
+for _, data in ipairs(classCampaigns) do
+    if CanShowQuestline(data) then
+        RegisterQuestline(data, "Class Identity")
+    end
+end
 
 
 -- ============================================================================
 -- Story Mode Window  —  Trading-Post-style clean dark panels
 -- ============================================================================
+
+-- Private tooltip — avoids tainting the global GameTooltip's MoneyFrame subframes
+local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent, "SharedTooltipTemplate")
 
 local FRAME_W  = 1012
 local FRAME_H  = 550
@@ -750,16 +804,17 @@ introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -180)
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
 introText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 introText:SetText(
-    "Story Mode is a quest companion that walks you through "
-    .."Azeroth's campaigns from start to finish. "
-    .."Think of it as a narrative guide: "
-    .."the structure and direction of RestedXP, "
-    .."with the story-first mindset of Dialogue UI."
-    .."\n\nEach questline is broken down into chapters. "
-    .."You get the key characters, the context, "
-    .."and a clear path forward. "
-    .."No wiki tabs. No spoilers. No guesswork."
-    .."\n\nSelect a story on the left to begin.")
+    "Warcraft has told some extraordinary stories. "
+    .."Most of them are buried in quest chains that are easy to miss "
+    .."and hard to find your way back to."
+    .."\n\nThis is a personal collection — questlines I played and thought "
+    .."were worth going back to. Each one is laid out chapter by chapter: "
+    .."the characters, the context, and your next step. "
+    .."As you progress, your story is written into a journal "
+    .."you can revisit any time."
+    .."\n\nFor the best experience, pair this with Dialogue UI — "
+    .."it transforms quest text into a conversation you actually want to read."
+    .."\n\nChoose a story on the left.")
 
 -- ══════════════════════════════════════════════════════════════════════════════
 -- Detail view — centered portrait hero + clean sections
@@ -995,20 +1050,20 @@ local function CreateChapterRow(parent, index)
     -- Hover / tooltip
     row:SetScript("OnEnter", function(self)
         if self.tooltipTitle then
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
+            SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            SMTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
             if self.tooltipBody then
-                GameTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
+                SMTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
             end
             if self.tooltipProgress then
-                GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(self.tooltipProgress, C_DIM[1], C_DIM[2], C_DIM[3])
+                SMTooltip:AddLine(" ")
+                SMTooltip:AddLine(self.tooltipProgress, C_DIM[1], C_DIM[2], C_DIM[3])
             end
-            GameTooltip:Show()
+            SMTooltip:Show()
         end
     end)
     row:SetScript("OnLeave", function(self)
-        GameTooltip:Hide()
+        SMTooltip:Hide()
     end)
 
     return row
@@ -1170,6 +1225,12 @@ dChapterSummary:SetJustifyH("LEFT"); dChapterSummary:SetSpacing(4); dChapterSumm
 dChapterSummary:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 dChapterSummary:Hide()
 
+-- Prerequisite note — shown when a chapter has a .note field
+local dChapterNote = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Shadow_Small"))
+dChapterNote:SetJustifyH("LEFT"); dChapterNote:SetSpacing(3); dChapterNote:SetWordWrap(true)
+dChapterNote:SetTextColor(0.90, 0.72, 0.30)  -- warm amber, distinct from body text
+dChapterNote:Hide()
+
 -- ── Track node pool ─────────────────────────────────────────────────
 local function CreateTrackNode(parent)
     local btn = CreateFrame("Button", nil, parent)
@@ -1243,19 +1304,19 @@ local function CreateTrackNode(parent)
     -- Tooltip
     btn:SetScript("OnEnter", function(self)
         if self.tooltipTitle then
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
+            SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            SMTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
             if self.tooltipBody then
-                GameTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
+                SMTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
             end
             if self.tooltipProgress then
-                GameTooltip:AddLine(" ")
-                GameTooltip:AddLine(self.tooltipProgress, C_DIM[1], C_DIM[2], C_DIM[3])
+                SMTooltip:AddLine(" ")
+                SMTooltip:AddLine(self.tooltipProgress, C_DIM[1], C_DIM[2], C_DIM[3])
             end
-            GameTooltip:Show()
+            SMTooltip:Show()
         end
     end)
-    btn:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    btn:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
     return btn
 end
@@ -1308,37 +1369,37 @@ local function CreateQuestCard(parent)
     -- Tooltip — native quest tooltip with requirements lines removed
     card:SetScript("OnEnter", function(self)
         if not self.questID then return end
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
         -- Quest name
         local qName = QuestUtils_GetQuestName(self.questID) or self.tooltipTitle or ""
-        GameTooltip:AddLine(qName, 1, 1, 1)
+        SMTooltip:AddLine(qName, 1, 1, 1)
         -- Quest giver
         if self.tooltipNPC then
-            GameTooltip:AddLine(self.tooltipNPC, C_BODY[1], C_BODY[2], C_BODY[3])
+            SMTooltip:AddLine(self.tooltipNPC, C_BODY[1], C_BODY[2], C_BODY[3])
         end
         -- Objectives
         local objectives = C_QuestLog.GetQuestObjectives(self.questID)
         if objectives and #objectives > 0 then
-            GameTooltip:AddLine(" ")
+            SMTooltip:AddLine(" ")
             for _, obj in ipairs(objectives) do
                 if obj.text and obj.text ~= "" then
                     if obj.finished then
-                        GameTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
+                        SMTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
                     else
-                        GameTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
+                        SMTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
                     end
                 end
             end
         end
         -- Status
         if self.tooltipStatus then
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(self.tooltipStatus)
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine(self.tooltipStatus)
         end
 
-        GameTooltip:Show()
+        SMTooltip:Show()
     end)
-    card:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    card:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
     return card
 end
@@ -1385,6 +1446,13 @@ LayoutSelectedChapter = function()
         dChapterSummary:Show()
     else
         dChapterSummary:Hide()
+    end
+
+    if ch.note then
+        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-1|t " .. ch.note)
+        dChapterNote:Show()
+    else
+        dChapterNote:Hide()
     end
 
     -- Quest cards
@@ -1442,7 +1510,9 @@ LayoutSelectedChapter = function()
         card:ClearAllPoints()
         card:SetWidth(CARD_W)
         if i == 1 then
-            local anchor = dChapterSummary:IsShown() and dChapterSummary or dChapterTitle
+            local anchor = dChapterNote:IsShown() and dChapterNote
+                        or dChapterSummary:IsShown() and dChapterSummary
+                        or dChapterTitle
             card:SetPoint("TOP", anchor, "BOTTOM", 0, -20)
         else
             card:SetPoint("TOP", dQuestCards[i - 1], "BOTTOM", 0, -QCARD_GAP)
@@ -1464,7 +1534,7 @@ LayoutSelectedChapter = function()
     end)
 end
 
-local progressElements = { dCompleteText, dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary }
+local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote }
 
 local function ShowDetail(show)
     heroFrame[show and "Show" or "Hide"](heroFrame)
@@ -1566,23 +1636,26 @@ local function LayoutDetailTab()
         -- CTA button
         local quest = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
+        sTrackBtn:ClearAllPoints()
+        sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
+        sCompleteText:Hide()
         if quest then
             sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
-            sTrackBtn:ClearAllPoints()
-            sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
             sTrackBtn:SetScript("OnClick", function()
                 local result = SetWaypointForQuest(data, quest)
                 PrintTrackResult(result, quest, data)
                 storyFrame:Hide()
             end)
-            sTrackBtn:Show(); sCompleteText:Hide()
-            lastAnchor = sTrackBtn
+            sTrackBtn:Enable()
+            sTrackBtn:SetAlpha(1.0)
         else
-            sCompleteText:ClearAllPoints()
-            sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
-            sCompleteText:Show(); sTrackBtn:Hide()
-            lastAnchor = sCompleteText
+            sTrackBtn:SetText("Story Finished")
+            sTrackBtn:SetScript("OnClick", nil)
+            sTrackBtn:Disable()
+            sTrackBtn:SetAlpha(0.5)
         end
+        sTrackBtn:Show()
+        lastAnchor = sTrackBtn
 
         -- ── Progressive story journal ───────────────────────────────────
         -- Show recap for each completed chapter (no spoilers for future ones)
@@ -1666,16 +1739,6 @@ local function LayoutDetailTab()
         dProgSummary:ClearAllPoints()
         dProgSummary:SetPoint("TOP", heroFrame, "BOTTOM", 0, -6)
         dProgSummary:Show()
-
-        -- CTA
-        local quest = FindNextQuest(data)
-        if not quest then
-            dCompleteText:Show()
-            dCompleteText:ClearAllPoints()
-            dCompleteText:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -10)
-        else
-            dCompleteText:Hide()
-        end
 
         -- ── Horizontal chapter track + quest cards ────────────────────
         local GREEN_R, GREEN_G, GREEN_B = 0.35, 0.78, 0.28
@@ -1806,6 +1869,10 @@ local function LayoutDetailTab()
         dChapterSummary:ClearAllPoints()
         dChapterSummary:SetPoint("TOPLEFT", dChapterTitle, "BOTTOMLEFT", 0, -4)
         dChapterSummary:SetPoint("TOPRIGHT", dChapterTitle, "BOTTOMRIGHT", 0, -4)
+
+        dChapterNote:ClearAllPoints()
+        dChapterNote:SetPoint("TOPLEFT", dChapterSummary, "BOTTOMLEFT", 0, -8)
+        dChapterNote:SetPoint("TOPRIGHT", dChapterSummary, "BOTTOMRIGHT", 0, -8)
 
         -- Render quest cards for selected chapter
         LayoutSelectedChapter()
@@ -2141,6 +2208,18 @@ local function BuildStoryWindow()
                 zoneLabel:SetText(data.zone or "")
                 zoneLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
 
+                -- ── Completion checkmark (bottom-right of portrait, same as track nodes) ──
+                local cardCheckmark = portFrame:CreateTexture(nil, "OVERLAY", nil, 2)
+                cardCheckmark:SetAtlas("common-icon-checkmark", false)
+                cardCheckmark:SetSize(14, 14)
+                cardCheckmark:SetPoint("BOTTOMRIGHT", iconTex, "BOTTOMRIGHT", 4, -4)
+                local cdone, ctotal = GetCampaignProgress(data)
+                if cdone == ctotal and ctotal > 0 then
+                    cardCheckmark:Show()
+                else
+                    cardCheckmark:Hide()
+                end
+
                 -- ── Click ──────────────────────────────────────────────────────
                 card:SetScript("OnClick", function() SelectStory(idx) end)
 
@@ -2150,6 +2229,7 @@ local function BuildStoryWindow()
                     portBorder= portBorder,
                     nameLabel = nameLabel,
                     zoneLabel = zoneLabel,
+                    checkmark = cardCheckmark,
                 }
                 yOffset = yOffset - CARD_H - 5
             end
@@ -2290,12 +2370,12 @@ minimapBtn:SetScript("OnClick", function()
 end)
 
 minimapBtn:SetScript("OnEnter", function(self)
-    GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-    GameTooltip:AddLine("StoryMode", 1, 1, 1)
-    GameTooltip:AddLine("Click to toggle", C_BODY[1], C_BODY[2], C_BODY[3])
-    GameTooltip:Show()
+    SMTooltip:SetOwner(self, "ANCHOR_LEFT")
+    SMTooltip:AddLine("StoryMode", 1, 1, 1)
+    SMTooltip:AddLine("Click to toggle", C_BODY[1], C_BODY[2], C_BODY[3])
+    SMTooltip:Show()
 end)
-minimapBtn:SetScript("OnLeave", function() GameTooltip:Hide() end)
+minimapBtn:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
 -- Idle hide: invisible until cursor is near the minimap
 minimapBtn:SetAlpha(0)
