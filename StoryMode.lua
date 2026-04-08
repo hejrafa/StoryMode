@@ -1750,13 +1750,13 @@ local function LayoutDetailTab()
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
 
-        -- Determine which chapter to auto-select (first incomplete, or last)
-        local autoSelect = #chapters
+        -- Find the first incomplete chapter (current chapter)
+        local currentChapter = #chapters
         for i, ch in ipairs(chapters) do
             local cd, ct = GetChapterProgress(ch, chapters[i + 1])
-            if cd < ct or ct == 0 then autoSelect = i; break end
+            if cd < ct or ct == 0 then currentChapter = i; break end
         end
-        dSelectedChapter = autoSelect
+        dSelectedChapter = currentChapter
         dTrackChapterCount = #chapters
 
         -- Build horizontal track nodes
@@ -1814,6 +1814,7 @@ local function LayoutDetailTab()
             node:SetScript("OnClick", function()
                 PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
                 dSelectedChapter = idx
+                StoryModeDB.selectedChapter = idx
                 LayoutSelectedChapter()
                 C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
             end)
@@ -1999,6 +2000,8 @@ local ICON = 34
 local function SelectStory(index)
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
     storySelectedIdx = index
+    StoryModeDB.selectedQuestline = index
+    StoryModeDB.selectedChapter = 1  -- reset to first chapter when switching stories
     for i, row in pairs(storyLeftRows) do
         local sel = (i == index)
         if row.btn then
@@ -2248,7 +2251,14 @@ storyFrame:SetScript("OnShow", function()
         if w > 20 then detailChild:SetWidth(w) end
         -- Frame 2: now word-wrap can measure properly
         C_Timer.After(0, function()
-            SelectStory(0)  -- default to Introduction card
+            -- Restore last selected questline, or default to intro
+            local savedIdx = StoryModeDB.selectedQuestline or 0
+            -- Validate saved index exists
+            if savedIdx > 0 and allQuestlines[savedIdx] then
+                SelectStory(savedIdx)
+            else
+                SelectStory(0)  -- default to Introduction card
+            end
         end)
     end)
 end)
@@ -2267,7 +2277,7 @@ SlashCmdList["STORYMODE"] = function(msg)
     if msg == "banner" then
         local data = allQuestlines[1]
         if data then
-            ShowStoryBanner("QUEST COMPLETE", data.title, data, nil, false)
+            ShowStoryBanner("Story Progress", data.title, data, nil, false)
         else
             print("|cff64b5f6StoryMode:|r No questline data to test banner.")
         end
@@ -2515,7 +2525,7 @@ local function CheckQuestCompletion(completedQuestID)
                     local npc = questNpc
                     local qData = data
                     C_Timer.After(1.0, function()
-                        ShowStoryBanner("QUEST COMPLETE", qName, qData, npc, false)
+                        ShowStoryBanner(data.title, qName, qData, npc, false)
                     end)
                 end
                 break

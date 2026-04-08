@@ -62,6 +62,12 @@ SM.SuramarData = {
         ["Toryl"]                       = 67580,
         ["Lyana Darksorrow"]            = 67019,
         ["Ancient Keeper"]              = 70768,
+        ["Thalrenus Rivertree"]         = 71837,
+        ["Syrana Starweaver"]            = 68252,
+        ["Lady Liadrin"]                = 68250,
+        ["Tyrande Whisperwind"]         = 4050,
+        ["Noressa"]                     = 98689,
+        ["Stellagosa"]                  = 69404,
     },
 
     -- =========================================================================
@@ -290,7 +296,6 @@ SM.SuramarData = {
                 { id = 40963, name = "Take Them in Claw",               npc = "Thalrenus Rivertree" },
                 { id = 40964, name = "The Rift Between",                npc = "Thalrenus Rivertree" },
                 { id = 40965, name = "Lay Waste, Lay Mines",            npc = "Thalrenus Rivertree" },
-                { id = 40967, name = "Precious Little Left",            npc = "Syrana Starweaver" },
                 { id = 41032, name = "Stop the Spell Seekers",          npc = "Thalrenus Rivertree" },
                 { id = 40969, name = "Starweaver's Fate",               npc = "Thalrenus Rivertree" },
                 { id = 40970, name = "The Orchestrator of Our Demise",  npc = "Syrana Starweaver" },
@@ -538,7 +543,8 @@ SM.SuramarData = {
                 { id = 44795, name = "A Dance With Dragons",            npc = "Stellagosa" },
                 { id = 44796, name = "Trolling Them",                   npc = "Stellagosa" },
                 { id = 44797, name = "Something's Not Quite Right...",  npc = "First Arcanist Thalyssra" },
-                { id = 44861, name = "Arming the Rebels",               npc = "Silgryn" },  -- Alliance (44862 = Horde)
+                { id = 44861, name = "Arming the Rebels",               npc = "Silgryn" },  -- Alliance
+                { id = 44862, name = "Arming the Rebels",               npc = "Silgryn" },  -- Horde
                 { id = 44801, name = "Citizens' Army",                  npc = "Silgryn" },
                 { id = 44802, name = "Learning From the Dead",          npc = "Silgryn" },
                 { id = 44803, name = "We Need Weapons",                 npc = "Silgryn" },

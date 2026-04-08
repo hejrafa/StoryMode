@@ -75,7 +75,7 @@ SM.LilianVossData = {
             summary = "The Val'kyr raise new Forsaken in the crypt of Deathknell. Among them is a young woman who refuses to accept what she has become — Lilian Voss, daughter of High Priest Benedictus Voss of the Scarlet Crusade.",
             recap = "You opened your eyes in the crypt of Deathknell, raised by the Val'kyr as one of the Forsaken. Among the newly risen was a young woman trembling with rage — Lilian Voss, daughter of the Scarlet Crusade's High Priest. While you accepted your new existence, she could not. She fled into the darkness, refusing to believe what she had become.",
             quests = {
-                { id = 24960, name = "The Wakening",            npc = "Caretaker Caice" },
+                { id = 24960, name = "The Wakening",            npc = "Lilian Voss" },
                 { id = 24961, name = "The Truth of the Grave",   npc = "Novice Elreth" },
             },
         },
