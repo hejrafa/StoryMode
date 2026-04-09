@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "1.0.0",
+    version = "1.0.2",
     selectedQuestline = 1,
 }
 
@@ -42,35 +42,19 @@ end
 -- quest in the same chapter is complete (handles skipped breadcrumbs).
 -- However, if the quest is currently in the player's quest log it is
 -- NOT complete — they are actively working on it.
--- Optional: pass nextChapterQuests to handle edge cases where the last
--- quest in a chapter is repeatable/unflagged but later chapters have progress.
+-- Note: we intentionally do NOT infer completion from next-chapter progress.
+-- Some campaigns have optional/out-of-order chapters, which can cause false
+-- "Completed" states for an active final quest in the current chapter.
 local function IsQuestEffectivelyComplete(questIndex, chapterQuests, nextChapterQuests)
     local qid = chapterQuests[questIndex].id
-    if C_QuestLog.IsOnQuest(qid) then return false end
+    -- IsOnQuest can be unreliable for some campaign steps; log index is safer.
+    if C_QuestLog.GetLogIndexForQuestID(qid) ~= nil then return false end
     if IsQuestComplete(qid) then return true end
     for i = questIndex + 1, #chapterQuests do
         if IsQuestComplete(chapterQuests[i].id) then return true end
     end
-    -- If this is the last quest in the chapter and all prior quests are done,
-    -- check if ANY quest in the next chapter has progress — implies this one was done.
-    if nextChapterQuests and questIndex == #chapterQuests then
-        local allPriorDone = true
-        for i = 1, questIndex - 1 do
-            if not IsQuestComplete(chapterQuests[i].id) and not C_QuestLog.IsOnQuest(chapterQuests[i].id) then
-                -- Check if a later quest covers it
-                local covered = false
-                for j = i + 1, #chapterQuests do
-                    if IsQuestComplete(chapterQuests[j].id) then covered = true; break end
-                end
-                if not covered then allPriorDone = false; break end
-            end
-        end
-        if allPriorDone then
-            for _, nq in ipairs(nextChapterQuests) do
-                if IsQuestComplete(nq.id) or C_QuestLog.IsOnQuest(nq.id) then return true end
-            end
-        end
-    end
+    -- Keep completion strictly local to this quest/chapter to avoid
+    -- out-of-order chapter progress causing false positives.
     return false
 end
 
@@ -119,6 +103,8 @@ local function IsQuestlineActive(data)
     return false
 end
 
+local FindNextQuest
+
 local function GetCampaignProgress(data)
     local total, done = 0, 0
     for _, ch in ipairs(GetAllChapters(data)) do
@@ -126,6 +112,13 @@ local function GetCampaignProgress(data)
             total = total + 1
             if IsQuestComplete(q.id) then done = done + 1 end
         end
+    end
+    -- Keep progress text consistent with "Story Finished" state.
+    -- Some campaigns have variant/legacy quest IDs that may never flag on
+    -- the character despite the chain being fully complete.
+    local nextQuest = FindNextQuest(data)
+    if not nextQuest and total > 0 then
+        done = total
     end
     return done, total
 end
@@ -312,7 +305,7 @@ local function GetQuestlineGateReason(data)
     return nil
 end
 
-local function FindNextQuest(data)
+FindNextQuest = function(data)
     local chapters = GetAllChapters(data)
 
     -- Check if player has completed any prereq chapters (meaning they've progressed)
@@ -697,6 +690,7 @@ end
 
 local categories = {
     { name = "Epic Storylines", questlines = {} },
+    { name = "Character Stories", questlines = {} },
     { name = "Identity", questlines = {} },
     { name = "More Coming Soon", disabled = true, questlines = {} },
 }
@@ -736,7 +730,7 @@ if CanShowQuestline(SM.SuramarData) then
     RegisterQuestline(SM.SuramarData, "Epic Storylines")
 end
 if CanShowQuestline(SM.LilianVossData) then
-    RegisterQuestline(SM.LilianVossData, "Epic Storylines")
+    RegisterQuestline(SM.LilianVossData, "Character Stories")
 end
 if CanShowQuestline(SM.DrustvarData) then
     RegisterQuestline(SM.DrustvarData, "Epic Storylines")
@@ -793,8 +787,10 @@ end
 -- Story Mode Window  —  Trading-Post-style clean dark panels
 -- ============================================================================
 
--- Private tooltip — avoids tainting the global GameTooltip's MoneyFrame subframes
-local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent, "SharedTooltipTemplate")
+-- Private tooltip for StoryMode-only hover text.
+-- Use a unique named GameTooltipTemplate so its internal regions are created
+-- correctly, while still avoiding SharedTooltipTemplate taint propagation.
+local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent, "GameTooltipTemplate")
 
 local FRAME_W  = 1012
 local FRAME_H  = 550
@@ -1865,6 +1861,7 @@ LayoutSelectedChapter = function()
     -- Quest cards
     local nextQuest = FindNextQuest(data)
     local nextQuestID = nextQuest and nextQuest.id
+    local campaignFinished = (nextQuestID == nil)
 
     for i, q in ipairs(ch.quests) do
         if not dQuestCards[i] then
@@ -1874,20 +1871,23 @@ LayoutSelectedChapter = function()
         local nextCh = chapters[dSelectedChapter + 1]
         local qDone = IsQuestEffectivelyComplete(i, ch.quests, nextCh and nextCh.quests)
         local qInLog = not qDone and IsQuestInLog(q.id)
+        -- Display fallback: if the story has no next quest ("Story Finished"),
+        -- treat remaining cards as complete for UI purposes.
+        local qDoneDisplay = qDone or (campaignFinished and not qInLog)
         local qIsNextRecommended = (q.id == nextQuestID)
-        local lockReason = (not qDone and not qInLog) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
+        local lockReason = (not qDoneDisplay and not qInLog) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
 
         card.title:SetText(q.name)
         card.npcLabel:SetText(q.npc or "")
         card.questID = q.id
         card.tooltipTitle = q.name
         card.tooltipNPC = q.npc
-        card.tooltipStatus = qDone and "|cff59c746Completed|r" or qInLog and "|cffffd223In Progress|r" or "|cff808080Not yet available|r"
+        card.tooltipStatus = qDoneDisplay and "|cff59c746Completed|r" or qInLog and "|cffffd223In Progress|r" or "|cff808080Not yet available|r"
         card.tooltipRequirement = lockReason
 
         card.icon:SetSize(14, 14)
         card.icon:SetDesaturation(0)
-        if qDone then
+        if qDoneDisplay then
             card.icon:SetAtlas("common-icon-checkmark", false)
             card.icon:SetVertexColor(0.45, 0.90, 0.35)
             card.icon:Show()
@@ -2046,6 +2046,7 @@ local function LayoutDetailTab()
         local quest = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
         local gateReason = GetQuestlineGateReason(data)
+        sJournalHeader:SetText(quest and "Your Story So Far" or "Your Story")
         sTrackBtn:ClearAllPoints()
         sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
         sCompleteText:Hide()
@@ -2440,6 +2441,7 @@ end
 
 local storyLeftRows    = {}
 local storyContentBuilt = false
+local storyIndexToData = {}
 
 -- Portrait circle sizes (Delve companion style)
 local PORT = 46
@@ -2465,10 +2467,10 @@ local function SelectStory(index)
         row.nameLabel:SetTextColor(C_BODY[1]*tb, C_BODY[2]*tb, C_BODY[3]*tb)
         if row.zoneLabel then row.zoneLabel:SetTextColor(C_DIM[1]*tb, C_DIM[2]*tb, C_DIM[3]*tb) end
     end
-    if index == 0 or not allQuestlines[index] then
+    if index == 0 or not storyIndexToData[index] then
         UpdateStoryDetail(nil)
     else
-        UpdateStoryDetail(allQuestlines[index])
+        UpdateStoryDetail(storyIndexToData[index])
     end
 end
 
@@ -2512,6 +2514,7 @@ local function BuildStoryWindow()
     if storyContentBuilt then return end
     storyContentBuilt = true
     for _, data in ipairs(allQuestlines) do ResolveAchievementID(data) end
+    wipe(storyIndexToData)
 
     local CARD_H   = 78
     local CARD_PAD = 4
@@ -2589,6 +2592,7 @@ local function BuildStoryWindow()
             for _, data in ipairs(cat.questlines) do
                 globalIdx = globalIdx + 1
                 local idx = globalIdx
+                storyIndexToData[idx] = data
                 local cr, cg, cb = unpack(data.color or {0.5, 0.3, 0.9})
 
                 -- ── Card frame ────────────────────────────────────────────────
@@ -2761,7 +2765,7 @@ storyFrame:SetScript("OnShow", function()
             -- Restore last selected questline, or default to intro
             local savedIdx = StoryModeDB.selectedQuestline or 0
             -- Validate saved index exists
-            if savedIdx > 0 and allQuestlines[savedIdx] then
+            if savedIdx > 0 and storyIndexToData[savedIdx] then
                 SelectStory(savedIdx)
             else
                 SelectStory(0)  -- default to Introduction card
