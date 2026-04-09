@@ -35,6 +35,7 @@ SM.RogueCampaignData = {
         ["Lilian Voss"]                 = { mapID = 626, x = 0.5060, y = 0.7540 },
         ["Maiev Shadowsong"]            = { mapID = 646, x = 0.4450, y = 0.6250 },
         ["Val'zuun"]                    = { mapID = 626, x = 0.6600, y = 0.6800 },
+        ["Archmage Khadgar"]            = { mapID = 626, x = 0.2858, y = 0.4857 },
     },
 
     -- NPC creature display IDs for chapter portraits
@@ -161,6 +162,9 @@ SM.RogueCampaignData = {
             chapter = "Hiding In Plain Sight",
             summary = "The dreadlord has been hiding among your allies all along. The hunt ends on the Broken Shore in a final confrontation.",
             recap = "The final hunt led to the Broken Shore, where a dreadlord had been hiding among your allies in plain sight. With Lilian Voss at your side, you set the trap — false orders, planted evidence, and a trail that led the demon straight into your blade. The Uncrowned had done what armies could not: killed a devil wearing a friend's face.",
+            prerequisites = {
+                { id = 46730, name = "Armies of Legionfall", npc = "Archmage Khadgar" },
+            },
             quests = {
                 { id = 46322, name = "The Pirate's Bay",            npc = "Lord Jorach Ravenholdt" },
                 { id = 46323, name = "What's the Cache?",           npc = "Lilian Voss" },

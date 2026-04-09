@@ -49,12 +49,12 @@ SM.SuramarData = {
     -- Look up on wowhead.com model viewer or /run print(UnitCreatureDisplayID("target"))
     npcDisplayIDs = {
         ["Archmage Khadgar"]            = 65834,
-        ["First Arcanist Thalyssra"]    = 65100,
-        ["Chief Telemancer Oculeth"]    = 66159,
-        ["Arcanist Valtrois"]           = 67696,
+        ["First Arcanist Thalyssra"]    = 67345,
+        ["Chief Telemancer Oculeth"]    = 73853,
+        ["Arcanist Valtrois"]           = 73854,
         ["Arcanist Kel'danath"]         = 70943,
         ["Valewalker Farodin"]          = 69847,
-        ["Ly'leth Lunastre"]            = 68731,
+        ["Ly'leth Lunastre"]            = 70210,
         ["Silgryn"]                     = 68890,
         ["Theryn"]                      = 68238,
         ["Mylune"]                      = 72120,
@@ -62,12 +62,12 @@ SM.SuramarData = {
         ["Toryl"]                       = 67580,
         ["Lyana Darksorrow"]            = 67019,
         ["Ancient Keeper"]              = 70768,
-        ["Thalrenus Rivertree"]         = 71837,
-        ["Syrana Starweaver"]            = 68252,
-        ["Lady Liadrin"]                = 68250,
-        ["Tyrande Whisperwind"]         = 4050,
-        ["Noressa"]                     = 98689,
-        ["Stellagosa"]                  = 69404,
+        ["Thalrenus Rivertree"]         = 66972,
+        ["Syrana Starweaver"]          = 66971,
+        ["Lady Liadrin"]                = 61971,
+        ["Tyrande Whisperwind"]         = 39623,
+        ["Noressa"]                     = 70017,
+        ["Stellagosa"]                  = 64545,
     },
 
     -- =========================================================================
@@ -265,6 +265,7 @@ SM.SuramarData = {
             summary = "Navigate the treacherous politics of Suramar's noble houses alongside the cunning Ly'leth Lunastre.",
             recap = "Under Ly'leth Lunastre's guidance, you plunged into the viper pit of Nightborne politics — buying votes, silencing rivals, and navigating a web of alliances that shifted with every whispered rumor. Through cunning and carefully applied force, Ly'leth secured her position among the nobility and opened the path to the Arcway, an ancient tunnel network running beneath the city.",
             achievementID = 10760,
+            repRequirement = { faction = "The Nightfallen", level = "Honored" },
             quests = {
                 { id = 43309, name = "The Perfect Opportunity",         npc = "Ly'leth Lunastre" },
                 { id = 43310, name = "Either With Us",                  npc = "Ly'leth Lunastre" },
@@ -311,6 +312,7 @@ SM.SuramarData = {
             summary = "The Arcan'dor is struggling to survive. Race against time to find what it needs before the tree withers.",
             recap = "The Arcan'dor — the ancient tree nurtured in Shal'Aran — began to wither, its roots cracking and leaves curling despite all efforts. Valewalker Farodin led you on a desperate search for fragments of arcane power scattered across Suramar's ruins. In the end, you secured a branch of the Arcan'dor itself, stabilizing the tree and keeping alive the dream of a cure for the nightfallen.",
             achievementID = 10757,
+            repRequirement = { faction = "The Nightfallen", level = "Honored" },
             quests = {
                 { id = 44152, name = "A Growing Crisis",                npc = "Valewalker Farodin" },
                 { id = 43361, name = "Fragments of Disaster",           npc = "Valewalker Farodin" },
@@ -369,6 +371,7 @@ SM.SuramarData = {
             summary = "Journey to the ancient groves of Val'sharah to find a seed that could save the Arcan'dor.",
             recap = "The Arcan'dor needed something that could not be found in Suramar — a seed blessed by the wild magic of Val'sharah. You journeyed with Thalyssra's allies to retrieve it, channeling ley energy through Oculeth's projectors and Valtrois's calculations. The seed took root, and the Arcan'dor bloomed with renewed strength, its fruit offering the first true cure for the nightfallen's dependence on the Nightwell.",
             achievementID = 10761,
+            repRequirement = { faction = "The Nightfallen", level = "Revered" },
             quests = {
                 { id = 43502, name = "A Change of Seasons",             npc = "First Arcanist Thalyssra" },
                 { id = 43562, name = "Giving It All We've Got",         npc = "First Arcanist Thalyssra" },
@@ -418,6 +421,7 @@ SM.SuramarData = {
             summary = "Tend the Arcan'dor as it grows stronger, bringing hope to the nightfallen that a cure is within reach.",
             recap = "Mylune and Keeper Remulos answered the call to nurture the Arcan'dor, bringing the wild magic of the Cenarion Circle to Suramar. You rescued lost creatures, fought corrupted ancients, and gathered rare reagents from the wilds of Irongrove Retreat. Under their care, the tree grew stronger than ever — a living monument to the alliance between nature and arcane.",
             achievementID = 10765,
+            repRequirement = { faction = "The Nightfallen", level = "Revered" },
             quests = {
                 { id = 41452, name = "Feline Frantic",                  npc = "Mylune" },
                 { id = 41453, name = "Homeward Bounding",               npc = "Mylune" },

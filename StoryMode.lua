@@ -98,6 +98,15 @@ local function GetAllChapters(data)
             all[#all + 1] = ch
         end
     end
+    if #all == 0 and data.startQuest then
+        all[#all + 1] = {
+            chapter = data.title,
+            summary = data.description,
+            recap = data.description,
+            quests = { data.startQuest },
+            _section = 2,
+        }
+    end
     return all
 end
 
@@ -147,6 +156,64 @@ local function IsCriterionDoneForCharacter(achID, criteriaIdx)
     end
 end
 
+local REP_LEVELS = {
+    Unknown = 0,
+    Hated = 1,
+    Hostile = 2,
+    Unfriendly = 3,
+    Neutral = 4,
+    Friendly = 5,
+    Honored = 6,
+    Revered = 7,
+    Exalted = 8,
+}
+
+local REP_NAMES = {
+    [2] = "Hated",
+    [3] = "Unfriendly",
+    [4] = "Neutral",
+    [5] = "Friendly",
+    [6] = "Honored",
+    [7] = "Revered",
+    [8] = "Exalted",
+}
+
+local cachedRep = {}
+local function GetRepLevel(factionName)
+    if cachedRep[factionName] then
+        return cachedRep[factionName].name, cachedRep[factionName].standing
+    end
+    
+    local name, standing = nil, 0
+    
+    -- Try C_Reputation.GetFactionDataByName (Retail)
+    if C_Reputation and C_Reputation.GetFactionDataByName then
+        local info = C_Reputation.GetFactionDataByName(factionName)
+        if info then
+            name, standing = info.name, info.standing
+        end
+    -- Try GetNumFactions / GetFactionInfo (Classic)
+    elseif GetNumFactions and GetFactionInfo then
+        local numFactions = GetNumFactions()
+        for i = 1, numFactions do
+            local n, _, standingID = GetFactionInfo(i)
+            if n == factionName then
+                name, standing = n, standingID
+                break
+            end
+        end
+    end
+    
+    if name then
+        cachedRep[factionName] = { name = name, standing = standing }
+    end
+    return name, standing
+end
+
+local function InvalidateRepCache()
+    cachedRep = {}
+end
+
 local function GetChapterProgress(ch, nextChapter)
     local total, done = 0, 0
     local nextQuests = nextChapter and nextChapter.quests or nil
@@ -155,6 +222,33 @@ local function GetChapterProgress(ch, nextChapter)
         if IsQuestEffectivelyComplete(i, ch.quests, nextQuests) then done = done + 1 end
     end
     return done, total
+end
+
+local function FormatRepStatus(ch)
+    if not ch.repRequirement then return nil end
+    local _, standingID = GetRepLevel(ch.repRequirement.faction)
+    local currentRep = REP_NAMES[standingID]
+    local requiredRep = ch.repRequirement.level
+    local currentLevel = standingID or 0
+    local requiredLevel = REP_LEVELS[requiredRep] or 0
+    
+    if currentLevel >= requiredLevel then
+        return "|cff59c746" .. ch.repRequirement.faction .. ": " .. (currentRep or "Friendly") .. "|r"
+    elseif currentRep then
+        return "|cffffd223" .. ch.repRequirement.faction .. ": " .. currentRep .. " (requires " .. requiredRep .. ")|r"
+    else
+        return "|cffffd223" .. ch.repRequirement.faction .. ": Requires " .. requiredRep .. "|r"
+    end
+end
+
+local function GetFirstUnmetChapterPrerequisite(ch)
+    if not ch or not ch.prerequisites then return nil end
+    for _, req in ipairs(ch.prerequisites) do
+        if req.id and not IsQuestComplete(req.id) and not IsQuestInLog(req.id) then
+            return req
+        end
+    end
+    return nil
 end
 
 local function FindNextQuest(data)
@@ -174,10 +268,24 @@ local function FindNextQuest(data)
     local readyCandidates = {}  -- quests ready to pick up
 
     for chIdx, ch in ipairs(chapters) do
-        local chDone, chTotal = GetChapterProgress(ch, chapters[chIdx + 1])
-        if chDone >= chTotal then
-            -- Chapter complete, skip
+        local unmetPrereq = GetFirstUnmetChapterPrerequisite(ch)
+        if unmetPrereq then
+            local prereqQuest = {
+                id = unmetPrereq.id,
+                name = unmetPrereq.name,
+                npc = unmetPrereq.npc,
+                _isPrerequisiteForChapter = ch.chapter,
+            }
+            local section = ch._section or 1
+            readyCandidates[#readyCandidates + 1] = {
+                quest = prereqQuest, chapter = ch.chapter,
+                section = section, depth = 0, order = chIdx,
+            }
         else
+            local chDone, chTotal = GetChapterProgress(ch, chapters[chIdx + 1])
+            if chDone >= chTotal then
+                -- Chapter complete, skip
+            else
             local section = ch._section or 1
 
             for j, q in ipairs(ch.quests) do
@@ -216,6 +324,7 @@ local function FindNextQuest(data)
                         break  -- predecessor not done, can't start here
                     end
                 end
+            end
             end
         end
     end
@@ -455,12 +564,28 @@ local function PrintTrackResult(result, quest, data)
         end
     elseif result == "waypoint" or result == "waypoint_approx" then
         -- Quest not picked up yet — tell them exactly where to go
+        if quest._isPrerequisiteForChapter then
+            if zone then
+                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r in |cff64b5f6" .. zone .. "|r first, then continue |cffffd200" .. quest._isPrerequisiteForChapter .. "|r.")
+            else
+                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r first, then continue |cffffd200" .. quest._isPrerequisiteForChapter .. "|r.")
+            end
+            return
+        end
         if zone then
             print(P .. "Find |cffffd200" .. quest.npc .. "|r in |cff64b5f6" .. zone .. "|r to accept: " .. quest.name)
         else
             print(P .. "Find |cffffd200" .. quest.npc .. "|r to accept: " .. quest.name)
         end
     else
+        if quest._isPrerequisiteForChapter then
+            if zone then
+                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r from " .. quest.npc .. " in |cff64b5f6" .. zone .. "|r first.")
+            else
+                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r first.")
+            end
+            return
+        end
         if zone then
             print(P .. "Next: |cffffd200" .. quest.name .. "|r from " .. quest.npc .. " in |cff64b5f6" .. zone .. "|r")
         else
@@ -511,7 +636,7 @@ end
 
 local categories = {
     { name = "Epic Storylines", questlines = {} },
-    { name = "Class Identity", questlines = {} },
+    { name = "Identity", questlines = {} },
     { name = "More Coming Soon", disabled = true, questlines = {} },
 }
 
@@ -533,10 +658,12 @@ end
 
 local _, playerClass = UnitClass("player")   -- English token: "ROGUE", "WARRIOR", etc.
 local playerFaction = UnitFactionGroup("player")  -- "Horde" or "Alliance"
+local playerRace = select(2, UnitRace("player"))  -- English token: "Human", "Orc", etc.
 
 local function CanShowQuestline(data)
     if data.class and data.class ~= playerClass then return false end
     if data.faction and data.faction ~= playerFaction then return false end
+    if data.race and data.race ~= playerRace then return false end
     return true
 end
 
@@ -569,7 +696,34 @@ local classCampaigns = {
 }
 for _, data in ipairs(classCampaigns) do
     if CanShowQuestline(data) then
-        RegisterQuestline(data, "Class Identity")
+        RegisterQuestline(data, "Identity")
+    end
+end
+
+if SM.ForsakenHeritageData then
+    if CanShowQuestline(SM.ForsakenHeritageData) then
+        RegisterQuestline(SM.ForsakenHeritageData, "Identity")
+    end
+end
+
+local heritageQuestlines = {
+    SM.BloodElfHeritageData,
+    SM.GoblinHeritageData,
+    SM.TrollHeritageData,
+    SM.OrcHeritageData,
+    SM.TaurenHeritageData,
+    SM.HumanHeritageData,
+    SM.DwarfHeritageData,
+    SM.GnomeHeritageData,
+    SM.NightElfHeritageData,
+    SM.WorgenHeritageData,
+    SM.DraeneiHeritageData,
+    SM.PandarenHeritageData,
+    SM.DarkIronHeritageData,
+}
+for _, data in ipairs(heritageQuestlines) do
+    if data and CanShowQuestline(data) then
+        RegisterQuestline(data, "Identity")
     end
 end
 
@@ -933,8 +1087,15 @@ local CH_LIST_W = 380     -- fixed width for chapter list (centered in panel)
 
 -- Set a 2D NPC portrait from a pre-stored creature display ID
 local function SetChapterPortrait(portraitTex, displayID)
-    if displayID then
-        SetPortraitTextureFromCreatureDisplayID(portraitTex, displayID)
+    local fallbackID = currentStoryData and currentStoryData.portraitDisplayID
+    local tryID = nil
+    if displayID and displayID ~= 0 then
+        tryID = displayID
+    elseif fallbackID then
+        tryID = fallbackID
+    end
+    if tryID then
+        SetPortraitTextureFromCreatureDisplayID(portraitTex, tryID)
     else
         portraitTex:SetTexture(nil)
     end
@@ -1449,7 +1610,39 @@ LayoutSelectedChapter = function()
     end
 
     if ch.note then
-        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-1|t " .. ch.note)
+        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t " .. ch.note)
+        dChapterNote:Show()
+    elseif ch.prerequisites then
+        local req = GetFirstUnmetChapterPrerequisite(ch)
+        if req then
+            local reqQuest = req.name or ("Quest ID " .. tostring(req.id))
+            if req.npc then
+                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t Requires: " .. reqQuest .. " (from " .. req.npc .. ")")
+            else
+                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t Requires: " .. reqQuest)
+            end
+            dChapterNote:SetTextColor(1.0, 0.82, 0.35)
+            dChapterNote:Show()
+        else
+            dChapterNote:Hide()
+        end
+    elseif ch.repRequirement then
+        local _, standingID = GetRepLevel(ch.repRequirement.faction)
+        local currentRep = REP_NAMES[standingID]
+        local requiredRep = ch.repRequirement.level
+        local currentLevel = standingID or 0
+        local requiredLevel = REP_LEVELS[requiredRep] or 0
+        
+        if currentLevel >= requiredLevel then
+            dChapterNote:SetText("|TInterface/Icons/inv_misc_horn_04:0:0:0:-4|t " .. ch.repRequirement.faction .. ": " .. (currentRep or "Friendly"))
+            dChapterNote:SetTextColor(0.35, 0.78, 0.28)
+        elseif currentRep then
+            dChapterNote:SetText("|TInterface/Icons/inv_misc_horn_04:0:0:0:-4|t " .. ch.repRequirement.faction .. ": " .. currentRep .. " (requires " .. requiredRep .. ")")
+            dChapterNote:SetTextColor(1.0, 0.82, 0.35)
+        else
+            dChapterNote:SetText("|TInterface/Icons/inv_misc_horn_04:0:0:0:-4|t " .. ch.repRequirement.faction .. ": Requires " .. requiredRep)
+            dChapterNote:SetTextColor(1.0, 0.82, 0.35)
+        end
         dChapterNote:Show()
     else
         dChapterNote:Hide()
@@ -1781,7 +1974,12 @@ local function LayoutDetailTab()
             -- Tooltip
             node.tooltipTitle = ch.chapter
             node.tooltipBody = ch.summary or nil
-            node.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
+            local repStatus = FormatRepStatus(ch)
+            if repStatus then
+                node.tooltipProgress = cDone .. " / " .. cTotal .. " quests\n" .. repStatus
+            else
+                node.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
+            end
 
             -- Status styling
             if isComplete then

@@ -6,6 +6,20 @@
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\storymode_icon
 
+ForsakenHeritageData.lua
+BloodElfHeritageData.lua
+GoblinHeritageData.lua
+TrollHeritageData.lua
+OrcHeritageData.lua
+TaurenHeritageData.lua
+HumanHeritageData.lua
+DwarfHeritageData.lua
+GnomeHeritageData.lua
+NightElfHeritageData.lua
+WorgenHeritageData.lua
+DraeneiHeritageData.lua
+PandarenHeritageData.lua
+DarkIronHeritageData.lua
 SuramarData.lua
 DrustvarData.lua
 DeathKnightCampaignData.lua
