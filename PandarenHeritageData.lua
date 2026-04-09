@@ -1,17 +1,30 @@
 local addonName, SM = ...
 
 SM.PandarenHeritageData = {
-    title = "Heritage of the Wandering Isle",
+    title = "Pandaren Heritage",
     description = "Follow old friends across Pandaria and rediscover the stories, values, and spirit that shaped the Wandering Isle.",
-    zone = "Pandaria / Wandering Isle (memory and festival path)",
+    zone = "Pandaria / Wandering Isle",
     expansion = "The War Within",
     race = "Pandaren",
     requiredLevel = 50,
     achievementName = "Heritage of the Wandering Isle",
     color = { 0.71, 0.31, 0.28 },
-    icon = "Interface\\Icons\\inv_misc_tabard_tushui",
+    icon = 630617,
     -- Faction-specific openers exist; this serves as a consistent StoryMode entry anchor.
     startQuest = { id = 84442, name = "Invitation to the Spirit Festival", npc = "Automatic / Ji Firepaw", location = "Stormwind or Orgrimmar Embassy" },
+    npcLocations = {
+        ["Ji Firepaw"] = { mapID = 85, x = 0.3920, y = 0.8110 }, -- Orgrimmar Embassy (approx)
+        ["Aysa Cloudsinger"] = { mapID = 84, x = 0.5180, y = 0.1360 }, -- Stormwind Embassy (approx)
+        ["Li Li Stormstout"] = { mapID = 376, x = 0.5580, y = 0.5830 }, -- Valley of the Four Winds (approx)
+        ["Chen Stormstout"] = { mapID = 376, x = 0.5570, y = 0.5820 }, -- Valley of the Four Winds (approx)
+        ["Lorewalker Cho"] = { mapID = 376, x = 0.8380, y = 0.3240 }, -- Seat of Knowledge (approx)
+    },
+    chapterDisplayIDs = {
+        ["Heritage of the Wandering Isle"] = 40962,
+    },
+    chapterIcons = {
+        ["Heritage of the Wandering Isle"] = 40962,
+    },
     chapters = {
         {
             chapter = "Heritage of the Wandering Isle",

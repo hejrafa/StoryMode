@@ -10,15 +10,26 @@ SM.BloodElfHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of the Sin'dorei",
     color = { 0.78, 0.16, 0.10 },
-    icon = "Interface\\Icons\\inv_misc_tabard_silvermoon",
+    icon = 2459464,
     startQuest = { id = 53791, name = "The Pride of the Sin'dorei", npc = "Ambassador Dawnsworn", location = "Orgrimmar Embassy" },
     startMapID = 85,
     startX = 0.3790,
     startY = 0.8130,
+    npcLocations = {
+        ["Ambassador Dawnsworn"] = { mapID = 85, x = 0.3790, y = 0.8130 },
+        ["Lor'themar Theron"] = { mapID = 110, x = 0.5380, y = 0.2050 }, -- Silvermoon (approx)
+        ["Lady Liadrin"] = { mapID = 122, x = 0.4800, y = 0.3500 }, -- Isle of Quel'Danas (approx)
+    },
     npcDisplayIDs = {
         ["Lor'themar Theron"] = 20217,
         ["Lady Liadrin"] = 61971,
         ["Ambassador Dawnsworn"] = 0,
+    },
+    chapterIcons = {
+        ["Heritage of the Sin'dorei"] = 2459464,
+    },
+    chapterDisplayIDs = {
+        ["Heritage of the Sin'dorei"] = 89162,
     },
     chapters = {
         {

@@ -54,12 +54,20 @@ SM.ForsakenHeritageData = {
     npcDisplayIDs = {
         -- These are non-critical (used for portraits if your UI chooses to).
         -- Leaving unknowns as 0 is fine.
-        ["Lilian Voss"] = 85799,
-        ["Deathstalker Commander Belmont"] = 0,
-        ["Dark Ranger Velonara"] = 102871,
-        ["Master Apothecary Faranell"] = 32866,
-        ["Quartermaster Newlem"] = 0,
+        ["Lilian Voss"] = 67721,
+        ["Deathstalker Commander Belmont"] = 34077,
+        ["Dark Ranger Velonara"] = 6483,
+        ["Master Apothecary Faranell"] = 90372,
+        ["Quartermaster Newlem"] = 113266,
         ["Dori'thur"] = 38801,
+    },
+    chapterDisplayIDs = {
+        ["Heritage of the Forsaken"] = 67721, -- Lilian Voss
+        ["Epilogue (Sylvanas Loyalists)"] = 38801, -- Dori'thur
+    },
+    chapterIcons = {
+        ["Heritage of the Forsaken"] = 67721,
+        ["Epilogue (Sylvanas Loyalists)"] = "Interface\\Icons\\inv_misc_tabard_forsaken",
     },
 
     chapters = {

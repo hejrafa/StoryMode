@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.MageCampaignData = {
     title = "Archmage's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Archmage's Campaign",
     description = "Beneath Dalaran lies the Hall of the Guardian, seat of the ancient Tirisgarde — mage-hunters sworn to protect Azeroth from magical threats. As the order's newest Archmage, you must root out a secret society, rescue a lost archmage, and face a dreadlord who has infiltrated the Kirin Tor.",
     zone = "Hall of the Guardian / Broken Isles",
     expansion = "Legion",
@@ -35,18 +35,18 @@ SM.MageCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Meryl Felstorm"]              = 65282,
-        ["The Great Akazamzarak"]       = 65283,
-        ["Archmage Kalec"]              = 38776,
-        ["Archmage Modera"]             = 65403,
-        ["Archmage Melis"]              = 65284,
-        ["Archmage Omniara"]            = 65285,
-        ["Ravandwyr"]                   = 65286,
-        ["Esara Verrinde"]              = 65287,
-        ["Archmage Khadgar"]            = 65402,
-        ["Archmage Vargoth"]            = 18823,
-        ["Aethas Sunreaver"]            = 65404,
-        ["Maiev Shadowsong"]            = 67028,
+        ["Meryl Felstorm"]              = 67760,
+        ["The Great Akazamzarak"]       = 68004,
+        ["Archmage Kalec"]              = 38491,
+        ["Archmage Modera"]             = 63776,
+        ["Archmage Melis"]              = 677876,
+        ["Archmage Omniara"]            = 71053,
+        ["Ravandwyr"]                   = 18661,
+        ["Esara Verrinde"]              = 69626,
+        ["Archmage Khadgar"]            = 65834,
+        ["Archmage Vargoth"]            = 19284,
+        ["Aethas Sunreaver"]            = 26770,
+        ["Maiev Shadowsong"]            = 77009,
     },
 
     -- =========================================================================

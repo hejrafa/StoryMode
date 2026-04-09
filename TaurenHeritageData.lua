@@ -10,8 +10,22 @@ SM.TaurenHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of the Shu'halo",
     color = { 0.62, 0.42, 0.24 },
-    icon = "Interface\\Icons\\inv_misc_tabard_thunderbluff",
+    icon = "Interface\\Icons\\inv_armor_tauren_d_01shoulder",
     startQuest = { id = 54759, name = "When Spirits Whisper", npc = "Spiritwalker Isahi", location = "Orgrimmar Embassy" },
+    npcLocations = {
+        ["Spiritwalker Isahi"] = { mapID = 85, x = 0.3790, y = 0.8130 }, -- Orgrimmar Embassy
+        ["Baine Bloodhoof"] = { mapID = 88, x = 0.6010, y = 0.5110 }, -- Thunder Bluff (approx)
+        ["Spiritwalker Ussoh"] = { mapID = 7, x = 0.4880, y = 0.5890 }, -- Mulgore (approx)
+    },
+    npcDisplayIDs = {
+        ["Spiritwalker Isahi"] = 90196,
+    },
+    chapterDisplayIDs = {
+        ["Heritage of the Shu'halo"] = 90196,
+    },
+    chapterIcons = {
+        ["Heritage of the Shu'halo"] = "Interface\\Icons\\inv_armor_tauren_d_01shoulder",
+    },
     chapters = {
         {
             chapter = "Heritage of the Shu'halo",

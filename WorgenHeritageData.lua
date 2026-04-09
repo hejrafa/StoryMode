@@ -10,8 +10,20 @@ SM.WorgenHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of Gilneas",
     color = { 0.37, 0.43, 0.56 },
-    icon = "Interface\\Icons\\inv_misc_tabard_gilneas",
+    icon = "Interface\\Icons\\inv_helm_armor_worgen_c_01",
     startQuest = { id = 54976, name = "The Shadow of Gilneas", npc = "Courier Claridge", location = "Stormwind Embassy" },
+    npcLocations = {
+        ["Courier Claridge"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy
+        ["Mia Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 }, -- Stormwind Keep (approx)
+        ["Vassandra Stormclaw"] = { mapID = 47, x = 0.7400, y = 0.4680 }, -- Duskwood (approx)
+        ["Princess Tess Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 }, -- Stormwind Keep (approx)
+    },
+    chapterIcons = {
+        ["Heritage of Gilneas"] = "Interface\\Icons\\inv_helm_armor_worgen_c_01",
+    },
+    chapterDisplayIDs = {
+        ["Heritage of Gilneas"] = 90670,
+    },
     chapters = {
         {
             chapter = "Heritage of Gilneas",

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.MonkCampaignData = {
     title = "Grandmaster's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Grandmaster's Campaign",
     description = "When the Peak of Serenity falls to the Legion, the monks rally at the Temple of Five Dawns on the Wandering Isle. As Grandmaster, you must defend Tian Monastery, recruit legendary warriors, and brew the mythical Storm Brew to turn the tide of war.",
     zone = "Wandering Isle / Broken Isles",
     expansion = "Legion",
@@ -37,10 +37,10 @@ SM.MonkCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Initiate Da-Nel"]             = 64997,
-        ["Fearsome Jang"]               = 64998,
-        ["Iron-Body Ponshu"]            = 41414,
-        ["Chen Stormstout"]             = 42156,
+        ["Initiate Da-Nel"]             = 45418,
+        ["Fearsome Jang"]               = 41461,
+        ["Iron-Body Ponshu"]            = 41568,
+        ["Chen Stormstout"]             = 40962,
         ["Li Li Stormstout"]            = 42155,
         ["The Monkey King"]             = 41887,
         ["Taran Zhu"]                   = 42220,

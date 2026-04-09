@@ -10,18 +10,27 @@ SM.TrollHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of the Darkspear",
     color = { 0.15, 0.55, 0.87 },
-    icon = "Interface\\Icons\\inv_misc_tabard_darkspear",
+    icon = "Interface\\Icons\\inv_helm_armor_troll_d_01",
     startQuest = { id = 77869, name = "Return to the Echo Isles", npc = "Zi'guma", location = "Valley of Spirits, Orgrimmar" },
     startMapID = 85,
     startX = 0.3270,
     startY = 0.6470,
+    npcLocations = {
+        ["Zi'guma"] = { mapID = 85, x = 0.3270, y = 0.6470 },
+        ["Rokhan"] = { mapID = 85, x = 0.3280, y = 0.6490 }, -- Valley of Spirits (approx)
+        ["Master Gadrin"] = { mapID = 1, x = 0.5680, y = 0.7420 }, -- Echo Isles (approx)
+    },
     npcDisplayIDs = {
-        ["Rokhan"] = 7496,
-        ["Master Gadrin"] = 0,
-        ["Witch Doctor Tzadah"] = 0,
-        ["Kevo ya Siti"] = 0,
-        ["Lukou"] = 0,
-        ["Jani"] = 0,
+        ["Zi'guma"] = 115696,
+        ["Rokhan"] = 116250,
+        ["Master Gadrin"] = 4072,
+        ["Witch Doctor Tzadah"] = 114020,
+        ["Kevo ya Siti"] = 113967,
+        ["Lukou"] = 114061,
+        ["Jani"] = 79821,
+    },
+    chapterIcons = {
+        ["Heritage of the Darkspear"] = "Interface\\Icons\\inv_helm_armor_troll_d_01",
     },
     chapters = {
         {

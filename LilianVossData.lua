@@ -47,7 +47,7 @@ SM.LilianVossData = {
     -- Look up on wowhead.com model viewer or /run print(UnitCreatureDisplayID("target"))
     npcDisplayIDs = {
         -- Tirisfal Glades NPCs
-        ["Caretaker Caice"]           = 4473,
+        ["Caretaker Caice"]           = 3522,
         ["Novice Elreth"]             = 1593,
         ["Deathguard Simmer"]         = 1648,
         ["Executor Zygand"]           = 1649,
@@ -55,12 +55,18 @@ SM.LilianVossData = {
         ["Lieutenant Sanders"]        = 13090,
         -- Dungeon NPCs
         ["Hooded Crusader"]           = 43650,  -- Lilian in disguise
-        ["Talking Skull"]             = 31252,   -- Uses Lilian's display as she speaks through it
+        ["Talking Skull"]             = 107850,   -- Uses Lilian's display as she speaks through it
         -- BfA NPCs
-        ["Lilian Voss"]               = 85799,
+        ["Lilian Voss"]               = 64531,
         ["Nathanos Blightcaller"]     = 86219,
-        ["Rexxar"]                    = 60766,
-        ["Thomas Zelling"]            = 86536,
+        ["Rexxar"]                    = 22319,
+        ["Thomas Zelling"]            = 86134,
+    },
+    chapterDisplayIDs = {
+        ["The Wakening"] = 67721, -- Lilian Voss
+    },
+    chapterIcons = {
+        ["The Wakening"] = 67721,
     },
 
     -- =========================================================================

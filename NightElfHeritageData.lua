@@ -10,8 +10,19 @@ SM.NightElfHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of the Kaldorei",
     color = { 0.46, 0.40, 0.78 },
-    icon = "Interface\\Icons\\inv_misc_tabard_darnassus",
+    icon = 255131,
     startQuest = { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", location = "Stormwind Embassy" },
+    npcLocations = {
+        ["Maiev Shadowsong"] = { mapID = 77, x = 0.4340, y = 0.6240 }, -- Felwood (approx)
+        ["Arko'narin Starshade"] = { mapID = 77, x = 0.4350, y = 0.6270 }, -- Felwood (approx)
+        ["Lysander Starshade"] = { mapID = 77, x = 0.4380, y = 0.6300 }, -- Felwood (approx)
+    },
+    chapterDisplayIDs = {
+        ["Heritage of the Kaldorei"] = 112157,
+    },
+    chapterIcons = {
+        ["Heritage of the Kaldorei"] = 112157,
+    },
     chapters = {
         {
             chapter = "Heritage of the Kaldorei",

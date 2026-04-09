@@ -10,8 +10,20 @@ SM.OrcHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of Draenor",
     color = { 0.65, 0.20, 0.15 },
-    icon = "Interface\\Icons\\inv_misc_tabard_orgrimmar",
+    icon = 4898329,
     startQuest = { id = 72462, name = "A People in Need of Healing", npc = "Eitrigg", location = "Grommash Hold, Orgrimmar" },
+    npcLocations = {
+        ["Eitrigg"] = { mapID = 85, x = 0.4860, y = 0.7600 }, -- Grommash Hold (approx)
+        ["Aggra"] = { mapID = 85, x = 0.4870, y = 0.7580 }, -- Grommash Hold (approx)
+        ["Farseer Aggralan"] = { mapID = 1, x = 0.5240, y = 0.4320 }, -- Durotar (approx)
+        ["Thrall"] = { mapID = 1, x = 0.5260, y = 0.4300 }, -- Durotar/Kosh'harg area (approx)
+    },
+    chapterIcons = {
+        ["Heritage of Draenor"] = 82115,
+    },
+    chapterDisplayIDs = {
+        ["Heritage of Draenor"] = 82115,
+    },
     chapters = {
         {
             chapter = "Heritage of Draenor",

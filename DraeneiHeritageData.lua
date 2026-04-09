@@ -10,8 +10,20 @@ SM.DraeneiHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of the Draenei",
     color = { 0.55, 0.45, 0.82 },
-    icon = "Interface\\Icons\\inv_misc_tabard_exodar",
+    icon = 255137,
     startQuest = { id = 78068, name = "An Artificer's Appeal", npc = "Automatic / Magically-Sealed Parcel", location = "Stormwind Embassy / Exodar" },
+    npcLocations = {
+        ["Grand Artificer Romuul"] = { mapID = 103, x = 0.5450, y = 0.5030 }, -- Exodar (approx)
+        ["High Artificer Ataanya"] = { mapID = 103, x = 0.5480, y = 0.4980 }, -- Exodar (approx)
+        ["Exarch Maladaar"] = { mapID = 102, x = 0.3950, y = 0.2630 }, -- Bloodmyst Isle (approx)
+        ["Prophet Velen"] = { mapID = 103, x = 0.3220, y = 0.5430 }, -- Exodar (approx)
+    },
+    chapterIcons = {
+        ["Heritage of the Draenei"] = "Interface\\Icons\\inv_helm_mail_draenei_d_01",
+    },
+    chapterDisplayIDs = {
+        ["Heritage of the Draenei"] = 52508,
+    },
     chapters = {
         {
             chapter = "Heritage of the Draenei",

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DeathKnightCampaignData = {
     title = "Deathlord's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Deathlord's Campaign",
     description = "From Acherus: The Ebon Hold, the Knights of the Ebon Blade wage their own war against the Legion. As Deathlord, you must raise the Four Horsemen — champions torn from death itself — and lead an army of the damned against demons who threaten to unmake the world.",
     zone = "Acherus / Broken Isles",
     expansion = "Legion",
@@ -36,9 +36,9 @@ SM.DeathKnightCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Duke Lankral"]                = 25360,
-        ["Highlord Darion Mograine"]    = 25099,
-        ["Thassarian"]                  = 25042,
+        ["Duke Lankral"]                = 26688,
+        ["Highlord Darion Mograine"]    = 27153,
+        ["Thassarian"]                  = 26608,
         ["Nazgrim"]                     = 49521,
         ["Koltira Deathweaver"]         = 25048,
         ["Siouxsie the Banshee"]        = 65573,
@@ -46,7 +46,7 @@ SM.DeathKnightCampaignData = {
         ["Amal'thazad"]                 = 65572,
         ["Lord Thorval"]                = 65571,
         ["Prince Galen Trollbane"]      = 66102,
-        ["Quartermaster Ozorg"]         = 65570,
+        ["Quartermaster Ozorg"]         = 15958,
         ["Minerva Ravensorrow"]         = 69441,
         ["Dread Commander Thalanor"]    = 65574,
     },

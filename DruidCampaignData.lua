@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DruidCampaignData = {
     title = "Archdruid's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Archdruid's Campaign",
     description = "Through the Emerald Dreamway, you discover the Dreamgrove — a sanctuary of nature hidden in Val'sharah. As Archdruid of the Cenarion Circle, you must heal the wounds of the Nightmare, gather ancient allies, and awaken the demi-god Malorne to stand against the Legion.",
     zone = "The Dreamgrove / Broken Isles",
     expansion = "Legion",
@@ -34,17 +34,17 @@ SM.DruidCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Archdruid Hamuul Runetotem"]  = 29236,
-        ["Malfurion Stormrage"]         = 21073,
-        ["Keeper Remulos"]              = 10008,
-        ["Rensar Greathoof"]            = 65024,
-        ["Skylord Omnuron"]             = 65022,
-        ["Naralex"]                     = 66459,
-        ["Mylune"]                      = 37506,
-        ["Malorne"]                     = 26809,
-        ["Thisalee Crow"]               = 38579,
-        ["Lea Stonepaw"]                = 65025,
-        ["Maiev Shadowsong"]            = 67028,
+        ["Archdruid Hamuul Runetotem"]  = 31605,
+        ["Malfurion Stormrage"]         = 35095,
+        ["Keeper Remulos"]              = 11906,
+        ["Rensar Greathoof"]            = 97805,
+        ["Skylord Omnuron"]             = 32245,
+        ["Naralex"]                     = 4216,
+        ["Mylune"]                      = 72120,
+        ["Malorne"]                     = 72123,
+        ["Thisalee Crow"]               = 141312,
+        ["Lea Stonepaw"]                = 68584,
+        ["Maiev Shadowsong"]            = 77009,
     },
 
     -- =========================================================================

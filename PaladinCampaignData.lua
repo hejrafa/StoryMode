@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.PaladinCampaignData = {
     title = "Highlord's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Highlord's Campaign",
     description = "Beneath Light's Hope Chapel lies the Sanctum of Light, where the Knights of the Silver Hand reform under your command. As Highlord, you must unite paladins of every faith, decode a demonic codex, and lead the assault on Niskara to rescue your captured allies.",
     zone = "Sanctum of Light / Broken Isles",
     expansion = "Legion",
@@ -34,17 +34,17 @@ SM.PaladinCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Lord Maxwell Tyrosus"]        = 65540,
-        ["Lord Grayson Shadowbreaker"]  = 65541,
-        ["Lady Liadrin"]                = 23647,
-        ["Aponi Brightmane"]            = 31839,
+        ["Lord Maxwell Tyrosus"]        = 62762,
+        ["Lord Grayson Shadowbreaker"]  = 62304,
+        ["Lady Liadrin"]                = 136435,
+        ["Aponi Brightmane"]            = 29249,
         ["Justicar Julia Celeste"]      = 65542,
         ["Vindicator Boros"]            = 65543,
         ["Delas Moonfang"]              = 65544,
         ["Arator the Redeemer"]         = 21782,
         ["Lothraxion"]                  = 67547,
         ["Prophet Velen"]               = 65405,
-        ["Archmage Khadgar"]            = 65402,
+        ["Archmage Khadgar"]            = 65834,
     },
 
     chapters = {

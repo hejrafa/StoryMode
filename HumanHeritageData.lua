@@ -10,8 +10,25 @@ SM.HumanHeritageData = {
     requiredLevel = 50,
     achievementName = "Lion's Heritage",
     color = { 0.22, 0.45, 0.86 },
-    icon = "Interface\\Icons\\inv_misc_tabard_stormwind",
+    icon = "Interface\\Icons\\inv_misc_tournaments_banner_human",
     startQuest = { id = 72644, name = "An Urgent Matter", npc = "Agent Render", location = "Stormwind Embassy" },
+    npcLocations = {
+        ["Agent Render"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy (approx)
+        ["Master Mathias Shaw"] = { mapID = 84, x = 0.7620, y = 0.6010 }, -- SI:7 area (approx)
+        ["Vanessa VanCleef"] = { mapID = 52, x = 0.4190, y = 0.6990 }, -- Moonbrook (approx)
+        ["Ragged John"] = { mapID = 52, x = 0.4470, y = 0.2510 }, -- Sentinel Hill area (approx)
+        ["Cecilia Clessington"] = { mapID = 52, x = 0.4190, y = 0.6990 }, -- Moonbrook (approx)
+        ["Marshal McBride"] = { mapID = 37, x = 0.4840, y = 0.4200 }, -- Northshire (approx)
+    },
+    npcDisplayIDs = {
+        ["Agent Render"] = 110648,
+    },
+    chapterIcons = {
+        ["Lion's Heritage"] = "Interface\\Icons\\inv_misc_tournaments_banner_human",
+    },
+    chapterDisplayIDs = {
+        ["Lion's Heritage"] = 110648,
+    },
     chapters = {
         {
             chapter = "Lion's Heritage",

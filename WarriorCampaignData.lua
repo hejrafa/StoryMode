@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.WarriorCampaignData = {
     title = "Battlelord's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Battlelord's Campaign",
     description = "Chosen by Odyn himself, you ascend to Skyhold — the legendary warrior paradise above the clouds. As Battlelord of the Valarjar, you must recover the Gjallarhorn, forge alliances with titan keepers in Ulduar, and lead a final assault against the Legion on the Broken Shore.",
     zone = "Skyhold / Broken Isles",
     expansion = "Legion",
@@ -38,20 +38,20 @@ SM.WarriorCampaignData = {
 
     -- NPC creature display IDs for chapter portraits
     npcDisplayIDs = {
-        ["Danica the Reclaimer"]        = 65407,
+        ["Danica the Reclaimer"]        = 73300,
         ["Odyn"]                        = 67230,
-        ["Hymdall"]                     = 64816,
-        ["Skyseer Ghrent"]              = 55903,
-        ["Svergan Stormcloak"]          = 65311,
-        ["Jarum Skymane"]               = 67149,
-        ["Finna Bjornsdottir"]          = 65308,
-        ["Ragnvald Drakeborn"]          = 65310,
-        ["Dvalen Ironrune"]             = 65309,
+        ["Hymdall"]                     = 67773,
+        ["Skyseer Ghrent"]              = 72034,
+        ["Svergan Stormcloak"]          = 67925,
+        ["Jarum Skymane"]               = 69544,
+        ["Finna Bjornsdottir"]          = 67923,
+        ["Ragnvald Drakeborn"]          = 72036,
+        ["Dvalen Ironrune"]             = 25754,
         ["Thorim"]                      = 28977,
-        ["Hodir"]                       = 28893,
-        ["Aerylia"]                     = 65407,
-        ["Maiev Shadowsong"]            = 67028,
-        ["Valarjar Warsinger"]          = 65311,
+        ["Hodir"]                       = 28743,
+        ["Aerylia"]                     = 67161,
+        ["Maiev Shadowsong"]            = 77009,
+        ["Valarjar Warsinger"]          = 65678,
     },
 
     -- =========================================================================

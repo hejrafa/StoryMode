@@ -33,17 +33,17 @@ SM.DrustvarData = {
     },
 
     npcDisplayIDs = {
-        ["Taelia"]                      = 82139,
-        ["Cyril White"]                 = 82140,
-        ["Lucille Waycrest"]            = 82141,
-        ["Marshal Everit Reade"]        = 82142,
-        ["Inquisitor Sterntide"]        = 82143,
-        ["Inquisitor Cleardawn"]        = 82144,
-        ["Inquisitor Notley"]           = 82145,
-        ["Evelyn Pare"]                 = 82146,
-        ["Warren Ashton"]               = 82147,
-        ["Angus Ballaster"]             = 82148,
-        ["Marten Webb"]                 = 82149,
+        ["Taelia"]                      = 81291,
+        ["Cyril White"]                 = 81470,
+        ["Lucille Waycrest"]            = 78452,
+        ["Marshal Everit Reade"]        = 76670,
+        ["Inquisitor Sterntide"]        = 81608,
+        ["Inquisitor Cleardawn"]        = 81606,
+        ["Inquisitor Notley"]           = 81604,
+        ["Evelyn Pare"]                 = 78861,
+        ["Warren Ashton"]               = 82701,
+        ["Angus Ballaster"]             = 82283,
+        ["Marten Webb"]                 = 81831,
     },
 
     -- =========================================================================

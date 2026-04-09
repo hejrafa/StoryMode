@@ -54,8 +54,8 @@ SM.RogueCampaignData = {
         ["Princess Tess Greymane"]      = 53598,
         ["Master Mathias Shaw"]         = 83274,
         ["Apothecary Keever"]           = 70820,
-        ["Lilian Voss"]                 = 67721,
-        ["Maiev Shadowsong"]            = 67028,
+        ["Lilian Voss"]                 = 64531,
+        ["Maiev Shadowsong"]            = 77009,
         ["Val'zuun"]                    = 67880,
     },
 

@@ -10,8 +10,20 @@ SM.GnomeHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of Gnomeregan",
     color = { 0.75, 0.62, 0.27 },
-    icon = "Interface\\Icons\\inv_misc_tabard_gnomeregan",
+    icon = "Interface\\Icons\\inv_cape_armor_gnome_d_01",
     startQuest = { id = 54402, name = "Shifting Gears", npc = "Ace Pilot Stormcog", location = "Stormwind Embassy" },
+    npcLocations = {
+        ["Ace Pilot Stormcog"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy
+        ["Captain Tread Sparknozzle"] = { mapID = 27, x = 0.3960, y = 0.5530 }, -- New Tinkertown (approx)
+        ["Fizzi Tinkerbow"] = { mapID = 114, x = 0.4120, y = 0.5340 }, -- Borean Tundra (approx)
+        ["Cog Captain Winklespring"] = { mapID = 120, x = 0.4100, y = 0.8500 }, -- Storm Peaks (approx)
+    },
+    chapterIcons = {
+        ["Heritage of Gnomeregan"] = "Interface\\Icons\\inv_cape_armor_gnome_d_01",
+    },
+    chapterDisplayIDs = {
+        ["Heritage of Gnomeregan"] = 89819,
+    },
     chapters = {
         {
             chapter = "Heritage of Gnomeregan",

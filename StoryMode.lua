@@ -241,6 +241,21 @@ local function FormatRepStatus(ch)
     end
 end
 
+local function GetUnmetRepRequirement(ch)
+    if not ch or not ch.repRequirement then return nil end
+    local _, standingID = GetRepLevel(ch.repRequirement.faction)
+    local currentRep = REP_NAMES[standingID]
+    local requiredRep = ch.repRequirement.level
+    local currentLevel = standingID or 0
+    local requiredLevel = REP_LEVELS[requiredRep] or 0
+    if currentLevel >= requiredLevel then return nil end
+    return {
+        faction = ch.repRequirement.faction,
+        currentRep = currentRep,
+        requiredRep = requiredRep,
+    }
+end
+
 local function GetFirstUnmetChapterPrerequisite(ch)
     if not ch or not ch.prerequisites then return nil end
     for _, req in ipairs(ch.prerequisites) do
@@ -248,6 +263,52 @@ local function GetFirstUnmetChapterPrerequisite(ch)
             return req
         end
     end
+    return nil
+end
+
+local function GetQuestLockReason(data, ch, questIndex, nextChapterQuests)
+    if not data or not ch then return nil end
+
+    local playerLevel = UnitLevel("player") or 0
+    if data.requiredLevel and playerLevel < data.requiredLevel then
+        return string.format("Requires level %d (you are %d).", data.requiredLevel, playerLevel)
+    end
+
+    local unmetPrereq = GetFirstUnmetChapterPrerequisite(ch)
+    if unmetPrereq then
+        local questName = unmetPrereq.name or ("Quest ID " .. tostring(unmetPrereq.id))
+        if unmetPrereq.npc and unmetPrereq.npc ~= "" then
+            return "Requires campaign quest: " .. questName .. " (from " .. unmetPrereq.npc .. ")."
+        end
+        return "Requires campaign quest: " .. questName .. "."
+    end
+
+    local unmetRep = GetUnmetRepRequirement(ch)
+    if unmetRep then
+        if unmetRep.currentRep then
+            return unmetRep.faction .. " reputation: " .. unmetRep.currentRep .. " (requires " .. unmetRep.requiredRep .. ")."
+        end
+        return unmetRep.faction .. " reputation required: " .. unmetRep.requiredRep .. "."
+    end
+
+    if questIndex and questIndex > 1 then
+        local prevQuest = ch.quests and ch.quests[questIndex - 1]
+        if prevQuest and not IsQuestEffectivelyComplete(questIndex - 1, ch.quests, nextChapterQuests) then
+            return "Requires previous quest: " .. (prevQuest.name or ("Quest ID " .. tostring(prevQuest.id))) .. "."
+        end
+    end
+
+    return nil
+end
+
+local function GetQuestlineGateReason(data)
+    if not data then return nil end
+
+    local playerLevel = UnitLevel("player") or 0
+    if data.requiredLevel and playerLevel < data.requiredLevel then
+        return string.format("Requires level %d (you are %d).", data.requiredLevel, playerLevel)
+    end
+
     return nil
 end
 
@@ -1038,6 +1099,16 @@ local sTrackBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
 sTrackBtn:SetSize(240, 40)
 sTrackBtn:SetText("Begin This Story")
 sTrackBtn:RegisterForClicks("AnyUp")
+sTrackBtn.lockReason = nil
+sTrackBtn:SetScript("OnEnter", function(self)
+    if self.lockReason then
+        SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:AddLine("Story is locked", 1, 1, 1)
+        SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
+        SMTooltip:Show()
+    end
+end)
+sTrackBtn:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
 local sCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sCompleteText:SetTextColor(0.40, 0.82, 0.35)
@@ -1086,7 +1157,34 @@ local CH_PORT  = 26       -- portrait circle size
 local CH_LIST_W = 380     -- fixed width for chapter list (centered in panel)
 
 -- Set a 2D NPC portrait from a pre-stored creature display ID
-local function SetChapterPortrait(portraitTex, displayID)
+local HERITAGE_ICON_BY_RACE = {
+    BloodElf = 2459464,
+    Goblin = "Interface\\Icons\\inv_misc_tabard_goblin",
+    Troll = "Interface\\Icons\\inv_misc_tabard_darkspear",
+    Orc = "Interface\\Icons\\inv_misc_tabard_orgrimmar",
+    Tauren = "Interface\\Icons\\inv_misc_tabard_thunderbluff",
+    Human = "Interface\\Icons\\inv_misc_tabard_stormwind",
+    Dwarf = "Interface\\Icons\\inv_misc_tabard_ironforge",
+    Gnome = "Interface\\Icons\\inv_misc_tabard_gnomeregan",
+    NightElf = "Interface\\Icons\\inv_misc_tabard_darnassus",
+    Worgen = "Interface\\Icons\\inv_misc_tabard_gilneas",
+    Draenei = "Interface\\Icons\\inv_misc_tabard_exodar",
+    Pandaren = "Interface\\Icons\\inv_misc_tabard_tushui",
+    DarkIronDwarf = "Interface\\Icons\\inv_misc_tabard_darkiron",
+    Scourge = "Interface\\Icons\\inv_misc_tabard_forsaken",
+}
+local HERITAGE_ICON_FALLBACK = "Interface\\Icons\\inv_misc_cape_18"
+local PANDAREN_TABARD_ICON = "Interface\\Icons\\inv_misc_tabard_tushui"
+
+local function SafeSetTexture(tex, path)
+    tex:SetTexture(path)
+    return tex:GetTexture() ~= nil
+end
+
+local function SetChapterPortrait(portraitTex, displayID, iconPath)
+    -- Prevent stale portrait reuse when a source fails to resolve.
+    portraitTex:SetTexture(nil)
+
     local fallbackID = currentStoryData and currentStoryData.portraitDisplayID
     local tryID = nil
     if displayID and displayID ~= 0 then
@@ -1098,14 +1196,115 @@ local function SetChapterPortrait(portraitTex, displayID)
         -- Creature portraits look best with a slight center crop.
         portraitTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
         SetPortraitTextureFromCreatureDisplayID(portraitTex, tryID)
+        if not portraitTex:GetTexture() then
+            -- If creature display lookup fails, try chapter icon before question mark.
+            if iconPath then
+                portraitTex:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+                if not SafeSetTexture(portraitTex, iconPath) then
+                    SafeSetTexture(portraitTex, "Interface\\Icons\\INV_Misc_QuestionMark")
+                end
+            else
+                SafeSetTexture(portraitTex, "Interface\\Icons\\INV_Misc_QuestionMark")
+            end
+        end
+    elseif currentStoryData and currentStoryData.race and not currentStoryData.class then
+        -- Heritage tracks: prefer achievement art, then cloak/tabard fallback.
+        portraitTex:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+        local achIcon
+        if currentStoryData.achievementID then
+            local _,_,_,_,_,_,_,_,_,icon = GetAchievementInfo(currentStoryData.achievementID)
+            if icon and icon ~= 0 then achIcon = icon end
+        end
+        if not (achIcon and SafeSetTexture(portraitTex, achIcon)) then
+            local heritageIcon = HERITAGE_ICON_BY_RACE[currentStoryData.race]
+            if not (heritageIcon and SafeSetTexture(portraitTex, heritageIcon)) then
+                if currentStoryData.race == "Pandaren" then
+                    SafeSetTexture(portraitTex, PANDAREN_TABARD_ICON)
+                elseif not SafeSetTexture(portraitTex, HERITAGE_ICON_FALLBACK) then
+                    SafeSetTexture(portraitTex, "Interface\\Icons\\INV_Misc_QuestionMark")
+                end
+            end
+        end
+    elseif iconPath then
+        -- Chapter icon override (non-NPC visual) when a campaign defines one.
+        portraitTex:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+        if not SafeSetTexture(portraitTex, iconPath) then
+            SafeSetTexture(portraitTex, "Interface\\Icons\\INV_Misc_QuestionMark")
+        end
     elseif currentStoryData and currentStoryData.icon then
         -- Tabard/banner icons often have transparent outer margins; crop inward for chapter portraits.
         portraitTex:SetTexCoord(0.16, 0.84, 0.12, 0.88)
-        portraitTex:SetTexture(currentStoryData.icon)
+        if not SafeSetTexture(portraitTex, currentStoryData.icon) then
+            local fallback = currentStoryData.race and HERITAGE_ICON_BY_RACE[currentStoryData.race]
+            if not (fallback and SafeSetTexture(portraitTex, fallback)) then
+                SafeSetTexture(portraitTex, "Interface\\Icons\\INV_Misc_QuestionMark")
+            end
+        end
     else
         portraitTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-        portraitTex:SetTexture(nil)
+        local fallback = currentStoryData and currentStoryData.race and HERITAGE_ICON_BY_RACE[currentStoryData.race]
+        if fallback then
+            portraitTex:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+            SafeSetTexture(portraitTex, fallback)
+        else
+            portraitTex:SetTexture(nil)
+        end
     end
+end
+
+-- Resolve chapter portrait source: explicit chapter override first, then first quest's NPC portrait.
+local function GetChapterPortraitSource(data, chapter)
+    if not data or not chapter then
+        return nil, nil
+    end
+
+    -- Heritage chains: use explicit chapter override when provided, otherwise first-quest NPC.
+    if data.race and not data.class then
+        if data.chapterDisplayIDs then
+            local chapterDisplayID = data.chapterDisplayIDs[chapter.chapter]
+            if chapterDisplayID and chapterDisplayID ~= 0 then
+                return chapterDisplayID, nil
+            end
+        end
+        if data.chapterIcons then
+            local chapterIcon = data.chapterIcons[chapter.chapter]
+            if chapterIcon and chapterIcon ~= "" then
+                return nil, chapterIcon
+            end
+        end
+        if data.npcDisplayIDs and chapter.quests and chapter.quests[1] then
+            local npcName = chapter.quests[1].npc
+            local id = npcName and data.npcDisplayIDs[npcName]
+            if id and id ~= 0 then
+                return id, nil
+            end
+        end
+        return nil, nil
+    end
+
+    if data.chapterDisplayIDs then
+        local chapterDisplayID = data.chapterDisplayIDs[chapter.chapter]
+        if chapterDisplayID and chapterDisplayID ~= 0 then
+            return chapterDisplayID, nil
+        end
+    end
+
+    if data.chapterIcons then
+        local chapterIcon = data.chapterIcons[chapter.chapter]
+        if chapterIcon and chapterIcon ~= "" then
+            return nil, chapterIcon
+        end
+    end
+
+    if data.npcDisplayIDs and chapter.quests and chapter.quests[1] then
+        local npcName = chapter.quests[1].npc
+        local id = npcName and data.npcDisplayIDs[npcName]
+        if id and id ~= 0 then
+            return id, nil
+        end
+    end
+
+    return nil, nil
 end
 
 local function CreateChapterRow(parent, index)
@@ -1564,6 +1763,9 @@ local function CreateQuestCard(parent)
             SMTooltip:AddLine(" ")
             SMTooltip:AddLine(self.tooltipStatus)
         end
+        if self.tooltipRequirement then
+            SMTooltip:AddLine(self.tooltipRequirement, 1.0, 0.82, 0.35, true)
+        end
 
         SMTooltip:Show()
     end)
@@ -1616,7 +1818,12 @@ LayoutSelectedChapter = function()
         dChapterSummary:Hide()
     end
 
-    if ch.note then
+    local playerLevel = UnitLevel("player") or 0
+    if data.requiredLevel and playerLevel < data.requiredLevel then
+        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t Requires level " .. data.requiredLevel .. " (you are " .. playerLevel .. ").")
+        dChapterNote:SetTextColor(1.0, 0.82, 0.35)
+        dChapterNote:Show()
+    elseif ch.note then
         dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t " .. ch.note)
         dChapterNote:Show()
     elseif ch.prerequisites then
@@ -1667,14 +1874,16 @@ LayoutSelectedChapter = function()
         local nextCh = chapters[dSelectedChapter + 1]
         local qDone = IsQuestEffectivelyComplete(i, ch.quests, nextCh and nextCh.quests)
         local qInLog = not qDone and IsQuestInLog(q.id)
-        local qIsCurrent = (q.id == nextQuestID) or qInLog
+        local qIsNextRecommended = (q.id == nextQuestID)
+        local lockReason = (not qDone and not qInLog) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
 
         card.title:SetText(q.name)
         card.npcLabel:SetText(q.npc or "")
         card.questID = q.id
         card.tooltipTitle = q.name
         card.tooltipNPC = q.npc
-        card.tooltipStatus = qDone and "|cff59c746Completed|r" or qIsCurrent and "|cffffd223In Progress|r" or "|cff808080Not yet available|r"
+        card.tooltipStatus = qDone and "|cff59c746Completed|r" or qInLog and "|cffffd223In Progress|r" or "|cff808080Not yet available|r"
+        card.tooltipRequirement = lockReason
 
         card.icon:SetSize(14, 14)
         card.icon:SetDesaturation(0)
@@ -1685,7 +1894,7 @@ LayoutSelectedChapter = function()
             card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.8)
             card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.6)
             card:SetAlpha(1.0)
-        elseif qIsCurrent then
+        elseif qInLog or qIsNextRecommended then
             card.icon:SetAtlas("common-icon-forwardarrow", false)
             card.icon:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
             card.icon:Show()
@@ -1836,23 +2045,34 @@ local function LayoutDetailTab()
         -- CTA button
         local quest = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
+        local gateReason = GetQuestlineGateReason(data)
         sTrackBtn:ClearAllPoints()
         sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
         sCompleteText:Hide()
         if quest then
-            sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
-            sTrackBtn:SetScript("OnClick", function()
-                local result = SetWaypointForQuest(data, quest)
-                PrintTrackResult(result, quest, data)
-                storyFrame:Hide()
-            end)
-            sTrackBtn:Enable()
-            sTrackBtn:SetAlpha(1.0)
+            if gateReason then
+                sTrackBtn:SetText("Story Locked")
+                sTrackBtn:SetScript("OnClick", nil)
+                sTrackBtn:Disable()
+                sTrackBtn:SetAlpha(0.5)
+                sTrackBtn.lockReason = gateReason
+            else
+                sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
+                sTrackBtn:SetScript("OnClick", function()
+                    local result = SetWaypointForQuest(data, quest)
+                    PrintTrackResult(result, quest, data)
+                    storyFrame:Hide()
+                end)
+                sTrackBtn:Enable()
+                sTrackBtn:SetAlpha(1.0)
+                sTrackBtn.lockReason = nil
+            end
         else
             sTrackBtn:SetText("Story Finished")
             sTrackBtn:SetScript("OnClick", nil)
             sTrackBtn:Disable()
             sTrackBtn:SetAlpha(0.5)
+            sTrackBtn.lockReason = nil
         end
         sTrackBtn:Show()
         lastAnchor = sTrackBtn
@@ -1974,9 +2194,8 @@ local function LayoutDetailTab()
             local isActive = cDone > 0 and not isComplete
 
             -- NPC portrait
-            local npcName = ch.quests and ch.quests[1] and ch.quests[1].npc
-            local displayID = npcName and data.npcDisplayIDs and data.npcDisplayIDs[npcName]
-            SetChapterPortrait(node.portrait, displayID)
+            local displayID, chapterIcon = GetChapterPortraitSource(data, ch)
+            SetChapterPortrait(node.portrait, displayID, chapterIcon)
 
             -- Tooltip
             node.tooltipTitle = ch.chapter
@@ -2159,8 +2378,17 @@ local function UpdateStoryDetail(data)
     tabStoryHit:Show(); tabProgressHit:Show()
 
     -- Portrait icon (creature portrait or texture)
+    heroIcon:SetTexture(nil)
     if data.portraitDisplayID then
+        heroIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
         SetPortraitTextureFromCreatureDisplayID(heroIcon, data.portraitDisplayID)
+        if not heroIcon:GetTexture() then
+            local fallback = data.race and HERITAGE_ICON_BY_RACE[data.race]
+            heroIcon:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+            if not (fallback and SafeSetTexture(heroIcon, fallback)) then
+                SafeSetTexture(heroIcon, HERITAGE_ICON_FALLBACK)
+            end
+        end
     else
         local iconID
         if data.achievementID then
@@ -2168,7 +2396,22 @@ local function UpdateStoryDetail(data)
             if achIcon and achIcon ~= 0 then iconID = achIcon end
         end
         iconID = iconID or data.icon
-        if iconID and iconID ~= 0 then heroIcon:SetTexture(iconID) else heroIcon:SetTexture(nil) end
+        if iconID and iconID ~= 0 then
+            heroIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+            if not SafeSetTexture(heroIcon, iconID) then
+                local fallback = data.race and HERITAGE_ICON_BY_RACE[data.race]
+                heroIcon:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+                if not (fallback and SafeSetTexture(heroIcon, fallback)) then
+                    SafeSetTexture(heroIcon, HERITAGE_ICON_FALLBACK)
+                end
+            end
+        else
+            local fallback = data.race and HERITAGE_ICON_BY_RACE[data.race]
+            heroIcon:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+            if not (fallback and SafeSetTexture(heroIcon, fallback)) then
+                SafeSetTexture(heroIcon, HERITAGE_ICON_FALLBACK)
+            end
+        end
     end
 
     local displayTitle = data.title
@@ -2384,11 +2627,70 @@ local function BuildStoryWindow()
 
                 if data.portraitDisplayID then
                     SetPortraitTextureFromCreatureDisplayID(iconTex, data.portraitDisplayID)
+                    if not iconTex:GetTexture() then
+                        if data.achievementID then
+                            local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
+                            if achIcon and achIcon ~= 0 then
+                                iconTex:SetTexture(achIcon)
+                            end
+                        end
+                        if not iconTex:GetTexture() and data.icon then
+                            SafeSetTexture(iconTex, data.icon)
+                        end
+                        if not iconTex:GetTexture() and data.race and not data.class then
+                            local heritageIcon = HERITAGE_ICON_BY_RACE[data.race]
+                            if not (heritageIcon and SafeSetTexture(iconTex, heritageIcon)) then
+                                if data.race == "Pandaren" then
+                                    SafeSetTexture(iconTex, PANDAREN_TABARD_ICON)
+                                else
+                                    SafeSetTexture(iconTex, HERITAGE_ICON_FALLBACK)
+                                end
+                            end
+                        end
+                    end
+                elseif data.race and not data.class and data.icon then
+                    -- Heritage cards should reflect the configured questline card icon.
+                    if not SafeSetTexture(iconTex, data.icon) then
+                        local heritageIcon = HERITAGE_ICON_BY_RACE[data.race]
+                        if not (heritageIcon and SafeSetTexture(iconTex, heritageIcon)) then
+                            if data.race == "Pandaren" then
+                                SafeSetTexture(iconTex, PANDAREN_TABARD_ICON)
+                            else
+                                SafeSetTexture(iconTex, HERITAGE_ICON_FALLBACK)
+                            end
+                        end
+                    end
                 elseif data.achievementID then
                     local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
                     if achIcon and achIcon ~= 0 then iconTex:SetTexture(achIcon) end
                 elseif data.icon then
-                    iconTex:SetTexture(data.icon)
+                    if not SafeSetTexture(iconTex, data.icon) then
+                        if data.race == "Pandaren" then
+                            SafeSetTexture(iconTex, PANDAREN_TABARD_ICON)
+                        else
+                            SafeSetTexture(iconTex, HERITAGE_ICON_FALLBACK)
+                        end
+                    end
+                elseif data.race and not data.class then
+                    -- Heritage cards: fallback to cloak/tabard style imagery.
+                    local heritageIcon = HERITAGE_ICON_BY_RACE[data.race]
+                    if not (heritageIcon and SafeSetTexture(iconTex, heritageIcon)) then
+                        if data.race == "Pandaren" then
+                            SafeSetTexture(iconTex, PANDAREN_TABARD_ICON)
+                        else
+                            SafeSetTexture(iconTex, HERITAGE_ICON_FALLBACK)
+                        end
+                    end
+                end
+                if not iconTex:GetTexture() and data.race and not data.class then
+                    local heritageIcon = HERITAGE_ICON_BY_RACE[data.race]
+                    if not (heritageIcon and SafeSetTexture(iconTex, heritageIcon)) then
+                        if data.race == "Pandaren" then
+                            SafeSetTexture(iconTex, PANDAREN_TABARD_ICON)
+                        else
+                            SafeSetTexture(iconTex, HERITAGE_ICON_FALLBACK)
+                        end
+                    end
                 end
 
                 -- Gold circle border around the portrait

@@ -8,10 +8,21 @@ SM.DarkIronHeritageData = {
     faction = "Alliance",
     race = "DarkIronDwarf",
     requiredLevel = 50,
+    achievementID = 13076,
     achievementName = "Heritage o' the Dark Iron",
     color = { 0.45, 0.28, 0.22 },
-    icon = "Interface\\Icons\\inv_misc_tabard_darkiron",
     startQuest = { id = 51483, name = "Heritage o' the Dark Iron", npc = "Automatic", location = "Alliance city call-up" },
+    npcLocations = {
+        ["Moira Thaurissan"] = { mapID = 87, x = 0.2460, y = 0.5350 }, -- Hall of Explorers / Ironforge area (approx)
+        ["Anvil-Thane Thurgaden"] = { mapID = 242, x = 0.3500, y = 0.3800 }, -- Blackrock Depths (approx)
+        ["Kasea Angerforge"] = { mapID = 242, x = 0.3600, y = 0.4000 }, -- Blackrock Depths (approx)
+    },
+    chapterIcons = {
+        ["Heritage o' the Dark Iron"] = "Interface\\Icons\\inv_helm_plate_raidwarrior_p_01",
+    },
+    chapterDisplayIDs = {
+        ["Heritage o' the Dark Iron"] = 85249,
+    },
     chapters = {
         {
             chapter = "Heritage o' the Dark Iron",

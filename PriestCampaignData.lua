@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.PriestCampaignData = {
     title = "High Priest's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The High Priest's Campaign",
     description = "In Netherlight Temple, priests of the Light and the Void unite under one banner. As High Priest, you must bridge the divide between faith and shadow, infiltrate the Scarlet Onslaught, recover a void priestess lost to darkness, and lead a united conclave against the Legion.",
     zone = "Netherlight Temple / Broken Isles",
     expansion = "Legion",
@@ -35,8 +35,8 @@ SM.PriestCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Hooded Priestess"]            = 65710,
-        ["Alonsus Faol"]                = 65711,
+        ["Hooded Priestess"]            = 67598,
+        ["Alonsus Faol"]                = 67043,
         ["Prophet Velen"]               = 65405,
         ["Calia Menethil"]              = 65712,
         ["Moira Thaurissan"]            = 28025,

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ShamanCampaignData = {
     title = "Farseer's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Farseer's Campaign",
     description = "At the Maelstrom's edge, the Earthen Ring struggles to keep Azeroth from tearing apart. As Farseer, you must unite the elemental lords — Air, Earth, and Fire — and repair the Maelstrom's pillars before the planet itself shatters.",
     zone = "The Maelstrom / Broken Isles",
     expansion = "Legion",
@@ -36,19 +36,19 @@ SM.ShamanCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Thrall"]                      = 65433,
-        ["Farseer Nobundo"]             = 21338,
-        ["Advisor Sevel"]               = 65434,
-        ["Stormcaller Mylra"]           = 36132,
-        ["Consular Celestos"]           = 65435,
-        ["Thunderaan"]                  = 13448,
-        ["Muln Earthfury"]              = 65436,
-        ["Rehgar Earthfury"]            = 65437,
-        ["Therazane"]                   = 35611,
-        ["Firelord Smolderon"]          = 65438,
-        ["Elementalist Janai"]          = 65439,
-        ["Highlord Demitrian"]          = 13445,
-        ["Magatha Grimtotem"]           = 69445,
+        ["Thrall"]                      = 115495,
+        ["Farseer Nobundo"]             = 17600,
+        ["Advisor Sevel"]               = 16385,
+        ["Stormcaller Mylra"]           = 33020,
+        ["Consular Celestos"]           = 47254,
+        ["Thunderaan"]                  = 69205,
+        ["Muln Earthfury"]              = 38658,
+        ["Rehgar Earthfury"]            = 64946,
+        ["Therazane"]                   = 32913,
+        ["Firelord Smolderon"]          = 38793,
+        ["Elementalist Janai"]          = 36894,
+        ["Highlord Demitrian"]          = 14395,
+        ["Magatha Grimtotem"]           = 35807,
     },
 
     chapters = {

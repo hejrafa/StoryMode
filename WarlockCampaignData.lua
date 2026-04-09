@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.WarlockCampaignData = {
     title = "Netherlord's Campaign",
-    achievementName = "Forged for Battle",
+    achievementName = "The Netherlord's Campaign",
     description = "From Dreadscar Rift — a pocket of the Twisting Nether claimed by force — the Council of the Black Harvest commands demons to fight demons. As Netherlord, you must complete the council of six, rescue the imprisoned Kanrethad, and prove that power seized from the enemy is the sharpest weapon of all.",
     zone = "Dreadscar Rift / Broken Isles",
     expansion = "Legion",
@@ -34,17 +34,17 @@ SM.WarlockCampaignData = {
     },
 
     npcDisplayIDs = {
-        ["Ritssyn Flamescowl"]          = 64821,
-        ["Calydus"]                     = 64820,
-        ["Gakin the Darkbinder"]        = 64822,
-        ["Kira Iresoul"]                = 64712,
-        ["Jubeka Shadowbreaker"]        = 64823,
-        ["Shinfel Blightsworn"]         = 64824,
-        ["Lulubelle Fizzlebang"]        = 64825,
-        ["Ernest Carlisle"]             = 64826,
-        ["Zinnin Smythe"]               = 64827,
-        ["Kanrethad Ebonlocke"]         = 69446,
-        ["Mor'zul Bloodbringer"]        = 64828,
+        ["Ritssyn Flamescowl"]          = 65975,
+        ["Calydus"]                     = 64476,
+        ["Gakin the Darkbinder"]        = 4867,
+        ["Kira Iresoul"]                = 68731,
+        ["Jubeka Shadowbreaker"]        = 46572,
+        ["Shinfel Blightsworn"]         = 65979,
+        ["Lulubelle Fizzlebang"]        = 67425,
+        ["Ernest Carlisle"]             = 68720,
+        ["Zinnin Smythe"]               = 65985,
+        ["Kanrethad Ebonlocke"]         = 47903,
+        ["Mor'zul Bloodbringer"]        = 14565,
     },
 
     chapters = {

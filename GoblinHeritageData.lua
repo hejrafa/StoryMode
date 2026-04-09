@@ -10,15 +10,26 @@ SM.GoblinHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of Kezan",
     color = { 0.25, 0.72, 0.20 },
-    icon = "Interface\\Icons\\inv_misc_tabard_goblin",
+    icon = "Interface\\Icons\\inv_chest_armor_goblin_d_01",
     startQuest = { id = 57043, name = "Old Friends, New Opportunities", npc = "Izzy", location = "Orgrimmar Embassy" },
     startMapID = 85,
     startX = 0.3790,
     startY = 0.8130,
+    npcLocations = {
+        ["Izzy"] = { mapID = 85, x = 0.3790, y = 0.8130 },
+        ["Sassy Hardwrench"] = { mapID = 85, x = 0.3790, y = 0.8130 }, -- Orgrimmar Embassy (approx)
+        ["Hobart Grapplehammer"] = { mapID = 210, x = 0.5200, y = 0.5200 }, -- Crapopolis area (approx)
+    },
     npcDisplayIDs = {
-        ["Sassy Hardwrench"] = 40444,
-        ["Hobart Grapplehammer"] = 19893,
-        ["Izzy"] = 0,
+        ["Sassy Hardwrench"] = 29889,
+        ["Hobart Grapplehammer"] = 677599,
+        ["Izzy"] = 29482,
+    },
+    chapterIcons = {
+        ["Heritage of Kezan"] = "Interface\\Icons\\inv_chest_armor_goblin_d_01",
+    },
+    chapterDisplayIDs = {
+        ["Heritage of Kezan"] = 29482,
     },
     chapters = {
         {
