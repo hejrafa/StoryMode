@@ -10,8 +10,11 @@ SM.DwarfHeritageData = {
     requiredLevel = 50,
     achievementName = "Heritage of the Bronzebeard",
     color = { 0.73, 0.55, 0.31 },
-    icon = "Interface\\Icons\\inv_misc_tabard_ironforge",
+    icon = "Interface\\Icons\\inv_misc_tournaments_banner_dwarf",
     startQuest = { id = 53838, name = "Keep Yer Feet On The Ground", npc = "Digger Golad", location = "Stormwind Embassy" },
+    npcDisplayIDs = {
+        ["Digger Golad"] = 89470,
+    },
     chapters = {
         {
             chapter = "Heritage of the Bronzebeard",

@@ -39,7 +39,7 @@ SM.WarriorCampaignData = {
     -- NPC creature display IDs for chapter portraits
     npcDisplayIDs = {
         ["Danica the Reclaimer"]        = 65407,
-        ["Odyn"]                        = 64850,
+        ["Odyn"]                        = 67230,
         ["Hymdall"]                     = 64816,
         ["Skyseer Ghrent"]              = 55903,
         ["Svergan Stormcloak"]          = 65311,
@@ -145,8 +145,8 @@ SM.WarriorCampaignData = {
             summary = "The war moves to the Broken Shore. Rally the Valarjar for a final push, brave the depths of Helheim, and earn your war wyrm.",
             recap = "The Broken Shore burned with felfire, and Odyn sent you to lead the Valarjar into the heart of the assault. You recruited new forces, armed them for the battles ahead, and ventured into Helheim itself to recover stolen souls and claim Helya's own horn as a trophy. When Kvaldir raiders answered your call and the last of the missing champions returned, Odyn summoned you for one final trial — the Trial of Rage. You emerged victorious, and a bloodthirsty war wyrm knelt before its new master.",
             quests = {
-                { id = 47137, name = "Champions of Legionfall",     npc = "Maiev Shadowsong" },
                 { id = 46173, name = "Tactical Planning",           npc = "Odyn" },
+                { id = 47137, name = "Champions of Legionfall",     npc = "Maiev Shadowsong" },
                 { id = 44849, name = "Recruitment Drive",            npc = "Odyn" },
                 { id = 44850, name = "Arming the Army",             npc = "Aerylia" },
                 { id = 45834, name = "Stolen Souls",                npc = "Aerylia" },

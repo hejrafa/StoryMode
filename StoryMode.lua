@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "0.1.0",
+    version = "1.0.0",
     selectedQuestline = 1,
 }
 
@@ -1095,8 +1095,15 @@ local function SetChapterPortrait(portraitTex, displayID)
         tryID = fallbackID
     end
     if tryID then
+        -- Creature portraits look best with a slight center crop.
+        portraitTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
         SetPortraitTextureFromCreatureDisplayID(portraitTex, tryID)
+    elseif currentStoryData and currentStoryData.icon then
+        -- Tabard/banner icons often have transparent outer margins; crop inward for chapter portraits.
+        portraitTex:SetTexCoord(0.16, 0.84, 0.12, 0.88)
+        portraitTex:SetTexture(currentStoryData.icon)
     else
+        portraitTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
         portraitTex:SetTexture(nil)
     end
 end
