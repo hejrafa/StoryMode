@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "1.0.2",
+    version = "1.1.0",
     selectedQuestline = 1,
 }
 
@@ -728,6 +728,9 @@ end
 
 if CanShowQuestline(SM.SuramarData) then
     RegisterQuestline(SM.SuramarData, "Epic Storylines")
+end
+if CanShowQuestline(SM.FrozenThroneData) then
+    RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
 if CanShowQuestline(SM.LilianVossData) then
     RegisterQuestline(SM.LilianVossData, "Character Stories")
@@ -2416,7 +2419,7 @@ local function UpdateStoryDetail(data)
     end
 
     local displayTitle = data.title
-    if data.achievementID then
+    if (not displayTitle or displayTitle == "") and data.achievementID then
         local _, achName = GetAchievementInfo(data.achievementID)
         if achName then displayTitle = achName end
     end

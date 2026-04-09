@@ -2,7 +2,7 @@
 ## Title: Story|cff64b5f6Mode|r
 ## Notes: |cff999999By Rafael Polutta|r|n|nA quest story companion that helps you discover, follow, and understand WoW's storylines.|nBrowse questlines, get context and lore, and follow guided paths through the world's stories.
 ## SavedVariables: StoryModeDB
-## Version: 1.0.2
+## Version: 1.1.0
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\storymode_icon
 
@@ -22,6 +22,7 @@ PandarenHeritageData.lua
 DarkIronHeritageData.lua
 SuramarData.lua
 DrustvarData.lua
+FrozenThroneData.lua
 DeathKnightCampaignData.lua
 DemonHunterCampaignData.lua
 DruidCampaignData.lua

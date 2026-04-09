@@ -24,6 +24,7 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 | Campaign | Expansion | Notes |
 |---|---|---|
 | Insurrection — Suramar | Legion | 10 chapters, Nightfallen rebellion |
+| The Frozen Throne — Arthas Menethil | Wrath of the Lich King | Culling, Wrathgate, full Icecrown war campaign, Halls of Reflection |
 | The Forsaken Daughter — Lilian Voss | Cataclysm → Battle for Azeroth | Horde only |
 | The Witchwood of Drustvar | Battle for Azeroth | Drust Do It. achievement |
 

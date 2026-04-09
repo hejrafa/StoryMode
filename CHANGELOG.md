@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.1.0
+
+### New
+- Added a major new Epic Storyline: **The Frozen Throne** (Arthas Menethil).
+- Added a dedicated campaign data module: `FrozenThroneData.lua`.
+- Added broad Wrath narrative coverage including:
+  - Culling of Stratholme
+  - Wrathgate arc and Dragonblight prelude quests
+  - Core Icecrown war chapters
+  - Frozen Halls lead-in through Halls of Reflection
+
+### Data Updates
+- Expanded quest coverage for the Arthas campaign to include narrative prerequisites and faction variants where applicable.
+- Removed the non-narrative completionist ledger chapter to keep the campaign story-focused.
+- Updated key NPC portrait display IDs for accuracy:
+  - High Commander Halford Wyrmbane
+  - Crusade Commander Entari
+  - Thassarian
+  - Matthias Lehner
+
+### UI / Organization
+- Registered **The Frozen Throne** under `Epic Storylines`.
+- Updated campaign listing documentation in `README.md`.
+
+### Packaging
+- Bumped addon version to `1.1.0` in `StoryMode.toc` and `StoryMode.lua`.
+- Added `FrozenThroneData.lua` to load order in `StoryMode.toc`.
+
 ## 1.0.2
 
 ### Fixes
