@@ -791,9 +791,65 @@ end
 -- ============================================================================
 
 -- Private tooltip for StoryMode-only hover text.
--- Use a unique named GameTooltipTemplate so its internal regions are created
--- correctly, while still avoiding SharedTooltipTemplate taint propagation.
-local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent, "GameTooltipTemplate")
+-- Uses a plain Frame + BackdropTemplate to avoid taint from secure XML templates
+-- (GameTooltipTemplate registers money frames that corrupt Blizzard's arithmetic).
+local SMTooltip
+do
+    local f = CreateFrame("Frame", "StoryModeTooltip", UIParent, "BackdropTemplate")
+    f:SetFrameStrata("TOOLTIP")
+    f:SetBackdrop({
+        bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true, tileSize = 16, edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    })
+    f:SetBackdropColor(0.09, 0.09, 0.09, 0.95)
+    f:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+    f:Hide()
+
+    local linePool, activeLines, TPAD = {}, {}, 8
+
+    local function ReleaseLines()
+        for _, ln in ipairs(activeLines) do ln:Hide(); linePool[#linePool+1] = ln end
+        wipe(activeLines)
+    end
+
+    function f:SetOwner(parent, anchor)
+        self:SetParent(parent)
+        self:ClearAllPoints()
+        if anchor == "ANCHOR_LEFT" then
+            self:SetPoint("RIGHT", parent, "LEFT", -5, 0)
+        else
+            self:SetPoint("LEFT", parent, "RIGHT", 5, 0)
+        end
+        ReleaseLines()
+        self:SetWidth(10)
+        self:SetHeight(TPAD * 2)
+    end
+
+    function f:AddLine(text, r, g, b, wrap)
+        local ln = table.remove(linePool) or f:CreateFontString(nil, "OVERLAY", "GameTooltipText")
+        ln:ClearAllPoints()
+        ln:SetPoint("TOPLEFT", f, "TOPLEFT", TPAD, -TPAD - #activeLines * 16)
+        ln:SetWidth(wrap and 250 or 0)
+        ln:SetWordWrap(wrap and true or false)
+        ln:SetText(text or "")
+        ln:SetTextColor(r or 1, g or 1, b or 1, 1)
+        ln:Show()
+        activeLines[#activeLines+1] = ln
+        local needed = (ln:GetStringWidth() or 0) + TPAD * 2
+        if needed > self:GetWidth() then self:SetWidth(needed) end
+        self:SetHeight(TPAD * 2 + #activeLines * 16)
+    end
+
+    local baseHide = f.Hide
+    function f:Hide()
+        ReleaseLines()
+        baseHide(self)
+    end
+
+    SMTooltip = f
+end
 
 local FRAME_W  = 1012
 local FRAME_H  = 550
@@ -1597,6 +1653,44 @@ dChapterNote:SetJustifyH("LEFT"); dChapterNote:SetSpacing(3); dChapterNote:SetWo
 dChapterNote:SetTextColor(0.90, 0.72, 0.30)  -- warm amber, distinct from body text
 dChapterNote:Hide()
 
+-- Achievement reward line — clickable, shown when a chapter has an achievementID
+local dChapterAchievement = CreateFrame("Button", nil, detailChild)
+dChapterAchievement:SetHeight(18)
+dChapterAchievement:Hide()
+do
+    local icon = dChapterAchievement:CreateTexture(nil, "ARTWORK")
+    icon:SetSize(16, 16)
+    icon:SetPoint("LEFT", dChapterAchievement, "LEFT", 0, -1)
+    dChapterAchievement.icon = icon
+
+    local label = NoShadow(dChapterAchievement:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+    label:SetPoint("LEFT", icon, "RIGHT", 5, 0)
+    label:SetJustifyH("LEFT")
+    dChapterAchievement.label = label
+
+    dChapterAchievement:SetScript("OnClick", function(self)
+        if self.achID then
+            if AchievementFrame_ShowAchievement then
+                AchievementFrame_ShowAchievement(self.achID)
+            elseif AchievementFrame then
+                ShowUIPanel(AchievementFrame)
+            else
+                ToggleAchievementFrame()
+            end
+        end
+    end)
+    dChapterAchievement:SetScript("OnEnter", function(self)
+        self.label:SetTextColor(1, 1, 0.6)
+    end)
+    dChapterAchievement:SetScript("OnLeave", function(self)
+        if self.achieved then
+            self.label:SetTextColor(0.45, 0.90, 0.35)
+        else
+            self.label:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        end
+    end)
+end
+
 -- ── Track node pool ─────────────────────────────────────────────────
 local function CreateTrackNode(parent)
     local btn = CreateFrame("Button", nil, parent)
@@ -1678,6 +1772,18 @@ local function CreateTrackNode(parent)
             if self.tooltipProgress then
                 SMTooltip:AddLine(" ")
                 SMTooltip:AddLine(self.tooltipProgress, C_DIM[1], C_DIM[2], C_DIM[3])
+            end
+            if self.tooltipAchievementID then
+                local _, achName, _, achDone = GetAchievementInfo(self.tooltipAchievementID)
+                if achName then
+                    SMTooltip:AddLine(" ")
+                    local shield = "|TInterface\\AchievementFrame\\UI-Achievement-TinyShield:14:14:0:-2|t "
+                    if achDone then
+                        SMTooltip:AddLine(shield .. achName, 0.45, 0.90, 0.35)
+                    else
+                        SMTooltip:AddLine(shield .. achName, C_GOLD[1], C_GOLD[2], C_GOLD[3])
+                    end
+                end
             end
             SMTooltip:Show()
         end
@@ -1861,6 +1967,39 @@ LayoutSelectedChapter = function()
         dChapterNote:Hide()
     end
 
+    -- Achievement reward line — anchor below the last visible header element
+    local achID = ch.achievementID
+    if achID then
+        local _, achName, _, achDone, _,_,_,_, _, achIcon = GetAchievementInfo(achID)
+        if achName then
+            dChapterAchievement.achID = achID
+            dChapterAchievement.achieved = achDone
+            if achIcon then
+                dChapterAchievement.icon:SetTexture(achIcon)
+                dChapterAchievement.icon:Show()
+            else
+                dChapterAchievement.icon:Hide()
+            end
+            dChapterAchievement.label:SetText(achName)
+            if achDone then
+                dChapterAchievement.label:SetTextColor(0.45, 0.90, 0.35)
+            else
+                dChapterAchievement.label:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            end
+            local achHeaderAnchor = dChapterNote:IsShown() and dChapterNote
+                                 or dChapterSummary:IsShown() and dChapterSummary
+                                 or dChapterTitle
+            dChapterAchievement:ClearAllPoints()
+            dChapterAchievement:SetPoint("TOPLEFT", achHeaderAnchor, "BOTTOMLEFT", 0, -8)
+            dChapterAchievement:SetPoint("TOPRIGHT", detailChild, "RIGHT", -CP, 0)
+            dChapterAchievement:Show()
+        else
+            dChapterAchievement:Hide()
+        end
+    else
+        dChapterAchievement:Hide()
+    end
+
     -- Quest cards
     local nextQuest = FindNextQuest(data)
     local nextQuestID = nextQuest and nextQuest.id
@@ -1922,7 +2061,8 @@ LayoutSelectedChapter = function()
         card:ClearAllPoints()
         card:SetWidth(CARD_W)
         if i == 1 then
-            local anchor = dChapterNote:IsShown() and dChapterNote
+            local anchor = dChapterAchievement:IsShown() and dChapterAchievement
+                        or dChapterNote:IsShown() and dChapterNote
                         or dChapterSummary:IsShown() and dChapterSummary
                         or dChapterTitle
             card:SetPoint("TOP", anchor, "BOTTOM", 0, -20)
@@ -1946,7 +2086,7 @@ LayoutSelectedChapter = function()
     end)
 end
 
-local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote }
+local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote, dChapterAchievement }
 
 local function ShowDetail(show)
     heroFrame[show and "Show" or "Hide"](heroFrame)
@@ -2210,6 +2350,7 @@ local function LayoutDetailTab()
             else
                 node.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
             end
+            node.tooltipAchievementID = ch.achievementID or nil
 
             -- Status styling
             if isComplete then
