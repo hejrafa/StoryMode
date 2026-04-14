@@ -407,6 +407,7 @@ end
 SM.FrozenThroneData = {
     title = "The Frozen Throne",
     achievementName = "Arthas Menethil",
+    achievements = { 547, 40, 41 },  -- Veteran of the Wrathgate, Icecrown: The Final Goal, Loremaster of Northrend
     description = "Follow the rise and fall of Arthas Menethil through the moments that define his legacy: the Culling of Stratholme, the Wrathgate war, the full Icecrown campaign, and the final confrontation beneath the Frozen Throne.",
     zone = "Dragonblight / Icecrown",
     expansion = "Wrath of the Lich King",

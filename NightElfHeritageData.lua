@@ -9,6 +9,7 @@ SM.NightElfHeritageData = {
     race = "NightElf",
     requiredLevel = 50,
     achievementName = "Heritage of the Kaldorei",
+    achievements = {},
     color = { 0.46, 0.40, 0.78 },
     icon = 255131,
     startQuest = { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", location = "Stormwind Embassy" },

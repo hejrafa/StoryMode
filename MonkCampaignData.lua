@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.MonkCampaignData = {
     title = "Grandmaster's Campaign",
     achievementName = "The Grandmaster's Campaign",
+    achievements = { 42275, 10746, 10994, 11171, 11223 },
     description = "When the Peak of Serenity falls to the Legion, the monks rally at the Temple of Five Dawns on the Wandering Isle. As Grandmaster, you must defend Tian Monastery, recruit legendary warriors, and brew the mythical Storm Brew to turn the tide of war.",
     zone = "Wandering Isle / Broken Isles",
     expansion = "Legion",

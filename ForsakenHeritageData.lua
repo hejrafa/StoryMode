@@ -24,6 +24,7 @@ SM.ForsakenHeritageData = {
 
     -- Achievement resolver will fill achievementID at runtime if needed
     achievementName = "Heritage of the Forsaken",
+    achievements = { 15579 },  -- Return to Lordaeron
 
     color = { 0.38, 0.40, 0.42 }, -- cold grey
     -- Use a Forsaken-themed icon for the questline card instead of a character portrait.

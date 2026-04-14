@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.RogueCampaignData = {
     title = "Shadowblade's Campaign",
     achievementName = "The Shadowblade's Campaign",
+    achievements = { 42279, 10746, 10994, 11171, 11223, 42295 },
     description = "A secret order of rogues operates from the shadows beneath Dalaran. As the newest member of The Uncrowned, you must obtain legendary artifact weapons, uncover a deadly conspiracy that has infiltrated SI:7, and hunt down a dreadlord hiding in plain sight among your allies.",
     zone = "Dalaran / Broken Isles",
     expansion = "Legion",

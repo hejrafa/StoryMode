@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.DeathKnightCampaignData = {
     title = "Deathlord's Campaign",
     achievementName = "The Deathlord's Campaign",
+    achievements = { 42270, 10746, 10994, 11171, 11223 },
     description = "From Acherus: The Ebon Hold, the Knights of the Ebon Blade wage their own war against the Legion. As Deathlord, you must raise the Four Horsemen — champions torn from death itself — and lead an army of the damned against demons who threaten to unmake the world.",
     zone = "Acherus / Broken Isles",
     expansion = "Legion",

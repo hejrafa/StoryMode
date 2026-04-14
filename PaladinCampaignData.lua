@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.PaladinCampaignData = {
     title = "Highlord's Campaign",
     achievementName = "The Highlord's Campaign",
+    achievements = { 42276, 10746, 10994, 11171, 11223 },
     description = "Beneath Light's Hope Chapel lies the Sanctum of Light, where the Knights of the Silver Hand reform under your command. As Highlord, you must unite paladins of every faith, decode a demonic codex, and lead the assault on Niskara to rescue your captured allies.",
     zone = "Sanctum of Light / Broken Isles",
     expansion = "Legion",

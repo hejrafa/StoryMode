@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.PriestCampaignData = {
     title = "High Priest's Campaign",
     achievementName = "The High Priest's Campaign",
+    achievements = { 42277, 10746, 10994, 11171, 11223 },
     description = "In Netherlight Temple, priests of the Light and the Void unite under one banner. As High Priest, you must bridge the divide between faith and shadow, infiltrate the Scarlet Onslaught, recover a void priestess lost to darkness, and lead a united conclave against the Legion.",
     zone = "Netherlight Temple / Broken Isles",
     expansion = "Legion",

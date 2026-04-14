@@ -9,6 +9,7 @@ SM.TrollHeritageData = {
     race = "Troll",
     requiredLevel = 50,
     achievementName = "Heritage of the Darkspear",
+    achievements = {},
     color = { 0.15, 0.55, 0.87 },
     icon = "Interface\\Icons\\inv_helm_armor_troll_d_01",
     startQuest = { id = 77869, name = "Return to the Echo Isles", npc = "Zi'guma", location = "Valley of Spirits, Orgrimmar" },

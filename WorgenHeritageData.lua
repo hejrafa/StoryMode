@@ -9,6 +9,7 @@ SM.WorgenHeritageData = {
     race = "Worgen",
     requiredLevel = 50,
     achievementName = "Heritage of Gilneas",
+    achievements = { 19719 },  -- Reclamation of Gilneas
     color = { 0.37, 0.43, 0.56 },
     icon = "Interface\\Icons\\inv_helm_armor_worgen_c_01",
     startQuest = { id = 54976, name = "The Shadow of Gilneas", npc = "Courier Claridge", location = "Stormwind Embassy" },

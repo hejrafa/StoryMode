@@ -9,6 +9,7 @@ SM.DraeneiHeritageData = {
     race = "Draenei",
     requiredLevel = 50,
     achievementName = "Heritage of the Draenei",
+    achievements = {},
     color = { 0.55, 0.45, 0.82 },
     icon = 255137,
     startQuest = { id = 78068, name = "An Artificer's Appeal", npc = "Automatic / Magically-Sealed Parcel", location = "Stormwind Embassy / Exodar" },

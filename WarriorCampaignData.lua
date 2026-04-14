@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.WarriorCampaignData = {
     title = "Battlelord's Campaign",
     achievementName = "The Battlelord's Campaign",
+    achievements = { 42282, 10746, 10994, 11171, 11223 },
     description = "Chosen by Odyn himself, you ascend to Skyhold — the legendary warrior paradise above the clouds. As Battlelord of the Valarjar, you must recover the Gjallarhorn, forge alliances with titan keepers in Ulduar, and lead a final assault against the Legion on the Broken Shore.",
     zone = "Skyhold / Broken Isles",
     expansion = "Legion",

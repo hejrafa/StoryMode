@@ -10,6 +10,7 @@ SM.DarkIronHeritageData = {
     requiredLevel = 50,
     achievementID = 13076,
     achievementName = "Heritage o' the Dark Iron",
+    achievements = { 13076 },
     color = { 0.45, 0.28, 0.22 },
     startQuest = { id = 51483, name = "Heritage o' the Dark Iron", npc = "Automatic", location = "Alliance city call-up" },
     npcLocations = {

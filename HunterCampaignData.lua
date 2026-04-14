@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.HunterCampaignData = {
     title = "Huntmaster's Campaign",
     achievementName = "The Huntmaster's Campaign",
+    achievements = { 42273, 10746, 10994, 11171, 11223 },
     description = "From Trueshot Lodge high in the mountains, the Unseen Path watches over Azeroth. As the newest champion of this ancient order of hunters, you must recruit legendary trackers, root out Legion infiltrators, and defend Dalaran itself from a demonic assault.",
     zone = "Trueshot Lodge / Broken Isles",
     expansion = "Legion",

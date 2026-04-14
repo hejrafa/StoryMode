@@ -13,6 +13,7 @@ SM.LilianVossData = {
     description = "Lilian Voss was trained from birth to serve the Scarlet Crusade and destroy the undead. When the Val'kyr raise her as Forsaken in Deathknell, she refuses to accept what she has become. Desperate for acceptance, she seeks out her father — High Priest Benedictus Voss — only to be condemned to death by the man who raised her.\n\nWhat follows is a saga of vengeance and identity that stretches across years: a trail of fire and shadow through the Scarlet Halls and Monastery, a descent into the cursed halls of Scholomance, and ultimately a new war on the shores of Kul Tiras — where Lilian must decide whether she is still a weapon, or something more.",
     zone = "Tirisfal Glades / Kul Tiras",
     expansion = "Cataclysm — Battle for Azeroth",
+    achievements = {},
     faction = "Horde",
     color = { 0.75, 0.12, 0.18 },  -- Scarlet Crusade crimson
     portraitDisplayID = 85799,  -- Lilian Voss (BfA model) as card portrait

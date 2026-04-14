@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.MageCampaignData = {
     title = "Archmage's Campaign",
     achievementName = "The Archmage's Campaign",
+    achievements = { 42274, 10746, 10994, 11171, 11223 },
     description = "Beneath Dalaran lies the Hall of the Guardian, seat of the ancient Tirisgarde — mage-hunters sworn to protect Azeroth from magical threats. As the order's newest Archmage, you must root out a secret society, rescue a lost archmage, and face a dreadlord who has infiltrated the Kirin Tor.",
     zone = "Hall of the Guardian / Broken Isles",
     expansion = "Legion",

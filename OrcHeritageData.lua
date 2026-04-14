@@ -9,6 +9,7 @@ SM.OrcHeritageData = {
     race = "Orc",
     requiredLevel = 50,
     achievementName = "Heritage of Draenor",
+    achievements = {},
     color = { 0.65, 0.20, 0.15 },
     icon = 4898329,
     startQuest = { id = 72462, name = "A People in Need of Healing", npc = "Eitrigg", location = "Grommash Hold, Orgrimmar" },

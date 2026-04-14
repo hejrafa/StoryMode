@@ -9,6 +9,7 @@ SM.GoblinHeritageData = {
     race = "Goblin",
     requiredLevel = 50,
     achievementName = "Heritage of Kezan",
+    achievements = {},
     color = { 0.25, 0.72, 0.20 },
     icon = "Interface\\Icons\\inv_chest_armor_goblin_d_01",
     startQuest = { id = 57043, name = "Old Friends, New Opportunities", npc = "Izzy", location = "Orgrimmar Embassy" },

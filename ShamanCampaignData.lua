@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.ShamanCampaignData = {
     title = "Farseer's Campaign",
     achievementName = "The Farseer's Campaign",
+    achievements = { 42280, 10746, 10994, 11171, 11223 },
     description = "At the Maelstrom's edge, the Earthen Ring struggles to keep Azeroth from tearing apart. As Farseer, you must unite the elemental lords — Air, Earth, and Fire — and repair the Maelstrom's pillars before the planet itself shatters.",
     zone = "The Maelstrom / Broken Isles",
     expansion = "Legion",

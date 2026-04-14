@@ -9,6 +9,7 @@ SM.HumanHeritageData = {
     race = "Human",
     requiredLevel = 50,
     achievementName = "Lion's Heritage",
+    achievements = {},
     color = { 0.22, 0.45, 0.86 },
     icon = "Interface\\Icons\\inv_misc_tournaments_banner_human",
     startQuest = { id = 72644, name = "An Urgent Matter", npc = "Agent Render", location = "Stormwind Embassy" },

@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.WarlockCampaignData = {
     title = "Netherlord's Campaign",
     achievementName = "The Netherlord's Campaign",
+    achievements = { 42281, 10746, 10994, 11171, 11223 },
     description = "From Dreadscar Rift — a pocket of the Twisting Nether claimed by force — the Council of the Black Harvest commands demons to fight demons. As Netherlord, you must complete the council of six, rescue the imprisoned Kanrethad, and prove that power seized from the enemy is the sharpest weapon of all.",
     zone = "Dreadscar Rift / Broken Isles",
     expansion = "Legion",

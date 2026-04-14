@@ -9,6 +9,7 @@ SM.GnomeHeritageData = {
     race = "Gnome",
     requiredLevel = 50,
     achievementName = "Heritage of Gnomeregan",
+    achievements = {},
     color = { 0.75, 0.62, 0.27 },
     icon = "Interface\\Icons\\inv_cape_armor_gnome_d_01",
     startQuest = { id = 54402, name = "Shifting Gears", npc = "Ace Pilot Stormcog", location = "Stormwind Embassy" },

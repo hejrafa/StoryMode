@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.DemonHunterCampaignData = {
     title = "Slayer's Campaign",
     achievementName = "The Slayer's Campaign",
+    achievements = { 42271, 10746, 10994, 11171, 11223 },
     description = "From the Fel Hammer on Mardum, the Illidari wage war against the Burning Legion with the very weapons of the enemy. As the chosen Slayer, you must unite the demon hunters, return to the Black Temple, and lead an invasion of the demon world Niskara.",
     zone = "The Fel Hammer / Broken Isles",
     expansion = "Legion",

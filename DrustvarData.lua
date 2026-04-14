@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.DrustvarData = {
     title = "The Witchwood of Drustvar",
     achievementName = "Drust Do It.",
+    achievements = { 12497 },
     description = "A dark curse has fallen over Drustvar. Lord Waycrest has vanished, witches stalk the woods, and an ancient evil called the Drust stirs beneath the land. Join Lucille Waycrest and the Order of Embers to hunt the coven, break the curse, and storm Waycrest Manor itself.",
     zone = "Drustvar",
     expansion = "Battle for Azeroth",

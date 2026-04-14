@@ -9,6 +9,7 @@ SM.TaurenHeritageData = {
     race = "Tauren",
     requiredLevel = 50,
     achievementName = "Heritage of the Shu'halo",
+    achievements = {},
     color = { 0.62, 0.42, 0.24 },
     icon = "Interface\\Icons\\inv_armor_tauren_d_01shoulder",
     startQuest = { id = 54759, name = "When Spirits Whisper", npc = "Spiritwalker Isahi", location = "Orgrimmar Embassy" },

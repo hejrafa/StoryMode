@@ -94,6 +94,30 @@ local function GetAllChapters(data)
     return all
 end
 
+local function GetStoryAchievements(data)
+    local ids, seen = {}, {}
+    local function add(id)
+        if id and not seen[id] then
+            seen[id] = true
+            local _, name = GetAchievementInfo(id)
+            if name then ids[#ids + 1] = id end
+        end
+    end
+    if data.achievements then
+        for _, id in ipairs(data.achievements) do add(id) end
+    else
+        add(data.achievementID)
+    end
+    for _, ch in ipairs(GetAllChapters(data)) do
+        add(ch.achievementID)
+    end
+    return ids
+end
+
+local achievementElements = {}
+local aAchCards     = {}
+local aAchDividers  = {}
+
 local function IsQuestlineActive(data)
     for _, ch in ipairs(GetAllChapters(data)) do
         for _, q in ipairs(ch.quests) do
@@ -732,6 +756,9 @@ end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
+if CanShowQuestline(SM.SylvanasData) then
+    RegisterQuestline(SM.SylvanasData, "Epic Storylines")
+end
 if CanShowQuestline(SM.LilianVossData) then
     RegisterQuestline(SM.LilianVossData, "Character Stories")
 end
@@ -1014,6 +1041,16 @@ tabStoryHit:SetPoint("BOTTOMRIGHT", tabStoryLabel, "BOTTOMRIGHT", 4, -4)
 local tabProgressHit = CreateFrame("Button", nil, rightHeader)
 tabProgressHit:SetPoint("TOPLEFT", tabProgressLabel, "TOPLEFT", -4, 4)
 tabProgressHit:SetPoint("BOTTOMRIGHT", tabProgressLabel, "BOTTOMRIGHT", 4, -4)
+
+local tabAchievementsLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
+tabAchievementsLabel:SetPoint("LEFT", tabProgressLabel, "RIGHT", 24, 0)
+tabAchievementsLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
+tabAchievementsLabel:SetText("Achievements")
+tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+
+local tabAchievementsHit = CreateFrame("Button", nil, rightHeader)
+tabAchievementsHit:SetPoint("TOPLEFT",     tabAchievementsLabel, "TOPLEFT",     -4,  4)
+tabAchievementsHit:SetPoint("BOTTOMRIGHT", tabAchievementsLabel, "BOTTOMRIGHT",  4, -4)
 
 local activeTab = "story"
 
@@ -1879,6 +1916,226 @@ local function CreateQuestCard(parent)
     return card
 end
 
+-- ── Achievement row ──────────────────────────────────────────────────
+local AROW_H     = 44    -- row height
+local AROW_MAX_W = 300   -- max row width, centered in the panel
+local AICON_SZ   = 32    -- icon size
+local AROW_PAD   = 16    -- inner left/right padding
+
+local function CreateAchievementRow(parent)
+    local row = CreateFrame("Button", nil, parent)
+    row:SetHeight(AROW_H)
+    row:EnableMouse(true)
+
+    -- Hover: fading gradient tint (transparent → tint → transparent), shown/hidden manually
+    local hlL = row:CreateTexture(nil, "BACKGROUND")
+    hlL:SetTexture(SOLID)
+    hlL:SetPoint("LEFT",  row, "LEFT",   0, 0)
+    hlL:SetPoint("RIGHT", row, "CENTER", 0, 0)
+    hlL:SetHeight(AROW_H)
+    hlL:SetGradient("HORIZONTAL",
+        CreateColor(C_BODY[1], C_BODY[2], C_BODY[3], 0),
+        CreateColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.12))
+    hlL:Hide()
+    local hlR = row:CreateTexture(nil, "BACKGROUND")
+    hlR:SetTexture(SOLID)
+    hlR:SetPoint("LEFT",  row, "CENTER", 0, 0)
+    hlR:SetPoint("RIGHT", row, "RIGHT",  0, 0)
+    hlR:SetHeight(AROW_H)
+    hlR:SetGradient("HORIZONTAL",
+        CreateColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.12),
+        CreateColor(C_BODY[1], C_BODY[2], C_BODY[3], 0))
+    hlR:Hide()
+    row.hlL, row.hlR = hlL, hlR
+
+    -- Icon
+    local icon = row:CreateTexture(nil, "ARTWORK")
+    icon:SetSize(AICON_SZ, AICON_SZ)
+    icon:SetPoint("LEFT", row, "LEFT", AROW_PAD, 0)
+    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    row.icon = icon
+
+    -- Talent node square border, tinted gold
+    local iconBorder = row:CreateTexture(nil, "OVERLAY")
+    iconBorder:SetAtlas("talents-node-square-gray", false)
+    iconBorder:SetSize(AICON_SZ + 8, AICON_SZ + 8)
+    iconBorder:SetPoint("CENTER", icon, "CENTER", 0, 0)
+    iconBorder:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+
+    -- Achievement name
+    local title = NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+    title:SetPoint("LEFT",  icon, "RIGHT",  10,        0)
+    title:SetPoint("RIGHT", row,  "RIGHT",  -AROW_PAD, 0)
+    title:SetJustifyH("LEFT")
+    title:SetWordWrap(false)
+    row.title = title
+
+    -- Tooltip + hover
+    row:SetScript("OnEnter", function(self)
+        hlL:Show(); hlR:Show()
+        if not self.achievementID then return end
+        local _, achName, _, completed, month, day, year, description, _, _, _, rewardText =
+            GetAchievementInfo(self.achievementID)
+        SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:AddLine(achName or "", 1, 1, 1)
+        -- Completion status
+        if completed then
+            local dateStr = (month and month > 0)
+                and (" — " .. month .. "/" .. day .. "/" .. year) or ""
+            SMTooltip:AddLine("Earned" .. dateStr, 0.2, 0.83, 0.2)
+        else
+            SMTooltip:AddLine("Not yet earned", C_DIM[1], C_DIM[2], C_DIM[3])
+        end
+        -- Description
+        if description and description ~= "" then
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine(description, C_BODY[1], C_BODY[2], C_BODY[3], true)
+        end
+        -- Criteria
+        local numCriteria = GetAchievementNumCriteria(self.achievementID)
+        if numCriteria and numCriteria > 0 then
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine("Criteria:", C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            for i = 1, numCriteria do
+                local criteriaName, _, critCompleted = GetAchievementCriteriaInfo(self.achievementID, i)
+                if criteriaName and criteriaName ~= "" then
+                    local check = critCompleted and "|TInterface\\RaidFrame\\ReadyCheck-Ready:12:12|t" or "|TInterface\\RaidFrame\\ReadyCheck-NotReady:12:12|t"
+                    local r, g, b = critCompleted and 0.2 or C_BODY[1], critCompleted and 0.83 or C_BODY[2], critCompleted and 0.2 or C_BODY[3]
+                    SMTooltip:AddLine(check .. " " .. criteriaName, r, g, b, true)
+                end
+            end
+        end
+        -- Reward
+        if rewardText and rewardText ~= "" then
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine("Reward: " .. rewardText, C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
+        end
+        SMTooltip:AddLine(" ")
+        SMTooltip:AddLine("Click to open in Achievement log", 0.5, 0.5, 0.5)
+        SMTooltip:Show()
+    end)
+    row:SetScript("OnLeave", function()
+        hlL:Hide(); hlR:Hide()
+        SMTooltip:Hide()
+    end)
+    row:SetScript("OnClick", function(self)
+        if not self.achievementID then return end
+        SMTooltip:Hide()
+        storyFrame:Hide()
+        if not AchievementFrame then C_AddOns.LoadAddOn("Blizzard_AchievementUI") end
+        ShowUIPanel(AchievementFrame)
+        AchievementFrame_SelectAchievement(self.achievementID)
+    end)
+
+    return row
+end
+
+-- ── No-achievements placeholder label ───────────────────────────────
+local aNoAchLabel = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+aNoAchLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
+aNoAchLabel:SetText("No achievements tracked for this story.")
+aNoAchLabel:Hide()
+achievementElements[#achievementElements + 1] = aNoAchLabel
+
+-- ── Layout achievements tab (centered list with fading dividers) ─────
+local function LayoutAchievementsTab(data)
+    local ids    = GetStoryAchievements(data)
+    local numDiv = math.max(0, #ids - 1)
+
+    -- Pool-expand rows
+    while #aAchCards < #ids do
+        local r = CreateAchievementRow(detailChild)
+        aAchCards[#aAchCards + 1] = r
+        achievementElements[#achievementElements + 1] = r
+    end
+
+    -- Pool-expand dividers.
+    -- KEY: use a Frame as container positioned with TOPLEFT+TOPRIGHT, then textures
+    -- inside anchored LEFT+RIGHT only. Raw textures with 3 anchor points (TOP+LEFT+RIGHT)
+    -- do not render reliably in WoW — this is the proven pattern from CreateCatDivider.
+    while #aAchDividers < numDiv do
+        local f = CreateFrame("Frame", nil, detailChild)
+        f:SetHeight(1)
+        local tL = f:CreateTexture(nil, "ARTWORK")
+        tL:SetTexture(SOLID)
+        tL:SetHeight(1)
+        tL:SetPoint("LEFT",   f, "LEFT",   0, 0)
+        tL:SetPoint("RIGHT",  f, "CENTER", 0, 0)
+        tL:SetGradient("HORIZONTAL",
+            CreateColor(1.0, 0.80, 0.45, 0),
+            CreateColor(1.0, 0.80, 0.45, 0.2))
+        local tR = f:CreateTexture(nil, "ARTWORK")
+        tR:SetTexture(SOLID)
+        tR:SetHeight(1)
+        tR:SetPoint("LEFT",   f, "CENTER", 0, 0)
+        tR:SetPoint("RIGHT",  f, "RIGHT",  0, 0)
+        tR:SetGradient("HORIZONTAL",
+            CreateColor(1.0, 0.80, 0.45, 0.2),
+            CreateColor(1.0, 0.80, 0.45, 0))
+        f:Hide()
+        aAchDividers[#aAchDividers + 1] = f
+        achievementElements[#achievementElements + 1] = f
+    end
+
+    if #ids == 0 then
+        aNoAchLabel:ClearAllPoints()
+        aNoAchLabel:SetPoint("TOP", heroFrame, "BOTTOM", 0, -24)
+        aNoAchLabel:Show()
+        return
+    end
+
+    local halfW = math.floor(AROW_MAX_W / 2)
+    -- yOff counts downward from heroFrame BOTTOM; all positions are absolute, no chained anchors
+    local yOff  = -20
+    -- spacing: 8 px gap → 2 px divider → 8 px gap = 18 px between row bottoms and next row tops
+    local DIV_ABOVE = 8
+    local DIV_H     = 2
+    local DIV_BELOW = 8
+
+    for i, achID in ipairs(ids) do
+        local row = aAchCards[i]
+        local _, achName, _, completed, _, _, _, _, _, icon = GetAchievementInfo(achID)
+
+        row.achievementID = achID
+        row.icon:SetTexture(icon)
+        row.icon:SetDesaturated(not completed)
+        row.title:SetText(achName or "")
+        row.title:SetTextColor(
+            completed and C_BODY[1] or C_DIM[1],
+            completed and C_BODY[2] or C_DIM[2],
+            completed and C_BODY[3] or C_DIM[3])
+
+        row:ClearAllPoints()
+        row:SetWidth(AROW_MAX_W)
+        row:SetPoint("TOP",  heroFrame,   "BOTTOM", 0,      yOff)
+        row:SetPoint("LEFT", detailChild, "CENTER", -halfW, 0)
+        row:Show()
+
+        yOff = yOff - AROW_H
+
+        -- Divider frame below this row (not after the last row)
+        if i < #ids then
+            local dY = yOff - DIV_ABOVE
+            local f  = aAchDividers[i]
+            f:ClearAllPoints()
+            f:SetPoint("TOPLEFT",  heroFrame, "BOTTOMLEFT",  DP + 80,  dY)
+            f:SetPoint("TOPRIGHT", heroFrame, "BOTTOMRIGHT", -(DP + 80), dY)
+            f:Show()
+            yOff = yOff - DIV_ABOVE - DIV_H - DIV_BELOW
+        end
+    end
+
+    -- Resize scroll child to fit
+    local listH = math.abs(yOff) + 24
+    C_Timer.After(0, function()
+        local heroBot  = heroFrame:GetBottom()
+        local childTop = detailChild:GetTop()
+        if heroBot and childTop then
+            detailChild:SetHeight(math.max((childTop - heroBot) + listH, 400))
+        end
+    end)
+end
+
 -- ── Render quest cards for selected chapter ─────────────────────────
 LayoutSelectedChapter = function()
     local data = currentStoryData
@@ -2101,11 +2358,14 @@ local function ShowTab(tab)
     for _, node in ipairs(dTrackNodes) do node:Hide() end
     for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
     for _, card in ipairs(dQuestCards) do card:Hide() end
+    for _, el in ipairs(achievementElements) do el:Hide() end
     sTrackBtn:Hide(); sCompleteText:Hide()
     dCompleteText:Hide()
 
     if tab == "story" then
         for _, el in ipairs(storyElements) do el:Show() end
+    elseif tab == "achievements" then
+        -- LayoutAchievementsTab shows only the cards it needs; nothing to pre-show here
     else
         for _, el in ipairs(progressElements) do el:Show() end
     end
@@ -2116,9 +2376,15 @@ local function SetActiveTab(tab)
     if tab == "story" then
         tabStoryLabel:SetTextColor(1, 1, 1)
         tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    elseif tab == "achievements" then
+        tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabAchievementsLabel:SetTextColor(1, 1, 1)
     else
         tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabProgressLabel:SetTextColor(1, 1, 1)
+        tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     end
 end
 
@@ -2286,7 +2552,7 @@ local function LayoutDetailTab()
             end
         end)
 
-    else
+    elseif activeTab == "progress" then
         -- ── PROGRESS TAB layout ─────────────────────────────────────────
         local chapters = GetAllChapters(data)
 
@@ -2446,6 +2712,9 @@ local function LayoutDetailTab()
 
         -- Render quest cards for selected chapter
         LayoutSelectedChapter()
+    elseif activeTab == "achievements" then
+        -- ── ACHIEVEMENTS TAB layout ──────────────────────────────────────
+        LayoutAchievementsTab(data)
     end
 end
 
@@ -2480,6 +2749,21 @@ tabProgressHit:SetScript("OnClick", function()
     end
 end)
 
+tabAchievementsHit:SetScript("OnEnter", function()
+    if activeTab ~= "achievements" then tabAchievementsLabel:SetTextColor(1, 1, 1) end
+end)
+tabAchievementsHit:SetScript("OnLeave", function()
+    if activeTab ~= "achievements" then tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3]) end
+end)
+tabAchievementsHit:SetScript("OnClick", function()
+    if activeTab ~= "achievements" and currentStoryData then
+        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+        SetActiveTab("achievements")
+        detailScroll:SetVerticalScroll(0)
+        LayoutDetailTab()
+    end
+end)
+
 -- ── Main entry point ────────────────────────────────────────────────────────
 local function UpdateStoryDetail(data)
     if not data then
@@ -2493,6 +2777,7 @@ local function UpdateStoryDetail(data)
         for _, node in ipairs(dTrackNodes) do node:Hide() end
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
+        for _, el in ipairs(achievementElements) do el:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
         dCompleteText:Hide()
         introIcon2:Show(); introTitle:Show(); introText:Show()
@@ -2500,8 +2785,8 @@ local function UpdateStoryDetail(data)
         smHeaderSub:SetText("")
         SetActiveTab("story")
         -- Hide tabs on intro page
-        tabStoryLabel:Hide(); tabProgressLabel:Hide()
-        tabStoryHit:Hide(); tabProgressHit:Hide()
+        tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabAchievementsLabel:Hide()
+        tabStoryHit:Hide(); tabProgressHit:Hide(); tabAchievementsHit:Hide()
         C_Timer.After(0, function()
             local w = detailScroll:GetWidth()
             if w > 20 then
@@ -2518,9 +2803,16 @@ local function UpdateStoryDetail(data)
 
     currentStoryData = data
     introIcon2:Hide(); introTitle:Hide(); introText:Hide(); ShowDetail(true)
-    -- Show tabs when a story is selected
+    -- Show tabs; hide achievements tab if this story has none
     tabStoryLabel:Show(); tabProgressLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show()
+    local hasAchievements = #GetStoryAchievements(data) > 0
+    tabAchievementsLabel:SetShown(hasAchievements)
+    tabAchievementsHit:SetShown(hasAchievements)
+    -- If currently on achievements tab but new story has none, fall back to story tab
+    if activeTab == "achievements" and not hasAchievements then
+        activeTab = "story"
+    end
 
     -- Portrait icon (creature portrait or texture)
     heroIcon:SetTexture(nil)

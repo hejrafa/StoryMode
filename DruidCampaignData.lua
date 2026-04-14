@@ -8,6 +8,7 @@ local addonName, SM = ...
 SM.DruidCampaignData = {
     title = "Archdruid's Campaign",
     achievementName = "The Archdruid's Campaign",
+    achievements = { 42272, 10746, 10994, 11171, 11223 },
     description = "Through the Emerald Dreamway, you discover the Dreamgrove — a sanctuary of nature hidden in Val'sharah. As Archdruid of the Cenarion Circle, you must heal the wounds of the Nightmare, gather ancient allies, and awaken the demi-god Malorne to stand against the Legion.",
     zone = "The Dreamgrove / Broken Isles",
     expansion = "Legion",

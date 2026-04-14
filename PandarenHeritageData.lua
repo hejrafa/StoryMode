@@ -8,6 +8,7 @@ SM.PandarenHeritageData = {
     race = "Pandaren",
     requiredLevel = 50,
     achievementName = "Heritage of the Wandering Isle",
+    achievements = {},
     color = { 0.71, 0.31, 0.28 },
     icon = 630617,
     -- Faction-specific openers exist; this serves as a consistent StoryMode entry anchor.

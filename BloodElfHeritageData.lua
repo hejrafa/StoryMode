@@ -9,6 +9,7 @@ SM.BloodElfHeritageData = {
     race = "BloodElf",
     requiredLevel = 50,
     achievementName = "Heritage of the Sin'dorei",
+    achievements = {},
     color = { 0.78, 0.16, 0.10 },
     icon = 2459464,
     startQuest = { id = 53791, name = "The Pride of the Sin'dorei", npc = "Ambassador Dawnsworn", location = "Orgrimmar Embassy" },
