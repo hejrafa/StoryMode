@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "1.1.0",
+    version = "1.2.1",
     selectedQuestline = 1,
 }
 
@@ -235,8 +235,10 @@ local function GetChapterProgress(ch, nextChapter)
     local total, done = 0, 0
     local nextQuests = nextChapter and nextChapter.quests or nil
     for i, q in ipairs(ch.quests) do
-        total = total + 1
-        if IsQuestEffectivelyComplete(i, ch.quests, nextQuests) then done = done + 1 end
+        if not q.optional then
+            total = total + 1
+            if IsQuestEffectivelyComplete(i, ch.quests, nextQuests) then done = done + 1 end
+        end
     end
     return done, total
 end
@@ -817,66 +819,8 @@ end
 -- Story Mode Window  —  Trading-Post-style clean dark panels
 -- ============================================================================
 
--- Private tooltip for StoryMode-only hover text.
--- Uses a plain Frame + BackdropTemplate to avoid taint from secure XML templates
--- (GameTooltipTemplate registers money frames that corrupt Blizzard's arithmetic).
-local SMTooltip
-do
-    local f = CreateFrame("Frame", "StoryModeTooltip", UIParent, "BackdropTemplate")
-    f:SetFrameStrata("TOOLTIP")
-    f:SetBackdrop({
-        bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        tile = true, tileSize = 16, edgeSize = 16,
-        insets = { left = 4, right = 4, top = 4, bottom = 4 },
-    })
-    f:SetBackdropColor(0.09, 0.09, 0.09, 0.95)
-    f:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
-    f:Hide()
-
-    local linePool, activeLines, TPAD = {}, {}, 8
-
-    local function ReleaseLines()
-        for _, ln in ipairs(activeLines) do ln:Hide(); linePool[#linePool+1] = ln end
-        wipe(activeLines)
-    end
-
-    function f:SetOwner(parent, anchor)
-        self:SetParent(parent)
-        self:ClearAllPoints()
-        if anchor == "ANCHOR_LEFT" then
-            self:SetPoint("RIGHT", parent, "LEFT", -5, 0)
-        else
-            self:SetPoint("LEFT", parent, "RIGHT", 5, 0)
-        end
-        ReleaseLines()
-        self:SetWidth(10)
-        self:SetHeight(TPAD * 2)
-    end
-
-    function f:AddLine(text, r, g, b, wrap)
-        local ln = table.remove(linePool) or f:CreateFontString(nil, "OVERLAY", "GameTooltipText")
-        ln:ClearAllPoints()
-        ln:SetPoint("TOPLEFT", f, "TOPLEFT", TPAD, -TPAD - #activeLines * 16)
-        ln:SetWidth(wrap and 250 or 0)
-        ln:SetWordWrap(wrap and true or false)
-        ln:SetText(text or "")
-        ln:SetTextColor(r or 1, g or 1, b or 1, 1)
-        ln:Show()
-        activeLines[#activeLines+1] = ln
-        local needed = (ln:GetStringWidth() or 0) + TPAD * 2
-        if needed > self:GetWidth() then self:SetWidth(needed) end
-        self:SetHeight(TPAD * 2 + #activeLines * 16)
-    end
-
-    local baseHide = f.Hide
-    function f:Hide()
-        ReleaseLines()
-        baseHide(self)
-    end
-
-    SMTooltip = f
-end
+-- Use the native GameTooltip — handles layout, wrapping, and styling correctly.
+local SMTooltip = GameTooltip
 
 local FRAME_W  = 1012
 local FRAME_H  = 550
@@ -1195,6 +1139,7 @@ sTrackBtn.lockReason = nil
 sTrackBtn:SetScript("OnEnter", function(self)
     if self.lockReason then
         SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:ClearLines()
         SMTooltip:AddLine("Story is locked", 1, 1, 1)
         SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
         SMTooltip:Show()
@@ -1510,6 +1455,7 @@ local function CreateChapterRow(parent, index)
     row:SetScript("OnEnter", function(self)
         if self.tooltipTitle then
             SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            SMTooltip:ClearLines()
             SMTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
             if self.tooltipBody then
                 SMTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
@@ -1802,6 +1748,7 @@ local function CreateTrackNode(parent)
     btn:SetScript("OnEnter", function(self)
         if self.tooltipTitle then
             SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            SMTooltip:ClearLines()
             SMTooltip:AddLine(self.tooltipTitle, 1, 1, 1)
             if self.tooltipBody then
                 SMTooltip:AddLine(self.tooltipBody, C_BODY[1], C_BODY[2], C_BODY[3], true)
@@ -1879,6 +1826,7 @@ local function CreateQuestCard(parent)
     card:SetScript("OnEnter", function(self)
         if not self.questID then return end
         SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:ClearLines()
         -- Quest name
         local qName = QuestUtils_GetQuestName(self.questID) or self.tooltipTitle or ""
         SMTooltip:AddLine(qName, 1, 1, 1)
@@ -1977,6 +1925,7 @@ local function CreateAchievementRow(parent)
         local _, achName, _, completed, month, day, year, description, _, _, _, rewardText =
             GetAchievementInfo(self.achievementID)
         SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:ClearLines()
         SMTooltip:AddLine(achName or "", 1, 1, 1)
         -- Completion status
         if completed then
@@ -2268,20 +2217,24 @@ LayoutSelectedChapter = function()
         end
         local card = dQuestCards[i]
         local nextCh = chapters[dSelectedChapter + 1]
+        local qOptional = q.optional == true
         local qDone = IsQuestEffectivelyComplete(i, ch.quests, nextCh and nextCh.quests)
         local qInLog = not qDone and IsQuestInLog(q.id)
         -- Display fallback: if the story has no next quest ("Story Finished"),
         -- treat remaining cards as complete for UI purposes.
         local qDoneDisplay = qDone or (campaignFinished and not qInLog)
         local qIsNextRecommended = (q.id == nextQuestID)
-        local lockReason = (not qDoneDisplay and not qInLog) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
+        local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
 
         card.title:SetText(q.name)
         card.npcLabel:SetText(q.npc or "")
         card.questID = q.id
         card.tooltipTitle = q.name
         card.tooltipNPC = q.npc
-        card.tooltipStatus = qDoneDisplay and "|cff59c746Completed|r" or qInLog and "|cffffd223In Progress|r" or "|cff808080Not yet available|r"
+        card.tooltipStatus = qDoneDisplay and "|cff59c746Completed|r"
+            or qInLog and "|cffffd223In Progress|r"
+            or qOptional and "|cff808080Optional|r"
+            or "|cff808080Not yet available|r"
         card.tooltipRequirement = lockReason
 
         card.icon:SetSize(14, 14)
@@ -2300,6 +2253,11 @@ LayoutSelectedChapter = function()
             card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
             card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.7)
             card:SetAlpha(1.0)
+        elseif qOptional then
+            card.icon:Hide()
+            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.4)
+            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.3)
+            card:SetAlpha(0.55)
         else
             card.icon:Hide()
             card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.6)
@@ -3328,6 +3286,7 @@ end)
 
 minimapBtn:SetScript("OnEnter", function(self)
     SMTooltip:SetOwner(self, "ANCHOR_LEFT")
+    SMTooltip:ClearLines()
     SMTooltip:AddLine("StoryMode", 1, 1, 1)
     SMTooltip:AddLine("Click to toggle", C_BODY[1], C_BODY[2], C_BODY[3])
     SMTooltip:Show()

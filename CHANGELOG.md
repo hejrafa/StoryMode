@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.1
+
+### Fixes
+- Replaced custom tooltip implementation with native `GameTooltip` — eliminates clipping, missing titles, and incorrect sizing
+- Marked "Feed Valtrois" in Suramar's Feeding Shal'Aran chapter as optional — no longer blocks chapter completion or shows as "not yet available" when skipped
+- Added generic `optional = true` quest flag support: optional quests are excluded from chapter progress totals and rendered with a distinct dimmed style
+
+---
+
 ## 1.2.0
 
 ### New Content

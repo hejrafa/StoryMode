@@ -149,7 +149,7 @@ SM.SuramarData = {
                 { id = 41169, name = "Something in the Water",          npc = "Arcanist Valtrois" },
                 { id = 41170, name = "Purge the Unclean",               npc = "Arcanist Valtrois" },
                 { id = 41138, name = "Feeding Shal'Aran",               npc = "Arcanist Valtrois" },
-                { id = 43995, name = "Feed Valtrois",                   npc = "Arcanist Valtrois" },
+                { id = 43995, name = "Feed Valtrois",                   npc = "Arcanist Valtrois", optional = true },
             },
         },
         -- -----------------------------------------------------------------
