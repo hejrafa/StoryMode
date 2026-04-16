@@ -17,7 +17,7 @@ SM.SuramarData = {
     expansion = "Legion",
     achievementID = 11340,
     achievementName = "Insurrection",
-    achievements = { 10617, 11124, 11340, 10778 },
+    achievements = { 10617, 11124, 11340, 10778, 42030 },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 236565,  -- Achievement_zone_suramar (atlas texture ID)
 
