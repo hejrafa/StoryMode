@@ -938,8 +938,8 @@ EnableMouseWheelScroll(detailScroll)
 -- Move scrollbar inside the panel, 8px from right edge
 if detailScroll.ScrollBar then
     detailScroll.ScrollBar:ClearAllPoints()
-    detailScroll.ScrollBar:SetPoint("TOPRIGHT",    detailScroll, "TOPRIGHT",    -5, -16)
-    detailScroll.ScrollBar:SetPoint("BOTTOMRIGHT", detailScroll, "BOTTOMRIGHT", -5,  16)
+    detailScroll.ScrollBar:SetPoint("TOPRIGHT",    detailScroll, "TOPRIGHT",    -13, -16)
+    detailScroll.ScrollBar:SetPoint("BOTTOMRIGHT", detailScroll, "BOTTOMRIGHT", -13,  16)
 end
 
 local DP  = 32   -- divider padding (left/right)
