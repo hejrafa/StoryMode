@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.2.2
+
+### Fixes
+- Fixed completed quests showing stale `0/N` objective counters in tooltips — objectives are now hidden for completed quests
+- Fixed detail pane content being clipped by 8px on the right and bottom edges
+- Removed reputation indicators from chapter notes, quest lock tooltips, and track-node hover tooltips
+
+### Content
+- Added achievement 42628 to the Insurrection (Suramar) achievements list
+
+### Organisation
+- Moved all data files into category subfolders: `Heritage/`, `Campaigns/`, `Storylines/`
+- Updated `StoryMode.toc` load order to reflect new paths
+
+---
+
 ## 1.2.1
 
 ### Fixes
