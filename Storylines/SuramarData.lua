@@ -17,7 +17,7 @@ SM.SuramarData = {
     expansion = "Legion",
     achievementID = 11340,
     achievementName = "Insurrection",
-    achievements = { 10617, 11124, 11340 },
+    achievements = { 10617, 11124, 11340, 10778 },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 236565,  -- Achievement_zone_suramar (atlas texture ID)
 
@@ -276,8 +276,8 @@ SM.SuramarData = {
                 { id = 43318, name = "Ly'leth's Champion",              npc = "Ly'leth Lunastre" },
                 { id = 44053, name = "Friends With Benefits",           npc = "Ly'leth Lunastre" },
                 { id = 43317, name = "The Arcway: Opening the Arcway",  npc = "First Arcanist Thalyssra" },
-                { id = 43319, name = "Court of Stars: Beware the Fury of a Patient Elf", npc = "Ly'leth Lunastre" },
-                { id = 44054, name = "The Arcway: Long Buried Knowledge", npc = "First Arcanist Thalyssra" },
+                { id = 43319, name = "Court of Stars: Beware the Fury of a Patient Elf", npc = "Ly'leth Lunastre",        optional = true },
+                { id = 44054, name = "The Arcway: Long Buried Knowledge",                npc = "First Arcanist Thalyssra", optional = true },
             },
         },
         -- -----------------------------------------------------------------

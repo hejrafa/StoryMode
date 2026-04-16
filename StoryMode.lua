@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "1.2.1",
+    version = "1.2.2",
     selectedQuestline = 1,
 }
 
@@ -173,63 +173,6 @@ local function IsCriterionDoneForCharacter(achID, criteriaIdx)
     end
 end
 
-local REP_LEVELS = {
-    Unknown = 0,
-    Hated = 1,
-    Hostile = 2,
-    Unfriendly = 3,
-    Neutral = 4,
-    Friendly = 5,
-    Honored = 6,
-    Revered = 7,
-    Exalted = 8,
-}
-
-local REP_NAMES = {
-    [2] = "Hated",
-    [3] = "Unfriendly",
-    [4] = "Neutral",
-    [5] = "Friendly",
-    [6] = "Honored",
-    [7] = "Revered",
-    [8] = "Exalted",
-}
-
-local cachedRep = {}
-local function GetRepLevel(factionName)
-    if cachedRep[factionName] then
-        return cachedRep[factionName].name, cachedRep[factionName].standing
-    end
-    
-    local name, standing = nil, 0
-    
-    -- Try C_Reputation.GetFactionDataByName (Retail)
-    if C_Reputation and C_Reputation.GetFactionDataByName then
-        local info = C_Reputation.GetFactionDataByName(factionName)
-        if info then
-            name, standing = info.name, info.standing
-        end
-    -- Try GetNumFactions / GetFactionInfo (Classic)
-    elseif GetNumFactions and GetFactionInfo then
-        local numFactions = GetNumFactions()
-        for i = 1, numFactions do
-            local n, _, standingID = GetFactionInfo(i)
-            if n == factionName then
-                name, standing = n, standingID
-                break
-            end
-        end
-    end
-    
-    if name then
-        cachedRep[factionName] = { name = name, standing = standing }
-    end
-    return name, standing
-end
-
-local function InvalidateRepCache()
-    cachedRep = {}
-end
 
 local function GetChapterProgress(ch, nextChapter)
     local total, done = 0, 0
@@ -243,37 +186,6 @@ local function GetChapterProgress(ch, nextChapter)
     return done, total
 end
 
-local function FormatRepStatus(ch)
-    if not ch.repRequirement then return nil end
-    local _, standingID = GetRepLevel(ch.repRequirement.faction)
-    local currentRep = REP_NAMES[standingID]
-    local requiredRep = ch.repRequirement.level
-    local currentLevel = standingID or 0
-    local requiredLevel = REP_LEVELS[requiredRep] or 0
-    
-    if currentLevel >= requiredLevel then
-        return "|cff59c746" .. ch.repRequirement.faction .. ": " .. (currentRep or "Friendly") .. "|r"
-    elseif currentRep then
-        return "|cffffd223" .. ch.repRequirement.faction .. ": " .. currentRep .. " (requires " .. requiredRep .. ")|r"
-    else
-        return "|cffffd223" .. ch.repRequirement.faction .. ": Requires " .. requiredRep .. "|r"
-    end
-end
-
-local function GetUnmetRepRequirement(ch)
-    if not ch or not ch.repRequirement then return nil end
-    local _, standingID = GetRepLevel(ch.repRequirement.faction)
-    local currentRep = REP_NAMES[standingID]
-    local requiredRep = ch.repRequirement.level
-    local currentLevel = standingID or 0
-    local requiredLevel = REP_LEVELS[requiredRep] or 0
-    if currentLevel >= requiredLevel then return nil end
-    return {
-        faction = ch.repRequirement.faction,
-        currentRep = currentRep,
-        requiredRep = requiredRep,
-    }
-end
 
 local function GetFirstUnmetChapterPrerequisite(ch)
     if not ch or not ch.prerequisites then return nil end
@@ -302,13 +214,6 @@ local function GetQuestLockReason(data, ch, questIndex, nextChapterQuests)
         return "Requires campaign quest: " .. questName .. "."
     end
 
-    local unmetRep = GetUnmetRepRequirement(ch)
-    if unmetRep then
-        if unmetRep.currentRep then
-            return unmetRep.faction .. " reputation: " .. unmetRep.currentRep .. " (requires " .. unmetRep.requiredRep .. ")."
-        end
-        return unmetRep.faction .. " reputation required: " .. unmetRep.requiredRep .. "."
-    end
 
     if questIndex and questIndex > 1 then
         local prevQuest = ch.quests and ch.quests[questIndex - 1]
@@ -594,8 +499,19 @@ local function SetWaypointForQuest(data, quest)
         return "supertracked", loc and loc.mapID, loc
     end
 
-    -- Quest not in log → place a user waypoint on the quest giver's location
+    -- Quest not in log → try native quest-offer tracking first, then user waypoint
     local loc = data.npcLocations and data.npcLocations[quest.npc]
+    local qid = quest.id
+
+    -- 1. Mark with the native QuestOffer super-track pin so WoW's own tracking
+    --    system lights up the "!" on the minimap and map.
+    if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
+        C_Timer.After(0, function()
+            C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
+        end)
+    end
+
+    -- 2. Also set an explicit user waypoint so there's a visible arrow to follow.
     if loc and C_Map.CanSetUserWaypointOnMap(loc.mapID) then
         local point = UiMapPoint.CreateFromCoordinates(loc.mapID, loc.x, loc.y)
         C_Map.SetUserWaypoint(point)
@@ -606,13 +522,6 @@ local function SetWaypointForQuest(data, quest)
         return "waypoint", loc.mapID, loc
     end
 
-    -- Fallback: try quest offer map pin + still open the map if we know the location
-    if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
-        local qid = quest.id
-        C_Timer.After(0, function()
-            C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
-        end)
-    end
     if loc then
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
         return "waypoint_approx", loc.mapID, loc
@@ -819,7 +728,6 @@ end
 -- Story Mode Window  —  Trading-Post-style clean dark panels
 -- ============================================================================
 
--- Use the native GameTooltip — handles layout, wrapping, and styling correctly.
 local SMTooltip = GameTooltip
 
 local FRAME_W  = 1012
@@ -1021,7 +929,7 @@ tabContainer:SetPoint("BOTTOMRIGHT", rightSection, "BOTTOMRIGHT", 0,  0)
 
 local detailScroll = CreateFrame("ScrollFrame", nil, tabContainer, "ScrollFrameTemplate")
 detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",     0,   0)
-detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -8,  8)
+detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT",  0,  0)
 local detailChild = CreateFrame("Frame", nil, detailScroll)
 detailChild:SetWidth(RIGHT_W)
 detailScroll:SetScrollChild(detailChild)
@@ -1834,16 +1742,20 @@ local function CreateQuestCard(parent)
         if self.tooltipNPC then
             SMTooltip:AddLine(self.tooltipNPC, C_BODY[1], C_BODY[2], C_BODY[3])
         end
-        -- Objectives
-        local objectives = C_QuestLog.GetQuestObjectives(self.questID)
-        if objectives and #objectives > 0 then
-            SMTooltip:AddLine(" ")
-            for _, obj in ipairs(objectives) do
-                if obj.text and obj.text ~= "" then
-                    if obj.finished then
-                        SMTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
-                    else
-                        SMTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
+        -- Objectives — skip for completed quests; the log no longer tracks
+        -- their counters so they always show stale "0/1" text.
+        local qComplete = C_QuestLog.IsQuestFlaggedCompleted(self.questID)
+        if not qComplete then
+            local objectives = C_QuestLog.GetQuestObjectives(self.questID)
+            if objectives and #objectives > 0 then
+                SMTooltip:AddLine(" ")
+                for _, obj in ipairs(objectives) do
+                    if obj.text and obj.text ~= "" then
+                        if obj.finished then
+                            SMTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
+                        else
+                            SMTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
+                        end
                     end
                 end
             end
@@ -2151,24 +2063,6 @@ LayoutSelectedChapter = function()
         else
             dChapterNote:Hide()
         end
-    elseif ch.repRequirement then
-        local _, standingID = GetRepLevel(ch.repRequirement.faction)
-        local currentRep = REP_NAMES[standingID]
-        local requiredRep = ch.repRequirement.level
-        local currentLevel = standingID or 0
-        local requiredLevel = REP_LEVELS[requiredRep] or 0
-        
-        if currentLevel >= requiredLevel then
-            dChapterNote:SetText("|TInterface/Icons/inv_misc_horn_04:0:0:0:-4|t " .. ch.repRequirement.faction .. ": " .. (currentRep or "Friendly"))
-            dChapterNote:SetTextColor(0.35, 0.78, 0.28)
-        elseif currentRep then
-            dChapterNote:SetText("|TInterface/Icons/inv_misc_horn_04:0:0:0:-4|t " .. ch.repRequirement.faction .. ": " .. currentRep .. " (requires " .. requiredRep .. ")")
-            dChapterNote:SetTextColor(1.0, 0.82, 0.35)
-        else
-            dChapterNote:SetText("|TInterface/Icons/inv_misc_horn_04:0:0:0:-4|t " .. ch.repRequirement.faction .. ": Requires " .. requiredRep)
-            dChapterNote:SetTextColor(1.0, 0.82, 0.35)
-        end
-        dChapterNote:Show()
     else
         dChapterNote:Hide()
     end
@@ -2222,7 +2116,7 @@ LayoutSelectedChapter = function()
         local qInLog = not qDone and IsQuestInLog(q.id)
         -- Display fallback: if the story has no next quest ("Story Finished"),
         -- treat remaining cards as complete for UI purposes.
-        local qDoneDisplay = qDone or (campaignFinished and not qInLog)
+        local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
         local qIsNextRecommended = (q.id == nextQuestID)
         local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
 
@@ -2568,12 +2462,7 @@ local function LayoutDetailTab()
             -- Tooltip
             node.tooltipTitle = ch.chapter
             node.tooltipBody = ch.summary or nil
-            local repStatus = FormatRepStatus(ch)
-            if repStatus then
-                node.tooltipProgress = cDone .. " / " .. cTotal .. " quests\n" .. repStatus
-            else
-                node.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
-            end
+            node.tooltipProgress = cDone .. " / " .. cTotal .. " quests"
             node.tooltipAchievementID = ch.achievementID or nil
 
             -- Status styling

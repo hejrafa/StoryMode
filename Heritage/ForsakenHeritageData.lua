@@ -107,7 +107,7 @@ SM.ForsakenHeritageData = {
             summary = "A small epilogue quest that only appears for players who supported Sylvanas during Battle for Azeroth.",
             recap = "For those who once swore loyalty to the Banshee Queen, a final message arrives — not to excuse the past, but to acknowledge it. The Forsaken move forward, but the echoes of old vows still linger in the ruins of Lordaeron.",
             quests = {
-                { id = 75519, name = "The Long Hunt", npc = "Dori'thur" },
+                { id = 75519, name = "The Long Hunt", npc = "Dori'thur", optional = true },
             },
         },
     },
