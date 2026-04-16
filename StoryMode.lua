@@ -928,8 +928,8 @@ tabContainer:SetPoint("BOTTOMRIGHT", rightSection, "BOTTOMRIGHT", 0,  0)
 -- ════════════════════════════════════════════════════════════════════════════
 
 local detailScroll = CreateFrame("ScrollFrame", nil, tabContainer, "ScrollFrameTemplate")
-detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",     0,   0)
-detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT",  0,  0)
+detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,  -2)
+detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2,   2)
 local detailChild = CreateFrame("Frame", nil, detailScroll)
 detailChild:SetWidth(RIGHT_W)
 detailScroll:SetScrollChild(detailChild)
