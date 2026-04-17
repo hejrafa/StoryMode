@@ -185,8 +185,8 @@ SM.LilianVossData = {
             summary = "The graveyards of Drustvar hold fallen Kul Tiran war heroes — soldiers too valuable to leave buried. Nathanos leads the expedition to unearth Marshal M. Valentine, while Lilian questions what separates the Horde's methods from the horrors she once suffered at the hands of the Scarlet Crusade.",
             recap = "Nathanos led an expedition to dig up a fallen Kul Tiran war hero for resurrection. As you searched the graveyards of Drustvar, Lilian grew quiet. Unearthing the dead, raising them against their will — it was exactly what had been done to her. She carried out her orders, but the questions in her eyes said everything her lips would not.",
             quests = {
-                { id = 53065, name = "Operation: Grave Digger",         npc = "Nathanos Blightcaller" },
                 { id = 51784, name = "A Stroll Through a Cemetery",     npc = "Nathanos Blightcaller" },
+                { id = 53065, name = "Operation: Grave Digger",         npc = "Nathanos Blightcaller", optional = true },
                 { id = 51785, name = "Examining the Epitaphs",          npc = "Nathanos Blightcaller" },
                 { id = 51786, name = "State of Unrest",                 npc = "Nathanos Blightcaller" },
                 { id = 51787, name = "Our Lot in Life",                 npc = "Lilian Voss" },
@@ -201,8 +201,8 @@ SM.LilianVossData = {
             summary = "The Horde needs a tidesage's power over the sea. Lilian and Rexxar track one down in Stormsong Valley — Thomas Zelling, a dying man willing to trade his humanity for a few more years with his family. When the ritual is done, Lilian must watch Zelling's wife recoil from the husband she no longer recognizes. The scene is painfully familiar.",
             recap = "Thomas Zelling was a dying tidesage who traded his humanity for undeath, desperate for a few more years with his family. You and Lilian performed the ritual that raised him — and then watched his wife recoil in horror from the husband she no longer recognized. Lilian stood in silence as the scene played out, seeing her own story reflected in Zelling's shattered face. To be Forsaken, she finally understood, was not just a curse of the body.",
             quests = {
-                { id = 53066, name = "Operation: Water Wise",           npc = "Nathanos Blightcaller" },
                 { id = 51797, name = "Tracking Tidesages",              npc = "Nathanos Blightcaller" },
+                { id = 53066, name = "Operation: Water Wise",           npc = "Nathanos Blightcaller", optional = true },
                 { id = 51798, name = "No Price Too High",               npc = "Rexxar" },
                 { id = 51805, name = "They Will Know Fear",             npc = "Lilian Voss" },
                 { id = 51818, name = "Commander and Captain",           npc = "Thomas Zelling" },

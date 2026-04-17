@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "1.2.3",
+    version = "1.3.0",
     selectedQuestline = 1,
 }
 
@@ -422,7 +422,7 @@ local function GetPingFrame()
 
     local f = CreateFrame("Frame")
     f:SetSize(32, 32)
-    f:SetFrameStrata("TOOLTIP")
+    f:SetFrameStrata("HIGH")
     f:Hide()
 
     local tex = f:CreateTexture(nil, "ARTWORK")
@@ -626,6 +626,7 @@ end
 local categories = {
     { name = "Epic Storylines", questlines = {} },
     { name = "Character Stories", questlines = {} },
+    { name = "Short Stories", questlines = {} },
     { name = "Identity", questlines = {} },
     { name = "More Coming Soon", disabled = true, questlines = {} },
 }
@@ -670,8 +671,14 @@ end
 if CanShowQuestline(SM.SylvanasData) then
     RegisterQuestline(SM.SylvanasData, "Epic Storylines")
 end
+if CanShowQuestline(SM.JainaData) then
+    RegisterQuestline(SM.JainaData, "Epic Storylines")
+end
 if CanShowQuestline(SM.LilianVossData) then
     RegisterQuestline(SM.LilianVossData, "Character Stories")
+end
+if CanShowQuestline(SM.TeddiesAndTeaData) then
+    RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
 end
 if CanShowQuestline(SM.DrustvarData) then
     RegisterQuestline(SM.DrustvarData, "Epic Storylines")
@@ -728,7 +735,11 @@ end
 -- Story Mode Window  —  Trading-Post-style clean dark panels
 -- ============================================================================
 
-local SMTooltip = GameTooltip
+-- Private tooltip — never touch the global GameTooltip so we can't taint
+-- EmbeddedItemTooltip widths that world-quest POI hover reads via GetWidth().
+local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent, "GameTooltipTemplate")
+SMTooltip:SetFrameStrata("TOOLTIP")
+SMTooltip:SetToplevel(true)
 
 local FRAME_W  = 1012
 local FRAME_H  = 550
