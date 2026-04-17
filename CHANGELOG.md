@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.3
+
+### Fixes
+- Fixed MoneyFrame taint error ("secret number value") when hovering world quest POIs or bag items while StoryMode is loaded — tooltip now uses a named `GameTooltip` frame instead of the shared global
+- Fixed scrollbar position in the detail pane — shifted 8px to align correctly within the panel
+- Added 2px inset around right-panel content so text no longer sits flush against the border
+
+### Content
+- Added Nighthold achievement (42030) to the Insurrection (Suramar) achievements list
+- Marked Drustvar as Alliance-only — Horde players cannot access the full zone storyline without Chromie Time
+
+---
+
 ## 1.2.2
 
 ### Fixes
