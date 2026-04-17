@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.3.0
+
+### New Content
+- Added a new Epic Storyline: **Daughter of the Sea** (Jaina Proudmoore) — four chapters spanning Battle for Azeroth
+  - A Nation Divided — Jaina returns to Kul Tiras in chains
+  - Enemies Within — Priscilla Ashvane's conspiracy in Tiragarde Sound
+  - The Pride of Kul Tiras — recovering the lost fleet across four dungeons; Jaina becomes Lord Admiral
+  - The Fog of War — Jaina leads the Alliance assault on Zuldazar (8.1)
+- Added new **Short Stories** category
+- Added first Short Story: **A Tea Party** (Drustvar) — Abby Lewis's tea party in Glenbrook Homestead
+
+### Fixes
+- Fixed `EmbeddedItemTooltip` taint error ("secret number value") when hovering world quest POIs — StoryMode now uses a private `GameTooltip` frame and no longer touches the shared global
+- Fixed ping frame strata (`TOOLTIP` → `HIGH`) to prevent world map frame layout interference
+- Fixed Lilian Voss — The Marshal's Grave: "Operation: Grave Digger" and "Operation: Water Wise" moved to optional and no longer block chapter entry; chains now start from the correct in-zone quest
+
+---
+
 ## 1.2.3
 
 ### Fixes
