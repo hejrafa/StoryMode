@@ -735,9 +735,10 @@ end
 -- Story Mode Window  —  Trading-Post-style clean dark panels
 -- ============================================================================
 
--- Private tooltip — never touch the global GameTooltip so we can't taint
--- EmbeddedItemTooltip widths that world-quest POI hover reads via GetWidth().
-local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent, "GameTooltipTemplate")
+-- Private tooltip — no template so we never trigger GameTooltipTemplate's
+-- OnSizeChanged → EmbeddedItemTooltip_UpdateSize, which taints GetWidth() on
+-- any GameTooltip that runs after us (e.g. world-quest POI hover).
+local SMTooltip = CreateFrame("GameTooltip", "StoryModeTooltip", UIParent)
 SMTooltip:SetFrameStrata("TOOLTIP")
 SMTooltip:SetToplevel(true)
 
