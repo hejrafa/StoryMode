@@ -10,22 +10,27 @@ It turns scattered quest chains into guided campaigns: chapter-based, lore-aware
 - **Chapter-by-chapter structure** with summaries and recaps
 - **Smart progression tracking** to show your real next step
 - **One-click waypoint support** to your next objective
-- **Story journal flow** so completed chapters feel like a coherent saga
+- **Story journal** so completed chapters feel like a coherent saga
 - **Faction, class, and race filtering** so you only see campaigns your character can do
 
-## Highlights in 1.2.0
+## Current Content
 
-- Added a major new Epic Storyline: **The Banshee Queen** (Sylvanas Windrunner), spanning Battle for Azeroth and Shadowlands across seven chapters — from the burning of Teldrassil to the judgment halls of Oribos
-- Trimmed Suramar to its five core story chapters for a tighter, more focused experience
-- Fixed wrong achievements showing in the Insurrection chain
-- Achievement tooltips now show full criteria, rewards, and completion dates
-- Click any achievement row to jump directly to it in the Achievement log
+**Epic Storylines** — major multi-chapter world arcs
+- Insurrection (Suramar)
+- The Frozen Throne (Wrath of the Lich King)
+- Drustvar
 
-## Current Campaign Types
+**Character Stories** — focused stories following a single character
+- The Banshee Queen (Sylvanas Windrunner)
+- Daughter of the Sea (Jaina Proudmoore)
+- The Desolate Council (Lilian Voss)
 
-- **Epic Storylines** — major multi-chapter world arcs and character sagas
-- **Character Stories** — focused stories following a single character
-- **Identity** — class campaigns and heritage armor questlines
+**Short Stories** — self-contained tales and side adventures
+- A Tea Party (Drustvar)
+
+**Identity** — class campaigns and heritage armor questlines
+- All Legion class campaigns (one per class)
+- Heritage armor quests for all available races
 
 ## Why Use Story Mode
 
