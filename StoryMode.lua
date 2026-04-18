@@ -743,7 +743,7 @@ do
     local TTPAD  = 10
     local TTLSP  = 3
     local TTWRAP = 380
-    local TTMIN  = 160
+    local TTMIN  = 220
 
     SMTooltip = CreateFrame("Frame", "StoryModeTooltip", UIParent, "BackdropTemplate")
     SMTooltip:SetFrameStrata("TOOLTIP")
@@ -802,7 +802,8 @@ do
     end
 
     function SMTooltip:Show()
-        local maxW = TTMIN
+        local maxW = self._minW ~= nil and self._minW or TTMIN
+        self._minW = nil
         for i = 1, ttLineN do
             local fs = ttLines[i]
             if fs and fs:IsShown() and not ttWraps[i] then
@@ -3285,6 +3286,7 @@ minimapBtn:SetScript("OnEnter", function(self)
     SMTooltip:ClearLines()
     SMTooltip:AddLine("Story Mode", 1, 1, 1)
     SMTooltip:AddLine("Click to open", C_BODY[1], C_BODY[2], C_BODY[3])
+    SMTooltip._minW = 0
     SMTooltip:Show()
 end)
 minimapBtn:SetScript("OnLeave", function() SMTooltip:Hide() end)
