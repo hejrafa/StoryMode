@@ -407,7 +407,7 @@ local function EnsureTrivialQuestsVisible()
                 local idx, name = i, info.name
                 C_Timer.After(0, function()
                     C_Minimap.SetTracking(idx, true)
-                    print("|cff64b5f6StoryMode:|r Enabled |cffffd200" .. name .. "|r tracking so you can see quest markers for this storyline.")
+                    print("|cff64b5f6Story Mode:|r Enabled |cffffd200" .. name .. "|r tracking so you can see quest markers for this storyline.")
                 end)
                 return
             end
@@ -540,7 +540,7 @@ local function GetZoneName(mapID)
 end
 
 local function PrintTrackResult(result, quest, data)
-    local P = "|cff64b5f6StoryMode:|r "
+    local P = "|cff64b5f6Story Mode:|r "
     local loc = data.npcLocations and data.npcLocations[quest.npc]
     local zone = loc and GetZoneName(loc.mapID) or nil
 
@@ -669,10 +669,10 @@ if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
 if CanShowQuestline(SM.SylvanasData) then
-    RegisterQuestline(SM.SylvanasData, "Epic Storylines")
+    RegisterQuestline(SM.SylvanasData, "Character Stories")
 end
 if CanShowQuestline(SM.JainaData) then
-    RegisterQuestline(SM.JainaData, "Epic Storylines")
+    RegisterQuestline(SM.JainaData, "Character Stories")
 end
 if CanShowQuestline(SM.LilianVossData) then
     RegisterQuestline(SM.LilianVossData, "Character Stories")
@@ -3013,7 +3013,15 @@ local function BuildStoryWindow()
                 zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
                 zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -8,  0)
                 zoneLabel:SetJustifyH("LEFT")
-                zoneLabel:SetText(data.zone or "")
+                local zoneText = data.zone or ""
+                local parts = {}
+                for part in zoneText:gmatch("[^/]+") do
+                    parts[#parts + 1] = part:match("^%s*(.-)%s*$")
+                end
+                if #parts > 2 then
+                    zoneText = parts[1] .. " / " .. parts[2] .. "…"
+                end
+                zoneLabel:SetText(zoneText)
                 zoneLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
 
                 -- ── Completion checkmark (bottom-right of portrait, same as track nodes) ──
@@ -3187,8 +3195,8 @@ end)
 minimapBtn:SetScript("OnEnter", function(self)
     SMTooltip:SetOwner(self, "ANCHOR_LEFT")
     SMTooltip:ClearLines()
-    SMTooltip:AddLine("StoryMode", 1, 1, 1)
-    SMTooltip:AddLine("Click to toggle", C_BODY[1], C_BODY[2], C_BODY[3])
+    SMTooltip:AddLine("Story Mode", 1, 1, 1)
+    SMTooltip:AddLine("Click to open", C_BODY[1], C_BODY[2], C_BODY[3])
     SMTooltip:Show()
 end)
 minimapBtn:SetScript("OnLeave", function() SMTooltip:Hide() end)

@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.1
+
+### Fixes
+- Corrected addon name casing: "StoryMode" → "Story Mode" in all user-facing chat messages and tooltips
+- Minimap button tooltip now reads "Click to open" instead of "Click to toggle"
+
+### Organisation
+- Moved **Daughter of the Sea** (Jaina) and **Sylvanas** from Epic Storylines → Character Stories
+- Zone labels on story cards now show at most two zones (truncated with … when there are more)
+
+---
+
 ## 1.3.0
 
 ### New Content
