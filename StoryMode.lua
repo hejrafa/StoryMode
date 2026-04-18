@@ -785,7 +785,10 @@ do
     function SMTooltip:ClearLines()
         ttLineN = 0
         for _, fs in ipairs(ttLines) do fs:Hide() end
+        ttWraps = {}
     end
+
+    local ttWraps = {}  -- parallel bool array: ttWraps[i] = true if line i wraps
 
     function SMTooltip:AddLine(text, r, g, b, wrap)
         ttLineN = ttLineN + 1
@@ -794,6 +797,7 @@ do
         fs:SetWordWrap(wrap and true or false)
         fs:SetWidth(wrap and TTWRAP or 0)
         fs:SetText(text or "")
+        ttWraps[ttLineN] = wrap and true or false
         fs:Show()
     end
 
@@ -801,7 +805,7 @@ do
         local maxW = TTMIN
         for i = 1, ttLineN do
             local fs = ttLines[i]
-            if fs and fs:IsShown() and not fs:GetWordWrap() then
+            if fs and fs:IsShown() and not ttWraps[i] then
                 local w = fs:GetStringWidth()
                 if w > maxW then maxW = w end
             end
@@ -814,7 +818,7 @@ do
             if fs and fs:IsShown() then
                 fs:ClearAllPoints()
                 fs:SetPoint("TOPLEFT", self, "TOPLEFT", TTPAD, yOff)
-                if fs:GetWordWrap() then fs:SetWidth(innerW) end
+                if ttWraps[i] then fs:SetWidth(innerW) end
                 yOff = yOff - fs:GetStringHeight() - TTLSP
             end
         end
