@@ -742,8 +742,8 @@ local SMTooltip
 do
     local TTPAD  = 10
     local TTLSP  = 3
-    local TTWRAP = 260
-    local TTMIN  = 100
+    local TTWRAP = 380
+    local TTMIN  = 160
 
     SMTooltip = CreateFrame("Frame", "StoryModeTooltip", UIParent, "BackdropTemplate")
     SMTooltip:SetFrameStrata("TOOLTIP")
