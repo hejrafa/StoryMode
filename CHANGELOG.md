@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.2
+
+### Fixes
+- Fixed persistent taint errors ("secret number value") when hovering world-quest POIs — replaced the private `GameTooltip` frame with a plain `BackdropTemplate` frame that has no connection to the GameTooltip C layer, eliminating both the `EmbeddedItemTooltip` and `MoneyFrame` taint chains for good
+- Fixed tooltip crash (`GetWordWrap` nil value) caused by FontString not exposing that method — wrap state is now tracked in a parallel table
+- Fixed Lua "more than 200 local variables" error — tooltip helpers are scoped inside a `do/end` block
+
+### Polish
+- Tooltip minimum width raised to 220px; minimap tooltip sizes to content only
+
+---
+
 ## 1.3.1
 
 ### Fixes
