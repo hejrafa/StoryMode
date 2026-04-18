@@ -737,90 +737,92 @@ end
 
 -- Private tooltip — plain Frame, never touches the GameTooltip C layer so we
 -- cannot taint MoneyFrame or EmbeddedItemTooltip arithmetic in Blizzard code.
-local TTPAD  = 10   -- inner padding
-local TTLSP  = 3    -- pixels between lines
-local TTWRAP = 260  -- max width for word-wrapped lines
-local TTMIN  = 100  -- minimum tooltip width
+-- do/end scopes the helpers so they don't count against the 200-local limit.
+local SMTooltip
+do
+    local TTPAD  = 10
+    local TTLSP  = 3
+    local TTWRAP = 260
+    local TTMIN  = 100
 
-local SMTooltip = CreateFrame("Frame", "StoryModeTooltip", UIParent, "BackdropTemplate")
-SMTooltip:SetFrameStrata("TOOLTIP")
-SMTooltip:SetToplevel(true)
-SMTooltip:SetClampedToScreen(true)
-SMTooltip:Hide()
-SMTooltip:SetBackdrop({
-    bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
-    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-    tile = true, tileSize = 16, edgeSize = 16,
-    insets = { left = 4, right = 4, top = 4, bottom = 4 },
-})
-SMTooltip:SetBackdropColor(0.09, 0.09, 0.19, 1)
-SMTooltip:SetBackdropBorderColor(0.4, 0.4, 0.5, 1)
+    SMTooltip = CreateFrame("Frame", "StoryModeTooltip", UIParent, "BackdropTemplate")
+    SMTooltip:SetFrameStrata("TOOLTIP")
+    SMTooltip:SetToplevel(true)
+    SMTooltip:SetClampedToScreen(true)
+    SMTooltip:Hide()
+    SMTooltip:SetBackdrop({
+        bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        tile = true, tileSize = 16, edgeSize = 16,
+        insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    })
+    SMTooltip:SetBackdropColor(0.09, 0.09, 0.19, 1)
+    SMTooltip:SetBackdropBorderColor(0.4, 0.4, 0.5, 1)
 
-local ttLines  = {}   -- FontString pool
-local ttLineN  = 0    -- active line count
+    local ttLines = {}
+    local ttLineN = 0
 
-local function TTLine(i)
-    if not ttLines[i] then
-        local fs = SMTooltip:CreateFontString(nil, "OVERLAY", "GameTooltipText")
-        fs:SetJustifyH("LEFT")
-        ttLines[i] = fs
-    end
-    return ttLines[i]
-end
-
-local _frameShow = SMTooltip.Show   -- capture before override
-
-function SMTooltip:SetOwner(frame, anchor)
-    self:ClearAllPoints()
-    if anchor == "ANCHOR_LEFT" then
-        self:SetPoint("TOPRIGHT", frame, "TOPLEFT", -5, 0)
-    else
-        self:SetPoint("TOPLEFT", frame, "TOPRIGHT", 5, 0)
-    end
-end
-
-function SMTooltip:ClearLines()
-    ttLineN = 0
-    for _, fs in ipairs(ttLines) do fs:Hide() end
-end
-
-function SMTooltip:AddLine(text, r, g, b, wrap)
-    ttLineN = ttLineN + 1
-    local fs = TTLine(ttLineN)
-    fs:SetTextColor(r or 1, g or 1, b or 1)
-    fs:SetWordWrap(wrap and true or false)
-    fs:SetWidth(wrap and TTWRAP or 0)
-    fs:SetText(text or "")
-    fs:Show()
-end
-
-function SMTooltip:Show()
-    -- Measure widest non-wrapping line
-    local maxW = TTMIN
-    for i = 1, ttLineN do
-        local fs = ttLines[i]
-        if fs and fs:IsShown() and not fs:GetWordWrap() then
-            local w = fs:GetStringWidth()
-            if w > maxW then maxW = w end
+    local function TTLine(i)
+        if not ttLines[i] then
+            local fs = SMTooltip:CreateFontString(nil, "OVERLAY", "GameTooltipText")
+            fs:SetJustifyH("LEFT")
+            ttLines[i] = fs
         end
+        return ttLines[i]
     end
-    local innerW = math.min(maxW, TTWRAP)
 
-    -- Layout lines top-to-bottom and measure total height
-    local yOff = -TTPAD
-    for i = 1, ttLineN do
-        local fs = ttLines[i]
-        if fs and fs:IsShown() then
-            fs:ClearAllPoints()
-            fs:SetPoint("TOPLEFT", self, "TOPLEFT", TTPAD, yOff)
-            if fs:GetWordWrap() then fs:SetWidth(innerW) end
-            yOff = yOff - fs:GetStringHeight() - TTLSP
+    local _frameShow = SMTooltip.Show
+
+    function SMTooltip:SetOwner(frame, anchor)
+        self:ClearAllPoints()
+        if anchor == "ANCHOR_LEFT" then
+            self:SetPoint("TOPRIGHT", frame, "TOPLEFT", -5, 0)
+        else
+            self:SetPoint("TOPLEFT", frame, "TOPRIGHT", 5, 0)
         end
     end
 
-    self:SetWidth(innerW + TTPAD * 2)
-    self:SetHeight(math.abs(yOff) - TTLSP + TTPAD)
-    _frameShow(self)
+    function SMTooltip:ClearLines()
+        ttLineN = 0
+        for _, fs in ipairs(ttLines) do fs:Hide() end
+    end
+
+    function SMTooltip:AddLine(text, r, g, b, wrap)
+        ttLineN = ttLineN + 1
+        local fs = TTLine(ttLineN)
+        fs:SetTextColor(r or 1, g or 1, b or 1)
+        fs:SetWordWrap(wrap and true or false)
+        fs:SetWidth(wrap and TTWRAP or 0)
+        fs:SetText(text or "")
+        fs:Show()
+    end
+
+    function SMTooltip:Show()
+        local maxW = TTMIN
+        for i = 1, ttLineN do
+            local fs = ttLines[i]
+            if fs and fs:IsShown() and not fs:GetWordWrap() then
+                local w = fs:GetStringWidth()
+                if w > maxW then maxW = w end
+            end
+        end
+        local innerW = math.min(maxW, TTWRAP)
+
+        local yOff = -TTPAD
+        for i = 1, ttLineN do
+            local fs = ttLines[i]
+            if fs and fs:IsShown() then
+                fs:ClearAllPoints()
+                fs:SetPoint("TOPLEFT", self, "TOPLEFT", TTPAD, yOff)
+                if fs:GetWordWrap() then fs:SetWidth(innerW) end
+                yOff = yOff - fs:GetStringHeight() - TTLSP
+            end
+        end
+
+        self:SetWidth(innerW + TTPAD * 2)
+        self:SetHeight(math.abs(yOff) - TTLSP + TTPAD)
+        _frameShow(self)
+    end
 end
 
 local FRAME_W  = 1012
