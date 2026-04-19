@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.8
+
+### Fixes
+- Fixed quest card checkmarks not updating until reload — the detail panel now re-renders immediately on `QUEST_TURNED_IN` without needing a `/reload`
+
+### New
+- Added story completion screen: when the final chapter of a storyline is finished, a center-screen message fades in showing the story title and "Story Finished" — fires 6.5 seconds after the chapter-complete banner so they don't overlap
+- Storyline completion cache is pre-populated on login so already-finished stories never re-trigger the screen on reload
+- Added `/sm complete` test command to preview the story complete screen
+
+---
+
 ## 1.3.7
 
 ### Content

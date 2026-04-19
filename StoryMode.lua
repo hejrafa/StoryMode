@@ -3214,6 +3214,14 @@ SlashCmdList["STORYMODE"] = function(msg)
             end
         end
         print("|cff64b5f6StoryMode:|r All questlines complete!")
+    elseif msg == "complete" then
+        local data = allQuestlines[1]
+        if data then
+            ShowStoryComplete(data.title)
+        else
+            print("|cff64b5f6StoryMode:|r No questline data to test.")
+        end
+        return
     elseif msg:match("^debug") then
         local filter = msg:match("^debug%s+(.+)$")
         local found = false
@@ -3429,10 +3437,59 @@ ShowStoryBanner = function(headerText, titleText, questlineData, npcName, isChap
 end
 
 -- ============================================================================
--- Quest Completion Tracking — detect chapter completion
+-- Story Complete Screen  (center-screen, fires when the last chapter is done)
 -- ============================================================================
 
-local chapterCompletionCache = {}  -- [questlineTitle..chapterName] = true if already fired
+local scFrame = CreateFrame("Frame", nil, UIParent)
+scFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 60)
+scFrame:SetSize(520, 80)
+scFrame:SetFrameStrata("FULLSCREEN_DIALOG")
+scFrame:Hide()
+
+local scTitle = scFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge")
+scTitle:SetPoint("CENTER", scFrame, "CENTER", 0, 20)
+scTitle:SetJustifyH("CENTER")
+scTitle:SetTextColor(1, 0.95, 0.75)
+scTitle:SetShadowOffset(2, -2)
+scTitle:SetShadowColor(0, 0, 0, 0.9)
+
+local scLabel = scFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+scLabel:SetPoint("CENTER", scFrame, "CENTER", 0, -16)
+scLabel:SetJustifyH("CENTER")
+scLabel:SetTextColor(0.85, 0.75, 0.45)
+scLabel:SetShadowOffset(1, -1)
+scLabel:SetText("Story Finished")
+
+local scFadeIn = scFrame:CreateAnimationGroup()
+local scAlphaIn = scFadeIn:CreateAnimation("Alpha")
+scAlphaIn:SetFromAlpha(0); scAlphaIn:SetToAlpha(1)
+scAlphaIn:SetDuration(1.0); scAlphaIn:SetSmoothing("OUT")
+scFadeIn:SetScript("OnFinished", function() scFrame:SetAlpha(1) end)
+
+local scFadeOut = scFrame:CreateAnimationGroup()
+local scAlphaOut = scFadeOut:CreateAnimation("Alpha")
+scAlphaOut:SetFromAlpha(1); scAlphaOut:SetToAlpha(0)
+scAlphaOut:SetDuration(1.5); scAlphaOut:SetSmoothing("IN")
+scFadeOut:SetScript("OnFinished", function() scFrame:Hide(); scFrame:SetAlpha(1) end)
+
+local function ShowStoryComplete(storyTitle)
+    scTitle:SetText(storyTitle or "")
+    scFadeOut:Stop()
+    scFadeIn:Stop()
+    scFrame:SetAlpha(0)
+    scFrame:Show()
+    scFadeIn:Play()
+    C_Timer.After(7.0, function()
+        if scFrame:IsShown() then scFadeOut:Play() end
+    end)
+end
+
+-- ============================================================================
+-- Quest Completion Tracking — detect chapter and storyline completion
+-- ============================================================================
+
+local chapterCompletionCache  = {}  -- [questlineTitle|chapterName] = true
+local storylineCompletionCache = {}  -- [questlineTitle] = true
 
 local function CheckQuestCompletion(completedQuestID)
     for _, data in ipairs(allQuestlines) do
@@ -3448,26 +3505,47 @@ local function CheckQuestCompletion(completedQuestID)
             if not questName then
                 -- quest not in this chapter, skip
             else
+                -- Refresh the open detail panel immediately so checkmarks appear
+                C_Timer.After(0.1, function()
+                    if storyFrame:IsShown() and currentStoryData == data then
+                        UpdateStoryDetail(data)
+                    end
+                end)
+
                 -- Check if entire chapter is now complete
                 local done, total = GetChapterProgress(ch)
                 local isChapterDone = done >= total and total > 0
                 local key = (data.title or "") .. "|" .. (ch.chapter or "")
 
                 if isChapterDone and not chapterCompletionCache[key] then
-                    -- Chapter just completed — show chapter banner
                     chapterCompletionCache[key] = true
+
+                    -- Check if the entire storyline just finished
+                    local storyKey = data.title or ""
+                    local allDone = true
+                    for _, c in ipairs(GetAllChapters(data)) do
+                        local d, t = GetChapterProgress(c)
+                        if d < t or t == 0 then allDone = false; break end
+                    end
+
                     local chName = ch.chapter
-                    local npc = questNpc
+                    local npc   = questNpc
                     C_Timer.After(1.5, function()
                         ShowStoryBanner("CHAPTER COMPLETE", chName, data, npc, true)
                     end)
+
+                    if allDone and not storylineCompletionCache[storyKey] then
+                        storylineCompletionCache[storyKey] = true
+                        C_Timer.After(6.5, function()
+                            ShowStoryComplete(data.title)
+                        end)
+                    end
                 else
                     -- Individual quest — show quest banner
                     local qName = questName
-                    local npc = questNpc
-                    local qData = data
+                    local npc   = questNpc
                     C_Timer.After(1.0, function()
-                        ShowStoryBanner(data.title, qName, qData, npc, false)
+                        ShowStoryBanner(data.title, qName, data, npc, false)
                     end)
                 end
                 break
@@ -3487,13 +3565,19 @@ frame:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" and arg1 == addonName then
         StoryModeDB = StoryModeDB or CopyTable(defaults)
         MinimapButton_Init()
-        -- Pre-populate cache so already-completed chapters don't re-fire
+        -- Pre-populate caches so already-completed chapters/storylines don't re-fire
         for _, data in ipairs(allQuestlines) do
+            local allDone = true
             for _, ch in ipairs(GetAllChapters(data)) do
                 local d, t = GetChapterProgress(ch)
                 if d >= t and t > 0 then
                     chapterCompletionCache[(data.title or "") .. "|" .. (ch.chapter or "")] = true
+                else
+                    allDone = false
                 end
+            end
+            if allDone then
+                storylineCompletionCache[data.title or ""] = true
             end
         end
     elseif event == "QUEST_TURNED_IN" then
