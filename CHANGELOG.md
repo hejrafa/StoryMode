@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.9
+
+### Fixes
+- Fixed "main function has more than 200 local variables" Lua error introduced in 1.3.8 — story complete frame locals (scFrame, scTitle, scLabel, animations) are now scoped inside a do/end block; only the forward declaration of ShowStoryComplete remains in the main chunk
+
+---
+
 ## 1.3.8
 
 ### Fixes
