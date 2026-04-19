@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.3.6
+
+### Content — The Banshee Queen (Sylvanas) full rebuild
+- Removed the three unplayable limited-time chapters (March on Darkshore, Burning of Teldrassil, Death Rising) and a fabricated placeholder chapter (Gilneas Gambit) that had made-up quest IDs
+- Added **The Frozen Halls** (Wrath of the Lich King) — the Forge of Souls → Pit of Saron → Halls of Reflection dungeon chain; Sylvanas confronts the echo of Arthas and hears Uther's ghost warn her about her own fate in death. Entry: Dark Ranger Vorel in Dalaran
+- Added **The War for Silverpine** (Cataclysm) — the Forsaken march into Silverpine and Gilneas; includes the Garrosh confrontation where Sylvanas raises the dead with Val'kyr against the Warchief's direct orders. Entry: Grand Executor Mortuus at Forsaken High Command
+- Added **Cities in Dust** (Cataclysm) — the Ruins of Gilneas campaign, Lord Godfrey raised as Forsaken, and Sylvanas's ultimatum to the Gilneas Liberation Front. Known broken quest (#27401) noted in the chapter
+- Added **The Broken Shore** (Legion) — Vol'jin dies from a fel wound and names Sylvanas Warchief in his final moments. Entry: Captain Russo at the Horde dock in Durotar
+- Questline now spans five expansions (Wrath → Cataclysm → Legion → BfA → Shadowlands) and is fully playable today
+- Updated description, zone, expansion metadata, NPC locations, and chapter display IDs to match the expanded arc
+
+---
+
 ## 1.3.5
 
 ### Content
