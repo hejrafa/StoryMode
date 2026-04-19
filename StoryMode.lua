@@ -50,6 +50,15 @@ local function IsQuestEffectivelyComplete(questIndex, chapterQuests, nextChapter
     -- IsOnQuest can be unreliable for some campaign steps; log index is safer.
     if C_QuestLog.GetLogIndexForQuestID(qid) ~= nil then return false end
     if IsQuestComplete(qid) then return true end
+    -- Before inferring completion from a later done quest, check that no
+    -- earlier quest in the chain is still in progress. If the player is
+    -- actively working through step N, quests after N can't be inferred done
+    -- from a later flag — that flag is from a previous run or another character.
+    for i = 1, questIndex - 1 do
+        if C_QuestLog.GetLogIndexForQuestID(chapterQuests[i].id) ~= nil then
+            return false
+        end
+    end
     for i = questIndex + 1, #chapterQuests do
         if IsQuestComplete(chapterQuests[i].id) then return true end
     end
@@ -202,23 +211,23 @@ local function GetQuestLockReason(data, ch, questIndex, nextChapterQuests)
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        return string.format("Requires level %d (you are %d).", data.requiredLevel, playerLevel)
+        return string.format("You need to reach level %d to start this story. (You are level %d.)", data.requiredLevel, playerLevel)
     end
 
     local unmetPrereq = GetFirstUnmetChapterPrerequisite(ch)
     if unmetPrereq then
         local questName = unmetPrereq.name or ("Quest ID " .. tostring(unmetPrereq.id))
         if unmetPrereq.npc and unmetPrereq.npc ~= "" then
-            return "Requires campaign quest: " .. questName .. " (from " .. unmetPrereq.npc .. ")."
+            return "Pick up \"" .. questName .. "\" from " .. unmetPrereq.npc .. " to unlock this chapter."
         end
-        return "Requires campaign quest: " .. questName .. "."
+        return "Complete \"" .. questName .. "\" to unlock this chapter."
     end
 
 
     if questIndex and questIndex > 1 then
         local prevQuest = ch.quests and ch.quests[questIndex - 1]
         if prevQuest and not IsQuestEffectivelyComplete(questIndex - 1, ch.quests, nextChapterQuests) then
-            return "Requires previous quest: " .. (prevQuest.name or ("Quest ID " .. tostring(prevQuest.id))) .. "."
+            return "Complete \"" .. (prevQuest.name or ("Quest ID " .. tostring(prevQuest.id))) .. "\" first to continue the story."
         end
     end
 
@@ -230,7 +239,7 @@ local function GetQuestlineGateReason(data)
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        return string.format("Requires level %d (you are %d).", data.requiredLevel, playerLevel)
+        return string.format("You need to reach level %d to start this story. (You are level %d.)", data.requiredLevel, playerLevel)
     end
 
     return nil
@@ -2143,7 +2152,7 @@ LayoutSelectedChapter = function()
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t Requires level " .. data.requiredLevel .. " (you are " .. playerLevel .. ").")
+        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t You need to reach level " .. data.requiredLevel .. " to start this story. (You are level " .. playerLevel .. ").")
         dChapterNote:SetTextColor(1.0, 0.82, 0.35)
         dChapterNote:Show()
     elseif ch.note then
@@ -2154,9 +2163,9 @@ LayoutSelectedChapter = function()
         if req then
             local reqQuest = req.name or ("Quest ID " .. tostring(req.id))
             if req.npc then
-                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t Requires: " .. reqQuest .. " (from " .. req.npc .. ")")
+                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t To start this chapter, speak with " .. req.npc .. " and pick up \"" .. reqQuest .. "\".")
             else
-                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t Requires: " .. reqQuest)
+                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t To start this chapter, complete \"" .. reqQuest .. "\" first.")
             end
             dChapterNote:SetTextColor(1.0, 0.82, 0.35)
             dChapterNote:Show()
@@ -3205,6 +3214,35 @@ SlashCmdList["STORYMODE"] = function(msg)
             end
         end
         print("|cff64b5f6StoryMode:|r All questlines complete!")
+    elseif msg:match("^debug") then
+        local filter = msg:match("^debug%s+(.+)$")
+        local found = false
+        for _, data in ipairs(allQuestlines) do
+            if not filter or data.title:lower():find(filter, 1, true) then
+                found = true
+                print("|cff64b5f6StoryMode Debug:|r " .. data.title)
+                local chapters = GetAllChapters(data)
+                for _, ch in ipairs(chapters) do
+                    if ch.quests then
+                        local chDone, chTotal = GetChapterProgress(ch)
+                        print(string.format("  |cffaaaaaa[%s]|r %d/%d", ch.chapter or "?", chDone, chTotal))
+                        for j, q in ipairs(ch.quests) do
+                            local inLog = IsQuestInLog(q.id)
+                            local flagged = C_QuestLog.IsQuestFlaggedCompleted(q.id)
+                            local effective = IsQuestEffectivelyComplete(j, ch.quests)
+                            local tag = inLog and "|cff00ff00[IN LOG]|r"
+                                or (flagged and "|cffaaaaaa[done]|r")
+                                or (effective and "|cffff8800[eff-done]|r")
+                                or "|cffff4444[incomplete]|r"
+                            print(string.format("    %s %d %s", tag, q.id, q.name or "?"))
+                        end
+                    end
+                end
+            end
+        end
+        if not found then
+            print("|cff64b5f6StoryMode:|r No questline matching '" .. (filter or "") .. "'")
+        end
     else
         if storyFrame:IsShown() then
             storyFrame:Hide()

@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.4
+
+### Fixes
+- Fixed a bug where quests after an in-progress quest were falsely marked "effectively complete" when a later quest in the same chapter had been flagged done (e.g. by a previous run or a warbound flag from another character) — the chain inference now stops if any earlier quest is still in the player's log
+- Fixed all chapters in the Banshee Queen storyline showing as complete while the player was actively questing through them
+
+### Content
+- Rewrote all chapter requirement messages to be actionable — version numbers (8.0.1, 8.1, 9.0.1, etc.) replaced with plain instructions: where to go, who to talk to, what to complete
+- Updated generated lock messages: "Requires campaign quest: X" → "Pick up X from NPC to unlock this chapter"; "Requires previous quest: X" → "Complete X first to continue the story"; level gates now read "You need to reach level X" instead of "Requires level X"
+
+---
+
 ## 1.3.2
 
 ### Fixes

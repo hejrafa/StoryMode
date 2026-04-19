@@ -163,7 +163,7 @@ SM.JainaData = {
         -- CHAPTER 4: The Zuldazar assault
         {
             chapter = "The Fog of War",
-            note = "Requires: Battle for Azeroth (8.1 — Tides of Vengeance). Complete the Kul Tiras intro and War Campaign chapters to unlock. Speak with Mathias Shaw in Proudmoore Keep.",
+            note = "Complete the Kul Tiras intro and War Campaign chapters to unlock, then speak with Mathias Shaw in Proudmoore Keep.",
             summary = "Jaina Proudmoore, now Lord Admiral, turns the Kul Tiran fleet against the Zandalari Empire. The plan: draw the Horde's forces deep into Nazmir with the Abyssal Scepter while the Alliance fleet strikes Zuldazar harbor from the south. Jaina personally freezes the harbor, and the Battle of Dazar'alor begins.",
             recap = "Mathias Shaw laid out the strategy in Proudmoore Keep: use the Abyssal Scepter to create a false assault on Nazmir and lure the Horde fleet away from Zuldazar. While Zandalari forces rushed south to repel the distraction, the Alliance fleet would hit the harbor directly. You spent two weeks fighting through Nazmir swamps, disabling Zandalari machinery, and holding the line at the Blood Gate — long enough for the fleet to round the coast.\n\nThen Jaina froze the harbor. The water turned to ice beneath Zandalari hulls. The Alliance sailed straight through. The Battle of Dazar'alor — the most audacious naval assault in a generation — had begun. Lord Admiral Jaina Proudmoore, fighting in her own waters, had brought the war home.",
             quests = {

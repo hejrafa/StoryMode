@@ -182,7 +182,7 @@ SM.LilianVossData = {
         -- CHAPTER 7: Tiragarde Sound — The First Assault
         {
             chapter = "The First Assault",
-            note = "Requires: Battle for Azeroth. Complete the Horde War Campaign introduction and travel to Zuldazar before this chapter becomes available.",
+            note = "Complete the Horde War Campaign introduction and travel to Zuldazar to unlock this chapter.",
             summary = "Nathanos Blightcaller and Lilian Voss lead a covert strike into the heart of Tiragarde Sound. While Nathanos secures the mountain outpost, Lilian takes command of the Bridgeport operation — sabotaging Ashvane foundries, planting explosives, and riding through the chaos she created.",
             recap = "Years later, Lilian served the Horde on the shores of Kul Tiras. While Nathanos Blightcaller secured a mountain outpost, Lilian led you through Bridgeport — sabotaging foundries, planting explosives, and riding through the flames of your own making. She was efficient, ruthless, and completely in her element. The girl who once trembled in Deathknell was gone.",
             quests = {
@@ -244,7 +244,7 @@ SM.LilianVossData = {
         -- CHAPTER 10: At the Bottom of the Sea
         {
             chapter = "At the Bottom of the Sea",
-            note = "Requires: Battle for Azeroth patch 8.1 (Tides of Vengeance). Complete the Horde War Campaign through Stormsong Valley before this chapter becomes available.",
+            note = "Complete the Horde War Campaign through Stormsong Valley to unlock this chapter.",
             summary = "The Horde's war at sea claims a significant prize: Derek Proudmoore, son of the Lord Admiral, goes down with his ship in the waters off Kul Tiras. Hobart Grapplehammer equips you with experimental diving gear as Dread-Admiral Tattersail leads the expedition into the deep. What Sylvanas intends to do with the body is not yet spoken aloud — but the silence on the ship ride home says enough.",
             recap = "The war at sea gave the Horde what blades on land could not: Derek Proudmoore, heir to Kul Tiras, dead at the bottom of the ocean. Hobart Grapplehammer put you in a diving suit and you went down. The ocean floor was littered with the wreckage of the battle — dog tags, sunken ships, the bones of sailors on both sides. You found Derek and hauled him up. No one said what Sylvanas would do with him. No one had to.",
             quests = {
@@ -290,7 +290,7 @@ SM.LilianVossData = {
         -- CHAPTER 12: Testing Loyalties
         {
             chapter = "Testing Loyalties",
-            note = "Requires: Battle for Azeroth patch 8.1.5. Contains a player choice — the canonical lore outcome has you side with Baine.",
+            note = "Contains a player choice — the canonical lore outcome has you side with Baine.",
             summary = "Baine Bloodhoof has decided Derek Proudmoore cannot be used as a weapon against his own family and asks for your help freeing him. The plan runs through Plunder Harbor under false colors, with Thomas Zelling — the very tidesage Lilian helped raise — guiding the escape from the inside. When Baine and Zelling are punished for their defiance, Lilian says nothing to Sylvanas. She tells Zelling's family he died a hero.",
             recap = "Baine Bloodhoof looked at Derek Proudmoore — raised, hollowed out, aimed at his own kin — and decided he would not be part of it. He asked for your help. Thomas Zelling, the tidesage whose raising Lilian had stood witness to in Stormsong, helped guide Derek out from the inside. They freed him.\n\nSylvanas had Baine arrested and Zelling killed. Lilian said nothing aloud. Later, quietly, she went to Zelling's family and told them he had died a hero. It was not defiance. It was a choice. Small enough that no one noticed. Large enough that she did.",
             quests = {
@@ -315,7 +315,7 @@ SM.LilianVossData = {
         -- CHAPTER 13: Return to Lordaeron
         {
             chapter = "Return to Lordaeron",
-            note = "Requires: Shadowlands patch 9.2.5. Available to Horde players after completing the Shadowlands campaign.",
+            note = "Available to Horde players after completing the Shadowlands campaign.",
             summary = "With Sylvanas defeated and the war over, Lilian Voss and Calia Menethil lead the Forsaken back to Lordaeron. The city is choked with Blight, the halls of Undercity dark and half-collapsed. Together they fight to reclaim it — cleansing what can be saved, burying what cannot — and at the end, form the Desolate Council: a governing body the Forsaken chose for themselves.",
             recap = "The war ended. Sylvanas was gone. And Lilian Voss led the Forsaken home.\n\nThey came back to ruins — streets flooded with Blight, Undercity dark and broken. Calia Menethil walked beside her, daughter of the last king of Lordaeron, and between the two of them they held the Forsaken together through all of it: the plague work, the dead to bury, the city to reclaim room by room. At the end they formed the Desolate Council — Lilian, Calia, Velonara, Belmont, Faranell — not a Dark Lady, not a warchief. A council. Their own.\n\nLilian Voss, who had spent her whole life as something to be used and discarded, had become the person her people followed home.",
             quests = {

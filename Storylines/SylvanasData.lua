@@ -88,7 +88,7 @@ SM.SylvanasData = {
         -- CHAPTER 1: The march begins
         {
             chapter = "The March on Darkshore",
-            note = "Requires: Battle for Azeroth pre-patch (8.0.1). These quests were part of a limited-time world event and may be available via the Adventure Journal or phased world content.",
+            note = "These quests were part of a limited-time world event. Check the Adventure Journal or speak with Zidormi in Darkshore to access the phased content.",
             summary = "Sylvanas calls the Horde to arms. The target: the Night Elf heartland of Kalimdor. With Saurfang at her side, the Horde tears through Ashenvale — burning, clearing, advancing — toward the great tree of Teldrassil. For the Alliance, the wisp wall of Malfurion Stormrage stands in the way. Sylvanas orders it dismantled.",
             recap = "Sylvanas Windrunner, Warchief of the Horde, summoned you to Orgrimmar with a command: march on the Night Elves and seize Kalimdor before the Alliance can mobilize. Saurfang led the vanguard through Ashenvale — past the ruins of Astranaar, through the wisp barrier Malfurion had woven across the road — while Sylvanas watched and waited. The world tree loomed ahead. The Horde had never moved so fast, or with such terrible purpose.",
             quests = {
@@ -119,7 +119,7 @@ SM.SylvanasData = {
         -- CHAPTER 2: The burning
         {
             chapter = "The Burning of Teldrassil",
-            note = "Requires: Battle for Azeroth pre-patch (8.0.1), Week 2 of the War of Thorns event.",
+            note = "This was Week 2 of the War of Thorns, a limited-time world event. It may no longer be fully accessible in the open world.",
             summary = "Lor'danel falls. Saurfang's forces push to the very shore beneath Teldrassil — but before the Horde can advance, Sylvanas issues an order Saurfang cannot obey: burn the tree. She does it herself. The world tree ignites. What Sylvanas truly wanted from that act remains unclear — until much later.",
             recap = "The second week of war brought the Horde to Lor'danel, the last Night Elf town before Teldrassil itself. The defenders were routed. The path to the world tree was open. Then Sylvanas gave the order to burn it — to deny the Night Elves their sanctuary, their anchor to the living world. Saurfang refused. Sylvanas burned Teldrassil herself. Thousands died. An entire people lost their home. And somewhere in the ash, the seeds of the Horde's fracture were planted.",
             quests = {
@@ -139,7 +139,7 @@ SM.SylvanasData = {
         -- CHAPTER 3: The fall of Undercity
         {
             chapter = "The Battle for Lordaeron",
-            note = "Requires: Battle for Azeroth (8.0.1). This scenario may be replayed via Archivist Sylvia in Orgrimmar.",
+            note = "This scenario can be replayed at any time via Archivist Sylvia in Orgrimmar.",
             summary = "The Alliance counterstrikes. Led by King Anduin and Jaina Proudmoore, they march on the Undercity — the Forsaken capital and Sylvanas's seat of power. When the city cannot be held, Sylvanas makes one final, devastating choice: she releases the Blight. The gas that could raise the dead turns on friend and foe alike. The Undercity is lost, poisoned from within. Sylvanas escapes on horseback, leaving nothing but ruin.",
             recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls of Undercity, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity became a tomb of green gas. Sylvanas rode for the Dark Portal as the horns of the Alliance echoed behind her. The Forsaken had no home left.",
             quests = {
@@ -157,7 +157,7 @@ SM.SylvanasData = {
         -- CHAPTER 4: The hunt for the High Overlord
         {
             chapter = "The Fate of Saurfang",
-            note = "Requires: Battle for Azeroth (8.1). Begin by talking to Dark Ranger Alina in Zuldazar.",
+            note = "Talk to Dark Ranger Alina in Zuldazar to begin.",
             summary = "Varok Saurfang, captured after the fall of Lordaeron, sits in an Alliance prison in Stormwind. Sylvanas wants him back — or silenced. Nathanos Blightcaller leads the mission to extract the old orc before he becomes a rallying point for those questioning the Warchief's leadership.",
             recap = "After the fall of Lordaeron, Saurfang had surrendered to the Alliance rather than flee with Sylvanas. Now Nathanos Blightcaller was dispatched to retrieve him — or ensure he stayed quiet. You tracked the old orc through layers of Alliance intelligence, piecing together where he was held and what he knew. Saurfang cooperated with the extraction — but on his own terms. He walked out of Stormwind not as a prisoner, but as a man with a plan.",
             quests = {
@@ -184,7 +184,7 @@ SM.SylvanasData = {
         -- CHAPTER 5: Mak'gora
         {
             chapter = "Before the Gates of Orgrimmar",
-            note = "Requires: Battle for Azeroth (8.2.5). Complete the War Campaign to unlock.",
+            note = "Complete the Horde War Campaign to unlock, then find High Overlord Saurfang outside the gates of Orgrimmar.",
             summary = "Saurfang rallies the Horde's dissidents outside Orgrimmar. Sylvanas commands her forces to hold the gate. Then Saurfang does what no one expected — he invokes the ancient rite of Mak'gora, a challenge of single combat. Sylvanas accepts. The duel ends in his death — but not before his last words strip away what little she had left to rule with. The Horde watches their Warchief abandon them. She walks away, and does not look back.",
             recap = "Saurfang stood at the gates of Orgrimmar and challenged Sylvanas to Mak'gora — combat to the death, for the soul of the Horde. She accepted. She killed him. But as Saurfang fell, he turned to the watching Horde soldiers and named Sylvanas for what she was: someone who had stopped caring about Horde, honor, or anything they had built together. He died smiling. She stood alone at the gate, victorious, with nothing left to rule over. Then she left. The Horde had no Warchief.",
             quests = {
@@ -210,7 +210,7 @@ SM.SylvanasData = {
         -- CHAPTER 6: The veil torn open
         {
             chapter = "Death Rising",
-            note = "Requires: Shadowlands pre-patch (9.0.1). These quests were a limited-time world event. The Helm-shattering cinematic plays automatically during the pre-patch.",
+            note = "These quests were a limited-time world event. The Helm-shattering cinematic plays automatically as part of the event.",
             summary = "Sylvanas has disappeared into Icecrown Citadel. The Scourge, no longer bound by the Lich King's will, erupts across Azeroth. Bolvar Fordragon — the current Lich King — sends a warning. Nathanos Blightcaller hunts survivors on Sylvanas's behalf. And at the summit of the citadel, before a shocked Bolvar, Sylvanas shatters the Helm of Domination — tearing open the barrier between life and death. The sky above Icecrown splits apart, and something vast and hungry stirs on the other side.",
             recap = "The Scourge was everywhere — in Icecrown, in the streets of the capital cities. Bolvar Fordragon, bearing the Lich King's crown to keep the undead in check, sent out the call for champions to push back the tide. Then Sylvanas struck at the crown itself. She tore it from Bolvar's head and shattered it with her bare hands. The sky cracked open. The Shadowlands — the realm of all death — yawned open above Icecrown like a wound that would never close.",
             quests = {
@@ -237,7 +237,7 @@ SM.SylvanasData = {
         -- CHAPTER 7: The long walk
         {
             chapter = "Judgment",
-            note = "Requires: Shadowlands (9.2). Complete the Zereth Mortis campaign and defeat the Jailer in the Sepulcher of the First Ones raid to unlock.",
+            note = "Complete the Zereth Mortis campaign and defeat the Jailer in the Sepulcher of the First Ones raid to unlock.",
             summary = "With the Jailer defeated in the Sepulcher of the First Ones, the soul fragments Sylvanas surrendered when she made her dark bargain are returned to her. She remembers everything — every death, every atrocity, every choice made in the name of a plan she barely understood herself. Then she walks willingly into Oribos, to face the judgment of Tyrande Whisperwind and the souls of the dead.",
             recap = "The Jailer was dead. Sylvanas was whole again — every fragment of her soul restored from where she had given it away. She stood in silence with the full weight of what she had done pressing down on her at last. Then she walked. Down the long road through Oribos, past the faces of the people she had condemned, she came before Tyrande Whisperwind — who had more right to judge her than anyone alive or dead. Tyrande spoke her sentence. Sylvanas accepted it without a word of protest. She would spend eternity freeing the souls she had imprisoned in the Maw, sending them through the veil one by one. Not as punishment. As penance, freely chosen.",
             quests = {
