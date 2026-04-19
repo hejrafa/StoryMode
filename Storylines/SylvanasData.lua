@@ -88,7 +88,7 @@ SM.SylvanasData = {
         -- CHAPTER 1: The march begins
         {
             chapter = "The March on Darkshore",
-            note = "These quests were part of a limited-time world event. Check the Adventure Journal or speak with Zidormi in Darkshore to access the phased content.",
+            note = "These quests are no longer available in-game — they were a limited-time world event tied to the Battle for Azeroth pre-patch and were never made replayable. Read the recap below to follow the story.",
             summary = "Sylvanas calls the Horde to arms. The target: the Night Elf heartland of Kalimdor. With Saurfang at her side, the Horde tears through Ashenvale — burning, clearing, advancing — toward the great tree of Teldrassil. For the Alliance, the wisp wall of Malfurion Stormrage stands in the way. Sylvanas orders it dismantled.",
             recap = "Sylvanas Windrunner, Warchief of the Horde, summoned you to Orgrimmar with a command: march on the Night Elves and seize Kalimdor before the Alliance can mobilize. Saurfang led the vanguard through Ashenvale — past the ruins of Astranaar, through the wisp barrier Malfurion had woven across the road — while Sylvanas watched and waited. The world tree loomed ahead. The Horde had never moved so fast, or with such terrible purpose.",
             quests = {
@@ -119,7 +119,7 @@ SM.SylvanasData = {
         -- CHAPTER 2: The burning
         {
             chapter = "The Burning of Teldrassil",
-            note = "This was Week 2 of the War of Thorns, a limited-time world event. It may no longer be fully accessible in the open world.",
+            note = "These quests are no longer available in-game — they were Week 2 of the War of Thorns, a limited-time world event that was never made replayable. Read the recap below to follow the story.",
             summary = "Lor'danel falls. Saurfang's forces push to the very shore beneath Teldrassil — but before the Horde can advance, Sylvanas issues an order Saurfang cannot obey: burn the tree. She does it herself. The world tree ignites. What Sylvanas truly wanted from that act remains unclear — until much later.",
             recap = "The second week of war brought the Horde to Lor'danel, the last Night Elf town before Teldrassil itself. The defenders were routed. The path to the world tree was open. Then Sylvanas gave the order to burn it — to deny the Night Elves their sanctuary, their anchor to the living world. Saurfang refused. Sylvanas burned Teldrassil herself. Thousands died. An entire people lost their home. And somewhere in the ash, the seeds of the Horde's fracture were planted.",
             quests = {
@@ -210,7 +210,7 @@ SM.SylvanasData = {
         -- CHAPTER 6: The veil torn open
         {
             chapter = "Death Rising",
-            note = "These quests were a limited-time world event. The Helm-shattering cinematic plays automatically as part of the event.",
+            note = "These quests are no longer available in-game — they were a limited-time Shadowlands pre-patch event. The Helm-shattering cinematic can be watched on YouTube. Read the recap below to follow the story.",
             summary = "Sylvanas has disappeared into Icecrown Citadel. The Scourge, no longer bound by the Lich King's will, erupts across Azeroth. Bolvar Fordragon — the current Lich King — sends a warning. Nathanos Blightcaller hunts survivors on Sylvanas's behalf. And at the summit of the citadel, before a shocked Bolvar, Sylvanas shatters the Helm of Domination — tearing open the barrier between life and death. The sky above Icecrown splits apart, and something vast and hungry stirs on the other side.",
             recap = "The Scourge was everywhere — in Icecrown, in the streets of the capital cities. Bolvar Fordragon, bearing the Lich King's crown to keep the undead in check, sent out the call for champions to push back the tide. Then Sylvanas struck at the crown itself. She tore it from Bolvar's head and shattered it with her bare hands. The sky cracked open. The Shadowlands — the realm of all death — yawned open above Icecrown like a wound that would never close.",
             quests = {

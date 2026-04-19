@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.5
+
+### Content
+- Corrected notes for the three removed limited-time chapters in the Banshee Queen storyline (March on Darkshore, Burning of Teldrassil, Death Rising) — they now honestly state the quests are no longer in-game and point players to the recap text instead of sending them to Zidormi
+
+---
+
 ## 1.3.4
 
 ### Fixes
