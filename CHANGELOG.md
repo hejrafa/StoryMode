@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.7
+
+### Content
+- Extended **Testing Loyalties** chapter (Lilian Voss) — added the six quests that follow "Under False Colors": Securing Warfang Hold (×2, 55047/55052), Spy Games, Communication Breakdown, Tickets Please?, and A Display of Power. Updated summary and recap to cover the full arc through the Warfang Hold summit
+
+---
+
 ## 1.3.6
 
 ### Content — The Banshee Queen (Sylvanas) full rebuild
