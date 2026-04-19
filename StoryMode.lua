@@ -3179,7 +3179,8 @@ storyFrame:SetScript("OnHide", function()
 end)
 
 
-local ShowStoryBanner  -- forward declaration (defined in Banner section below)
+local ShowStoryBanner   -- forward declaration (defined in Banner section below)
+local ShowStoryComplete -- forward declaration (defined in Banner section below)
 
 SLASH_STORYMODE1 = "/sm"
 SLASH_STORYMODE2 = "/storymode"
@@ -3439,8 +3440,6 @@ end
 -- ============================================================================
 -- Story Complete Screen  (center-screen, fires when the last chapter is done)
 -- ============================================================================
-
-local ShowStoryComplete  -- forward declaration
 
 do
     local scFrame = CreateFrame("Frame", nil, UIParent)

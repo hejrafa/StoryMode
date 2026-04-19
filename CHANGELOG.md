@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.10
+
+### Fixes
+- Fixed "attempt to call global ShowStoryComplete (nil)" — forward declaration was placed after the slash command handler; moved it alongside ShowStoryBanner's forward declaration so the /sm complete command can reach it
+
+---
+
 ## 1.3.9
 
 ### Fixes
