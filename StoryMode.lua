@@ -3189,17 +3189,26 @@ SlashCmdList["STORYMODE"] = function(msg)
     if msg == "banner" then
         local data = allQuestlines[1]
         if data then
-            ShowStoryBanner("Story Progress", data.title, data, nil, false)
+            ShowStoryBanner(data.title, "Test Quest Name", data, nil, true)
         else
-            print("|cff64b5f6StoryMode:|r No questline data to test banner.")
+            print("|cff64b5f6StoryMode:|r No questline data to test.")
         end
         return
-    elseif msg == "banner chapter" then
+    elseif msg == "chapter" then
         local data = allQuestlines[1]
         if data then
-            ShowStoryBanner("CHAPTER COMPLETE", data.title, data, nil, true)
+            local ch = GetAllChapters(data)[1]
+            ShowStoryBanner("CHAPTER COMPLETE", ch and ch.chapter or data.title, data, nil, true)
         else
-            print("|cff64b5f6StoryMode:|r No questline data to test banner.")
+            print("|cff64b5f6StoryMode:|r No questline data to test.")
+        end
+        return
+    elseif msg == "complete" then
+        local data = allQuestlines[1]
+        if data then
+            ShowStoryComplete(data.title)
+        else
+            print("|cff64b5f6StoryMode:|r No questline data to test.")
         end
         return
     elseif msg == "track" or msg == "next" then
@@ -3215,14 +3224,6 @@ SlashCmdList["STORYMODE"] = function(msg)
             end
         end
         print("|cff64b5f6StoryMode:|r All questlines complete!")
-    elseif msg == "complete" then
-        local data = allQuestlines[1]
-        if data then
-            ShowStoryComplete(data.title)
-        else
-            print("|cff64b5f6StoryMode:|r No questline data to test.")
-        end
-        return
     elseif msg:match("^debug") then
         local filter = msg:match("^debug%s+(.+)$")
         local found = false
@@ -3443,23 +3444,45 @@ end
 
 do
     local scFrame = CreateFrame("Frame", nil, UIParent)
-    scFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 60)
-    scFrame:SetSize(520, 80)
+    scFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 160)
+    scFrame:SetSize(520, 130)
     scFrame:SetFrameStrata("FULLSCREEN_DIALOG")
     scFrame:Hide()
 
-    local scTitle = scFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge")
-    scTitle:SetPoint("CENTER", scFrame, "CENTER", 0, 20)
+    do  -- gradient lines — local t freed after this block, keeping peak locals low
+        local t = scFrame:CreateTexture(nil, "OVERLAY")
+        t:SetColorTexture(1, 1, 1, 1)
+        t:SetSize(240, 2); t:SetPoint("RIGHT", scFrame, "CENTER", 0, 44)
+        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0), CreateColor(1, 0.82, 0.3, 0.75))
+        t = scFrame:CreateTexture(nil, "OVERLAY")
+        t:SetColorTexture(1, 1, 1, 1)
+        t:SetSize(240, 2); t:SetPoint("LEFT", scFrame, "CENTER", 0, 44)
+        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0.75), CreateColor(1, 0.82, 0.3, 0))
+        t = scFrame:CreateTexture(nil, "OVERLAY")
+        t:SetColorTexture(1, 1, 1, 1)
+        t:SetSize(240, 2); t:SetPoint("RIGHT", scFrame, "CENTER", 0, -40)
+        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0), CreateColor(1, 0.82, 0.3, 0.75))
+        t = scFrame:CreateTexture(nil, "OVERLAY")
+        t:SetColorTexture(1, 1, 1, 1)
+        t:SetSize(240, 2); t:SetPoint("LEFT", scFrame, "CENTER", 0, -40)
+        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0.75), CreateColor(1, 0.82, 0.3, 0))
+    end
+
+    local scTitle = scFrame:CreateFontString(nil, "OVERLAY")
+    scTitle:SetFont("Fonts\\MORPHEUS.TTF", 28, "OUTLINE")
+    scTitle:SetPoint("CENTER", scFrame, "CENTER", 0, 14)
     scTitle:SetJustifyH("CENTER")
     scTitle:SetTextColor(1, 0.95, 0.75)
     scTitle:SetShadowOffset(2, -2)
     scTitle:SetShadowColor(0, 0, 0, 0.9)
 
-    local scLabel = scFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    scLabel:SetPoint("CENTER", scFrame, "CENTER", 0, -16)
+    local scLabel = scFrame:CreateFontString(nil, "OVERLAY")
+    scLabel:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
+    scLabel:SetPoint("CENTER", scFrame, "CENTER", 0, -10)
     scLabel:SetJustifyH("CENTER")
     scLabel:SetTextColor(0.85, 0.75, 0.45)
     scLabel:SetShadowOffset(1, -1)
+    scLabel:SetShadowColor(0, 0, 0, 0.9)
     scLabel:SetText("Story Finished")
 
     local scFadeIn = scFrame:CreateAnimationGroup()
@@ -3544,11 +3567,11 @@ local function CheckQuestCompletion(completedQuestID)
                         end)
                     end
                 else
-                    -- Individual quest — show quest banner
+                    -- Individual quest — show chapter-style banner
                     local qName = questName
                     local npc   = questNpc
                     C_Timer.After(1.0, function()
-                        ShowStoryBanner(data.title, qName, data, npc, false)
+                        ShowStoryBanner(data.title, qName, data, npc, true)
                     end)
                 end
                 break

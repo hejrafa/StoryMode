@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.11
+
+### Polish
+- Story complete screen redesigned: larger fonts (title 28pt Morpheus, subtitle 18pt Frizqt), texts closer together, gold gradient lines above and below fading outward from center, banner positioned higher on screen
+- All quest and chapter notifications now use the same compact chapter-style banner for consistency
+- Test commands: `/sm banner` (quest notification), `/sm chapter` (chapter complete), `/sm complete` (story complete screen)
+
+---
+
 ## 1.3.10
 
 ### Fixes
