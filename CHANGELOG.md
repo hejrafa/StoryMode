@@ -1,76 +1,25 @@
 # Changelog
 
-## 1.3.11
-
-### Polish
-- Story complete screen redesigned: larger fonts (title 28pt Morpheus, subtitle 18pt Frizqt), texts closer together, gold gradient lines above and below fading outward from center, banner positioned higher on screen
-- All quest and chapter notifications now use the same compact chapter-style banner for consistency
-- Test commands: `/sm banner` (quest notification), `/sm chapter` (chapter complete), `/sm complete` (story complete screen)
-
----
-
-## 1.3.10
+## 1.3.3
 
 ### Fixes
-- Fixed "attempt to call global ShowStoryComplete (nil)" — forward declaration was placed after the slash command handler; moved it alongside ShowStoryBanner's forward declaration so the /sm complete command can reach it
+- Fixed quests falsely marked complete while actively in-progress — chain inference now stops if any earlier quest is still in the player's log
+- Fixed all Banshee Queen chapters showing as complete during active questing
+- Fixed quest card checkmarks not updating until `/reload` — detail panel now re-renders immediately on `QUEST_TURNED_IN`
 
----
-
-## 1.3.9
-
-### Fixes
-- Fixed "main function has more than 200 local variables" Lua error introduced in 1.3.8 — story complete frame locals (scFrame, scTitle, scLabel, animations) are now scoped inside a do/end block; only the forward declaration of ShowStoryComplete remains in the main chunk
-
----
-
-## 1.3.8
-
-### Fixes
-- Fixed quest card checkmarks not updating until reload — the detail panel now re-renders immediately on `QUEST_TURNED_IN` without needing a `/reload`
+### Content
+- **The Banshee Queen (Sylvanas) full rebuild** — removed three unplayable limited-time chapters and a fabricated chapter with made-up quest IDs; replaced with four fully playable chapters spanning five expansions:
+  - **The Frozen Halls** (Wrath) — Forge of Souls → Pit of Saron → Halls of Reflection dungeon chain
+  - **The War for Silverpine** (Cataclysm) — Forsaken march into Silverpine; Sylvanas raises the dead against Garrosh's orders
+  - **Cities in Dust** (Cataclysm) — Ruins of Gilneas campaign and Godfrey's resurrection
+  - **The Broken Shore** (Legion) — Vol'jin names Sylvanas Warchief in his final moments
+- Extended **Testing Loyalties** chapter (Lilian Voss) — added six quests following "Under False Colors" through the Warfang Hold summit
+- Rewrote all chapter requirement messages to be actionable — version numbers replaced with plain instructions on where to go and what to do
 
 ### New
-- Added story completion screen: when the final chapter of a storyline is finished, a center-screen message fades in showing the story title and "Story Finished" — fires 6.5 seconds after the chapter-complete banner so they don't overlap
-- Storyline completion cache is pre-populated on login so already-finished stories never re-trigger the screen on reload
-- Added `/sm complete` test command to preview the story complete screen
-
----
-
-## 1.3.7
-
-### Content
-- Extended **Testing Loyalties** chapter (Lilian Voss) — added the six quests that follow "Under False Colors": Securing Warfang Hold (×2, 55047/55052), Spy Games, Communication Breakdown, Tickets Please?, and A Display of Power. Updated summary and recap to cover the full arc through the Warfang Hold summit
-
----
-
-## 1.3.6
-
-### Content — The Banshee Queen (Sylvanas) full rebuild
-- Removed the three unplayable limited-time chapters (March on Darkshore, Burning of Teldrassil, Death Rising) and a fabricated placeholder chapter (Gilneas Gambit) that had made-up quest IDs
-- Added **The Frozen Halls** (Wrath of the Lich King) — the Forge of Souls → Pit of Saron → Halls of Reflection dungeon chain; Sylvanas confronts the echo of Arthas and hears Uther's ghost warn her about her own fate in death. Entry: Dark Ranger Vorel in Dalaran
-- Added **The War for Silverpine** (Cataclysm) — the Forsaken march into Silverpine and Gilneas; includes the Garrosh confrontation where Sylvanas raises the dead with Val'kyr against the Warchief's direct orders. Entry: Grand Executor Mortuus at Forsaken High Command
-- Added **Cities in Dust** (Cataclysm) — the Ruins of Gilneas campaign, Lord Godfrey raised as Forsaken, and Sylvanas's ultimatum to the Gilneas Liberation Front. Known broken quest (#27401) noted in the chapter
-- Added **The Broken Shore** (Legion) — Vol'jin dies from a fel wound and names Sylvanas Warchief in his final moments. Entry: Captain Russo at the Horde dock in Durotar
-- Questline now spans five expansions (Wrath → Cataclysm → Legion → BfA → Shadowlands) and is fully playable today
-- Updated description, zone, expansion metadata, NPC locations, and chapter display IDs to match the expanded arc
-
----
-
-## 1.3.5
-
-### Content
-- Corrected notes for the three removed limited-time chapters in the Banshee Queen storyline (March on Darkshore, Burning of Teldrassil, Death Rising) — they now honestly state the quests are no longer in-game and point players to the recap text instead of sending them to Zidormi
-
----
-
-## 1.3.4
-
-### Fixes
-- Fixed a bug where quests after an in-progress quest were falsely marked "effectively complete" when a later quest in the same chapter had been flagged done (e.g. by a previous run or a warbound flag from another character) — the chain inference now stops if any earlier quest is still in the player's log
-- Fixed all chapters in the Banshee Queen storyline showing as complete while the player was actively questing through them
-
-### Content
-- Rewrote all chapter requirement messages to be actionable — version numbers (8.0.1, 8.1, 9.0.1, etc.) replaced with plain instructions: where to go, who to talk to, what to complete
-- Updated generated lock messages: "Requires campaign quest: X" → "Pick up X from NPC to unlock this chapter"; "Requires previous quest: X" → "Complete X first to continue the story"; level gates now read "You need to reach level X" instead of "Requires level X"
+- Story completion screen: when the final chapter of a storyline is finished, a center-screen message fades in with the story title and "Story Finished", with gold gradient lines above and below
+- Quest and chapter completion banners fire on `QUEST_TURNED_IN` in real time
+- Test commands: `/sm banner`, `/sm chapter`, `/sm complete`
 
 ---
 
