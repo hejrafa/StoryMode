@@ -39,7 +39,7 @@ SM.SylvanasData = {
     },
     faction = "Horde",
     color = { 0.20, 0.40, 0.70 },  -- Forsaken void-blue
-    icon = 135771, -- INV_Sword_122 (Frostmourne/Frozen Throne icon)
+    icon = 341221,
     portraitDisplayID = 28213,  -- Lady Sylvanas Windrunner
 
     -- Start location: Dark Ranger Vorel in Dalaran (Northrend)
@@ -107,7 +107,7 @@ SM.SylvanasData = {
     },
     chapterIcons = {
         ["The Frozen Halls"]              = 0,
-        ["Icecrown's End"]               = 135771,
+        ["Icecrown's End"]               = 341221,
         ["The War for Silverpine"]        = 0,
         ["Cities in Dust"]               = 0,
         ["The Broken Shore"]             = 0,

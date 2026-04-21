@@ -97,22 +97,35 @@ end
 
 local function GetAllChapters(data)
     local all = {}
+    local playerFaction = UnitFactionGroup("player")
+
+    local function ShouldShowChapter(ch)
+        if not ch.faction then return true end
+        return ch.faction == playerFaction
+    end
+
     if data.prereqs then
         for _, ch in ipairs(data.prereqs) do
-            ch._section = 1  -- prereqs (lowest priority)
-            all[#all + 1] = ch
+            if ShouldShowChapter(ch) then
+                ch._section = 1  -- prereqs (lowest priority)
+                all[#all + 1] = ch
+            end
         end
     end
     if data.chapters then
         for _, ch in ipairs(data.chapters) do
-            ch._section = 2  -- main story
-            all[#all + 1] = ch
+            if ShouldShowChapter(ch) then
+                ch._section = 2  -- main story
+                all[#all + 1] = ch
+            end
         end
     end
     if data.insurrection then
         for _, ch in ipairs(data.insurrection) do
-            ch._section = 3  -- finale (highest priority)
-            all[#all + 1] = ch
+            if ShouldShowChapter(ch) then
+                ch._section = 3  -- finale (highest priority)
+                all[#all + 1] = ch
+            end
         end
     end
     if #all == 0 and data.startQuest then

@@ -1,39 +1,31 @@
 # Changelog
 
-## 1.3.5
-
-### Fixes
-- Changed lore-only chapter button text from "Story Finished" to "Watched"
-
-### Content
-- **The Frozen Throne (Arthas) rebuild** — restructured the entire storyline:
-  - First chapter now starts at "Audience With The Dragon Queen" in Dragonblight
-  - Added full Dragonblight campaign with both Alliance (Wintergarde) and Horde (Agmar's Hammer) quest lines
-  - Split into 9 chapters: Dragonblight Campaign, Forsaken Plague, Culling of Stratholme, Shadow Vault, Argent Vanguard, Gates of Icecrown, Sindragosa's Fall, Frozen Halls, Icecrown's End
-  - Combined Icecrown Citadel content (Frozen Halls dungeons + Lich King encounter) into the final chapters
-- Updated Frozen Throne chapter images with correct NPCs: Emissary Brighthoof (23805) for Dragonblight Campaign, Martin Victus (30696) for Frozen Halls
-- Updated Banshee Queen chapter images: Dark Ranger Vorel (30686) for Frozen Halls, Frozen Throne icon (135771) for Icecrown's End, Grand Executor Mortuus (33999) for Silverpine chapters, Holgar Stormaxe (4515) for Broken Shore, Sylvanas (28213) for War of Thorns
-- Removed loreOnly from Culling of Stratholme — now tracked via actual quests
-- Trimmed key characters lists to only the most important NPCs
-
----
-
 ## 1.3.4
 
 ### Fixes
 - Fixed quest cards for mixed Alliance/Horde chapters — opposing-faction quests are now hidden and the positioning chain skips them cleanly
 - Fixed Tides of Vengeance achievement in Lilian Voss showing the Alliance variant — corrected to Horde (13466)
 - Removed a misidentified Quel'delar quest from the Banshee Queen Frozen Halls chapter
+- Changed chapter icon from 30721 to 341221
 
 ### New
 - Per-quest faction filtering — quests tagged `faction = "Alliance"` or `faction = "Horde"` are invisible to the opposing side in progress tracking, next-quest suggestions, and the quest card list
 - All faction variants in The Frozen Throne are now tagged (Dragonblight prelude, Angrathar, Icecrown Vanguard, Gates of Icecrown, Sindragosa's Fall, Frozen Halls arc)
 - Broken Shore chapter (Banshee Queen) expanded from 2 to 6 quests — added the Legion Returns muster quest and three optional Illidari follow-up quests in Orgrimmar
+- Per-chapter faction filtering — chapters tagged `faction` are only shown to matching faction players
 
 ### Content
 - Updated Frozen Halls entry note — no Chromie Time needed, just land in Northrend Dalaran
 - Updated Broken Shore entry note — removed "Horde only" since Alliance players won't see this storyline anyway
 - Added achievements across all storylines: Suramar (Nighthold wings + prestige kills + Glory meta), Lilian Voss (Scarlet dungeons + bonus achievements + BfA war campaign), Banshee Queen (Frozen Halls dungeons + bonus + BfA campaign + Zereth Mortis), Jaina (Kul Tiras zone story + four dungeons + Battle of Dazar'alor), Drustvar (Waycrest Manor dungeon completions + bonus)
+- **The Frozen Throne (Arthas) rebuild** — restructured the entire storyline:
+  - Restructured chapters 1-7: Recruiting the Taunka, Destroy the Nerubians, Annexing the Taunka, The Forsaken Plague, The Red Dragonflight, Victory Over the Scourge, The Betrayal
+  - Added full Dragonblight Alliance campaign (Wintergarde) with its own chapter and separate Alliance versions of Red Dragonflight and Victory Over the Scourge
+  - Removed obsolete "The Betrayal" chapter (quests no longer obtainable)
+  - Added portraitDisplayID to each chapter and story-level chapterDisplayIDs table for faction-split portrait rendering
+  - Updated chapter portraits: Emissary Brighthoof (23805) for Recruiting the Taunka, Overlord Agmar (23806) for Nerubians/Chapters 2/5, Icemist (23976) for Annexing, Middleton (23875) for Forsaken Plague, Saurfang (23034) for Victory Over Scourge, Fordragon (24879) for Alliance chapters, Foehammer (24351) for Dragonblight Campaign
+  - Rewrote all chapter recaps in narrative style matching the Banshee Queen storyline
+  - Recaps now include the Forsaken betrayal and blight attack at the Wrathgate
 
 ---
 

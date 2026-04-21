@@ -443,7 +443,7 @@ SM.FrozenThroneData = {
     zone = "Dragonblight / Icecrown",
     expansion = "Wrath of the Lich King",
     color = { 0.45, 0.72, 0.95 },  -- Icy blue
-    icon = 135771, -- INV_Sword_122 (Frostmourne icon)
+    icon = 341221,
 
     startQuest = { id = 12495, name = "Audience With The Dragon Queen", npc = "Alexstrasza the Life-Binder", location = "Wyrmrest Temple, Dragonblight" },
     startMapID = 115, -- Dragonblight
@@ -485,18 +485,27 @@ SM.FrozenThroneData = {
     },
 
     chapterDisplayIDs = {
-        ["The Dragonblight Campaign"] = 23805,  -- Emissary Brighthoof
+        ["Recruiting the Taunka"]     = 23805,  -- Emissary Brighthoof
+        ["Destroy the Nerubians"]     = 23806,  -- Overlord Agmar
+        ["Annexing the Taunka"]       = 23976,  -- Icemist
+        ["The Forsaken Plague"]       = 23875,  -- Middleton
+        ["The Red Dragonflight"]      = 23806,  -- Overlord Agmar
+        ["Victory Over the Scourge"]  = 23034,  -- Saurfang the Younger
+        ["The Dragonblight Campaign"]  = 24351,  -- Duke August Foehammer
+        ["The Red Dragonflight (Alliance)"] = 24879,  -- Highlord Bolvar Fordragon
+        ["Victory Over the Scourge (Alliance)"] = 24879,  -- Highlord Bolvar Fordragon
         ["The Frozen Halls"]          = 30696,  -- Martin Victus
     },
 
     chapters = {
         {
             chapter = "The Dragonblight Campaign",
-            summary = "March through Dragonblight — from the military buildup to the gates of Angrathar and the Wrathgate.",
-            recap = "The war against the Scourge begins in Dragonblight. Both Alliance and Horde push into the zone, establishing bases, recruiting allies like the Taunka, and battling the Anub'ar Nerubians threatening their flanks. The campaign culminates at Angrathar — the Wrathgate — where the Lich King's forces devastate both armies in one of the most devastating battles in Warcraft history.",
+            summary = "Establish the Alliance foothold in Dragonblight at Wintergarde Keep.",
+            recap = "Wintergarde Keep stands as a beacon against the endless undead tide. High Commander Halford Wyrmbane and Duke August Foehammer have established the Alliance's foothold in Dragonblight, but Naxxramas hovers overhead like a death sentence, raining plague and terror on the front lines. You fight through the Carrion Fields, man siege engines against plague wagons, and push into the depths of the Wintergarde Mausoleum itself. Behind you, the 7th Legion holds the line. Ahead, Lord Bolvar Fordragon awaits at Angrathar — the Wrathgate. But every step forward is bought with blood, and the Scourge does not rest.",
+            portraitDisplayID = 24351,
+            faction = "Alliance",
             quests = {
-                -- Alliance Dragonblight quests (Wintergarde buildup)
-                { id = 12325, name = "Into Hostile Territory", npc = "High Commander Halford Wyrmbane", faction = "Alliance" },
+                { id = 12325, name = "Into Hostile Territory", npc = "Duke August Foehammer", faction = "Alliance" },
                 { id = 12326, name = "Steamtank Surprise", npc = "Duke August Foehammer", faction = "Alliance" },
                 { id = 12455, name = "Scattered To The Wind", npc = "Ambo Cash", faction = "Alliance" },
                 { id = 12457, name = "The Chain Gun And You", npc = "Ambo Cash", faction = "Alliance" },
@@ -507,42 +516,104 @@ SM.FrozenThroneData = {
                 { id = 12472, name = "Finality", npc = "Legion Commander Yorik", faction = "Alliance" },
                 { id = 12473, name = "An End And A Beginning", npc = "Legion Commander Yorik", faction = "Alliance" },
                 { id = 12474, name = "To Fordragon Hold!", npc = "High Commander Halford Wyrmbane", faction = "Alliance" },
-                -- Horde Dragonblight quests (Agmar's Hammer)
+            },
+        },
+        {
+            chapter = "Recruiting the Taunka",
+            summary = "Recruit the Taunka as allies for the Horde in Dragonblight.",
+            recap = "The Horde's banner flies over Agmar's Hammer, but the Scourge surrounds on all sides. Worse, the Taunka — great polar tauren of the north — have been captured by the Anub'ar, dragged into the darkness below Dragonblight to serve the Lich King. Emissary Brighthoof speaks of blood oaths and ancient bonds. Overlord Agmar demands action. You descend into the pits and bring the Taunka out — or what remains of them. The survivors are broken, but unbroken. They pledge themselves to the Horde, their blood mingling with yours in a ritual as old as the earth itself. Every alliance costs something. This one costs blood.",
+            portraitDisplayID = 23806,
+            faction = "Horde",
+            quests = {
                 { id = 11978, name = "Into the Fold", npc = "Emissary Brighthoof", faction = "Horde" },
                 { id = 11983, name = "Blood Oath of the Horde", npc = "Emissary Brighthoof", faction = "Horde" },
                 { id = 12008, name = "Agmar's Hammer", npc = "Overlord Agmar", faction = "Horde" },
-                -- Destroy the Nerubians (Horde)
+            },
+        },
+        {
+            chapter = "Destroy the Nerubians",
+            summary = "Crush the Anub'ar Nerubians threatening the Horde's flank in Dragonblight.",
+            recap = "The Anub'ar Nerubians are a wound in the Horde's side — spider-warriors burrowing up from Azjol-Nerub, striking at supply lines and patrols. Overlord Agmar will not have his flank exposed. Senior Sergeant Juktok leads the assault into the Pit of Narjun, Valnok Windrager brings wyverns to the sky, and you cut a path through the chittering darkness. The Nerubians serve the Lich King, and everything that serves him must die. Victory is not a guarantee — it is a demand.",
+            portraitDisplayID = 23806,
+            faction = "Horde",
+            quests = {
                 { id = 12034, name = "Victory Nears...", npc = "Overlord Agmar", faction = "Horde" },
                 { id = 12036, name = "From the Depths of Azjol-Nerub", npc = "Senior Sergeant Juktok", faction = "Horde" },
                 { id = 12053, name = "The Might of the Horde", npc = "Senior Sergeant Juktok", faction = "Horde" },
                 { id = 12071, name = "Attack by Air!", npc = "Valnok Windrager", faction = "Horde" },
-                { id = 12072, name = "Blightbeasts be Damned!", npc = "Valnok Windrager", faction = "Horde" },
-                -- Annexing the Taunka (Horde)
+                { id = 12072, name = "Blightbeasts be Damned", npc = "Valnok Windrager", faction = "Horde" },
+            },
+        },
+        {
+            chapter = "Annexing the Taunka",
+            summary = "Free High Chief Icemist and formally integrate the Taunka into the Horde.",
+            recap = "The Taunka have given their word, but the Anub'ar still hold their High Chief captive in the depths below. Greatmother Icemist begs for her son's release. Banthok Icemist leads you into the darkness one more time, through chains and webs and the clicking horror of the Nerubian lords. You find High Chief Icemist in chains, broken but defiant. The rescue becomes a war. And when you finally bring him to the surface, Roanauk Icemist stands before the Horde as its newest chief — blood-sworn, oath-bound, and ready to die for a cause that was not always his own.",
+            portraitDisplayID = 23976,
+            faction = "Horde",
+            quests = {
                 { id = 12063, name = "Strength of Icemist", npc = "Greatmother Icemist", faction = "Horde" },
                 { id = 12064, name = "Chains of the Anub'ar", npc = "Banthok Icemist", faction = "Horde" },
                 { id = 12069, name = "Return of the High Chief", npc = "Banthok Icemist", faction = "Horde" },
                 { id = 12140, name = "All Hail Roanauk!", npc = "Roanauk Icemist", faction = "Horde" },
-                -- The Red Dragonflight (both factions)
-                { id = 12224, name = "The Kor'kron Vanguard!", npc = "Saurfang the Younger", faction = "Horde" },
-                { id = 12495, name = "Audience With The Dragon Queen", npc = "Highlord Bolvar Fordragon", faction = "Alliance" },
-                { id = 12496, name = "Audience With The Dragon Queen", npc = "Saurfang the Younger", faction = "Horde" },
-                { id = 12497, name = "Galakrond and the Scourge", npc = "Alexstrasza the Life-Binder" },
-                { id = 12498, name = "On Ruby Wings", npc = "Torastrasza" },
-                -- Victory Over the Scourge? (Wrathgate)
-                { id = 12499, name = "Return To Angrathar", npc = "Highlord Bolvar Fordragon", faction = "Alliance" },
-                { id = 12500, name = "Return To Angrathar", npc = "Saurfang the Younger", faction = "Horde" },
             },
         },
         {
             chapter = "The Forsaken Plague",
-            summary = "Test the Forsaken blight weapon in the Carrion Fields — a dark chapter in the war against the Scourge.",
-            recap = "The Forsaken have been developing a new plague as a superweapon against the Scourge. Chief Plaguebringer Middleton puts you to work testing the blight compound in the field before it can be deployed at the Wrathgate.",
+            summary = "Test the Forsaken blight weapon in the Carrion Fields.",
+            recap = "In the shadow of the war, the Forsaken have been busy. Chief Plaguebringer Middleton has created something new — a blight that can kill the Scourge where steel cannot. But the formula needs testing, and volunteers are hard to find. You become the test subject, handling substances that would melt your flesh, inhaling fumes that would stop your heart, and spreading the good word of wholesale chemical warfare. The Forsaken call it progress. The Scourge will call it death. Middleton smiles through gritted teeth and tells you not to worry — the first dose is always the worst.",
+            portraitDisplayID = 23875,
+            faction = "Horde",
             quests = {
                 { id = 12189, name = "Imbeciles Abound!", npc = "Chief Plaguebringer Middleton", faction = "Horde" },
                 { id = 12188, name = "The Forsaken Blight and You: How Not to Die", npc = "Chief Plaguebringer Middleton", faction = "Horde" },
                 { id = 12200, name = "Emerald Dragon Tears", npc = "Chief Plaguebringer Middleton", faction = "Horde" },
                 { id = 12218, name = "Spread the Good Word", npc = "Chief Plaguebringer Middleton", faction = "Horde" },
                 { id = 12221, name = "The Forsaken Blight", npc = "Doctor Sintar Malefious", faction = "Horde" },
+            },
+        },
+        {
+            chapter = "The Red Dragonflight (Alliance)",
+            summary = "Seek aid from Alexstrasza and the Red Dragonflight at Wyrmrest Temple.",
+            recap = "The Alliance has bled for Dragonblight. Now Highlord Bolvar Fordragon takes you to Wyrmrest Temple, to the throne of Alexstrasza the Life-Binder. The Dragon Queen has kept her distance from this war, but the Scourge threatens her children as surely as it threatens every living thing. She agrees to lend her strength — not out of love for the Alliance, but out of hatred for the Lich King. You take to the skies on ruby wings, bearing the fire of the Aspects against the frozen horror ahead. The dragons have chosen their side. Now the real war begins.",
+            portraitDisplayID = 24879,
+            faction = "Alliance",
+            quests = {
+                { id = 12495, name = "Audience With The Dragon Queen", npc = "Highlord Bolvar Fordragon", faction = "Alliance" },
+                { id = 12497, name = "Galakrond and the Scourge", npc = "Alexstrasza the Life-Binder" },
+                { id = 12498, name = "On Ruby Wings", npc = "Torastrasza" },
+            },
+        },
+        {
+            chapter = "The Red Dragonflight",
+            summary = "Seek aid from Alexstrasza and the Red Dragonflight at Wyrmrest Temple.",
+            recap = "The Horde's forces are gathered, the Taunka blood-sworn, and the Nerubian threat crushed. Saurfang the Younger takes you to Wyrmrest Temple, where Alexstrasza the Life-Binder watches the war with ancient, weary eyes. The Dragon Queen has little love for the Horde, but she hates the Lich King more. She agrees to bring her dragons to bear against the Scourge. You fly on ruby wings over the blighted fields of Dragonblight, carrying fire and fury against the undead. The Aspects have spoken. Angrathar awaits.",
+            portraitDisplayID = 23806,
+            faction = "Horde",
+            quests = {
+                { id = 12224, name = "The Kor'kron Vanguard!", npc = "Saurfang the Younger", faction = "Horde" },
+                { id = 12496, name = "Audience With The Dragon Queen", npc = "Saurfang the Younger", faction = "Horde" },
+                { id = 12497, name = "Galakrond and the Scourge", npc = "Alexstrasza the Life-Binder" },
+                { id = 12498, name = "On Ruby Wings", npc = "Torastrasza" },
+            },
+        },
+        {
+            chapter = "Victory Over the Scourge (Alliance)",
+            summary = "March to Angrathar and the Wrathgate.",
+            recap = "Angrathar. The Wrathgate. The final approach to Icecrown Citadel, where the Lich King waits in his frozen throne. Fordragon has committed every soldier, every dragon, every ounce of strength the Alliance has left. The gate looms ahead, carved from black ice and old nightmares. Beyond it lies the Scourge's heart. The Horde marches beside you — an uneasy alliance forged in the fire of common purpose. You reach the gate. The battle is joined. And then the Forsaken turn their weapons on you. The blight erupts. Soldiers choke, fall, dissolve. The Horde betrays the Alliance, and the Scourge finishes what they started. Fordragon is consumed by flame. The Alliance breaks. Whatever victory was possible died in the green cloud of the blight.",
+            portraitDisplayID = 24879,
+            faction = "Alliance",
+            quests = {
+                { id = 12499, name = "Return To Angrathar", npc = "Highlord Bolvar Fordragon", faction = "Alliance" },
+            },
+        },
+        {
+            chapter = "Victory Over the Scourge",
+            summary = "March to Angrathar and the Wrathgate.",
+            recap = "Angrathar. The Wrathgate. The path to the Lich King's door. Saurfang the Younger leads the Horde's final push, every Orc blood-mad and ready to die. The Alliance marches beside you — an uneasy alliance of necessity. Ahead, the Scourge waits in endless ranks. Above, dragons circle. The gate itself is carved from the bones of giants, a monument to death that has stood for ten thousand years. You have fought across all of Northrend to reach this moment. The battle begins. The Lich King's forces crack. And then the Forsaken unleash the blight — not on the Scourge, but on everyone. Both factions. Both armies. The green cloud rises, and soldiers on both sides fall screaming. The Horde has betrayed the Alliance. The Scourge advances through the dying. Nothing will ever be the same.",
+            portraitDisplayID = 23034,
+            faction = "Horde",
+            quests = {
+                { id = 12500, name = "Return To Angrathar", npc = "Saurfang the Younger", faction = "Horde" },
             },
         },
         {
