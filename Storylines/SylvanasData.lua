@@ -13,7 +13,27 @@ SM.SylvanasData = {
     description = "From the dungeon halls of Icecrown to the judgment courts of Oribos, this is the complete story of Sylvanas Windrunner.\n\nShe entered Icecrown to hunt the man who murdered her and learned something about her own fate from a dead man's ghost. She defied a Warchief to keep the Forsaken alive. She accepted a crown she never asked for and wielded it in ways no one could have predicted. In Battle for Azeroth she burned a world tree, blighted her own capital, and shattered an honourable soldier's last hope — all in service of a plan she barely understood herself.\n\nIn the end, she tore a hole in the sky, descended into Death, and faced what it meant to have brought so much suffering into the world.\n\nThis storyline spans five expansions and is fully playable today.",
     zone = "Icecrown / Silverpine / Orgrimmar / Oribos",
     expansion = "Wrath of the Lich King — Shadowlands",
-    achievements = {},
+    achievements = {
+        -- The Frozen Halls — dungeon completions
+        4516,   -- The Forge of Souls (Normal)
+        4519,   -- Heroic: The Forge of Souls
+        4517,   -- The Pit of Saron (Normal)
+        4520,   -- Heroic: The Pit of Saron
+        4518,   -- The Halls of Reflection (Normal)
+        4521,   -- Heroic: The Halls of Reflection
+        -- The Frozen Halls — bonus achievements
+        4522,   -- Soul Power (Bronjahm: keep 4+ soul fragments alive)
+        4523,   -- Three Faced (Devourer of Souls: no Phantom Blast lands)
+        4524,   -- Doesn't Go to Eleven (Garfrost: under 11 stacks of Permafrost)
+        4525,   -- Don't Look Up (Pit of Saron hallway: avoid all icicles)
+        4526,   -- We're Not Retreating; We're Advancing in a Different Direction. (HoR: escape in under 6 min)
+        -- Battle for Azeroth — war campaign arc
+        12509,  -- Ready for War (complete the BfA 8.0 war campaign)
+        13466,  -- Tides of Vengeance (complete the 8.1 war campaign, includes Fate of Saurfang)
+        13924,  -- The Fourth War (complete the full BfA war story through the Mak'gora)
+        -- Shadowlands — Zereth Mortis / Judgment
+        15259,  -- Secrets of the First Ones (Zereth Mortis campaign; Judgment is the final chapter)
+    },
     faction = "Horde",
     color = { 0.20, 0.40, 0.70 },  -- Forsaken void-blue
     portraitDisplayID = 28213,  -- Lady Sylvanas Windrunner
@@ -98,7 +118,7 @@ SM.SylvanasData = {
         -- CHAPTER 1: The dungeon chain
         {
             chapter = "The Frozen Halls",
-            note = "Talk to Dark Ranger Vorel in Dalaran to begin. Runs through three dungeons: Forge of Souls, Pit of Saron, and Halls of Reflection. Horde only — requires Wrath of the Lich King Chromie Time.",
+            note = "Talk to Dark Ranger Vorel in Dalaran to begin. You need to be in the Wrath of the Lich King version of Dalaran — fly to Northrend and land there. Runs through three dungeons: Forge of Souls, Pit of Saron, and Halls of Reflection.",
             summary = "Sylvanas leads a covert strike into Icecrown Citadel through a side passage while the Argent Crusade holds the main gate. The route runs through the Forge of Souls, the Pit of Saron, and finally the Halls of Reflection. There, she faces the echo of Arthas and speaks with the ghost of Uther the Lightbringer, who tells her exactly what awaits the Lich King in death — and implies her own fate will not be kind. It is one of her defining moments: grief, hatred, and the first shadow of an obsession with death that will drive everything that follows.",
             recap = "Sylvanas found a crack in Icecrown's defenses and sent you in alongside her. The Forge of Souls. The Pit of Saron. And finally the Halls of Reflection, where she came face to face with the memory of the man who murdered her and enslaved her people. She asked Uther the Lightbringer what would become of Arthas when he died. He told her the only way to truly end the Lich King was at the Frozen Throne where he was made. Then he warned her, in the same breath, that her own fate in death would not be kind. She said nothing. She called for the gunship and got everyone out.",
             quests = {
@@ -108,7 +128,6 @@ SM.SylvanasData = {
                 { id = 24498, name = "The Path to the Citadel",   npc = "Lady Sylvanas Windrunner" },
                 { id = 24710, name = "Deliverance from the Pit",  npc = "Lady Sylvanas Windrunner" },
                 { id = 24713, name = "Frostmourne",               npc = "Lady Sylvanas Windrunner" },
-                { id = 24480, name = "Wrath of the Lich King",    npc = "Lady Sylvanas Windrunner" },
             },
         },
 
@@ -168,12 +187,16 @@ SM.SylvanasData = {
         -- CHAPTER 4: The Broken Shore
         {
             chapter = "The Broken Shore",
-            note = "Begin at the Horde dock in Durotar with Captain Russo. Requires Legion Chromie Time.",
+            note = "Begin at the Horde dock in Durotar with Captain Russo. You need to be in the Legion version of the Broken Shore — if the quest isn't available, use Chromie in Orgrimmar to set your timeline to Legion.",
             summary = "The Burning Legion attacks the Broken Shore and the Horde charges in. The battle goes badly. Vol'jin is struck by a fel-poisoned blade and will not survive. In his final moments, he tells Sylvanas that the loa spoke to him — and they named her as his successor. She looks at him like he has lost his mind. Then she accepts. The age of the Banshee Queen as Warchief of the Horde has begun.",
             recap = "The Broken Shore was a rout. The Horde threw everything at the Legion's landing force and bled for it. Vol'jin took a wound that no healer could close. By the time the retreat was called, he was dying. He summoned Sylvanas, told her the loa had whispered her name, and asked her to lead. She stood there for a moment — the Dark Lady of the Forsaken, who had never wanted anything to do with the Horde's politics — and said yes. She walked out of that room as Warchief. Nobody, including her, fully understood what that meant yet.",
             quests = {
+                { id = 43926, name = "The Legion Returns",          npc = "Holgar Stormaxe" },
                 { id = 40518, name = "The Battle for Broken Shore", npc = "Captain Russo" },
-                { id = 40522, name = "Fate of the Horde",           npc = "High Overlord Saurfang" },
+                { id = 40522, name = "Fate of the Horde",           npc = "Eitrigg" },
+                { id = 40760, name = "Emissary",                    npc = "Allari the Souleater", optional = true },
+                { id = 40607, name = "Demons Among Us",             npc = "Allari the Souleater", optional = true },
+                { id = 40605, name = "Keep Your Friends Close",     npc = "Elthyn Da'rai",        optional = true },
             },
         },
 

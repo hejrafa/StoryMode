@@ -13,7 +13,32 @@ SM.LilianVossData = {
     description = "Lilian Voss was trained from birth to serve the Scarlet Crusade and destroy the undead. When the Val'kyr raise her as Forsaken in Deathknell, she refuses to accept what she has become. Desperate for acceptance, she seeks out her father — High Priest Benedictus Voss — only to be condemned to death by the man who raised her.\n\nWhat follows is a saga of vengeance and identity that stretches across years: a trail of fire and shadow through the Scarlet Halls and Monastery, a descent into the cursed halls of Scholomance, and a new war on the shores of Kul Tiras. The war delivers a prize — Derek Proudmoore, drowned at the bottom of the sea. Sylvanas puts him in Lilian's hands with one order: break him. Make him a weapon. Lilian has lived that story. Her answer costs her everything.\n\nBut the story does not end with defiance. It ends in Lordaeron — Lilian leading her people home, room by room, through the Blight.",
     zone = "Tirisfal Glades / Kul Tiras / Lordaeron",
     expansion = "Cataclysm — Shadowlands",
-    achievements = { 15579 },  -- Return to Lordaeron
+    achievements = {
+        -- The Scarlet Halls
+        7413,   -- Scarlet Halls (Normal)
+        6760,   -- Heroic: Scarlet Halls
+        6684,   -- Humane Society (defeat Houndmaster Braun without killing any hounds)
+        6427,   -- Mosh Pit (get 4 Scarlet Defenders in Harlan's Blades of Light simultaneously)
+        -- The Scarlet Monastery
+        637,    -- Scarlet Monastery (Normal)
+        6761,   -- Heroic: Scarlet Monastery
+        6946,   -- Empowered Spiritualist (defeat Thalnos with 3 Empowered Zombies alive)
+        6928,   -- Burning Man (make Korloff ignite 6 training dummies before killing him)
+        6929,   -- And Stay Dead! (let Whitemane finish Mass Resurrection, then kill her)
+        -- Scholomance
+        645,    -- Scholomance (Normal)
+        6762,   -- Heroic: Scholomance
+        6531,   -- Attention to Detail (defeat Jandice Barov without killing any false images)
+        6394,   -- Rattle No More (defeat Rattlegore with 5 or fewer stacks of Rusting)
+        6396,   -- Sanguinarian (defeat a Krastinovian Carver at 99 stacks of Boiling Bloodthirst)
+        6821,   -- School's Out Forever (kill 50 Expired Test Subjects within 20 seconds)
+        -- Battle for Azeroth — war campaign arc (covers all BfA chapters)
+        12509,  -- Ready for War (complete the 8.0 Horde war campaign)
+        13466,  -- Tides of Vengeance - Horde (complete the 8.1 war campaign, includes Testing Loyalties)
+        13924,  -- The Fourth War (complete the full BfA war story)
+        -- Shadowlands
+        15579,  -- Return to Lordaeron (Forsaken heritage questline)
+    },
     faction = "Horde",
     color = { 0.75, 0.12, 0.18 },  -- Scarlet Crusade crimson
     portraitDisplayID = 85799,  -- Lilian Voss (BfA model) as card portrait

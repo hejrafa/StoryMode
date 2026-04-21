@@ -8,7 +8,15 @@ local addonName, SM = ...
 SM.DrustvarData = {
     title = "The Witchwood of Drustvar",
     achievementName = "Drust Do It.",
-    achievements = { 12497 },
+    achievements = {
+        12497,  -- Drust Do It. (Drustvar zone story)
+        -- Waycrest Manor
+        12483,  -- Waycrest Manor (Normal)
+        12484,  -- Heroic: Waycrest Manor
+        12488,  -- Mythic: Waycrest Manor
+        12490,  -- Alchemical Romance (destroy 3 Deathtouched Slavers with a single Alchemical Fire)
+        12489,  -- Losing My Profession (shared with Siege of Boralus — rare enemies in both dungeons)
+    },
     description = "A dark curse has fallen over Drustvar. Lord Waycrest has vanished, witches stalk the woods, and an ancient evil called the Drust stirs beneath the land. Join Lucille Waycrest and the Order of Embers to hunt the coven, break the curse, and storm Waycrest Manor itself.",
     zone = "Drustvar",
     expansion = "Battle for Azeroth",

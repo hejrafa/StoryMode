@@ -407,7 +407,38 @@ end
 SM.FrozenThroneData = {
     title = "The Frozen Throne",
     achievementName = "Arthas Menethil",
-    achievements = { 547, 40, 41 },  -- Veteran of the Wrathgate, Icecrown: The Final Goal, Loremaster of Northrend
+    achievements = {
+        -- Dragonblight / Wrathgate
+        35,     -- Might of Dragonblight (full Dragonblight zone story)
+        547,    -- Veteran of the Wrathgate (the Wrathgate chain specifically)
+        -- Icecrown questing
+        40,     -- Icecrown: The Final Goal (full Icecrown zone story)
+        -- Northrend-wide
+        41,     -- Loremaster of Northrend
+        -- Icecrown Citadel — instance clears
+        4531,   -- Storming the Citadel (10 player)
+        4604,   -- Storming the Citadel (25 player)
+        4528,   -- The Plagueworks (10 player)
+        4605,   -- The Plagueworks (25 player)
+        4529,   -- The Crimson Hall (10 player)
+        4606,   -- The Crimson Hall (25 player)
+        4527,   -- The Frostwing Halls (10 player)
+        4607,   -- The Frostwing Halls (25 player)
+        4532,   -- Fall of the Lich King (10 player)
+        4608,   -- Fall of the Lich King (25 player)
+        4636,   -- Heroic: Fall of the Lich King (10 player)
+        4637,   -- Heroic: Fall of the Lich King (25 player)
+        -- Icecrown Citadel — Lich King encounter
+        4530,   -- The Frozen Throne (10 player) — grants Kingslayer title
+        4597,   -- The Frozen Throne (25 player)
+        4601,   -- Been Waiting a Long Time for This (10 player)
+        4621,   -- Been Waiting a Long Time for This (25 player)
+        4581,   -- Neck-Deep in Vile (10 player)
+        4622,   -- Neck-Deep in Vile (25 player)
+        -- Icecrown Citadel — Glory meta
+        4602,   -- Glory of the Icecrown Raider (10 player)
+        4603,   -- Glory of the Icecrown Raider (25 player)
+    },
     description = "Follow the rise and fall of Arthas Menethil through the moments that define his legacy: the Culling of Stratholme, the Wrathgate war, the full Icecrown campaign, and the final confrontation beneath the Frozen Throne.",
     zone = "Dragonblight / Icecrown",
     expansion = "Wrath of the Lich King",
@@ -464,19 +495,19 @@ SM.FrozenThroneData = {
             summary = "Fight through the full Dragonblight military buildup that culminates at Angrathar.",
             recap = "Before the Wrathgate, both armies wage a brutal campaign across Dragonblight's plague fields, mausoleums, and dragon shrines. This chain sets the entire stage for Arthas' first major Northrend turning point.",
             quests = {
-                { id = 12325, name = "Into Hostile Territory", npc = "High Commander Halford Wyrmbane" },
-                { id = 12326, name = "Steamtank Surprise", npc = "Duke August Foehammer" },
-                { id = 12455, name = "Scattered To The Wind", npc = "Ambo Cash" },
-                { id = 12457, name = "The Chain Gun And You", npc = "Ambo Cash" },
-                { id = 12463, name = "Plunderbeard Must Be Found!", npc = "Ambo Cash" },
-                { id = 12465, name = "Plunderbeard's Journal", npc = "Ambo Cash" },
-                { id = 12466, name = "Chasing Icestorm: The 7th Legion Front", npc = "Ambo Cash" },
-                { id = 12467, name = "Chasing Icestorm: Thel'zan's Phylactery", npc = "Legion Commander Tyralion" },
-                { id = 12472, name = "Finality", npc = "Legion Commander Yorik" },
-                { id = 12473, name = "An End And A Beginning", npc = "Legion Commander Yorik" },
-                { id = 12474, name = "To Fordragon Hold!", npc = "High Commander Halford Wyrmbane" },
-                { id = 12495, name = "Audience With The Dragon Queen", npc = "Highlord Bolvar Fordragon" }, -- Alliance
-                { id = 12496, name = "Audience With The Dragon Queen", npc = "Saurfang the Younger" }, -- Horde
+                { id = 12325, name = "Into Hostile Territory",                    npc = "High Commander Halford Wyrmbane", faction = "Alliance" },
+                { id = 12326, name = "Steamtank Surprise",                        npc = "Duke August Foehammer",           faction = "Alliance" },
+                { id = 12455, name = "Scattered To The Wind",                     npc = "Ambo Cash",                      faction = "Alliance" },
+                { id = 12457, name = "The Chain Gun And You",                     npc = "Ambo Cash",                      faction = "Alliance" },
+                { id = 12463, name = "Plunderbeard Must Be Found!",               npc = "Ambo Cash",                      faction = "Alliance" },
+                { id = 12465, name = "Plunderbeard's Journal",                    npc = "Ambo Cash",                      faction = "Alliance" },
+                { id = 12466, name = "Chasing Icestorm: The 7th Legion Front",   npc = "Ambo Cash",                      faction = "Alliance" },
+                { id = 12467, name = "Chasing Icestorm: Thel'zan's Phylactery",  npc = "Legion Commander Tyralion",       faction = "Alliance" },
+                { id = 12472, name = "Finality",                                  npc = "Legion Commander Yorik",          faction = "Alliance" },
+                { id = 12473, name = "An End And A Beginning",                    npc = "Legion Commander Yorik",          faction = "Alliance" },
+                { id = 12474, name = "To Fordragon Hold!",                        npc = "High Commander Halford Wyrmbane", faction = "Alliance" },
+                { id = 12495, name = "Audience With The Dragon Queen",            npc = "Highlord Bolvar Fordragon",       faction = "Alliance" },
+                { id = 12496, name = "Audience With The Dragon Queen",            npc = "Saurfang the Younger",            faction = "Horde" },
                 { id = 12497, name = "Galakrond and the Scourge", npc = "Alexstrasza the Life-Binder" },
                 { id = 12498, name = "On Ruby Wings", npc = "Torastrasza" },
             },
@@ -495,8 +526,8 @@ SM.FrozenThroneData = {
             summary = "March to Angrathar and witness the battle that defines Northrend's war against the Lich King.",
             recap = "At the Wrathgate, the Alliance and Horde launch their greatest offensive against Arthas, only for betrayal and plaguefire to consume both armies. The battle leaves the front in ruins and marks a turning point in the campaign against the Lich King.",
             quests = {
-                { id = 12499, name = "Return To Angrathar", npc = "Highlord Bolvar Fordragon" }, -- Alliance
-                { id = 12500, name = "Return To Angrathar", npc = "Saurfang the Younger" }, -- Horde
+                { id = 12499, name = "Return To Angrathar", npc = "Highlord Bolvar Fordragon", faction = "Alliance" },
+                { id = 12500, name = "Return To Angrathar", npc = "Saurfang the Younger",    faction = "Horde" },
             },
         },
         {
@@ -525,8 +556,8 @@ SM.FrozenThroneData = {
                 { id = 13036, name = "Honor Above All Else", npc = "Crusade Commander Entari" },
                 { id = 13039, name = "Defending The Vanguard", npc = "Crusader Lord Dalfors" },
                 { id = 13086, name = "The Last Line Of Defense", npc = "Siegemaster Fezzik" },
-                { id = 13104, name = "Once More Unto The Breach, Hero", npc = "Siegemaster Fezzik" }, -- Alliance
-                { id = 13105, name = "Once More Unto The Breach, Hero", npc = "Siegemaster Fezzik" }, -- Horde
+                { id = 13104, name = "Once More Unto The Breach, Hero", npc = "Siegemaster Fezzik", faction = "Alliance" },
+                { id = 13105, name = "Once More Unto The Breach, Hero", npc = "Siegemaster Fezzik", faction = "Horde" },
             },
         },
         {
@@ -543,8 +574,8 @@ SM.FrozenThroneData = {
             recap = "To reach the citadel, the Scourge gate network must fall. You sabotage command posts, scout death gates, and eliminate key guardians holding the final approaches to Arthas' fortress.",
             quests = {
                 { id = 13338, name = "The Guardians of Corp'rethar", npc = "Thassarian" },
-                { id = 13351, name = "Sneak Preview", npc = "Thassarian" }, -- Horde variant in this chapter uses Thassarian for consistent narration
-                { id = 13318, name = "Drag and Drop", npc = "Thassarian" }, -- Alliance
+                { id = 13351, name = "Sneak Preview", npc = "Thassarian", faction = "Horde" },
+                { id = 13318, name = "Drag and Drop",  npc = "Thassarian", faction = "Alliance" },
             },
         },
         {
@@ -560,8 +591,8 @@ SM.FrozenThroneData = {
             summary = "Finish key Aldur'thar operations and break the last ritual defenses before the citadel push.",
             recap = "At Aldur'thar, Scourge ritualists attempt to reinforce the citadel's lines. You dismantle their work in brutal close-quarters fights that clear one of the final obstacles before the frozen halls.",
             quests = {
-                { id = 13346, name = "No Rest For The Wicked", npc = "Thassarian" }, -- Alliance
-                { id = 13367, name = "No Rest For The Wicked", npc = "Koltira Deathweaver" }, -- Horde
+                { id = 13346, name = "No Rest For The Wicked", npc = "Thassarian",         faction = "Alliance" },
+                { id = 13367, name = "No Rest For The Wicked", npc = "Koltira Deathweaver", faction = "Horde" },
             },
         },
         {
@@ -579,17 +610,17 @@ SM.FrozenThroneData = {
             summary = "Hunt answers in the dragon graveyards where Arthas' deepest secrets begin to surface.",
             recap = "At Sindragosa's Fall and the Court of Bones, scattered clues become a coherent truth about Arthas' fate, his bond to Frostmourne, and the only path to ending him.",
             quests = {
-                { id = 13397, name = "Sindragosa's Fall", npc = "Thassarian" }, -- Alliance
-                { id = 13349, name = "Cradle of the Frostbrood", npc = "Koltira Deathweaver" }, -- Horde
-                { id = 13398, name = "Where Dragons Fell", npc = "Matthias Lehner" }, -- Alliance
-                { id = 13359, name = "Where Dragons Fell", npc = "Matthias Lehner" }, -- Horde
-                { id = 13399, name = "Time for Answers", npc = "Matthias Lehner" },
-                { id = 13400, name = "The Hunter and the Prince", npc = "Matthias Lehner" }, -- Alliance
-                { id = 13361, name = "The Hunter and the Prince", npc = "Matthias Lehner" }, -- Horde
-                { id = 13401, name = "Knowledge is a Terrible Burden", npc = "Thassarian" }, -- Alliance
-                { id = 13362, name = "Knowledge is a Terrible Burden", npc = "Koltira Deathweaver" }, -- Horde
-                { id = 13402, name = "Tirion's Help", npc = "Thassarian" }, -- Alliance
-                { id = 13363, name = "Argent Aid", npc = "Koltira Deathweaver" }, -- Horde
+                { id = 13397, name = "Sindragosa's Fall",          npc = "Thassarian",          faction = "Alliance" },
+                { id = 13349, name = "Cradle of the Frostbrood",   npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13398, name = "Where Dragons Fell",         npc = "Matthias Lehner",     faction = "Alliance" },
+                { id = 13359, name = "Where Dragons Fell",         npc = "Matthias Lehner",     faction = "Horde" },
+                { id = 13399, name = "Time for Answers",           npc = "Matthias Lehner" },
+                { id = 13400, name = "The Hunter and the Prince",  npc = "Matthias Lehner",     faction = "Alliance" },
+                { id = 13361, name = "The Hunter and the Prince",  npc = "Matthias Lehner",     faction = "Horde" },
+                { id = 13401, name = "Knowledge is a Terrible Burden", npc = "Thassarian",      faction = "Alliance" },
+                { id = 13362, name = "Knowledge is a Terrible Burden", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13402, name = "Tirion's Help",              npc = "Thassarian",          faction = "Alliance" },
+                { id = 13363, name = "Argent Aid",                 npc = "Koltira Deathweaver", faction = "Horde" },
             },
         },
         {
@@ -597,10 +628,10 @@ SM.FrozenThroneData = {
             summary = "Slip into Icecrown Citadel through the side entrance and begin the covert strike through the Frozen Halls.",
             recap = "With Arthas focused on the frontal assault, Jaina and Sylvanas lead covert teams through a breach into the Forge of Souls. The mission is simple: move fast, stay hidden, and find the Lich King's weakness before the trap snaps shut.",
             quests = {
-                { id = 24510, name = "Inside the Frozen Citadel", npc = "Lady Jaina Proudmoore" }, -- Alliance
-                { id = 24506, name = "Inside the Frozen Citadel", npc = "Lady Sylvanas Windrunner" }, -- Horde
-                { id = 24499, name = "Echoes of Tortured Souls", npc = "Lady Jaina Proudmoore" }, -- Alliance
-                { id = 24511, name = "Echoes of Tortured Souls", npc = "Lady Sylvanas Windrunner" }, -- Horde
+                { id = 24510, name = "Inside the Frozen Citadel", npc = "Lady Jaina Proudmoore",    faction = "Alliance" },
+                { id = 24506, name = "Inside the Frozen Citadel", npc = "Lady Sylvanas Windrunner", faction = "Horde" },
+                { id = 24499, name = "Echoes of Tortured Souls",  npc = "Lady Jaina Proudmoore",    faction = "Alliance" },
+                { id = 24511, name = "Echoes of Tortured Souls",  npc = "Lady Sylvanas Windrunner", faction = "Horde" },
             },
         },
         {
@@ -608,11 +639,11 @@ SM.FrozenThroneData = {
             summary = "Push through the quarry, free prisoners, and break Scourgelord Tyrannus to open the road to Frostmourne.",
             recap = "The covert strike turns into a grinding breakout through slave pits and forges. As your forces liberate captives and arm for a final push, Tyrannus falls and the path to the Halls of Reflection opens.",
             quests = {
-                { id = 24683, name = "The Pit of Saron", npc = "Lady Jaina Proudmoore" }, -- Alliance
-                { id = 24682, name = "The Pit of Saron", npc = "Lady Sylvanas Windrunner" }, -- Horde
-                { id = 24498, name = "The Path to the Citadel", npc = "Martin Victus / Gorkun Ironskull" },
-                { id = 24710, name = "Deliverance from the Pit", npc = "Martin Victus" }, -- Alliance
-                { id = 24712, name = "Deliverance from the Pit", npc = "Gorkun Ironskull" }, -- Horde
+                { id = 24683, name = "The Pit of Saron",         npc = "Lady Jaina Proudmoore",    faction = "Alliance" },
+                { id = 24682, name = "The Pit of Saron",         npc = "Lady Sylvanas Windrunner", faction = "Horde" },
+                { id = 24498, name = "The Path to the Citadel",  npc = "Martin Victus / Gorkun Ironskull" },
+                { id = 24710, name = "Deliverance from the Pit", npc = "Martin Victus",            faction = "Alliance" },
+                { id = 24712, name = "Deliverance from the Pit", npc = "Gorkun Ironskull",         faction = "Horde" },
             },
         },
         {
@@ -620,8 +651,8 @@ SM.FrozenThroneData = {
             summary = "Enter the Halls of Reflection and stand before Frostmourne, where Arthas' shadow still lingers.",
             recap = "Deep inside Icecrown Citadel, Jaina or Sylvanas leads you into the Halls of Reflection. Uther's spirit reveals the truth of Arthas' final weakness and the cost of ending the Lich King forever.",
             quests = {
-                { id = 24711, name = "Frostmourne", npc = "Jaina Proudmoore" }, -- Alliance
-                { id = 24713, name = "Frostmourne", npc = "Sylvanas Windrunner" }, -- Horde
+                { id = 24711, name = "Frostmourne", npc = "Jaina Proudmoore",    faction = "Alliance" },
+                { id = 24713, name = "Frostmourne", npc = "Sylvanas Windrunner", faction = "Horde" },
             },
         },
         {
@@ -629,8 +660,8 @@ SM.FrozenThroneData = {
             summary = "Escape Arthas in a desperate chase through the collapsing halls of Icecrown.",
             recap = "After defeating Falric and Marwyn, the Lich King arrives in person and drives you into a frantic retreat. The chase through the frozen halls shows the terrifying scale of Arthas' power and how close Azeroth comes to ruin.",
             quests = {
-                { id = 24500, name = "Wrath of the Lich King", npc = "Jaina Proudmoore" }, -- Alliance
-                { id = 24802, name = "Wrath of the Lich King", npc = "Sylvanas Windrunner" }, -- Horde
+                { id = 24500, name = "Wrath of the Lich King", npc = "Jaina Proudmoore",    faction = "Alliance" },
+                { id = 24802, name = "Wrath of the Lich King", npc = "Sylvanas Windrunner", faction = "Horde" },
             },
         },
         {
@@ -638,8 +669,8 @@ SM.FrozenThroneData = {
             summary = "Carry Uther's warning to the champions of Azeroth: Arthas must fall at the Frozen Throne.",
             recap = "The campaign closes with the revelation that ending Arthas requires confronting him where Ner'zhul and Arthas became one. From Stratholme's first atrocity to Icecrown's final pursuit, every step leads to the same destination: the Frozen Throne.",
             quests = {
-                { id = 24500, name = "Wrath of the Lich King", npc = "Jaina Proudmoore" },
-                { id = 24802, name = "Wrath of the Lich King", npc = "Sylvanas Windrunner" },
+                { id = 24500, name = "Wrath of the Lich King", npc = "Jaina Proudmoore",    faction = "Alliance" },
+                { id = 24802, name = "Wrath of the Lich King", npc = "Sylvanas Windrunner", faction = "Horde" },
             },
         },
     },

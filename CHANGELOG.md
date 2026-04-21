@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.3.4
+
+### Fixes
+- Fixed quest cards for mixed Alliance/Horde chapters — opposing-faction quests are now hidden and the positioning chain skips them cleanly
+- Fixed Tides of Vengeance achievement in Lilian Voss showing the Alliance variant — corrected to Horde (13466)
+- Removed a misidentified Quel'delar quest from the Banshee Queen Frozen Halls chapter
+
+### New
+- Per-quest faction filtering — quests tagged `faction = "Alliance"` or `faction = "Horde"` are invisible to the opposing side in progress tracking, next-quest suggestions, and the quest card list
+- All faction variants in The Frozen Throne are now tagged (Dragonblight prelude, Angrathar, Icecrown Vanguard, Gates of Icecrown, Sindragosa's Fall, Frozen Halls arc)
+- Broken Shore chapter (Banshee Queen) expanded from 2 to 6 quests — added the Legion Returns muster quest and three optional Illidari follow-up quests in Orgrimmar
+
+### Content
+- Updated Frozen Halls entry note — no Chromie Time needed, just land in Northrend Dalaran
+- Updated Broken Shore entry note — removed "Horde only" since Alliance players won't see this storyline anyway
+- Added achievements across all storylines: Suramar (Nighthold wings + prestige kills + Glory meta), Lilian Voss (Scarlet dungeons + bonus achievements + BfA war campaign), Banshee Queen (Frozen Halls dungeons + bonus + BfA campaign + Zereth Mortis), Jaina (Kul Tiras zone story + four dungeons + Battle of Dazar'alor), Drustvar (Waycrest Manor dungeon completions + bonus)
+
+---
+
 ## 1.3.3
 
 ### Fixes

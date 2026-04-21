@@ -45,8 +45,17 @@ end
 -- Note: we intentionally do NOT infer completion from next-chapter progress.
 -- Some campaigns have optional/out-of-order chapters, which can cause false
 -- "Completed" states for an active final quest in the current chapter.
+local playerFaction = UnitFactionGroup("player")
+
+local function IsQuestForPlayer(q)
+    return not q.faction or q.faction == playerFaction
+end
+
 local function IsQuestEffectivelyComplete(questIndex, chapterQuests, nextChapterQuests)
-    local qid = chapterQuests[questIndex].id
+    local q = chapterQuests[questIndex]
+    -- Quests for the opposing faction are irrelevant — treat as complete.
+    if not IsQuestForPlayer(q) then return true end
+    local qid = q.id
     -- IsOnQuest can be unreliable for some campaign steps; log index is safer.
     if C_QuestLog.GetLogIndexForQuestID(qid) ~= nil then return false end
     if IsQuestComplete(qid) then return true end
@@ -55,12 +64,12 @@ local function IsQuestEffectivelyComplete(questIndex, chapterQuests, nextChapter
     -- actively working through step N, quests after N can't be inferred done
     -- from a later flag — that flag is from a previous run or another character.
     for i = 1, questIndex - 1 do
-        if C_QuestLog.GetLogIndexForQuestID(chapterQuests[i].id) ~= nil then
+        if IsQuestForPlayer(chapterQuests[i]) and C_QuestLog.GetLogIndexForQuestID(chapterQuests[i].id) ~= nil then
             return false
         end
     end
     for i = questIndex + 1, #chapterQuests do
-        if IsQuestComplete(chapterQuests[i].id) then return true end
+        if IsQuestForPlayer(chapterQuests[i]) and IsQuestComplete(chapterQuests[i].id) then return true end
     end
     -- Keep completion strictly local to this quest/chapter to avoid
     -- out-of-order chapter progress causing false positives.
@@ -187,7 +196,7 @@ local function GetChapterProgress(ch, nextChapter)
     local total, done = 0, 0
     local nextQuests = nextChapter and nextChapter.quests or nil
     for i, q in ipairs(ch.quests) do
-        if not q.optional then
+        if not q.optional and IsQuestForPlayer(q) then
             total = total + 1
             if IsQuestEffectivelyComplete(i, ch.quests, nextQuests) then done = done + 1 end
         end
@@ -283,7 +292,9 @@ FindNextQuest = function(data)
             local section = ch._section or 1
 
             for j, q in ipairs(ch.quests) do
-                if IsQuestInLog(q.id) then
+                if not IsQuestForPlayer(q) then
+                    -- skip opposing-faction variant
+                elseif IsQuestInLog(q.id) then
                     logCandidates[#logCandidates + 1] = {
                         quest = q, chapter = ch.chapter,
                         section = section, depth = j, order = chIdx,
@@ -656,15 +667,21 @@ end
 -- Player filtering helpers
 -- ============================================================================
 
-local _, playerClass = UnitClass("player")   -- English token: "ROGUE", "WARRIOR", etc.
-local playerFaction = UnitFactionGroup("player")  -- "Horde" or "Alliance"
-local playerRace = select(2, UnitRace("player"))  -- English token: "Human", "Orc", etc.
+_, playerClass = UnitClass("player")   -- English token: "ROGUE", "WARRIOR", etc.
+playerFaction = UnitFactionGroup("player")  -- "Horde" or "Alliance"
+playerRace = select(2, UnitRace("player"))  -- English token: "Human", "Orc", etc.
 
 local function CanShowQuestline(data)
     if data.class and data.class ~= playerClass then return false end
     if data.faction and data.faction ~= playerFaction then return false end
     if data.race and data.race ~= playerRace then return false end
     return true
+end
+
+-- Returns false for quests tagged with the opposing faction — used to skip
+-- Alliance quests for Horde players and vice versa within mixed chapters.
+IsQuestForPlayer = function(q)
+    return not q.faction or q.faction == playerFaction
 end
 
 -- ============================================================================
@@ -2219,83 +2236,89 @@ LayoutSelectedChapter = function()
             dQuestCards[i] = CreateQuestCard(detailChild)
         end
         local card = dQuestCards[i]
-        local nextCh = chapters[dSelectedChapter + 1]
-        local qOptional = q.optional == true
-        local qDone = IsQuestEffectivelyComplete(i, ch.quests, nextCh and nextCh.quests)
-        local qInLog = not qDone and IsQuestInLog(q.id)
-        -- Display fallback: if the story has no next quest ("Story Finished"),
-        -- treat remaining cards as complete for UI purposes.
-        local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
-        local qIsNextRecommended = (q.id == nextQuestID)
-        local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
-
-        card.title:SetText(q.name)
-        card.npcLabel:SetText(q.npc or "")
-        card.questID = q.id
-        card.tooltipTitle = q.name
-        card.tooltipNPC = q.npc
-        card.tooltipStatus = qDoneDisplay and "|cff59c746Completed|r"
-            or qInLog and "|cffffd223In Progress|r"
-            or qOptional and "|cff808080Optional|r"
-            or "|cff808080Not yet available|r"
-        card.tooltipRequirement = lockReason
-
-        card.icon:SetSize(14, 14)
-        card.icon:SetDesaturation(0)
-        if qDoneDisplay then
-            card.icon:SetAtlas("common-icon-checkmark", false)
-            card.icon:SetVertexColor(0.45, 0.90, 0.35)
-            card.icon:Show()
-            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.8)
-            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.6)
-            card:SetAlpha(1.0)
-        elseif qInLog or qIsNextRecommended then
-            card.icon:SetAtlas("common-icon-forwardarrow", false)
-            card.icon:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-            card.icon:Show()
-            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.7)
-            card:SetAlpha(1.0)
-        elseif qOptional then
-            card.icon:Hide()
-            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.4)
-            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.3)
-            card:SetAlpha(0.55)
+        if not IsQuestForPlayer(q) then
+            card:Hide()
         else
-            card.icon:Hide()
-            card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.6)
-            card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.4)
-            card:SetAlpha(0.8)
-        end
+            local nextCh = chapters[dSelectedChapter + 1]
+            local qOptional = q.optional == true
+            local qDone = IsQuestEffectivelyComplete(i, ch.quests, nextCh and nextCh.quests)
+            local qInLog = not qDone and IsQuestInLog(q.id)
+            -- Display fallback: if the story has no next quest ("Story Finished"),
+            -- treat remaining cards as complete for UI purposes.
+            local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
+            local qIsNextRecommended = (q.id == nextQuestID)
+            local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i, nextCh and nextCh.quests) or nil
 
-        card:Show()
+            card.title:SetText(q.name)
+            card.npcLabel:SetText(q.npc or "")
+            card.questID = q.id
+            card.tooltipTitle = q.name
+            card.tooltipNPC = q.npc
+            card.tooltipStatus = qDoneDisplay and "|cff59c746Completed|r"
+                or qInLog and "|cffffd223In Progress|r"
+                or qOptional and "|cff808080Optional|r"
+                or "|cff808080Not yet available|r"
+            card.tooltipRequirement = lockReason
+
+            card.icon:SetSize(14, 14)
+            card.icon:SetDesaturation(0)
+            if qDoneDisplay then
+                card.icon:SetAtlas("common-icon-checkmark", false)
+                card.icon:SetVertexColor(0.45, 0.90, 0.35)
+                card.icon:Show()
+                card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.8)
+                card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.6)
+                card:SetAlpha(1.0)
+            elseif qInLog or qIsNextRecommended then
+                card.icon:SetAtlas("common-icon-forwardarrow", false)
+                card.icon:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+                card.icon:Show()
+                card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+                card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.7)
+                card:SetAlpha(1.0)
+            elseif qOptional then
+                card.icon:Hide()
+                card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.4)
+                card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.3)
+                card:SetAlpha(0.55)
+            else
+                card.icon:Hide()
+                card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3], 0.6)
+                card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.4)
+                card:SetAlpha(0.8)
+            end
+            card:Show()
+        end
     end
     for i = #ch.quests + 1, #dQuestCards do dQuestCards[i]:Hide() end
 
-    -- Position cards below summary (centered, fixed width)
+    -- Position visible cards below summary (centered, fixed width)
     local CARD_W = 280
+    local prevCard = nil
     for i = 1, #ch.quests do
         local card = dQuestCards[i]
-        card:ClearAllPoints()
-        card:SetWidth(CARD_W)
-        if i == 1 then
-            local anchor = dChapterAchievement:IsShown() and dChapterAchievement
-                        or dChapterNote:IsShown() and dChapterNote
-                        or dChapterSummary:IsShown() and dChapterSummary
-                        or dChapterTitle
-            card:SetPoint("TOP", anchor, "BOTTOM", 0, -20)
-        else
-            card:SetPoint("TOP", dQuestCards[i - 1], "BOTTOM", 0, -QCARD_GAP)
+        if card and card:IsShown() then
+            card:ClearAllPoints()
+            card:SetWidth(CARD_W)
+            if not prevCard then
+                local anchor = dChapterAchievement:IsShown() and dChapterAchievement
+                            or dChapterNote:IsShown() and dChapterNote
+                            or dChapterSummary:IsShown() and dChapterSummary
+                            or dChapterTitle
+                card:SetPoint("TOP", anchor, "BOTTOM", 0, -20)
+            else
+                card:SetPoint("TOP", prevCard, "BOTTOM", 0, -QCARD_GAP)
+            end
+            -- Center horizontally: anchor LEFT relative to detailChild center
+            card:SetPoint("LEFT", detailChild, "CENTER", -CARD_W / 2, 0)
+            prevCard = card
         end
-        -- Center horizontally: anchor LEFT relative to detailChild center
-        card:SetPoint("LEFT", detailChild, "CENTER", -CARD_W / 2, 0)
     end
 
     -- Update scroll height
-    local lastCard = dQuestCards[#ch.quests]
     C_Timer.After(0, function()
-        if lastCard then
-            local bot = lastCard:GetBottom()
+        if prevCard then
+            local bot = prevCard:GetBottom()
             local top = detailChild:GetTop()
             if bot and top then
                 detailChild:SetHeight(math.max(top - bot + 30, 400))
@@ -3610,4 +3633,3 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         CheckQuestCompletion(arg1)
     end
 end)
-

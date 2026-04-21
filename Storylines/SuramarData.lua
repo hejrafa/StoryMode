@@ -17,7 +17,25 @@ SM.SuramarData = {
     expansion = "Legion",
     achievementID = 11340,
     achievementName = "Insurrection",
-    achievements = { 10617, 11124, 11340, 10778, 42030 },
+    achievements = {
+        -- Suramar story
+        10617,  -- Nightfallen But Not Forgotten (main gated chapter chain)
+        11124,  -- Good Suramaritan (all side-chapter storylines)
+        11340,  -- Insurrection (all 9 patch-7.1 chapters)
+        10778,  -- The Nightfallen (Exalted with The Nightfallen)
+        -- The Nighthold raid — wing clears
+        42030,  -- The Nighthold (full clear)
+        10829,  -- Arcing Aqueducts (Skorpyron, Chronomatic Anomaly, Trilliax)
+        10837,  -- Royal Athenaeum (Spellblade Aluriel, High Botanist Tel'arn, Star Augur Etraeus)
+        10838,  -- Nightspire (Krosus, Tichondrius, Grand Magistrix Elisande)
+        10839,  -- Betrayer's Rise (Gul'dan)
+        -- The Nighthold raid — prestige
+        10849,  -- Mythic: Grand Magistrix Elisande
+        10850,  -- Mythic: Gul'dan (grants title: Vengeance Incarnate)
+        11195,  -- Ahead of the Curve: Gul'dan
+        11192,  -- Cutting Edge: Gul'dan
+        11180,  -- Glory of the Legion Raider (Emerald Nightmare + Nighthold meta)
+    },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 236565,  -- Achievement_zone_suramar (atlas texture ID)
 
@@ -505,18 +523,8 @@ SM.SuramarData = {
     -- =========================================================================
     -- ACHIEVEMENT STRUCTURE SUMMARY
     -- =========================================================================
-    -- Good Suramaritan (11124) criteria / sub-achievements:
-    --   1. An Ancient Gift         (10756)
-    --   2. Blood and Wine          (10758)
-    --   3. A Growing Crisis        (10757)
-    --   4. The Waning Crescent     (10759)
-    --   5. Statecraft              (10760)
-    --   6. A Change of Seasons     (10761)
-    --   7. Breaking The Lightbreaker (10762)
-    --   8. Moon Guard Stronghold   (10763)
-    --   9. Tidying Tel'anor        (10764)
-    --  10. Eminent Grow-main       (10765)
-    --  11. Jandvik's Jarl          (10766)
+    -- Good Suramaritan (11124) tracks quest completions, not sub-achievement IDs.
+    -- Each criterion is the final quest of its chapter (no standalone achievement IDs exist).
     --
     -- Insurrection (11340) criteria:
     --   1. Lockdown                -> Visitor in Shal'Aran    (44955)

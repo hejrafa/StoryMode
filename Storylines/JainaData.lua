@@ -13,7 +13,33 @@ SM.JainaData = {
     description = "Jaina Proudmoore was once Theramore's defender and the Alliance's most celebrated mage. When the Horde dropped a mana bomb on her city, she emerged from the wreckage transformed — her hair turned white, her grief hardened into fury. She purged the Sunreavers from Dalaran. She watched old friendships fall away. When Battle for Azeroth began, she stood at the prow of the fleet that sailed on Lordaeron — not for diplomacy, but for war.\n\nThen came the summons home. Kul Tiras, her birthplace, wanted nothing to do with her. She had let her father die in Kalimdor — condemned to death by Night Elves and Horde alike, standing on the wrong side of a war she refused to fight. In the eyes of Katherine Proudmoore and the Admiralty, Jaina was a traitor. She arrived home in chains.\n\nWhat follows is an estrangement, a conspiracy, and an impossible reconciliation — and at the end of it, a song.",
     zone = "Kul Tiras",
     expansion = "Battle for Azeroth",
-    achievements = {},
+    achievements = {
+        -- Kul Tiras zone story (chapters 1–3)
+        12473,  -- A Sound Plan (Tiragarde Sound)
+        12496,  -- Stormsong and Dance (Stormsong Valley)
+        12497,  -- Drust Do It. (Drustvar)
+        12593,  -- Loremaster of Kul Tiras
+        -- The Pride of Kul Tiras — four dungeons
+        12840,  -- Tol Dagor (Normal)
+        12841,  -- Heroic: Tol Dagor
+        12842,  -- Mythic: Tol Dagor
+        12835,  -- Shrine of the Storm (Normal)
+        12837,  -- Heroic: Shrine of the Storm
+        12838,  -- Mythic: Shrine of the Storm
+        12483,  -- Waycrest Manor (Normal)
+        12484,  -- Heroic: Waycrest Manor
+        12488,  -- Mythic: Waycrest Manor
+        12847,  -- Siege of Boralus (Mythic)
+        12812,  -- Glory of the Wartorn Hero (all four dungeons meta)
+        -- The Fog of War — Battle of Dazar'alor (Alliance wings)
+        13286,  -- Siege of Dazar'alor (Wing 1: Champion of the Light, Jadefire Masters, Grong)
+        13287,  -- Empire's Fall (Wing 2: Opulence, Conclave of the Chosen, King Rastakhan)
+        13288,  -- Might of the Alliance (Wing 3: Mekkatorque, Stormwall Blockade, Lady Jaina)
+        13314,  -- Mythic: Lady Jaina Proudmoore (grants title: Hero of Dazar'alor)
+        13322,  -- Ahead of the Curve: Lady Jaina Proudmoore
+        13323,  -- Cutting Edge: Lady Jaina Proudmoore
+        13315,  -- Glory of the Dazar'alor Raider
+    },
     faction = "Alliance",
     color = { 0.20, 0.55, 0.85 },  -- Kul Tiran sea-blue
     portraitDisplayID = 87892,  -- Lady Jaina Proudmoore
