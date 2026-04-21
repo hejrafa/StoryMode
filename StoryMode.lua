@@ -7,7 +7,22 @@ local addonName, SM = ...
 local defaults = {
     version = "1.3.0",
     selectedQuestline = 1,
+    viewedLoreChapters = {},
 }
+
+-- Forward-declared here so GetChapterProgress (below) can access it as an upvalue.
+local currentStoryData = nil  -- assigned by UpdateStoryDetail
+
+local function IsLoreChapterViewed(storylineTitle, chapterName)
+    if not StoryModeDB or not StoryModeDB.viewedLoreChapters then return false end
+    return StoryModeDB.viewedLoreChapters[storylineTitle .. "|" .. chapterName] == true
+end
+
+local function SetLoreChapterViewed(storylineTitle, chapterName)
+    if not StoryModeDB then return end
+    if not StoryModeDB.viewedLoreChapters then StoryModeDB.viewedLoreChapters = {} end
+    StoryModeDB.viewedLoreChapters[storylineTitle .. "|" .. chapterName] = true
+end
 
 -- ============================================================================
 -- Achievement Resolver — find achievement ID by name at runtime
@@ -193,6 +208,21 @@ end
 
 
 local function GetChapterProgress(ch, nextChapter)
+    -- loreOnly chapters: complete only when the player has explicitly marked them viewed.
+    -- Unviewed (0,0) makes them the "current" chapter in the track; viewed (1,1) advances past them.
+    if ch.loreOnly then
+        if currentStoryData and IsLoreChapterViewed(currentStoryData.title, ch.chapter) then
+            return 1, 1
+        end
+        return 0, 0
+    end
+    -- Achievement override: if the chapter names an achievementID and it is earned,
+    -- treat the chapter as fully complete regardless of quest flags. This handles
+    -- chapters like raid encounters or Archivist Sylvia replays that don't re-flag quests.
+    if ch.achievementID then
+        local _, _, _, completed = GetAchievementInfo(ch.achievementID)
+        if completed then return 1, 1 end
+    end
     local total, done = 0, 0
     local nextQuests = nextChapter and nextChapter.quests or nil
     for i, q in ipairs(ch.quests) do
@@ -220,7 +250,7 @@ local function GetQuestLockReason(data, ch, questIndex, nextChapterQuests)
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        return string.format("You need to reach level %d to start this story. (You are level %d.)", data.requiredLevel, playerLevel)
+        return string.format("Reach level %d to begin this story.", data.requiredLevel)
     end
 
     local unmetPrereq = GetFirstUnmetChapterPrerequisite(ch)
@@ -236,7 +266,7 @@ local function GetQuestLockReason(data, ch, questIndex, nextChapterQuests)
     if questIndex and questIndex > 1 then
         local prevQuest = ch.quests and ch.quests[questIndex - 1]
         if prevQuest and not IsQuestEffectivelyComplete(questIndex - 1, ch.quests, nextChapterQuests) then
-            return "Complete \"" .. (prevQuest.name or ("Quest ID " .. tostring(prevQuest.id))) .. "\" first to continue the story."
+            return "Complete \"" .. (prevQuest.name or ("Quest ID " .. tostring(prevQuest.id))) .. "\" first."
         end
     end
 
@@ -248,7 +278,7 @@ local function GetQuestlineGateReason(data)
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        return string.format("You need to reach level %d to start this story. (You are level %d.)", data.requiredLevel, playerLevel)
+        return string.format("Reach level %d to begin this story.", data.requiredLevel)
     end
 
     return nil
@@ -855,6 +885,11 @@ do
         _frameShow(self)
     end
 end
+
+-- Node ring colors — module-scoped so both the track builder and
+-- LayoutSelectedChapter can restore per-state colors after selection changes.
+local RING_GREEN_R, RING_GREEN_G, RING_GREEN_B = 0.35, 0.78, 0.28
+local RING_GOLD_R,  RING_GOLD_G,  RING_GOLD_B  = 1.0,  0.82, 0.35
 
 local FRAME_W  = 1012
 local FRAME_H  = 550
@@ -1508,9 +1543,6 @@ local function CreateChapterRow(parent, index)
     return row
 end
 
--- Forward declarations for cross-referenced variables
-local currentStoryData = nil   -- set by UpdateStoryDetail, read by LayoutSelectedChapter
-
 -- ══ Renown-Track Style Chapter Selector + Quest Cards ══════════════════
 -- Horizontal chapter track with quest detail cards below
 
@@ -1667,8 +1699,14 @@ dChapterSummary:Hide()
 -- Prerequisite note — shown when a chapter has a .note field
 local dChapterNote = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Shadow_Small"))
 dChapterNote:SetJustifyH("LEFT"); dChapterNote:SetSpacing(3); dChapterNote:SetWordWrap(true)
-dChapterNote:SetTextColor(0.90, 0.72, 0.30)  -- warm amber, distinct from body text
+dChapterNote:SetTextColor(1.0, 0.82, 0.35)
 dChapterNote:Hide()
+
+-- Mark as Viewed button — shown for loreOnly chapters (same template as story CTA)
+local dMarkViewedBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
+dMarkViewedBtn:SetSize(240, 40)
+dMarkViewedBtn:SetText("Mark as Viewed")
+dMarkViewedBtn:Hide()
 
 -- Achievement reward line — clickable, shown when a chapter has an achievementID
 local dChapterAchievement = CreateFrame("Button", nil, detailChild)
@@ -1707,6 +1745,10 @@ do
         end
     end)
 end
+
+-- Full-size achievement card for chapters that have no quest list.
+-- Reuses CreateAchievementRow (defined later) — forward-created after that function.
+local dChapterAchievementCard  -- assigned after CreateAchievementRow is defined
 
 -- ── Track node pool ─────────────────────────────────────────────────
 local function CreateTrackNode(parent)
@@ -1795,11 +1837,10 @@ local function CreateTrackNode(parent)
                 local _, achName, _, achDone = GetAchievementInfo(self.tooltipAchievementID)
                 if achName then
                     SMTooltip:AddLine(" ")
-                    local shield = "|TInterface\\AchievementFrame\\UI-Achievement-TinyShield:14:14:0:-2|t "
                     if achDone then
-                        SMTooltip:AddLine(shield .. achName, 0.45, 0.90, 0.35)
+                        SMTooltip:AddLine(achName, 0.45, 0.90, 0.35)
                     else
-                        SMTooltip:AddLine(shield .. achName, C_GOLD[1], C_GOLD[2], C_GOLD[3])
+                        SMTooltip:AddLine(achName, C_GOLD[1], C_GOLD[2], C_GOLD[3])
                     end
                 end
             end
@@ -2017,6 +2058,10 @@ local function CreateAchievementRow(parent)
     return row
 end
 
+-- Assign the forward-declared chapter achievement card now that CreateAchievementRow exists.
+dChapterAchievementCard = CreateAchievementRow(detailChild)
+dChapterAchievementCard:Hide()
+
 -- ── No-achievements placeholder label ───────────────────────────────
 local aNoAchLabel = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
 aNoAchLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
@@ -2141,7 +2186,8 @@ LayoutSelectedChapter = function()
     dTrackRightTex:SetVertexColor(canGoRight and 0.85 or 0.3, canGoRight and 0.75 or 0.25, canGoRight and 0.55 or 0.2)
     dTrackRightTex:SetAlpha(canGoRight and 1.0 or 0.3)
 
-    -- Update track selection visuals
+    -- Update track selection visuals: selected node gets gold ring + glow.
+    -- Deselected nodes get their completion-state ring color restored.
     for i, node in ipairs(dTrackNodes) do
         if not node:IsShown() then break end
         if i == dSelectedChapter then
@@ -2152,6 +2198,36 @@ LayoutSelectedChapter = function()
         else
             node.activeGlow:Hide()
             node.downArrow:Hide()
+            -- Restore completion-state ring color so it doesn't stay gold.
+            local thCh = chapters[i]
+            if thCh then
+                if thCh.loreOnly then
+                    local loreViewed = IsLoreChapterViewed(data.title, thCh.chapter)
+                    if loreViewed then
+                        node.ring:SetVertexColor(RING_GREEN_R, RING_GREEN_G, RING_GREEN_B)
+                        node.ring:SetAlpha(0.8)
+                        node.checkmark:Show()
+                    else
+                        node.ring:SetVertexColor(0.55, 0.48, 0.38)
+                        node.ring:SetAlpha(0.55)
+                        node.checkmark:Hide()
+                    end
+                else
+                    local cd, ct = GetChapterProgress(thCh, chapters[i + 1])
+                    local isComp = cd == ct and ct > 0
+                    local isAct  = cd > 0 and not isComp
+                    if isComp then
+                        node.ring:SetVertexColor(RING_GREEN_R, RING_GREEN_G, RING_GREEN_B)
+                        node.ring:SetAlpha(0.8)
+                    elseif isAct then
+                        node.ring:SetVertexColor(RING_GOLD_R, RING_GOLD_G, RING_GOLD_B)
+                        node.ring:SetAlpha(0.9)
+                    else
+                        node.ring:SetVertexColor(0.4, 0.35, 0.30)
+                        node.ring:SetAlpha(0.5)
+                    end
+                end
+            end
         end
     end
 
@@ -2168,23 +2244,31 @@ LayoutSelectedChapter = function()
     end
 
     local playerLevel = UnitLevel("player") or 0
-    if data.requiredLevel and playerLevel < data.requiredLevel then
-        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t You need to reach level " .. data.requiredLevel .. " to start this story. (You are level " .. playerLevel .. ").")
-        dChapterNote:SetTextColor(1.0, 0.82, 0.35)
+    local cdNote, ctNote = GetChapterProgress(ch, chapters[dSelectedChapter + 1])
+    local chIsComplete = cdNote == ctNote and ctNote > 0
+
+    if ch.loreOnly then
+        dChapterNote:SetText(ch.note or "This content is no longer available in-game.")
+        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
-    elseif ch.note then
-        dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t " .. ch.note)
+    elseif data.requiredLevel and playerLevel < data.requiredLevel then
+        dChapterNote:SetText("Reach level " .. data.requiredLevel .. " to begin this story.")
+        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
-    elseif ch.prerequisites then
+    elseif ch.note and not chIsComplete then
+        dChapterNote:SetText(ch.note)
+        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        dChapterNote:Show()
+    elseif ch.prerequisites and not chIsComplete then
         local req = GetFirstUnmetChapterPrerequisite(ch)
         if req then
             local reqQuest = req.name or ("Quest ID " .. tostring(req.id))
             if req.npc then
-                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t To start this chapter, speak with " .. req.npc .. " and pick up \"" .. reqQuest .. "\".")
+                dChapterNote:SetText("Speak with " .. req.npc .. " and pick up \"" .. reqQuest .. "\" to begin this chapter.")
             else
-                dChapterNote:SetText("|TInterface\\DialogFrame\\UI-Dialog-Icon-AlertOther:12:12:0:-3|t To start this chapter, complete \"" .. reqQuest .. "\" first.")
+                dChapterNote:SetText("Complete \"" .. reqQuest .. "\" to unlock this chapter.")
             end
-            dChapterNote:SetTextColor(1.0, 0.82, 0.35)
+            dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
             dChapterNote:Show()
         else
             dChapterNote:Hide()
@@ -2193,9 +2277,36 @@ LayoutSelectedChapter = function()
         dChapterNote:Hide()
     end
 
-    -- Achievement reward line — anchor below the last visible header element
+    -- Mark as Viewed button — always shown for loreOnly chapters
+    if ch.loreOnly then
+        local btnAnchor = dChapterNote:IsShown() and dChapterNote
+                       or dChapterSummary:IsShown() and dChapterSummary
+                       or dChapterTitle
+        dMarkViewedBtn:ClearAllPoints()
+        dMarkViewedBtn:SetPoint("TOP", btnAnchor, "BOTTOM", 0, -14)
+        if chIsComplete then
+            dMarkViewedBtn:SetText("Watched")
+            dMarkViewedBtn:SetScript("OnClick", nil)
+            dMarkViewedBtn:Disable()
+            dMarkViewedBtn:SetAlpha(0.5)
+        else
+            dMarkViewedBtn:SetText("Mark as Viewed")
+            dMarkViewedBtn:SetScript("OnClick", function()
+                SetLoreChapterViewed(data.title, ch.chapter)
+                LayoutSelectedChapter()
+            end)
+            dMarkViewedBtn:Enable()
+            dMarkViewedBtn:SetAlpha(1.0)
+        end
+        dMarkViewedBtn:Show()
+    else
+        dMarkViewedBtn:Hide()
+    end
+
+    -- Achievement reward line — only shown for chapters that also have quest cards.
+    -- Quest-less chapters (achievementID, no quests) use the full card below instead.
     local achID = ch.achievementID
-    if achID then
+    if achID and #ch.quests > 0 then
         local _, achName, _, achDone, _,_,_,_, _, achIcon = GetAchievementInfo(achID)
         if achName then
             dChapterAchievement.achID = achID
@@ -2292,8 +2403,35 @@ LayoutSelectedChapter = function()
     end
     for i = #ch.quests + 1, #dQuestCards do dQuestCards[i]:Hide() end
 
-    -- Position visible cards below summary (centered, fixed width)
+    -- For chapters with no quests, show a full achievement card instead.
     local CARD_W = 280
+    if #ch.quests == 0 and ch.achievementID then
+        local _, achName, _, achDone, _,_,_,_,_, achIcon = GetAchievementInfo(ch.achievementID)
+        if achName then
+            dChapterAchievementCard.achievementID = ch.achievementID
+            dChapterAchievementCard.icon:SetTexture(achIcon)
+            dChapterAchievementCard.icon:SetDesaturated(not achDone)
+            dChapterAchievementCard.title:SetText(achName)
+            dChapterAchievementCard.title:SetTextColor(
+                achDone and C_BODY[1] or C_DIM[1],
+                achDone and C_BODY[2] or C_DIM[2],
+                achDone and C_BODY[3] or C_DIM[3])
+            local anchor = dChapterNote:IsShown() and dChapterNote
+                        or dChapterSummary:IsShown() and dChapterSummary
+                        or dChapterTitle
+            dChapterAchievementCard:ClearAllPoints()
+            dChapterAchievementCard:SetWidth(CARD_W)
+            dChapterAchievementCard:SetPoint("TOP",  anchor,      "BOTTOM", 0,         -20)
+            dChapterAchievementCard:SetPoint("LEFT", detailChild, "CENTER", -CARD_W/2,   0)
+            dChapterAchievementCard:Show()
+        else
+            dChapterAchievementCard:Hide()
+        end
+    else
+        dChapterAchievementCard:Hide()
+    end
+
+    -- Position visible quest cards below the header area
     local prevCard = nil
     for i = 1, #ch.quests do
         local card = dQuestCards[i]
@@ -2316,9 +2454,12 @@ LayoutSelectedChapter = function()
     end
 
     -- Update scroll height
+    local scrollAnchor = prevCard
+                      or (dChapterAchievementCard:IsShown() and dChapterAchievementCard)
+                      or (dMarkViewedBtn:IsShown() and dMarkViewedBtn)
     C_Timer.After(0, function()
-        if prevCard then
-            local bot = prevCard:GetBottom()
+        if scrollAnchor then
+            local bot = scrollAnchor:GetBottom()
             local top = detailChild:GetTop()
             if bot and top then
                 detailChild:SetHeight(math.max(top - bot + 30, 400))
@@ -2327,7 +2468,7 @@ LayoutSelectedChapter = function()
     end)
 end
 
-local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote, dChapterAchievement }
+local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote, dChapterAchievement, dChapterAchievementCard, dMarkViewedBtn }
 
 local function ShowDetail(show)
     heroFrame[show and "Show" or "Hide"](heroFrame)
@@ -2555,8 +2696,8 @@ local function LayoutDetailTab()
         dProgSummary:Show()
 
         -- ── Horizontal chapter track + quest cards ────────────────────
-        local GREEN_R, GREEN_G, GREEN_B = 0.35, 0.78, 0.28
-        local GOLD_R, GOLD_G, GOLD_B = 1.0, 0.82, 0.35
+        local GREEN_R, GREEN_G, GREEN_B = RING_GREEN_R, RING_GREEN_G, RING_GREEN_B
+        local GOLD_R,  GOLD_G,  GOLD_B  = RING_GOLD_R,  RING_GOLD_G,  RING_GOLD_B
         local DIM_R, DIM_G, DIM_B = C_DIM[1], C_DIM[2], C_DIM[3]
 
         -- Hide old pools
@@ -2598,7 +2739,13 @@ local function LayoutDetailTab()
             node.tooltipAchievementID = ch.achievementID or nil
 
             -- Status styling
-            if isComplete then
+            if ch.loreOnly and not isComplete then
+                node.portrait:SetVertexColor(0.80, 0.80, 0.80)
+                node.portrait:SetDesaturation(0.4)
+                node.ring:SetVertexColor(0.55, 0.48, 0.38)
+                node.ring:SetAlpha(0.55)
+                node.checkmark:Hide()
+            elseif isComplete then
                 node.portrait:SetVertexColor(1, 1, 1)
                 node.portrait:SetDesaturation(0)
                 node.ring:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
@@ -3289,6 +3436,10 @@ end
 -- Minimap Button
 -- ============================================================================
 
+-- Forward-declared so the event handler at the bottom of the file can call it
+-- after ADDON_LOADED. Everything else in this section is block-scoped.
+local MinimapButton_Init
+do
 local minimapBtn = CreateFrame("Button", nil, Minimap)
 minimapBtn:SetSize(42, 42)
 minimapBtn:SetFrameStrata("MEDIUM")
@@ -3402,15 +3553,20 @@ mmProximity:SetScript("OnUpdate", function(self, dt)
 end)
 
 -- Position is loaded after ADDON_LOADED via StoryModeDB.minimapAngle
-local function MinimapButton_Init()
+MinimapButton_Init = function()
     local angle = StoryModeDB and StoryModeDB.minimapAngle or 4.4  -- default: bottom
     MinimapButton_UpdatePosition(angle)
 end
+end  -- do: minimap section
 
 -- ============================================================================
 -- Chapter / Quest Completion Alert  (minimal top-center text fade)
 -- ============================================================================
 
+-- ShowStoryBanner is forward-declared at the top of this section; all
+-- alert-frame locals are block-scoped to free their slots before the
+-- ShowStoryComplete block below.
+do
 local alertFrame = CreateFrame("Frame", nil, UIParent)
 alertFrame:SetPoint("TOP", UIParent, "TOP", 0, -24)
 alertFrame:SetSize(400, 60)
@@ -3460,6 +3616,7 @@ ShowStoryBanner = function(headerText, titleText, questlineData, npcName, isChap
         if alertFrame:IsShown() then alertFadeOut:Play() end
     end)
 end
+end  -- do: alert section
 
 -- ============================================================================
 -- Story Complete Screen  (center-screen, fires when the last chapter is done)

@@ -10,7 +10,7 @@ local addonName, SM = ...
 SM.LilianVossData = {
     -- Questline metadata
     title = "The Forsaken Daughter",
-    description = "Lilian Voss was trained from birth to serve the Scarlet Crusade and destroy the undead. When the Val'kyr raise her as Forsaken in Deathknell, she refuses to accept what she has become. Desperate for acceptance, she seeks out her father — High Priest Benedictus Voss — only to be condemned to death by the man who raised her.\n\nWhat follows is a saga of vengeance and identity that stretches across years: a trail of fire and shadow through the Scarlet Halls and Monastery, a descent into the cursed halls of Scholomance, and a new war on the shores of Kul Tiras. The war delivers a prize — Derek Proudmoore, drowned at the bottom of the sea. Sylvanas puts him in Lilian's hands with one order: break him. Make him a weapon. Lilian has lived that story. Her answer costs her everything.\n\nBut the story does not end with defiance. It ends in Lordaeron — Lilian leading her people home, room by room, through the Blight.",
+    description = "Lilian Voss was raised a Forsaken against her will — trained from birth to hate exactly what she had become. Follow her story from the crypts of Deathknell through the dungeons she made her hunting ground, into the war that forced her to choose who she would be.",
     zone = "Tirisfal Glades / Kul Tiras / Lordaeron",
     expansion = "Cataclysm — Shadowlands",
     achievements = {
@@ -126,7 +126,7 @@ SM.LilianVossData = {
         -- CHAPTER 1: Raised against her will
         {
             chapter = "The Wakening",
-            summary = "The Val'kyr raise new Forsaken in the crypt of Deathknell. Among them is a young woman who refuses to accept what she has become — Lilian Voss, daughter of High Priest Benedictus Voss of the Scarlet Crusade.",
+            summary = "The Val'kyr raise new Forsaken in the crypt of Deathknell. One of them is Lilian Voss — daughter of the Scarlet Crusade's High Priest, raised as the very thing she was trained to destroy.",
             recap = "You opened your eyes in the crypt of Deathknell, raised by the Val'kyr as one of the Forsaken. Among the newly risen was a young woman trembling with rage — Lilian Voss, daughter of the Scarlet Crusade's High Priest. While you accepted your new existence, she could not. She fled into the darkness, refusing to believe what she had become.",
             quests = {
                 { id = 24960, name = "The Wakening",           npc = "Lilian Voss" },
@@ -137,7 +137,7 @@ SM.LilianVossData = {
         -- CHAPTER 2: First contact with the Scarlet Crusade
         {
             chapter = "A Scarlet Letter",
-            summary = "The Forsaken push into the farmlands surrounding Deathknell, where the Scarlet Crusade maintains a fortified palisade. Inside, a familiar prisoner awaits — Lilian Voss, captured by the very order she once served.",
+            summary = "The Forsaken push into the farmlands of Tirisfal, where the Scarlet Crusade holds a fortified palisade. Someone from Deathknell has gone missing.",
             recap = "Pushing through the farmlands around Deathknell, you clashed with the Scarlet Crusade at their palisade. Inside the fortifications you found Lilian — captured by the zealots she once served. Her captors didn't care that she had been one of them. To the Crusade, she was just another undead abomination to be purged.",
             quests = {
                 { id = 24978, name = "Reaping the Reapers",    npc = "Deathguard Simmer" },
@@ -150,7 +150,7 @@ SM.LilianVossData = {
         -- CHAPTER 3: Father and daughter, one last time
         {
             chapter = "A Daughter's Embrace",
-            summary = "Lilian tears through the crusaders with terrifying shadow magic, then marches to the tower at Crusader's Run to face the father who condemned her to death. She kills him — and vanishes.",
+            summary = "The trail leads to Crusader's Run and the tower of High Priest Benedictus Voss. A daughter has come a long way to find her father — and what he says to her will determine everything.",
             recap = "Something broke inside Lilian Voss. Shadow magic erupted from her hands as she tore through the crusaders with a fury that terrified even the Forsaken. She marched to the tower where her father, High Priest Benedictus Voss, waited — and when he condemned her as a monster, she killed him. Then she vanished, leaving nothing but silence and the smell of burning.",
             quests = {
                 { id = 25009, name = "At War With The Scarlet Crusade", npc = "High Executor Derrington" },
@@ -168,7 +168,7 @@ SM.LilianVossData = {
         -- CHAPTER 4: Infiltrating the Scarlet Halls
         {
             chapter = "The Scarlet Halls",
-            summary = "A hooded figure lurks inside the Scarlet Halls, offering coin for carnage. She wants the Crusade's membership records — a checklist of every name, just so none go unaccounted for. The Hooded Crusader does not like loose ends.",
+            summary = "A hooded figure is paying coin inside the Scarlet Halls — silver for Scarlet blood. She wants their membership records. She calls herself the Hooded Crusader, and she is very thorough.",
             recap = "Years passed before Lilian surfaced again — this time as a hooded figure lurking inside the Scarlet Halls. She hired you to slaughter your way through the Crusade's ranks and steal their membership records. Every name on that list was a target. Lilian Voss was no longer running from the Crusade — she was hunting them down, one by one.",
             quests = {
                 { id = 31490, name = "Rank and File",                    npc = "Hooded Crusader" },
@@ -179,7 +179,7 @@ SM.LilianVossData = {
         -- CHAPTER 5: Destroying the Scarlet Monastery
         {
             chapter = "The Scarlet Monastery",
-            summary = "The Hooded Crusader slips inside the Scarlet Monastery itself. Two blessed blades rest within these halls — weapons anointed to destroy the undead. She wants them found, and she wants them buried in High Inquisitor Whitemane's corpse.",
+            summary = "The Hooded Crusader's campaign reaches the Scarlet Monastery. Two blessed blades rest within its halls — consecrated weapons anointed to destroy the undead. High Inquisitor Whitemane commands everything inside.",
             recap = "The Hooded Crusader's campaign reached the Scarlet Monastery itself. You retrieved the blessed blades of the Anointed — weapons consecrated to destroy the undead — and drove them into High Inquisitor Whitemane. The irony was not lost on Lilian: the Crusade's holiest weapons, wielded by the dead, against the Crusade's own champion.",
             quests = {
                 { id = 31513, name = "Blades of the Anointed",           npc = "Hooded Crusader" },

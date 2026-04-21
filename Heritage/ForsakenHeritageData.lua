@@ -13,7 +13,7 @@ local addonName, SM = ...
 
 SM.ForsakenHeritageData = {
     title = "Heritage of the Forsaken",
-    description = "Answer Lilian Voss's call and strike at the Scarlet Crusade's foothold in Silverpine. In the aftermath, you’ll earn the right to wear the armor of Forsaken champions — a symbol of identity, resilience, and what it means to call Lordaeron home once more.",
+    description = "Lordaeron is in Forsaken hands again, but old enemies still haunt the forests beyond its walls. Lilian Voss has a mission in Silverpine — and she needs someone who knows what it means to be Forsaken.",
     zone = "Tirisfal Glades / Silverpine Forest",
     expansion = "Dragonflight",
 
@@ -74,7 +74,7 @@ SM.ForsakenHeritageData = {
     chapters = {
         {
             chapter = "Heritage of the Forsaken",
-            summary = "The Scarlets have returned to Silverpine. Disguise yourself, infiltrate Fenris Isle, and help the Forsaken reclaim their homeland — earning the armor of Forsaken champions along the way.",
+            summary = "The Scarlet Crusade has returned to Silverpine Forest. Lilian Voss needs a champion to go in quietly, earn their trust, and open the way for the Forsaken to strike.",
             recap = "With Lordaeron newly reclaimed, old enemies resurfaced. The Scarlet Crusade established a foothold in Silverpine Forest, determined to purge the Forsaken from their ancestral lands. Under Lilian Voss's guidance, you gathered alchemical weapons, donned a stolen disguise, slipped into the enemy’s ranks, and opened the way for the Forsaken to strike back in force. When the dust settled, you stood as a proven champion — Forsaken by death, but not by purpose.",
             quests = {
                 { id = 76530, name = "Unliving Summons", npc = "Lilian Voss" },
@@ -104,7 +104,7 @@ SM.ForsakenHeritageData = {
         },
         {
             chapter = "Epilogue (Sylvanas Loyalists)",
-            summary = "A small epilogue quest that only appears for players who supported Sylvanas during Battle for Azeroth.",
+            summary = "Not everyone who followed the Banshee Queen has made peace with what came after. A message finds its way to the ruins of Lordaeron for those who haven't.",
             recap = "For those who once swore loyalty to the Banshee Queen, a final message arrives — not to excuse the past, but to acknowledge it. The Forsaken move forward, but the echoes of old vows still linger in the ruins of Lordaeron.",
             quests = {
                 { id = 75519, name = "The Long Hunt", npc = "Dori'thur", optional = true },

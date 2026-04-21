@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.3.5
+
+### Fixes
+- Changed lore-only chapter button text from "Story Finished" to "Watched"
+
+### Content
+- **The Frozen Throne (Arthas) rebuild** — restructured the entire storyline:
+  - First chapter now starts at "Audience With The Dragon Queen" in Dragonblight
+  - Added full Dragonblight campaign with both Alliance (Wintergarde) and Horde (Agmar's Hammer) quest lines
+  - Split into 9 chapters: Dragonblight Campaign, Forsaken Plague, Culling of Stratholme, Shadow Vault, Argent Vanguard, Gates of Icecrown, Sindragosa's Fall, Frozen Halls, Icecrown's End
+  - Combined Icecrown Citadel content (Frozen Halls dungeons + Lich King encounter) into the final chapters
+- Updated Frozen Throne chapter images with correct NPCs: Emissary Brighthoof (23805) for Dragonblight Campaign, Martin Victus (30696) for Frozen Halls
+- Updated Banshee Queen chapter images: Dark Ranger Vorel (30686) for Frozen Halls, Frozen Throne icon (135771) for Icecrown's End, Grand Executor Mortuus (33999) for Silverpine chapters, Holgar Stormaxe (4515) for Broken Shore, Sylvanas (28213) for War of Thorns
+- Removed loreOnly from Culling of Stratholme — now tracked via actual quests
+- Trimmed key characters lists to only the most important NPCs
+
+---
+
 ## 1.3.4
 
 ### Fixes
