@@ -45,9 +45,11 @@ local ICECROWN_QUEST_NAMES = {
     [13071] = "Vile Like Fire!",
     [13072] = "A Hero Remains",
     [13073] = "The Keeper's Favor",
+    [13074] = "Hope Within the Emerald Nightmare",
     [13075] = "The Boon of Remulos",
     [13076] = "Time Yet Remains",
     [13077] = "The Touch of an Aspect",
+    [13078] = "Dahlia's Tear",
     [13079] = "The Boon of Alexstrasza",
     [13080] = "Hope Yet Remains",
     [13081] = "The Will of the Naaru",
@@ -100,6 +102,9 @@ local ICECROWN_QUEST_NAMES = {
     [13171] = "From Whence They Came",
     [13172] = "Seeds of Chaos",
     [13174] = "Amidst the Confusion",
+    [13140] = "The Runesmiths of Malykriss",
+    [13279] = "Basic Chemistry",
+    [13295] = "Basic Chemistry",
     [13211] = "By Fire Be Purged",
     [13212] = "He's Gone to Pieces",
     [13213] = "Battle at Valhalas",
@@ -115,11 +120,50 @@ local ICECROWN_QUEST_NAMES = {
     [13225] = "The Skybreaker",
     [13226] = "Judgment Day Comes!",
     [13227] = "Judgment Day Comes!",
+    [13228] = "The Broken Front",
     [13229] = "I'm Not Dead Yet!",
     [13230] = "Avenge Me!",
+    [13231] = "The Broken Front",
     [13232] = "Finish Me!",
+    [13233] = "No Mercy!",
+    [13234] = "Make Them Pay!",
     [13235] = "The Flesh Giant Champion",
     [13236] = "Army of the Damned",
+    [13237] = "Poke and Prod",
+    [13238] = "Good For Something?",
+    [13260] = "Takes One to Know One",
+    [13261] = "Volatility",
+    [13264] = "That's Abominable!",
+    [13277] = "Against the Giants",
+    [13278] = "Coprous the Defiled",
+    [13287] = "Poke and Prod",
+    [13288] = "That's Abominable!",
+    [13289] = "That's Abominable!",
+    [13290] = "Your Attention, Please",
+    [13291] = "Borrowed Technology",
+    [13292] = "The Solution Solution",
+    [13294] = "Against the Giants",
+    [13297] = "Putting the Hertz: The Valley of Lost Hope",
+    [13298] = "Coprous the Defiled",
+    [13300] = "Slaves to Saronite",
+    [13302] = "Slaves to Saronite",
+    [13318] = "Drag and Drop",
+    [13319] = "Drag and Drop",
+    [13330] = "Blood of the Chosen",
+    [13336] = "Blood of the Chosen",
+    [13346] = "No Rest For The Wicked",
+    [13351] = "Sneak Preview",
+    [13352] = "Drag and Drop",
+    [13353] = "Drag and Drop",
+    [13354] = "Chain of Command",
+    [13355] = "Cannot Reproduce",
+    [13356] = "Retest Now",
+    [13357] = "Retest Now",
+    [13358] = "Not a Bug",
+    [13365] = "Not a Bug",
+    [13366] = "Need More Info",
+    [13367] = "No Rest For The Wicked",
+    [13368] = "No Rest For The Wicked",
     [13258] = "Opportunity",
     [13259] = "Establishing Superiority",
     [13262] = "Blow it Up!",
@@ -138,9 +182,12 @@ local ICECROWN_QUEST_NAMES = {
     [13308] = "Mind Tricks",
     [13309] = "Assault by Air",
     [13310] = "Assault by Air",
+    [13316] = "The Guardians of Corp'rethar",
+    [13338] = "The Guardians of Corp'rethar",
     [13340] = "Joining the Assault",
     [13341] = "Joining the Assault",
     [13348] = "Futility",
+    [13349] = "Cradle of the Frostbrood",
     [13359] = "Where Dragons Fell",
     [13360] = "Time for Answers",
     [13361] = "The Hunter and the Prince",
@@ -166,6 +213,7 @@ local ICECROWN_QUEST_NAMES = {
     [13394] = "Do Your Worst",
     [13395] = "Army of the Damned",
     [13396] = "Futility",
+    [13397] = "Sindragosa's Fall",
     [13398] = "Where Dragons Fell",
     [13399] = "Time for Answers",
     [13400] = "The Hunter and the Prince",
@@ -174,6 +222,8 @@ local ICECROWN_QUEST_NAMES = {
     [13403] = "Tirion's Gambit",
     [13404] = "Static Shock Troops: the Bombardment",
     [13406] = "Riding the Wavelength: The Bombardment",
+    [13418] = "Preparations for War",
+    [13419] = "Preparations for War",
     [13481] = "Let's Get Out of Here!",
     [13482] = "Let's Get Out of Here",
     [13592] = "A Valiant's Field Training",
@@ -439,7 +489,7 @@ SM.FrozenThroneData = {
         4602,   -- Glory of the Icecrown Raider (10 player)
         4603,   -- Glory of the Icecrown Raider (25 player)
     },
-    description = "Follow Arthas Menethil's path from prince to Lich King through the Dragonblight war campaign, the Wrathgate catastrophe, and the final push into Icecrown Citadel to end his reign.",
+    description = "Walk the long road that turned Prince Arthas Menethil into the Lich King — and the longer road to unmake him. From the time-lost streets of Stratholme, through the dragon-haunted plains of Dragonblight, to the frozen spire of Icecrown Citadel.",
     zone = "Dragonblight / Icecrown",
     expansion = "Wrath of the Lich King",
     color = { 0.45, 0.72, 0.95 },  -- Icy blue
@@ -461,6 +511,8 @@ SM.FrozenThroneData = {
         ["Lady Jaina Proudmoore"]      = { mapID = 125, x = 0.5500, y = 0.8600 },
         ["Lady Sylvanas Windrunner"]   = { mapID = 125, x = 0.5500, y = 0.8600 },
         ["Martin Victus"]              = { mapID = 125, x = 0.5600, y = 0.5700 },
+        ["Darkspeaker R'khem"]          = { mapID = 118, x = 0.5500, y = 0.5600 },
+        ["Aurochs Grimbane"]         = { mapID = 118, x = 0.2000, y = 0.4800 },
     },
 
     npcDisplayIDs = {
@@ -482,26 +534,56 @@ SM.FrozenThroneData = {
         ["Matthias Lehner"]           = 27522,
         ["Gorkun Ironskull"]          = 27937,
         ["Dark Ranger Vorel"]         = 30686,
+        ["High Captain Justin Bartlett"] = 26982,
+        ["Sky-Reaver Korm Blackscar"] = 27336,
+        ["Warbringer Davos Rioht"]    = 27900,
+        ["Darkspeaker R'khem"]       = 28164,
     },
 
     chapterDisplayIDs = {
-        ["Recruiting the Taunka"]     = 23805,  -- Emissary Brighthoof
-        ["Destroy the Nerubians"]     = 23806,  -- Overlord Agmar
-        ["Annexing the Taunka"]       = 23976,  -- Icemist
-        ["The Forsaken Plague"]       = 23875,  -- Middleton
-        ["The Red Dragonflight"]      = 23806,  -- Overlord Agmar
-        ["Victory Over the Scourge"]  = 23034,  -- Saurfang the Younger
-        ["The Dragonblight Campaign"]  = 24351,  -- Duke August Foehammer
-        ["The Red Dragonflight (Alliance)"] = 24879,  -- Highlord Bolvar Fordragon
-        ["Victory Over the Scourge (Alliance)"] = 24879,  -- Highlord Bolvar Fordragon
-        ["The Frozen Halls"]          = 30696,  -- Martin Victus
+        -- Dragonblight
+        ["The Dragonblight Campaign"]             = 24351,  -- Duke August Foehammer (Alliance)
+        ["Into the Dragonblight"]                 = 23805,  -- Emissary Brighthoof (Horde)
+        ["The Nerubian Menace"]                   = 23806,  -- Overlord Agmar (Horde)
+        ["Blood of the Taunka"]                   = 23976,  -- Icemist (Horde)
+        ["The Forsaken Plague"]                   = 23875,  -- Chief Plaguebringer Middleton (Horde)
+        -- Wyrmrest Temple
+        ["Wings of the Red Flight"]               = 24879,  -- Highlord Bolvar Fordragon (Alliance)
+        ["The Kor'kron at Wyrmrest"]              = 23034,  -- Saurfang the Younger (Horde)
+        -- The Wrathgate
+        ["The Wrathgate"]                         = 24879,  -- Highlord Bolvar Fordragon (Alliance)
+        ["The Warsong at the Wrathgate"]          = 23034,  -- Saurfang the Younger (Horde)
+        -- Flashback
+        ["The Culling of Stratholme"]             = 24877,  -- Chromie
+        -- Icecrown — hub-to-hub journey from the Argent Vanguard to the citadel.
+        ["Argent Vanguard"]                       = 31011,  -- Highlord Tirion Fordring
+        ["Valley of Echoes"]                      = 31011,  -- Father Gustav / Ebon Watcher
+        ["Crusader's Pinnacle"]                   = 31011,  -- Highlord Tirion Fordring
+        ["The Skybreaker"]                        = 26982,  -- High Captain Justin Bartlett
+        ["Orgrim's Hammer"]                       = 27336,  -- Sky-Reaver Korm Blackscar
+        ["Saronite Mines"]                        = 28164,  -- Darkspeaker R'khem
+        ["The Shadow Vault"]                      = 28407,  -- Baron Sliver
+        ["Blackwatch"]                            = 26608,  -- Grimly / Olakin Sainrith
+        ["Jotunheim"]                             = 26608,  -- Uzo Deathcaller / Bragi
+        ["Death's Rise"]                          = 28407,  -- Orbaz Bloodbane
+        ["Icecrown Citadel"]                      = 30686,  -- Sergeant Stackhammer / Kregga
+        ["First Legion Forward Camp"]             = 27522,  -- Matthias Lehner
+        ["Sindragosa's Fall"]                     = 27522,  -- Matthias Lehner
+        -- Endgame
+        ["The Frozen Halls"]                      = 30696,  -- Martin Victus
+        ["Fall of the Lich King"]                 = 31011,  -- Highlord Tirion Fordring
     },
 
     chapters = {
+        -- ----------------------------------------------------------------
+        -- Dragonblight (Alliance) — the 7th Legion's road to the Wrathgate.
+        -- Legacy Wrath-era questline; retired from retail in Cataclysm.
+        -- ----------------------------------------------------------------
         {
             chapter = "The Dragonblight Campaign",
-            summary = "Establish the Alliance foothold in Dragonblight at Wintergarde Keep.",
-            recap = "Wintergarde Keep stands as a beacon against the endless undead tide. High Commander Halford Wyrmbane and Duke August Foehammer have established the Alliance's foothold in Dragonblight, but Naxxramas hovers overhead like a death sentence, raining plague and terror on the front lines. You fight through the Carrion Fields, man siege engines against plague wagons, and push into the depths of the Wintergarde Mausoleum itself. Behind you, the 7th Legion holds the line. Ahead, Lord Bolvar Fordragon awaits at Angrathar — the Wrathgate. But every step forward is bought with blood, and the Scourge does not rest.",
+            summary = "Hold Wintergarde Keep against the tide rolling down from Naxxramas.",
+            recap = "Wintergarde Keep clings to the broken edge of the Dragonblight, pinned between Naxxramas overhead and the plaguebearers boiling up from the Carrion Fields. Duke August Foehammer holds what he can. The 7th Legion bleeds for every mile of frozen ground. High Commander Wyrmbane has orders from Highlord Bolvar Fordragon — push east, past the dragonshrines, toward a black gate in a black mountain.",
+            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail, but Wintergarde Keep and Fordragon Hold remain to revisit.",
             portraitDisplayID = 24351,
             faction = "Alliance",
             quests = {
@@ -518,11 +600,17 @@ SM.FrozenThroneData = {
                 { id = 12474, name = "To Fordragon Hold!", npc = "High Commander Halford Wyrmbane", faction = "Alliance" },
             },
         },
+
+        -- ----------------------------------------------------------------
+        -- Dragonblight (Horde) — Agmar's Hammer and the side chains that
+        -- feed into it. Legacy Wrath-era, retired in Cataclysm.
+        -- ----------------------------------------------------------------
         {
-            chapter = "Recruiting the Taunka",
-            summary = "Recruit the Taunka as allies for the Horde in Dragonblight.",
-            recap = "The Horde's banner flies over Agmar's Hammer, but the Scourge surrounds on all sides. Worse, the Taunka — great polar tauren of the north — have been captured by the Anub'ar, dragged into the darkness below Dragonblight to serve the Lich King. Emissary Brighthoof speaks of blood oaths and ancient bonds. Overlord Agmar demands action. You descend into the pits and bring the Taunka out — or what remains of them. The survivors are broken, but unbroken. They pledge themselves to the Horde, their blood mingling with yours in a ritual as old as the earth itself. Every alliance costs something. This one costs blood.",
-            portraitDisplayID = 23806,
+            chapter = "Into the Dragonblight",
+            summary = "Swear the blood oath at Agmar's Hammer and dig the Horde's claws into the frozen plain.",
+            recap = "The Horde's banner flies over Agmar's Hammer, driven into the permafrost like a spear into a cold chest. Emissary Brighthoof calls for warriors willing to bind themselves to the Warchief's campaign. Overlord Agmar tolerates no softness — the Scourge presses on every side, and a red-eyed gate on the horizon waits to be broken.",
+            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
+            portraitDisplayID = 23805,
             faction = "Horde",
             quests = {
                 { id = 11978, name = "Into the Fold", npc = "Emissary Brighthoof", faction = "Horde" },
@@ -531,9 +619,10 @@ SM.FrozenThroneData = {
             },
         },
         {
-            chapter = "Destroy the Nerubians",
-            summary = "Crush the Anub'ar Nerubians threatening the Horde's flank in Dragonblight.",
-            recap = "The Anub'ar Nerubians are a wound in the Horde's side — spider-warriors burrowing up from Azjol-Nerub, striking at supply lines and patrols. Overlord Agmar will not have his flank exposed. Senior Sergeant Juktok leads the assault into the Pit of Narjun, Valnok Windrager brings wyverns to the sky, and you cut a path through the chittering darkness. The Nerubians serve the Lich King, and everything that serves him must die. Victory is not a guarantee — it is a demand.",
+            chapter = "The Nerubian Menace",
+            summary = "Crush the Anub'ar climbing up from the ruins of a dead empire.",
+            recap = "The Anub'ar Nerubians boil up from the Pit of Narjun — spider-warriors of a civilization that should have stayed dead. They strike the Horde's supply lines by night and drag the wounded into the dark by morning. Senior Sergeant Juktok wants them ended at the source. Valnok Windrager is already saddling the wyverns. Agmar will not leave this flank open.",
+            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23806,
             faction = "Horde",
             quests = {
@@ -545,9 +634,10 @@ SM.FrozenThroneData = {
             },
         },
         {
-            chapter = "Annexing the Taunka",
-            summary = "Free High Chief Icemist and formally integrate the Taunka into the Horde.",
-            recap = "The Taunka have given their word, but the Anub'ar still hold their High Chief captive in the depths below. Greatmother Icemist begs for her son's release. Banthok Icemist leads you into the darkness one more time, through chains and webs and the clicking horror of the Nerubian lords. You find High Chief Icemist in chains, broken but defiant. The rescue becomes a war. And when you finally bring him to the surface, Roanauk Icemist stands before the Horde as its newest chief — blood-sworn, oath-bound, and ready to die for a cause that was not always his own.",
+            chapter = "Blood of the Taunka",
+            summary = "Rescue a captive High Chief and bring a new people into the Horde.",
+            recap = "Greatmother Icemist weeps over a quiet fire. Her son is chained somewhere beneath this frozen plain, and her daughter Banthok is ready to cut every Anub'ar web in the world to bring him home. The Taunka are a proud and wounded people, shaggy cousins to the Tauren whose strength the Scourge has long bled for sport. If they rise again, they rise with the Horde.",
+            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23976,
             faction = "Horde",
             quests = {
@@ -559,8 +649,9 @@ SM.FrozenThroneData = {
         },
         {
             chapter = "The Forsaken Plague",
-            summary = "Test the Forsaken blight weapon in the Carrion Fields.",
-            recap = "In the shadow of the war, the Forsaken have been busy. Chief Plaguebringer Middleton has created something new — a blight that can kill the Scourge where steel cannot. But the formula needs testing, and volunteers are hard to find. You become the test subject, handling substances that would melt your flesh, inhaling fumes that would stop your heart, and spreading the good word of wholesale chemical warfare. The Forsaken call it progress. The Scourge will call it death. Middleton smiles through gritted teeth and tells you not to worry — the first dose is always the worst.",
+            summary = "Put the Royal Apothecary Society's new weapon through its paces.",
+            recap = "Chief Plaguebringer Middleton has been busy in the Carrion Fields. He has something new to test — a blight meant to undo the Scourge where steel cannot reach. The formula wants a subject. Middleton smiles through gritted teeth and swears the first dose is always the worst. Whatever the Apothecaries are cooking under the Horde's banner, it may reshape this war.",
+            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23875,
             faction = "Horde",
             quests = {
@@ -571,10 +662,15 @@ SM.FrozenThroneData = {
                 { id = 12221, name = "The Forsaken Blight", npc = "Doctor Sintar Malefious", faction = "Horde" },
             },
         },
+
+        -- ----------------------------------------------------------------
+        -- Wyrmrest Temple — both factions petition the Life-Binder.
+        -- ----------------------------------------------------------------
         {
-            chapter = "The Red Dragonflight (Alliance)",
-            summary = "Seek aid from Alexstrasza and the Red Dragonflight at Wyrmrest Temple.",
-            recap = "The Alliance has bled for Dragonblight. Now Highlord Bolvar Fordragon takes you to Wyrmrest Temple, to the throne of Alexstrasza the Life-Binder. The Dragon Queen has kept her distance from this war, but the Scourge threatens her children as surely as it threatens every living thing. She agrees to lend her strength — not out of love for the Alliance, but out of hatred for the Lich King. You take to the skies on ruby wings, bearing the fire of the Aspects against the frozen horror ahead. The dragons have chosen their side. Now the real war begins.",
+            chapter = "Wings of the Red Flight",
+            summary = "Ride to Wyrmrest Temple and kneel before Alexstrasza, the Life-Binder.",
+            recap = "Highlord Bolvar Fordragon leads you up the spiral of Wyrmrest Temple. Alexstrasza the Life-Binder has watched the war in Dragonblight with ancient, weary eyes. She owes the Alliance nothing. She owes the living everything. If she can be moved, her fire will answer for Azeroth's dead — and a ruby wing will carry you over ground no army could cross.",
+            note = "Legacy Wrath-era questline. The quests are not pickup-able on retail, but Wyrmrest Temple remains as a landmark to visit.",
             portraitDisplayID = 24879,
             faction = "Alliance",
             quests = {
@@ -584,10 +680,11 @@ SM.FrozenThroneData = {
             },
         },
         {
-            chapter = "The Red Dragonflight",
-            summary = "Seek aid from Alexstrasza and the Red Dragonflight at Wyrmrest Temple.",
-            recap = "The Horde's forces are gathered, the Taunka blood-sworn, and the Nerubian threat crushed. Saurfang the Younger takes you to Wyrmrest Temple, where Alexstrasza the Life-Binder watches the war with ancient, weary eyes. The Dragon Queen has little love for the Horde, but she hates the Lich King more. She agrees to bring her dragons to bear against the Scourge. You fly on ruby wings over the blighted fields of Dragonblight, carrying fire and fury against the undead. The Aspects have spoken. Angrathar awaits.",
-            portraitDisplayID = 23806,
+            chapter = "The Kor'kron at Wyrmrest",
+            summary = "Saurfang leads the Horde up the spiral of Wyrmrest to bargain with the Dragon Queen.",
+            recap = "Saurfang the Younger calls you to the Kor'kron Vanguard. The Taunka are blood-sworn, the Nerubians silenced, and the Forsaken have their weapons. The old Orc himself takes you to Wyrmrest Temple — to kneel, or rather to bargain, before Alexstrasza the Life-Binder. The dragons remember every Horde blade that ever flashed in anger at the Second War. Whether they answer the Warchief's call is another matter.",
+            note = "Legacy Wrath-era questline. The quests are not pickup-able on retail, but Wyrmrest Temple remains as a landmark to visit.",
+            portraitDisplayID = 23034,
             faction = "Horde",
             quests = {
                 { id = 12224, name = "The Kor'kron Vanguard!", npc = "Saurfang the Younger", faction = "Horde" },
@@ -596,10 +693,16 @@ SM.FrozenThroneData = {
                 { id = 12498, name = "On Ruby Wings", npc = "Torastrasza" },
             },
         },
+
+        -- ----------------------------------------------------------------
+        -- The Wrathgate — the march that ends the Dragonblight arc.
+        -- Culminates in the iconic cinematic at Angrathar.
+        -- ----------------------------------------------------------------
         {
-            chapter = "Victory Over the Scourge (Alliance)",
-            summary = "March to Angrathar and the Wrathgate.",
-            recap = "Angrathar. The Wrathgate. The final approach to Icecrown Citadel, where the Lich King waits in his frozen throne. Fordragon has committed every soldier, every dragon, every ounce of strength the Alliance has left. The gate looms ahead, carved from black ice and old nightmares. Beyond it lies the Scourge's heart. The Horde marches beside you — an uneasy alliance forged in the fire of common purpose. You reach the gate. The battle is joined. And then the Forsaken turn their weapons on you. The blight erupts. Soldiers choke, fall, dissolve. The Horde betrays the Alliance, and the Scourge finishes what they started. Fordragon is consumed by flame. The Alliance breaks. Whatever victory was possible died in the green cloud of the blight.",
+            chapter = "The Wrathgate",
+            summary = "March with Bolvar Fordragon to the black gate at the edge of Icecrown.",
+            recap = "Angrathar. The black gate beyond which the Lich King's frozen fortress waits. Bolvar Fordragon has gathered every shield the Alliance can spare. Dragons circle above. Somewhere to the east, the Horde marches its own road to the same gate. Ahead, the Scourge stands in ranks that do not end. This is the road to the Lich King's door.",
+            note = "Legacy Wrath-era quest. Not pickup-able on retail, but the Wrathgate cinematic can still be viewed by speaking with Alexstrasza at Angrathar in northern Dragonblight.",
             portraitDisplayID = 24879,
             faction = "Alliance",
             quests = {
@@ -607,110 +710,398 @@ SM.FrozenThroneData = {
             },
         },
         {
-            chapter = "Victory Over the Scourge",
-            summary = "March to Angrathar and the Wrathgate.",
-            recap = "Angrathar. The Wrathgate. The path to the Lich King's door. Saurfang the Younger leads the Horde's final push, every Orc blood-mad and ready to die. The Alliance marches beside you — an uneasy alliance of necessity. Ahead, the Scourge waits in endless ranks. Above, dragons circle. The gate itself is carved from the bones of giants, a monument to death that has stood for ten thousand years. You have fought across all of Northrend to reach this moment. The battle begins. The Lich King's forces crack. And then the Forsaken unleash the blight — not on the Scourge, but on everyone. Both factions. Both armies. The green cloud rises, and soldiers on both sides fall screaming. The Horde has betrayed the Alliance. The Scourge advances through the dying. Nothing will ever be the same.",
+            chapter = "The Warsong at the Wrathgate",
+            summary = "Saurfang leads the charge on the gate to the Lich King's domain.",
+            recap = "Angrathar. The Wrathgate. The final road to the Lich King's own door. Saurfang the Younger takes point, every Orc behind him blood-mad and ready for the reckoning. Somewhere to the west, the Alliance marches under a brittle truce toward the same gate. Above, dragons circle on wings of red flame. Whatever happens at this gate, the world will remember it.",
+            note = "Legacy Wrath-era quest. Not pickup-able on retail, but the Wrathgate cinematic can still be viewed by speaking with Alexstrasza at Angrathar in northern Dragonblight.",
             portraitDisplayID = 23034,
             faction = "Horde",
             quests = {
                 { id = 12500, name = "Return To Angrathar", npc = "Saurfang the Younger", faction = "Horde" },
             },
         },
+
+        -- ----------------------------------------------------------------
+        -- A time-lost flashback — see where the long road began.
+        -- ----------------------------------------------------------------
         {
             chapter = "The Culling of Stratholme",
-            note = "Travel to the Caverns of Time in Tanaris and speak with Chromie to enter the Culling of Stratholme.",
-            summary = "Travel through time to Stratholme and witness the moment that pushes Prince Arthas over the edge.",
-            recap = "In the Culling of Stratholme, the Bronze Dragonflight sends you to stop the Infinite Dragonflight from rewriting history. You witness Arthas at the tipping point: a prince convinced that mercy is weakness and that any sacrifice is justified to stop the Scourge.",
+            summary = "Travel back to the hour that broke a prince — and make sure history unfolds as it always has.",
+            recap = "Chromie of the Bronze Dragonflight sends you back to Stratholme, to a day history remembers in silence. The Infinite Dragonflight would rewrite this moment. Yours is the harder task: walk beside a young Prince Arthas Menethil and keep time honest, whatever price the past demands.",
+            note = "Flashback interlude. Speak with Chromie at the Bronze Dragonshrine in Dragonblight, or in the Caverns of Time in Tanaris. May be played at any point in the campaign.",
+            portraitDisplayID = 24877,
             quests = {
                 { id = 13149, name = "Dispelling Illusions", npc = "Chromie" },
                 { id = 13151, name = "A Royal Escort", npc = "Chromie" },
             },
         },
+
+        -- ----------------------------------------------------------------
+        -- Icecrown — hub-to-hub journey from the Argent Vanguard to the citadel.
+        -- ----------------------------------------------------------------
         {
-            chapter = "The Shadow Vault",
-            summary = "Break the Scourge hold at the Shadow Vault and establish a forward base for the war in Icecrown.",
-            recap = "The assault shifts to Icecrown proper. You strike into the Shadow Vault, shatter one of the Lich King's command outposts, and open a staging point for deeper pushes toward the citadel.",
+            chapter = "Argent Vanguard",
+            summary = "Plant the Argent Crusade's banner at the rim of Icecrown and hold the line while Tirion looks north.",
+            recap = "The Argent Vanguard is the last friendly ground at the southern edge of Icecrown. Crusade Commander Entari drills the new arrivals into shape. Father Gustav's engineers run the fleshbeast bombardier; Siegemaster Fezzik's jumpbot waits for one more idiot willing to take the breach. Past the tent line, the ground sours into the Valley of Echoes — and past that, Crusaders' Pinnacle, where Tirion Fordring means to draw a line the Scourge cannot cross.",
+            portraitDisplayID = 31011,
             quests = {
-                { id = 12899, name = "The Shadow Vault", npc = "Baron Sliver" },
-                { id = 13083, name = "Light Within the Darkness", npc = "Highlord Tirion Fordring" },
-            },
-        },
-        {
-            chapter = "The Argent Vanguard",
-            summary = "Hold the Argent Vanguard and carve the first stable frontline against the Scourge in Icecrown.",
-            recap = "Icecrown begins as a defensive nightmare. You reinforce the Argent Vanguard, repel relentless undead pressure, and help reopen routes that become the backbone for every assault that follows.",
-            quests = {
-                { id = 13145, name = "The Vile Hold", npc = "Vereth the Cunning" },
-                { id = 13300, name = "Slaves to Saronite", npc = "Thassarian" },
                 { id = 13036, name = "Honor Above All Else", npc = "Crusade Commander Entari" },
-                { id = 13039, name = "Defending The Vanguard", npc = "Crusader Lord Dalfors" },
+                { id = 13008, name = "Scourge Tactics", npc = "Crusade Commander Entari" },
+                { id = 13040, name = "Curing The Incurable", npc = "Crusade Commander Entari" },
+                { id = 13039, name = "Defending The Vanguard", npc = "Crusade Commander Entari" },
+                { id = 13070, name = "A Cold Front Approaches", npc = "Highlord Tirion Fordring" },
+                { id = 13044, name = "If There Are Survivors...", npc = "Crusader Lord Dalfors" },
+                { id = 13045, name = "Into The Wild Green Yonder", npc = "Father Gustav" },
+                { id = 13069, name = "Shoot 'Em Up", npc = "The Leaper" },
+                { id = 13071, name = "Vile Like Fire!", npc = "Vile" },
                 { id = 13086, name = "The Last Line Of Defense", npc = "Siegemaster Fezzik" },
                 { id = 13104, name = "Once More Unto The Breach, Hero", npc = "Siegemaster Fezzik", faction = "Alliance" },
                 { id = 13105, name = "Once More Unto The Breach, Hero", npc = "Siegemaster Fezzik", faction = "Horde" },
-                { id = 13219, name = "The Unthinkable", npc = "Vereth the Cunning" },
             },
         },
         {
-            chapter = "The Gates of Icecrown",
-            summary = "Crack the outer defenses at Corp'rethar and Aldur'thar to clear the path to Icecrown Citadel.",
-            recap = "To reach the citadel, the Scourge gate network must fall. You sabotage command posts, scout death gates, and eliminate key guardians holding the final approaches to Arthas' fortress.",
+            chapter = "Valley of Echoes",
+            summary = "Walk north through the ruin of Scourgeholme and onto the high plateau of Crusaders' Pinnacle.",
+            recap = "The Valley of Echoes is a bowl of old Scourge work. Plague altars cough smoke into the wind; restless dead pace the rim by moonlight. Father Gustav wants scourgestones. The Ebon Watcher wants the altars cold. The Argent Crusade wants the road cleared north — to the Pinnacle, where Tirion Fordring has already set his banner. When the banner flies, the whole rim of Icecrown hears it, and the gunships in the northern sky start warming their engines.",
+            portraitDisplayID = 31011,
             quests = {
-                { id = 13338, name = "The Guardians of Corp'rethar", npc = "Thassarian" },
-                { id = 13351, name = "Sneak Preview", npc = "Thassarian", faction = "Horde" },
+                { id = 13122, name = "The Scourgestone", npc = "Father Gustav" },
+                { id = 13118, name = "The Purging Of Scourgeholme", npc = "Father Gustav" },
+                { id = 13125, name = "The Air Stands Still", npc = "The Ebon Watcher" },
+                { id = 13110, name = "The Restless Dead", npc = "The Ebon Watcher" },
+                { id = 13130, name = "The Stone That Started A Revolution", npc = "The Ebon Watcher" },
+                { id = 13135, name = "It Could Kill Us All", npc = "The Ebon Watcher" },
+                { id = 13139, name = "Into The Frozen Heart Of Northrend", npc = "Father Gustav" },
+                { id = 13141, name = "The Battle For Crusaders' Pinnacle", npc = "Crusader MacKellar" },
+                { id = 13157, name = "The Crusaders' Pinnacle", npc = "Highlord Tirion Fordring" },
+            },
+        },
+        {
+            chapter = "Crusader's Pinnacle",
+            summary = "Stand on the Pinnacle beside a dying paladin while the world's powers weigh his fate.",
+            recap = "The Pinnacle is won. Its flagstaff flies the white hand of the Argent Crusade above the whole of southern Icecrown. But at the edge of the Fleshwerks below, Crusader Bridenbrad is dying. The plague has him. Father Gustav cannot let a hero end this way. Keeper Remulos, Alexstrasza the Life-Binder, and A'dal — three ancient powers who still remember the Light — each in turn weigh the cost. Whatever answer comes will come in its own time. Meanwhile, gryphon-riders and wyvern-masters circle the Pinnacle, waiting to lift the next wave of soldiers up to the gunships — the Skybreaker and Orgrim's Hammer — hanging over the northern gates.",
+            portraitDisplayID = 31011,
+            quests = {
+                -- Bridenbrad
+                { id = 13068, name = "A Tale of Valor", npc = "Father Gustav" },
+                { id = 13072, name = "A Hero Remains", npc = "Crusader Bridenbrad" },
+                { id = 13073, name = "The Keeper's Favor", npc = "Crusader Bridenbrad" },
+                { id = 13074, name = "Hope Within the Emerald Nightmare", npc = "Keeper Remulos" },
+                { id = 13075, name = "The Boon of Remulos", npc = "Keeper Remulos" },
+                { id = 13076, name = "Time Yet Remains", npc = "Father Gustav" },
+                { id = 13077, name = "The Touch of an Aspect", npc = "Crusader Bridenbrad" },
+                { id = 13078, name = "Dahlia's Tear", npc = "Alexstrasza the Life-Binder" },
+                { id = 13079, name = "The Boon of Alexstrasza", npc = "Alexstrasza the Life-Binder" },
+                { id = 13080, name = "Hope Yet Remains", npc = "Father Gustav" },
+                { id = 13081, name = "The Will of the Naaru", npc = "Crusader Bridenbrad" },
+                { id = 13082, name = "The Boon of A'dal", npc = "A'dal" },
+                { id = 13083, name = "Light Within the Darkness", npc = "Father Gustav" },
+                -- Airship intros
+                { id = 13225, name = "The Skybreaker", npc = "Marshal Ivalius", faction = "Alliance" },
+                { id = 13224, name = "Orgrim's Hammer", npc = "Warlord Hork Strongbrow", faction = "Horde" },
+            },
+        },
+        {
+            chapter = "The Skybreaker",
+            summary = "Ride the Alliance gunship from Ymirheim to the Broken Front to the Desolation Gate.",
+            recap = "Boarding the Skybreaker is the moment Icecrown changes scale. High Captain Justin Bartlett runs the deck. Sky-Commander Keller handles the flight line. Absalan the Pious blesses every salvo. The first sortie drops into Ymirheim, where the Scourge mines its saronite. The second swings west to the Broken Front, where a Scourge vanguard once mauled the 7th Legion's first landing. After that comes the grind: Poke and Prod, Against the Giants, Coprous the Defiled, the tinker Kibli Killohertz and his lightning-based sarcasm. Farther west, past the Valley of Lost Hope, Thassarian cracks open the Desolation Gate with borrowed Scourge ordnance and a half-broken jumpbot. By the time the Skybreaker swings east again, the Guardians of Corp'rethar are already in the crosshairs.",
+            portraitDisplayID = 26982,
+            faction = "Alliance",
+            quests = {
+                -- Gunship briefings and Valley of Lost Hope tech chain
+                { id = 13290, name = "Your Attention, Please", npc = "High Captain Justin Bartlett", faction = "Alliance" },
+                { id = 13291, name = "Borrowed Technology", npc = "Chief Engineer Boltwrench", faction = "Alliance" },
+                { id = 13292, name = "The Solution Solution", npc = "Chief Engineer Boltwrench", faction = "Alliance" },
+                { id = 13383, name = "Killohertz", npc = "Kibli Killohertz", faction = "Alliance" },
+                { id = 13380, name = "Leading the Charge", npc = "Tixi Wobblewrench", faction = "Alliance" },
+                { id = 13381, name = "Watts My Target", npc = "Tixi Wobblewrench", faction = "Alliance" },
+                { id = 13404, name = "Static Shock Troops: the Bombardment", npc = "Kibli Killohertz", faction = "Alliance" },
+                { id = 13382, name = "Putting the Hertz: The Valley of Lost Hope", npc = "Kibli Killohertz", faction = "Alliance" },
+                -- Ymirheim assault
+                { id = 13296, name = "Get to Ymirheim!", npc = "Aerial Commander Seyton", faction = "Alliance" },
+                { id = 13280, name = "King of the Mountain", npc = "Frazzle Geargrinder", faction = "Alliance" },
+                { id = 13341, name = "Joining the Assault", npc = "Knight-Captain Drosche", faction = "Alliance" },
+                { id = 13309, name = "Assault by Air", npc = "Ground Commander Koup", faction = "Alliance" },
+                { id = 13284, name = "Assault by Ground", npc = "Skybreaker Squad Leader", faction = "Alliance" },
+                { id = 13300, name = "Slaves to Saronite", npc = "Absalan the Pious", faction = "Alliance" },
+                { id = 13336, name = "Blood of the Chosen", npc = "Knight-Captain Drosche", faction = "Alliance" },
+                -- Broken Front
+                { id = 13227, name = "Judgment Day Comes!", npc = "Absalan the Pious", faction = "Alliance" },
+                { id = 13231, name = "The Broken Front", npc = "High Captain Justin Bartlett", faction = "Alliance" },
+                { id = 13232, name = "Finish Me!", npc = "Dying Footman", faction = "Alliance" },
+                { id = 13233, name = "No Mercy!", npc = "High Captain Justin Bartlett", faction = "Alliance" },
+                -- Poke and Prod cleanup
+                { id = 13287, name = "Poke and Prod", npc = "Thassarian", faction = "Alliance" },
+                { id = 13288, name = "That's Abominable!", npc = "Thassarian", faction = "Alliance" },
+                { id = 13294, name = "Against the Giants", npc = "Thassarian", faction = "Alliance" },
+                { id = 13298, name = "Coprous the Defiled", npc = "Thassarian", faction = "Alliance" },
+                { id = 13295, name = "Basic Chemistry", npc = "Chief Engineer Boltwrench", faction = "Alliance" },
+                { id = 13238, name = "Good For Something?", npc = "High Captain Justin Bartlett", faction = "Alliance" },
+                -- Aldur'thar: The Desolation Gate
                 { id = 13318, name = "Drag and Drop", npc = "Thassarian", faction = "Alliance" },
-                { id = 13403, name = "Tirion's Gambit", npc = "Highlord Tirion Fordring" },
+                { id = 13319, name = "Drag and Drop", npc = "Thassarian", faction = "Alliance" },
+                { id = 13354, name = "Chain of Command", npc = "Thassarian", faction = "Alliance" },
+                { id = 13357, name = "Retest Now", npc = "Thassarian", faction = "Alliance" },
+                { id = 13358, name = "Not a Bug", npc = "Thassarian", faction = "Alliance" },
+                { id = 13366, name = "Need More Info", npc = "Thassarian", faction = "Alliance" },
                 { id = 13346, name = "No Rest For The Wicked", npc = "Thassarian", faction = "Alliance" },
+                -- Corp'rethar
+                { id = 13338, name = "The Guardians of Corp'rethar", npc = "Thassarian", faction = "Alliance" },
+            },
+        },
+        {
+            chapter = "Orgrim's Hammer",
+            summary = "Ride the Horde gunship from Ymirheim to the Broken Front to the Desolation Gate.",
+            recap = "Orgrim's Hammer is Warchief Garrosh's answer to the Skybreaker — a Horde gunship with a bone to pick. Sky-Reaver Korm Blackscar runs the deck. Sky-Commander Ichman flies the line. Brother Keltan blesses the cannons. The first sortie drops into Ymirheim, where the Scourge mines its saronite. The second swings west to the Broken Front, where a Horde column was hit broadside and left scattered. After that comes the grind: Poke and Prod, Against the Giants, Coprous the Defiled, the goblin Nargle Lashcord and his Fringe Engineer Tezzla. Farther west, past the Valley of Lost Hope, Koltira Deathweaver pries the Desolation Gate open with bent Scourge gear and colder patience. By the time Orgrim's Hammer swings east, the Guardians of Corp'rethar are already bleeding.",
+            portraitDisplayID = 27336,
+            faction = "Horde",
+            quests = {
+                -- Gunship briefings and Valley of Lost Hope tech chain
+                { id = 13261, name = "Volatility", npc = "Chief Engineer Copperclaw", faction = "Horde" },
+                { id = 13373, name = "Fringe Science Benefits", npc = "Nargle Lashcord", faction = "Horde" },
+                { id = 13374, name = "Amped for Revolt!", npc = "Nargle Lashcord", faction = "Horde" },
+                { id = 13376, name = "Total Ohmage: The Valley of Lost Hope!", npc = "Nargle Lashcord", faction = "Horde" },
+                { id = 13379, name = "Green Technology", npc = "Nargle Lashcord", faction = "Horde" },
+                { id = 13406, name = "Riding the Wavelength: The Bombardment", npc = "Nargle Lashcord", faction = "Horde" },
+                -- Ymirheim assault
+                { id = 13293, name = "Get to Ymirheim!", npc = "Aerial Commander Attumen", faction = "Horde" },
+                { id = 13283, name = "King of the Mountain", npc = "Blast Thunderbomb", faction = "Horde" },
+                { id = 13340, name = "Joining the Assault", npc = "Warbringer Davos Rioht", faction = "Horde" },
+                { id = 13310, name = "Assault by Air", npc = "Ground Commander Xutjja", faction = "Horde" },
+                { id = 13301, name = "Assault by Ground", npc = "Kor'kron Squad Leader", faction = "Horde" },
+                { id = 13302, name = "Slaves to Saronite", npc = "Brother Keltan", faction = "Horde" },
+                { id = 13330, name = "Blood of the Chosen", npc = "Warbringer Davos Rioht", faction = "Horde" },
+                -- Broken Front
+                { id = 13226, name = "Judgment Day Comes!", npc = "Brother Keltan", faction = "Horde" },
+                { id = 13228, name = "The Broken Front", npc = "Sky-Reaver Korm Blackscar", faction = "Horde" },
+                { id = 13230, name = "Avenge Me!", npc = "Dying Berserker", faction = "Horde" },
+                { id = 13234, name = "Make Them Pay!", npc = "Sky-Reaver Korm Blackscar", faction = "Horde" },
+                -- Poke and Prod cleanup
+                { id = 13237, name = "Poke and Prod", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13264, name = "That's Abominable!", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13277, name = "Against the Giants", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13278, name = "Coprous the Defiled", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13279, name = "Basic Chemistry", npc = "Chief Engineer Copperclaw", faction = "Horde" },
+                { id = 13260, name = "Takes One to Know One", npc = "Sky-Reaver Korm Blackscar", faction = "Horde" },
+                -- Aldur'thar: The Desolation Gate
+                { id = 13352, name = "Drag and Drop", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13353, name = "Drag and Drop", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13355, name = "Cannot Reproduce", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13356, name = "Retest Now", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13365, name = "Not a Bug", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13351, name = "Sneak Preview", npc = "Koltira Deathweaver", faction = "Horde" },
                 { id = 13367, name = "No Rest For The Wicked", npc = "Koltira Deathweaver", faction = "Horde" },
+                -- Corp'rethar
+                { id = 13316, name = "The Guardians of Corp'rethar", npc = "Koltira Deathweaver", faction = "Horde" },
+            },
+        },
+        {
+            chapter = "Saronite Mines",
+            summary = "Walk the saronite tunnels below Ymirheim and test what the whispers can do to a soldier's mind.",
+            recap = "The saronite mines beneath Ymirheim are not just a supply line. They are something older, colder, and hungrier than any ore vein on Azeroth. The metal whispers. Miners chained to the walls hear their names called by voices they once loved. The Argent Crusade has quiet questions about what prolonged exposure does to a living mind. The answers do not make it out of the tunnels.",
+            portraitDisplayID = 28164,
+            quests = {
+                { id = 13308, name = "Mind Tricks", npc = "Darkspeaker R'khem" },
+            },
+        },
+        {
+            chapter = "The Shadow Vault",
+            summary = "Dress in Scarlet cloth, take the Vault for the Ebon Blade, and ride up to Malykriss to kill four riders.",
+            recap = "The Scarlet Onslaught has buried itself in the black ice of western Icecrown. The fortress is called the Shadow Vault. High Abbot Landgren commands it now. The Ebon Blade's plan is ugly — wear the Scarlet's own colors, pray nobody looks twice, and open every door from the inside. When the Vault falls, Baron Sliver holds court in its upper halls. Vereth the Cunning sketches the roads out in blood. The Lich King's saronite quarries are pried open. Above the Vault, the flying necropolis of Malykriss still hangs, with four riders of the Bloodbane order riding out the apocalypse in miniature: one of the Unholy, one of Frost, one of Blood, and the name that binds them.",
+            portraitDisplayID = 28407,
+            quests = {
+                -- Entering the Vault in Scarlet colors
+                { id = 12887, name = "It's All Fun and Games", npc = "Talbot", faction = "Alliance" },
+                { id = 12892, name = "It's All Fun and Games", npc = "Talbot", faction = "Horde" },
+                { id = 12891, name = "I Have an Idea, But First...", npc = "Crusader Bridenbrad" },
+                { id = 12893, name = "Free Your Mind", npc = "Crusader Bridenbrad" },
+                { id = 12896, name = "If He Cannot Be Turned", npc = "Crusader Bridenbrad", faction = "Alliance" },
+                { id = 12897, name = "If He Cannot Be Turned", npc = "Crusader Bridenbrad", faction = "Horde" },
+                { id = 12898, name = "The Shadow Vault", npc = "High Abbot Landgren", faction = "Alliance" },
+                { id = 12899, name = "The Shadow Vault", npc = "High Abbot Landgren", faction = "Horde" },
+                -- Baron Sliver's reign
+                { id = 12995, name = "Leave Our Mark", npc = "Baron Sliver" },
+                { id = 12938, name = "The Duke", npc = "Baron Sliver" },
+                { id = 12939, name = "Honor Challenge", npc = "Baron Sliver" },
+                { id = 12943, name = "Shadow Vault Decree", npc = "Baron Sliver" },
+                { id = 12949, name = "Get the Key", npc = "Baron Sliver" },
+                { id = 12951, name = "Let the Baron Know", npc = "Baron Sliver" },
+                -- Malykriss bridge
+                { id = 13145, name = "The Vile Hold", npc = "Vereth the Cunning" },
+                { id = 13174, name = "Amidst the Confusion", npc = "Vereth the Cunning" },
+                { id = 13143, name = "New Recruit", npc = "Vereth the Cunning" },
+                -- Malykriss — the four riders
+                { id = 13155, name = "Vereth the Cunning", npc = "Vereth the Cunning" },
+                { id = 13161, name = "The Rider of the Unholy", npc = "Vereth the Cunning" },
+                { id = 13162, name = "The Rider of Frost", npc = "Vereth the Cunning" },
+                { id = 13163, name = "The Rider of Blood", npc = "Vereth the Cunning" },
+                { id = 13164, name = "The Fate of Bloodbane", npc = "Vereth the Cunning" },
+                { id = 13171, name = "From Whence They Came", npc = "Vereth the Cunning" },
+                { id = 13172, name = "Seeds of Chaos", npc = "Vereth the Cunning" },
+                -- Keritose Bloodblade and Lady Nightswood
+                { id = 13146, name = "Generosity Abounds", npc = "Lady Nightswood" },
+                { id = 13147, name = "Matchmaker", npc = "Lady Nightswood" },
+                { id = 13160, name = "Stunning View", npc = "Keritose Bloodblade" },
+                { id = 13168, name = "Parting Gifts", npc = "Keritose Bloodblade" },
+                { id = 13169, name = "An Undead's Best Friend", npc = "Keritose Bloodblade" },
+                { id = 13170, name = "Honor is for the Weak", npc = "Keritose Bloodblade" },
+            },
+        },
+        {
+            chapter = "Blackwatch",
+            summary = "Burn Doctor Olakin Sainrith's plague lab, save Father Kamaros's people, and finish the Runesmiths' work.",
+            recap = "South of the Pinnacle, past the rim of the Valley of Echoes, a little Scarlet outpost called Blackwatch keeps quiet company with the Scourge it claims to hate. The Argent Crusade has questions about that. Grimly wants the plague altars in pieces. Father Kamaros, somehow still alive, has a list of his own wounded. Doctor Olakin Sainrith is busy inside the lab cooking something that was never meant to breathe. Overhead, the Flesh Giant Champion walks the ice. Inside Malykriss's foundry, the Runesmiths still pound the Scourge's armor — and one old vrykul skeleton is about to do more work dead than it ever did alive.",
+            portraitDisplayID = 26608,
+            quests = {
+                { id = 13106, name = "Blackwatch", npc = "Crusader MacKellar" },
+                { id = 13117, name = "Where Are They Coming From?", npc = "Grimly" },
+                { id = 13119, name = "Destroying the Altars", npc = "Grimly" },
+                { id = 13120, name = "Death's Gaze", npc = "Grimly" },
+                { id = 13134, name = "Spill Their Blood", npc = "Grimly" },
+                { id = 13136, name = "Jagged Shards", npc = "Grimly" },
+                { id = 13138, name = "I'm Smelting... Smelting!", npc = "Grimly" },
+                { id = 13152, name = "A Visit to the Doctor", npc = "Grimly" },
+                { id = 13211, name = "By Fire Be Purged", npc = "Olakin Sainrith" },
+                { id = 13212, name = "He's Gone to Pieces", npc = "Olakin Sainrith" },
+                { id = 13220, name = "Putting Olakin Back Together Again", npc = "Olakin Sainrith" },
+                { id = 13235, name = "The Flesh Giant Champion", npc = "Darkrider Arly" },
+                { id = 13229, name = "I'm Not Dead Yet!", npc = "Father Kamaros" },
+                { id = 13221, name = "I'm Not Dead Yet!", npc = "Father Kamaros" },
+                { id = 13140, name = "The Runesmiths of Malykriss", npc = "Vereth the Cunning" },
+                { id = 13144, name = "Killing Two Scourge With One Skeleton", npc = "Vereth the Cunning" },
+            },
+        },
+        {
+            chapter = "Jotunheim",
+            summary = "Put on vrykul skin, fight through Valhalas's trials, and pay a Bone Witch's debt in blood.",
+            recap = "Past the Argent line, the Ebon Blade works in cruder tools. Uzo Deathcaller keeps a pen of vrykul prisoners the Crusade cannot know about. Bragi the Mad waits at Jotunheim with a grudge, a list of vargul he wants back, and an increasingly unhinged plan for their recovery. The Bone Witch sells her favors in bones. And at Valhalas, the vrykul hold court for the worthy dead — which means admission, for the right kind of monster, can be earned. Read the bones. Kill the water terror. Find the ancient hero. Win the challenge rounds. Put on their skin. Walk out over their corpses. By the time the hall goes quiet, the Ebon Blade has one last errand — a banshee's revenge, and a Duke who needs his competition eliminated.",
+            portraitDisplayID = 26608,
+            quests = {
+                -- Uzo's off-books work
+                { id = 12982, name = "Ebon Blade Prisoners", npc = "Uzo Deathcaller" },
+                { id = 12992, name = "Crush Dem Vrykuls!", npc = "Crusader Jonathan" },
+                { id = 12999, name = "The Bone Witch", npc = "Uzo Deathcaller" },
+                -- Bragi at Jotunheim
+                { id = 13059, name = "Revenge for the Vargul", npc = "Bragi" },
+                { id = 13084, name = "Vandalizing Jotunheim", npc = "Bragi" },
+                { id = 13085, name = "Vaelen Has Returned", npc = "Bragi" },
+                { id = 13092, name = "Reading the Bones", npc = "Bragi", faction = "Alliance" },
+                { id = 13093, name = "Reading the Bones", npc = "Bragi", faction = "Horde" },
+                { id = 13042, name = "Deep in the Bowels of The Underhalls", npc = "Bragi" },
+                { id = 13043, name = "The Sum is Greater than the Parts", npc = "Bragi" },
+                { id = 13091, name = "The Art of Being a Water Terror", npc = "Bragi" },
+                { id = 13121, name = "Through the Eye", npc = "Bragi" },
+                { id = 13133, name = "Find the Ancient Hero", npc = "Bragi" },
+                { id = 13137, name = "Not-So-Honorable Combat", npc = "Bragi" },
+                -- Valhalas trials
+                { id = 13213, name = "Battle at Valhalas", npc = "Geirrvif" },
+                { id = 13214, name = "Battle at Valhalas: Fallen Heroes", npc = "Geirrvif" },
+                { id = 13215, name = "Battle at Valhalas: Khit'rix the Dark Master", npc = "Geirrvif" },
+                { id = 13216, name = "Battle at Valhalas: The Return of Sigrid Iceborn", npc = "Geirrvif" },
+                { id = 13217, name = "Battle at Valhalas: Carnage!", npc = "Geirrvif" },
+                { id = 13218, name = "Battle at Valhalas: Thane Deathblow", npc = "Geirrvif" },
+                { id = 13219, name = "Battle at Valhalas: Final Challenge", npc = "Geirrvif" },
+                -- Ebon Blade errands
+                { id = 12955, name = "Eliminate the Competition", npc = "Baron Sliver" },
+                { id = 13142, name = "Banshee's Revenge", npc = "Vereth the Cunning" },
+            },
+        },
+        {
+            chapter = "Icecrown Citadel",
+            summary = "Bomb the saronite pits beneath Sindragosa's Fall and shake the citadel's gates from within.",
+            recap = "The citadel's gates are not for hammering. Sergeant Stackhammer knows it. Sergeant Kregga knows it. The Alliance and Horde sappers have quieter work — crawl into the saronite pits beneath Sindragosa's Fall and set the charges that will shake the foundations from below. Before the pits go up, a voice begins to whisper out of the saronite dark. Whoever he is, he knows a name. He wants it spoken. He wants you to come back when the dust settles and hear the rest of his story at the First Legion Forward Camp.",
+            portraitDisplayID = 30686,
+            quests = {
+                -- Alliance charges
+                { id = 13386, name = "Exploiting an Opening", npc = "Sergeant Stackhammer", faction = "Alliance" },
+                { id = 13387, name = "Securing the Perimeter", npc = "Sergeant Stackhammer", faction = "Alliance" },
+                { id = 13388, name = "Set it Off!", npc = "Sergeant Stackhammer", faction = "Alliance" },
+                -- Horde charges
+                { id = 13258, name = "Opportunity", npc = "Sergeant Kregga", faction = "Horde" },
+                { id = 13259, name = "Establishing Superiority", npc = "Sergeant Kregga", faction = "Horde" },
+                { id = 13262, name = "Blow it Up!", npc = "Sergeant Kregga", faction = "Horde" },
+                -- Matthias Lehner's voice in the dark
+                { id = 13390, name = "A Voice in the Dark", npc = "Matthias Lehner", faction = "Alliance" },
+                { id = 13271, name = "A Voice in the Dark", npc = "Matthias Lehner", faction = "Horde" },
+                { id = 13391, name = "Time to Hide", npc = "Matthias Lehner", faction = "Alliance" },
+                { id = 13275, name = "Time to Hide", npc = "Matthias Lehner", faction = "Horde" },
+                { id = 13392, name = "Return to the Surface", npc = "Matthias Lehner", faction = "Alliance" },
+                { id = 13282, name = "Return to the Surface", npc = "Matthias Lehner", faction = "Horde" },
+            },
+        },
+        {
+            chapter = "First Legion Forward Camp",
+            summary = "Pitch camp in the lee of Sindragosa's fall and read the Lich King's ledger of ruin.",
+            recap = "Forward Camp is the last flat ground on the way to the citadel. Sappers finish what the bomb chain started. Sky-Commander Keller and Sky-Commander Ichman land their gunship crews to patch what the bombing shook loose. Matthias Lehner, the voice from the saronite pits, begins to speak plainly — and sends you into the Army of the Damned, into the wreckage beneath Sindragosa's broken hill, and into the futility of a hero's last charge. Everything he shows you has the shape of a confession.",
+            portraitDisplayID = 27522,
+            quests = {
+                -- Field repairs
+                { id = 13393, name = "Field Repairs", npc = "Sky-Commander Keller", faction = "Alliance" },
+                { id = 13304, name = "Field Repairs", npc = "Sky-Commander Ichman", faction = "Horde" },
+                { id = 13389, name = "A Short Fuse", npc = "Sergeant Stackhammer", faction = "Alliance" },
+                { id = 13263, name = "A Short Fuse", npc = "Sergeant Kregga", faction = "Horde" },
+                -- Matthias Lehner's memories (opening)
+                { id = 13394, name = "Do Your Worst", npc = "Matthias Lehner", faction = "Alliance" },
+                { id = 13305, name = "Do Your Worst", npc = "Matthias Lehner", faction = "Horde" },
+                { id = 13395, name = "Army of the Damned", npc = "Matthias Lehner", faction = "Alliance" },
+                { id = 13236, name = "Army of the Damned", npc = "Matthias Lehner", faction = "Horde" },
+                { id = 13348, name = "Futility", npc = "Thassarian", faction = "Alliance" },
+                { id = 13396, name = "Futility", npc = "Koltira Deathweaver", faction = "Horde" },
+                -- Sindragosa's fall / cradle of the frostbrood
+                { id = 13397, name = "Sindragosa's Fall", npc = "Sky-Commander Keller", faction = "Alliance" },
+                { id = 13349, name = "Cradle of the Frostbrood", npc = "Sky-Commander Ichman", faction = "Horde" },
             },
         },
         {
             chapter = "Sindragosa's Fall",
-            summary = "Hunt answers in the dragon graveyards where Arthas' deepest secrets begin to surface.",
-            recap = "At Sindragosa's Fall and the Court of Bones, scattered clues become a coherent truth about Arthas' fate, his bond to Frostmourne, and the only path to ending him.",
+            summary = "Follow Matthias Lehner through Arthas' own memories to the foot of the citadel and Tirion's final gambit.",
+            recap = "The voice in the dark has a name now — Matthias Lehner. He claims to know the Lich King better than any living thing should. His memories run like a buried river through the Frozen Wastes. He leads you to a dragon's corpse. To a hunter and a prince. To the knowledge that cannot be unknown. Whether he can be trusted is a judgement you will make when the road ends — at the foot of the citadel, where Tirion Fordring lifts the Ashbringer and calls for one more charge.",
+            portraitDisplayID = 27522,
             quests = {
-                { id = 13305, name = "Do Your Worst", npc = "Matthias Lehner" },
-                { id = 13395, name = "Army of the Damned", npc = "Matthias Lehner" },
-                { id = 13348, name = "Futility", npc = "Thassarian" },
-                { id = 13397, name = "Sindragosa's Fall", npc = "Thassarian", faction = "Alliance" },
-                { id = 13349, name = "Cradle of the Frostbrood", npc = "Koltira Deathweaver", faction = "Horde" },
                 { id = 13398, name = "Where Dragons Fell", npc = "Matthias Lehner", faction = "Alliance" },
                 { id = 13359, name = "Where Dragons Fell", npc = "Matthias Lehner", faction = "Horde" },
-                { id = 13399, name = "Time for Answers", npc = "Matthias Lehner" },
+                { id = 13399, name = "Time for Answers", npc = "Matthias Lehner", faction = "Alliance" },
+                { id = 13360, name = "Time for Answers", npc = "Matthias Lehner", faction = "Horde" },
                 { id = 13400, name = "The Hunter and the Prince", npc = "Matthias Lehner", faction = "Alliance" },
                 { id = 13361, name = "The Hunter and the Prince", npc = "Matthias Lehner", faction = "Horde" },
                 { id = 13401, name = "Knowledge is a Terrible Burden", npc = "Thassarian", faction = "Alliance" },
                 { id = 13362, name = "Knowledge is a Terrible Burden", npc = "Koltira Deathweaver", faction = "Horde" },
                 { id = 13402, name = "Tirion's Help", npc = "Thassarian", faction = "Alliance" },
                 { id = 13363, name = "Argent Aid", npc = "Koltira Deathweaver", faction = "Horde" },
+                { id = 13403, name = "Tirion's Gambit", npc = "Highlord Tirion Fordring", faction = "Alliance" },
+                { id = 13364, name = "Tirion's Gambit", npc = "Highlord Tirion Fordring", faction = "Horde" },
             },
         },
+
+        -- ----------------------------------------------------------------
+        -- Endgame — under the citadel, then into it.
+        -- ----------------------------------------------------------------
         {
             chapter = "The Frozen Halls",
-            note = "Talk to Dark Ranger Vorel in Dalaran to begin. You need to be in the Wrath of the Lich King version of Dalaran — fly to Northrend and land there. Runs through three dungeons: Forge of Souls, Pit of Saron, and Halls of Reflection.",
-            summary = "Strike through the Frozen Halls — Forge of Souls, Pit of Saron, and Halls of Reflection — to reach Frostmourne.",
-            recap = "You lead a covert strike through three dungeons — the Forge of Souls, the Pit of Saron, and the Halls of Reflection — to reach Frostmourne itself. Uther's spirit reveals the truth of Arthas' final weakness and the cost of ending the Lich King forever.",
+            summary = "Lead a covert strike beneath Icecrown Citadel, closer to Frostmourne than any living hand has come.",
+            recap = "Lady Jaina Proudmoore — or Lady Sylvanas Windrunner, if you ride under a darker banner — has found a door. Not a welcome one. A seam in the citadel's foundation, wide enough for a small party willing to see what they should not. Through the Forge of Souls. Through the Pit of Saron. Into the Halls of Reflection, where something waits that has been waiting a long time.",
+            note = "Talk to Apprentice Nelphi (Alliance) or Dark Ranger Vorel (Horde) patrolling the Wrath-era Dalaran. You must be on Northrend in the Wrath-era version of Dalaran for them to appear. Runs through three 5-player dungeons: Forge of Souls, Pit of Saron, and Halls of Reflection.",
+            portraitDisplayID = 30696,
             quests = {
-                -- Alliance
-                { id = 24510, name = "Inside the Frozen Citadel", npc = "Lady Jaina Proudmoore", faction = "Alliance" },
-                { id = 24499, name = "Echoes of Tortured Souls", npc = "Lady Jaina Proudmoore", faction = "Alliance" },
-                { id = 24683, name = "The Pit of Saron", npc = "Lady Jaina Proudmoore", faction = "Alliance" },
-                { id = 24498, name = "The Path to the Citadel", npc = "Martin Victus" },
-                { id = 24710, name = "Deliverance from the Pit", npc = "Martin Victus", faction = "Alliance" },
-                { id = 24711, name = "Frostmourne", npc = "Jaina Proudmoore", faction = "Alliance" },
-                -- Horde
+                { id = 24510, name = "Inside the Frozen Citadel", npc = "Apprentice Nelphi", faction = "Alliance" },
                 { id = 24506, name = "Inside the Frozen Citadel", npc = "Dark Ranger Vorel", faction = "Horde" },
+                { id = 24499, name = "Echoes of Tortured Souls", npc = "Lady Jaina Proudmoore", faction = "Alliance" },
                 { id = 24511, name = "Echoes of Tortured Souls", npc = "Lady Sylvanas Windrunner", faction = "Horde" },
+                { id = 24683, name = "The Pit of Saron", npc = "Lady Jaina Proudmoore", faction = "Alliance" },
                 { id = 24682, name = "The Pit of Saron", npc = "Lady Sylvanas Windrunner", faction = "Horde" },
+                { id = 24710, name = "Deliverance from the Pit", npc = "Martin Victus", faction = "Alliance" },
                 { id = 24712, name = "Deliverance from the Pit", npc = "Gorkun Ironskull", faction = "Horde" },
-                { id = 24713, name = "Frostmourne", npc = "Sylvanas Windrunner", faction = "Horde" },
+                { id = 24711, name = "Frostmourne", npc = "Lady Jaina Proudmoore", faction = "Alliance" },
+                { id = 24713, name = "Frostmourne", npc = "Lady Sylvanas Windrunner", faction = "Horde" },
             },
         },
         {
-            chapter = "Icecrown's End",
+            chapter = "Fall of the Lich King",
             achievementID = 4608,
-            note = "Defeat the Lich King in Icecrown Citadel — fully soloable at max level.",
-            summary = "The Lich King's reign ends at the Frozen Throne.",
-            recap = "Arthas died at the Frozen Throne. The moment he fell, the power of the Lich King's realm rippled outward. The war in Northrend is finally over, but the cost — and what comes after — will echo through history.",
+            summary = "Climb the spire of Icecrown Citadel and write the last page of Arthas Menethil's story.",
+            recap = "Above the ice, at the roof of the world, the Frozen Throne waits. The Ashen Verdict — Argent Crusade and Ebon Blade, bound by a single purpose — stands at the citadel's door. Highlord Tirion Fordring lifts the Ashbringer. Every victory in Northrend, every fallen soldier, every mile of ground bought in blood has led here. One way or another, the reign of Arthas Menethil ends at the summit.",
+            note = "Enter Icecrown Citadel (the raid) through its front doors in northern Icecrown. Fully soloable at max level.",
+            portraitDisplayID = 31011,
             quests = {},
         },
     },
