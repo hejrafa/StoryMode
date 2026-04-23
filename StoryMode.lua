@@ -24,6 +24,17 @@ local function SetLoreChapterViewed(storylineTitle, chapterName)
     StoryModeDB.viewedLoreChapters[storylineTitle .. "|" .. chapterName] = true
 end
 
+local function IsChapterPlayed(storylineTitle, chapterName)
+    if not StoryModeDB or not StoryModeDB.playedChapters then return false end
+    return StoryModeDB.playedChapters[storylineTitle .. "|" .. chapterName] == true
+end
+
+local function SetChapterPlayed(storylineTitle, chapterName)
+    if not StoryModeDB then return end
+    if not StoryModeDB.playedChapters then StoryModeDB.playedChapters = {} end
+    StoryModeDB.playedChapters[storylineTitle .. "|" .. chapterName] = true
+end
+
 -- ============================================================================
 -- Achievement Resolver — find achievement ID by name at runtime
 -- ============================================================================
@@ -64,6 +75,18 @@ local playerFaction = UnitFactionGroup("player")
 
 local function IsQuestForPlayer(q)
     return not q.faction or q.faction == playerFaction
+end
+
+local function ShouldHideQuest(q)
+    if q.showIf then
+        if not IsQuestComplete(q.showIf) then return true end
+    elseif q.hideIf then
+        local ids = type(q.hideIf) == "table" and q.hideIf or { q.hideIf }
+        for _, hid in ipairs(ids) do
+            if IsQuestComplete(hid) then return true end
+        end
+    end
+    return false
 end
 
 local function IsQuestEffectivelyComplete(questIndex, chapterQuests, nextChapterQuests)
@@ -229,6 +252,9 @@ local function GetChapterProgress(ch, nextChapter)
         end
         return 0, 0
     end
+    if ch.replayable and currentStoryData and IsChapterPlayed(currentStoryData.title, ch.chapter) then
+        return 1, 1
+    end
     -- Achievement override: if the chapter names an achievementID and it is earned,
     -- treat the chapter as fully complete regardless of quest flags. This handles
     -- chapters like raid encounters or Archivist Sylvia replays that don't re-flag quests.
@@ -239,7 +265,7 @@ local function GetChapterProgress(ch, nextChapter)
     local total, done = 0, 0
     local nextQuests = nextChapter and nextChapter.quests or nil
     for i, q in ipairs(ch.quests) do
-        if not q.optional and IsQuestForPlayer(q) then
+        if not q.optional and IsQuestForPlayer(q) and not ShouldHideQuest(q) then
             total = total + 1
             if IsQuestEffectivelyComplete(i, ch.quests, nextQuests) then done = done + 1 end
         end
@@ -833,7 +859,8 @@ do
 
     local function TTLine(i)
         if not ttLines[i] then
-            local fs = SMTooltip:CreateFontString(nil, "OVERLAY", "GameTooltipText")
+            local fs = SMTooltip:CreateFontString(nil, "OVERLAY")
+            fs:SetFont("Fonts/FRIZQT__.TTF", 12, "")
             fs:SetJustifyH("LEFT")
             ttLines[i] = fs
         end
@@ -2290,22 +2317,30 @@ LayoutSelectedChapter = function()
         dChapterNote:Hide()
     end
 
-    -- Mark as Viewed button — always shown for loreOnly chapters
-    if ch.loreOnly then
+    -- Mark as Viewed / Mark as Played button
+    if ch.loreOnly or ch.replayable then
         local btnAnchor = dChapterNote:IsShown() and dChapterNote
                        or dChapterSummary:IsShown() and dChapterSummary
                        or dChapterTitle
         dMarkViewedBtn:ClearAllPoints()
         dMarkViewedBtn:SetPoint("TOP", btnAnchor, "BOTTOM", 0, -14)
         if chIsComplete then
-            dMarkViewedBtn:SetText("Watched")
+            dMarkViewedBtn:SetText(ch.loreOnly and "Watched" or "Played")
             dMarkViewedBtn:SetScript("OnClick", nil)
             dMarkViewedBtn:Disable()
             dMarkViewedBtn:SetAlpha(0.5)
-        else
+        elseif ch.loreOnly then
             dMarkViewedBtn:SetText("Mark as Viewed")
             dMarkViewedBtn:SetScript("OnClick", function()
                 SetLoreChapterViewed(data.title, ch.chapter)
+                LayoutSelectedChapter()
+            end)
+            dMarkViewedBtn:Enable()
+            dMarkViewedBtn:SetAlpha(1.0)
+        else
+            dMarkViewedBtn:SetText("Mark as Played")
+            dMarkViewedBtn:SetScript("OnClick", function()
+                SetChapterPlayed(data.title, ch.chapter)
                 LayoutSelectedChapter()
             end)
             dMarkViewedBtn:Enable()
@@ -2318,8 +2353,9 @@ LayoutSelectedChapter = function()
 
     -- Achievement reward line — only shown for chapters that also have quest cards.
     -- Quest-less chapters (achievementID, no quests) use the full card below instead.
+    -- Replayable chapters suppress this row; the button is the sole interaction.
     local achID = ch.achievementID
-    if achID and #ch.quests > 0 then
+    if achID and #ch.quests > 0 and not ch.replayable then
         local _, achName, _, achDone, _,_,_,_, _, achIcon = GetAchievementInfo(achID)
         if achName then
             dChapterAchievement.achID = achID
@@ -2350,7 +2386,7 @@ LayoutSelectedChapter = function()
         dChapterAchievement:Hide()
     end
 
-    -- Quest cards
+    -- Quest cards — skipped for replayable chapters (button is the sole interaction point)
     local nextQuest = FindNextQuest(data)
     local nextQuestID = nextQuest and nextQuest.id
     local campaignFinished = (nextQuestID == nil)
@@ -2360,7 +2396,7 @@ LayoutSelectedChapter = function()
             dQuestCards[i] = CreateQuestCard(detailChild)
         end
         local card = dQuestCards[i]
-        if not IsQuestForPlayer(q) then
+        if ch.replayable or not IsQuestForPlayer(q) or ShouldHideQuest(q) then
             card:Hide()
         else
             local nextCh = chapters[dSelectedChapter + 1]

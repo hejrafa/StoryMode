@@ -15,6 +15,9 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 - **One-click waypoints** — sets a TomTom arrow directly to your next quest objective
 - **Smart next-quest logic** — skips completed or bypassed quests and finds where you actually are
 - **Faction & class filtering** — only shows stories your character can do (class campaigns, Horde-only chains)
+- **Lore chapters** — in-depth story context for major narrative moments
+- **Achievement tracking** — view all associated achievements with full criteria details
+- **Real-time completion banners** — see quest and chapter completion as it happens
 
 ---
 
@@ -25,8 +28,15 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 |---|---|---|
 | Insurrection — Suramar | Legion | 10 chapters, Nightfallen rebellion |
 | The Frozen Throne — Arthas Menethil | Wrath of the Lich King | Culling, Wrathgate, full Icecrown war campaign, Halls of Reflection |
+| The Witchwood of Drustvar | Battle for Azeroth | Alliance only |
 | The Forsaken Daughter — Lilian Voss | Cataclysm → Battle for Azeroth | Horde only |
-| The Witchwood of Drustvar | Battle for Azeroth | Drust Do It. achievement |
+
+### Character Stories
+| Character | Title | Expansion |
+|---|---|---|
+| Sylvanas Windrunner | The Banshee Queen | Wrath → Dragonflight |
+| Jaina Proudmoore | Daughter of the Sea | Battle for Azeroth |
+| Lilian Voss | The Desolate Council | Cataclysm → Battle for Azeroth |
 
 ### Class Order Hall Campaigns
 All 12 class campaigns from Legion. Each is shown only to the matching class.
@@ -45,6 +55,9 @@ All 12 class campaigns from Legion. Each is shown only to the matching class.
 | Shaman | Farseer's Campaign |
 | Warlock | Netherlord's Campaign |
 | Warrior | Valarjar's Campaign |
+
+### Heritage Armor
+All 14 heritage armor questlines. Each is shown only to the matching race.
 
 ---
 

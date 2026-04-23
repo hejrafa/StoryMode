@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 -- =============================================================================
 -- Sylvanas Windrunner: The Banshee Queen
--- A saga spanning Wrath of the Lich King through Shadowlands.
+-- A saga spanning Wrath of the Lich King through Dragonflight.
 -- From the ice halls of Icecrown to the judgment courts of Oribos —
 -- the full story of a queen who broke the world, and why.
 -- =============================================================================
@@ -10,9 +10,9 @@ local addonName, SM = ...
 SM.SylvanasData = {
     -- Questline metadata
     title = "The Banshee Queen",
-    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then something the Horde was never fully prepared for. Follow her story from the frozen passages of Icecrown through the wars she started — and the reckoning that followed.\n\nThis storyline spans Wrath of the Lich King, Cataclysm, Legion, and Battle for Azeroth.",
+    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then something the Horde was never fully prepared for. Follow her story from the frozen passages of Icecrown through the wars she started — and the reckoning that followed.",
     zone = "Icecrown / Silverpine / Orgrimmar / Oribos",
-    expansion = "Wrath of the Lich King — Shadowlands",
+    expansion = "Wrath of the Lich King — Dragonflight",
     achievements = {
         -- The Frozen Halls — dungeon completions
         4516,   -- The Forge of Souls (Normal)
@@ -65,8 +65,13 @@ SM.SylvanasData = {
         -- Zuldazar (Fate of Saurfang)
         ["Dark Ranger Alina"]        = { mapID = 862,  x = 0.5000, y = 0.6500 },
         ["Nathanos Blightcaller"]    = { mapID = 862,  x = 0.5840, y = 0.6260 },
+        -- Zuldazar / Orgrimmar (Stay of Execution)
+        ["Lor'themar Theron"]        = { mapID = 862,  x = 0.5000, y = 0.6500 },
         -- Orgrimmar (War Campaign Finale)
+        ["Lilian Voss"]              = { mapID = 85,   x = 0.5050, y = 0.5700 },  -- (verify)
         ["Valeera Sanguinar"]        = { mapID = 85,   x = 0.5050, y = 0.5700 },
+        -- Ruins of Lordaeron (Dragonflight phased — The Long Hunt epilogue)
+        ["Dori'thur"]                = { mapID = 2070, x = 0.6400, y = 0.6800 },
         -- Oribos (Judgment)
         ["Bolvar Fordragon"]         = { mapID = 1670, x = 0.5000, y = 0.5000 },
         ["Uther the Lightbringer"]   = { mapID = 1670, x = 0.5100, y = 0.4900 },
@@ -87,11 +92,13 @@ SM.SylvanasData = {
         ["High Overlord Saurfang"]   = 14732,
         ["Dark Ranger Alina"]        = 32644,
         ["Nathanos Blightcaller"]    = 86219,
+        ["Lilian Voss"]              = 85799,
         ["Valeera Sanguinar"]        = 36940,
         ["Bolvar Fordragon"]         = 95194,
         ["Uther the Lightbringer"]   = 87100,
         ["Tyrande Whisperwind"]      = 20748,
         ["Pelagos"]                  = 90000,
+        ["Dori'thur"]                = 38801,
     },
     chapterDisplayIDs = {
         ["The Frozen Halls"]              = 30686,  -- Dark Ranger Vorel
@@ -102,8 +109,11 @@ SM.SylvanasData = {
         ["The War of Thorns"]            = 28213,  -- Sylvanas
         ["The Battle for Lordaeron"]     = 14732,  -- High Overlord Saurfang
         ["The Fate of Saurfang"]         = 32644,  -- Dark Ranger Alina
-        ["Before the Gates of Orgrimmar"] = 14732,  -- High Overlord Saurfang
+        ["Stay of Execution"]            = 17122,  -- Lor'themar Theron
+        ["Breaking the Cycle"]           = 28213,  -- Sylvanas Windrunner
+        ["What Comes After"]             = 85799,  -- Lilian Voss
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
+        ["The Long Hunt"]                = 38801,  -- Dori'thur
     },
     chapterIcons = {
         ["The Frozen Halls"]              = 0,
@@ -114,8 +124,11 @@ SM.SylvanasData = {
         ["The War of Thorns"]            = 0,
         ["The Battle for Lordaeron"]     = 0,
         ["The Fate of Saurfang"]         = 0,
-        ["Before the Gates of Orgrimmar"] = 0,
+        ["Stay of Execution"]            = 0,
+        ["Breaking the Cycle"]           = 0,
+        ["What Comes After"]             = 0,
         ["Judgment"]                     = 0,
+        ["The Long Hunt"]                = 0,
     },
 
     -- =========================================================================
@@ -237,11 +250,9 @@ SM.SylvanasData = {
         -- CHAPTER 7: The fall of Undercity
         {
             chapter = "The Battle for Lordaeron",
-            -- Achievement for completing the Battle for Lordaeron scenario (Horde intro).
-            -- Verify in-game: /run local _,n,_,c = GetAchievementInfo(12584); print(n, c)
-            -- This fires when replaying via Archivist Sylvia, fixing detection for that path.
             achievementID = 12584,
-            note = "This scenario can be played or replayed via Archivist Sylvia in Orgrimmar.",
+            replayable = true,
+            note = "Play or replay this scenario via Archivist Sylvia in Orgrimmar. Use Mark as Played if the game doesn't detect your completion.",
             summary = "The Alliance has come for Lordaeron. Sylvanas holds the walls of the Forsaken capital as Jaina and Anduin lead the siege.",
             recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity was lost. Sylvanas rode for the Dark Portal as the Alliance horns echoed behind her. The Forsaken had no home left. Again.",
             quests = {
@@ -272,24 +283,59 @@ SM.SylvanasData = {
             },
         },
 
-        -- CHAPTER 9: Mak'gora
+        -- CHAPTER 8.5: The rescue of Baine Bloodhoof
         {
-            chapter = "Before the Gates of Orgrimmar",
-            note = "Complete the Horde War Campaign to unlock, then find High Overlord Saurfang outside the gates of Orgrimmar.",
-            summary = "Saurfang has gathered the Horde's dissenters outside Orgrimmar. He is invoking Mak'gora — the ancient right of single combat. Sylvanas must answer.",
-            recap = "Saurfang stood at the gates of Orgrimmar with every Horde soldier who still had doubts, and he challenged Sylvanas to Mak'gora — combat to the death, for the soul of the Horde. She accepted. She killed him. But as he fell, he turned to the watching soldiers and named her for what she was: someone who had stopped caring about the Horde, honour, or any of the things they had built together. He died smiling. She stood alone at the gate, victorious, with nothing left to rule. Then she left. The Horde had no Warchief.",
+            chapter = "Stay of Execution",
+            note = "Travel to Nazjatar and speak with Lor'themar Theron to begin.",
+            summary = "Baine Bloodhoof is to be executed. Lor'themar has gathered allies to defy the Warchief and save the Tauren chieftain.",
+            recap = "When Spiritwalker Ussoh's vision revealed Baine's imminent execution, Lor'themar gathered a small band of rebels — Thrall, Saurfang, and others. You infiltrated Orgrimmar's depths, fought through Sylvanas's forces, and rescued Baine from his cell. Jaina Proudmoore, of all people, helped you escape. The Horde was fracturing, and this was just the beginning.",
             quests = {
-                { id = 56496, name = "The Eve of Battle",              npc = "High Overlord Saurfang" },
-                { id = 57088, name = "This Ain't Mine",                npc = "High Overlord Saurfang" },
-                { id = 57090, name = "Saving the Siege",               npc = "High Overlord Saurfang" },
-                { id = 57091, name = "Already Among Us",               npc = "High Overlord Saurfang" },
-                { id = 57092, name = "Strategic Deployment",           npc = "High Overlord Saurfang" },
-                { id = 57093, name = "Before the Gates of Orgrimmar",  npc = "High Overlord Saurfang" },
-                { id = 57094, name = "The Price of Victory",           npc = "High Overlord Saurfang" },
-                { id = 57095, name = "Old Soldier",                    npc = "High Overlord Saurfang" },
-                { id = 57198, name = "Sense of Obligation",            npc = "High Overlord Saurfang" },
-                { id = 58672, name = "A Gathering of Champions",       npc = "Valeera Sanguinar" },
-                { id = 58673, name = "Warchief of the Horde",          npc = "Valeera Sanguinar" },
+                { id = 55778, name = "Visions of Danger",    npc = "Lor'themar Theron" },
+                { id = 55780, name = "Old Allies",           npc = "Lor'themar Theron", showIf = 55780 },
+                { id = 55781, name = "Old Allies",           npc = "Lor'themar Theron", showIf = 55781 },
+                { id = 55779, name = "Stay of Execution",    npc = "Lor'themar Theron", showIf = 55780 },
+                { id = 55782, name = "Stay of Execution",    npc = "Thrall",             showIf = 55781 },
+            },
+        },
+
+        -- CHAPTER 9: The Horde fractures
+        {
+            chapter = "Breaking the Cycle",
+            summary = "The Horde has split in two. Saurfang rallies those who oppose Sylvanas, while loyalists prepare to crush the rebellion.",
+            recap = "After Baine's rescue, the Horde fractured completely. Some followed Saurfang to Razor Hill, others remained loyal to Sylvanas in Orgrimmar. The stage was set for the final confrontation — not between Alliance and Horde, but within the Horde itself.",
+            quests = {
+                -- Sylvanas loyalist path (chose 55780)
+                { id = 56495, name = "They Move Against Us",     npc = "Sylvanas Windrunner", showIf = 55780 },
+                { id = 56833, name = "Leaders of the Horde",  npc = "Sylvanas Windrunner", showIf = 55780 },
+                { id = 57130, name = "Traitors In Our Midst", npc = "Nathanos Blightcaller", showIf = 55780 },
+                { id = 57148, name = "Siegebreakers",      npc = "Nathanos Blightcaller", showIf = 55780 },
+                { id = 57149, name = "Propaganda Takedown", npc = "Nathanos Blightcaller", showIf = 55780 },
+                { id = 57150, name = "Militia",          npc = "Nathanos Blightcaller", showIf = 55780 },
+                { id = 57151, name = "A Line in the Sand", npc = "Nathanos Blightcaller", showIf = 55780 },
+                { id = 57152, name = "Most Loyal",        npc = "Nathanos Blightcaller", showIf = 55780 },
+                -- Saurfang rebel path (chose 55781)
+                { id = 56496, name = "The Eve of Battle", npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57088, name = "This Ain't Mine",  npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57090, name = "Saving the Siege", npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57091, name = "Already Among Us",  npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57092, name = "Strategic Deployment", npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57093, name = "Before the Gates of Orgrimmar", npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57094, name = "The Price of Victory", npc = "High Overlord Saurfang", showIf = 55781 },
+                { id = 57095, name = "Old Soldier",     npc = "High Overlord Saurfang", showIf = 55781 },
+            },
+        },
+
+        -- CHAPTER 10: What Comes After
+        {
+            chapter = "What Comes After",
+            note = "If \"A Gathering of Champions\" isn't showing up, you have not yet finished the full war campaign chain. Complete every quest in the previous chapters through \"The Hidden Need\" — only then does Valeera Sanguinar appear at the Orgrimmar Embassy.",
+            summary = "Sylvanas is gone. What remains of the Horde gathers to decide what it becomes without her.",
+            recap = "Saurfang's last act before the gate was a summons sent to every Horde leader still standing. By the time the crowd outside Orgrimmar thinned and the silence settled in, they were already gathering: Baine, Lor'themar, Ji Firepaw, and Lilian Voss, who now spoke for a Forsaken people their former Warchief had used as weapons and discarded. In the middle of it, Lilian stepped away from the main hall to broker a quieter conversation — one that had to happen before anything else could move: Forsaken leadership, face to face with Calia Menethil and Derek Proudmoore. Hidden, necessary, and hers to arrange. Then the full council assembled. The Warchief's throne was empty. Lilian made the case for leaving it that way. No single voice, no single will — a council, the way the Horde had always needed to work but never quite managed. The others listened. Then they agreed.",
+            quests = {
+                { id = 57198, name = "Sense of Obligation",      npc = "High Overlord Saurfang" },
+                { id = 57376, name = "The Hidden Need",          npc = "Lilian Voss" },
+                { id = 58672, name = "A Gathering of Champions", npc = "Valeera Sanguinar" },
+                { id = 58673, name = "Warchief of the Horde",    npc = "Lilian Voss" },
             },
         },
 
@@ -299,7 +345,7 @@ SM.SylvanasData = {
         -- the reckoning she has earned.
         -- =========================================================================
 
-        -- CHAPTER 10: The long walk
+        -- CHAPTER 11: The long walk
         {
             chapter = "Judgment",
             note = "Complete the Zereth Mortis campaign and defeat the Jailer in the Sepulcher of the First Ones raid to unlock.",
@@ -311,6 +357,22 @@ SM.SylvanasData = {
                 { id = 65260, name = "A Long Walk",          npc = "Uther the Lightbringer" },
                 { id = 65263, name = "The Fate of Sylvanas", npc = "Pelagos" },
                 { id = 65297, name = "Penance and Renewal",  npc = "Tyrande Whisperwind" },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT VI — THE LONG HUNT (Dragonflight 10.1.7)
+        -- The penance continues. The hunt has no end.
+        -- =========================================================================
+
+        -- CHAPTER 12: The Long Hunt
+        {
+            chapter = "The Long Hunt",
+            note = "Requires completing the Forsaken Heritage questline as an Undead character. Only available to players who sided with Sylvanas during the war campaign.",
+            summary = "Lordaeron has been reclaimed, the penance accepted. But for those who once swore loyalty to the Banshee Queen, a message finds its way back through the dark — one last task, carried by a familiar messenger.",
+            recap = "The Forsaken moved on. Lordaeron was theirs again, and the long war had its accounting. But some loyalties don't dissolve with a verdict. Dori'thur arrived in the ruins of Lordaeron bearing a message — not from a queen, not a command, just acknowledgment. The hunt Sylvanas began in death has no end date. The souls in the Maw number in the countless. She is still there, freeing them one by one. The message asked nothing. It only said: she remembers who stood with her.",
+            quests = {
+                { id = 75519, name = "The Long Hunt", npc = "Dori'thur" },
             },
         },
 

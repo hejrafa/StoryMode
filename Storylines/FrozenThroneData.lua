@@ -102,7 +102,6 @@ local ICECROWN_QUEST_NAMES = {
     [13171] = "From Whence They Came",
     [13172] = "Seeds of Chaos",
     [13174] = "Amidst the Confusion",
-    [13140] = "The Runesmiths of Malykriss",
     [13279] = "Basic Chemistry",
     [13295] = "Basic Chemistry",
     [13211] = "By Fire Be Purged",

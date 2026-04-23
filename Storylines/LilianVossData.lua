@@ -95,7 +95,7 @@ SM.LilianVossData = {
         ["Hooded Crusader"]             = 43650,   -- Lilian in disguise
         ["Talking Skull"]               = 40322,
         -- BfA NPCs
-        ["Lilian Voss"]                 = 64531,
+        ["Lilian Voss"]                 = 85799,
         ["Nathanos Blightcaller"]       = 86219,
         ["Rexxar"]                      = 22319,
         ["Thomas Zelling"]              = 86134,
@@ -111,7 +111,8 @@ SM.LilianVossData = {
         ["Dark Ranger Velonara"]        = 92615,   -- VERIFY
     },
     chapterDisplayIDs = {
-        ["The Wakening"] = 67721, -- Lilian Voss
+        ["The Wakening"]                  = 67721,  -- Lilian Voss
+        ["What Comes After"]             = 85799,  -- Lilian Voss (BfA model)
     },
     chapterIcons = {
         ["The Wakening"] = 67721,
@@ -336,6 +337,20 @@ SM.LilianVossData = {
             },
         },
 
+        -- CHAPTER 13: What Comes After
+        {
+            chapter = "What Comes After",
+            note = "If \"A Gathering of Champions\" isn't showing up, you have not yet finished the full war campaign chain. Complete every quest in the previous chapters through \"The Hidden Need\" — only then does Valeera Sanguinar appear at the Orgrimmar Embassy.",
+            summary = "Sylvanas is gone. The Horde's leaders gather to decide what it becomes without her — and Lilian Voss speaks for the Forsaken.",
+            recap = "When the gate went quiet and Sylvanas left, Lilian Voss was already in the room. Baine, Lor'themar, Ji Firepaw — all the leaders who had waited out the war with their doubts held close — and the question nobody wanted to be first to say: what do they do about the Warchief's throne? Before the full council assembled, Lilian stepped away from the main hall to arrange a quieter meeting — Forsaken leadership, Calia Menethil, and Derek Proudmoore. Hidden, necessary, and entirely hers to broker. Then she came back into the room and made the case for leaving the throne empty. No single voice. A council, where every people kept their own weight and no one leader could burn the world on a private conviction. She had spent years being used by the powerful as a tool. She knew exactly what concentrated authority looked like from the receiving end. The others listened. They agreed. It was the first time Lilian Voss had spoken in a room full of power and been heard.",
+            quests = {
+                { id = 57198, name = "Sense of Obligation",      npc = "High Overlord Saurfang" },
+                { id = 57376, name = "The Hidden Need",          npc = "Lilian Voss" },
+                { id = 58672, name = "A Gathering of Champions", npc = "Valeera Sanguinar" },
+                { id = 58673, name = "Warchief of the Horde",    npc = "Lilian Voss" },
+            },
+        },
+
         -- =====================================================================
         -- ACT V — RETURN TO LORDAERON (Shadowlands 9.2.5)
         -- Sylvanas is defeated. The war is over. The Dark Lady is gone.
@@ -343,7 +358,7 @@ SM.LilianVossData = {
         -- never stopped calling it home.
         -- =====================================================================
 
-        -- CHAPTER 13: Return to Lordaeron
+        -- CHAPTER 14: Return to Lordaeron
         {
             chapter = "Return to Lordaeron",
             note = "Available to Horde players after completing the Shadowlands campaign.",

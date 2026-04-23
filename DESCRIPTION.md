@@ -12,18 +12,22 @@ It turns scattered quest chains into guided campaigns: chapter-based, lore-aware
 - **One-click waypoint support** to your next objective
 - **Story journal** so completed chapters feel like a coherent saga
 - **Faction, class, and race filtering** so you only see campaigns your character can do
+- **Lore chapters** with in-depth story context
+- **Achievement tracking** with full criteria details
+- **Real-time completion banners** for quests and chapters
 
 ## Current Content
 
 **Epic Storylines** — major multi-chapter world arcs
-- Insurrection (Suramar)
-- The Frozen Throne (Wrath of the Lich King)
-- Drustvar
+- Insurrection (Suramar) — Legion
+- The Frozen Throne (Arthas Menethil) — Wrath of the Lich King
+- Drustvar — Battle for Azeroth
+- The Forsaken Daughter (Lilian Voss) — Cataclysm → Battle for Azeroth
 
 **Character Stories** — focused stories following a single character
-- The Banshee Queen (Sylvanas Windrunner)
-- Daughter of the Sea (Jaina Proudmoore)
-- The Desolate Council (Lilian Voss)
+- The Banshee Queen (Sylvanas Windrunner) — Wrath → Dragonflight
+- Daughter of the Sea (Jaina Proudmoore) — Battle for Azeroth
+- The Desolate Council (Lilian Voss) — Cataclysm → Battle for Azeroth
 
 **Short Stories** — self-contained tales and side adventures
 - A Tea Party (Drustvar)
