@@ -1269,11 +1269,13 @@ function StoryMode_ExecuteSecureTrack()
     if storyFrame then storyFrame:Hide() end
 end
 
--- Invisible SecureActionButtonTemplate overlay. Kept anchored over sTrackBtn
--- with SetAllPoints — a Frame-to-Frame anchor, which is allowed for
--- protected frames (unlike Frame-to-FontString anchors, which raise
--- "Cannot anchor protected frames to regions").
-local sTrackBtnSecure = CreateFrame("Button", "StoryModeTrackButton", sTrackBtn, "SecureActionButtonTemplate")
+-- Invisible SecureActionButtonTemplate overlay. Parented to detailChild as a
+-- sibling of sTrackBtn (NOT a child of sTrackBtn) — if it were a child,
+-- sTrackBtn would inherit a protected descendant and could no longer be
+-- anchored to FontStrings during layout, raising "Cannot anchor protected
+-- frames to regions". Positioned on top via SetAllPoints(sTrackBtn), which
+-- is a Frame-to-Frame anchor and therefore allowed for protected frames.
+local sTrackBtnSecure = CreateFrame("Button", "StoryModeTrackButton", detailChild, "SecureActionButtonTemplate")
 sTrackBtnSecure:SetAllPoints(sTrackBtn)
 sTrackBtnSecure:RegisterForClicks("AnyUp")
 sTrackBtnSecure:SetAttribute("type", "macro")
