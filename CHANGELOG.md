@@ -2,8 +2,19 @@
 
 ## 1.4.0
 
+### Fixes
+- Fixed taint propagation from the Track button — resolved `attempt to perform arithmetic on a secret number value` error originating from Blizzard_MoneyFrame when hovering world-quest tooltips. Track now routes through a secure macro (`SecureActionButtonTemplate`) so OpenWorldMap, quest watch, and waypoint calls execute in a trusted context
+- Fixed `Cannot anchor protected frames to regions` error — the secure overlay is now a sibling of sTrackBtn (parented to detailChild) rather than a child of it, so sTrackBtn itself remains anchor-eligible for FontString layout
+
+### New
+- **Replayable chapters** — chapters marked `replayable = true` show a "Mark as Played" button backed by `StoryModeDB.playedChapters`; hides quest cards and the achievement row so the button is the sole interaction. Applied to "The Battle for Lordaeron" (Archivist Sylvia replay)
+- `ShouldHideQuest` helper — `showIf` / `hideIf` conditions now filter quest cards and progress counting, not just completion checks
+
 ### Content
-- **The Dark Heart of Nazmir** — new Horde-only epic storyline for the Nazmir zone (Battle for Azeroth). Covers all 8 achievement chapters: meeting Bwonsamdi and forging the pact for one million souls, the bat loa Hir'eek's corruption, Torga's death, Krag'wa in Gloom Hollow, the Titan Keeper facility and G'huun containment, and the final assault on Grand Ma'da Ateena. Parallel to The Witchwood of Drustvar.
+- **The Dark Heart of Nazmir** — new Horde-only epic storyline for the Nazmir zone (Battle for Azeroth). Covers all 8 achievement chapters: meeting Bwonsamdi and forging the pact for one million souls, the bat loa Hir'eek's corruption, Torga's death, Krag'wa in Gloom Hollow, the Titan Keeper facility and G'huun containment, and the final assault on Grand Ma'da Ateena. Parallel to The Witchwood of Drustvar
+- **Sylvanas — The Banshee Queen** extended through Dragonflight 10.1.7: added "Stay of Execution", "Breaking the Cycle", "What Comes After", "The Long Hunt", and "A Chilling Summons" chapters; Shadowlands intro now has separate Horde/Alliance entry quests with faction filtering
+- **Lilian Voss** — added "What Comes After" chapter covering the Horde Council formation quests (including The Hidden Need, 57376); updated BfA portrait to display ID 85799
+- **The Frozen Throne** — Saronite Mines chapter updated to use Darkspeaker R'khem; added Intelligence Gathering and The Grand Admiral's Plan chest quests; significant quest chain expansion
 
 ---
 
