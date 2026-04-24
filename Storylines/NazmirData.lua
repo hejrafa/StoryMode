@@ -7,9 +7,24 @@ local addonName, SM = ...
 
 SM.NazmirData = {
     title = "The Dark Heart of Nazmir",
-    achievementName = "The Dark Heart of Nazmir",
+    achievementName = "Bwon Voyage",
     achievements = {
-        11868,  -- The Dark Heart of Nazmir (Nazmir zone story)
+        11868,  -- The Dark Heart of Nazmir (zone story)
+        41203,  -- Bwon Voyage (meta — all Nazmir achievements)
+        -- Exploration
+        12561,  -- Explore Nazmir
+        12771,  -- Treasures of Nazmir
+        12942,  -- Adventurer of Nazmir
+        13024,  -- Carved in Stone, Written in Blood (blood troll pictographs)
+        -- Flavor
+        12588,  -- Eat Your Greens (sample all edible plants)
+        13028,  -- Hoppin' Sad (shoo Lost Spawn of Krag'wa home)
+        -- World quest speed runs
+        13022,  -- Revenge is Best Served Speedily
+        13023,  -- It's Really Getting Out of Hand
+        13021,  -- A Most Efficient Apocalypse
+        -- Uldir (raid tied to Nazmir's story)
+        12806,  -- Glory of the Uldir Raider
     },
     description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned god beneath the earth. Forge a pact with Bwonsamdi, loa of death, to fight back the darkness. The deal is simple: one million souls. The price, in the end, will be far higher.",
     zone = "Nazmir",
