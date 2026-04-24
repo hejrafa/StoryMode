@@ -32,7 +32,6 @@ SM.NazmirData = {
     faction = "Horde",
     color = { 0.30, 0.65, 0.45 },  -- Bwonsamdi swamp-teal
     icon = 2065614,                -- inv_nazmir (Bwon Voyage achievement)
-    portraitDisplayID = 75961,
 
     startQuest = { id = 47512, name = "Nazmir", npc = "Princess Talanji", location = "Dazar'alor" },
     startMapID = 862,
