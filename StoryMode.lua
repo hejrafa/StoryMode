@@ -1269,21 +1269,41 @@ function StoryMode_ExecuteSecureTrack()
     if storyFrame then storyFrame:Hide() end
 end
 
--- Invisible SecureActionButtonTemplate overlay. Parented to detailChild as a
--- sibling of sTrackBtn (NOT a child of sTrackBtn) — if it were a child,
--- sTrackBtn would inherit a protected descendant and could no longer be
--- anchored to FontStrings during layout, raising "Cannot anchor protected
--- frames to regions". Positioned on top via SetAllPoints(sTrackBtn), which
--- is a Frame-to-Frame anchor and therefore allowed for protected frames.
+-- Invisible SecureActionButtonTemplate overlay. Parented to detailChild, and
+-- its anchor points are computed manually from sTrackBtn's rect so there is
+-- NO anchor dependency in either direction. (If the overlay anchored to
+-- sTrackBtn, sTrackBtn would inherit the protected-frame anchor rules and
+-- could no longer be anchored to FontStrings during layout — raising
+-- "Cannot anchor protected frames to regions". If sTrackBtn anchored to
+-- the overlay, the same thing would happen.) SyncSecureOverlay() keeps it
+-- positioned on top of sTrackBtn; it's called after every layout pass and
+-- is a no-op during combat (SetPoint on protected frames is combat-
+-- restricted — minor cosmetic drift is acceptable).
 local sTrackBtnSecure = CreateFrame("Button", "StoryModeTrackButton", detailChild, "SecureActionButtonTemplate")
-sTrackBtnSecure:SetAllPoints(sTrackBtn)
+sTrackBtnSecure:SetSize(240, 40)
+sTrackBtnSecure:SetPoint("TOPLEFT", detailChild, "TOPLEFT", 0, 0)
 sTrackBtnSecure:RegisterForClicks("AnyUp")
 sTrackBtnSecure:SetAttribute("type", "macro")
 sTrackBtnSecure:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
 sTrackBtnSecure:SetFrameLevel((sTrackBtn:GetFrameLevel() or 0) + 5)
+
+local function SyncSecureOverlay()
+    if InCombatLockdown() then return end
+    local btnLeft, btnTop = sTrackBtn:GetLeft(), sTrackBtn:GetTop()
+    local parLeft, parTop = detailChild:GetLeft(), detailChild:GetTop()
+    if not (btnLeft and btnTop and parLeft and parTop) then return end
+    sTrackBtnSecure:ClearAllPoints()
+    sTrackBtnSecure:SetPoint("TOPLEFT", detailChild, "TOPLEFT",
+        btnLeft - parLeft, btnTop - parTop)
+    sTrackBtnSecure:SetSize(sTrackBtn:GetWidth(), sTrackBtn:GetHeight())
+end
+
+-- Re-sync when sTrackBtn resizes (content fonts reflowing, etc.).
+-- Layout code calls SyncSecureOverlay() explicitly after re-anchoring.
+sTrackBtn:HookScript("OnSizeChanged", SyncSecureOverlay)
+sTrackBtn:HookScript("OnShow", SyncSecureOverlay)
 -- Always visible; enable/disable is effectively controlled by whether PreClick
--- queues a pending action. No pending action → the macro is a no-op. This
--- avoids Show/Hide on a protected frame, which is combat-restricted.
+-- queues a pending action. No pending action → the macro is a no-op.
 
 -- Forward hover events to the visible button so its template highlight and
 -- lock-reason tooltip keep working while the overlay sits on top.
@@ -2713,6 +2733,7 @@ local function LayoutDetailTab()
             sTrackBtn.lockReason = nil
         end
         sTrackBtn:Show()
+        SyncSecureOverlay()
         lastAnchor = sTrackBtn
 
         -- ── Progressive story journal ───────────────────────────────────
