@@ -102,25 +102,7 @@ SM.NazmirData = {
             },
         },
 
-        -- CHAPTER 3: Bring the Boom
-        {
-            chapter = "Bring the Boom",
-            summary = "A goblin named Patch and a crew of demolitions experts blast a way through the blood troll defenses.",
-            recap = "Subtlety had its limits in Nazmir. Patch — a goblin with strong opinions about explosives and personal safety — had a solution for the blood troll barricades that was loud, expensive, and effective. You wrangled his scattered crew, gathered everything they needed, and let them do what goblins do best. The blood troll fortifications that had blocked the advance for weeks turned to rubble in an afternoon. Talanji watched the smoke rise with something close to satisfaction. The path deeper into Nazmir was open.",
-            quests = {
-                { id = 47245, name = "Getting the Message",     npc = "Rokhan" },
-                { id = 47631, name = "Rendezvous with the Libation", npc = "Patch" },
-                { id = 47597, name = "No Goblin Left Behind",   npc = "Patch" },
-                { id = 47599, name = "Revenge: Served Hot",     npc = "Patch" },
-                { id = 47596, name = "There Is No Plan \"B\"",  npc = "Patch" },
-                { id = 47711, name = "Head of the Viper",       npc = "Patch" },
-                { id = 47598, name = "Pilfering and Fencing",   npc = "Patch" },
-                { id = 47601, name = "Field Evaluation",        npc = "Patch" },
-                { id = 47602, name = "Ready For Action",        npc = "Princess Talanji" },
-            },
-        },
-
-        -- CHAPTER 4: Undercover Sista
+        -- CHAPTER 3: Undercover Sista
         {
             chapter = "Undercover Sista",
             summary = "Infiltrate Zalamar disguised as a blood troll. The bat loa Hir'eek has been corrupted — you must end the corruption and the loa with it.",
@@ -138,12 +120,29 @@ SM.NazmirData = {
             },
         },
 
+        -- CHAPTER 4: Bring the Boom
+        {
+            chapter = "Bring the Boom",
+            summary = "A goblin named Patch and a crew of demolitions experts blast a way through the blood troll defenses.",
+            recap = "Subtlety had its limits in Nazmir. Patch — a goblin with strong opinions about explosives and personal safety — had a solution for the blood troll barricades that was loud, expensive, and effective. You wrangled his scattered crew, gathered everything they needed, and let them do what goblins do best. The blood troll fortifications that had blocked the advance for weeks turned to rubble in an afternoon. Talanji watched the smoke rise with something close to satisfaction. The path deeper into Nazmir was open.",
+            quests = {
+                { id = 47245, name = "Getting the Message",     npc = "Rokhan" },
+                { id = 47631, name = "Rendezvous with the Libation", npc = "Patch" },
+                { id = 47597, name = "No Goblin Left Behind",   npc = "Patch" },
+                { id = 47599, name = "Revenge: Served Hot",     npc = "Patch" },
+                { id = 47596, name = "There Is No Plan \"B\"",  npc = "Patch" },
+                { id = 47711, name = "Head of the Viper",       npc = "Patch" },
+                { id = 47598, name = "Pilfering and Fencing",   npc = "Patch" },
+                { id = 47601, name = "Field Evaluation",        npc = "Patch" },
+                { id = 47602, name = "Ready For Action",        npc = "Princess Talanji" },
+            },
+        },
+
         -- CHAPTER 5: Turtle Power
         {
             chapter = "Turtle Power",
             summary = "Torga, ancient sea turtle loa of Nazmir, is dying. The blood trolls have bled him for decades. You arrive too late to save him — but not too late to release him.",
             recap = "Lashk brought you to Torga, and what you found broke something in the air around you. The sea turtle loa — ancient beyond reckoning, the kind of creature that outlasted empires — had been slowly bled by the blood trolls for years. He was almost gone when you arrived. You fought through the blood trolls claiming his shores, sought Bwonsamdi's intercession for a dying loa, and freed the souls trapped around him. Torga died. He just did it on his own terms, with the Horde at his side. Bwonsamdi, for once, was almost respectful. Lashk said nothing. Some losses don't require words.",
-            note = "Torga's death is one of BfA's most-remembered quiet moments — the turtle loa dies even if you complete every quest in this chapter.",
             quests = {
                 { id = 49185, name = "Catching Up",             npc = "Princess Talanji" },
                 { id = 49064, name = "Torga, the Turtle Loa",  npc = "Lashk" },
