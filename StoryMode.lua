@@ -1237,14 +1237,38 @@ sCharText:SetJustifyH("LEFT"); sCharText:SetSpacing(4); sCharText:SetWordWrap(tr
 sCharText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
 -- CTA button on story tab (big red Trading Post style)
+-- SecureActionButtonTemplate is combined with the visual template so the
+-- macro-driven click runs inside a secure execution context. All waypoint /
+-- super-track / OpenWorldMap calls (which set "secret number" values on
+-- quest-reward fields) are issued from inside that macro via
+-- StoryMode_ExecuteSecureTrack() — this prevents taint from propagating
+-- into Blizzard's world-quest tooltip money-frame path.
 local sTrackBtnTemplate = C_XMLUtil and C_XMLUtil.GetTemplateInfo
     and C_XMLUtil.GetTemplateInfo("SharedButtonLargeTemplate")
     and "SharedButtonLargeTemplate" or "UIPanelButtonTemplate"
-local sTrackBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
+local sTrackBtn = CreateFrame("Button", "StoryModeTrackButton", detailChild, sTrackBtnTemplate .. ",SecureActionButtonTemplate")
 sTrackBtn:SetSize(240, 40)
 sTrackBtn:SetText("Begin This Story")
 sTrackBtn:RegisterForClicks("AnyUp")
+sTrackBtn:SetAttribute("type", "macro")
+sTrackBtn:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
 sTrackBtn.lockReason = nil
+
+-- Pending action queued by PreClick; consumed by the secure macro.
+local pendingSecureTrack = nil
+
+-- Called from the macro via /run — runs in secure context, so its calls to
+-- OpenWorldMap / AddQuestWatch / SetSuperTrackedQuestID / SetUserWaypoint
+-- don't taint the execution path. Upvalues SetWaypointForQuest,
+-- PrintTrackResult and storyFrame resolve at call time.
+function StoryMode_ExecuteSecureTrack()
+    local pending = pendingSecureTrack
+    pendingSecureTrack = nil
+    if not pending then return end
+    local result = SetWaypointForQuest(pending.data, pending.quest)
+    PrintTrackResult(result, pending.quest, pending.data)
+    if storyFrame then storyFrame:Hide() end
+end
 sTrackBtn:SetScript("OnEnter", function(self)
     if self.lockReason then
         SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -2637,16 +2661,19 @@ local function LayoutDetailTab()
             if gateReason then
                 sTrackBtn:SetText("Story Locked")
                 sTrackBtn:SetScript("OnClick", nil)
+                sTrackBtn:SetScript("PreClick", nil)
                 sTrackBtn:Disable()
                 sTrackBtn:SetAlpha(0.5)
                 sTrackBtn.lockReason = gateReason
             else
                 sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
-                sTrackBtn:SetScript("OnClick", function()
-                    local result = SetWaypointForQuest(data, quest)
-                    PrintTrackResult(result, quest, data)
-                    storyFrame:Hide()
+                -- PreClick queues the action BEFORE the secure macro fires.
+                -- The macro (/run StoryMode_ExecuteSecureTrack()) then performs
+                -- the actual waypoint + supertrack calls in a secure context.
+                sTrackBtn:SetScript("PreClick", function()
+                    pendingSecureTrack = { data = data, quest = quest }
                 end)
+                sTrackBtn:SetScript("OnClick", nil)
                 sTrackBtn:Enable()
                 sTrackBtn:SetAlpha(1.0)
                 sTrackBtn.lockReason = nil
@@ -2654,6 +2681,7 @@ local function LayoutDetailTab()
         else
             sTrackBtn:SetText("Story Finished")
             sTrackBtn:SetScript("OnClick", nil)
+            sTrackBtn:SetScript("PreClick", nil)
             sTrackBtn:Disable()
             sTrackBtn:SetAlpha(0.5)
             sTrackBtn.lockReason = nil
@@ -3431,6 +3459,10 @@ SlashCmdList["STORYMODE"] = function(msg)
         end
         return
     elseif msg == "track" or msg == "next" then
+        -- Slash commands always execute in an insecure Lua context, so the
+        -- waypoint calls below will taint the quest-reward path. Prefer the
+        -- in-UI "Continue Story" button, which routes through the secure
+        -- macro dispatch and avoids taint.
         for _, data in ipairs(allQuestlines) do
             local quest, chapter = FindNextQuest(data)
             if quest then
