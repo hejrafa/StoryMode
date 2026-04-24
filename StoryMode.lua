@@ -3743,76 +3743,8 @@ ShowStoryBanner = function(headerText, titleText, questlineData, npcName, isChap
 end
 end  -- do: alert section
 
--- ============================================================================
--- Story Complete Screen  (center-screen, fires when the last chapter is done)
--- ============================================================================
-
-do
-    local scFrame = CreateFrame("Frame", nil, UIParent)
-    scFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 160)
-    scFrame:SetSize(520, 130)
-    scFrame:SetFrameStrata("FULLSCREEN_DIALOG")
-    scFrame:Hide()
-
-    do  -- gradient lines — local t freed after this block, keeping peak locals low
-        local t = scFrame:CreateTexture(nil, "OVERLAY")
-        t:SetColorTexture(1, 1, 1, 1)
-        t:SetSize(240, 2); t:SetPoint("RIGHT", scFrame, "CENTER", 0, 44)
-        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0), CreateColor(1, 0.82, 0.3, 0.75))
-        t = scFrame:CreateTexture(nil, "OVERLAY")
-        t:SetColorTexture(1, 1, 1, 1)
-        t:SetSize(240, 2); t:SetPoint("LEFT", scFrame, "CENTER", 0, 44)
-        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0.75), CreateColor(1, 0.82, 0.3, 0))
-        t = scFrame:CreateTexture(nil, "OVERLAY")
-        t:SetColorTexture(1, 1, 1, 1)
-        t:SetSize(240, 2); t:SetPoint("RIGHT", scFrame, "CENTER", 0, -40)
-        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0), CreateColor(1, 0.82, 0.3, 0.75))
-        t = scFrame:CreateTexture(nil, "OVERLAY")
-        t:SetColorTexture(1, 1, 1, 1)
-        t:SetSize(240, 2); t:SetPoint("LEFT", scFrame, "CENTER", 0, -40)
-        t:SetGradient("HORIZONTAL", CreateColor(1, 0.82, 0.3, 0.75), CreateColor(1, 0.82, 0.3, 0))
-    end
-
-    local scTitle = scFrame:CreateFontString(nil, "OVERLAY")
-    scTitle:SetFont("Fonts\\MORPHEUS.TTF", 28, "OUTLINE")
-    scTitle:SetPoint("CENTER", scFrame, "CENTER", 0, 14)
-    scTitle:SetJustifyH("CENTER")
-    scTitle:SetTextColor(1, 0.95, 0.75)
-    scTitle:SetShadowOffset(2, -2)
-    scTitle:SetShadowColor(0, 0, 0, 0.9)
-
-    local scLabel = scFrame:CreateFontString(nil, "OVERLAY")
-    scLabel:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
-    scLabel:SetPoint("CENTER", scFrame, "CENTER", 0, -10)
-    scLabel:SetJustifyH("CENTER")
-    scLabel:SetTextColor(0.85, 0.75, 0.45)
-    scLabel:SetShadowOffset(1, -1)
-    scLabel:SetShadowColor(0, 0, 0, 0.9)
-    scLabel:SetText("Story Finished")
-
-    local scFadeIn = scFrame:CreateAnimationGroup()
-    local scAlphaIn = scFadeIn:CreateAnimation("Alpha")
-    scAlphaIn:SetFromAlpha(0); scAlphaIn:SetToAlpha(1)
-    scAlphaIn:SetDuration(1.0); scAlphaIn:SetSmoothing("OUT")
-    scFadeIn:SetScript("OnFinished", function() scFrame:SetAlpha(1) end)
-
-    local scFadeOut = scFrame:CreateAnimationGroup()
-    local scAlphaOut = scFadeOut:CreateAnimation("Alpha")
-    scAlphaOut:SetFromAlpha(1); scAlphaOut:SetToAlpha(0)
-    scAlphaOut:SetDuration(1.5); scAlphaOut:SetSmoothing("IN")
-    scFadeOut:SetScript("OnFinished", function() scFrame:Hide(); scFrame:SetAlpha(1) end)
-
-    ShowStoryComplete = function(storyTitle)
-        scTitle:SetText(storyTitle or "")
-        scFadeOut:Stop()
-        scFadeIn:Stop()
-        scFrame:SetAlpha(0)
-        scFrame:Show()
-        scFadeIn:Play()
-        C_Timer.After(7.0, function()
-            if scFrame:IsShown() then scFadeOut:Play() end
-        end)
-    end
+ShowStoryComplete = function(storyTitle)
+    ShowStoryBanner("STORY COMPLETE", storyTitle or "", nil, nil, true)
 end
 
 -- ============================================================================
