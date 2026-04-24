@@ -1237,21 +1237,20 @@ sCharText:SetJustifyH("LEFT"); sCharText:SetSpacing(4); sCharText:SetWordWrap(tr
 sCharText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
 -- CTA button on story tab (big red Trading Post style)
--- SecureActionButtonTemplate is combined with the visual template so the
--- macro-driven click runs inside a secure execution context. All waypoint /
--- super-track / OpenWorldMap calls (which set "secret number" values on
--- quest-reward fields) are issued from inside that macro via
--- StoryMode_ExecuteSecureTrack() — this prevents taint from propagating
--- into Blizzard's world-quest tooltip money-frame path.
+-- The visible button is a standard (non-secure) Button so it can anchor
+-- freely to FontStrings during layout. A separate invisible secure overlay
+-- (sTrackBtnSecure, created further below) is anchored on top of it with
+-- SetAllPoints — that overlay is what actually receives clicks and fires
+-- the macro in a secure execution context, keeping the tainting calls
+-- (OpenWorldMap / AddQuestWatch / SetSuperTracked* / SetUserWaypoint)
+-- out of Blizzard's quest-reward money-frame path.
 local sTrackBtnTemplate = C_XMLUtil and C_XMLUtil.GetTemplateInfo
     and C_XMLUtil.GetTemplateInfo("SharedButtonLargeTemplate")
     and "SharedButtonLargeTemplate" or "UIPanelButtonTemplate"
-local sTrackBtn = CreateFrame("Button", "StoryModeTrackButton", detailChild, sTrackBtnTemplate .. ",SecureActionButtonTemplate")
+local sTrackBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
 sTrackBtn:SetSize(240, 40)
 sTrackBtn:SetText("Begin This Story")
 sTrackBtn:RegisterForClicks("AnyUp")
-sTrackBtn:SetAttribute("type", "macro")
-sTrackBtn:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
 sTrackBtn.lockReason = nil
 
 -- Pending action queued by PreClick; consumed by the secure macro.
@@ -1269,6 +1268,31 @@ function StoryMode_ExecuteSecureTrack()
     PrintTrackResult(result, pending.quest, pending.data)
     if storyFrame then storyFrame:Hide() end
 end
+
+-- Invisible SecureActionButtonTemplate overlay. Kept anchored over sTrackBtn
+-- with SetAllPoints — a Frame-to-Frame anchor, which is allowed for
+-- protected frames (unlike Frame-to-FontString anchors, which raise
+-- "Cannot anchor protected frames to regions").
+local sTrackBtnSecure = CreateFrame("Button", "StoryModeTrackButton", sTrackBtn, "SecureActionButtonTemplate")
+sTrackBtnSecure:SetAllPoints(sTrackBtn)
+sTrackBtnSecure:RegisterForClicks("AnyUp")
+sTrackBtnSecure:SetAttribute("type", "macro")
+sTrackBtnSecure:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
+sTrackBtnSecure:SetFrameLevel((sTrackBtn:GetFrameLevel() or 0) + 5)
+-- Always visible; enable/disable is effectively controlled by whether PreClick
+-- queues a pending action. No pending action → the macro is a no-op. This
+-- avoids Show/Hide on a protected frame, which is combat-restricted.
+
+-- Forward hover events to the visible button so its template highlight and
+-- lock-reason tooltip keep working while the overlay sits on top.
+sTrackBtnSecure:SetScript("OnEnter", function()
+    local fn = sTrackBtn:GetScript("OnEnter")
+    if fn then fn(sTrackBtn) end
+end)
+sTrackBtnSecure:SetScript("OnLeave", function()
+    local fn = sTrackBtn:GetScript("OnLeave")
+    if fn then fn(sTrackBtn) end
+end)
 sTrackBtn:SetScript("OnEnter", function(self)
     if self.lockReason then
         SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -2661,16 +2685,16 @@ local function LayoutDetailTab()
             if gateReason then
                 sTrackBtn:SetText("Story Locked")
                 sTrackBtn:SetScript("OnClick", nil)
-                sTrackBtn:SetScript("PreClick", nil)
+                sTrackBtnSecure:SetScript("PreClick", nil)
                 sTrackBtn:Disable()
                 sTrackBtn:SetAlpha(0.5)
                 sTrackBtn.lockReason = gateReason
             else
                 sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
-                -- PreClick queues the action BEFORE the secure macro fires.
-                -- The macro (/run StoryMode_ExecuteSecureTrack()) then performs
-                -- the actual waypoint + supertrack calls in a secure context.
-                sTrackBtn:SetScript("PreClick", function()
+                -- PreClick on the secure overlay queues the action BEFORE the
+                -- macro fires. The macro then performs the waypoint +
+                -- supertrack calls in a secure execution context.
+                sTrackBtnSecure:SetScript("PreClick", function()
                     pendingSecureTrack = { data = data, quest = quest }
                 end)
                 sTrackBtn:SetScript("OnClick", nil)
@@ -2681,7 +2705,7 @@ local function LayoutDetailTab()
         else
             sTrackBtn:SetText("Story Finished")
             sTrackBtn:SetScript("OnClick", nil)
-            sTrackBtn:SetScript("PreClick", nil)
+            sTrackBtnSecure:SetScript("PreClick", nil)
             sTrackBtn:Disable()
             sTrackBtn:SetAlpha(0.5)
             sTrackBtn.lockReason = nil
