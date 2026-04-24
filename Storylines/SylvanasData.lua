@@ -112,6 +112,7 @@ SM.SylvanasData = {
         ["Stay of Execution"]            = 17122,  -- Lor'themar Theron
         ["Breaking the Cycle"]           = 28213,  -- Sylvanas Windrunner
         ["What Comes After"]             = 85799,  -- Lilian Voss
+        ["A Chilling Summons"]           = 95194,  -- Bolvar Fordragon
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
         ["The Long Hunt"]                = 38801,  -- Dori'thur
     },
@@ -127,6 +128,7 @@ SM.SylvanasData = {
         ["Stay of Execution"]            = 0,
         ["Breaking the Cycle"]           = 0,
         ["What Comes After"]             = 0,
+        ["A Chilling Summons"]           = 0,
         ["Judgment"]                     = 0,
         ["The Long Hunt"]                = 0,
     },
@@ -140,7 +142,7 @@ SM.SylvanasData = {
         -- CHAPTER 1: The dungeon chain
         {
             chapter = "The Frozen Halls",
-            note = "Talk to Dark Ranger Vorel in Dalaran to begin. You need to be in the Wrath of the Lich King version of Dalaran — fly to Northrend and land there. Runs through three dungeons: Forge of Souls, Pit of Saron, and Halls of Reflection.",
+            note = "Talk to Dark Ranger Vorel in Wrath Dalaran. Use Chromie to set your timeline if needed. Runs through Forge of Souls, Pit of Saron, and Halls of Reflection.",
             summary = "Sylvanas has found a crack in Icecrown's defenses. She leads a covert strike through three dungeons — the Forge of Souls, the Pit of Saron, and the Halls of Reflection — to reach something she has been waiting years to confront.",
             recap = "Sylvanas found a crack in Icecrown's defenses and sent you in alongside her. The Forge of Souls. The Pit of Saron. And finally the Halls of Reflection, where she came face to face with the memory of the man who murdered her and enslaved her people. She asked Uther the Lightbringer what would become of Arthas when he died. He told her the only way to truly end the Lich King was at the Frozen Throne where he was made. Then he warned her, in the same breath, that her own fate in death would not be kind. She said nothing. She called for the gunship and got everyone out.",
             quests = {
@@ -157,7 +159,7 @@ SM.SylvanasData = {
         {
             chapter = "Icecrown's End",
             achievementID = 4608,  -- "Fall of the Lich King"
-            note = "Defeat the Lich King in Icecrown Citadel — fully soloable at max level. The key Sylvanas moment plays out in the aftermath of the kill.",
+            note = "Defeat the Lich King in Icecrown Citadel. Fully soloable. The Sylvanas moment plays in the aftermath.",
             summary = "The Lich King's reign ends at the Frozen Throne. For Sylvanas, the aftermath is more personal than anyone outside Icecrown will ever know.",
             recap = "Arthas died at the Frozen Throne. The moment he fell, the power of the Lich King's realm rippled outward — and Sylvanas, like every Forsaken sustained by that dark energy, briefly stopped. She died on her feet, alone at the pinnacle of Icecrown. A Val'kyr named Annhylde gave her life to pull her back. Sylvanas opened her eyes to wind and ice and herself, inexplicably, still breathing. She looked out at nothing for a long time. Then she went back to work. She never explained what she had seen. But the Val'kyr — the ones who would spend their own lives to keep her alive — suddenly became very important to her. Now she knew why.",
             quests = {},
@@ -194,7 +196,7 @@ SM.SylvanasData = {
         -- CHAPTER 4: Gilneas, Godfrey, and the final ultimatum
         {
             chapter = "Cities in Dust",
-            note = "Continues directly from The War for Silverpine. One quest — \"What Tomorrow Brings\" (#27401) — has a known issue since the Gilneas Reclamation update: the telescope objective may be unreachable on foot. A flying mount can reach it.",
+            note = "Continues from The War for Silverpine. For \"What Tomorrow Brings\", use a flying mount to reach the telescope if it's blocked on foot.",
             summary = "The campaign pushes into the ruins of Gilneas. A traitor needs to be dealt with, and the Gilneas Liberation Front is running out of room to maneuver.",
             recap = "You fought through the Ruins of Gilneas — sabotage, ambushes, a cat-and-mouse hunt through a shattered city — and cornered Godfrey, the man who had betrayed everyone at least once. Sylvanas raised him without ceremony. Then the final push: Lorna Crowley was captured and brought before her. Sylvanas offered terms. The Gilneas Liberation Front could keep fighting and watch everything turn to dust, or stand aside. It was not a bluff. Cities in Dust is one of the best Sylvanas scenes in the game — cold, precise, and entirely in character.",
             quests = {
@@ -219,7 +221,7 @@ SM.SylvanasData = {
         -- CHAPTER 5: The Broken Shore
         {
             chapter = "The Broken Shore",
-            note = "Begin at the Horde dock in Durotar with Captain Russo. You need to be in the Legion version of the Broken Shore — if the quest isn't available, use Chromie in Orgrimmar to set your timeline to Legion.",
+            note = "Begin with Captain Russo in Durotar. If the quest isn't available, use Chromie in Orgrimmar to set your timeline to Legion.",
             summary = "The Legion has landed on the Broken Shore. The Horde answers the call — but this battle will cost far more than anyone expected.",
             recap = "The Broken Shore was a rout. The Horde threw everything at the Legion's landing force and bled for it. Vol'jin took a wound that no healer could close. By the time the retreat was called, he was dying. He summoned Sylvanas, told her the loa had whispered her name, and asked her to lead. She stood there for a moment — the Dark Lady of the Forsaken, who had never wanted anything to do with the Horde's politics — and said yes. She walked out of that room as Warchief. Nobody, including her, fully understood what that meant yet.",
             quests = {
@@ -241,7 +243,7 @@ SM.SylvanasData = {
         {
             chapter = "The War of Thorns",
             loreOnly = true,
-            note = "Travel to Darkshore and find Zidormi near the border with Felwood — she can take you back to the War of Thorns and show you Teldrassil's last hours. Mark this chapter viewed when you are done.",
+            note = "Find Zidormi near the Darkshore/Felwood border — she takes you back to the War of Thorns. Mark as viewed when done.",
             summary = "The Warchief sets her sights on Darkshore. What unfolds there will make the Fourth War impossible to contain.",
             recap = "The Horde marched into Ashenvale with speed and purpose. You pushed through Night Elf defenses, secured the roads, and drove toward the coast beneath Teldrassil. The Night Elves fought well but the Horde had the numbers and Sylvanas had a plan. The World Tree loomed at the end of it — massive, ancient, and full of civilians who had not escaped in time. Sylvanas stood at its base with the battle won and the tree in reach. A Night Elf prisoner asked what the people inside had done to deserve this. Sylvanas spoke about hope being the enemy. Then she gave the order. Teldrassil burned. The smoke was visible from Stormwind. Whatever Sylvanas had been building toward, this was no longer a war anyone could call limited.",
             quests = {},
@@ -252,7 +254,7 @@ SM.SylvanasData = {
             chapter = "The Battle for Lordaeron",
             achievementID = 12584,
             replayable = true,
-            note = "Play or replay this scenario via Archivist Sylvia in Orgrimmar. Use Mark as Played if the game doesn't detect your completion.",
+            note = "Replay via Archivist Sylvia in Orgrimmar. Use Mark as Played if completion isn't detected.",
             summary = "The Alliance has come for Lordaeron. Sylvanas holds the walls of the Forsaken capital as Jaina and Anduin lead the siege.",
             recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity was lost. Sylvanas rode for the Dark Portal as the Alliance horns echoed behind her. The Forsaken had no home left. Again.",
             quests = {
@@ -328,7 +330,7 @@ SM.SylvanasData = {
         -- CHAPTER 10: What Comes After
         {
             chapter = "What Comes After",
-            note = "If \"A Gathering of Champions\" isn't showing up, you have not yet finished the full war campaign chain. Complete every quest in the previous chapters through \"The Hidden Need\" — only then does Valeera Sanguinar appear at the Orgrimmar Embassy.",
+            note = "If \"A Gathering of Champions\" isn't available, finish the war campaign through \"The Hidden Need\" first.",
             summary = "Sylvanas is gone. What remains of the Horde gathers to decide what it becomes without her.",
             recap = "Saurfang's last act before the gate was a summons sent to every Horde leader still standing. By the time the crowd outside Orgrimmar thinned and the silence settled in, they were already gathering: Baine, Lor'themar, Ji Firepaw, and Lilian Voss, who now spoke for a Forsaken people their former Warchief had used as weapons and discarded. In the middle of it, Lilian stepped away from the main hall to broker a quieter conversation — one that had to happen before anything else could move: Forsaken leadership, face to face with Calia Menethil and Derek Proudmoore. Hidden, necessary, and hers to arrange. Then the full council assembled. The Warchief's throne was empty. Lilian made the case for leaving it that way. No single voice, no single will — a council, the way the Horde had always needed to work but never quite managed. The others listened. Then they agreed.",
             quests = {
@@ -340,15 +342,38 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT V — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
+        -- ACT V — THE VEIL TEARS OPEN (Shadowlands 9.0 intro)
+        -- Sylvanas shatters the Helm of Domination. The door opens.
+        -- =========================================================================
+
+        -- CHAPTER 11: The veil tears open / descent into the Maw
+        {
+            chapter = "A Chilling Summons",
+            note = "Talk to Highlord Darion Mograine at your capital to begin. Runs through a scenario inside the Maw.",
+            summary = "Sylvanas shatters the Helm of Domination and tears open the sky above Icecrown. The leaders of Azeroth follow her into death itself — and find that she left someone behind.",
+            recap = "Sylvanas went to Icecrown and took the Helm of Domination from Bolvar Fordragon's head. Then she broke it. The veil between the living world and the realm of death split apart where she stood, and she stepped through and left. Bolvar used the shards to open a second rift — he and Jaina, Thrall, Baine, and Anduin went in after her. They landed in the Maw, the prison at the bottom of the Shadowlands, a place no soul had ever escaped from. Sylvanas was already gone deeper in. She had left Anduin behind, locked in a cage in the Tremaculum, to be broken slowly by the Jailer's forces — a message, maybe, or an experiment. Jaina found him. The Jailer's magic had already started working on Baine, poisoning his spirit through a cursed dagger. There was no clean escape: the river of souls, Gorgoa, cut across the only path out, and the Jailer's armies were moving to seal it. The group fought their way through, kept each other standing, and crossed. They came out the other side with Anduin freed and the full shape of the threat finally visible. Sylvanas had not just started a war. She had chosen a side in one that had been running since before Azeroth existed.",
+            quests = {
+                { id = 62504, name = "Shadowlands: A Chilling Summons", npc = "Highlord Darion Mograine", faction = "Alliance" },
+                { id = 61874, name = "Shadowlands: A Chilling Summons", npc = "Highlord Darion Mograine", faction = "Horde" },
+                { id = 59751, name = "Through the Shattered Sky",       npc = "Highlord Bolvar Fordragon" },
+                { id = 59759, name = "The Lion's Cage",                  npc = "Lady Jaina Proudmoore" },
+                { id = 59760, name = "The Afflictor's Key",              npc = "Lady Jaina Proudmoore" },
+                { id = 59765, name = "Wounds Beyond Flesh",              npc = "Lady Jaina Proudmoore" },
+                { id = 59767, name = "The Path to Salvation",            npc = "Lady Jaina Proudmoore" },
+                { id = 59770, name = "Stand as One",                     npc = "Lady Jaina Proudmoore" },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT VI — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
         -- After the Jailer's fall, Sylvanas regains her soul — and faces
         -- the reckoning she has earned.
         -- =========================================================================
 
-        -- CHAPTER 11: The long walk
+        -- CHAPTER 12: The long walk
         {
             chapter = "Judgment",
-            note = "Complete the Zereth Mortis campaign and defeat the Jailer in the Sepulcher of the First Ones raid to unlock.",
+            note = "Complete the Zereth Mortis campaign and defeat the Jailer in the Sepulcher of the First Ones raid.",
             summary = "The war in the Shadowlands is over. Sylvanas stands before those she has wronged — and must face what comes next.",
             recap = "The Jailer was dead. Sylvanas was whole again — every fragment of her soul restored from where she had given it away. She stood in silence with the full weight of what she had done pressing down on her at last. Then she walked. Down the long road through Oribos, past the faces of the people she had condemned, she came before Tyrande Whisperwind — who had more right to judge her than anyone alive or dead. Tyrande spoke her sentence. Sylvanas accepted it without a word of protest. She would spend eternity freeing the souls she had imprisoned in the Maw, sending them through the veil one by one. Not as punishment. As penance, freely chosen.",
             quests = {
@@ -361,14 +386,14 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT VI — THE LONG HUNT (Dragonflight 10.1.7)
+        -- ACT VII — THE LONG HUNT (Dragonflight 10.1.7)
         -- The penance continues. The hunt has no end.
         -- =========================================================================
 
-        -- CHAPTER 12: The Long Hunt
+        -- CHAPTER 13: The Long Hunt
         {
             chapter = "The Long Hunt",
-            note = "Requires completing the Forsaken Heritage questline as an Undead character. Only available to players who sided with Sylvanas during the war campaign.",
+            note = "Complete the Forsaken Heritage questline as an Undead character. Requires having sided with Sylvanas during the war campaign.",
             summary = "Lordaeron has been reclaimed, the penance accepted. But for those who once swore loyalty to the Banshee Queen, a message finds its way back through the dark — one last task, carried by a familiar messenger.",
             recap = "The Forsaken moved on. Lordaeron was theirs again, and the long war had its accounting. But some loyalties don't dissolve with a verdict. Dori'thur arrived in the ruins of Lordaeron bearing a message — not from a queen, not a command, just acknowledgment. The hunt Sylvanas began in death has no end date. The souls in the Maw number in the countless. She is still there, freeing them one by one. The message asked nothing. It only said: she remembers who stood with her.",
             quests = {
