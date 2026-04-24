@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0
+
+### Content
+- **The Dark Heart of Nazmir** — new Horde-only epic storyline for the Nazmir zone (Battle for Azeroth). Covers all 8 achievement chapters: meeting Bwonsamdi and forging the pact for one million souls, the bat loa Hir'eek's corruption, Torga's death, Krag'wa in Gloom Hollow, the Titan Keeper facility and G'huun containment, and the final assault on Grand Ma'da Ateena. Parallel to The Witchwood of Drustvar.
+
+---
+
 ## 1.3.4
 
 ### Fixes

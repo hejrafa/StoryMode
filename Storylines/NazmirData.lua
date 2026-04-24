@@ -1,0 +1,214 @@
+local addonName, SM = ...
+
+-- =============================================================================
+-- Battle for Azeroth: Nazmir — The Dark Heart of Nazmir
+-- Zone Storyline: "The Dark Heart of Nazmir" (Achievement 11868)
+-- =============================================================================
+
+SM.NazmirData = {
+    title = "The Dark Heart of Nazmir",
+    achievementName = "The Dark Heart of Nazmir",
+    achievements = {
+        11868,  -- The Dark Heart of Nazmir (Nazmir zone story)
+    },
+    description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned god beneath the earth. Forge a pact with Bwonsamdi, loa of death, to fight back the darkness. The deal is simple: one million souls. The price, in the end, will be far higher.",
+    zone = "Nazmir",
+    expansion = "Battle for Azeroth",
+    faction = "Horde",
+    color = { 0.30, 0.65, 0.45 },  -- Bwonsamdi swamp-teal
+    portraitDisplayID = 75961,
+
+    startQuest = { id = 47512, name = "Nazmir", npc = "Princess Talanji", location = "Dazar'alor" },
+    startMapID = 862,
+    startX = 0.5560,
+    startY = 0.3660,
+
+    npcLocations = {
+        ["Princess Talanji"]    = { mapID = 862, x = 0.5560, y = 0.3660 },  -- Dazar'alor (verified)
+        ["Hanzabu"]             = { mapID = 863, x = 0.3660, y = 0.5380 },
+        ["Witch Doctor Kejabu"] = { mapID = 863, x = 0.3960, y = 0.4380 },
+        ["Rokhan"]              = { mapID = 863, x = 0.6740, y = 0.4220 },
+        ["Lashk"]               = { mapID = 863, x = 0.6740, y = 0.4200 },
+        ["Titan Keeper Hezrel"] = { mapID = 863, x = 0.6860, y = 0.3500 },
+        ["Patch"]               = { mapID = 863, x = 0.6560, y = 0.4500 },
+    },
+
+    npcDisplayIDs = {
+        ["Princess Talanji"]    = 75898,
+        ["Rokhan"]              = 116250,
+        ["Hanzabu"]             = 76641,
+        ["Bwonsamdi"]           = 75961,
+        ["Witch Doctor Kejabu"] = 77153,
+        ["Lashk"]               = 85218,
+        ["Patch"]               = 30315,
+        ["Krag'wa"]             = 76791,
+        ["Titan Keeper Hezrel"] = 76851,
+    },
+
+    -- =========================================================================
+    -- Main storyline chapters (in story order)
+    -- =========================================================================
+    chapters = {
+        -- CHAPTER 1: Deep in the Swamp
+        {
+            chapter = "Deep in the Swamp",
+            summary = "Nazmir is swallowed by blood and shadow. Princess Talanji leads the Horde into the swamp to find the loa and stop the blood troll advance.",
+            recap = "Talanji brought you to Nazmir, the oldest and most cursed of the Zandalari lands. The swamp had been swallowed — blood trolls pressed inward from every angle, their offerings feeding something dark and hungry beneath the earth. Rokhan read the signs: to push back the blood tide, you'd need the loa. Ancient, capricious, and rarely willing to be asked. You cut through the blood troll front lines, took in the full scope of the devastation, and prepared to seek out the only powers old enough to matter in Nazmir.",
+            quests = {
+                { id = 47512, name = "Nazmir",                  npc = "Princess Talanji" },
+                { id = 47103, name = "Journey to Nazmir",       npc = "Rokhan" },
+                { id = 48535, name = "Nazmir, the Forbidden Swamp", npc = "Rokhan" },
+                { id = 47262, name = "Ending the Blood Trolls", npc = "Princess Talanji" },
+                { id = 47105, name = "Into The Darkness",       npc = "Princess Talanji" },
+                { id = 47130, name = "Improper Burial",         npc = "Rokhan" },
+                { id = 47264, name = "Leave None Standing",     npc = "Rokhan" },
+                { id = 47263, name = "A Time of Revelation",   npc = "Princess Talanji" },
+                { id = 47188, name = "The Aid of the Loa",     npc = "Princess Talanji" },
+            },
+        },
+
+        -- CHAPTER 2: A Pact With Death
+        {
+            chapter = "A Pact With Death",
+            summary = "Hanzabu leads you to Bwonsamdi, loa of death, deep in his Necropolis. He will fight the blood trolls — for one million souls.",
+            recap = "Hanzabu, servant of the death loa, led you into Bwonsamdi's Necropolis — a place where the veil between the living and the dead was thin enough to talk through. Bwonsamdi was many things: charming, unsettling, and entirely in control of any room he entered. He had watched the blood trolls desecrate his death shrines and steal souls that were owed to him. He was not pleased. The deal he offered was simple — his power in exchange for one million souls delivered to his realm. You cleansed his temple of spirits who had fled to G'huun, repelled Grand Ma'da Ateena's interruption of the sealing ritual, and sealed the pact. A deal with a death loa is not something you walk back from.",
+            quests = {
+                { id = 47241, name = "The Shadow of Death",     npc = "Princess Talanji" },
+                { id = 47244, name = "A Culling of Souls",      npc = "Hanzabu" },
+                { id = 49278, name = "Spiritual Restoration",   npc = "Bwonsamdi" },
+                { id = 47868, name = "The Necropolis",          npc = "Hanzabu" },
+                { id = 47880, name = "A Tribute for Death",     npc = "Hanzabu" },
+                { id = 47247, name = "That Which Haunts the Dead", npc = "Bwonsamdi" },
+                { id = 47491, name = "Remnants of the Damned",  npc = "Bwonsamdi" },
+                { id = 49348, name = "A Desecrated Temple",     npc = "Bwonsamdi" },
+                { id = 49432, name = "The Forlorn Soul",        npc = "Keula" },
+                { id = 47249, name = "Soulbound",               npc = "Bwonsamdi" },
+                { id = 47250, name = "We'll Meet Again",        npc = "Hanzabu" },
+            },
+        },
+
+        -- CHAPTER 3: Bring the Boom
+        {
+            chapter = "Bring the Boom",
+            summary = "A goblin named Patch and a crew of demolitions experts blast a way through the blood troll defenses.",
+            recap = "Subtlety had its limits in Nazmir. Patch — a goblin with strong opinions about explosives and personal safety — had a solution for the blood troll barricades that was loud, expensive, and effective. You wrangled his scattered crew, gathered everything they needed, and let them do what goblins do best. The blood troll fortifications that had blocked the advance for weeks turned to rubble in an afternoon. Talanji watched the smoke rise with something close to satisfaction. The path deeper into Nazmir was open.",
+            quests = {
+                { id = 47245, name = "Getting the Message",     npc = "Rokhan" },
+                { id = 47631, name = "Rendezvous with the Libation", npc = "Patch" },
+                { id = 47597, name = "No Goblin Left Behind",   npc = "Patch" },
+                { id = 47599, name = "Revenge: Served Hot",     npc = "Patch" },
+                { id = 47596, name = "There Is No Plan \"B\"",  npc = "Patch" },
+                { id = 47711, name = "Head of the Viper",       npc = "Patch" },
+                { id = 47598, name = "Pilfering and Fencing",   npc = "Patch" },
+                { id = 47601, name = "Field Evaluation",        npc = "Patch" },
+                { id = 47602, name = "Ready For Action",        npc = "Princess Talanji" },
+            },
+        },
+
+        -- CHAPTER 4: Undercover Sista
+        {
+            chapter = "Undercover Sista",
+            summary = "Infiltrate Zalamar disguised as a blood troll. The bat loa Hir'eek has been corrupted — you must end the corruption and the loa with it.",
+            recap = "Witch Doctor Kejabu had a plan that required a certain willingness to look like the enemy. Disguised as blood trolls, you slipped into Zalamar, one of the blood cult's most fortified settlements. Inside you found something worse than blood trolls: Hir'eek, the bat loa, had turned. Corrupted by G'huun's influence, the loa now fed on his own people, demanding sacrifice. A corrupted loa was more dangerous than no loa at all. You poisoned the blood troll's brood, stripped away their rituals, and faced Hir'eek at the heart of his lair. The bat loa fell. It was not a victory to celebrate.",
+            quests = {
+                { id = 49440, name = "Blood Troll on the Outside", npc = "Witch Doctor Kejabu" },
+                { id = 48699, name = "Sneaking into Zalamar",   npc = "Witch Doctor Kejabu" },
+                { id = 48890, name = "How to Be a Blood Troll", npc = "Witch Doctor Kejabu" },
+                { id = 48801, name = "Isolating Zalamar",       npc = "Witch Doctor Kejabu" },
+                { id = 49078, name = "Poisoning the Brood",     npc = "Witch Doctor Kejabu" },
+                { id = 48800, name = "Mark of the Bat",         npc = "Witch Doctor Kejabu" },
+                { id = 49079, name = "Hir'eek, the Bat Loa",   npc = "Witch Doctor Kejabu" },
+                { id = 49081, name = "To Kill a Loa",           npc = "Witch Doctor Kejabu" },
+                { id = 49082, name = "Upward and Onward",       npc = "Witch Doctor Kejabu" },
+            },
+        },
+
+        -- CHAPTER 5: Turtle Power
+        {
+            chapter = "Turtle Power",
+            summary = "Torga, ancient sea turtle loa of Nazmir, is dying. The blood trolls have bled him for decades. You arrive too late to save him — but not too late to release him.",
+            recap = "Lashk brought you to Torga, and what you found broke something in the air around you. The sea turtle loa — ancient beyond reckoning, the kind of creature that outlasted empires — had been slowly bled by the blood trolls for years. He was almost gone when you arrived. You fought through the blood trolls claiming his shores, sought Bwonsamdi's intercession for a dying loa, and freed the souls trapped around him. Torga died. He just did it on his own terms, with the Horde at his side. Bwonsamdi, for once, was almost respectful. Lashk said nothing. Some losses don't require words.",
+            note = "Torga's death is one of BfA's most-remembered quiet moments — the turtle loa dies even if you complete every quest in this chapter.",
+            quests = {
+                { id = 49185, name = "Catching Up",             npc = "Princess Talanji" },
+                { id = 49064, name = "Torga, the Turtle Loa",  npc = "Lashk" },
+                { id = 49067, name = "Beseeching Bwonsamdi",   npc = "Lashk" },
+                { id = 49070, name = "Souls for the Death Loa", npc = "Bwonsamdi" },
+                { id = 49071, name = "Dreadtick Combustion",   npc = "Lashk" },
+                { id = 49080, name = "Cease all Summoning",    npc = "Lashk" },
+                { id = 49120, name = "Speaking with the Dead", npc = "Bwonsamdi" },
+                { id = 49125, name = "Negative Blood",         npc = "Lashk" },
+                { id = 49126, name = "Forcing Fate's Hand",    npc = "Lashk" },
+                { id = 49130, name = "Loa-Free Diet",          npc = "Lashk" },
+                { id = 49131, name = "Sanctifying Ground",     npc = "Lashk" },
+                { id = 49132, name = "Crushing the Skullcrushers", npc = "Lashk" },
+                { id = 49136, name = "Jungo, Herald of G'huun", npc = "Lashk" },
+                { id = 49160, name = "Torga's Eternal Return", npc = "Lashk" },
+            },
+        },
+
+        -- CHAPTER 6: A Friend of the Frogs
+        {
+            chapter = "A Friend of the Frogs",
+            summary = "In Gloom Hollow, the great frog loa Krag'wa hungers — and he is willing to fight if you can earn his trust. Become a friend of the frogs.",
+            recap = "Rokhan led you into Gloom Hollow, where the ancient frog loa Krag'wa brooded in the dark. The blood trolls had massacred his followers and desecrated his totems, and Krag'wa was in no mood for diplomacy. You hunted the hunters who had slaughtered his priests, restored his shrines, and prepared the kind of feast that only a frog loa the size of a temple could appreciate. Krag'wa was pleased. He was also terrifying. The agreement was simple enough: he would fight with the Horde against the blood trolls and G'huun. In Gloom Hollow, that counted as a warm welcome.",
+            quests = {
+                { id = 49902, name = "To Gloom Hollow",         npc = "Rokhan" },
+                { id = 47525, name = "Staying Hidden",          npc = "Rokhan" },
+                { id = 47659, name = "Hunt the Hunter",         npc = "Krag'wa" },
+                { id = 47660, name = "Fallen Idols",            npc = "Krag'wa" },
+                { id = 52294, name = "Fallen Idols",            npc = "Krag'wa", optional = true },
+                { id = 47623, name = "The Last Witch Doctor of Krag'wa", npc = "Krag'wa" },
+                { id = 47621, name = "A True Loa Feast",        npc = "Krag'wa" },
+                { id = 47622, name = "A Magical Glow",          npc = "Krag'wa" },
+                { id = 47540, name = "Totemic Restoration",     npc = "Krag'wa" },
+                { id = 47696, name = "Krag'wa the Terrible",   npc = "Krag'wa" },
+            },
+        },
+
+        -- CHAPTER 7: Everything Contained
+        {
+            chapter = "Everything Contained",
+            summary = "A damaged Titan Keeper has been protecting the swamp's darkest secret — a proto-god of blood and shadow sealed beneath the earth.",
+            recap = "Titan Keeper Hezrel had been running containment protocols in Nazmir longer than any troll civilization had existed. His facility was damaged, his routines degraded, and the thing he was containing was actively working to get out. G'huun — a failed titan experiment, a blood god born in a lab and deemed too dangerous to destroy — had been sealed beneath Nazmir since before the trolls arrived. You helped Hezrel repair his systems, purified the corrupted earth, cleared the undead and void creatures that had crept into the facility, and restored the containment. For now. What had already escaped, and the blood trolls' true purpose — feeding G'huun until he broke free on his own terms — was only becoming clear.",
+            quests = {
+                { id = 49932, name = "Slumber No More",         npc = "Lashk" },
+                { id = 49935, name = "How to Repair a Titan Keeper", npc = "Titan Keeper Hezrel" },
+                { id = 49937, name = "Recovering Remnants",     npc = "Titan Keeper Hezrel" },
+                { id = 49938, name = "Corrupted Earth",         npc = "Titan Keeper Hezrel" },
+                { id = 49941, name = "Bone Procession",         npc = "Titan Keeper Hezrel" },
+                { id = 49950, name = "Blood Purification",      npc = "Titan Keeper Hezrel" },
+                { id = 49949, name = "Unwelcome Undead",        npc = "Titan Keeper Hezrel" },
+                { id = 49955, name = "Not Fit for This Plane",  npc = "Titan Keeper Hezrel" },
+                { id = 49956, name = "Void is Prohibited",      npc = "Titan Keeper Hezrel" },
+                { id = 49957, name = "Protocol Recovery",       npc = "Titan Keeper Hezrel" },
+                { id = 49980, name = "Containment Procedure",   npc = "Titan Keeper Hezrel" },
+                { id = 49985, name = "Return to Gloom Hollow",  npc = "Titan Keeper Hezrel" },
+            },
+        },
+
+        -- CHAPTER 8: Bleeding the Blood Trolls
+        {
+            chapter = "Bleeding the Blood Trolls",
+            summary = "The final assault on Grand Ma'da Ateena. The Horde, the loa, and a death god march together into the Blood Gate. G'huun waits beneath.",
+            recap = "Patch rallied the assault force at Bloodfire Ravine. Talanji stood at the front. The loa — Krag'wa, what remained of Bwonsamdi's power, even the memory of Torga — were with you. The blood trolls had held the Blood Gate as the last barrier between Nazmir and the heart of their god's prison. You blew through their defenses, toppled their totems, and drove a path of fire through their strongest ranks. Grand Ma'da Ateena fell. In the silence after, Titan Keeper Hezrel delivered the final revelation: G'huun still breathed beneath the earth. Nazmir had been reclaimed — but the blood god's prison was cracking. The raid on Uldir was no longer optional.",
+            note = "This chapter ends the Nazmir zone story. The full conclusion — confronting G'huun himself — takes place in the Uldir raid.",
+            quests = {
+                { id = 49569, name = "Down by the Riverside",   npc = "Patch" },
+                { id = 50076, name = "Rally the Warriors",      npc = "Princess Talanji" },
+                { id = 50138, name = "The Battle of Bloodfire Ravine", npc = "Princess Talanji" },
+                { id = 50078, name = "Undying Totems",          npc = "Princess Talanji" },
+                { id = 50079, name = "Boom Goes the Bomb",      npc = "Patch" },
+                { id = 50081, name = "The Road of Pain",        npc = "Princess Talanji" },
+                { id = 50082, name = "Target of Opportunity",   npc = "Princess Talanji" },
+                { id = 50085, name = "A Message of Blood and Fire", npc = "Rokhan" },
+                { id = 52073, name = "Petitioning Krag'wa",    npc = "Krag'wa" },
+                { id = 50087, name = "Ateena's Fall",           npc = "Princess Talanji" },
+                { id = 51244, name = "What Rots Beneath",       npc = "Titan Keeper Hezrel" },
+                { id = 47493, name = "A Lonely Spirit",         npc = "Keula" },
+            },
+        },
+    },
+}
+
+return SM
