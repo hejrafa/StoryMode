@@ -571,15 +571,13 @@ local function SetWaypointForQuest(data, quest)
     -- Make sure low-level quest markers are visible (critical for legacy content)
     EnsureTrivialQuestsVisible()
 
-    -- Quest already in log → super-track it directly
-    -- Defer watch/super-track to the next frame so they don't taint
-    -- the QuestMapFrame refresh (Blizzard reads secret difficultyLevel).
+    -- Quest already in log → super-track it directly.
+    -- Called from StoryMode_ExecuteSecureTrack() (secure macro context),
+    -- so these API calls are trusted and must NOT be deferred via C_Timer.
     if IsQuestInLog(quest.id) then
         local qid = quest.id
-        C_Timer.After(0, function()
-            C_QuestLog.AddQuestWatch(qid)
-            C_SuperTrack.SetSuperTrackedQuestID(qid)
-        end)
+        C_QuestLog.AddQuestWatch(qid)
+        C_SuperTrack.SetSuperTrackedQuestID(qid)
         -- Open map to the quest's zone if we know it
         local loc = data.npcLocations and data.npcLocations[quest.npc]
         if loc then
@@ -595,18 +593,14 @@ local function SetWaypointForQuest(data, quest)
     -- 1. Mark with the native QuestOffer super-track pin so WoW's own tracking
     --    system lights up the "!" on the minimap and map.
     if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
-        C_Timer.After(0, function()
-            C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
-        end)
+        C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
     end
 
     -- 2. Also set an explicit user waypoint so there's a visible arrow to follow.
     if loc and C_Map.CanSetUserWaypointOnMap(loc.mapID) then
         local point = UiMapPoint.CreateFromCoordinates(loc.mapID, loc.x, loc.y)
         C_Map.SetUserWaypoint(point)
-        C_Timer.After(0, function()
-            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
-        end)
+        C_SuperTrack.SetSuperTrackedUserWaypoint(true)
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
         return "waypoint", loc.mapID, loc
     end
