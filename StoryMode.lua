@@ -1920,16 +1920,19 @@ local function CreateTrackNode(parent)
     checkmark:Hide()
     btn.checkmark = checkmark
 
-    -- Hover highlight (masked to circle)
-    local hl = btn:CreateTexture(nil, "HIGHLIGHT")
+    -- Hover highlight (masked to circle). In OVERLAY sublevel -1 so the ring
+    -- and squareBorder child frame always render above it regardless of hover.
+    local hl = btn:CreateTexture(nil, "OVERLAY", nil, -1)
     hl:SetTexture("Interface/Buttons/WHITE8x8")
     hl:SetAllPoints(portrait)
     hl:SetVertexColor(1, 0.82, 0.50, 0.2)
+    hl:Hide()
     local hlMask = btn:CreateMaskTexture()
     hlMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
         "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
     hlMask:SetAllPoints(portrait)
     hl:AddMaskTexture(hlMask)
+    btn.hl = hl
     btn.hlMask = hlMask
 
     -- Active glow (same as hover but always-on for selected node)
@@ -1958,6 +1961,7 @@ local function CreateTrackNode(parent)
 
     -- Tooltip
     btn:SetScript("OnEnter", function(self)
+        self.hl:Show()
         if self.tooltipTitle then
             SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
             SMTooltip:ClearLines()
@@ -1983,7 +1987,7 @@ local function CreateTrackNode(parent)
             SMTooltip:Show()
         end
     end)
-    btn:SetScript("OnLeave", function() SMTooltip:Hide() end)
+    btn:SetScript("OnLeave", function(self) self.hl:Hide(); SMTooltip:Hide() end)
 
     return btn
 end
