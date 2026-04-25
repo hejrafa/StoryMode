@@ -126,6 +126,7 @@ SM.JainaData = {
         -- CHAPTER 2: The conspiracy
         {
             chapter = "Enemies Within",
+            gated = true,
             note = "Requires completing the Tiragarde Sound main storyline (\"Trouble in Tiragarde Sound\"). Begin with the Ashvane Trading Company investigation in Boralus.",
             summary = "Priscilla Ashvane has been quietly dismantling the Proudmoore Admiralty from within — bribing officials, sabotaging trade, and positioning herself to absorb the family's political legacy while Katherine grieves her son Derek and her estrangement from Jaina. Unraveling the conspiracy takes you across Tiragarde Sound, from Boralus's counting houses to Ashvane prison cells, until the truth lands at Genn Greymane's feet in Boralus Harbor.",
             recap = "Tiragarde Sound was rotting at its foundations. Priscilla Ashvane and the Ashvane Trading Company had corrupted the Admiralty's supply lines, bribed its officers, and turned institutional loyalty into a private racket — all while Katherine Proudmoore remained in the dark, managing the public appearances of a nation that was quietly being hollowed out beneath her. You dismantled the operation piece by piece, surfacing the evidence until the case against Ashvane was undeniable. Katherine met with Genn Greymane in Boralus Harbor. She still had not spoken to Jaina.",
@@ -148,6 +149,7 @@ SM.JainaData = {
         -- CHAPTER 3: The lost fleet
         {
             chapter = "The Pride of Kul Tiras",
+            gated = true,
             note = "Requires completing all three Kul Tiras zone storylines (Tiragarde Sound, Drustvar, and Stormsong Valley). Speak to Cyrus Crestfall in Boralus to begin. This chapter includes four dungeon quests: Tol Dagor, Shrine of the Storm, Waycrest Manor, and Siege of Boralus.",
             summary = "The Kul Tiran fleet — decades of Proudmoore naval heritage — is scattered and locked behind four keys held by enemies who have taken root across the nation: pirates in Freehold, corrupt wardens in Tol Dagor, drowned tidesages in the Shrine of the Storm, and Drust witches in Waycrest Manor. The keys must be taken by force. At the end, Priscilla Ashvane makes one final move — and Jaina faces her mother in a square in Boralus, in front of the entire fleet, for the first time since Theramore fell.",
             recap = "Four dungeons. Four keys. Sweete the pirate queen, the tidesage Zul'gurub, the witch Gorak Tul — all of them fell. The Kul Tiran fleet, locked away by enemies and time and a nation that had stopped believing in itself, was free again. Then came the Siege of Boralus: Priscilla Ashvane, revealed as the architect of Kul Tiras's rot, made her last stand in the harbor. She fell too.\n\nIn Unity Square, Katherine Proudmoore stood before her daughter for the first time in years. She spoke the words no one had expected her to say: she stepped aside. She named Jaina Lord Admiral. She called her back — not as a Kul Tiran returning home, but as the heir to a seat her mother had been keeping warm. The fleet sailed. The song that Jaina's father had sung to her as a child played across the harbor.",
@@ -189,6 +191,7 @@ SM.JainaData = {
         -- CHAPTER 4: The Zuldazar assault
         {
             chapter = "The Fog of War",
+            gated = true,
             note = "Complete the Kul Tiras intro and War Campaign chapters to unlock, then speak with Mathias Shaw in Proudmoore Keep.",
             summary = "Jaina Proudmoore, now Lord Admiral, turns the Kul Tiran fleet against the Zandalari Empire. The plan: draw the Horde's forces deep into Nazmir with the Abyssal Scepter while the Alliance fleet strikes Zuldazar harbor from the south. Jaina personally freezes the harbor, and the Battle of Dazar'alor begins.",
             recap = "Mathias Shaw laid out the strategy in Proudmoore Keep: use the Abyssal Scepter to create a false assault on Nazmir and lure the Horde fleet away from Zuldazar. While Zandalari forces rushed south to repel the distraction, the Alliance fleet would hit the harbor directly. You spent two weeks fighting through Nazmir swamps, disabling Zandalari machinery, and holding the line at the Blood Gate — long enough for the fleet to round the coast.\n\nThen Jaina froze the harbor. The water turned to ice beneath Zandalari hulls. The Alliance sailed straight through. The Battle of Dazar'alor — the most audacious naval assault in a generation — had begun. Lord Admiral Jaina Proudmoore, fighting in her own waters, had brought the war home.",

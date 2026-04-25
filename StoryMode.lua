@@ -2935,9 +2935,11 @@ local function LayoutDetailTab()
                 node.checkmark:Hide()
             end
 
-            -- Shape: gated chapters (prerequisites or note hint) render as squares
+            -- Shape: gated chapters render as squares.
+            -- ch.prerequisites = explicit quest gate; ch.gated = manual flag for
+            -- chapters locked behind progress that can't be expressed as a quest ID.
             local CIRC = "Interface/CHARACTERFRAME/TempPortraitAlphaMask"
-            local isGated = ch.prerequisites ~= nil or ch.note ~= nil
+            local isGated = ch.prerequisites ~= nil or ch.gated == true
             node.isGated = isGated
             if isGated then
                 node.portraitMask:SetTexture("Interface/Buttons/WHITE8x8")

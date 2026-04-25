@@ -373,6 +373,7 @@ SM.SylvanasData = {
         -- CHAPTER 12: The long walk
         {
             chapter = "Judgment",
+            gated = true,
             note = "Complete the Zereth Mortis campaign and defeat the Jailer in the Sepulcher of the First Ones raid.",
             summary = "The war in the Shadowlands is over. Sylvanas stands before those she has wronged — and must face what comes next.",
             recap = "The Jailer was dead. Sylvanas was whole again — every fragment of her soul restored from where she had given it away. She stood in silence with the full weight of what she had done pressing down on her at last. Then she walked. Down the long road through Oribos, past the faces of the people she had condemned, she came before Tyrande Whisperwind — who had more right to judge her than anyone alive or dead. Tyrande spoke her sentence. Sylvanas accepted it without a word of protest. She would spend eternity freeing the souls she had imprisoned in the Maw, sending them through the veil one by one. Not as punishment. As penance, freely chosen.",
@@ -393,6 +394,7 @@ SM.SylvanasData = {
         -- CHAPTER 13: The Long Hunt
         {
             chapter = "The Long Hunt",
+            gated = true,
             note = "Complete the Forsaken Heritage questline as an Undead character. Requires having sided with Sylvanas during the war campaign.",
             summary = "Lordaeron has been reclaimed, the penance accepted. But for those who once swore loyalty to the Banshee Queen, a message finds its way back through the dark — one last task, carried by a familiar messenger.",
             recap = "The Forsaken moved on. Lordaeron was theirs again, and the long war had its accounting. But some loyalties don't dissolve with a verdict. Dori'thur arrived in the ruins of Lordaeron bearing a message — not from a queen, not a command, just acknowledgment. The hunt Sylvanas began in death has no end date. The souls in the Maw number in the countless. She is still there, freeing them one by one. The message asked nothing. It only said: she remembers who stood with her.",
