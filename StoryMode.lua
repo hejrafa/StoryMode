@@ -775,6 +775,9 @@ end
 if CanShowQuestline(SM.NazmirData) then
     RegisterQuestline(SM.NazmirData, "Epic Storylines")
 end
+if CanShowQuestline(SM.DreadWastesData) then
+    RegisterQuestline(SM.DreadWastesData, "Epic Storylines")
+end
 local classCampaigns = {
     SM.DeathKnightCampaignData,
     SM.DemonHunterCampaignData,

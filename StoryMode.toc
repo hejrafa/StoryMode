@@ -23,6 +23,7 @@ Heritage\DarkIronHeritageData.lua
 Storylines\SuramarData.lua
 Storylines\DrustvarData.lua
 Storylines\NazmirData.lua
+Storylines\DreadWastesData.lua
 Storylines\FrozenThroneData.lua
 Campaigns\DeathKnightCampaignData.lua
 Campaigns\DemonHunterCampaignData.lua
