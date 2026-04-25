@@ -5,7 +5,7 @@ local addonName, SM = ...
 -- ============================================================================
 
 local defaults = {
-    version = "1.3.0",
+    version = "1.4.0",
     selectedQuestline = 1,
     viewedLoreChapters = {},
 }
@@ -1313,10 +1313,12 @@ sTrackBtn:HookScript("OnShow", SyncSecureOverlay)
 -- Forward hover events to the visible button so its template highlight and
 -- lock-reason tooltip keep working while the overlay sits on top.
 sTrackBtnSecure:SetScript("OnEnter", function()
+    sTrackBtn:LockHighlight()
     local fn = sTrackBtn:GetScript("OnEnter")
     if fn then fn(sTrackBtn) end
 end)
 sTrackBtnSecure:SetScript("OnLeave", function()
+    sTrackBtn:UnlockHighlight()
     local fn = sTrackBtn:GetScript("OnLeave")
     if fn then fn(sTrackBtn) end
 end)
@@ -1918,22 +1920,6 @@ local function CreateTrackNode(parent)
     checkmark:Hide()
     btn.checkmark = checkmark
 
-    -- Hover highlight (masked to circle/square). In ARTWORK so it is always
-    -- below the OVERLAY layer where ring and squareBorder live — no sublevel
-    -- ordering needed, the draw layer guarantee is absolute.
-    local hl = btn:CreateTexture(nil, "ARTWORK")
-    hl:SetTexture("Interface/Buttons/WHITE8x8")
-    hl:SetAllPoints(portrait)
-    hl:SetVertexColor(1, 0.82, 0.50, 0.2)
-    hl:Hide()
-    local hlMask = btn:CreateMaskTexture()
-    hlMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
-        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-    hlMask:SetAllPoints(portrait)
-    hl:AddMaskTexture(hlMask)
-    btn.hl = hl
-    btn.hlMask = hlMask
-
     -- Active glow (same as hover but always-on for selected node)
     local activeGlow = btn:CreateTexture(nil, "ARTWORK", nil, 3)
     activeGlow:SetTexture("Interface/Buttons/WHITE8x8")
@@ -1948,6 +1934,20 @@ local function CreateTrackNode(parent)
     btn.activeGlow = activeGlow
     btn.glowMask = glowMask
 
+    -- Hover glow mirrors the selected-node treatment without altering selection.
+    local hoverGlow = btn:CreateTexture(nil, "ARTWORK", nil, 4)
+    hoverGlow:SetTexture("Interface/Buttons/WHITE8x8")
+    hoverGlow:SetAllPoints(portrait)
+    hoverGlow:SetVertexColor(1, 0.82, 0.50, 0.25)
+    local hoverGlowMask = btn:CreateMaskTexture()
+    hoverGlowMask:SetTexture("Interface/CHARACTERFRAME/TempPortraitAlphaMask",
+        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    hoverGlowMask:SetAllPoints(portrait)
+    hoverGlow:AddMaskTexture(hoverGlowMask)
+    hoverGlow:Hide()
+    btn.hoverGlow = hoverGlow
+    btn.hoverGlowMask = hoverGlowMask
+
     -- Down-arrow indicator (below node, points to quest cards)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
     downArrow:SetAtlas("common-icon-forwardarrow", false)
@@ -1960,10 +1960,14 @@ local function CreateTrackNode(parent)
 
     -- Tooltip
     btn:SetScript("OnEnter", function(self)
-        self.hl:Show()
+        self.hoverGlow:SetVertexColor(1, 0.82, 0.50, self.isDimmed and 0.36 or 0.25)
+        self.hoverGlow:Show()
         if self.isGated then
             self.squareBorder:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
             self.squareBorder:SetAlpha(1.0)
+        else
+            self.ring:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            self.ring:SetAlpha(1.0)
         end
         if self.tooltipTitle then
             SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -1991,10 +1995,15 @@ local function CreateTrackNode(parent)
         end
     end)
     btn:SetScript("OnLeave", function(self)
-        self.hl:Hide()
-        if self.isGated and self.squareBorderA then
-            self.squareBorder:SetVertexColor(self.squareBorderR, self.squareBorderG, self.squareBorderB)
-            self.squareBorder:SetAlpha(self.squareBorderA)
+        self.hoverGlow:Hide()
+        if self.borderA then
+            if self.isGated then
+                self.squareBorder:SetVertexColor(self.borderR, self.borderG, self.borderB)
+                self.squareBorder:SetAlpha(self.borderA)
+            else
+                self.ring:SetVertexColor(self.borderR, self.borderG, self.borderB)
+                self.ring:SetAlpha(self.borderA)
+            end
         end
         SMTooltip:Hide()
     end)
@@ -2184,7 +2193,7 @@ local function CreateAchievementRow(parent)
             end
         end
         -- Reward
-        if rewardText and rewardText ~= "" then
+        if type(rewardText) == "string" and rewardText ~= "" then
             SMTooltip:AddLine(" ")
             SMTooltip:AddLine("Reward: " .. rewardText, C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
         end
@@ -2342,10 +2351,10 @@ LayoutSelectedChapter = function()
     local function SetNodeBorder(node, r, g, b, a)
         node.ring:SetVertexColor(r, g, b)
         node.ring:SetAlpha(a)
+        node.borderR, node.borderG, node.borderB, node.borderA = r, g, b, a
         if node.isGated then
             node.squareBorder:SetVertexColor(r, g, b)
             node.squareBorder:SetAlpha(a)
-            node.squareBorderR, node.squareBorderG, node.squareBorderB, node.squareBorderA = r, g, b, a
         end
     end
     for i, node in ipairs(dTrackNodes) do
@@ -2925,30 +2934,36 @@ local function LayoutDetailTab()
 
             -- Status styling
             if ch.loreOnly and not isComplete then
+                node.isDimmed = true
                 node.portrait:SetVertexColor(0.80, 0.80, 0.80)
                 node.portrait:SetDesaturation(0.4)
                 node.ring:SetVertexColor(0.55, 0.48, 0.38)
                 node.ring:SetAlpha(0.55)
                 node.checkmark:Hide()
             elseif isComplete then
+                node.isDimmed = false
                 node.portrait:SetVertexColor(1, 1, 1)
                 node.portrait:SetDesaturation(0)
                 node.ring:SetVertexColor(GREEN_R, GREEN_G, GREEN_B)
                 node.ring:SetAlpha(0.8)
                 node.checkmark:Show()
             elseif isActive then
+                node.isDimmed = false
                 node.portrait:SetVertexColor(1, 1, 1)
                 node.portrait:SetDesaturation(0)
                 node.ring:SetVertexColor(GOLD_R, GOLD_G, GOLD_B)
                 node.ring:SetAlpha(0.9)
                 node.checkmark:Hide()
             else
+                node.isDimmed = true
                 node.portrait:SetVertexColor(0.6, 0.6, 0.6)
                 node.portrait:SetDesaturation(0.7)
                 node.ring:SetVertexColor(0.4, 0.35, 0.30)
                 node.ring:SetAlpha(0.5)
                 node.checkmark:Hide()
             end
+            node.borderR, node.borderG, node.borderB = node.ring:GetVertexColor()
+            node.borderA = node.ring:GetAlpha()
 
             -- Shape: gated chapters render as squares.
             -- ch.prerequisites = explicit quest gate; ch.gated = manual flag for
@@ -2958,19 +2973,19 @@ local function LayoutDetailTab()
             node.isGated = isGated
             if isGated then
                 node.portraitMask:SetTexture("Interface/Buttons/WHITE8x8")
-                node.hlMask:SetTexture("Interface/Buttons/WHITE8x8")
                 node.glowMask:SetTexture("Interface/Buttons/WHITE8x8")
+                node.hoverGlowMask:SetTexture("Interface/Buttons/WHITE8x8")
                 local r, g, b = node.ring:GetVertexColor()
                 local a = node.ring:GetAlpha()
                 node.ring:Hide()
                 node.squareBorder:SetVertexColor(r, g, b)
                 node.squareBorder:SetAlpha(a)
                 node.squareBorder:Show()
-                node.squareBorderR, node.squareBorderG, node.squareBorderB, node.squareBorderA = r, g, b, a
+                node.borderR, node.borderG, node.borderB, node.borderA = r, g, b, a
             else
                 node.portraitMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-                node.hlMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
                 node.glowMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+                node.hoverGlowMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
                 node.squareBorder:Hide()
                 node.ring:Show()
             end

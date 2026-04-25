@@ -10,13 +10,15 @@
 - **Story complete banner now fires reliably** — the chapter/story completion check was running synchronously on `QUEST_TURNED_IN` before `IsQuestFlaggedCompleted` was guaranteed to be updated; moved inside the existing 0.1s timer
 - **Story card checkmark updates live** — checkmark on the left panel story card was only set at window build time and required a `/reload` to appear after finishing a story; now updated immediately when the story completes
 - **Story complete detection no longer blocked by loreOnly/achievement chapters** — `allDone` check was treating chapters with `t == 0` (no trackable quests) as incomplete; skips them correctly now
+- Fixed achievement tooltip rewards that return boolean values from Blizzard's API, preventing a crash when hovering achievements such as Temple of the Jade Serpent Guild Run
+- Restored visible hover feedback on dimmed chapter nodes and the Continue Story button
 
 ### New
 - **Replayable chapters** — chapters marked `replayable = true` show a "Mark as Played" button backed by `StoryModeDB.playedChapters`; hides quest cards and the achievement row so the button is the sole interaction. Applied to "The Battle for Lordaeron" (Archivist Sylvia replay)
 - `ShouldHideQuest` helper — `showIf` / `hideIf` conditions now filter quest cards and progress counting, not just completion checks
 
 ### Content
-- **The Jade Forest** — new epic storyline for the Jade Forest zone (Mists of Pandaria). Five chapters across both faction arcs: both armies crash-landing and making local allies (faction-split), Lorewalker Cho guiding through Dawn's Blossom and Tian Monastery (shared), Anduin's decision to trust Pandaria over politics (Alliance), and the sha-fuelled destruction of the Jade Serpent statue with its bittersweet aftermath in the temple (shared). The Klaxxi (Dread Wastes) data file is included but currently hidden
+- **The Jade Forest** — new epic storyline for the Jade Forest zone (Mists of Pandaria), rebuilt as a full guided campaign with separate Alliance and Horde openings, faction-specific quest flow, shared Dawn's Blossom / Tian Monastery / Jade Serpent chapters, zone achievements, and a Temple of the Jade Serpent dungeon finale using the dungeon achievement art
 - **The Klaxxi** — new epic storyline for the Dread Wastes zone (Mists of Pandaria). Five chapters: awakening the first paragons at Klaxxi'vess, amber crafting at Kypari Zar, Skeer the Bloodseeker and Kaz'tik's kunchong, the maritime chaos of Soggy's Gamble, and the final assault on the Heart of Fear. Includes a note on the SoO betrayal payoff
 - **The Dark Heart of Nazmir** — new Horde-only epic storyline for the Nazmir zone (Battle for Azeroth). Covers all 8 achievement chapters: meeting Bwonsamdi and forging the pact for one million souls, the bat loa Hir'eek's corruption, Torga's death, Krag'wa in Gloom Hollow, the Titan Keeper facility and G'huun containment, and the final assault on Grand Ma'da Ateena. Parallel to The Witchwood of Drustvar
 - **Sylvanas — The Banshee Queen** extended through Dragonflight 10.1.7: added "Stay of Execution", "Breaking the Cycle", "What Comes After", "The Long Hunt", and "A Chilling Summons" chapters; Shadowlands intro now has separate Horde/Alliance entry quests with faction filtering
