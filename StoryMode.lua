@@ -202,8 +202,10 @@ local function GetCampaignProgress(data)
     local total, done = 0, 0
     for _, ch in ipairs(GetAllChapters(data)) do
         for _, q in ipairs(ch.quests) do
-            total = total + 1
-            if IsQuestComplete(q.id) then done = done + 1 end
+            if not q.optional and IsQuestForPlayer(q) and not ShouldHideQuest(q) then
+                total = total + 1
+                if IsQuestComplete(q.id) then done = done + 1 end
+            end
         end
     end
     -- Keep progress text consistent with "Story Finished" state.
@@ -3864,52 +3866,54 @@ local function CheckQuestCompletion(completedQuestID)
                     break
                 end
             end
-            if not questName then
-                -- quest not in this chapter, skip
-            else
-                -- Refresh the open detail panel immediately so checkmarks appear
+            if questName then
+                -- Delay so IsQuestFlaggedCompleted is reliable before we check progress
                 C_Timer.After(0.1, function()
                     if storyFrame:IsShown() and currentStoryData == data then
                         UpdateStoryDetail(data)
                     end
-                end)
 
-                -- Check if entire chapter is now complete
-                local done, total = GetChapterProgress(ch)
-                local isChapterDone = done >= total and total > 0
-                local key = (data.title or "") .. "|" .. (ch.chapter or "")
+                    local done, total = GetChapterProgress(ch)
+                    local isChapterDone = done >= total and total > 0
+                    local key = (data.title or "") .. "|" .. (ch.chapter or "")
 
-                if isChapterDone and not chapterCompletionCache[key] then
-                    chapterCompletionCache[key] = true
+                    if isChapterDone and not chapterCompletionCache[key] then
+                        chapterCompletionCache[key] = true
 
-                    -- Check if the entire storyline just finished
-                    local storyKey = data.title or ""
-                    local allDone = true
-                    for _, c in ipairs(GetAllChapters(data)) do
-                        local d, t = GetChapterProgress(c)
-                        if d < t or t == 0 then allDone = false; break end
-                    end
+                        local storyKey = data.title or ""
+                        local allDone = true
+                        for _, c in ipairs(GetAllChapters(data)) do
+                            local d, t = GetChapterProgress(c)
+                            -- t == 0 means loreOnly/achievement chapter with no quests — skip it
+                            if t > 0 and d < t then allDone = false; break end
+                        end
 
-                    local chName = ch.chapter
-                    local npc   = questNpc
-                    C_Timer.After(1.5, function()
-                        ShowStoryBanner("CHAPTER COMPLETE", chName, data, npc, true)
-                    end)
+                        if allDone then
+                            -- Update the story card checkmark on the left panel
+                            for idx, row in pairs(storyLeftRows) do
+                                if storyIndexToData[idx] == data then
+                                    row.checkmark:Show()
+                                    break
+                                end
+                            end
+                        end
 
-                    if allDone and not storylineCompletionCache[storyKey] then
-                        storylineCompletionCache[storyKey] = true
-                        C_Timer.After(6.5, function()
-                            ShowStoryComplete(data.title)
+                        C_Timer.After(1.5, function()
+                            ShowStoryBanner("CHAPTER COMPLETE", ch.chapter, data, questNpc, true)
+                        end)
+
+                        if allDone and not storylineCompletionCache[storyKey] then
+                            storylineCompletionCache[storyKey] = true
+                            C_Timer.After(6.5, function()
+                                ShowStoryComplete(data.title)
+                            end)
+                        end
+                    else
+                        C_Timer.After(1.0, function()
+                            ShowStoryBanner(data.title, questName, data, questNpc, true)
                         end)
                     end
-                else
-                    -- Individual quest — show chapter-style banner
-                    local qName = questName
-                    local npc   = questNpc
-                    C_Timer.After(1.0, function()
-                        ShowStoryBanner(data.title, qName, data, npc, true)
-                    end)
-                end
+                end)
                 break
             end
         end

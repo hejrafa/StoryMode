@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.4.2
+
+### Fixes
+- **Quest counts now match chapter sums** — story card totals were inflated because `GetCampaignProgress` counted every raw quest regardless of faction, optional, or hidden status. Now applies the same three filters as chapter progress: `IsQuestForPlayer`, `not q.optional`, `not ShouldHideQuest`
+- **Story complete banner now fires reliably** — the chapter/story completion check in `CheckQuestCompletion` was running synchronously on `QUEST_TURNED_IN` before `IsQuestFlaggedCompleted` was guaranteed to be updated; moved inside the existing 0.1s timer
+- **Story card checkmark updates live** — checkmark on the left panel story card was only set at window build time and required a `/reload` to appear after finishing a story; now updated immediately when the story completes
+- **Story complete detection no longer blocked by loreOnly/achievement chapters** — `allDone` check was treating chapters with `t == 0` (no trackable quests) as incomplete; skips them correctly now
+
+### Content
+- **Jade Forest, Allies of the Forest** — corrected first Horde quest giver from Shademaster Kiryn to Sergeant Gorrok; added Gorrok to `npcDisplayIDs` (39047)
+- **Jade Forest, Allies of the Forest recap** — added closing paragraph bridging into Chapter 3: the grind of holding the airstrip after the battle, and Lorewalker Cho's arrival
+
+---
+
 ## 1.4.1
 
 ### Fixes

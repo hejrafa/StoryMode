@@ -37,6 +37,7 @@ SM.JadeForestData = {
         ["King Varian Wrynn"]   = 28127,
         ["General Nazgrim"]     = 42562,
         ["Admiral Taylor"]      = 39036,
+        ["Sergeant Gorrok"]     = 39047,
         ["Shademaster Kiryn"]   = 39039,
         ["Lorewalker Cho"]      = 127838,
         ["Anduin Wrynn"]        = 0,  -- TODO: verify
@@ -96,7 +97,7 @@ SM.JadeForestData = {
         {
             chapter = "Allies of the Forest",
             summary = "The Pearlfin listen to the water. The Hozen listen to no one.",
-            recap = "The Alliance tracked Anduin's SI:7 escort through the forest and made contact with the Pearlfin Jinyu — river people, cool and watchful, who had their own reasons to want the Horde gone. They spoke through the water and through ceremony. It took time the Alliance barely had.\n\nThe Horde had less ceremony and more chaos. Nazgrim's forces were scattered across the wreckage of Hellscream's Fist. The Hozen — fur-covered, loud, and allergic to tactics — were recruited with the kind of optimism that comes from having no other options. Zin'jun the troll had been captured. The airstrip needed holding. Pandaria regarded all of this with the patient indifference of a very old land.",
+            recap = "The Alliance tracked Anduin's SI:7 escort through the forest and made contact with the Pearlfin Jinyu — river people, cool and watchful, who had their own reasons to want the Horde gone. They spoke through the water and through ceremony. It took time the Alliance barely had.\n\nThe Horde had less ceremony and more chaos. Nazgrim's forces were scattered across the wreckage of Hellscream's Fist. The Hozen — fur-covered, loud, and allergic to tactics — were recruited with the kind of optimism that comes from having no other options. Zin'jun the troll had been captured. The airstrip needed holding. Pandaria regarded all of this with the patient indifference of a very old land.\n\nDays passed in the grinding work of holding what had been taken. Hozen problems. Supply problems. The kind of problems Nazgrim handed down the chain and expected solved by morning. Neither faction was thinking about what kind of place they had landed in. Then an old pandaren walked out of the forest, introduced himself as a Lorewalker, and made it clear he had been watching both of them for some time.",
             quests = {
                 -- Alliance: SI:7 search and Pearlfin alliance
                 { id = 29733, name = "SI:7 Report: Lost in the Woods",  npc = "Admiral Taylor",        faction = "Alliance" },
@@ -106,7 +107,7 @@ SM.JadeForestData = {
                 { id = 29894, name = "The Waterspeaking Ceremony",      npc = "Tojara",                faction = "Alliance" },
                 { id = 29906, name = "Carp Diem",                       npc = "Tojara",                faction = "Alliance" },
                 -- Horde: regrouping and Hozen
-                { id = 31774, name = "Seeking Zin'jun",                 npc = "Shademaster Kiryn",     faction = "Horde" },
+                { id = 31774, name = "Seeking Zin'jun",                 npc = "Sergeant Gorrok",       faction = "Horde" },
                 { id = 29765, name = "Cryin' My Eyes Out",              npc = "Shademaster Kiryn",     faction = "Horde" },
                 { id = 29804, name = "Seein' Red",                      npc = "Shademaster Kiryn",     faction = "Horde" },
                 { id = 31775, name = "Assault on the Airstrip",         npc = "General Nazgrim",       faction = "Horde" },
