@@ -1889,13 +1889,22 @@ local function CreateTrackNode(parent)
     mask:SetAllPoints(portrait)
     portrait:AddMaskTexture(mask)
     btn.portrait = portrait
+    btn.portraitMask = mask
 
-    -- Ring
+    -- Ring (circle border, shown for normal chapters)
     local ring = btn:CreateTexture(nil, "OVERLAY")
     ring:SetAtlas("ui-frame-genericplayerchoice-portrait-border", false)
     ring:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
     ring:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
     btn.ring = ring
+
+    -- Square border (shown instead of ring for gated/prerequisite chapters)
+    local squareBorder = btn:CreateTexture(nil, "OVERLAY")
+    squareBorder:SetAtlas("talents-node-square-gray", false)
+    squareBorder:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
+    squareBorder:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
+    squareBorder:Hide()
+    btn.squareBorder = squareBorder
 
     -- Number badge
     -- Checkmark badge (top-right)
@@ -1916,6 +1925,7 @@ local function CreateTrackNode(parent)
         "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
     hlMask:SetAllPoints(portrait)
     hl:AddMaskTexture(hlMask)
+    btn.hlMask = hlMask
 
     -- Active glow (same as hover but always-on for selected node)
     local activeGlow = btn:CreateTexture(nil, "ARTWORK", nil, 3)
@@ -1929,6 +1939,7 @@ local function CreateTrackNode(parent)
     activeGlow:AddMaskTexture(glowMask)
     activeGlow:Hide()
     btn.activeGlow = activeGlow
+    btn.glowMask = glowMask
 
     -- Down-arrow indicator (below node, points to quest cards)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
@@ -2308,28 +2319,34 @@ LayoutSelectedChapter = function()
 
     -- Update track selection visuals: selected node gets gold ring + glow.
     -- Deselected nodes get their completion-state ring color restored.
+    -- Gated nodes (with prerequisites) use squareBorder instead of ring.
+    local function SetNodeBorder(node, r, g, b, a)
+        node.ring:SetVertexColor(r, g, b)
+        node.ring:SetAlpha(a)
+        if node.isGated then
+            node.squareBorder:SetVertexColor(r, g, b)
+            node.squareBorder:SetAlpha(a)
+        end
+    end
     for i, node in ipairs(dTrackNodes) do
         if not node:IsShown() then break end
         if i == dSelectedChapter then
-            node.ring:SetAlpha(1.0)
-            node.ring:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            SetNodeBorder(node, C_GOLD[1], C_GOLD[2], C_GOLD[3], 1.0)
             node.activeGlow:Show()
             node.downArrow:Show()
         else
             node.activeGlow:Hide()
             node.downArrow:Hide()
-            -- Restore completion-state ring color so it doesn't stay gold.
+            -- Restore completion-state border color so it doesn't stay gold.
             local thCh = chapters[i]
             if thCh then
                 if thCh.loreOnly then
                     local loreViewed = IsLoreChapterViewed(data.title, thCh.chapter)
                     if loreViewed then
-                        node.ring:SetVertexColor(RING_GREEN_R, RING_GREEN_G, RING_GREEN_B)
-                        node.ring:SetAlpha(0.8)
+                        SetNodeBorder(node, RING_GREEN_R, RING_GREEN_G, RING_GREEN_B, 0.8)
                         node.checkmark:Show()
                     else
-                        node.ring:SetVertexColor(0.55, 0.48, 0.38)
-                        node.ring:SetAlpha(0.55)
+                        SetNodeBorder(node, 0.55, 0.48, 0.38, 0.55)
                         node.checkmark:Hide()
                     end
                 else
@@ -2337,14 +2354,11 @@ LayoutSelectedChapter = function()
                     local isComp = cd == ct and ct > 0
                     local isAct  = cd > 0 and not isComp
                     if isComp then
-                        node.ring:SetVertexColor(RING_GREEN_R, RING_GREEN_G, RING_GREEN_B)
-                        node.ring:SetAlpha(0.8)
+                        SetNodeBorder(node, RING_GREEN_R, RING_GREEN_G, RING_GREEN_B, 0.8)
                     elseif isAct then
-                        node.ring:SetVertexColor(RING_GOLD_R, RING_GOLD_G, RING_GOLD_B)
-                        node.ring:SetAlpha(0.9)
+                        SetNodeBorder(node, RING_GOLD_R, RING_GOLD_G, RING_GOLD_B, 0.9)
                     else
-                        node.ring:SetVertexColor(0.4, 0.35, 0.30)
-                        node.ring:SetAlpha(0.5)
+                        SetNodeBorder(node, 0.4, 0.35, 0.30, 0.5)
                     end
                 end
             end
@@ -2914,6 +2928,28 @@ local function LayoutDetailTab()
                 node.ring:SetVertexColor(0.4, 0.35, 0.30)
                 node.ring:SetAlpha(0.5)
                 node.checkmark:Hide()
+            end
+
+            -- Shape: gated chapters (with prerequisites) render as squares
+            local CIRC = "Interface/CHARACTERFRAME/TempPortraitAlphaMask"
+            local isGated = ch.prerequisites ~= nil
+            node.isGated = isGated
+            if isGated then
+                node.portraitMask:SetTexture("Interface/Buttons/WHITE8x8")
+                node.hlMask:SetTexture("Interface/Buttons/WHITE8x8")
+                node.glowMask:SetTexture("Interface/Buttons/WHITE8x8")
+                local r, g, b = node.ring:GetVertexColor()
+                local a = node.ring:GetAlpha()
+                node.ring:Hide()
+                node.squareBorder:SetVertexColor(r, g, b)
+                node.squareBorder:SetAlpha(a)
+                node.squareBorder:Show()
+            else
+                node.portraitMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+                node.hlMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+                node.glowMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+                node.squareBorder:Hide()
+                node.ring:Show()
             end
 
             -- Position
