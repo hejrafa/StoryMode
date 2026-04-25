@@ -1959,6 +1959,10 @@ local function CreateTrackNode(parent)
     -- Tooltip
     btn:SetScript("OnEnter", function(self)
         self.hl:Show()
+        if self.isGated then
+            self.squareBorder:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            self.squareBorder:SetAlpha(1.0)
+        end
         if self.tooltipTitle then
             SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
             SMTooltip:ClearLines()
@@ -1984,7 +1988,14 @@ local function CreateTrackNode(parent)
             SMTooltip:Show()
         end
     end)
-    btn:SetScript("OnLeave", function(self) self.hl:Hide(); SMTooltip:Hide() end)
+    btn:SetScript("OnLeave", function(self)
+        self.hl:Hide()
+        if self.isGated and self.squareBorderA then
+            self.squareBorder:SetVertexColor(self.squareBorderR, self.squareBorderG, self.squareBorderB)
+            self.squareBorder:SetAlpha(self.squareBorderA)
+        end
+        SMTooltip:Hide()
+    end)
 
     return btn
 end
@@ -2332,6 +2343,7 @@ LayoutSelectedChapter = function()
         if node.isGated then
             node.squareBorder:SetVertexColor(r, g, b)
             node.squareBorder:SetAlpha(a)
+            node.squareBorderR, node.squareBorderG, node.squareBorderB, node.squareBorderA = r, g, b, a
         end
     end
     for i, node in ipairs(dTrackNodes) do
@@ -2952,6 +2964,7 @@ local function LayoutDetailTab()
                 node.squareBorder:SetVertexColor(r, g, b)
                 node.squareBorder:SetAlpha(a)
                 node.squareBorder:Show()
+                node.squareBorderR, node.squareBorderG, node.squareBorderB, node.squareBorderA = r, g, b, a
             else
                 node.portraitMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
                 node.hlMask:SetTexture(CIRC, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
