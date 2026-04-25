@@ -3579,6 +3579,10 @@ SlashCmdList["STORYMODE"] = function(msg)
             print("|cff64b5f6StoryMode:|r No questline matching '" .. (filter or "") .. "'")
         end
     else
+        if InCombatLockdown() then
+            UIErrorsFrame:AddMessage("You cannot toggle this UI while in combat.", 1, 0.1, 0.1)
+            return
+        end
         if storyFrame:IsShown() then
             storyFrame:Hide()
         else
@@ -3651,6 +3655,10 @@ minimapBtn:SetScript("OnDragStop", function(self)
 end)
 
 minimapBtn:SetScript("OnClick", function()
+    if InCombatLockdown() then
+        UIErrorsFrame:AddMessage("You cannot toggle this UI while in combat.", 1, 0.1, 0.1)
+        return
+    end
     -- Defer the toggle by one frame to avoid taint from protected contexts
     -- (e.g. TalkingHeadFrame animations) bleeding into the Show/Hide call.
     C_Timer.After(0, function()

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.1
+
+### Fixes
+- Combat guard on UI toggle — attempting to open or close Story Mode while in combat now shows an error hint at the top of the screen ("You cannot toggle this UI while in combat.") instead of silently failing or tainting the frame
+
+---
+
 ## 1.4.0
 
 ### Fixes
