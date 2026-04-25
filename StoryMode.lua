@@ -1898,12 +1898,16 @@ local function CreateTrackNode(parent)
     ring:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
     btn.ring = ring
 
-    -- Square border (shown instead of ring for gated/prerequisite chapters)
-    -- Must be in HIGHLIGHT sublevel 1 so it renders above the hover highlight.
-    local squareBorder = btn:CreateTexture(nil, "HIGHLIGHT", nil, 1)
+    -- Square border (shown instead of ring for gated/prerequisite chapters).
+    -- Hosted in a child frame above btn's frame level so it always renders
+    -- on top of the HIGHLIGHT draw layer (which only shows on hover).
+    local squareBorderFrame = CreateFrame("Frame", nil, btn)
+    squareBorderFrame:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
+    squareBorderFrame:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
+    squareBorderFrame:SetFrameLevel(btn:GetFrameLevel() + 5)
+    local squareBorder = squareBorderFrame:CreateTexture(nil, "OVERLAY")
     squareBorder:SetAtlas("talents-node-square-gray", false)
-    squareBorder:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
-    squareBorder:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
+    squareBorder:SetAllPoints(squareBorderFrame)
     squareBorder:Hide()
     btn.squareBorder = squareBorder
 
