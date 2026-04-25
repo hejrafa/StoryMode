@@ -751,12 +751,24 @@ end
 -- Register Questlines
 -- ============================================================================
 
-if CanShowQuestline(SM.SuramarData) then
-    RegisterQuestline(SM.SuramarData, "Epic Storylines")
-end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
+if CanShowQuestline(SM.JadeForestData) then
+    RegisterQuestline(SM.JadeForestData, "Epic Storylines")
+end
+if CanShowQuestline(SM.SuramarData) then
+    RegisterQuestline(SM.SuramarData, "Epic Storylines")
+end
+if CanShowQuestline(SM.NazmirData) then
+    RegisterQuestline(SM.NazmirData, "Epic Storylines")
+end
+if CanShowQuestline(SM.DrustvarData) then
+    RegisterQuestline(SM.DrustvarData, "Epic Storylines")
+end
+-- if CanShowQuestline(SM.DreadWastesData) then
+--     RegisterQuestline(SM.DreadWastesData, "Epic Storylines")
+-- end
 if CanShowQuestline(SM.SylvanasData) then
     RegisterQuestline(SM.SylvanasData, "Character Stories")
 end
@@ -768,18 +780,6 @@ if CanShowQuestline(SM.LilianVossData) then
 end
 if CanShowQuestline(SM.TeddiesAndTeaData) then
     RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
-end
-if CanShowQuestline(SM.DrustvarData) then
-    RegisterQuestline(SM.DrustvarData, "Epic Storylines")
-end
-if CanShowQuestline(SM.NazmirData) then
-    RegisterQuestline(SM.NazmirData, "Epic Storylines")
-end
--- if CanShowQuestline(SM.DreadWastesData) then
---     RegisterQuestline(SM.DreadWastesData, "Epic Storylines")
--- end
-if CanShowQuestline(SM.JadeForestData) then
-    RegisterQuestline(SM.JadeForestData, "Epic Storylines")
 end
 local classCampaigns = {
     SM.DeathKnightCampaignData,
@@ -1491,11 +1491,14 @@ local function GetChapterPortraitSource(data, chapter)
                 return nil, chapterIcon
             end
         end
-        if data.npcDisplayIDs and chapter.quests and chapter.quests[1] then
-            local npcName = chapter.quests[1].npc
-            local id = npcName and data.npcDisplayIDs[npcName]
-            if id and id ~= 0 then
-                return id, nil
+        if data.npcDisplayIDs and chapter.quests then
+            for _, q in ipairs(chapter.quests) do
+                if not q.faction or q.faction == playerFaction then
+                    local id = q.npc and data.npcDisplayIDs[q.npc]
+                    if id and id ~= 0 then
+                        return id, nil
+                    end
+                end
             end
         end
         return nil, nil
@@ -1515,11 +1518,15 @@ local function GetChapterPortraitSource(data, chapter)
         end
     end
 
-    if data.npcDisplayIDs and chapter.quests and chapter.quests[1] then
-        local npcName = chapter.quests[1].npc
-        local id = npcName and data.npcDisplayIDs[npcName]
-        if id and id ~= 0 then
-            return id, nil
+    if data.npcDisplayIDs and chapter.quests then
+        -- Walk the quest list to find the first quest whose faction matches (or has no faction).
+        for _, q in ipairs(chapter.quests) do
+            if not q.faction or q.faction == playerFaction then
+                local id = q.npc and data.npcDisplayIDs[q.npc]
+                if id and id ~= 0 then
+                    return id, nil
+                end
+            end
         end
     end
 
@@ -2575,19 +2582,36 @@ LayoutSelectedChapter = function()
         end
     end
 
-    -- Update scroll height
+    -- Update scroll height.
+    -- For achievement-card-only chapters (no quest cards), the card sits below a
+    -- word-wrapped FontString whose height may not be resolved on the zero-delay tick.
+    -- A second pass at 0.1 s gives fonts time to finish layout so GetBottom() is accurate
+    -- and the card lands within the scroll child's interactive region.
+    -- NOTE: no SetHeight pre-sizing here — quest cards anchor their LEFT edge to
+    -- detailChild CENTER, so changing detailChild's height shifts their Y position.
     local scrollAnchor = prevCard
                       or (dChapterAchievementCard:IsShown() and dChapterAchievementCard)
                       or (dMarkViewedBtn:IsShown() and dMarkViewedBtn)
-    C_Timer.After(0, function()
-        if scrollAnchor then
-            local bot = scrollAnchor:GetBottom()
-            local top = detailChild:GetTop()
-            if bot and top then
-                detailChild:SetHeight(math.max(top - bot + 30, 400))
-            end
+
+    local function UpdateScrollHeight()
+        if not scrollAnchor then return end
+        local bot = scrollAnchor:GetBottom()
+        local top = detailChild:GetTop()
+        if bot and top then
+            detailChild:SetHeight(math.max(top - bot + 30, 400))
         end
-    end)
+    end
+
+    C_Timer.After(0, UpdateScrollHeight)
+
+    -- Second pass only needed for achievement-card-only chapters.
+    if not prevCard and dChapterAchievementCard:IsShown() then
+        C_Timer.After(0.1, function()
+            if dChapterAchievementCard:IsShown() then
+                UpdateScrollHeight()
+            end
+        end)
+    end
 end
 
 local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote, dChapterAchievement, dChapterAchievementCard, dMarkViewedBtn }
@@ -3085,7 +3109,7 @@ local function UpdateStoryDetail(data)
             local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
             if achIcon and achIcon ~= 0 then iconID = achIcon end
         end
-        iconID = iconID or data.icon
+        iconID = data.icon or iconID
         if iconID and iconID ~= 0 then
             heroIcon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
             if not SafeSetTexture(heroIcon, iconID) then
@@ -3353,7 +3377,7 @@ local function BuildStoryWindow()
                             end
                         end
                     end
-                elseif data.achievementID then
+                elseif data.achievementID and not data.icon then
                     local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
                     if achIcon and achIcon ~= 0 then iconTex:SetTexture(achIcon) end
                 elseif data.icon then
@@ -3627,11 +3651,15 @@ minimapBtn:SetScript("OnDragStop", function(self)
 end)
 
 minimapBtn:SetScript("OnClick", function()
-    if storyFrame:IsShown() then
-        storyFrame:Hide()
-    else
-        storyFrame:Show()
-    end
+    -- Defer the toggle by one frame to avoid taint from protected contexts
+    -- (e.g. TalkingHeadFrame animations) bleeding into the Show/Hide call.
+    C_Timer.After(0, function()
+        if storyFrame:IsShown() then
+            storyFrame:Hide()
+        else
+            storyFrame:Show()
+        end
+    end)
 end)
 
 minimapBtn:SetScript("OnEnter", function(self)

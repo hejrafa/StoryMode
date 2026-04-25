@@ -23,8 +23,23 @@ SM.NazmirData = {
         13022,  -- Revenge is Best Served Speedily
         13023,  -- It's Really Getting Out of Hand
         13021,  -- A Most Efficient Apocalypse
-        -- Uldir (raid tied to Nazmir's story)
+        -- The Underrot (dungeon)
+        13157,  -- The Underrot
+        -- Uldir (raid) — wing clears
+        12521,  -- Halls of Containment (Taloc, MOTHER, Zek'voz)
+        12522,  -- Crimson Descent (Vectis, Fetid Devourer, Zul)
+        12523,  -- Heart of Corruption (Mythrax, G'huun)
+        12819,  -- G'huun kills (Heroic Uldir)
+        -- Glory of the Uldir Raider + criteria
         12806,  -- Glory of the Uldir Raider
+        12551,  -- Double Dribble
+        12938,  -- Parental Controls
+        12828,  -- What's in the Box?
+        12830,  -- Edgelords
+        12937,  -- Elevator Music
+        12823,  -- Thrash Mouth - All Stars
+        12772,  -- Now We Got Bad Blood
+        12836,  -- Existential Crisis
     },
     description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned god beneath the earth. Forge a pact with Bwonsamdi, loa of death, to fight back the darkness. The deal is simple: one million souls. The price, in the end, will be far higher.",
     zone = "Nazmir",
@@ -120,25 +135,7 @@ SM.NazmirData = {
             },
         },
 
-        -- CHAPTER 4: Bring the Boom
-        {
-            chapter = "Bring the Boom",
-            summary = "A goblin named Patch and a crew of demolitions experts blast a way through the blood troll defenses.",
-            recap = "Subtlety had its limits in Nazmir. Patch — a goblin with strong opinions about explosives and personal safety — had a solution for the blood troll barricades that was loud, expensive, and effective. You wrangled his scattered crew, gathered everything they needed, and let them do what goblins do best. The blood troll fortifications that had blocked the advance for weeks turned to rubble in an afternoon. Talanji watched the smoke rise with something close to satisfaction. The path deeper into Nazmir was open.",
-            quests = {
-                { id = 47245, name = "Getting the Message",     npc = "Rokhan" },
-                { id = 47631, name = "Rendezvous with the Libation", npc = "Patch" },
-                { id = 47597, name = "No Goblin Left Behind",   npc = "Patch" },
-                { id = 47599, name = "Revenge: Served Hot",     npc = "Patch" },
-                { id = 47596, name = "There Is No Plan \"B\"",  npc = "Patch" },
-                { id = 47711, name = "Head of the Viper",       npc = "Patch" },
-                { id = 47598, name = "Pilfering and Fencing",   npc = "Patch" },
-                { id = 47601, name = "Field Evaluation",        npc = "Patch" },
-                { id = 47602, name = "Ready For Action",        npc = "Princess Talanji" },
-            },
-        },
-
-        -- CHAPTER 5: Turtle Power
+        -- CHAPTER 4: Turtle Power
         {
             chapter = "Turtle Power",
             summary = "Torga, ancient sea turtle loa of Nazmir, is dying. The blood trolls have bled him for decades. You arrive too late to save him — but not too late to release him.",
@@ -158,6 +155,24 @@ SM.NazmirData = {
                 { id = 49132, name = "Crushing the Skullcrushers", npc = "Lashk" },
                 { id = 49136, name = "Jungo, Herald of G'huun", npc = "Lashk" },
                 { id = 49160, name = "Torga's Eternal Return", npc = "Lashk" },
+            },
+        },
+
+        -- CHAPTER 5: Bring the Boom
+        {
+            chapter = "Bring the Boom",
+            summary = "A goblin named Patch and a crew of demolitions experts blast a way through the blood troll defenses.",
+            recap = "Subtlety had its limits in Nazmir. Patch — a goblin with strong opinions about explosives and personal safety — had a solution for the blood troll barricades that was loud, expensive, and effective. You wrangled his scattered crew, gathered everything they needed, and let them do what goblins do best. The blood troll fortifications that had blocked the advance for weeks turned to rubble in an afternoon. Talanji watched the smoke rise with something close to satisfaction. The path deeper into Nazmir was open.",
+            quests = {
+                { id = 47245, name = "Getting the Message",     npc = "Rokhan" },
+                { id = 47631, name = "Rendezvous with the Libation", npc = "Patch" },
+                { id = 47597, name = "No Goblin Left Behind",   npc = "Patch" },
+                { id = 47599, name = "Revenge: Served Hot",     npc = "Patch" },
+                { id = 47596, name = "There Is No Plan \"B\"",  npc = "Patch" },
+                { id = 47711, name = "Head of the Viper",       npc = "Patch" },
+                { id = 47598, name = "Pilfering and Fencing",   npc = "Patch" },
+                { id = 47601, name = "Field Evaluation",        npc = "Patch" },
+                { id = 47602, name = "Ready For Action",        npc = "Princess Talanji" },
             },
         },
 
@@ -206,7 +221,6 @@ SM.NazmirData = {
             chapter = "Bleeding the Blood Trolls",
             summary = "The final assault on Grand Ma'da Ateena. The Horde, the loa, and a death god march together into the Blood Gate. G'huun waits beneath.",
             recap = "Patch rallied the assault force at Bloodfire Ravine. Talanji stood at the front. The loa — Krag'wa, what remained of Bwonsamdi's power, even the memory of Torga — were with you. The blood trolls had held the Blood Gate as the last barrier between Nazmir and the heart of their god's prison. You blew through their defenses, toppled their totems, and drove a path of fire through their strongest ranks. Grand Ma'da Ateena fell. In the silence after, Titan Keeper Hezrel delivered the final revelation: G'huun still breathed beneath the earth. Nazmir had been reclaimed — but the blood god's prison was cracking. The raid on Uldir was no longer optional.",
-            note = "This chapter ends the Nazmir zone story. The full conclusion — confronting G'huun himself — takes place in the Uldir raid.",
             quests = {
                 { id = 49569, name = "Down by the Riverside",   npc = "Patch" },
                 { id = 50076, name = "Rally the Warriors",      npc = "Princess Talanji" },
@@ -218,9 +232,19 @@ SM.NazmirData = {
                 { id = 50085, name = "A Message of Blood and Fire", npc = "Rokhan" },
                 { id = 52073, name = "Petitioning Krag'wa",    npc = "Krag'wa" },
                 { id = 50087, name = "Ateena's Fall",           npc = "Princess Talanji" },
-                { id = 51244, name = "What Rots Beneath",       npc = "Titan Keeper Hezrel" },
-                { id = 47493, name = "A Lonely Spirit",         npc = "Keula" },
+                { id = 51244, name = "What Rots Beneath",         npc = "Titan Keeper Hezrel" },
+                { id = 51302, name = "Sealing G'huun's Corruption", npc = "Titan Keeper Hezrel" },
+                { id = 50808, name = "Halting the Empire's Fall",   npc = "Titan Keeper Hezrel" },
             },
+        },
+
+        -- CHAPTER 9: Uldir — Blood From Stone
+        {
+            chapter = "Uldir — Blood From Stone",
+            summary = "Deep beneath the earth, a titan research facility holds the worst mistake the Pantheon ever made. G'huun has to die.",
+            recap = "The titans built Uldir to study the Old Gods — to understand the corruption before they tried to cure it. What they created instead was G'huun: a proto-god of blood and shadow, born in a lab, every safeguard bypassed. Sealed in stasis for millennia, fed by the blood trolls until he was strong enough to break containment himself. Uldir was not a dungeon. It was a prison that had started to answer back.\n\nYou fought through the facility's corrupted wards — past G'huun's lieutenants, through the experiments that had gone wrong in the age before trolls had language — and reached the heart of the prison. G'huun fell. The blood god's thousand-year campaign to break free ended in the same titan vault it began in. Nazmir would take generations to recover. The trolls who had given their lives feeding G'huun would never be fully redeemed. But the earth was quiet again, and the seal held.",
+            achievementID = 40960,
+            quests = {},
         },
     },
 }

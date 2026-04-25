@@ -37,7 +37,7 @@ SM.SuramarData = {
         11180,  -- Glory of the Legion Raider (Emerald Nightmare + Nighthold meta)
     },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
-    icon = 236565,  -- Achievement_zone_suramar (atlas texture ID)
+    icon = 1525722,
 
     -- Start location: Archmage Khadgar in the Violet Citadel, Dalaran (Legion)
     startQuest = { id = 39985, name = "Khadgar's Discovery", npc = "Archmage Khadgar", location = "The Violet Citadel, Dalaran" },
