@@ -40,6 +40,25 @@ SM.NazmirData = {
         12823,  -- Thrash Mouth - All Stars
         12772,  -- Now We Got Bad Blood
         12836,  -- Existential Crisis
+        -- Battle of Dazar'alor (raid) — wing clears
+        13286,  -- Siege of Dazar'alor (Horde — Champion of the Light, Jadefire Masters, Grong)
+        13289,  -- Defense of Dazar'alor (Horde — Opulence, Conclave of the Chosen, King Rastakhan)
+        13287,  -- Empire's Fall (Alliance perspective wing 2)
+        13290,  -- Death's Bargain (Alliance perspective wing 3)
+        13288,  -- Might of the Alliance (Alliance perspective final wing)
+        13291,  -- Victory or Death (Horde final wing — Jaina)
+        13361,  -- Opulence kills (Heroic Battle of Dazar'alor)
+        -- Glory of the Dazar'alor Raider + criteria
+        13315,  -- Glory of the Dazar'alor Raider
+        13316,  -- Can I Get a Hek Hek Hek Yeah?
+        13345,  -- Praise the Sunflower
+        13410,  -- Snow Fun Allowed
+        13431,  -- Hidden Dragon
+        13425,  -- We Got Spirit, How About You?
+        13325,  -- Walk the Dinosaur
+        13383,  -- Barrel of Monkeys
+        13401,  -- I Got Next!
+        13430,  -- De Lurker Be'loa
     },
     description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned god beneath the earth. Forge a pact with Bwonsamdi, loa of death, to fight back the darkness. The deal is simple: one million souls. The price, in the end, will be far higher.",
     zone = "Nazmir",
@@ -245,6 +264,17 @@ SM.NazmirData = {
             recap = "The titans built Uldir to study the Old Gods — to understand the corruption before they tried to cure it. What they created instead was G'huun: a proto-god of blood and shadow, born in a lab, every safeguard bypassed. Sealed in stasis for millennia, fed by the blood trolls until he was strong enough to break containment himself. Uldir was not a dungeon. It was a prison that had started to answer back.\n\nYou fought through the facility's corrupted wards — past G'huun's lieutenants, through the experiments that had gone wrong in the age before trolls had language — and reached the heart of the prison. G'huun fell. The blood god's thousand-year campaign to break free ended in the same titan vault it began in. Nazmir would take generations to recover. The trolls who had given their lives feeding G'huun would never be fully redeemed. But the earth was quiet again, and the seal held.",
             achievementID = 40960,
             quests = {},
+        },
+
+        -- CHAPTER 10: The Battle of Dazar'alor
+        {
+            chapter = "The Battle of Dazar'alor",
+            summary = "The Alliance strikes at the heart of the Zandalari empire. King Rastakhan calls on Bwonsamdi — and pays the price.",
+            recap = "The Alliance fleet came while Dazar'alor was still recovering from everything the Horde had sacrificed to protect it. Jaina Proudmoore led the assault through the sacred pyramid, floor by floor, past every guardian the Zandalari could muster. King Rastakhan, knowing the city could not hold, made a desperate bargain — calling on Bwonsamdi's power directly, burning his own life force to drive the invaders back.\n\nBwonsamdi got his king in the end. Rastakhan fell. But the death loa was there to receive him, and the deal struck in Nazmir had never promised anything more than that — the power to fight, not the guarantee of survival. Talanji watched her father die holding a city that still stood. Bwonsamdi, for his part, was exactly as somber as a loa of death ever gets. The soul of a king is not nothing.",
+            achievementID = 40961,
+            quests = {
+                { id = 54282, name = "Battle of Dazar'alor",  npc = "Bwonsamdi" },
+            },
         },
     },
 }
