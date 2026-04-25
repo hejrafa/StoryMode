@@ -17,6 +17,9 @@
 - **Replayable chapters** — chapters marked `replayable = true` show a "Mark as Played" button backed by `StoryModeDB.playedChapters`; hides quest cards and the achievement row so the button is the sole interaction. Applied to "The Battle for Lordaeron" (Archivist Sylvia replay)
 - `ShouldHideQuest` helper — `showIf` / `hideIf` conditions now filter quest cards and progress counting, not just completion checks
 
+### Maintenance
+- Split self-contained systems out of `StoryMode.lua` into `Core/SavedVariables.lua` and focused `UI/*` modules for the private tooltip, minimap button, and completion banners. This reduces the main Lua chunk's local-variable count and prevents WoW's Lua 5.1 `main function has more than 200 local variables` load error from recurring during small refactors
+
 ### Content
 - **The Jade Forest** — new epic storyline for the Jade Forest zone (Mists of Pandaria), rebuilt as a full guided campaign with separate Alliance and Horde openings, faction-specific quest flow, shared Dawn's Blossom / Tian Monastery / Jade Serpent chapters, zone achievements, and a Temple of the Jade Serpent dungeon finale using the dungeon achievement art
 - **The Klaxxi** — new epic storyline for the Dread Wastes zone (Mists of Pandaria). Five chapters: awakening the first paragons at Klaxxi'vess, amber crafting at Kypari Zar, Skeer the Bloodseeker and Kaz'tik's kunchong, the maritime chaos of Soggy's Gamble, and the final assault on the Heart of Fear. Includes a note on the SoO betrayal payoff

@@ -42,4 +42,8 @@ Storylines\LilianVossData.lua
 Storylines\SylvanasData.lua
 Storylines\JainaData.lua
 Storylines\TeddiesAndTeaData.lua
+Core\SavedVariables.lua
+UI\Tooltip.lua
+UI\Banners.lua
+UI\MinimapButton.lua
 StoryMode.lua
