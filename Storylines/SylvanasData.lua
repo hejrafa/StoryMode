@@ -330,7 +330,8 @@ SM.SylvanasData = {
         -- CHAPTER 10: What Comes After
         {
             chapter = "What Comes After",
-            note = "If \"A Gathering of Champions\" isn't available, finish the war campaign through \"The Hidden Need\" first.",
+            gated = true,
+            note = "Requires completing the full war campaign through \"The Hidden Need\" to unlock.",
             summary = "Sylvanas is gone. What remains of the Horde gathers to decide what it becomes without her.",
             recap = "Saurfang's last act before the gate was a summons sent to every Horde leader still standing. By the time the crowd outside Orgrimmar thinned and the silence settled in, they were already gathering: Baine, Lor'themar, Ji Firepaw, and Lilian Voss, who now spoke for a Forsaken people their former Warchief had used as weapons and discarded. In the middle of it, Lilian stepped away from the main hall to broker a quieter conversation — one that had to happen before anything else could move: Forsaken leadership, face to face with Calia Menethil and Derek Proudmoore. Hidden, necessary, and hers to arrange. Then the full council assembled. The Warchief's throne was empty. Lilian made the case for leaving it that way. No single voice, no single will — a council, the way the Horde had always needed to work but never quite managed. The others listened. Then they agreed.",
             quests = {
