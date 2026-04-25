@@ -271,7 +271,6 @@ SM.NazmirData = {
             chapter = "The Battle of Dazar'alor",
             summary = "The Alliance strikes at the heart of the Zandalari empire. King Rastakhan calls on Bwonsamdi — and pays the price.",
             recap = "The Alliance fleet came while Dazar'alor was still recovering from everything the Horde had sacrificed to protect it. Jaina Proudmoore led the assault through the sacred pyramid, floor by floor, past every guardian the Zandalari could muster. King Rastakhan, knowing the city could not hold, made a desperate bargain — calling on Bwonsamdi's power directly, burning his own life force to drive the invaders back.\n\nBwonsamdi got his king in the end. Rastakhan fell. But the death loa was there to receive him, and the deal struck in Nazmir had never promised anything more than that — the power to fight, not the guarantee of survival. Talanji watched her father die holding a city that still stood. Bwonsamdi, for his part, was exactly as somber as a loa of death ever gets. The soul of a king is not nothing.",
-            achievementID = 40961,
             quests = {
                 { id = 54282, name = "Battle of Dazar'alor",  npc = "Bwonsamdi" },
             },
