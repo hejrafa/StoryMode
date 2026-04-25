@@ -342,7 +342,7 @@ SM.LilianVossData = {
         {
             chapter = "What Comes After",
             gated = true,
-            note = "Requires completing the full war campaign through \"The Hidden Need\" to unlock.",
+            note = "Unlocks after completing the entire N'Zoth storyline.",
             summary = "Sylvanas is gone. The Horde's leaders gather to decide what it becomes without her — and Lilian Voss speaks for the Forsaken.",
             recap = "When the gate went quiet and Sylvanas left, Lilian Voss was already in the room. Baine, Lor'themar, Ji Firepaw — all the leaders who had waited out the war with their doubts held close — and the question nobody wanted to be first to say: what do they do about the Warchief's throne? Before the full council assembled, Lilian stepped away from the main hall to arrange a quieter meeting — Forsaken leadership, Calia Menethil, and Derek Proudmoore. Hidden, necessary, and entirely hers to broker. Then she came back into the room and made the case for leaving the throne empty. No single voice. A council, where every people kept their own weight and no one leader could burn the world on a private conviction. She had spent years being used by the powerful as a tool. She knew exactly what concentrated authority looked like from the receiving end. The others listened. They agreed. It was the first time Lilian Voss had spoken in a room full of power and been heard.",
             quests = {
