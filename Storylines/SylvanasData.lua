@@ -331,7 +331,7 @@ SM.SylvanasData = {
         {
             chapter = "What Comes After",
             gated = true,
-            note = "Unlocks after completing the entire N'Zoth storyline.",
+            note = "Unlocks after defeating N'Zoth. Speak with Valeera Sanguinar in Zuldazar to begin.",
             summary = "Sylvanas is gone. What remains of the Horde gathers to decide what it becomes without her.",
             recap = "Saurfang's last act before the gate was a summons sent to every Horde leader still standing. By the time the crowd outside Orgrimmar thinned and the silence settled in, they were already gathering: Baine, Lor'themar, Ji Firepaw, and Lilian Voss, who now spoke for a Forsaken people their former Warchief had used as weapons and discarded. In the middle of it, Lilian stepped away from the main hall to broker a quieter conversation — one that had to happen before anything else could move: Forsaken leadership, face to face with Calia Menethil and Derek Proudmoore. Hidden, necessary, and hers to arrange. Then the full council assembled. The Warchief's throne was empty. Lilian made the case for leaving it that way. No single voice, no single will — a council, the way the Horde had always needed to work but never quite managed. The others listened. Then they agreed.",
             quests = {
