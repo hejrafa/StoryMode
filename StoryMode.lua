@@ -1899,7 +1899,8 @@ local function CreateTrackNode(parent)
     btn.ring = ring
 
     -- Square border (shown instead of ring for gated/prerequisite chapters)
-    local squareBorder = btn:CreateTexture(nil, "OVERLAY")
+    -- Must be in HIGHLIGHT sublevel 1 so it renders above the hover highlight.
+    local squareBorder = btn:CreateTexture(nil, "HIGHLIGHT", nil, 1)
     squareBorder:SetAtlas("talents-node-square-gray", false)
     squareBorder:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
     squareBorder:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
@@ -2930,9 +2931,9 @@ local function LayoutDetailTab()
                 node.checkmark:Hide()
             end
 
-            -- Shape: gated chapters (with prerequisites) render as squares
+            -- Shape: gated chapters (prerequisites or note hint) render as squares
             local CIRC = "Interface/CHARACTERFRAME/TempPortraitAlphaMask"
-            local isGated = ch.prerequisites ~= nil
+            local isGated = ch.prerequisites ~= nil or ch.note ~= nil
             node.isGated = isGated
             if isGated then
                 node.portraitMask:SetTexture("Interface/Buttons/WHITE8x8")
