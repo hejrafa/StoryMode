@@ -1916,9 +1916,10 @@ local function CreateTrackNode(parent)
     checkmark:Hide()
     btn.checkmark = checkmark
 
-    -- Hover highlight (masked to circle). In OVERLAY sublevel -1 so the ring
-    -- and squareBorder child frame always render above it regardless of hover.
-    local hl = btn:CreateTexture(nil, "OVERLAY", nil, -1)
+    -- Hover highlight (masked to circle/square). In ARTWORK so it is always
+    -- below the OVERLAY layer where ring and squareBorder live — no sublevel
+    -- ordering needed, the draw layer guarantee is absolute.
+    local hl = btn:CreateTexture(nil, "ARTWORK")
     hl:SetTexture("Interface/Buttons/WHITE8x8")
     hl:SetAllPoints(portrait)
     hl:SetVertexColor(1, 0.82, 0.50, 0.2)
