@@ -1899,21 +1899,17 @@ local function CreateTrackNode(parent)
     btn.ring = ring
 
     -- Square border (shown instead of ring for gated/prerequisite chapters).
-    -- Hosted in a child frame above btn's frame level so it always renders
-    -- on top of the HIGHLIGHT draw layer (which only shows on hover).
-    local squareBorderFrame = CreateFrame("Frame", nil, btn)
-    squareBorderFrame:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
-    squareBorderFrame:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
-    squareBorderFrame:SetFrameLevel(btn:GetFrameLevel() + 5)
-    local squareBorder = squareBorderFrame:CreateTexture(nil, "OVERLAY")
+    -- OVERLAY sublevel 5 places it above hl (sublevel -1) and ring (sublevel 0)
+    -- within the same frame, so sublevel ordering is always guaranteed.
+    local squareBorder = btn:CreateTexture(nil, "OVERLAY", nil, 5)
     squareBorder:SetAtlas("talents-node-square-gray", false)
-    squareBorder:SetAllPoints(squareBorderFrame)
+    squareBorder:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
+    squareBorder:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
     squareBorder:Hide()
     btn.squareBorder = squareBorder
 
-    -- Number badge
-    -- Checkmark badge (top-right)
-    local checkmark = btn:CreateTexture(nil, "OVERLAY", nil, 2)
+    -- Checkmark badge (top-right), sublevel 6 so it sits above squareBorder
+    local checkmark = btn:CreateTexture(nil, "OVERLAY", nil, 6)
     checkmark:SetAtlas("common-icon-checkmark", false)
     checkmark:SetSize(14, 14)
     checkmark:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 4, -4)
