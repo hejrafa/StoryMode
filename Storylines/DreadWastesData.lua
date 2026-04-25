@@ -157,7 +157,6 @@ SM.DreadWastesData = {
             chapter = "Shadow of the Empire",
             summary = "Grand Empress Shek'zeer has run out of patience. Eleven paragons stand at your side.",
             recap = "Malik the Unscathed brought word: Grand Empress Shek'zeer had marshalled her full army against the Klaxxi, and there would be no more waiting. You marched with all the paragons you had freed — eleven elders who had outlasted empires — toward the Heart of Fear. What waited inside was sha given form, an Empress possessed beyond recovery. You fought beside the Klaxxi and brought Shek'zeer down.\n\nAfterward, Kil'ruk brought you below Klaxxi'vess — into chambers that no outsider had ever seen. He said he was proud to have fought beside you. He did not say what you were being trusted with. But beneath the halls of the Klaxxi, beneath all of the Dread Wastes, something much older was waiting. The paragons had always known it was there.",
-            note = "The paragons reappear in Siege of Orgrimmar (5.4) as Garrosh's final guardians — revealed to serve Y'Shaarj, the Old God whose heart lies beneath the Dread Wastes. The betrayal lands harder having spent a zone earning their trust.",
             quests = {
                 { id = 31133, name = "Kor'thik Aggression",         npc = "Ambersmith Zikk" },
                 { id = 31959, name = "The Empress' Gambit",         npc = "Malik the Unscathed" },
