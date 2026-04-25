@@ -11,6 +11,7 @@
 - `ShouldHideQuest` helper — `showIf` / `hideIf` conditions now filter quest cards and progress counting, not just completion checks
 
 ### Content
+- **The Klaxxi** — new epic storyline for the Dread Wastes zone (Mists of Pandaria). Five chapters: awakening the first paragons at Klaxxi'vess, amber crafting at Kypari Zar, Skeer the Bloodseeker and Kaz'tik's kunchong, the maritime chaos of Soggy's Gamble, and the final assault on the Heart of Fear. Includes a note on the SoO betrayal payoff
 - **The Dark Heart of Nazmir** — new Horde-only epic storyline for the Nazmir zone (Battle for Azeroth). Covers all 8 achievement chapters: meeting Bwonsamdi and forging the pact for one million souls, the bat loa Hir'eek's corruption, Torga's death, Krag'wa in Gloom Hollow, the Titan Keeper facility and G'huun containment, and the final assault on Grand Ma'da Ateena. Parallel to The Witchwood of Drustvar
 - **Sylvanas — The Banshee Queen** extended through Dragonflight 10.1.7: added "Stay of Execution", "Breaking the Cycle", "What Comes After", "The Long Hunt", and "A Chilling Summons" chapters; Shadowlands intro now has separate Horde/Alliance entry quests with faction filtering
 - **Lilian Voss** — added "What Comes After" chapter covering the Horde Council formation quests (including The Hidden Need, 57376); updated BfA portrait to display ID 85799
