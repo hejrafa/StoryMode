@@ -143,9 +143,10 @@ SM.JadeForestData = {
             },
         },
 
-        -- CHAPTER 4: The White Pawn
+        -- CHAPTER 4: The White Pawn (Alliance only — Anduin's arc has no Horde equivalent)
         {
             chapter = "The White Pawn",
+            faction = "Alliance",
             summary = "Anduin chose to trust Pandaria. He wasn't wrong about that.",
             recap = "Prince Anduin Wrynn had not been captured — he had been learning. While SI:7 searched the forest and Admiral Taylor worried, Anduin had found Lorewalker Cho, the Pearlfin Jinyu elders, a view of the Jade Serpent's temple under reconstruction, and something he needed more than a rescue: a purpose. His decision was to approach Yu'lon's rebirth with reverence, not politics. To ask instead of take.\n\nAnduin's Decision was the chapter's name and its contents. He was a boy who had seen enough of war to know it was not the only answer, and young enough to still believe that. Admiral Taylor disapproved. Taran Zhu was watching. The Jade Serpent listened. You found Anduin safe, changed, and entirely unwilling to be treated as a problem that needed solving.",
             quests = {
