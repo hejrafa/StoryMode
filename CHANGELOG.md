@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.5.0
+
+### Maintenance
+- Bumped addon version to `1.5.0`
+- Cleaned storyline achievement lists to keep story-relevant achievements only, using normal/base dungeon and raid clears plus normal boss kills where applicable
+
+### Content
+- **The Master of Revendreth** — new epic storyline for the Revendreth zone (Shadowlands). Covers the full seven-chapter zone campaign: arrival in Darkhaven, Denathrius and the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar and the Ember Ward, Prince Renathal's rescue, and the reveal that Denathrius is funneling anima to the Maw
+- Added Revendreth story and chapter portraits using verified display IDs for Denathrius, Rendle, the Accuser, the Fearstalker, Theotar, and Prince Renathal
+- Added Revendreth-related achievements for Loremaster, Sojourner, Halls of Atonement, Sanguine Depths, and Castle Nathria
+
+---
+
 ## 1.4.0
 
 ### Fixes

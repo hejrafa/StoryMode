@@ -11,7 +11,6 @@ SM.JadeForestData = {
     achievementID = 6300,
     achievements = {
         6300,   -- Upjade Complete
-        6351,   -- Explore Jade Forest
         7381,   -- Restore Balance
         6850,   -- Hozen in the Mist
         6858,   -- What Is Worth Fighting For
@@ -21,12 +20,6 @@ SM.JadeForestData = {
         6855,   -- The Seven Burdens of Shaohao
         6716,   -- Between a Saurok and a Hard Place
         6757,   -- Temple of the Jade Serpent
-        6758,   -- Heroic: Temple of the Jade Serpent
-        6460,   -- Hydrophobia
-        6475,   -- Cleaning Up
-        6671,   -- Seeds of Doubt
-        6764,   -- Heroic: Temple of the Jade Serpent Guild Run
-        6927,   -- Glory of the Pandaria Hero
     },
     description = "The Alliance and Horde did not discover Pandaria gently. They arrived as wreckage, orders, pursuit, and fire, then tried to make allies before they understood what the land would remember. The Jade Forest is the first lesson of Pandaria: every doubt, every grudge, every easy answer has weight. By the end, a statue built over generations lies broken, a sha is loose, and the Temple of the Jade Serpent must be cleansed of the darkness the war awakened.",
     zone = "The Jade Forest",

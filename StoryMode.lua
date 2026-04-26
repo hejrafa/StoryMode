@@ -670,6 +670,9 @@ end
 if CanShowQuestline(SM.NazmirData) then
     RegisterQuestline(SM.NazmirData, "Epic Storylines")
 end
+if CanShowQuestline(SM.RevendrethData) then
+    RegisterQuestline(SM.RevendrethData, "Epic Storylines")
+end
 if CanShowQuestline(SM.DrustvarData) then
     RegisterQuestline(SM.DrustvarData, "Epic Storylines")
 end

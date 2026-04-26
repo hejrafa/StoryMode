@@ -10,55 +10,14 @@ SM.NazmirData = {
     achievementName = "Bwon Voyage",
     achievements = {
         11868,  -- The Dark Heart of Nazmir (zone story)
-        41203,  -- Bwon Voyage (meta — all Nazmir achievements)
-        -- Exploration
-        12561,  -- Explore Nazmir
-        12771,  -- Treasures of Nazmir
-        12942,  -- Adventurer of Nazmir
-        13024,  -- Carved in Stone, Written in Blood (blood troll pictographs)
-        -- Flavor
-        12588,  -- Eat Your Greens (sample all edible plants)
-        13028,  -- Hoppin' Sad (shoo Lost Spawn of Krag'wa home)
-        -- World quest speed runs
-        13022,  -- Revenge is Best Served Speedily
-        13023,  -- It's Really Getting Out of Hand
-        13021,  -- A Most Efficient Apocalypse
         -- The Underrot (dungeon)
         13157,  -- The Underrot
-        -- Uldir (raid) — wing clears
-        12521,  -- Halls of Containment (Taloc, MOTHER, Zek'voz)
-        12522,  -- Crimson Descent (Vectis, Fetid Devourer, Zul)
+        -- Uldir
         12523,  -- Heart of Corruption (Mythrax, G'huun)
-        12819,  -- G'huun kills (Heroic Uldir)
-        -- Glory of the Uldir Raider + criteria
-        12806,  -- Glory of the Uldir Raider
-        12551,  -- Double Dribble
-        12938,  -- Parental Controls
-        12828,  -- What's in the Box?
-        12830,  -- Edgelords
-        12937,  -- Elevator Music
-        12823,  -- Thrash Mouth - All Stars
-        12772,  -- Now We Got Bad Blood
-        12836,  -- Existential Crisis
-        -- Battle of Dazar'alor (raid) — wing clears
-        13286,  -- Siege of Dazar'alor (Horde — Champion of the Light, Jadefire Masters, Grong)
+        12818,  -- G'huun kills (Normal Uldir)
+        -- Battle of Dazar'alor
         13289,  -- Defense of Dazar'alor (Horde — Opulence, Conclave of the Chosen, King Rastakhan)
-        13287,  -- Empire's Fall (Alliance perspective wing 2)
         13290,  -- Death's Bargain (Alliance perspective wing 3)
-        13288,  -- Might of the Alliance (Alliance perspective final wing)
-        13291,  -- Victory or Death (Horde final wing — Jaina)
-        13361,  -- Opulence kills (Heroic Battle of Dazar'alor)
-        -- Glory of the Dazar'alor Raider + criteria
-        13315,  -- Glory of the Dazar'alor Raider
-        13316,  -- Can I Get a Hek Hek Hek Yeah?
-        13345,  -- Praise the Sunflower
-        13410,  -- Snow Fun Allowed
-        13431,  -- Hidden Dragon
-        13425,  -- We Got Spirit, How About You?
-        13325,  -- Walk the Dinosaur
-        13383,  -- Barrel of Monkeys
-        13401,  -- I Got Next!
-        13430,  -- De Lurker Be'loa
     },
     description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned god beneath the earth. Forge a pact with Bwonsamdi, loa of death, to fight back the darkness. The deal is simple: one million souls. The price, in the end, will be far higher.",
     zone = "Nazmir",

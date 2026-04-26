@@ -21,24 +21,14 @@ SM.JainaData = {
         12593,  -- Loremaster of Kul Tiras
         -- The Pride of Kul Tiras — four dungeons
         12840,  -- Tol Dagor (Normal)
-        12841,  -- Heroic: Tol Dagor
-        12842,  -- Mythic: Tol Dagor
+        12780,  -- Overseer Korgus kills (Normal Tol Dagor)
         12835,  -- Shrine of the Storm (Normal)
-        12837,  -- Heroic: Shrine of the Storm
-        12838,  -- Mythic: Shrine of the Storm
+        12766,  -- Vol'zith the Whisperer kills (Normal Shrine of the Storm)
         12483,  -- Waycrest Manor (Normal)
-        12484,  -- Heroic: Waycrest Manor
-        12488,  -- Mythic: Waycrest Manor
+        12783,  -- Gorak Tul kills (Normal Waycrest Manor)
         12847,  -- Siege of Boralus (Mythic)
-        12812,  -- Glory of the Wartorn Hero (all four dungeons meta)
-        -- The Fog of War — Battle of Dazar'alor (Alliance wings)
-        13286,  -- Siege of Dazar'alor (Wing 1: Champion of the Light, Jadefire Masters, Grong)
-        13287,  -- Empire's Fall (Wing 2: Opulence, Conclave of the Chosen, King Rastakhan)
+        -- The Fog of War — Battle of Dazar'alor
         13288,  -- Might of the Alliance (Wing 3: Mekkatorque, Stormwall Blockade, Lady Jaina)
-        13314,  -- Mythic: Lady Jaina Proudmoore (grants title: Hero of Dazar'alor)
-        13322,  -- Ahead of the Curve: Lady Jaina Proudmoore
-        13323,  -- Cutting Edge: Lady Jaina Proudmoore
-        13315,  -- Glory of the Dazar'alor Raider
     },
     faction = "Alliance",
     color = { 0.20, 0.55, 0.85 },  -- Kul Tiran sea-blue

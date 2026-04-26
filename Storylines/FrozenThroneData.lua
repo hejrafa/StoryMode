@@ -464,29 +464,13 @@ SM.FrozenThroneData = {
         40,     -- Icecrown: The Final Goal (full Icecrown zone story)
         -- Northrend-wide
         41,     -- Loremaster of Northrend
-        -- Icecrown Citadel — instance clears
-        4531,   -- Storming the Citadel (10 player)
-        4604,   -- Storming the Citadel (25 player)
-        4528,   -- The Plagueworks (10 player)
-        4605,   -- The Plagueworks (25 player)
-        4529,   -- The Crimson Hall (10 player)
-        4606,   -- The Crimson Hall (25 player)
-        4527,   -- The Frostwing Halls (10 player)
-        4607,   -- The Frostwing Halls (25 player)
+        -- The Frozen Halls
+        4516,   -- The Forge of Souls (Normal)
+        4517,   -- The Pit of Saron (Normal)
+        4518,   -- The Halls of Reflection (Normal)
+        -- Icecrown Citadel
         4532,   -- Fall of the Lich King (10 player)
-        4608,   -- Fall of the Lich King (25 player)
-        4636,   -- Heroic: Fall of the Lich King (10 player)
-        4637,   -- Heroic: Fall of the Lich King (25 player)
-        -- Icecrown Citadel — Lich King encounter
         4530,   -- The Frozen Throne (10 player) — grants Kingslayer title
-        4597,   -- The Frozen Throne (25 player)
-        4601,   -- Been Waiting a Long Time for This (10 player)
-        4621,   -- Been Waiting a Long Time for This (25 player)
-        4581,   -- Neck-Deep in Vile (10 player)
-        4622,   -- Neck-Deep in Vile (25 player)
-        -- Icecrown Citadel — Glory meta
-        4602,   -- Glory of the Icecrown Raider (10 player)
-        4603,   -- Glory of the Icecrown Raider (25 player)
     },
     description = "Walk the long road that turned Prince Arthas Menethil into the Lich King — and the longer road to unmake him. From the time-lost streets of Stratholme, through the dragon-haunted plains of Dragonblight, to the frozen spire of Icecrown Citadel.",
     zone = "Dragonblight / Icecrown",

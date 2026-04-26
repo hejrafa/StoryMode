@@ -10,7 +10,6 @@ SM.DreadWastesData = {
     achievementID = 6540,
     achievements = {
         6540,   -- Dread Haste Makes Dread Waste (zone story — 4 questlines)
-        6978,   -- Explore Dread Wastes
         6545,   -- Klaxxi (Exalted with The Klaxxi)
     },
     description = "The mantid are ancient and alien — and they've condemned their own Empress. Sha energy has touched Shek'zeer's mind and twisted the swarm. The Klaxxi name you a Wakener: the rarest of outsiders, trusted to free the Klaxxi Paragons from their amber prisons. Eleven elders. Eleven legends. Together you will take back the Dread Wastes — until the paragons remind you what they truly serve.",

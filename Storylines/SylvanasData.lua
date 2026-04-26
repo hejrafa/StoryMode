@@ -16,20 +16,11 @@ SM.SylvanasData = {
     achievements = {
         -- The Frozen Halls — dungeon completions
         4516,   -- The Forge of Souls (Normal)
-        4519,   -- Heroic: The Forge of Souls
         4517,   -- The Pit of Saron (Normal)
-        4520,   -- Heroic: The Pit of Saron
         4518,   -- The Halls of Reflection (Normal)
-        4521,   -- Heroic: The Halls of Reflection
-        -- The Frozen Halls — bonus achievements
-        4522,   -- Soul Power (Bronjahm: keep 4+ soul fragments alive)
-        4523,   -- Three Faced (Devourer of Souls: no Phantom Blast lands)
-        4524,   -- Doesn't Go to Eleven (Garfrost: under 11 stacks of Permafrost)
-        4525,   -- Don't Look Up (Pit of Saron hallway: avoid all icicles)
-        4526,   -- We're Not Retreating; We're Advancing in a Different Direction. (HoR: escape in under 6 min)
         -- Icecrown Citadel
-        4608,   -- Fall of the Lich King (defeat the Lich King)
-        4583,   -- Bane of the Fallen King (defeat the Lich King on Heroic 25)
+        4532,   -- Fall of the Lich King (10 player)
+        4530,   -- The Frozen Throne (10 player)
         -- Battle for Azeroth — war campaign arc
         12509,  -- Ready for War (complete the BfA 8.0 war campaign)
         13466,  -- Tides of Vengeance (complete the 8.1 war campaign, includes Fate of Saurfang)

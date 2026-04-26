@@ -23,18 +23,8 @@ SM.SuramarData = {
         11124,  -- Good Suramaritan (all side-chapter storylines)
         11340,  -- Insurrection (all 9 patch-7.1 chapters)
         10778,  -- The Nightfallen (Exalted with The Nightfallen)
-        -- The Nighthold raid — wing clears
+        -- The Nighthold
         42030,  -- The Nighthold (full clear)
-        10829,  -- Arcing Aqueducts (Skorpyron, Chronomatic Anomaly, Trilliax)
-        10837,  -- Royal Athenaeum (Spellblade Aluriel, High Botanist Tel'arn, Star Augur Etraeus)
-        10838,  -- Nightspire (Krosus, Tichondrius, Grand Magistrix Elisande)
-        10839,  -- Betrayer's Rise (Gul'dan)
-        -- The Nighthold raid — prestige
-        10849,  -- Mythic: Grand Magistrix Elisande
-        10850,  -- Mythic: Gul'dan (grants title: Vengeance Incarnate)
-        11195,  -- Ahead of the Curve: Gul'dan
-        11192,  -- Cutting Edge: Gul'dan
-        11180,  -- Glory of the Legion Raider (Emerald Nightmare + Nighthold meta)
     },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 1525722,
