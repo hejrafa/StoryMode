@@ -18,6 +18,7 @@ SM.DreadWastesData = {
     color = { 0.72, 0.53, 0.15 },   -- amber/ochre
 
     icon = 624970,
+    factions = { 1337 }, -- The Klaxxi
     adventureGuideInstanceName = "Heart of Fear",
 
     startQuest = { id = 31001, name = "Falling Down", npc = "Shado-Pan Scout", location = "Terrace of Gurthan" },

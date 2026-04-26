@@ -8,6 +8,14 @@ local currentStoryData = nil  -- assigned by UpdateStoryDetail
 -- ============================================================================
 
 local function ResolveAchievementID(data)
+    local faction = UnitFactionGroup("player")
+    if data.achievementIDByFaction then
+        data.achievementID = data.achievementIDByFaction[faction] or data.achievementID
+    end
+    if data.achievementsByFaction then
+        data.achievements = data.achievementsByFaction[faction] or data.achievements
+    end
+
     if data.achievementID then
         local _, name = GetAchievementInfo(data.achievementID)
         if name then return end  -- ID is valid
@@ -148,6 +156,12 @@ local function GetStoryAchievements(data)
         add(ch.achievementID)
     end
     return ids
+end
+
+local function GetStoryFactions(data)
+    if not data then return nil end
+    local faction = UnitFactionGroup("player")
+    return (data.factionsByFaction and data.factionsByFaction[faction]) or data.factions
 end
 
 local achievementElements = {}
@@ -617,7 +631,7 @@ local categories = {
     { name = "Epic Storylines", questlines = {} },
     { name = "Character Stories", questlines = {} },
     { name = "Short Stories", questlines = {} },
-    { name = "Identity", questlines = {} },
+    { name = "Identity", displayName = (UnitRace("player")) .. " " .. (UnitClass("player")), questlines = {} },
     { name = "More Coming Soon", disabled = true, questlines = {} },
 }
 
@@ -664,6 +678,9 @@ end
 if CanShowQuestline(SM.JadeForestData) then
     RegisterQuestline(SM.JadeForestData, "Epic Storylines")
 end
+if CanShowQuestline(SM.DreadWastesData) then
+    RegisterQuestline(SM.DreadWastesData, "Epic Storylines")
+end
 if CanShowQuestline(SM.SuramarData) then
     RegisterQuestline(SM.SuramarData, "Epic Storylines")
 end
@@ -676,9 +693,6 @@ end
 if CanShowQuestline(SM.DrustvarData) then
     RegisterQuestline(SM.DrustvarData, "Epic Storylines")
 end
--- if CanShowQuestline(SM.DreadWastesData) then
---     RegisterQuestline(SM.DreadWastesData, "Epic Storylines")
--- end
 if CanShowQuestline(SM.SylvanasData) then
     RegisterQuestline(SM.SylvanasData, "Character Stories")
 end
@@ -950,8 +964,8 @@ EnableMouseWheelScroll(detailScroll)
 -- Move scrollbar inside the panel, 8px from right edge
 if detailScroll.ScrollBar then
     detailScroll.ScrollBar:ClearAllPoints()
-    detailScroll.ScrollBar:SetPoint("TOPRIGHT",    detailScroll, "TOPRIGHT",    -13, -16)
-    detailScroll.ScrollBar:SetPoint("BOTTOMRIGHT", detailScroll, "BOTTOMRIGHT", -13,  16)
+    detailScroll.ScrollBar:SetPoint("TOPRIGHT",    detailScroll, "TOPRIGHT",    -10, -16)
+    detailScroll.ScrollBar:SetPoint("BOTTOMRIGHT", detailScroll, "BOTTOMRIGHT", -10,  16)
 end
 
 local DP  = 32   -- divider padding (left/right)
@@ -1210,6 +1224,12 @@ sJournalEmptyText:SetJustifyH("CENTER"); sJournalEmptyText:SetSpacing(4); sJourn
 sJournalEmptyText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 sJournalEmptyText:SetText("No chapters recorded yet.")
 
+local sFactionHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
+sFactionHeader:SetJustifyH("CENTER")
+sFactionHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+sFactionHeader:SetText("Factions")
+sFactionHeader:Hide()
+
 local sJournalEntries = {}  -- pool of { title = FontString, body = FontString }
 
 local function GetJournalEntry(idx)
@@ -1225,7 +1245,318 @@ local function GetJournalEntry(idx)
 end
 
 local storyElements = { sIntro, sTrackBtn, sCompleteText }
-local journalElements = { sJournalHeader, sJournalEmptyText }
+local journalElements = { sJournalHeader, sJournalEmptyText, sFactionHeader }
+
+-- ── Faction reputation cards (journal tab) ─────────────────────────────────
+-- Uses the Housing Dashboard house-level reward card surface with Blizzard's
+-- Journeys radial art:
+--   house-upgrade-reward-large-tile-bg / -highlight
+--   RenownCardButtonTemplate radial: ui-journeys-renown-radial-bar/fill
+local FactionUI = {
+    CARD_W = 304,
+    CARD_H = 88,
+    CARD_ATLAS = "house-upgrade-reward-large-tile-bg",
+    CARD_HOVER_ATLAS = "house-upgrade-reward-large-tile-bg-highlight",
+    cards = {},
+    spacer = nil,
+    iconOverrides = {
+        [1859] = "Interface\\Icons\\achievement_faction_nightfallen",
+    },
+    descriptions = {
+        [1859] = "These exiled Nightborne elves suffer withdrawals after being cut off from the Nightwell. They oppose their people's alliance with the Legion and fight for some kind of redemption.",
+    },
+}
+
+function FactionUI:Create()
+    local card = CreateFrame("Frame", nil, detailChild)
+    card:SetSize(self.CARD_W, self.CARD_H)
+
+    card.button = CreateFrame("Button", nil, card)
+    card.button:SetPoint("TOPLEFT", card, "TOPLEFT", 0, 0)
+    card.button:SetSize(self.CARD_W, self.CARD_H)
+
+    card.button.Background = card.button:CreateTexture(nil, "BACKGROUND")
+    card.button.Background:SetAllPoints(card.button)
+    card.button.Background:SetAtlas(self.CARD_ATLAS, false)
+
+    card.button:SetScript("OnEnter", function(button)
+        FactionUI:SetCardAtlas(card, FactionUI.CARD_HOVER_ATLAS)
+        if card.tooltipTitle then
+            SMTooltip:SetOwner(button, "ANCHOR_RIGHT")
+            SMTooltip:ClearLines()
+            SMTooltip:AddLine(card.tooltipTitle, 1, 1, 1)
+            if card.tooltipStatus and card.tooltipStatus ~= "" then
+                SMTooltip:AddLine(card.tooltipStatus, C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            end
+            if card.tooltipDescription and card.tooltipDescription ~= "" then
+                SMTooltip:AddLine(" ")
+                SMTooltip:AddLine(card.tooltipDescription, C_BODY[1], C_BODY[2], C_BODY[3], true)
+            end
+            SMTooltip:Show()
+        end
+    end)
+    card.button:SetScript("OnLeave", function()
+        FactionUI:SetCardAtlas(card, FactionUI.CARD_ATLAS)
+        SMTooltip:Hide()
+    end)
+    card.button:SetScript("OnClick", nil)
+    card.button:EnableMouse(true)
+
+    if not card.button.IconFrame then
+        card.button.IconFrame = CreateFrame("Frame", nil, card.button)
+        card.button.IconFrame.Border = card.button.IconFrame:CreateTexture(nil, "BORDER")
+        card.button.IconFrame.Border:SetAllPoints(card.button.IconFrame)
+        card.button.IconFrame.Icon = card.button.IconFrame:CreateTexture(nil, "OVERLAY")
+        card.button.IconFrame.Icon:SetPoint("CENTER", card.button.IconFrame, "CENTER", 0, 0)
+    end
+
+    if not card.button.RenownCardFactionName then
+        card.button.RenownCardFactionName = NoShadow(card.button:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+        card.button.RenownCardFactionName:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 5, 5)
+        card.button.RenownCardFactionName:SetSize(225, 20)
+        card.button.RenownCardFactionName:SetJustifyH("LEFT")
+    end
+
+    if not card.button.RenownCardFactionLevel then
+        card.button.RenownCardFactionLevel = NoShadow(card.button:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+        card.button.RenownCardFactionLevel:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 5, -15)
+        card.button.RenownCardFactionLevel:SetSize(220, 15)
+        card.button.RenownCardFactionLevel:SetJustifyH("LEFT")
+    end
+
+    if card.button.IconFrame then
+        card.button.IconFrame:SetSize(60, 60)
+        card.button.IconFrame:SetPoint("LEFT", card.button, "LEFT", 18, 0)
+        card.progress = CreateFrame("Cooldown", nil, card.button.IconFrame, "CooldownFrameTemplate")
+        card.progress:SetAllPoints(card.button.IconFrame)
+        card.progress:SetDrawEdge(false)
+        card.progress:SetDrawSwipe(true)
+        card.progress:SetHideCountdownNumbers(true)
+        card.progress:SetReverse(true)
+        card.progress.noCooldownCount = true
+        if card.progress.SetRotation then
+            card.progress:SetRotation(math.pi)
+        end
+        card.fullRing = card.button.IconFrame:CreateTexture(nil, "ARTWORK", nil, 2)
+        card.fullRing:SetAllPoints(card.button.IconFrame)
+        card.fullRing:Hide()
+        if card.button.IconFrame.Border then
+            card.button.IconFrame.Border:SetAtlas("ui-journeys-renown-radial-bar", false)
+            card.button.IconFrame.Border:SetSize(60, 60)
+        end
+        card.icon = card.button.IconFrame.Icon
+        card.icon:SetSize(40, 40)
+    end
+
+    card.nameLabel = card.button.RenownCardFactionName
+    card.statusLabel = card.button.RenownCardFactionLevel
+    card.nameLabel:ClearAllPoints()
+    card.nameLabel:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 10, 0)
+    card.nameLabel:SetPoint("RIGHT", card.button, "RIGHT", -14, 0)
+    card.nameLabel:SetPoint("BOTTOM", card.button, "CENTER", 0, 0)
+    card.nameLabel:SetJustifyH("LEFT")
+    card.nameLabel:SetJustifyV("BOTTOM")
+    card.nameLabel:SetScale(1.08)
+    card.nameLabel:SetMaxLines(1)
+    card.nameLabel:SetWordWrap(false)
+    card.statusLabel:ClearAllPoints()
+    card.statusLabel:SetPoint("TOPLEFT", card.nameLabel, "BOTTOMLEFT", 0, 0)
+    card.statusLabel:SetPoint("RIGHT", card.nameLabel, "RIGHT", 0, 0)
+    card.statusLabel:SetJustifyH("LEFT")
+    card.statusLabel:SetScale(1.08)
+    card.statusLabel:SetMaxLines(1)
+    card.statusLabel:SetWordWrap(false)
+    card.nameLabel:SetTextColor(1, 1, 1)
+    card.statusLabel:SetTextColor(1.0, 0.82, 0.36)
+    return card
+end
+
+function FactionUI:Get(idx)
+    if self.cards[idx] then return self.cards[idx] end
+    self.cards[idx] = self:Create()
+    return self.cards[idx]
+end
+
+function FactionUI:Resize(card, width)
+    local scale = math.min(1, width / self.CARD_W)
+    card:SetSize(width, self.CARD_H * scale)
+    card.button:SetScale(scale)
+    return self.CARD_H * scale
+end
+
+function FactionUI:SetAtlas(tex, atlas, useAtlasSize)
+    if not tex or not atlas then return false end
+    if C_Texture and C_Texture.GetAtlasInfo and not C_Texture.GetAtlasInfo(atlas) then
+        return false
+    end
+    local ok = pcall(tex.SetAtlas, tex, atlas, useAtlasSize)
+    return ok and (not tex.GetAtlas or tex:GetAtlas() == atlas)
+end
+
+function FactionUI:SetCardAtlas(card, atlas)
+    if not card or not atlas then return end
+    if card.button and card.button.Background then
+        self:SetAtlas(card.button.Background, atlas, false)
+    elseif card.button and card.button.bg then
+        self:SetAtlas(card.button.bg, atlas, false)
+    end
+end
+
+function FactionUI:SetIcon(tex, atlas, texture)
+    if not tex then return end
+    tex:Hide()
+    tex:SetTexture(nil)
+    if atlas and self:SetAtlas(tex, atlas, false) then
+        tex:SetTexCoord(0, 1, 0, 1)
+        tex:SetVertexColor(1, 1, 1)
+        tex:Show()
+        return
+    end
+    tex:SetTexture(texture)
+    if texture and tex:GetTexture() then
+        tex:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+        tex:SetVertexColor(1, 1, 1)
+    end
+    if tex:GetTexture() then
+        tex:Show()
+    end
+end
+
+function FactionUI:ApplyArt(card, expansionID, textureKit)
+    self:SetCardAtlas(card, self.CARD_ATLAS)
+
+    if card.button and card.button.IconFrame and card.button.IconFrame.Border then
+        self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false)
+    end
+
+    local fillAtlas = "ui-journeys-renown-radial-fill"
+    local fillInfo = C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(fillAtlas)
+    if fillInfo then
+        if card.progress then
+            card.progress:SetSwipeTexture(fillInfo.file or fillInfo.filename)
+            if card.progress.SetTexCoordRange then
+                card.progress:SetTexCoordRange(
+                    { x = fillInfo.leftTexCoord, y = fillInfo.topTexCoord },
+                    { x = fillInfo.rightTexCoord, y = fillInfo.bottomTexCoord }
+                )
+            end
+            card.progress:SetSwipeColor(1, 0.82, 0.1, 1)
+        end
+        if card.fullRing then
+            card.fullRing:SetTexture(fillInfo.file or fillInfo.filename)
+            card.fullRing:SetTexCoord(
+                fillInfo.leftTexCoord, fillInfo.rightTexCoord,
+                fillInfo.topTexCoord, fillInfo.bottomTexCoord
+            )
+        end
+        if card.fullRing then card.fullRing:SetVertexColor(1, 0.82, 0.1, 1) end
+    else
+        if card.progress then
+            card.progress:SetSwipeColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0.95)
+        end
+        if card.fullRing then card.fullRing:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0.95) end
+    end
+end
+
+function FactionUI:SetProgress(card, pct)
+    pct = math.max(0, math.min(1, pct or 0))
+    local isFull = pct >= 0.999
+    if card.fullRing then
+        card.fullRing:SetShown(isFull)
+    end
+    if card.progress then
+        card.progress:SetShown(pct > 0 and not isFull)
+        if pct > 0 and not isFull then
+            if CooldownFrame_SetDisplayAsPercentage then
+                CooldownFrame_SetDisplayAsPercentage(card.progress, pct)
+            else
+                local DURATION = 1000
+                card.progress:SetCooldown(GetTime() - pct * DURATION, DURATION)
+                if card.progress.Pause then card.progress:Pause() end
+            end
+        end
+    end
+end
+
+function FactionUI:NormalizeEntry(entry)
+    if type(entry) == "table" then
+        return entry
+    end
+    return { id = entry }
+end
+
+function FactionUI:Update(card, entry, storyData)
+    entry = self:NormalizeEntry(entry)
+    local factionID = entry.id or entry.factionID
+    if not factionID then card:Hide(); return false end
+
+    local pct, name, status, description = 0, nil, "", entry.description
+
+    local mf = C_MajorFactions and C_MajorFactions.GetMajorFactionData
+        and C_MajorFactions.GetMajorFactionData(factionID)
+    if mf and mf.name then
+        name = mf.name
+        description = description or mf.description or self.descriptions[factionID]
+        local cur = mf.renownReputationEarned or 0
+        local need = mf.renownLevelThreshold or 0
+        if need > 0 then pct = math.max(0, math.min(1, cur / need)) end
+        local maxLevel = 0
+        if C_MajorFactions.GetRenownLevels then
+            local levels = C_MajorFactions.GetRenownLevels(factionID)
+            if levels then maxLevel = #levels end
+        end
+        if maxLevel > 0 and (mf.renownLevel or 0) >= maxLevel then
+            pct = 1
+        end
+        status = maxLevel > 0
+            and string.format("Renown %d/%d", mf.renownLevel or 0, maxLevel)
+            or string.format("Renown %d", mf.renownLevel or 0)
+        self:ApplyArt(card, mf.expansionID, mf.textureKit)
+        if mf.factionFontColor and mf.factionFontColor.color then
+            local r, g, b = mf.factionFontColor.color:GetRGB()
+            if card.progress then card.progress:SetSwipeColor(r, g, b, 1) end
+            if card.fullRing then card.fullRing:SetVertexColor(r, g, b, 1) end
+        end
+        self:SetIcon(card.icon, entry.iconAtlas or (mf.textureKit and ("majorfactions_icons_" .. mf.textureKit .. "512")), entry.icon)
+    else
+        local info = C_Reputation and C_Reputation.GetFactionDataByID
+            and C_Reputation.GetFactionDataByID(factionID)
+        if not info or not info.name then card:Hide(); return false end
+        name = info.name
+        description = description or info.description or self.descriptions[factionID]
+        local reaction = info.reaction or 4
+        local minRep   = info.currentReactionThreshold or 0
+        local maxRep   = info.nextReactionThreshold or (minRep + 1)
+        local cur      = info.currentStanding or 0
+        if reaction >= 8 or (info.nextReactionThreshold == nil and cur >= minRep) then
+            pct = 1
+        elseif maxRep > minRep then
+            pct = math.max(0, math.min(1, (cur - minRep) / (maxRep - minRep)))
+        end
+        status = _G["FACTION_STANDING_LABEL" .. reaction] or ""
+        self:ApplyArt(card, entry.expansionID, entry.textureKit)
+        local standingColor = FACTION_BAR_COLORS and FACTION_BAR_COLORS[reaction]
+        if standingColor then
+            if card.progress then card.progress:SetSwipeColor(standingColor.r, standingColor.g, standingColor.b, 1) end
+            if card.fullRing then card.fullRing:SetVertexColor(standingColor.r, standingColor.g, standingColor.b, 1) end
+        end
+        self:SetIcon(card.icon, entry.iconAtlas, entry.icon or self.iconOverrides[factionID])
+    end
+
+    if card.nameLabel then card.nameLabel:SetText(name) end
+    if card.statusLabel then card.statusLabel:SetText(status) end
+    card.tooltipTitle = name
+    card.tooltipStatus = status
+    card.tooltipDescription = description
+    self:SetProgress(card, pct)
+    card:Show()
+    return true
+end
+
+function FactionUI:HideAll()
+    for _, c in ipairs(self.cards) do c:Hide() end
+    if self.spacer then self.spacer:Hide() end
+end
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- PROGRESS TAB elements
@@ -2162,14 +2493,14 @@ local function LayoutAchievementsTab(data)
 
     if #ids == 0 then
         aNoAchLabel:ClearAllPoints()
-        aNoAchLabel:SetPoint("TOP", heroFrame, "BOTTOM", 0, -24)
+        aNoAchLabel:SetPoint("TOP", detailChild, "TOP", 0, -24)
         aNoAchLabel:Show()
         return
     end
 
     local halfW = math.floor(AROW_MAX_W / 2)
-    -- yOff counts downward from heroFrame BOTTOM; all positions are absolute, no chained anchors
-    local yOff  = -20
+    -- yOff counts downward from detailChild TOP; all positions are absolute, no chained anchors.
+    local yOff  = -24
     -- spacing: 8 px gap → 2 px divider → 8 px gap = 18 px between row bottoms and next row tops
     local DIV_ABOVE = 8
     local DIV_H     = 2
@@ -2195,7 +2526,7 @@ local function LayoutAchievementsTab(data)
 
         row:ClearAllPoints()
         row:SetWidth(AROW_MAX_W)
-        row:SetPoint("TOP",  heroFrame,   "BOTTOM", 0,      yOff)
+        row:SetPoint("TOP",  detailChild, "TOP",    0,      yOff)
         row:SetPoint("LEFT", detailChild, "CENTER", -halfW, 0)
         row:Show()
 
@@ -2206,8 +2537,8 @@ local function LayoutAchievementsTab(data)
             local dY = yOff - DIV_ABOVE
             local f  = aAchDividers[i]
             f:ClearAllPoints()
-            f:SetPoint("TOPLEFT",  heroFrame, "BOTTOMLEFT",  DP + 80,  dY)
-            f:SetPoint("TOPRIGHT", heroFrame, "BOTTOMRIGHT", -(DP + 80), dY)
+            f:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  DP + 80,  dY)
+            f:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -(DP + 80), dY)
             f:Show()
             yOff = yOff - DIV_ABOVE - DIV_H - DIV_BELOW
         end
@@ -2216,11 +2547,8 @@ local function LayoutAchievementsTab(data)
     -- Resize scroll child to fit
     local listH = math.abs(yOff) + 24
     C_Timer.After(0, function()
-        local heroBot  = heroFrame:GetBottom()
         local childTop = detailChild:GetTop()
-        if heroBot and childTop then
-            detailChild:SetHeight(math.max((childTop - heroBot) + listH, 400))
-        end
+        if childTop then detailChild:SetHeight(math.max(listH + 24, 400)) end
     end)
 end
 
@@ -2569,7 +2897,12 @@ local function ShowTab(tab)
     sTrackBtn:Hide(); sCompleteText:Hide()
     dCompleteText:Hide()
     aCoverFrame:Hide()
-    heroFrame:Show()
+    FactionUI:HideAll()
+    heroFrame:Hide()
+    heroPort:Show()
+    heroFrame:SetHeight(HERO_ICON + 60)
+    dTitle:ClearAllPoints()
+    dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
     if tab ~= "story" then
         pendingSecureTrack = nil
         sTrackBtnSecure:SetScript("PreClick", nil)
@@ -2583,7 +2916,12 @@ local function ShowTab(tab)
         for _, el in ipairs(journalElements) do el:Show() end
     elseif tab == "achievements" then
         -- LayoutAchievementsTab shows only the cards it needs; nothing to pre-show here
-    else
+    elseif tab == "progress" then
+        heroPort:Hide()
+        heroFrame:SetHeight(50)
+        dTitle:ClearAllPoints()
+        dTitle:SetPoint("TOP", heroFrame, "TOP", 0, -18)
+        heroFrame:Show()
         for _, el in ipairs(progressElements) do el:Show() end
     end
 end
@@ -2664,6 +3002,8 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
 
         local lastAnchor = sIntro
 
+        FactionUI:HideAll()
+
         -- CTA button
         local quest = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
@@ -2726,9 +3066,71 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
         local quest = FindNextQuest(data)
         local lastAnchor = sJournalHeader
 
+        -- ── Faction reputation cards (after image+title, before chapters) ──
+        -- Always two fixed columns. A lone faction keeps the same half-row
+        -- width instead of stretching wider.
+        FactionUI:HideAll()
+        local factionAnchor, factionBottomY = nil, -16
+        local factionList = GetStoryFactions(data)
+        if factionList and #factionList > 0 then
+            local PER_ROW = 2
+            local GAP_X, GAP_Y = 12, 8
+            local rowTop = -50
+
+            -- First pass: filter visible cards.
+            local visible = {}
+            for i, factionID in ipairs(factionList) do
+                local card = FactionUI:Get(i)
+                if FactionUI:Update(card, factionID, data) then
+                    visible[#visible + 1] = card
+                end
+            end
+
+            local total = #visible
+            local rows = math.ceil(total / PER_ROW)
+            local cardW = (contentW - (PER_ROW - 1) * GAP_X) / PER_ROW
+            local cardH = FactionUI.CARD_H * math.min(1, cardW / FactionUI.CARD_W)
+
+            if total > 0 then
+                sFactionHeader:ClearAllPoints()
+                sFactionHeader:SetPoint("TOP", detailChild, "TOP", 0, -18)
+                sFactionHeader:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
+                sFactionHeader:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
+                sFactionHeader:Show()
+
+                for idx, card in ipairs(visible) do
+                    local row = math.floor((idx - 1) / PER_ROW)
+                    local col = (idx - 1) % PER_ROW
+                    local x = CP + col * (cardW + GAP_X)
+                    local y = rowTop - row * (cardH + GAP_Y)
+                    card:ClearAllPoints()
+                    FactionUI:Resize(card, cardW)
+                    -- TOP from detailChild (vertical), LEFT from detailChild
+                    -- (horizontal) so the journal has no hero/title gap.
+                    card:SetPoint("TOP", detailChild, "TOP", 0, y)
+                    card:SetPoint("LEFT", detailChild, "LEFT", x, 0)
+                end
+
+                if not FactionUI.spacer then
+                    FactionUI.spacer = CreateFrame("Frame", nil, detailChild)
+                    FactionUI.spacer:SetHeight(1)
+                end
+                local yBelow = rowTop - rows * cardH - (rows - 1) * GAP_Y
+                FactionUI.spacer:ClearAllPoints()
+                FactionUI.spacer:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  0, yBelow)
+                FactionUI.spacer:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", 0, yBelow)
+                FactionUI.spacer:Show()
+                factionAnchor = FactionUI.spacer
+            end
+        end
+
         sJournalHeader:SetText(quest and "Your Story So Far" or "Your Story")
         sJournalHeader:ClearAllPoints()
-        sJournalHeader:SetPoint("TOP", heroFrame, "BOTTOM", 0, -10)
+        if factionAnchor then
+            sJournalHeader:SetPoint("TOP", factionAnchor, "BOTTOM", 0, factionBottomY)
+        else
+            sJournalHeader:SetPoint("TOP", detailChild, "TOP", 0, -18)
+        end
         sJournalHeader:Show()
 
         for ci, ch in ipairs(chapters) do
@@ -2809,7 +3211,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
         dProgSummary:SetText("Chapter " .. chapDone .. " of " .. #chapters
             .. "  \194\183  " .. done .. "/" .. total .. " quests")
         dProgSummary:ClearAllPoints()
-        dProgSummary:SetPoint("TOP", heroFrame, "BOTTOM", 0, -6)
+        dProgSummary:SetPoint("TOP", dTitle, "BOTTOM", 0, -2)
         dProgSummary:Show()
 
         -- ── Horizontal chapter track + quest cards ────────────────────
@@ -2956,7 +3358,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
 
         -- Position track container
         dTrackContainer:ClearAllPoints()
-        dTrackContainer:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -10)
+        dTrackContainer:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -6)
         dTrackContainer:SetPoint("LEFT", detailChild, "LEFT", 0, 0)
         dTrackContainer:SetPoint("RIGHT", detailChild, "RIGHT", 0, 0)
         dTrackContainer:Show()
@@ -3324,7 +3726,7 @@ local function BuildStoryWindow()
 
     -- ── Questline cards ──────────────────────────────────────────────────
     for _, cat in ipairs(categories) do
-        local divH = CreateCatDivider(leftChild, cat.name, yOffset)
+        local divH = CreateCatDivider(leftChild, cat.displayName or cat.name, yOffset)
         yOffset = yOffset - divH - 4
 
         if not cat.disabled then

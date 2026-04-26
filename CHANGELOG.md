@@ -7,12 +7,16 @@
 - Cleaned storyline achievement lists to keep story-relevant achievements only, using normal/base dungeon and raid clears plus normal boss kills where applicable
 - Cleaned chapter hint behavior so notes only appear on gated/squared chapters with actionable unlock steps; removed misleading legacy Wrath notes
 - Added gated hints for Rogue "Hiding In Plain Sight" and the Forsaken loyalist epilogue so squared chapters always explain their prerequisite
+- Added faction-aware achievement selection so faction-specific story achievements, including The Jade Forest's Upjade Complete, resolve to the player's faction variant
 
 ### Content
 - **The Master of Revendreth** — new epic storyline for the Revendreth zone (Shadowlands). Covers the full seven-chapter zone campaign: arrival in Darkhaven, Denathrius and the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar and the Ember Ward, Prince Renathal's rescue, and the reveal that Denathrius is funneling anima to the Maw
 - Added Revendreth story and chapter portraits using verified display IDs for Denathrius, Rendle, the Accuser, the Fearstalker, Theotar, and Prince Renathal
 - Added Revendreth-related achievements for Loremaster, Sojourner, Halls of Atonement, Sanguine Depths, and Castle Nathria
 - Refreshed story, campaign, and heritage descriptions and linked each track to a thematically matching Encounter Journal cover source
+- Re-enabled **The Klaxxi** in Epic Storylines and positioned it after **The Jade Forest**
+- Added faction reputation data to story journals across the current story set, including The Klaxxi, Jade Forest, Suramar, BfA zone stories, Revendreth, Frozen Throne, Lilian Voss, Sylvanas, and A Tea Party
+- Added the Jade Forest dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected **Restoring Jade's Purity** to Priestess Summerpetal, including her chapter portrait display ID
 
 ### UI
 - Removed the portrait border from the Introduction card so only the flame icon is shown
@@ -24,6 +28,9 @@
 - Replaced the left adventure completion badge with a Housing Dashboard-style ribbon using Blizzard's task flag and checkmark atlases
 - Fixed the Jade Forest "Orchard and Quarry" chapter portrait so it uses Old Man Misteye instead of falling through to Shao the Defiant
 - Fixed the Jade Forest "The Temple of the Jade Serpent" chapter portrait so it uses Foreman Raike's verified display ID
+- Added Journal faction cards with Housing Dashboard card art, circular reputation progress, faction standing text, hover states, and reputation tooltips
+- Added a "Factions" section heading to the Journal tab and removed the Journal/Achievements hero title block for a cleaner content-first layout
+- Removed the Progress tab portrait while keeping the story title and tightened its title, summary, and chapter-track spacing
 
 ---
 

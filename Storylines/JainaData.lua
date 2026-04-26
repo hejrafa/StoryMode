@@ -32,6 +32,7 @@ SM.JainaData = {
     },
     faction = "Alliance",
     color = { 0.20, 0.55, 0.85 },  -- Kul Tiran sea-blue
+    factions = { 2160, 2161, 2162, 2159 }, -- Proudmoore Admiralty, Order of Embers, Storm's Wake, 7th Legion
     portraitDisplayID = 87892,  -- Lady Jaina Proudmoore
     adventureGuideInstanceName = "Siege of Boralus",
 

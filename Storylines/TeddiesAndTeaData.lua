@@ -12,6 +12,7 @@ SM.TeddiesAndTeaData = {
     expansion   = "Battle for Azeroth",
     achievements = {},
     color       = { 0.40, 0.62, 0.30 },   -- Drustvar deep forest green
+    factions    = { 2161 },                -- Order of Embers
     portraitDisplayID = 76515,             -- Abby Lewis
     adventureGuideInstanceName = "Waycrest Manor",
 

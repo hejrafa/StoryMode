@@ -25,6 +25,7 @@ SM.RevendrethData = {
     expansion = "Shadowlands",
     color = { 0.70, 0.08, 0.12 },  -- Venthyr anima red
     icon = 3528288,                -- inv_cape_special_revendreth_d_03
+    factions = { 2413, 2439 },      -- Court of Harvesters, The Avowed
     portraitDisplayID = 92797,     -- Sire Denathrius
     adventureGuideInstanceName = "Castle Nathria",
 

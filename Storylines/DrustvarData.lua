@@ -19,6 +19,7 @@ SM.DrustvarData = {
     expansion = "Battle for Azeroth",
     faction = "Alliance",
     color = { 0.55, 0.20, 0.55 },  -- Dark witch purple
+    factions = { 2161 }, -- Order of Embers
     adventureGuideInstanceName = "Waycrest Manor",
 
     startQuest = { id = 48622, name = "The Vanishing Lord", npc = "Taelia", location = "Boralus" },

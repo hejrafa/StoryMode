@@ -477,6 +477,7 @@ SM.FrozenThroneData = {
     expansion = "Wrath of the Lich King",
     color = { 0.45, 0.72, 0.95 },  -- Icy blue
     icon = 341221,
+    factions = { 1098, 1106, 1156 }, -- Knights of the Ebon Blade, Argent Crusade, The Ashen Verdict
     adventureGuideInstanceName = "Icecrown Citadel",
 
     startQuest = { id = 12495, name = "Audience With The Dragon Queen", npc = "Alexstrasza the Life-Binder", location = "Wyrmrest Temple, Dragonblight" },

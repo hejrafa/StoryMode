@@ -28,6 +28,7 @@ SM.SuramarData = {
     },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 1525722,
+    factions = { 1859 },  -- The Nightfallen
     adventureGuideInstanceName = "The Nighthold",
 
     -- Start location: Archmage Khadgar in the Violet Citadel, Dalaran (Legion)

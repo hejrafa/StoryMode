@@ -2,13 +2,43 @@ local addonName, SM = ...
 
 -- =============================================================================
 -- Mists of Pandaria: The Jade Forest
--- Zone Storyline: "Upjade Complete" (Achievement 6300)
+-- Zone Storyline: "Upjade Complete" (Alliance 6300 / Horde 6534)
 -- Dungeon Finale: Temple of the Jade Serpent
 -- =============================================================================
 
 SM.JadeForestData = {
     title = "The Jade Forest",
     achievementID = 6300,
+    achievementIDByFaction = {
+        Alliance = 6300, -- Upjade Complete
+        Horde = 6534,    -- Upjade Complete
+    },
+    achievementsByFaction = {
+        Alliance = {
+            6300,   -- Upjade Complete
+            7381,   -- Restore Balance
+            6850,   -- Hozen in the Mist
+            6858,   -- What Is Worth Fighting For
+            7230,   -- Legend of the Brewfathers
+            6846,   -- Fish Tales
+            6754,   -- The Dark Heart of the Mogu
+            6855,   -- The Seven Burdens of Shaohao
+            6716,   -- Between a Saurok and a Hard Place
+            6757,   -- Temple of the Jade Serpent
+        },
+        Horde = {
+            6534,   -- Upjade Complete
+            7381,   -- Restore Balance
+            6850,   -- Hozen in the Mist
+            6858,   -- What Is Worth Fighting For
+            7230,   -- Legend of the Brewfathers
+            6846,   -- Fish Tales
+            6754,   -- The Dark Heart of the Mogu
+            6855,   -- The Seven Burdens of Shaohao
+            6716,   -- Between a Saurok and a Hard Place
+            6757,   -- Temple of the Jade Serpent
+        },
+    },
     achievements = {
         6300,   -- Upjade Complete
         7381,   -- Restore Balance
@@ -27,6 +57,10 @@ SM.JadeForestData = {
     color = { 0.22, 0.62, 0.32 },
 
     icon = 617824,
+    factionsByFaction = {
+        Alliance = { 1242, 1271 }, -- Pearlfin Jinyu, Order of the Cloud Serpent
+        Horde = { 1228, 1271 },    -- Forest Hozen, Order of the Cloud Serpent
+    },
     adventureGuideInstanceName = "Temple of the Jade Serpent",
 
     startQuest = { id = 29547, name = "The King's Command", npc = "King Varian Wrynn", location = "Stormwind", faction = "Alliance" },
@@ -83,11 +117,16 @@ SM.JadeForestData = {
         ["Foreman Raike"]       = 40770,
         ["Elder Sage Rain-Zhu"] = 39725,
         ["Elder Sage Wind-Yi"]  = 39724,
+        ["Priestess Summerpetal"] = 41494,
         ["Yu'lon"]              = 40029,
     },
 
     chapterIcons = {
         ["Temple of the Jade Serpent"] = 603529, -- Temple of the Jade Serpent achievement art
+    },
+
+    chapterDisplayIDs = {
+        ["Temple of the Jade Serpent"] = 41494, -- Priestess Summerpetal
     },
 
     chapters = {
@@ -425,7 +464,8 @@ SM.JadeForestData = {
             summary = "Enter the dungeon, cleanse Yu'lon's sacred temple, and destroy the Sha of Doubt where it has taken root.",
             recap = "The zone ends where its warning began: inside the Temple of the Jade Serpent. The sha has seeped into wisdom, memory, discipline, and flame. Wise Mari, Lorewalker Stonestep, Liu Flameheart, and the temple's defenders are all trapped in doubt's reflection. By cleansing the temple and defeating the Sha of Doubt, you do what the armies outside could not: stop feeding the darkness long enough to face it. The Jade Forest is not untouched anymore. It is wounded, changed, and still alive.",
             quests = {
-                { id = 31355, name = "Restoring Jade's Purity", npc = "Yu'lon" },
+                { id = 31355, name = "Restoring Jade's Purity", npc = "Priestess Summerpetal" },
+                { id = 31356, name = "Deep Doubts, Deep Wisdom", npc = "Master Windstrong" },
             },
         },
     },

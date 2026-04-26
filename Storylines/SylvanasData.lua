@@ -31,6 +31,7 @@ SM.SylvanasData = {
     faction = "Horde",
     color = { 0.20, 0.40, 0.70 },  -- Forsaken void-blue
     icon = 341221,
+    factions = { 68, 1098, 1156, 2157 }, -- Undercity, Knights of the Ebon Blade, The Ashen Verdict, The Honorbound
     portraitDisplayID = 28213,  -- Lady Sylvanas Windrunner
     adventureGuideInstanceName = "Icecrown Citadel",
 

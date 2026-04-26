@@ -29,6 +29,7 @@ SM.LilianVossData = {
     },
     faction = "Horde",
     color = { 0.75, 0.12, 0.18 },  -- Scarlet Crusade crimson
+    factions = { 68, 2157 }, -- Undercity, The Honorbound
     portraitDisplayID = 85799,  -- Lilian Voss (BfA model) as card portrait
     adventureGuideInstanceName = "Scarlet Monastery",
 

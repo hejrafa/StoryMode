@@ -25,6 +25,7 @@ SM.NazmirData = {
     faction = "Horde",
     color = { 0.30, 0.65, 0.45 },  -- Bwonsamdi swamp-teal
     icon = 2065614,                -- inv_nazmir (Bwon Voyage achievement)
+    factions = { 2156, 2103 },      -- Talanji's Expedition, Zandalari Empire
     adventureGuideInstanceName = "The Underrot",
 
     startQuest = { id = 47512, name = "Nazmir", npc = "Princess Talanji", location = "Dazar'alor" },
