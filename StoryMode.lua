@@ -877,7 +877,7 @@ rightHeader:SetHeight(HEADER_H)
 local tabStoryLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabStoryLabel:SetPoint("LEFT", rightHeader, "LEFT", 56, 0)
 tabStoryLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
-tabStoryLabel:SetText("Story")
+tabStoryLabel:SetText("Adventure")
 tabStoryLabel:SetTextColor(1, 1, 1)
 
 local tabProgressLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
@@ -895,8 +895,18 @@ local tabProgressHit = CreateFrame("Button", nil, rightHeader)
 tabProgressHit:SetPoint("TOPLEFT", tabProgressLabel, "TOPLEFT", -4, 4)
 tabProgressHit:SetPoint("BOTTOMRIGHT", tabProgressLabel, "BOTTOMRIGHT", 4, -4)
 
+local tabJournalLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
+tabJournalLabel:SetPoint("LEFT", tabProgressLabel, "RIGHT", 24, 0)
+tabJournalLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
+tabJournalLabel:SetText("Journal")
+tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+
+local tabJournalHit = CreateFrame("Button", nil, rightHeader)
+tabJournalHit:SetPoint("TOPLEFT", tabJournalLabel, "TOPLEFT", -4, 4)
+tabJournalHit:SetPoint("BOTTOMRIGHT", tabJournalLabel, "BOTTOMRIGHT", 4, -4)
+
 local tabAchievementsLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
-tabAchievementsLabel:SetPoint("LEFT", tabProgressLabel, "RIGHT", 24, 0)
+tabAchievementsLabel:SetPoint("LEFT", tabJournalLabel, "RIGHT", 24, 0)
 tabAchievementsLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
 tabAchievementsLabel:SetText("Achievements")
 tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
@@ -1138,6 +1148,11 @@ sJournalHeader:SetJustifyH("CENTER")
 sJournalHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 sJournalHeader:SetText("Your Story So Far")
 
+local sJournalEmptyText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+sJournalEmptyText:SetJustifyH("CENTER"); sJournalEmptyText:SetSpacing(4); sJournalEmptyText:SetWordWrap(true)
+sJournalEmptyText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+sJournalEmptyText:SetText("No chapters recorded yet.")
+
 local sJournalEntries = {}  -- pool of { title = FontString, body = FontString }
 
 local function GetJournalEntry(idx)
@@ -1152,7 +1167,8 @@ local function GetJournalEntry(idx)
     return sJournalEntries[idx]
 end
 
-local storyElements = { sIntro, sCharHeader, sCharText, sTrackBtn, sCompleteText, sJournalHeader }
+local storyElements = { sIntro, sCharHeader, sCharText, sTrackBtn, sCompleteText }
+local journalElements = { sJournalHeader, sJournalEmptyText }
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- PROGRESS TAB elements
@@ -2318,6 +2334,7 @@ end
 local function ShowTab(tab)
     -- Hide all tab-specific elements
     for _, el in ipairs(storyElements) do el:Hide() end
+    for _, el in ipairs(journalElements) do el:Hide() end
     for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
     for _, el in ipairs(progressElements) do el:Hide() end
     for _, node in ipairs(dTrackNodes) do node:Hide() end
@@ -2326,9 +2343,15 @@ local function ShowTab(tab)
     for _, el in ipairs(achievementElements) do el:Hide() end
     sTrackBtn:Hide(); sCompleteText:Hide()
     dCompleteText:Hide()
+    if tab ~= "story" then
+        pendingSecureTrack = nil
+        sTrackBtnSecure:SetScript("PreClick", nil)
+    end
 
     if tab == "story" then
         for _, el in ipairs(storyElements) do el:Show() end
+    elseif tab == "journal" then
+        for _, el in ipairs(journalElements) do el:Show() end
     elseif tab == "achievements" then
         -- LayoutAchievementsTab shows only the cards it needs; nothing to pre-show here
     else
@@ -2341,20 +2364,29 @@ local function SetActiveTab(tab)
     if tab == "story" then
         tabStoryLabel:SetTextColor(1, 1, 1)
         tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    elseif tab == "journal" then
+        tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabJournalLabel:SetTextColor(1, 1, 1)
         tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     elseif tab == "achievements" then
         tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabAchievementsLabel:SetTextColor(1, 1, 1)
     else
         tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabProgressLabel:SetTextColor(1, 1, 1)
+        tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     end
 end
 
 ShowDetail(false)
 for _, el in ipairs(storyElements) do el:Hide() end
+for _, el in ipairs(journalElements) do el:Hide() end
 for _, el in ipairs(progressElements) do el:Hide() end
 
 -- ════════════════════════════════════════════════════════════════════════════
@@ -2378,7 +2410,7 @@ local function LayoutDetailTab()
 
     if activeTab == "story" then
         -- ── STORY TAB layout ────────────────────────────────────────────
-        -- Clean top-down chain: hero → intro → CTA → journal recaps
+        -- Clean top-down chain: hero → intro → CTA
 
         -- Story intro below hero
         sIntro:ClearAllPoints()
@@ -2420,7 +2452,6 @@ local function LayoutDetailTab()
         local quest = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
         local gateReason = GetQuestlineGateReason(data)
-        sJournalHeader:SetText(quest and "Your Story So Far" or "Your Story")
         sTrackBtn:ClearAllPoints()
         sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
         sCompleteText:Hide()
@@ -2457,11 +2488,31 @@ local function LayoutDetailTab()
         SyncSecureOverlay()
         lastAnchor = sTrackBtn
 
-        -- ── Progressive story journal ───────────────────────────────────
+        local storyBottomEl = lastAnchor
+        -- Set scroll height
+        C_Timer.After(0, function()
+            local bot = storyBottomEl:GetBottom()
+            local top = detailChild:GetTop()
+            if bot and top then
+                detailChild:SetHeight(math.max(top - bot + 40, 400))
+            else
+                detailChild:SetHeight(500)
+            end
+        end)
+
+    elseif activeTab == "journal" then
+        -- ── JOURNAL TAB layout ──────────────────────────────────────────
         -- Show recap for each completed chapter (no spoilers for future ones)
         local chapters = GetAllChapters(data)
         local journalIdx = 0
         local hasAnyRecap = false
+        local quest = FindNextQuest(data)
+        local lastAnchor = sJournalHeader
+
+        sJournalHeader:SetText(quest and "Your Story So Far" or "Your Story")
+        sJournalHeader:ClearAllPoints()
+        sJournalHeader:SetPoint("TOP", heroFrame, "BOTTOM", 0, -10)
+        sJournalHeader:Show()
 
         for ci, ch in ipairs(chapters) do
             local cd, ct = GetChapterProgress(ch)
@@ -2474,10 +2525,6 @@ local function LayoutDetailTab()
                 -- Chapter title
                 entry.title:ClearAllPoints()
                 if journalIdx == 1 then
-                    -- First entry anchors to the journal header
-                    sJournalHeader:ClearAllPoints()
-                    sJournalHeader:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -30)
-                    sJournalHeader:Show()
                     entry.title:SetPoint("TOP", sJournalHeader, "BOTTOM", 0, -16)
                 else
                     local prev = sJournalEntries[journalIdx - 1]
@@ -2501,7 +2548,14 @@ local function LayoutDetailTab()
         end
 
         if not hasAnyRecap then
-            sJournalHeader:Hide()
+            sJournalEmptyText:ClearAllPoints()
+            sJournalEmptyText:SetPoint("TOPLEFT", sJournalHeader, "BOTTOMLEFT", CP, -16)
+            sJournalEmptyText:SetPoint("TOPRIGHT", sJournalHeader, "BOTTOMRIGHT", -CP, -16)
+            if contentW > 20 then sJournalEmptyText:SetWidth(contentW) end
+            sJournalEmptyText:Show()
+            lastAnchor = sJournalEmptyText
+        else
+            sJournalEmptyText:Hide()
         end
 
         -- Hide unused journal entries
@@ -2510,10 +2564,10 @@ local function LayoutDetailTab()
             sJournalEntries[i].body:Hide()
         end
 
-        local storyBottomEl = lastAnchor
+        local journalBottomEl = lastAnchor
         -- Set scroll height
         C_Timer.After(0, function()
-            local bot = storyBottomEl:GetBottom()
+            local bot = journalBottomEl:GetBottom()
             local top = detailChild:GetTop()
             if bot and top then
                 detailChild:SetHeight(math.max(top - bot + 40, 400))
@@ -2749,6 +2803,21 @@ tabProgressHit:SetScript("OnClick", function()
     end
 end)
 
+tabJournalHit:SetScript("OnEnter", function()
+    if activeTab ~= "journal" then tabJournalLabel:SetTextColor(1, 1, 1) end
+end)
+tabJournalHit:SetScript("OnLeave", function()
+    if activeTab ~= "journal" then tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3]) end
+end)
+tabJournalHit:SetScript("OnClick", function()
+    if activeTab ~= "journal" and currentStoryData then
+        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+        SetActiveTab("journal")
+        detailScroll:SetVerticalScroll(0)
+        LayoutDetailTab()
+    end
+end)
+
 tabAchievementsHit:SetScript("OnEnter", function()
     if activeTab ~= "achievements" then tabAchievementsLabel:SetTextColor(1, 1, 1) end
 end)
@@ -2771,6 +2840,7 @@ local function UpdateStoryDetail(data)
         ShowDetail(false)
         -- Hide all tab elements
         for _, el in ipairs(storyElements) do el:Hide() end
+        for _, el in ipairs(journalElements) do el:Hide() end
         for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
         for _, el in ipairs(progressElements) do el:Hide() end
         for _, node in ipairs(dTrackNodes) do node:Hide() end
@@ -2784,8 +2854,8 @@ local function UpdateStoryDetail(data)
         smHeaderSub:SetText("")
         SetActiveTab("story")
         -- Hide tabs on intro page
-        tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabAchievementsLabel:Hide()
-        tabStoryHit:Hide(); tabProgressHit:Hide(); tabAchievementsHit:Hide()
+        tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabJournalLabel:Hide(); tabAchievementsLabel:Hide()
+        tabStoryHit:Hide(); tabProgressHit:Hide(); tabJournalHit:Hide(); tabAchievementsHit:Hide()
         C_Timer.After(0, function()
             local w = detailScroll:GetWidth()
             if w > 20 then
@@ -2803,8 +2873,8 @@ local function UpdateStoryDetail(data)
     currentStoryData = data
     introIcon2:Hide(); introTitle:Hide(); introText:Hide(); ShowDetail(true)
     -- Show tabs; hide achievements tab if this story has none
-    tabStoryLabel:Show(); tabProgressLabel:Show()
-    tabStoryHit:Show(); tabProgressHit:Show()
+    tabStoryLabel:Show(); tabProgressLabel:Show(); tabJournalLabel:Show()
+    tabStoryHit:Show(); tabProgressHit:Show(); tabJournalHit:Show()
     local hasAchievements = #GetStoryAchievements(data) > 0
     tabAchievementsLabel:SetShown(hasAchievements)
     tabAchievementsHit:SetShown(hasAchievements)

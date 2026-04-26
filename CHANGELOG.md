@@ -17,6 +17,7 @@
 - Removed the portrait border from the Introduction card so only the flame icon is shown
 - Adjusted the left story list scroll area to use the full panel height with only border-width top/bottom padding
 - Greyed incomplete achievement borders while keeping the square frame crisp and layered above the icon
+- Renamed the first detail tab to Adventure and moved completed chapter recaps into a new Journal tab after Progress
 
 ---
 
