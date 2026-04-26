@@ -1798,11 +1798,12 @@ local function CreateAchievementRow(parent)
     row.icon = icon
 
     -- Talent node square border, tinted gold
-    local iconBorder = row:CreateTexture(nil, "OVERLAY")
+    local iconBorder = row:CreateTexture(nil, "OVERLAY", nil, 2)
     iconBorder:SetAtlas("talents-node-square-gray", false)
     iconBorder:SetSize(AICON_SZ + 8, AICON_SZ + 8)
     iconBorder:SetPoint("CENTER", icon, "CENTER", 0, 0)
     iconBorder:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    row.iconBorder = iconBorder
 
     -- Achievement name
     local title = NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
@@ -1946,6 +1947,11 @@ local function LayoutAchievementsTab(data)
         row.achievementID = achID
         row.icon:SetTexture(icon)
         row.icon:SetDesaturated(not completed)
+        row.iconBorder:SetVertexColor(
+            completed and C_GOLD[1] or C_DIM[1],
+            completed and C_GOLD[2] or C_DIM[2],
+            completed and C_GOLD[3] or C_DIM[3])
+        row.iconBorder:SetAlpha(0.95)
         row.title:SetText(achName or "")
         row.title:SetTextColor(
             completed and C_BODY[1] or C_DIM[1],
