@@ -10,7 +10,7 @@ local addonName, SM = ...
 SM.SylvanasData = {
     -- Questline metadata
     title = "The Banshee Queen",
-    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then a queen the Horde was never fully prepared for. Slain by Arthas at the gates of Silvermoon and raised as the first of his banshees, she clawed her way back to herself and built an undead kingdom from the ruins of Lordaeron. Follow her from the frozen passages of Icecrown through the woods of Silverpine, the burning chambers of Orgrimmar, and the gates of the Maw — through every war she started, every ally she betrayed, and the long reckoning that finally found her on the Jailer's stage.",
+    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then a queen the Horde was never fully prepared for. Slain by Arthas at the gates of Silvermoon and raised as the first of his banshees, she clawed her way back to herself and built an undead kingdom from the ruins of Lordaeron.\n\nFollow her from Icecrown and Silverpine into wars that test what leadership, vengeance, survival, and freedom mean to someone who has already lost almost everything.",
     zone = "Icecrown / Silverpine / Orgrimmar / Oribos",
     expansion = "Wrath of the Lich King — Dragonflight",
     achievements = {

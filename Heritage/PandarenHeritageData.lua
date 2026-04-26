@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.PandarenHeritageData = {
     title = "Pandaren Heritage",
-    description = "Follow old friends — Aysa Cloudsinger, Ji Firepaw, Shen-zin Su himself — across Pandaria, retracing the journey that shaped the Wandering Isle and the Pandaren who left it behind. The Mists have lifted, the war is over, and a new generation needs to understand the values their elders carried into exile. Walk the slopes of Kun-Lai, sit at the brewmasters' hearth in the Valley of the Four Winds, and listen to the stories the rest of the world has not yet learned to hear. The Wandering Isle still moves. So do its people.",
+    description = "Follow old friends across Pandaria, retracing the journey that shaped the Wandering Isle and the pandaren who left it behind. The mists have lifted, the war has moved on, and a new generation needs to understand what its elders carried into exile.\n\nWalk the slopes of Kun-Lai, sit at the brewmaster's hearth in the Valley of the Four Winds, and listen to stories the rest of the world has only just begun to hear.",
     zone = "Pandaria / Wandering Isle",
     expansion = "The War Within",
     race = "Pandaren",

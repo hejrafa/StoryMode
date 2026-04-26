@@ -13,7 +13,7 @@ local addonName, SM = ...
 
 SM.ForsakenHeritageData = {
     title = "Heritage of the Forsaken",
-    description = "Lordaeron is in Forsaken hands again, but old enemies still haunt the forests beyond its walls. The Scarlet Crusade clings to its rotting strongholds, the worgen of Gilneas have not forgotten what was done to them, and a Banshee Queen's exile leaves wounds that have not begun to heal. Lilian Voss has a mission in Silverpine, and she needs someone who knows what it means to be Forsaken — to stand at a graveside and remember, to choose again what the second life is for. The dead do not get a third chance.",
+    description = "Lordaeron is in Forsaken hands again, but old enemies still haunt the forests beyond its walls. The Scarlet Crusade clings to its strongholds, Gilneas has not forgotten, and a former queen's absence leaves difficult questions behind.\n\nLilian Voss has a mission in Silverpine, and she needs someone who knows what it means to be Forsaken: to stand at a graveside, remember, and choose again what the second life is for.",
     zone = "Tirisfal Glades / Silverpine Forest",
     expansion = "Dragonflight",
 

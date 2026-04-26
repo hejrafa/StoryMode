@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.TrollHeritageData = {
     title = "Heritage of the Darkspear",
-    description = "Return to the Echo Isles where the Darkspear first made landfall in exile, and listen to the loa who have grown quieter since the tribe took its place inside the Horde. The new generation has forgotten more than they realize, and the old voices in the water and the stones are not patient with neglect. Seek the loa where they still answer, perform the rites where they are still owed, and remind the Darkspear of who they were before they were Horde. The spirit comes first. The shield, after.",
+    description = "Return to the Echo Isles where the Darkspear first made landfall in exile, and listen for loa whose voices have grown quieter since the tribe took its place inside the Horde. The new generation has forgotten more than it realizes.\n\nSeek the loa where they still answer, perform the rites where they are still owed, and remember the Darkspear as a people with roots deeper than any banner.",
     zone = "Echo Isles / Northern Stranglethorn",
     expansion = "Dragonflight",
     faction = "Horde",

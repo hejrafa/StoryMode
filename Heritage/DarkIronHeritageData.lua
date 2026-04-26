@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.DarkIronHeritageData = {
     title = "Heritage o' the Dark Iron",
-    description = "Stand with Moira Thaurissan as the Dark Iron clan steps out of Blackrock's shadow and finally claims its place at the council of Ironforge. Walk through forges that once smelted weapons for the Firelord, return to halls where Sorcerer-Thanes still whisper, and prove that the old craft-pride was never lost — only buried under ash. Reclaim the Hammer of the High Thane and remember that Dark Iron loyalty is earned in fire, not granted in court. By the end, you carry both the title and the burden of a clan re-forged.",
+    description = "Stand with Moira Thaurissan as the Dark Iron clan steps out of Blackrock's shadow and claims its place beside the other dwarven clans. Old pride still smolders in the forges, and old enemies still know the names of the halls beneath the mountain.\n\nWalk through places where fire shaped a people, recover what was scattered, and prove that Dark Iron loyalty is earned in heat, craft, and memory.",
     zone = "Stormwind Embassy / Blackrock Depths",
     expansion = "Shadowlands",
     faction = "Alliance",

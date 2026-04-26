@@ -10,7 +10,7 @@ local addonName, SM = ...
 SM.LilianVossData = {
     -- Questline metadata
     title = "The Forsaken Daughter",
-    description = "Lilian Voss was raised by the Scarlet Crusade to hate the undead — and then she died, rose, and became one. Trained from childhood to purify the Forsaken, she awakened in a Deathknell crypt to find herself the very thing her father had taught her to burn. Her father did not survive the lesson. Follow her from the cellars of the Crusade through Scholomance and the courts of Lordaeron, into a war that forces her to choose between the people who made her and the dead who claim her now.",
+    description = "Lilian Voss was raised by the Scarlet Crusade to hate the undead, and then she died, rose, and became one. Trained from childhood to purify the Forsaken, she wakes in Deathknell as the very thing her father taught her to burn.\n\nFollow her from the cellars of the Crusade through Scholomance and the politics of Lordaeron, where vengeance, identity, and belonging keep asking for different answers.",
     zone = "Tirisfal Glades / Kul Tiras / Lordaeron",
     expansion = "Cataclysm — Shadowlands",
     achievements = {

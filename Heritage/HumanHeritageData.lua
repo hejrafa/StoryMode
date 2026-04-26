@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.HumanHeritageData = {
     title = "Lion's Heritage",
-    description = "A Defias plot has surfaced inside Stormwind's own walls, and Master Shaw needs someone he can trust to carry it through to the source. Vanessa VanCleef is alive, the old grievance her father carried is alive, and the answer is buried in the Deadmines and the noble corridors that built them. Confront Stormwind's oldest scar — a kingdom that broke its promises to the people who built its houses — and decide what kind of human history is worth honoring. The legacy of humanity is not the throne. It is the road.",
+    description = "A Defias plot has surfaced inside Stormwind's own walls, and Master Shaw needs someone he can trust to follow it to the source. The old grievances that shaped the Deadmines have not vanished just because the kingdom moved on.\n\nTrace the conspiracy through Stormwind's streets and forgotten debts, and decide what kind of human history is worth honoring when the past asks to be heard again.",
     zone = "Stormwind / Westfall / Elwynn",
     expansion = "Dragonflight",
     faction = "Alliance",

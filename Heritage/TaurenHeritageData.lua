@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.TaurenHeritageData = {
     title = "Heritage of the Shu'halo",
-    description = "Answer Baine Bloodhoof's call as the spirit realm and the living world begin to drift dangerously out of alignment. Walk with the spiritwalkers across Mulgore and Thunder Bluff, where the elders still remember the long age before the orc fleet arrived, and the bones of older tribes still rest in the high grass. Restore the rites the war years interrupted, hear the ancestors speak through smoke and song, and bind the living and the dead back into balance. The tauren heritage is the hoof on the path. Walk it well.",
+    description = "Answer Baine Bloodhoof's call as the spirit realm and the living world begin to drift dangerously out of alignment. Across Mulgore and Thunder Bluff, the elders still remember an age before the Horde, and the ancestors have not gone silent.\n\nWalk with the spiritwalkers, restore rites interrupted by years of war, and listen for the balance between the living, the dead, and the land beneath your hooves.",
     zone = "Thunder Bluff / Mulgore / Stonetalon",
     expansion = "Battle for Azeroth",
     faction = "Horde",

@@ -21,7 +21,7 @@ SM.JadeForestData = {
         6716,   -- Between a Saurok and a Hard Place
         6757,   -- Temple of the Jade Serpent
     },
-    description = "The Alliance and Horde did not discover Pandaria gently. They arrived as wreckage, orders, pursuit, and fire, then tried to make allies before they understood what the land would remember. The Jade Forest is the first lesson of Pandaria: every doubt, every grudge, every easy answer has weight. By the end, a statue built over generations lies broken, a sha is loose, and the Temple of the Jade Serpent must be cleansed of the darkness the war awakened.",
+    description = "The Alliance and Horde did not discover Pandaria gently. They arrived as wreckage, orders, pursuit, and fire, then tried to make allies before they understood what the land would remember.\n\nThe Jade Forest is the first lesson of Pandaria: every doubt, every grudge, and every easy answer has weight. Follow the campaign from the first landings into a land where war leaves marks deeper than banners in the mud.",
     zone = "The Jade Forest",
     expansion = "Mists of Pandaria",
     color = { 0.22, 0.62, 0.32 },
@@ -341,6 +341,7 @@ SM.JadeForestData = {
                 { id = 29928, name = "I Have No Jade And I Must Scream", npc = "Foreman Mann" },
                 { id = 29927, name = "Mann's Man", npc = "Foreman Mann" },
                 { id = 29929, name = "Trapped!", npc = "Hao Mann" },
+                { id = 29926, name = "Calamity Jade", npc = "Foreman Mann", optional = true },
                 { id = 29930, name = "What's Mined Is Yours", npc = "Hao Mann" },
                 { id = 29931, name = "The Serpent's Heart", npc = "Foreman Mann" },
                 { id = 30495, name = "Love's Labor", npc = "Foreman Raike" },

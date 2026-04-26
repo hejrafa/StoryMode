@@ -19,7 +19,7 @@ SM.NazmirData = {
         13289,  -- Defense of Dazar'alor (Horde — Opulence, Conclave of the Chosen, King Rastakhan)
         13290,  -- Death's Bargain (Alliance perspective wing 3)
     },
-    description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned old god beneath the earth. Stranded among loa whose temples have fallen and whose followers have turned to the dark, you forge a pact with Bwonsamdi, the loa of death, to drive G'huun's worshippers back into the swamp. The terms are simple: one million souls owed to the grave. The work is brutal — a campaign through fetid ruins, broken pacts, and rituals older than empires. The price, when Bwonsamdi calls it in, will be far higher than any soul accounting could measure.",
+    description = "Nazmir is a dying land: ancient, cursed, and crawling with blood trolls whose rituals stain the swamp red. Stranded among loa whose temples have fallen and whose followers have turned to darker powers, you will need help from gods who rarely give anything freely.\n\nForge uneasy bargains, follow the trail through fetid ruins and broken pacts, and learn why the oldest powers in Zandalar still fear what waits beneath the mud.",
     zone = "Nazmir",
     expansion = "Battle for Azeroth",
     faction = "Horde",

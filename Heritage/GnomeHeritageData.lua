@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.GnomeHeritageData = {
     title = "Heritage of Gnomeregan",
-    description = "Join the Gnomeregan Engineering and Aviation Reserve as it tests the most ambitious aircraft to leave a workshop since the Great War. The trogg infestation in old Gnomeregan is far from contained, and a familiar saboteur is back in business beneath the city the gnomes were forced to flee. Recruit specialists, salvage prototypes, and turn schematics into machines that actually fly. By the end, you carry both a flying machine and the gnomish promise that the next time someone irradiates a city, the gnomes will not be the ones who left.",
+    description = "Join the Gnomeregan Engineering and Aviation Reserve as it tests the most ambitious aircraft to leave a workshop since the Great War. Old Gnomeregan is still dangerous, and not every threat beneath the city is content to stay buried.\n\nRecruit specialists, salvage prototypes, and turn brilliant schematics into machines that actually fly, preferably with all limbs and eyebrows accounted for.",
     zone = "New Tinkertown / Borean Tundra / Storm Peaks",
     expansion = "Battle for Azeroth",
     faction = "Alliance",

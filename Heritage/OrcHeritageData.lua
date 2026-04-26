@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.OrcHeritageData = {
     title = "Heritage of Draenor",
-    description = "Stand with Eitrigg, Aggra, and the clans as the Kosh'harg — the great festival of clan and ancestor — is reborn on Azeroth for the first time since Draenor. Walk through Durotar and Nagrand with old shamans and young initiates, hear the names of forefathers spoken aloud where the wind still carries them, and rebuild the rites the Horde nearly lost in a century of war. The orc heritage is not the fang or the blade. It is the land you tend, the clan you keep, and the ancestors you remember.",
+    description = "Stand with Eitrigg, Aggra, and the clans as the Kosh'harg, the great festival of clan and ancestor, is reborn on Azeroth. The Horde has crossed worlds and survived wars, but some rites still need hands to carry them forward.\n\nWalk through Durotar and Nagrand with shamans and young initiates, hear the names of forebears spoken aloud, and remember that orc heritage is more than fang or blade.",
     zone = "Orgrimmar / Durotar",
     expansion = "Dragonflight",
     faction = "Horde",

@@ -12,7 +12,7 @@ local addonName, SM = ...
 SM.SuramarData = {
     -- Questline metadata
     title = "Insurrection",
-    description = "An ancient elven city sealed behind a magical barrier for ten thousand years, now opened only because its rulers have invited the Burning Legion inside. Within the walls, the highborne grow beautiful and dependent on the arcwine of the Nightwell; outside them, the nightfallen — those cut off from its magic — wither into mindless husks. Aid First Arcanist Thalyssra and her rebellion as they gather allies, infiltrate the noble houses, and turn the city's own glamour against itself. By the end, Grand Magistrix Elisande's pact with the Legion will be broken, the Nightwell shattered, and Suramar's long sleep finally over.",
+    description = "Suramar is an ancient elven city sealed behind a magical barrier for ten thousand years, now opened under the shadow of the Burning Legion. Within the walls, the highborne depend on the arcwine of the Nightwell; outside them, the nightfallen wither without its magic.\n\nAid First Arcanist Thalyssra and her rebellion as they gather allies, infiltrate noble houses, and learn how to challenge a city that has survived by hiding from the world.",
     zone = "Suramar",
     expansion = "Legion",
     achievementID = 11340,

@@ -14,7 +14,7 @@ SM.DrustvarData = {
         12483,  -- Waycrest Manor (Normal)
         12783,  -- Gorak Tul kills (Normal Waycrest Manor)
     },
-    description = "A dark curse has fallen over Drustvar. Lord Waycrest has vanished, his lady has thrown the manor open to a coven, and an ancient evil called the Drust stirs beneath the soil. The Drust were a people the Kul Tirans broke and buried generations ago — but death never held them, and the witches who serve them remember every wrong. Join Lucille Waycrest and the Order of Embers to hunt the coven through cursed villages and haunted fens, break the binding ritual at its source, and storm Waycrest Manor itself.",
+    description = "A dark curse has fallen over Drustvar. Lord Waycrest has vanished, his lady has withdrawn behind manor walls, and old stories about witches have begun walking through the woods again.\n\nJoin Lucille Waycrest and the Order of Embers as they follow the coven's trail through cursed villages, haunted fens, and a land where buried grudges have a way of clawing back to the surface.",
     zone = "Drustvar",
     expansion = "Battle for Azeroth",
     faction = "Alliance",

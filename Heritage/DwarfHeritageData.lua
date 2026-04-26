@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.DwarfHeritageData = {
     title = "Heritage of the Bronzebeard",
-    description = "Delve into Ironforge's deepest archives with Brann Bronzebeard, who has kept the chronicles longer than most dwarves have been alive. The Bulwark of the Mountain King — a shield carried by Madoran Bronzebeard at the founding of the city — has been broken and scattered across the old roads. Walk those roads again, recover what was lost, and reforge the Bulwark in the great anvils where it was first made. By the end, you do not merely hold a relic. You carry a symbol of dwarven legacy made whole again.",
+    description = "Delve into Ironforge's deepest archives with Brann Bronzebeard, who has kept the chronicles longer than most dwarves have been alive. An old relic of the Bronzebeard line has been broken and scattered across roads with long memories.\n\nWalk those roads again, recover what was lost, and return to the great anvils where dwarven legacy is measured in craft, stubbornness, and stone.",
     zone = "Ironforge / Dun Morogh / Loch Modan",
     expansion = "Battle for Azeroth",
     faction = "Alliance",

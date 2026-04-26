@@ -12,7 +12,7 @@ SM.DreadWastesData = {
         6540,   -- Dread Haste Makes Dread Waste (zone story — 4 questlines)
         6545,   -- Klaxxi (Exalted with The Klaxxi)
     },
-    description = "The mantid are ancient and alien — older than the mogu, older than written history — and they have condemned their own Empress. Sha energy has touched Shek'zeer's mind and twisted the swarm into something even the Klaxxi cannot abide. They name you a Wakener: rarest of outsiders, trusted to free the Klaxxi Paragons from their amber prisons. Eleven elders. Eleven legends. Together you will take back the Dread Wastes — until the paragons remind you, at the end, what they truly serve.",
+    description = "The mantid are ancient and alien: older than the mogu, older than written history, and bound to traditions outsiders barely understand. In the Dread Wastes, something has gone wrong inside the swarm, and even the Klaxxi have begun to move against their own Empress.\n\nThey name you a Wakener, an outsider trusted to free legendary paragons from amber and help steady a civilization that sees war, loyalty, and destiny very differently than the rest of Pandaria.",
     zone = "Dread Wastes",
     expansion = "Mists of Pandaria",
     color = { 0.72, 0.53, 0.15 },   -- amber/ochre

@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.DraeneiHeritageData = {
     title = "Heritage of the Draenei",
-    description = "Travel from the Exodar to Bloodmyst Isle and onward to the broken sky of Outland, retracing the long flight of a people who have lost more worlds than most have ever known. Confront the eredar that the draenei once called brothers, stand on ground still bleeding from the Burning Legion's first betrayal, and ask whether faith can survive that many graves. The Light has not forsaken them. Forge a future worthy of draenei endurance — a future no longer measured in retreats.",
+    description = "Travel from the Exodar to Bloodmyst Isle and onward to the broken sky of Outland, retracing the long flight of a people who have lost more worlds than most have ever known. The past is not distant for the draenei; it is written into every refuge.\n\nStand on ground still marked by betrayal, ask what faith can carry through grief, and help forge a future worthy of draenei endurance.",
     zone = "Exodar / Outland / Bloodmyst Isle",
     expansion = "Dragonflight",
     faction = "Alliance",

@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.BloodElfHeritageData = {
     title = "Heritage of the Sin'dorei",
-    description = "Walk with Lor'themar through the fall of Quel'Thalas and remember what the Sin'dorei lost when Arthas marched on Silvermoon. Stand at the broken Sunwell, hear the names of those who held the gates, and confront the silence the Scourge left behind. The grief is older than the city, and the city is older than most kingdoms — but the line endures, even diminished. Honor the dead, face old wounds, and claim the heritage of the blood elves.",
+    description = "Walk with Lor'themar through the memory of Quel'Thalas and what the Sin'dorei lost when Arthas marched on Silvermoon. The grief is older than many kingdoms, and the silence the Scourge left behind still has weight.\n\nStand where names are remembered, face old wounds with care, and honor the heritage of a people whose line endured even when the kingdom nearly did not.",
     zone = "Silvermoon / Ghostlands / Isle of Quel'Danas",
     expansion = "Battle for Azeroth",
     faction = "Horde",

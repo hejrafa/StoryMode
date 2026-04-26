@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.GoblinHeritageData = {
     title = "Heritage of Kezan",
-    description = "Hobart Grapplehammer has a masterpiece, a deadline, and a former employer determined that neither will reach completion. Trade Prince Gallywix has eyes everywhere, the Bilgewater Cartel is split between his loyalists and the rest, and the workshop where the work has to happen sits in the dump-pile city of Crapopolis. Reunite old allies, outplay better-funded saboteurs, and keep one bombastic invention from being seized, sold, or stolen. By the end, you have not just finished a project — you have proven a goblin can still beat the house.",
+    description = "Hobart Grapplehammer has a masterpiece, a deadline, and a former employer determined that neither will reach completion. Trade Prince Gallywix has eyes everywhere, and the workshop where the work has to happen is exactly as glamorous as Crapopolis sounds.\n\nReunite old allies, outplay better-funded saboteurs, and keep one bombastic invention from being seized, sold, stolen, exploded, or all four in sequence.",
     zone = "Stranglethorn / Crapopolis",
     expansion = "Battle for Azeroth",
     faction = "Horde",

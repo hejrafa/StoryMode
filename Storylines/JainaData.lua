@@ -10,7 +10,7 @@ local addonName, SM = ...
 SM.JainaData = {
     -- Questline metadata
     title = "Daughter of the Sea",
-    description = "Jaina Proudmoore was once Theramore's defender and the Alliance's most celebrated mage. When the Horde dropped a mana bomb on her city, she emerged from the wreckage transformed — her hair turned white, her grief hardened into fury. She purged the Sunreavers from Dalaran. She watched old friendships fall away. When Battle for Azeroth began, she stood at the prow of the fleet that sailed on Lordaeron — not for diplomacy, but for war.\n\nThen came the summons home. Kul Tiras, her birthplace, wanted nothing to do with her. She had let her father die in Kalimdor — condemned to death by Night Elves and Horde alike, standing on the wrong side of a war she refused to fight. In the eyes of Katherine Proudmoore and the Admiralty, Jaina was a traitor. She arrived home in chains.\n\nWhat follows is an estrangement, a conspiracy, and an impossible reconciliation — and at the end of it, a song.",
+    description = "Jaina Proudmoore was once Theramore's defender and the Alliance's most celebrated mage. When the Horde dropped a mana bomb on her city, she emerged from the wreckage transformed: her hair turned white, her grief hardened into fury, and old friendships began to fall away.\n\nWhen Battle for Azeroth begins, Jaina returns to Kul Tiras, the home that remembers her not as a hero, but as the daughter who let Daelin Proudmoore die. What follows is a journey through estrangement, politics, old guilt, and the question of whether a broken bond can still be mended.",
     zone = "Kul Tiras",
     expansion = "Battle for Azeroth",
     achievements = {

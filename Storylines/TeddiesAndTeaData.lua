@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.TeddiesAndTeaData = {
     title       = "A Tea Party",
-    description = "A little girl stands alone at Glenbrook Homestead, singing a nursery rhyme about her empty village. The villagers were here this morning — chimneys still warm, bread still on the tables. They are not, now. She just wants playmates for her tea party: some stuffed animals, a cat, and one more guest she names herself. She seems harmless when she asks, almost grateful. She is not. By the time you understand what kind of creature accepts an invitation from a child like this, the chair across from her is no longer empty.",
+    description = "A little girl stands alone at Glenbrook Homestead, singing a nursery rhyme about her empty village. The chimneys are still warm, the tables are still set, and the silence feels much too fresh.\n\nShe only wants help preparing a tea party: a few toys, a missing cat, and one more guest. In Drustvar, even the smallest errands can carry a shadow longer than the road ahead.",
     zone        = "Drustvar",
     expansion   = "Battle for Azeroth",
     achievements = {},

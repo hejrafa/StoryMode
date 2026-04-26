@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.WorgenHeritageData = {
     title = "Heritage of Gilneas",
-    description = "Answer Tess Greymane's call when the Nightbane — a worgen pack that long ago surrendered to the curse rather than fight it — begin to reappear in Duskwood and the borders of the Emerald Dream. The Gilneans are a kingdom in exile, and the curse that gave them their second face has not stopped reshaping them. Hunt the Nightbane through fog and shadow, confront what the worgen could become if they ever stopped resisting it, and uphold the discipline that has kept Gilnean tradition alive since Greymane Wall fell.",
+    description = "Answer Tess Greymane's call when the Nightbane begin to reappear in Duskwood and near the borders of the Emerald Dream. The Gilneans are a kingdom in exile, and the curse that gave them a second face has not stopped reshaping them.\n\nHunt through fog and shadow, confront the pull of the worgen curse, and uphold the discipline that has kept Gilnean tradition alive since Greymane Wall fell.",
     zone = "Stormwind / Duskwood / Emerald Dream (phased)",
     expansion = "Battle for Azeroth",
     faction = "Alliance",

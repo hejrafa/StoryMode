@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.NightElfHeritageData = {
     title = "Heritage of the Kaldorei",
-    description = "Answer the Clarion Call from Maiev Shadowsong, who has heard rumors of demonic activity older than the Burning Legion's last invasion. Follow her into Felwood and the Emerald Dream's borderlands, where the corruption has roots ten thousand years deep and the Kaldorei still grieve a lost world tree. Confront ancient terrors that the Sentinels themselves have not faced since Azshara walked the earth. The night elves have lost more than most peoples remember — but the moon still rises, and the legacy of Elune is not extinguished yet.",
+    description = "Answer the Clarion Call from Maiev Shadowsong, who has heard rumors of demonic activity older than the Burning Legion's last invasion. The trail leads into Felwood and the Emerald Dream's borderlands, where corruption has roots ten thousand years deep.\n\nFollow the Wardens into old shadows, face threats tied to ancient Kaldorei memory, and stand with a people still carrying loss beneath the light of Elune.",
     zone = "Stormwind / Felwood",
     expansion = "Dragonflight",
     faction = "Alliance",

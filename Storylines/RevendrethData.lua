@@ -20,7 +20,7 @@ SM.RevendrethData = {
         14715,  -- Castle Nathria
         14455,  -- Sire Denathrius kills (Normal Castle Nathria)
     },
-    description = "Revendreth is a gothic realm of sinstones, vampire courts, and ritual penance — the place every soul that ever wronged another comes to be unmade and remade. Sent to beg Sire Denathrius for the anima keeping the afterlife alive, you find his halls in revolt: Prince Renathal and the Court of Harvesters have turned against their maker. As you ride with the rebellion through misted streets and confess your sins to the Accuser, the truth of the Shadowlands' drought reveals itself. Denathrius is not merely hoarding anima. He is the reason it has stopped.",
+    description = "Revendreth is a gothic realm of sinstones, vampire courts, and ritual penance: the place where prideful souls are meant to be broken open, judged, and remade. Sent to seek anima for the starving Shadowlands, you arrive in a kingdom that is already fraying.\n\nPrince Renathal and the Court of Harvesters are gathering resistance, Sire Denathrius still rules from above, and every misted street carries another rumor about where Revendreth's loyalty truly lies.",
     zone = "Revendreth",
     expansion = "Shadowlands",
     color = { 0.70, 0.08, 0.12 },  -- Venthyr anima red
