@@ -1029,10 +1029,10 @@ dTitle:SetJustifyH("CENTER"); dTitle:SetWordWrap(false)
 dTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 
 local ADVENTURE_COVER_W = 1200
-local ADVENTURE_COVER_TEX_LEFT = 0.10
-local ADVENTURE_COVER_TEX_RIGHT = 0.68
-local ADVENTURE_COVER_TEX_TOP = 0.30
-local ADVENTURE_COVER_TEX_BOTTOM = 0.45
+local ADVENTURE_COVER_TEX_LEFT = 0.05
+local ADVENTURE_COVER_TEX_RIGHT = 0.78
+local ADVENTURE_COVER_TEX_TOP = 0.28
+local ADVENTURE_COVER_TEX_BOTTOM = 0.465
 local ADVENTURE_COVER_H = ADVENTURE_COVER_W
     * ((ADVENTURE_COVER_TEX_BOTTOM - ADVENTURE_COVER_TEX_TOP)
     / (ADVENTURE_COVER_TEX_RIGHT - ADVENTURE_COVER_TEX_LEFT))
@@ -1365,6 +1365,10 @@ local function GetAdventureCoverTexture(data)
             return bgImage or loreImage or buttonImage1 or buttonImage2
         elseif data.adventureGuideImage == "button" then
             return buttonImage1 or buttonImage2 or loreImage or bgImage
+        elseif data.adventureGuideImage == "button2" then
+            return buttonImage2 or buttonImage1 or loreImage or bgImage
+        elseif data.adventureGuideImage == "lore" then
+            return loreImage or bgImage or buttonImage1 or buttonImage2
         end
         return loreImage or bgImage or buttonImage1 or buttonImage2
     end
@@ -3229,7 +3233,7 @@ local function CreateCatDivider(parent, text, yOff)
     lbl:SetPoint("CENTER", f, "CENTER", 0, 0)
     lbl:SetJustifyH("CENTER")
     lbl:SetText(text)
-    lbl:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
+    lbl:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
     -- Thin ruled lines flanking the label (fade out toward edges)
     local lineL = f:CreateTexture(nil, "BACKGROUND")
