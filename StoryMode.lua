@@ -845,8 +845,8 @@ CreateStoryPanel(leftSection)
 
 -- Scrollable card list (no scrollbar — mousewheel only)
 local leftScroll = CreateFrame("ScrollFrame", nil, leftSection, "ScrollFrameTemplate")
-leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -14)
-leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12,  12)
+leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -2)
+leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12,  2)
 if leftScroll.ScrollBar then leftScroll.ScrollBar:Hide() end
 local leftChild = CreateFrame("Frame", nil, leftScroll)
 leftChild:SetWidth(LEFT_W - 24)
@@ -2062,23 +2062,11 @@ LayoutSelectedChapter = function()
         dChapterSummary:Hide()
     end
 
-    local playerLevel = UnitLevel("player") or 0
-    local cdNote, ctNote = GetChapterProgress(ch)
-    local chIsComplete = cdNote == ctNote and ctNote > 0
-
-    if ch.loreOnly then
-        dChapterNote:SetText(ch.note or "This content is no longer available in-game.")
-        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        dChapterNote:Show()
-    elseif data.requiredLevel and playerLevel < data.requiredLevel then
-        dChapterNote:SetText("Reach level " .. data.requiredLevel .. " to begin this story.")
-        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        dChapterNote:Show()
-    elseif ch.note and not chIsComplete then
+    if ch.gated and ch.note then
         dChapterNote:SetText(ch.note)
         dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
-    elseif ch.prerequisites and not chIsComplete then
+    elseif ch.prerequisites then
         local req = GetFirstUnmetChapterPrerequisite(ch)
         if req then
             local reqQuest = req.name or ("Quest ID " .. tostring(req.id))
@@ -2095,6 +2083,9 @@ LayoutSelectedChapter = function()
     else
         dChapterNote:Hide()
     end
+
+    local cdNote, ctNote = GetChapterProgress(ch)
+    local chIsComplete = cdNote == ctNote and ctNote > 0
 
     -- Mark as Viewed / Mark as Played button
     if ch.loreOnly or ch.replayable then
@@ -2900,7 +2891,7 @@ local function SelectStory(index)
             end
         end
         row.bg:SetAlpha(sel and 1.0 or 0.6)
-        row.portBorder:SetAlpha(sel and 1.0 or 0.5)
+        if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         local tb = sel and 1.0 or 0.60
         row.nameLabel:SetTextColor(C_BODY[1]*tb, C_BODY[2]*tb, C_BODY[3]*tb)
         if row.zoneLabel then row.zoneLabel:SetTextColor(C_DIM[1]*tb, C_DIM[2]*tb, C_DIM[3]*tb) end
@@ -2992,13 +2983,6 @@ local function BuildStoryWindow()
     introIconMask:SetAllPoints(introIcon)
     introIcon:AddMaskTexture(introIconMask)
 
-    local introRing = introPort:CreateTexture(nil, "OVERLAY")
-    introRing:SetAtlas("ui-frame-genericplayerchoice-portrait-border", false)
-    introRing:SetPoint("TOPLEFT",     introIcon, "TOPLEFT",     -3,  3)
-    introRing:SetPoint("BOTTOMRIGHT", introIcon, "BOTTOMRIGHT",  3, -3)
-    introRing:SetVertexColor(1.0, 0.82, 0.5)
-    introRing:SetAlpha(0.85)
-
     local introName = NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
     introName:SetPoint("LEFT",  introPort, "RIGHT",  1,  0)
     introName:SetPoint("RIGHT", introCard, "RIGHT", -8,  0)
@@ -3014,7 +2998,6 @@ local function BuildStoryWindow()
     storyLeftRows[0] = {
         btn       = introCard,
         bg        = introBg,
-        portBorder= introRing,
         nameLabel = introName,
         zoneLabel = introZone,
     }

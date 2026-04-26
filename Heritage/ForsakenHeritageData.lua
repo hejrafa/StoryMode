@@ -104,6 +104,8 @@ SM.ForsakenHeritageData = {
         },
         {
             chapter = "Epilogue (Sylvanas Loyalists)",
+            gated = true,
+            note = "Complete the Forsaken Heritage questline as an Undead character. Requires having sided with Sylvanas during the war campaign.",
             summary = "Not everyone who followed the Banshee Queen has made peace with what came after. A message finds its way to the ruins of Lordaeron for those who haven't.",
             recap = "For those who once swore loyalty to the Banshee Queen, a final message arrives — not to excuse the past, but to acknowledge it. The Forsaken move forward, but the echoes of old vows still linger in the ruins of Lordaeron.",
             quests = {

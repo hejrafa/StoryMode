@@ -560,13 +560,11 @@ SM.FrozenThroneData = {
     chapters = {
         -- ----------------------------------------------------------------
         -- Dragonblight (Alliance) — the 7th Legion's road to the Wrathgate.
-        -- Legacy Wrath-era questline; retired from retail in Cataclysm.
         -- ----------------------------------------------------------------
         {
             chapter = "The Dragonblight Campaign",
             summary = "Hold Wintergarde Keep against the tide rolling down from Naxxramas.",
             recap = "Wintergarde Keep clings to the broken edge of the Dragonblight, pinned between Naxxramas overhead and the plaguebearers boiling up from the Carrion Fields. Duke August Foehammer holds what he can. The 7th Legion bleeds for every mile of frozen ground. High Commander Wyrmbane has orders from Highlord Bolvar Fordragon — push east, past the dragonshrines, toward a black gate in a black mountain.",
-            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail, but Wintergarde Keep and Fordragon Hold remain to revisit.",
             portraitDisplayID = 24351,
             faction = "Alliance",
             quests = {
@@ -586,13 +584,12 @@ SM.FrozenThroneData = {
 
         -- ----------------------------------------------------------------
         -- Dragonblight (Horde) — Agmar's Hammer and the side chains that
-        -- feed into it. Legacy Wrath-era, retired in Cataclysm.
+        -- feed into it.
         -- ----------------------------------------------------------------
         {
             chapter = "Into the Dragonblight",
             summary = "Swear the blood oath at Agmar's Hammer and dig the Horde's claws into the frozen plain.",
             recap = "The Horde's banner flies over Agmar's Hammer, driven into the permafrost like a spear into a cold chest. Emissary Brighthoof calls for warriors willing to bind themselves to the Warchief's campaign. Overlord Agmar tolerates no softness — the Scourge presses on every side, and a red-eyed gate on the horizon waits to be broken.",
-            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23805,
             faction = "Horde",
             quests = {
@@ -605,7 +602,6 @@ SM.FrozenThroneData = {
             chapter = "The Nerubian Menace",
             summary = "Crush the Anub'ar climbing up from the ruins of a dead empire.",
             recap = "The Anub'ar Nerubians boil up from the Pit of Narjun — spider-warriors of a civilization that should have stayed dead. They strike the Horde's supply lines by night and drag the wounded into the dark by morning. Senior Sergeant Juktok wants them ended at the source. Valnok Windrager is already saddling the wyverns. Agmar will not leave this flank open.",
-            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23806,
             faction = "Horde",
             quests = {
@@ -620,7 +616,6 @@ SM.FrozenThroneData = {
             chapter = "Blood of the Taunka",
             summary = "Rescue a captive High Chief and bring a new people into the Horde.",
             recap = "Greatmother Icemist weeps over a quiet fire. Her son is chained somewhere beneath this frozen plain, and her daughter Banthok is ready to cut every Anub'ar web in the world to bring him home. The Taunka are a proud and wounded people, shaggy cousins to the Tauren whose strength the Scourge has long bled for sport. If they rise again, they rise with the Horde.",
-            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23976,
             faction = "Horde",
             quests = {
@@ -634,7 +629,6 @@ SM.FrozenThroneData = {
             chapter = "The Forsaken Plague",
             summary = "Put the Royal Apothecary Society's new weapon through its paces.",
             recap = "Chief Plaguebringer Middleton has been busy in the Carrion Fields. He has something new to test — a blight meant to undo the Scourge where steel cannot reach. The formula wants a subject. Middleton smiles through gritted teeth and swears the first dose is always the worst. Whatever the Apothecaries are cooking under the Horde's banner, it may reshape this war.",
-            note = "Legacy Wrath-era storyline. The quests are not pickup-able on retail.",
             portraitDisplayID = 23875,
             faction = "Horde",
             quests = {
@@ -653,7 +647,6 @@ SM.FrozenThroneData = {
             chapter = "Wings of the Red Flight",
             summary = "Ride to Wyrmrest Temple and kneel before Alexstrasza, the Life-Binder.",
             recap = "Highlord Bolvar Fordragon leads you up the spiral of Wyrmrest Temple. Alexstrasza the Life-Binder has watched the war in Dragonblight with ancient, weary eyes. She owes the Alliance nothing. She owes the living everything. If she can be moved, her fire will answer for Azeroth's dead — and a ruby wing will carry you over ground no army could cross.",
-            note = "Legacy Wrath-era questline. The quests are not pickup-able on retail, but Wyrmrest Temple remains as a landmark to visit.",
             portraitDisplayID = 24879,
             faction = "Alliance",
             quests = {
@@ -666,7 +659,6 @@ SM.FrozenThroneData = {
             chapter = "The Kor'kron at Wyrmrest",
             summary = "Saurfang leads the Horde up the spiral of Wyrmrest to bargain with the Dragon Queen.",
             recap = "Saurfang the Younger calls you to the Kor'kron Vanguard. The Taunka are blood-sworn, the Nerubians silenced, and the Forsaken have their weapons. The old Orc himself takes you to Wyrmrest Temple — to kneel, or rather to bargain, before Alexstrasza the Life-Binder. The dragons remember every Horde blade that ever flashed in anger at the Second War. Whether they answer the Warchief's call is another matter.",
-            note = "Legacy Wrath-era questline. The quests are not pickup-able on retail, but Wyrmrest Temple remains as a landmark to visit.",
             portraitDisplayID = 23034,
             faction = "Horde",
             quests = {
@@ -685,7 +677,6 @@ SM.FrozenThroneData = {
             chapter = "The Wrathgate",
             summary = "March with Bolvar Fordragon to the black gate at the edge of Icecrown.",
             recap = "Angrathar. The black gate beyond which the Lich King's frozen fortress waits. Bolvar Fordragon has gathered every shield the Alliance can spare. Dragons circle above. Somewhere to the east, the Horde marches its own road to the same gate. Ahead, the Scourge stands in ranks that do not end. This is the road to the Lich King's door.",
-            note = "Legacy Wrath-era quest. Not pickup-able on retail, but the Wrathgate cinematic can still be viewed by speaking with Alexstrasza at Angrathar in northern Dragonblight.",
             portraitDisplayID = 24879,
             faction = "Alliance",
             quests = {
@@ -696,7 +687,6 @@ SM.FrozenThroneData = {
             chapter = "The Warsong at the Wrathgate",
             summary = "Saurfang leads the charge on the gate to the Lich King's domain.",
             recap = "Angrathar. The Wrathgate. The final road to the Lich King's own door. Saurfang the Younger takes point, every Orc behind him blood-mad and ready for the reckoning. Somewhere to the west, the Alliance marches under a brittle truce toward the same gate. Above, dragons circle on wings of red flame. Whatever happens at this gate, the world will remember it.",
-            note = "Legacy Wrath-era quest. Not pickup-able on retail, but the Wrathgate cinematic can still be viewed by speaking with Alexstrasza at Angrathar in northern Dragonblight.",
             portraitDisplayID = 23034,
             faction = "Horde",
             quests = {
@@ -711,7 +701,6 @@ SM.FrozenThroneData = {
             chapter = "The Culling of Stratholme",
             summary = "Travel back to the hour that broke a prince — and make sure history unfolds as it always has.",
             recap = "Chromie of the Bronze Dragonflight sends you back to Stratholme, to a day history remembers in silence. The Infinite Dragonflight would rewrite this moment. Yours is the harder task: walk beside a young Prince Arthas Menethil and keep time honest, whatever price the past demands.",
-            note = "Flashback interlude. Speak with Chromie at the Bronze Dragonshrine in Dragonblight, or in the Caverns of Time in Tanaris. May be played at any point in the campaign.",
             portraitDisplayID = 24877,
             quests = {
                 { id = 13149, name = "Dispelling Illusions", npc = "Chromie" },
@@ -1063,7 +1052,6 @@ SM.FrozenThroneData = {
             chapter = "The Frozen Halls",
             summary = "Lead a covert strike beneath Icecrown Citadel, closer to Frostmourne than any living hand has come.",
             recap = "Lady Jaina Proudmoore — or Lady Sylvanas Windrunner, if you ride under a darker banner — has found a door. Not a welcome one. A seam in the citadel's foundation, wide enough for a small party willing to see what they should not. Through the Forge of Souls. Through the Pit of Saron. Into the Halls of Reflection, where something waits that has been waiting a long time.",
-            note = "Talk to Apprentice Nelphi (Alliance) or Dark Ranger Vorel (Horde) patrolling the Wrath-era Dalaran. You must be on Northrend in the Wrath-era version of Dalaran for them to appear. Runs through three 5-player dungeons: Forge of Souls, Pit of Saron, and Halls of Reflection.",
             portraitDisplayID = 30696,
             quests = {
                 { id = 24510, name = "Inside the Frozen Citadel", npc = "Apprentice Nelphi", faction = "Alliance" },
@@ -1083,7 +1071,6 @@ SM.FrozenThroneData = {
             achievementID = 4608,
             summary = "Climb the spire of Icecrown Citadel and write the last page of Arthas Menethil's story.",
             recap = "Above the ice, at the roof of the world, the Frozen Throne waits. The Ashen Verdict — Argent Crusade and Ebon Blade, bound by a single purpose — stands at the citadel's door. Highlord Tirion Fordring lifts the Ashbringer. Every victory in Northrend, every fallen soldier, every mile of ground bought in blood has led here. One way or another, the reign of Arthas Menethil ends at the summit.",
-            note = "Enter Icecrown Citadel (the raid) through its front doors in northern Icecrown. Fully soloable at max level.",
             portraitDisplayID = 31011,
             quests = {},
         },
