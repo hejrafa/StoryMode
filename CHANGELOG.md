@@ -5,11 +5,18 @@
 ### Maintenance
 - Bumped addon version to `1.5.0`
 - Cleaned storyline achievement lists to keep story-relevant achievements only, using normal/base dungeon and raid clears plus normal boss kills where applicable
+- Cleaned chapter hint behavior so notes only appear on gated/squared chapters with actionable unlock steps; removed misleading legacy Wrath notes
+- Added gated hints for Rogue "Hiding In Plain Sight" and the Forsaken loyalist epilogue so squared chapters always explain their prerequisite
 
 ### Content
 - **The Master of Revendreth** — new epic storyline for the Revendreth zone (Shadowlands). Covers the full seven-chapter zone campaign: arrival in Darkhaven, Denathrius and the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar and the Ember Ward, Prince Renathal's rescue, and the reveal that Denathrius is funneling anima to the Maw
 - Added Revendreth story and chapter portraits using verified display IDs for Denathrius, Rendle, the Accuser, the Fearstalker, Theotar, and Prince Renathal
 - Added Revendreth-related achievements for Loremaster, Sojourner, Halls of Atonement, Sanguine Depths, and Castle Nathria
+
+### UI
+- Removed the portrait border from the Introduction card so only the flame icon is shown
+- Adjusted the left story list scroll area to use the full panel height with only border-width top/bottom padding
+- Greyed incomplete achievement borders while keeping the square frame crisp and layered above the icon
 
 ---
 
