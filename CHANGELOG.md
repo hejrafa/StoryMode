@@ -20,7 +20,10 @@
 - Greyed incomplete achievement borders while keeping the square frame crisp and layered above the icon
 - Renamed the first detail tab to Adventure and moved completed chapter recaps into a new Journal tab after Progress
 - Added large Adventure cover art sourced from Blizzard's Encounter Journal images for story, campaign, and heritage pages, with a soft fade mask and title overlay
+- Updated the left adventure list cards to show the selected adventure's cover image as the active card background, with white title text, yellow zone text, and no separate custom gradient overlay
+- Replaced the left adventure completion badge with a Housing Dashboard-style ribbon using Blizzard's task flag and checkmark atlases
 - Fixed the Jade Forest "Orchard and Quarry" chapter portrait so it uses Old Man Misteye instead of falling through to Shao the Defiant
+- Fixed the Jade Forest "The Temple of the Jade Serpent" chapter portrait so it uses Foreman Raike's verified display ID
 
 ---
 

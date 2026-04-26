@@ -762,6 +762,7 @@ local SOLID    = "Interface\\Buttons\\WHITE8x8"
 local C_BODY = {0.922, 0.871, 0.761}
 local C_GOLD = {1,     0.82,  0}
 local C_DIM  = {0.50,  0.50,  0.50}
+local C_DIVIDER = {1.0, 0.80, 0.45}
 
 local function NoShadow(fs) fs:SetShadowOffset(0,0); return fs end
 
@@ -1264,6 +1265,36 @@ local function SafeSetTexture(tex, path)
     return tex:GetTexture() ~= nil
 end
 
+local function SafeSetAtlas(tex, atlas, useAtlasSize)
+    if C_Texture and C_Texture.GetAtlasInfo and not C_Texture.GetAtlasInfo(atlas) then
+        return false
+    end
+
+    local ok = pcall(tex.SetAtlas, tex, atlas, useAtlasSize)
+    return ok and (not tex.GetAtlas or tex:GetAtlas() == atlas)
+end
+
+local function CreateCompletionRibbon(parent)
+    local ribbon = CreateFrame("Frame", nil, parent)
+    ribbon:SetSize(34, 42)
+
+    local flag = ribbon:CreateTexture(nil, "OVERLAY", nil, 1)
+    flag:SetAllPoints()
+    flag:SetVertexColor(1, 1, 1)
+    local hasFlag = SafeSetAtlas(flag, "housing-dashboard-tasks-listitem-flag", false)
+    if not hasFlag then
+        flag:Hide()
+    end
+
+    local check = ribbon:CreateTexture(nil, "OVERLAY", nil, 2)
+    check:SetAtlas("common-icon-checkmark", false)
+    check:SetSize(14, 14)
+    check:SetPoint("CENTER", ribbon, "CENTER", 0, hasFlag and 3 or 0)
+    check:SetVertexColor(0.45, 0.90, 0.35)
+
+    return ribbon
+end
+
 local adventureGuideImageCache = {}
 
 local function NormalizeAdventureGuideName(name)
@@ -1362,6 +1393,34 @@ local function SetAdventureCover(data, displayTitle)
     else
         aCoverTexture:SetColorTexture(0.08, 0.07, 0.06, 1)
     end
+end
+
+local function SetAdventureCoverTexture(tex, data)
+    if not tex then return false end
+    local texture = GetAdventureCoverTexture(data)
+    if not texture then
+        tex:SetTexture(nil)
+        return false
+    end
+
+    local texCoords = data and data.adventureCoverTexCoords
+    if texCoords then
+        tex:SetTexCoord(texCoords[1], texCoords[2], texCoords[3], texCoords[4])
+    else
+        tex:SetTexCoord(
+            ADVENTURE_COVER_TEX_LEFT,
+            ADVENTURE_COVER_TEX_RIGHT,
+            ADVENTURE_COVER_TEX_TOP,
+            ADVENTURE_COVER_TEX_BOTTOM
+        )
+    end
+
+    if SafeSetTexture(tex, texture) then
+        return true
+    end
+
+    tex:SetTexture(nil)
+    return false
 end
 
 local function SetChapterPortrait(portraitTex, displayID, iconPath)
@@ -3142,11 +3201,14 @@ local function SelectStory(index)
                 row.btn:UnlockHighlight()
             end
         end
+        if row.coverTex then
+            local hasCover = sel and SetAdventureCoverTexture(row.coverTex, row.data)
+            row.coverTex:SetShown(hasCover)
+        end
         row.bg:SetAlpha(sel and 1.0 or 0.6)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
-        local tb = sel and 1.0 or 0.60
-        row.nameLabel:SetTextColor(C_BODY[1]*tb, C_BODY[2]*tb, C_BODY[3]*tb)
-        if row.zoneLabel then row.zoneLabel:SetTextColor(C_DIM[1]*tb, C_DIM[2]*tb, C_DIM[3]*tb) end
+        row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
+        if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
     end
     if index == 0 or not storyIndexToData[index] then
         UpdateStoryDetail(nil)
@@ -3176,8 +3238,8 @@ local function CreateCatDivider(parent, text, yOff)
     lineL:SetPoint("LEFT",  f,   "LEFT",  6, 0)
     lineL:SetPoint("RIGHT", lbl, "LEFT", -8, 0)
     lineL:SetGradient("HORIZONTAL",
-        CreateColor(1.0, 0.80, 0.45, 0),
-        CreateColor(1.0, 0.80, 0.45, 0.5))
+        CreateColor(C_DIVIDER[1], C_DIVIDER[2], C_DIVIDER[3], 0),
+        CreateColor(C_DIVIDER[1], C_DIVIDER[2], C_DIVIDER[3], 0.5))
 
     local lineR = f:CreateTexture(nil, "BACKGROUND")
     lineR:SetTexture(SOLID)
@@ -3185,8 +3247,8 @@ local function CreateCatDivider(parent, text, yOff)
     lineR:SetPoint("LEFT",  lbl, "RIGHT", 8, 0)
     lineR:SetPoint("RIGHT", f,   "RIGHT", -6, 0)
     lineR:SetGradient("HORIZONTAL",
-        CreateColor(1.0, 0.80, 0.45, 0.5),
-        CreateColor(1.0, 0.80, 0.45, 0))
+        CreateColor(C_DIVIDER[1], C_DIVIDER[2], C_DIVIDER[3], 0.5),
+        CreateColor(C_DIVIDER[1], C_DIVIDER[2], C_DIVIDER[3], 0))
 
     return CAT_H
 end
@@ -3240,7 +3302,7 @@ local function BuildStoryWindow()
     introName:SetPoint("RIGHT", introCard, "RIGHT", -8,  0)
     introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
     introName:SetText("Introduction")
-    introName:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+    introName:SetTextColor(1.0, 1.0, 1.0)
 
     local introZone = nil  -- no subline
 
@@ -3276,9 +3338,15 @@ local function BuildStoryWindow()
                 card:RegisterForClicks("AnyUp")
 
                 -- House Finder card background
-                local bg = card:CreateTexture(nil, "BACKGROUND")
+                local bg = card:CreateTexture(nil, "BACKGROUND", nil, 2)
                 bg:SetAtlas("housefinder_neighborhood-list-item-default", false)
                 bg:SetAllPoints()
+
+                local coverTex = card:CreateTexture(nil, "BACKGROUND", nil, 0)
+                coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 7, -7)
+                coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -7, 7)
+                coverTex:SetAlpha(0.78)
+                coverTex:Hide()
 
                 card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
                 card:GetHighlightTexture():SetAllPoints()
@@ -3377,20 +3445,21 @@ local function BuildStoryWindow()
                 portBorder:SetPoint("BOTTOMRIGHT", iconTex, "BOTTOMRIGHT",  3, -3)
                 portBorder:SetVertexColor(1.0, 0.82, 0.5)
                 portBorder:SetAlpha(0.85)
+                portFrame:Hide()
 
                 -- ── Text labels (vertically centred on card) ──────────────────
                 local nameLabel = NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-                nameLabel:SetPoint("LEFT",   portFrame, "RIGHT",  1,  0)
-                nameLabel:SetPoint("RIGHT",  card,      "RIGHT", -8,  0)
+                nameLabel:SetPoint("LEFT",   card,      "LEFT",  24,  0)
+                nameLabel:SetPoint("RIGHT",  card,      "RIGHT", -42,  0)
                 nameLabel:SetPoint("BOTTOM", card,      "CENTER", 0,  1)
                 nameLabel:SetJustifyH("LEFT"); nameLabel:SetJustifyV("BOTTOM")
                 nameLabel:SetMaxLines(1); nameLabel:SetWordWrap(false)
                 nameLabel:SetText(data.title)
-                nameLabel:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+                nameLabel:SetTextColor(1.0, 1.0, 1.0)
 
                 local zoneLabel = NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
                 zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
-                zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -8,  0)
+                zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -42,  0)
                 zoneLabel:SetJustifyH("LEFT")
                 local zoneText = data.zone or ""
                 local parts = {}
@@ -3401,13 +3470,11 @@ local function BuildStoryWindow()
                     zoneText = parts[1] .. " / " .. parts[2] .. "…"
                 end
                 zoneLabel:SetText(zoneText)
-                zoneLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
+                zoneLabel:SetTextColor(1.0, 0.82, 0.36)
 
-                -- ── Completion checkmark (bottom-right of portrait, same as track nodes) ──
-                local cardCheckmark = portFrame:CreateTexture(nil, "OVERLAY", nil, 2)
-                cardCheckmark:SetAtlas("common-icon-checkmark", false)
-                cardCheckmark:SetSize(14, 14)
-                cardCheckmark:SetPoint("BOTTOMRIGHT", iconTex, "BOTTOMRIGHT", 4, -4)
+                -- ── Completion checkmark ──────────────────────────────────────
+                local cardCheckmark = CreateCompletionRibbon(card)
+                cardCheckmark:SetPoint("TOPRIGHT", card, "TOPRIGHT", -15, -1)
                 local cdone, ctotal = GetCampaignProgress(data)
                 if cdone == ctotal and ctotal > 0 then
                     cardCheckmark:Show()
@@ -3421,6 +3488,8 @@ local function BuildStoryWindow()
                 storyLeftRows[idx] = {
                     btn       = card,
                     bg        = bg,
+                    coverTex  = coverTex,
+                    data      = data,
                     portBorder= portBorder,
                     nameLabel = nameLabel,
                     zoneLabel = zoneLabel,
