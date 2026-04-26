@@ -14,6 +14,7 @@ SM.PriestCampaignData = {
     expansion = "Legion",
     class = "PRIEST",
     color = { 0.90, 0.90, 0.90 },  -- Priest white/silver
+    adventureGuideInstanceName = "The Seat of the Triumvirate",
 
     startQuest = { id = 40705, name = "Priestly Matters", npc = "Hooded Priestess", location = "Dalaran" },
     startMapID = 627,

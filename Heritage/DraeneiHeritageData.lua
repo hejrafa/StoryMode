@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.DraeneiHeritageData = {
     title = "Heritage of the Draenei",
-    description = "Travel from the Exodar to Outland and Bloodmyst to confront old eredar scars and help forge a future worthy of draenei endurance.",
+    description = "Travel from the Exodar to Bloodmyst Isle and onward to the broken sky of Outland, retracing the long flight of a people who have lost more worlds than most have ever known. Confront the eredar that the draenei once called brothers, stand on ground still bleeding from the Burning Legion's first betrayal, and ask whether faith can survive that many graves. The Light has not forsaken them. Forge a future worthy of draenei endurance — a future no longer measured in retreats.",
     zone = "Exodar / Outland / Bloodmyst Isle",
     expansion = "Dragonflight",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.DraeneiHeritageData = {
     achievements = {},
     color = { 0.55, 0.45, 0.82 },
     icon = 255137,
+    adventureGuideInstanceName = "Auchindoun",
     startQuest = { id = 78068, name = "An Artificer's Appeal", npc = "Automatic / Magically-Sealed Parcel", location = "Stormwind Embassy / Exodar" },
     npcLocations = {
         ["Grand Artificer Romuul"] = { mapID = 103, x = 0.5450, y = 0.5030 }, -- Exodar (approx)

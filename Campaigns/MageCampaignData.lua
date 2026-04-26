@@ -14,6 +14,7 @@ SM.MageCampaignData = {
     expansion = "Legion",
     class = "MAGE",
     color = { 0.25, 0.78, 0.92 },  -- Mage light blue
+    adventureGuideInstanceName = "Violet Hold",
 
     startQuest = { id = 41035, name = "Felstorm's Plea", npc = "Meryl Felstorm", location = "Dalaran" },
     startMapID = 627,

@@ -13,7 +13,7 @@ local addonName, SM = ...
 
 SM.ForsakenHeritageData = {
     title = "Heritage of the Forsaken",
-    description = "Lordaeron is in Forsaken hands again, but old enemies still haunt the forests beyond its walls. Lilian Voss has a mission in Silverpine — and she needs someone who knows what it means to be Forsaken.",
+    description = "Lordaeron is in Forsaken hands again, but old enemies still haunt the forests beyond its walls. The Scarlet Crusade clings to its rotting strongholds, the worgen of Gilneas have not forgotten what was done to them, and a Banshee Queen's exile leaves wounds that have not begun to heal. Lilian Voss has a mission in Silverpine, and she needs someone who knows what it means to be Forsaken — to stand at a graveside and remember, to choose again what the second life is for. The dead do not get a third chance.",
     zone = "Tirisfal Glades / Silverpine Forest",
     expansion = "Dragonflight",
 
@@ -29,6 +29,7 @@ SM.ForsakenHeritageData = {
     color = { 0.38, 0.40, 0.42 }, -- cold grey
     -- Use a Forsaken-themed icon for the questline card instead of a character portrait.
     icon = "Interface\\Icons\\inv_misc_tabard_forsaken",
+    adventureGuideInstanceName = "Scarlet Monastery",
 
     -- Start location: Lilian Voss at the Ruins of Lordaeron (Dragonflight phased area)
     startQuest = { id = 76530, name = "Unliving Summons", npc = "Lilian Voss", location = "Ruins of Lordaeron" },

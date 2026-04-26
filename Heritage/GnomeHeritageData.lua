@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.GnomeHeritageData = {
     title = "Heritage of Gnomeregan",
-    description = "Join G.E.A.R., confront old threats from Gnomeregan's past, and bring gnomish ingenuity to the skies.",
+    description = "Join the Gnomeregan Engineering and Aviation Reserve as it tests the most ambitious aircraft to leave a workshop since the Great War. The trogg infestation in old Gnomeregan is far from contained, and a familiar saboteur is back in business beneath the city the gnomes were forced to flee. Recruit specialists, salvage prototypes, and turn schematics into machines that actually fly. By the end, you carry both a flying machine and the gnomish promise that the next time someone irradiates a city, the gnomes will not be the ones who left.",
     zone = "New Tinkertown / Borean Tundra / Storm Peaks",
     expansion = "Battle for Azeroth",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.GnomeHeritageData = {
     achievements = {},
     color = { 0.75, 0.62, 0.27 },
     icon = "Interface\\Icons\\inv_cape_armor_gnome_d_01",
+    adventureGuideInstanceName = "Gnomeregan",
     startQuest = { id = 54402, name = "Shifting Gears", npc = "Ace Pilot Stormcog", location = "Stormwind Embassy" },
     npcLocations = {
         ["Ace Pilot Stormcog"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy

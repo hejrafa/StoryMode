@@ -12,7 +12,7 @@ local addonName, SM = ...
 SM.SuramarData = {
     -- Questline metadata
     title = "Insurrection",
-    description = "An ancient elven city under Legion occupation, sealed behind a magical barrier for ten thousand years. Aid First Arcanist Thalyssra and the nightfallen rebellion as they gather allies, infiltrate the noble houses, and prepare an assault to free Suramar from the grip of Grand Magistrix Elisande and her pact with the Burning Legion.",
+    description = "An ancient elven city sealed behind a magical barrier for ten thousand years, now opened only because its rulers have invited the Burning Legion inside. Within the walls, the highborne grow beautiful and dependent on the arcwine of the Nightwell; outside them, the nightfallen — those cut off from its magic — wither into mindless husks. Aid First Arcanist Thalyssra and her rebellion as they gather allies, infiltrate the noble houses, and turn the city's own glamour against itself. By the end, Grand Magistrix Elisande's pact with the Legion will be broken, the Nightwell shattered, and Suramar's long sleep finally over.",
     zone = "Suramar",
     expansion = "Legion",
     achievementID = 11340,
@@ -28,6 +28,7 @@ SM.SuramarData = {
     },
     color = { 0.55, 0.35, 0.85 },  -- Suramar arcane purple
     icon = 1525722,
+    adventureGuideInstanceName = "The Nighthold",
 
     -- Start location: Archmage Khadgar in the Violet Citadel, Dalaran (Legion)
     startQuest = { id = 39985, name = "Khadgar's Discovery", npc = "Archmage Khadgar", location = "The Violet Citadel, Dalaran" },

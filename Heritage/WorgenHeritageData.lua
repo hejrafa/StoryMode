@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.WorgenHeritageData = {
     title = "Heritage of Gilneas",
-    description = "Answer Tess Greymane's call, hunt the Nightbane through Duskwood and the Emerald Dream's shadows, and uphold Gilnean tradition.",
+    description = "Answer Tess Greymane's call when the Nightbane — a worgen pack that long ago surrendered to the curse rather than fight it — begin to reappear in Duskwood and the borders of the Emerald Dream. The Gilneans are a kingdom in exile, and the curse that gave them their second face has not stopped reshaping them. Hunt the Nightbane through fog and shadow, confront what the worgen could become if they ever stopped resisting it, and uphold the discipline that has kept Gilnean tradition alive since Greymane Wall fell.",
     zone = "Stormwind / Duskwood / Emerald Dream (phased)",
     expansion = "Battle for Azeroth",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.WorgenHeritageData = {
     achievements = { 19719 },  -- Reclamation of Gilneas
     color = { 0.37, 0.43, 0.56 },
     icon = "Interface\\Icons\\inv_helm_armor_worgen_c_01",
+    adventureGuideInstanceName = "Shadowfang Keep",
     startQuest = { id = 54976, name = "The Shadow of Gilneas", npc = "Courier Claridge", location = "Stormwind Embassy" },
     npcLocations = {
         ["Courier Claridge"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy

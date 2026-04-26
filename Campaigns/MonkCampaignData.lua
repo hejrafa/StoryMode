@@ -14,6 +14,7 @@ SM.MonkCampaignData = {
     expansion = "Legion",
     class = "MONK",
     color = { 0.00, 0.78, 0.44 },  -- Monk jade green
+    adventureGuideInstanceName = "Temple of the Jade Serpent",
 
     startQuest = { id = 12103, name = "Before the Storm", npc = "Initiate Da-Nel", location = "Dalaran" },
     startMapID = 627,

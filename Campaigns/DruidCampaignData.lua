@@ -14,6 +14,7 @@ SM.DruidCampaignData = {
     expansion = "Legion",
     class = "DRUID",
     color = { 1.00, 0.49, 0.04 },  -- Druid orange
+    adventureGuideInstanceName = "The Emerald Nightmare",
 
     startQuest = { id = 40643, name = "A Summons From Moonglade", npc = "Archdruid Hamuul Runetotem", location = "Dalaran" },
     startMapID = 627,

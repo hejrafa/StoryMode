@@ -20,12 +20,13 @@ SM.RevendrethData = {
         14715,  -- Castle Nathria
         14455,  -- Sire Denathrius kills (Normal Castle Nathria)
     },
-    description = "Revendreth is a gothic realm of sinstones, vampire courts, and ritual penance. Sent to ask Sire Denathrius for anima, you step into a civil war between loyalist nobles and Prince Renathal's rebellion — and uncover the truth behind the drought starving the Shadowlands.",
+    description = "Revendreth is a gothic realm of sinstones, vampire courts, and ritual penance — the place every soul that ever wronged another comes to be unmade and remade. Sent to beg Sire Denathrius for the anima keeping the afterlife alive, you find his halls in revolt: Prince Renathal and the Court of Harvesters have turned against their maker. As you ride with the rebellion through misted streets and confess your sins to the Accuser, the truth of the Shadowlands' drought reveals itself. Denathrius is not merely hoarding anima. He is the reason it has stopped.",
     zone = "Revendreth",
     expansion = "Shadowlands",
     color = { 0.70, 0.08, 0.12 },  -- Venthyr anima red
     icon = 3528288,                -- inv_cape_special_revendreth_d_03
     portraitDisplayID = 92797,     -- Sire Denathrius
+    adventureGuideInstanceName = "Castle Nathria",
 
     startQuest = { id = 57025, name = "A Plea to Revendreth", npc = "Tal-Inara", location = "Oribos" },
     startMapID = 1670,

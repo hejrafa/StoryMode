@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.PandarenHeritageData = {
     title = "Pandaren Heritage",
-    description = "Follow old friends across Pandaria and rediscover the stories, values, and spirit that shaped the Wandering Isle.",
+    description = "Follow old friends — Aysa Cloudsinger, Ji Firepaw, Shen-zin Su himself — across Pandaria, retracing the journey that shaped the Wandering Isle and the Pandaren who left it behind. The Mists have lifted, the war is over, and a new generation needs to understand the values their elders carried into exile. Walk the slopes of Kun-Lai, sit at the brewmasters' hearth in the Valley of the Four Winds, and listen to the stories the rest of the world has not yet learned to hear. The Wandering Isle still moves. So do its people.",
     zone = "Pandaria / Wandering Isle",
     expansion = "The War Within",
     race = "Pandaren",
@@ -11,6 +11,7 @@ SM.PandarenHeritageData = {
     achievements = {},
     color = { 0.71, 0.31, 0.28 },
     icon = 630617,
+    adventureGuideInstanceName = "Temple of the Jade Serpent",
     -- Faction-specific openers exist; this serves as a consistent StoryMode entry anchor.
     startQuest = { id = 84442, name = "Invitation to the Spirit Festival", npc = "Automatic / Ji Firepaw", location = "Stormwind or Orgrimmar Embassy" },
     npcLocations = {

@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.BloodElfHeritageData = {
     title = "Heritage of the Sin'dorei",
-    description = "Walk with Lor'themar through the fall of Quel'Thalas and remember what the Sin'dorei lost at the hands of Arthas. Honor the dead, face old wounds, and claim the blood elf heritage.",
+    description = "Walk with Lor'themar through the fall of Quel'Thalas and remember what the Sin'dorei lost when Arthas marched on Silvermoon. Stand at the broken Sunwell, hear the names of those who held the gates, and confront the silence the Scourge left behind. The grief is older than the city, and the city is older than most kingdoms — but the line endures, even diminished. Honor the dead, face old wounds, and claim the heritage of the blood elves.",
     zone = "Silvermoon / Ghostlands / Isle of Quel'Danas",
     expansion = "Battle for Azeroth",
     faction = "Horde",
@@ -12,6 +12,7 @@ SM.BloodElfHeritageData = {
     achievements = {},
     color = { 0.78, 0.16, 0.10 },
     icon = 2459464,
+    adventureGuideInstanceName = "Sunwell Plateau",
     startQuest = { id = 53791, name = "The Pride of the Sin'dorei", npc = "Ambassador Dawnsworn", location = "Orgrimmar Embassy" },
     startMapID = 85,
     startX = 0.3790,

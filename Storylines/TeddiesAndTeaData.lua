@@ -7,12 +7,13 @@ local addonName, SM = ...
 
 SM.TeddiesAndTeaData = {
     title       = "A Tea Party",
-    description = "A little girl stands alone at Glenbrook Homestead, singing a nursery rhyme about her empty village. She just wants playmates for her tea party — some stuffed animals, a cat, and one more guest. She seems harmless. She is not.",
+    description = "A little girl stands alone at Glenbrook Homestead, singing a nursery rhyme about her empty village. The villagers were here this morning — chimneys still warm, bread still on the tables. They are not, now. She just wants playmates for her tea party: some stuffed animals, a cat, and one more guest she names herself. She seems harmless when she asks, almost grateful. She is not. By the time you understand what kind of creature accepts an invitation from a child like this, the chair across from her is no longer empty.",
     zone        = "Drustvar",
     expansion   = "Battle for Azeroth",
     achievements = {},
     color       = { 0.40, 0.62, 0.30 },   -- Drustvar deep forest green
     portraitDisplayID = 76515,             -- Abby Lewis
+    adventureGuideInstanceName = "Waycrest Manor",
 
     startQuest = { id = 47289, name = "Teddies and Tea", npc = "Abby Lewis", location = "Glenbrook Homestead, Drustvar" },
     startMapID = 896,

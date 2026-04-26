@@ -14,6 +14,7 @@ SM.WarlockCampaignData = {
     expansion = "Legion",
     class = "WARLOCK",
     color = { 0.53, 0.53, 0.93 },  -- Warlock purple
+    adventureGuideInstanceName = "Tomb of Sargeras",
 
     startQuest = { id = 40716, name = "The Sixth", npc = "Ritssyn Flamescowl", location = "Dalaran" },
     startMapID = 627,

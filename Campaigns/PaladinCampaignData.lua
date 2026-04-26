@@ -14,6 +14,7 @@ SM.PaladinCampaignData = {
     expansion = "Legion",
     class = "PALADIN",
     color = { 0.96, 0.55, 0.73 },  -- Paladin pink
+    adventureGuideInstanceName = "Cathedral of Eternal Night",
 
     startQuest = { id = 38710, name = "An Urgent Gathering", npc = "Lord Maxwell Tyrosus", location = "Dalaran" },
     startMapID = 627,

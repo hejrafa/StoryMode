@@ -27,6 +27,7 @@ SM.JadeForestData = {
     color = { 0.22, 0.62, 0.32 },
 
     icon = 617824,
+    adventureGuideInstanceName = "Temple of the Jade Serpent",
 
     startQuest = { id = 29547, name = "The King's Command", npc = "King Varian Wrynn", location = "Stormwind", faction = "Alliance" },
     startMapID = 371,
@@ -48,6 +49,7 @@ SM.JadeForestData = {
         ["Chief Kah Kah"]       = { mapID = 371, x = 0.2800, y = 0.4700 },
         ["Lorewalker Cho"]      = { mapID = 371, x = 0.4700, y = 0.4600 },
         ["Toya"]                = { mapID = 371, x = 0.4700, y = 0.4600 },
+        ["Old Man Misteye"]     = { mapID = 371, x = 0.4820, y = 0.4600 },
         ["Lin Tenderpaw"]       = { mapID = 371, x = 0.4500, y = 0.2500 },
         ["Shao the Defiant"]    = { mapID = 371, x = 0.4300, y = 0.7600 },
         ["Foreman Mann"]        = { mapID = 371, x = 0.5100, y = 0.2700 },
@@ -73,6 +75,7 @@ SM.JadeForestData = {
         ["Chief Kah Kah"]       = 42453,
         ["Lorewalker Cho"]      = 127838,
         ["Toya"]                = 42605,
+        ["Old Man Misteye"]     = 40761,
         ["Lin Tenderpaw"]       = 42072,
         ["Shao the Defiant"]    = 41981,
         ["Foreman Mann"]        = 42272,
@@ -327,7 +330,7 @@ SM.JadeForestData = {
             summary = "Mogu raiders, exhausted farmers, trapped miners, and a starving jade project show what the forest needs before Yu'lon can return.",
             recap = "Nectarbreeze Orchard was not a battlefield until the mogu made it one. Shao the Defiant and Gentle Mother Hanae needed survivors rallied, hardware recovered, and slavers driven off before the orchard became another wound. From there the road bent toward Emperor's Omen and Greenstone Quarry, where the Serpent's Heart had stalled. Foreman Mann had no jade, Hao Mann was trapped, and the miners were running on fear. By freeing farmers, saving workers, and bringing jade back to the statue, you helped the forest rebuild something sacred while the armies outside kept finding reasons to break things.",
             quests = {
-                { id = 29576, name = "An Air of Worry", npc = "Old Man Misteyes", optional = true },
+                { id = 29576, name = "An Air of Worry", npc = "Old Man Misteye", optional = true },
                 { id = 29578, name = "Defiance", npc = "Shao the Defiant" },
                 { id = 29579, name = "Rally the Survivors", npc = "Shao the Defiant" },
                 { id = 29585, name = "Spitfire", npc = "Gentle Mother Hanae" },

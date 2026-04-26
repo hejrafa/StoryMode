@@ -9,11 +9,12 @@ SM.DeathKnightCampaignData = {
     title = "Deathlord's Campaign",
     achievementName = "The Deathlord's Campaign",
     achievements = { 42270, 10746, 10994, 11171, 11223 },
-    description = "From Acherus: The Ebon Hold, the Knights of the Ebon Blade wage their own war against the Legion. As Deathlord, you must raise the Four Horsemen — champions torn from death itself — and lead an army of the damned against demons who threaten to unmake the world.",
+    description = "From Acherus: The Ebon Hold — a necropolis stolen from the Scourge and turned against its makers — the Knights of the Ebon Blade wage their own war against the Burning Legion. The order has no king. It has a Deathlord, and the Deathlord is you. Raise the Four Horsemen from graveyards across history, conscript fallen heroes from every faction the world has ever fielded, and lead an army of the damned through demon-haunted ruins back to the gates of Light's Hope. The dead remember every grave. So do you.",
     zone = "Acherus / Broken Isles",
     expansion = "Legion",
     class = "DEATHKNIGHT",
     color = { 0.77, 0.12, 0.23 },  -- Death Knight red
+    adventureGuideInstanceName = "Icecrown Citadel",
 
     startQuest = { id = 40714, name = "The Call to War", npc = "Duke Lankral", location = "Dalaran" },
     startMapID = 627,

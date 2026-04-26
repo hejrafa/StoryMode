@@ -14,6 +14,7 @@ SM.DemonHunterCampaignData = {
     expansion = "Legion",
     class = "DEMONHUNTER",
     color = { 0.64, 0.19, 0.79 },  -- Demon Hunter purple
+    adventureGuideInstanceName = "Black Temple",
 
     startQuest = { id = 39261, name = "Call of the Illidari", npc = "Kor'vas Bloodthorn", location = "Dalaran" },
     startMapID = 627,

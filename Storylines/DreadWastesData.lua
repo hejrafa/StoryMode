@@ -12,12 +12,13 @@ SM.DreadWastesData = {
         6540,   -- Dread Haste Makes Dread Waste (zone story — 4 questlines)
         6545,   -- Klaxxi (Exalted with The Klaxxi)
     },
-    description = "The mantid are ancient and alien — and they've condemned their own Empress. Sha energy has touched Shek'zeer's mind and twisted the swarm. The Klaxxi name you a Wakener: the rarest of outsiders, trusted to free the Klaxxi Paragons from their amber prisons. Eleven elders. Eleven legends. Together you will take back the Dread Wastes — until the paragons remind you what they truly serve.",
+    description = "The mantid are ancient and alien — older than the mogu, older than written history — and they have condemned their own Empress. Sha energy has touched Shek'zeer's mind and twisted the swarm into something even the Klaxxi cannot abide. They name you a Wakener: rarest of outsiders, trusted to free the Klaxxi Paragons from their amber prisons. Eleven elders. Eleven legends. Together you will take back the Dread Wastes — until the paragons remind you, at the end, what they truly serve.",
     zone = "Dread Wastes",
     expansion = "Mists of Pandaria",
     color = { 0.72, 0.53, 0.15 },   -- amber/ochre
 
     icon = 624970,
+    adventureGuideInstanceName = "Heart of Fear",
 
     startQuest = { id = 31001, name = "Falling Down", npc = "Shado-Pan Scout", location = "Terrace of Gurthan" },
     startMapID = 422,

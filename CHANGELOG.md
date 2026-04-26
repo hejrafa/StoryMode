@@ -12,12 +12,15 @@
 - **The Master of Revendreth** — new epic storyline for the Revendreth zone (Shadowlands). Covers the full seven-chapter zone campaign: arrival in Darkhaven, Denathrius and the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar and the Ember Ward, Prince Renathal's rescue, and the reveal that Denathrius is funneling anima to the Maw
 - Added Revendreth story and chapter portraits using verified display IDs for Denathrius, Rendle, the Accuser, the Fearstalker, Theotar, and Prince Renathal
 - Added Revendreth-related achievements for Loremaster, Sojourner, Halls of Atonement, Sanguine Depths, and Castle Nathria
+- Refreshed story, campaign, and heritage descriptions and linked each track to a thematically matching Encounter Journal cover source
 
 ### UI
 - Removed the portrait border from the Introduction card so only the flame icon is shown
 - Adjusted the left story list scroll area to use the full panel height with only border-width top/bottom padding
 - Greyed incomplete achievement borders while keeping the square frame crisp and layered above the icon
 - Renamed the first detail tab to Adventure and moved completed chapter recaps into a new Journal tab after Progress
+- Added large Adventure cover art sourced from Blizzard's Encounter Journal images for story, campaign, and heritage pages, with a soft fade mask and title overlay
+- Fixed the Jade Forest "Orchard and Quarry" chapter portrait so it uses Old Man Misteye instead of falling through to Shao the Defiant
 
 ---
 

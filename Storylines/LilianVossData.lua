@@ -10,7 +10,7 @@ local addonName, SM = ...
 SM.LilianVossData = {
     -- Questline metadata
     title = "The Forsaken Daughter",
-    description = "Lilian Voss was raised a Forsaken against her will — trained from birth to hate exactly what she had become. Follow her story from the crypts of Deathknell through the dungeons she made her hunting ground, into the war that forced her to choose who she would be.",
+    description = "Lilian Voss was raised by the Scarlet Crusade to hate the undead — and then she died, rose, and became one. Trained from childhood to purify the Forsaken, she awakened in a Deathknell crypt to find herself the very thing her father had taught her to burn. Her father did not survive the lesson. Follow her from the cellars of the Crusade through Scholomance and the courts of Lordaeron, into a war that forces her to choose between the people who made her and the dead who claim her now.",
     zone = "Tirisfal Glades / Kul Tiras / Lordaeron",
     expansion = "Cataclysm — Shadowlands",
     achievements = {
@@ -30,6 +30,7 @@ SM.LilianVossData = {
     faction = "Horde",
     color = { 0.75, 0.12, 0.18 },  -- Scarlet Crusade crimson
     portraitDisplayID = 85799,  -- Lilian Voss (BfA model) as card portrait
+    adventureGuideInstanceName = "Scarlet Monastery",
 
     -- Start location: Caretaker Caice in Deathknell
     startQuest = { id = 24960, name = "The Wakening", npc = "Caretaker Caice", location = "Deathknell, Tirisfal Glades" },

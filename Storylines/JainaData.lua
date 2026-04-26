@@ -33,6 +33,7 @@ SM.JainaData = {
     faction = "Alliance",
     color = { 0.20, 0.55, 0.85 },  -- Kul Tiran sea-blue
     portraitDisplayID = 87892,  -- Lady Jaina Proudmoore
+    adventureGuideInstanceName = "Siege of Boralus",
 
     -- Start location: Captain Garrick in Stormwind Keep
     startQuest = { id = 57766, name = "War with the Horde", npc = "Captain Garrick", location = "Stormwind Keep, Stormwind" },

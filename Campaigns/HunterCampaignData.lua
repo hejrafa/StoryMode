@@ -14,6 +14,7 @@ SM.HunterCampaignData = {
     expansion = "Legion",
     class = "HUNTER",
     color = { 0.67, 0.83, 0.45 },  -- Hunter green
+    adventureGuideInstanceName = "Halls of Valor",
 
     startQuest = { id = 40384, name = "Needs of the Hunters", npc = "Snowfeather", location = "Dalaran" },
     startMapID = 627,

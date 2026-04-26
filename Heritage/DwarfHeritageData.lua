@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.DwarfHeritageData = {
     title = "Heritage of the Bronzebeard",
-    description = "Delve into old Ironforge history with Brann and reforge the Bulwark of the Mountain King to restore a symbol of dwarven legacy.",
+    description = "Delve into Ironforge's deepest archives with Brann Bronzebeard, who has kept the chronicles longer than most dwarves have been alive. The Bulwark of the Mountain King — a shield carried by Madoran Bronzebeard at the founding of the city — has been broken and scattered across the old roads. Walk those roads again, recover what was lost, and reforge the Bulwark in the great anvils where it was first made. By the end, you do not merely hold a relic. You carry a symbol of dwarven legacy made whole again.",
     zone = "Ironforge / Dun Morogh / Loch Modan",
     expansion = "Battle for Azeroth",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.DwarfHeritageData = {
     achievements = {},
     color = { 0.73, 0.55, 0.31 },
     icon = "Interface\\Icons\\inv_misc_tournaments_banner_dwarf",
+    adventureGuideInstanceName = "Uldaman",
     startQuest = { id = 53838, name = "Keep Yer Feet On The Ground", npc = "Digger Golad", location = "Stormwind Embassy" },
     npcLocations = {
         ["Digger Golad"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy

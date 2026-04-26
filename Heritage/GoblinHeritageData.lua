@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.GoblinHeritageData = {
     title = "Heritage of Kezan",
-    description = "Reunite old allies, outplay Gallywix, and help Hobart finish his masterpiece in a bombastic goblin adventure through Crapopolis.",
+    description = "Hobart Grapplehammer has a masterpiece, a deadline, and a former employer determined that neither will reach completion. Trade Prince Gallywix has eyes everywhere, the Bilgewater Cartel is split between his loyalists and the rest, and the workshop where the work has to happen sits in the dump-pile city of Crapopolis. Reunite old allies, outplay better-funded saboteurs, and keep one bombastic invention from being seized, sold, or stolen. By the end, you have not just finished a project — you have proven a goblin can still beat the house.",
     zone = "Stranglethorn / Crapopolis",
     expansion = "Battle for Azeroth",
     faction = "Horde",
@@ -12,6 +12,7 @@ SM.GoblinHeritageData = {
     achievements = {},
     color = { 0.25, 0.72, 0.20 },
     icon = "Interface\\Icons\\inv_chest_armor_goblin_d_01",
+    adventureGuideInstanceName = "The MOTHERLODE!!",
     startQuest = { id = 57043, name = "Old Friends, New Opportunities", npc = "Izzy", location = "Orgrimmar Embassy" },
     startMapID = 85,
     startX = 0.3790,

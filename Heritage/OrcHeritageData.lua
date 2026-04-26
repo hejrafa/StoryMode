@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.OrcHeritageData = {
     title = "Heritage of Draenor",
-    description = "Stand with Eitrigg, Aggra, and the clans as the Kosh'harg is reborn on Azeroth. Honor land, clan, and ancestors to claim the orc heritage.",
+    description = "Stand with Eitrigg, Aggra, and the clans as the Kosh'harg — the great festival of clan and ancestor — is reborn on Azeroth for the first time since Draenor. Walk through Durotar and Nagrand with old shamans and young initiates, hear the names of forefathers spoken aloud where the wind still carries them, and rebuild the rites the Horde nearly lost in a century of war. The orc heritage is not the fang or the blade. It is the land you tend, the clan you keep, and the ancestors you remember.",
     zone = "Orgrimmar / Durotar",
     expansion = "Dragonflight",
     faction = "Horde",
@@ -12,6 +12,7 @@ SM.OrcHeritageData = {
     achievements = {},
     color = { 0.65, 0.20, 0.15 },
     icon = 4898329,
+    adventureGuideInstanceName = "Siege of Orgrimmar",
     startQuest = { id = 72462, name = "A People in Need of Healing", npc = "Eitrigg", location = "Grommash Hold, Orgrimmar" },
     npcLocations = {
         ["Eitrigg"] = { mapID = 85, x = 0.4860, y = 0.7600 }, -- Grommash Hold (approx)

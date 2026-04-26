@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.HumanHeritageData = {
     title = "Lion's Heritage",
-    description = "Uncover a Defias plot with Mathias Shaw and Vanessa VanCleef, confront old Stormwind scars, and earn the legacy of humanity.",
+    description = "A Defias plot has surfaced inside Stormwind's own walls, and Master Shaw needs someone he can trust to carry it through to the source. Vanessa VanCleef is alive, the old grievance her father carried is alive, and the answer is buried in the Deadmines and the noble corridors that built them. Confront Stormwind's oldest scar — a kingdom that broke its promises to the people who built its houses — and decide what kind of human history is worth honoring. The legacy of humanity is not the throne. It is the road.",
     zone = "Stormwind / Westfall / Elwynn",
     expansion = "Dragonflight",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.HumanHeritageData = {
     achievements = {},
     color = { 0.22, 0.45, 0.86 },
     icon = "Interface\\Icons\\inv_misc_tournaments_banner_human",
+    adventureGuideInstanceName = "Deadmines",
     startQuest = { id = 72644, name = "An Urgent Matter", npc = "Agent Render", location = "Stormwind Embassy" },
     npcLocations = {
         ["Agent Render"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy (approx)

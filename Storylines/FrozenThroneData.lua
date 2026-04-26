@@ -472,11 +472,12 @@ SM.FrozenThroneData = {
         4532,   -- Fall of the Lich King (10 player)
         4530,   -- The Frozen Throne (10 player) — grants Kingslayer title
     },
-    description = "Walk the long road that turned Prince Arthas Menethil into the Lich King — and the longer road to unmake him. From the time-lost streets of Stratholme, through the dragon-haunted plains of Dragonblight, to the frozen spire of Icecrown Citadel.",
+    description = "Walk the long road that turned Prince Arthas Menethil into the Lich King — and the longer road to unmake him. It begins in Stratholme, where a prince purged his own people to save them, and ends in Icecrown, where a king sits frozen on a throne of his own making. Between are the dragon-haunted plains of Dragonblight, the howling reach of Northrend, and a campaign waged in the long shadow of Frostmourne. By the time you reach the spire, the question is no longer whether Arthas can be killed — but who will pay the price to do it.",
     zone = "Dragonblight / Icecrown",
     expansion = "Wrath of the Lich King",
     color = { 0.45, 0.72, 0.95 },  -- Icy blue
     icon = 341221,
+    adventureGuideInstanceName = "Icecrown Citadel",
 
     startQuest = { id = 12495, name = "Audience With The Dragon Queen", npc = "Alexstrasza the Life-Binder", location = "Wyrmrest Temple, Dragonblight" },
     startMapID = 115, -- Dragonblight

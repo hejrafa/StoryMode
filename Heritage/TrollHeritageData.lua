@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.TrollHeritageData = {
     title = "Heritage of the Darkspear",
-    description = "Return to the Echo Isles, seek the old loa, and help the Darkspear reclaim a neglected part of their spiritual identity.",
+    description = "Return to the Echo Isles where the Darkspear first made landfall in exile, and listen to the loa who have grown quieter since the tribe took its place inside the Horde. The new generation has forgotten more than they realize, and the old voices in the water and the stones are not patient with neglect. Seek the loa where they still answer, perform the rites where they are still owed, and remind the Darkspear of who they were before they were Horde. The spirit comes first. The shield, after.",
     zone = "Echo Isles / Northern Stranglethorn",
     expansion = "Dragonflight",
     faction = "Horde",
@@ -12,6 +12,7 @@ SM.TrollHeritageData = {
     achievements = {},
     color = { 0.15, 0.55, 0.87 },
     icon = "Interface\\Icons\\inv_helm_armor_troll_d_01",
+    adventureGuideInstanceName = "Atal'Dazar",
     startQuest = { id = 77869, name = "Return to the Echo Isles", npc = "Zi'guma", location = "Valley of Spirits, Orgrimmar" },
     startMapID = 85,
     startX = 0.3270,

@@ -10,7 +10,7 @@ local addonName, SM = ...
 SM.SylvanasData = {
     -- Questline metadata
     title = "The Banshee Queen",
-    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then something the Horde was never fully prepared for. Follow her story from the frozen passages of Icecrown through the wars she started — and the reckoning that followed.",
+    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then a queen the Horde was never fully prepared for. Slain by Arthas at the gates of Silvermoon and raised as the first of his banshees, she clawed her way back to herself and built an undead kingdom from the ruins of Lordaeron. Follow her from the frozen passages of Icecrown through the woods of Silverpine, the burning chambers of Orgrimmar, and the gates of the Maw — through every war she started, every ally she betrayed, and the long reckoning that finally found her on the Jailer's stage.",
     zone = "Icecrown / Silverpine / Orgrimmar / Oribos",
     expansion = "Wrath of the Lich King — Dragonflight",
     achievements = {
@@ -32,6 +32,7 @@ SM.SylvanasData = {
     color = { 0.20, 0.40, 0.70 },  -- Forsaken void-blue
     icon = 341221,
     portraitDisplayID = 28213,  -- Lady Sylvanas Windrunner
+    adventureGuideInstanceName = "Icecrown Citadel",
 
     -- Start location: Dark Ranger Vorel in Dalaran (Northrend)
     startQuest = { id = 24506, name = "Inside the Frozen Citadel", npc = "Dark Ranger Vorel", location = "Dalaran" },

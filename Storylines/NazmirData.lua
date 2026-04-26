@@ -19,12 +19,13 @@ SM.NazmirData = {
         13289,  -- Defense of Dazar'alor (Horde — Opulence, Conclave of the Chosen, King Rastakhan)
         13290,  -- Death's Bargain (Alliance perspective wing 3)
     },
-    description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned god beneath the earth. Forge a pact with Bwonsamdi, loa of death, to fight back the darkness. The deal is simple: one million souls. The price, in the end, will be far higher.",
+    description = "Nazmir is a dying land — ancient, cursed, and crawling with blood trolls who feed an imprisoned old god beneath the earth. Stranded among loa whose temples have fallen and whose followers have turned to the dark, you forge a pact with Bwonsamdi, the loa of death, to drive G'huun's worshippers back into the swamp. The terms are simple: one million souls owed to the grave. The work is brutal — a campaign through fetid ruins, broken pacts, and rituals older than empires. The price, when Bwonsamdi calls it in, will be far higher than any soul accounting could measure.",
     zone = "Nazmir",
     expansion = "Battle for Azeroth",
     faction = "Horde",
     color = { 0.30, 0.65, 0.45 },  -- Bwonsamdi swamp-teal
     icon = 2065614,                -- inv_nazmir (Bwon Voyage achievement)
+    adventureGuideInstanceName = "The Underrot",
 
     startQuest = { id = 47512, name = "Nazmir", npc = "Princess Talanji", location = "Dazar'alor" },
     startMapID = 862,

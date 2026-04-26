@@ -14,6 +14,7 @@ SM.RogueCampaignData = {
     expansion = "Legion",
     class = "ROGUE",
     color = { 0.25, 0.55, 0.65 },  -- Rogue shadow teal
+    adventureGuideInstanceName = "Court of Stars",
 
     startQuest = { id = 40832, name = "Call of The Uncrowned", npc = "Ravenholdt Courier", location = "Dalaran" },
     startMapID = 626,

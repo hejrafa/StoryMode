@@ -14,6 +14,7 @@ SM.ShamanCampaignData = {
     expansion = "Legion",
     class = "SHAMAN",
     color = { 0.00, 0.44, 0.87 },  -- Shaman blue
+    adventureGuideInstanceName = "Throne of the Tides",
 
     startQuest = { id = 39746, name = "A Ring Unbroken", npc = "Thrall", location = "Dalaran" },
     startMapID = 627,

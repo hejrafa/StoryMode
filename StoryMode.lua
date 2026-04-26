@@ -1027,6 +1027,72 @@ dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
 dTitle:SetJustifyH("CENTER"); dTitle:SetWordWrap(false)
 dTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 
+local ADVENTURE_COVER_W = 1200
+local ADVENTURE_COVER_TEX_LEFT = 0.10
+local ADVENTURE_COVER_TEX_RIGHT = 0.68
+local ADVENTURE_COVER_TEX_TOP = 0.30
+local ADVENTURE_COVER_TEX_BOTTOM = 0.45
+local ADVENTURE_COVER_H = ADVENTURE_COVER_W
+    * ((ADVENTURE_COVER_TEX_BOTTOM - ADVENTURE_COVER_TEX_TOP)
+    / (ADVENTURE_COVER_TEX_RIGHT - ADVENTURE_COVER_TEX_LEFT))
+
+local aCoverFrame = CreateFrame("Frame", nil, detailChild)
+aCoverFrame:SetSize(ADVENTURE_COVER_W, ADVENTURE_COVER_H)
+aCoverFrame:Hide()
+
+local aCoverTexture = aCoverFrame:CreateTexture(nil, "ARTWORK")
+aCoverTexture:SetPoint("CENTER")
+aCoverTexture:SetSize(ADVENTURE_COVER_W, ADVENTURE_COVER_H)
+aCoverTexture:SetTexCoord(
+    ADVENTURE_COVER_TEX_LEFT,
+    ADVENTURE_COVER_TEX_RIGHT,
+    ADVENTURE_COVER_TEX_TOP,
+    ADVENTURE_COVER_TEX_BOTTOM
+)
+
+-- Soft-edge fade mask: alpha-channel rounded rect that fades to transparent on
+-- all four sides. Authored in Figma, exported as 32-bit TGA. The mask stretches
+-- to fit the cover, so changing fade thickness is a matter of re-exporting.
+local aCoverFadeMask = aCoverFrame:CreateMaskTexture()
+aCoverFadeMask:SetTexture("Interface\\AddOns\\StoryMode\\Textures\\CoverFadeMask",
+    "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+aCoverFadeMask:SetAllPoints(aCoverTexture)
+aCoverTexture:AddMaskTexture(aCoverFadeMask)
+
+local aCoverTitle = aCoverFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge")
+aCoverTitle:SetPoint("CENTER", aCoverFrame, "CENTER", 0, 0)
+aCoverTitle:SetWidth(ADVENTURE_COVER_W - 56)
+aCoverTitle:SetJustifyH("CENTER")
+aCoverTitle:SetWordWrap(false)
+aCoverTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+do
+    local font, _, flags = aCoverTitle:GetFont()
+    aCoverTitle:SetFont(font, 30, flags)
+end
+-- Soft shadow so the title stays readable on bright/busy parts of the cover.
+aCoverTitle:SetShadowColor(0, 0, 0, 0.55)
+aCoverTitle:SetShadowOffset(2, -2)
+
+-- Gold gradient divider under the title (matches achievements page style).
+local aCoverDivider = CreateFrame("Frame", nil, aCoverFrame)
+aCoverDivider:SetHeight(1)
+local aCoverDividerL = aCoverDivider:CreateTexture(nil, "OVERLAY")
+aCoverDividerL:SetTexture(SOLID)
+aCoverDividerL:SetHeight(1)
+aCoverDividerL:SetPoint("LEFT",  aCoverDivider, "LEFT",   0, 0)
+aCoverDividerL:SetPoint("RIGHT", aCoverDivider, "CENTER", 0, 0)
+aCoverDividerL:SetGradient("HORIZONTAL",
+    CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0),
+    CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0.7))
+local aCoverDividerR = aCoverDivider:CreateTexture(nil, "OVERLAY")
+aCoverDividerR:SetTexture(SOLID)
+aCoverDividerR:SetHeight(1)
+aCoverDividerR:SetPoint("LEFT",  aCoverDivider, "CENTER", 0, 0)
+aCoverDividerR:SetPoint("RIGHT", aCoverDivider, "RIGHT",  0, 0)
+aCoverDividerR:SetGradient("HORIZONTAL",
+    CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0.7),
+    CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0))
+
 -- ════════════════════════════════════════════════════════════════════════════
 -- STORY TAB elements
 -- ════════════════════════════════════════════════════════════════════════════
@@ -1035,16 +1101,6 @@ dTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 local sIntro = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sIntro:SetJustifyH("LEFT"); sIntro:SetSpacing(4); sIntro:SetWordWrap(true)
 sIntro:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-
--- Key Characters header + entries (centered, title style)
-local sCharHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
-sCharHeader:SetJustifyH("CENTER")
-sCharHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-sCharHeader:SetText("Key Characters")
-
-local sCharText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
-sCharText:SetJustifyH("LEFT"); sCharText:SetSpacing(4); sCharText:SetWordWrap(true)
-sCharText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
 -- CTA button on story tab (big red Trading Post style)
 -- The visible button is a standard (non-secure) Button so it can anchor
@@ -1167,7 +1223,7 @@ local function GetJournalEntry(idx)
     return sJournalEntries[idx]
 end
 
-local storyElements = { sIntro, sCharHeader, sCharText, sTrackBtn, sCompleteText }
+local storyElements = { sIntro, sTrackBtn, sCompleteText }
 local journalElements = { sJournalHeader, sJournalEmptyText }
 
 -- ════════════════════════════════════════════════════════════════════════════
@@ -1206,6 +1262,106 @@ local PANDAREN_TABARD_ICON = "Interface\\Icons\\inv_misc_tabard_tushui"
 local function SafeSetTexture(tex, path)
     tex:SetTexture(path)
     return tex:GetTexture() ~= nil
+end
+
+local adventureGuideImageCache = {}
+
+local function NormalizeAdventureGuideName(name)
+    if not name then return nil end
+    name = string.lower(name)
+    name = name:gsub("^the%s+", "")
+    name = name:gsub("[^%w]", "")
+    return name
+end
+
+local function EnsureEncounterJournalAPI()
+    if EJ_GetInstanceInfo and EJ_GetInstanceByIndex then return true end
+    if C_AddOns and C_AddOns.LoadAddOn then
+        pcall(C_AddOns.LoadAddOn, "Blizzard_EncounterJournal")
+    elseif LoadAddOn then
+        pcall(LoadAddOn, "Blizzard_EncounterJournal")
+    end
+    return EJ_GetInstanceInfo and EJ_GetInstanceByIndex
+end
+
+local function FindAdventureGuideInstanceID(instanceName)
+    if not instanceName or instanceName == "" then return nil end
+    if adventureGuideImageCache[instanceName] ~= nil then
+        return adventureGuideImageCache[instanceName]
+    end
+    if not EnsureEncounterJournalAPI() then return nil end
+
+    local previousTier = EJ_GetCurrentTier and EJ_GetCurrentTier()
+    local numTiers = EJ_GetNumTiers and EJ_GetNumTiers() or 0
+    local normalizedTarget = NormalizeAdventureGuideName(instanceName)
+    local normalizedMatches = {}
+    for tier = 1, numTiers do
+        EJ_SelectTier(tier)
+        for _, isRaid in ipairs({ false, true }) do
+            for i = 1, 200 do
+                local instanceID, name = EJ_GetInstanceByIndex(i, isRaid)
+                if not instanceID then break end
+                if name == instanceName then
+                    adventureGuideImageCache[instanceName] = instanceID
+                    if previousTier then EJ_SelectTier(previousTier) end
+                    return instanceID
+                end
+                if NormalizeAdventureGuideName(name) == normalizedTarget then
+                    normalizedMatches[#normalizedMatches + 1] = instanceID
+                end
+            end
+        end
+    end
+
+    if previousTier then EJ_SelectTier(previousTier) end
+    if normalizedMatches[1] then
+        adventureGuideImageCache[instanceName] = normalizedMatches[1]
+        return normalizedMatches[1]
+    end
+    adventureGuideImageCache[instanceName] = false
+    return nil
+end
+
+local function GetAdventureCoverTexture(data)
+    if not data then return nil end
+    if data.adventureCoverTexture then return data.adventureCoverTexture end
+
+    local instanceID = data.adventureGuideInstanceID
+        or FindAdventureGuideInstanceID(data.adventureGuideInstanceName)
+    if instanceID and EnsureEncounterJournalAPI() then
+        local _, _, bgImage, buttonImage1, loreImage, buttonImage2 = EJ_GetInstanceInfo(instanceID)
+        if data.adventureGuideImage == "background" then
+            return bgImage or loreImage or buttonImage1 or buttonImage2
+        elseif data.adventureGuideImage == "button" then
+            return buttonImage1 or buttonImage2 or loreImage or bgImage
+        end
+        return loreImage or bgImage or buttonImage1 or buttonImage2
+    end
+
+    return data.adventureFallbackTexture or data.icon
+end
+
+local function SetAdventureCover(data, displayTitle)
+    aCoverTitle:SetText(displayTitle or (data and data.title) or "")
+    local texture = GetAdventureCoverTexture(data)
+    local texCoords = data and data.adventureCoverTexCoords
+    if texture then
+        if texCoords then
+            aCoverTexture:SetTexCoord(texCoords[1], texCoords[2], texCoords[3], texCoords[4])
+        else
+            aCoverTexture:SetTexCoord(
+                ADVENTURE_COVER_TEX_LEFT,
+                ADVENTURE_COVER_TEX_RIGHT,
+                ADVENTURE_COVER_TEX_TOP,
+                ADVENTURE_COVER_TEX_BOTTOM
+            )
+        end
+        if not SafeSetTexture(aCoverTexture, texture) then
+            aCoverTexture:SetColorTexture(0.08, 0.07, 0.06, 1)
+        end
+    else
+        aCoverTexture:SetColorTexture(0.08, 0.07, 0.06, 1)
+    end
 end
 
 local function SetChapterPortrait(portraitTex, displayID, iconPath)
@@ -2328,7 +2484,13 @@ end
 local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote, dChapterAchievement, dChapterAchievementCard, dMarkViewedBtn }
 
 local function ShowDetail(show)
-    heroFrame[show and "Show" or "Hide"](heroFrame)
+    -- Always hide both frames here. When opening a new story, the hero icon
+    -- and adventure cover both still hold the previous story's content, and
+    -- ShowTab (which runs from the deferred LayoutDetailTab) is what reveals
+    -- the correct frame once the new texture/title have been assigned. Showing
+    -- heroFrame eagerly here caused a 1–2 frame flicker of the old content.
+    heroFrame:Hide()
+    aCoverFrame:Hide()
 end
 
 local function ShowTab(tab)
@@ -2343,12 +2505,16 @@ local function ShowTab(tab)
     for _, el in ipairs(achievementElements) do el:Hide() end
     sTrackBtn:Hide(); sCompleteText:Hide()
     dCompleteText:Hide()
+    aCoverFrame:Hide()
+    heroFrame:Show()
     if tab ~= "story" then
         pendingSecureTrack = nil
         sTrackBtnSecure:SetScript("PreClick", nil)
     end
 
     if tab == "story" then
+        heroFrame:Hide()
+        aCoverFrame:Show()
         for _, el in ipairs(storyElements) do el:Show() end
     elseif tab == "journal" then
         for _, el in ipairs(journalElements) do el:Show() end
@@ -2396,57 +2562,44 @@ for _, el in ipairs(progressElements) do el:Hide() end
 local storySelectedIdx = nil
 
 -- ── Layout the currently active tab ─────────────────────────────────────────
-local function LayoutDetailTab()
-    local data = currentStoryData
-    if not data then return end
+-- The per-tab branches each live in their own local function so that the
+-- dispatcher does not exceed Lua's 60-upvalue limit.
 
-    local w = detailChild:GetWidth()
-    local contentW = w - CP * 2
-
-    ShowTab(activeTab)
-
-    local divW = w - DP * 2
-    if divW < 20 then divW = 400 end
-
-    if activeTab == "story" then
+local function LayoutStoryTab(data, w, contentW, visibleContentW)
         -- ── STORY TAB layout ────────────────────────────────────────────
-        -- Clean top-down chain: hero → intro → CTA
+        -- Clean top-down chain: cover → intro → CTA
+
+        -- The fade mask has 40px transparent borders on a 512px-wide canvas, so
+        -- the visually opaque portion of the cover is 432/512 = 0.84375 of the
+        -- frame width. Bleed the frame outward on both sides so the *visible*
+        -- area lines up with the text content bounds.
+        local COVER_MASK_VISIBLE_X = 432 / 512
+        local visibleTargetW = math.min(ADVENTURE_COVER_W, contentW)
+        if visibleTargetW < 360 then visibleTargetW = 360 end
+        local coverW = visibleTargetW / COVER_MASK_VISIBLE_X
+        local coverH = coverW
+            * ((ADVENTURE_COVER_TEX_BOTTOM - ADVENTURE_COVER_TEX_TOP)
+            / (ADVENTURE_COVER_TEX_RIGHT - ADVENTURE_COVER_TEX_LEFT))
+        local hBleed = (coverW - visibleTargetW) / 2
+        aCoverFrame:ClearAllPoints()
+        aCoverFrame:SetPoint("TOPLEFT", detailChild, "TOPLEFT", CP - hBleed, -18)
+        aCoverFrame:SetSize(coverW, coverH)
+        aCoverTexture:SetSize(coverW, coverH)
+        aCoverTitle:SetWidth(visibleTargetW - 56)
+        aCoverDivider:ClearAllPoints()
+        aCoverDivider:SetPoint("TOP", aCoverTitle, "BOTTOM", 0, -6)
+        local titleW = aCoverTitle:GetStringWidth()
+        if titleW < 60 then titleW = 60 end
+        aCoverDivider:SetWidth(titleW)
+        aCoverFrame:Show()
 
         -- Story intro below hero
         sIntro:ClearAllPoints()
-        sIntro:SetPoint("TOPLEFT",  heroFrame, "BOTTOMLEFT",  CP, -10)
-        sIntro:SetPoint("TOPRIGHT", heroFrame, "BOTTOMRIGHT", -CP, -10)
+        sIntro:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(coverH + 40))
+        sIntro:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -(coverH + 40))
         if contentW > 20 then sIntro:SetWidth(contentW) end
 
-        -- Key Characters
-        local npcNames = {}
-        local seen = {}
-        if data.npcLocations then
-            for name in pairs(data.npcLocations) do
-                if not seen[name] then
-                    seen[name] = true
-                    table.insert(npcNames, name)
-                end
-            end
-            table.sort(npcNames)
-        end
-
         local lastAnchor = sIntro
-        if #npcNames > 0 then
-            sCharHeader:ClearAllPoints()
-            sCharHeader:SetPoint("TOP", sIntro, "BOTTOM", 0, -20)
-            sCharHeader:Show()
-
-            sCharText:ClearAllPoints()
-            sCharText:SetPoint("TOP", sCharHeader, "BOTTOM", 0, -8)
-            if contentW > 20 then sCharText:SetWidth(contentW) end
-            sCharText:SetText(table.concat(npcNames, "  \194\183  "))
-            sCharText:Show()
-
-            lastAnchor = sCharText
-        else
-            sCharHeader:Hide(); sCharText:Hide()
-        end
 
         -- CTA button
         local quest = FindNextQuest(data)
@@ -2499,8 +2652,9 @@ local function LayoutDetailTab()
                 detailChild:SetHeight(500)
             end
         end)
+end
 
-    elseif activeTab == "journal" then
+local function LayoutJournalTab(data, w, contentW, visibleContentW)
         -- ── JOURNAL TAB layout ──────────────────────────────────────────
         -- Show recap for each completed chapter (no spoilers for future ones)
         local chapters = GetAllChapters(data)
@@ -2575,8 +2729,9 @@ local function LayoutDetailTab()
                 detailChild:SetHeight(500)
             end
         end)
+end
 
-    elseif activeTab == "progress" then
+local function LayoutProgressTab(data, w, contentW, visibleContentW)
         -- ── PROGRESS TAB layout ─────────────────────────────────────────
         local chapters = GetAllChapters(data)
 
@@ -2766,8 +2921,28 @@ local function LayoutDetailTab()
 
         -- Render quest cards for selected chapter
         LayoutSelectedChapter()
+end
+
+local function LayoutDetailTab()
+    local data = currentStoryData
+    if not data then return end
+
+    local w = detailChild:GetWidth()
+    local contentW = w - CP * 2
+    local visibleContentW = w - 34
+
+    ShowTab(activeTab)
+
+    local divW = w - DP * 2
+    if divW < 20 then divW = 400 end
+
+    if activeTab == "story" then
+        LayoutStoryTab(data, w, contentW, visibleContentW)
+    elseif activeTab == "journal" then
+        LayoutJournalTab(data, w, contentW, visibleContentW)
+    elseif activeTab == "progress" then
+        LayoutProgressTab(data, w, contentW, visibleContentW)
     elseif activeTab == "achievements" then
-        -- ── ACHIEVEMENTS TAB layout ──────────────────────────────────────
         LayoutAchievementsTab(data)
     end
 end
@@ -2928,6 +3103,7 @@ local function UpdateStoryDetail(data)
 
     smHeaderSub:SetText("")
     dTitle:SetText(displayTitle)
+    SetAdventureCover(data, displayTitle)
     sIntro:SetText(data.description or "")
 
     -- Layout the active tab

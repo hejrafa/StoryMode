@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.DarkIronHeritageData = {
     title = "Heritage o' the Dark Iron",
-    description = "Stand with Moira and the Dark Iron to reclaim old craft-pride through steel, fire, and hard-won loyalty.",
+    description = "Stand with Moira Thaurissan as the Dark Iron clan steps out of Blackrock's shadow and finally claims its place at the council of Ironforge. Walk through forges that once smelted weapons for the Firelord, return to halls where Sorcerer-Thanes still whisper, and prove that the old craft-pride was never lost — only buried under ash. Reclaim the Hammer of the High Thane and remember that Dark Iron loyalty is earned in fire, not granted in court. By the end, you carry both the title and the burden of a clan re-forged.",
     zone = "Stormwind Embassy / Blackrock Depths",
     expansion = "Shadowlands",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.DarkIronHeritageData = {
     achievementName = "Heritage o' the Dark Iron",
     achievements = { 13076 },
     color = { 0.45, 0.28, 0.22 },
+    adventureGuideInstanceName = "Blackrock Depths",
     startQuest = { id = 51483, name = "Heritage o' the Dark Iron", npc = "Automatic", location = "Alliance city call-up" },
     npcLocations = {
         ["Moira Thaurissan"] = { mapID = 87, x = 0.2460, y = 0.5350 }, -- Hall of Explorers / Ironforge area (approx)

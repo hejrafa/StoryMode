@@ -14,6 +14,7 @@ SM.WarriorCampaignData = {
     expansion = "Legion",
     class = "WARRIOR",
     color = { 0.78, 0.61, 0.43 },  -- Warrior brown
+    adventureGuideInstanceName = "Halls of Valor",
 
     startQuest = { id = 39654, name = "Odyn and the Valarjar", npc = "Danica the Reclaimer", location = "Dalaran" },
     startMapID = 627,

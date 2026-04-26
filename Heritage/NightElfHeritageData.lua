@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.NightElfHeritageData = {
     title = "Heritage of the Kaldorei",
-    description = "Answer the Clarion Call, follow Maiev into Felwood, and confront ancient terrors to protect what remains of Kaldorei legacy.",
+    description = "Answer the Clarion Call from Maiev Shadowsong, who has heard rumors of demonic activity older than the Burning Legion's last invasion. Follow her into Felwood and the Emerald Dream's borderlands, where the corruption has roots ten thousand years deep and the Kaldorei still grieve a lost world tree. Confront ancient terrors that the Sentinels themselves have not faced since Azshara walked the earth. The night elves have lost more than most peoples remember — but the moon still rises, and the legacy of Elune is not extinguished yet.",
     zone = "Stormwind / Felwood",
     expansion = "Dragonflight",
     faction = "Alliance",
@@ -12,6 +12,7 @@ SM.NightElfHeritageData = {
     achievements = {},
     color = { 0.46, 0.40, 0.78 },
     icon = 255131,
+    adventureGuideInstanceName = "Darkheart Thicket",
     startQuest = { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", location = "Stormwind Embassy" },
     npcLocations = {
         ["Maiev Shadowsong"] = { mapID = 77, x = 0.4340, y = 0.6240 }, -- Felwood (approx)

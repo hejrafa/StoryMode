@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 SM.TaurenHeritageData = {
     title = "Heritage of the Shu'halo",
-    description = "Answer Baine's call, walk with the spiritwalkers, and restore balance between the living and the spirit realm to honor tauren heritage.",
+    description = "Answer Baine Bloodhoof's call as the spirit realm and the living world begin to drift dangerously out of alignment. Walk with the spiritwalkers across Mulgore and Thunder Bluff, where the elders still remember the long age before the orc fleet arrived, and the bones of older tribes still rest in the high grass. Restore the rites the war years interrupted, hear the ancestors speak through smoke and song, and bind the living and the dead back into balance. The tauren heritage is the hoof on the path. Walk it well.",
     zone = "Thunder Bluff / Mulgore / Stonetalon",
     expansion = "Battle for Azeroth",
     faction = "Horde",
@@ -12,6 +12,7 @@ SM.TaurenHeritageData = {
     achievements = {},
     color = { 0.62, 0.42, 0.24 },
     icon = "Interface\\Icons\\inv_armor_tauren_d_01shoulder",
+    adventureGuideInstanceName = "Wailing Caverns",
     startQuest = { id = 54759, name = "When Spirits Whisper", npc = "Spiritwalker Isahi", location = "Orgrimmar Embassy" },
     npcLocations = {
         ["Spiritwalker Isahi"] = { mapID = 85, x = 0.3790, y = 0.8130 }, -- Orgrimmar Embassy
