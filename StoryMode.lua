@@ -1050,6 +1050,9 @@ local ADVENTURE_COVER_TEX_BOTTOM = 0.46
 local ADVENTURE_COVER_H = ADVENTURE_COVER_W
     * ((ADVENTURE_COVER_TEX_BOTTOM - ADVENTURE_COVER_TEX_TOP)
     / (ADVENTURE_COVER_TEX_RIGHT - ADVENTURE_COVER_TEX_LEFT))
+SM.AdventureLoadingScreenTexHeight = (16 / 9) / (ADVENTURE_COVER_W / ADVENTURE_COVER_H)
+SM.AdventureLoadingScreenTexTop = (1 - SM.AdventureLoadingScreenTexHeight) / 2
+SM.AdventureLoadingScreenTexBottom = SM.AdventureLoadingScreenTexTop + SM.AdventureLoadingScreenTexHeight
 
 local aCoverFrame = CreateFrame("Frame", nil, detailChild)
 aCoverFrame:SetSize(ADVENTURE_COVER_W, ADVENTURE_COVER_H)
@@ -1627,6 +1630,38 @@ local function CreateCompletionRibbon(parent)
 end
 
 local adventureGuideImageCache = {}
+SM.AdventureGuideLoadingScreenByMapID = {
+    [33] = 131869,    -- Shadowfang Keep
+    [36] = 131833,    -- Deadmines
+    [43] = 131882,    -- Wailing Caverns
+    [70] = 131876,    -- Uldaman
+    [90] = 131841,    -- Gnomeregan
+    [230] = 131824,   -- Blackrock Depths
+    [564] = 131826,   -- Black Temple
+    [580] = 131873,   -- The Sunwell / Sunwell Plateau
+    [608] = 236058,   -- Violet Hold
+    [631] = 318964,   -- Icecrown Citadel
+    [643] = 397151,   -- Throne of the Tides
+    [960] = 633149,   -- Temple of the Jade Serpent
+    [1004] = 645156,  -- Scarlet Monastery
+    [1009] = 633148,  -- Heart of Fear
+    [1136] = 903869,  -- Siege of Orgrimmar
+    [1182] = 1034725, -- Auchindoun
+    [1466] = 1389212, -- Darkheart Thicket
+    [1477] = 1454826, -- Halls of Valor
+    [1520] = 1394867, -- The Emerald Nightmare
+    [1530] = 1448532, -- The Nighthold
+    [1571] = 1477131, -- Court of Stars
+    [1594] = 2016712, -- The MOTHERLODE!!
+    [1676] = 1615560, -- Tomb of Sargeras
+    [1677] = 1616802, -- Cathedral of Eternal Night
+    [1753] = 1717768, -- Seat of the Triumvirate
+    [1763] = 1968998, -- Atal'Dazar
+    [1822] = 2068775, -- Siege of Boralus
+    [1841] = 2175832, -- The Underrot
+    [1862] = 1984118, -- Waycrest Manor
+    [2296] = 3582016, -- Castle Nathria
+}
 
 local function NormalizeAdventureGuideName(name)
     if not name then return nil end
@@ -1691,7 +1726,13 @@ local function GetAdventureCoverTexture(data)
     local instanceID = data.adventureGuideInstanceID
         or FindAdventureGuideInstanceID(data.adventureGuideInstanceName)
     if instanceID and EnsureEncounterJournalAPI() then
-        local _, _, bgImage, buttonImage1, loreImage, buttonImage2 = EJ_GetInstanceInfo(instanceID)
+        local _, _, bgImage, buttonImage1, loreImage, buttonImage2, _, _, _, mapID = EJ_GetInstanceInfo(instanceID)
+        if not data.adventureGuideImage then
+            local loadingScreen = SM.AdventureGuideLoadingScreenByMapID[mapID]
+            if loadingScreen then
+                return loadingScreen, true
+            end
+        end
         if data.adventureGuideImage == "background" then
             return bgImage or loreImage or buttonImage1 or buttonImage2
         elseif data.adventureGuideImage == "button" then
@@ -1709,11 +1750,13 @@ end
 
 local function SetAdventureCover(data, displayTitle)
     aCoverTitle:SetText(displayTitle or (data and data.title) or "")
-    local texture = GetAdventureCoverTexture(data)
+    local texture, useFullTexCoords = GetAdventureCoverTexture(data)
     local texCoords = data and data.adventureCoverTexCoords
     if texture then
         if texCoords then
             aCoverTexture:SetTexCoord(texCoords[1], texCoords[2], texCoords[3], texCoords[4])
+        elseif useFullTexCoords then
+            aCoverTexture:SetTexCoord(0, 1, SM.AdventureLoadingScreenTexTop, SM.AdventureLoadingScreenTexBottom)
         else
             aCoverTexture:SetTexCoord(
                 ADVENTURE_COVER_TEX_LEFT,
@@ -1732,7 +1775,7 @@ end
 
 local function SetAdventureCoverTexture(tex, data)
     if not tex then return false end
-    local texture = GetAdventureCoverTexture(data)
+    local texture, useFullTexCoords = GetAdventureCoverTexture(data)
     if not texture then
         tex:SetTexture(nil)
         return false
@@ -1741,6 +1784,8 @@ local function SetAdventureCoverTexture(tex, data)
     local texCoords = data and data.adventureCoverTexCoords
     if texCoords then
         tex:SetTexCoord(texCoords[1], texCoords[2], texCoords[3], texCoords[4])
+    elseif useFullTexCoords then
+        tex:SetTexCoord(0, 1, SM.AdventureLoadingScreenTexTop, SM.AdventureLoadingScreenTexBottom)
     else
         tex:SetTexCoord(
             ADVENTURE_COVER_TEX_LEFT,

@@ -23,6 +23,7 @@
 - Adjusted the left story list scroll area to use the full panel height with only border-width top/bottom padding
 - Greyed incomplete achievement borders while keeping the square frame crisp and layered above the icon
 - Renamed the first detail tab to Adventure and moved completed chapter recaps into a new Journal tab after Progress
+- Swapped Adventure cover art to use high-resolution dungeon and raid loading screen textures when a matching instance loading screen is available, falling back to Encounter Journal art otherwise
 - Added large Adventure cover art sourced from Blizzard's Encounter Journal images for story, campaign, and heritage pages, with a soft fade mask and title overlay
 - Updated the left adventure list cards to show the selected adventure's cover image as the active card background, with white title text, yellow zone text, and no separate custom gradient overlay
 - Replaced the left adventure completion badge with a Housing Dashboard-style ribbon using Blizzard's task flag and checkmark atlases
