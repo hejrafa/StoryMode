@@ -16,10 +16,11 @@
 - Added Revendreth story and chapter portraits using verified display IDs for Denathrius, Rendle, the Accuser, the Fearstalker, Theotar, and Prince Renathal
 - Added Revendreth-related achievements for Loremaster, Sojourner, Halls of Atonement, Sanguine Depths, and Castle Nathria
 - Refreshed story, campaign, and heritage descriptions and linked each track to a thematically matching Encounter Journal cover source
-- Re-enabled **The Klaxxi** in Epic Storylines and positioned it after **The Jade Forest**
+- Re-enabled **The Klaxxi** in Epic Storylines and positioned it after **What Is Worth Fighting For**
 - Fixed **The Klaxxi** starting guidance so "Begin This Story" points to Bowmistress Li on the Serpent's Spine instead of opening the Dread Wastes map without a waypoint, added a first-chapter note about the wall/rope route and Zidormi phasing, and set Bowmistress Li as the first chapter portrait
-- Added faction reputation data to story journals across the current story set, including The Klaxxi, Jade Forest, Suramar, BfA zone stories, Revendreth, Frozen Throne, Lilian Voss, Sylvanas, and A Tea Party
-- Added the Jade Forest dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected **Restoring Jade's Purity** to Priestess Summerpetal, including her chapter portrait display ID
+- Added faction reputation data to story journals across the current story set, including The Klaxxi, What Is Worth Fighting For, Suramar, BfA zone stories, Revendreth, Frozen Throne, Lilian Voss, Sylvanas, and A Tea Party
+- Renamed the Jade Forest story to **What Is Worth Fighting For** so the adventure title reflects the campaign's theme instead of repeating the zone name
+- Added the **What Is Worth Fighting For** dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected **Restoring Jade's Purity** to Priestess Summerpetal, including her chapter portrait display ID
 
 ### UI
 - Removed the portrait border from the Introduction card so only the flame icon is shown

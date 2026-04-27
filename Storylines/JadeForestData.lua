@@ -7,7 +7,7 @@ local addonName, SM = ...
 -- =============================================================================
 
 SM.JadeForestData = {
-    title = "The Jade Forest",
+    title = "What Is Worth Fighting For",
     achievementID = 6300,
     achievementIDByFaction = {
         Alliance = 6300, -- Upjade Complete

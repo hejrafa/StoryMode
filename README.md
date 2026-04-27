@@ -26,8 +26,8 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 ### New and Updated Content
 
 - **The Master of Revendreth** - a full seven-chapter Shadowlands storyline covering Darkhaven, the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar, Prince Renathal, Sire Denathrius, and the anima being sent to the Maw.
-- **The Klaxxi** - restored to Epic Storylines and positioned after The Jade Forest for a stronger Mists of Pandaria story path.
-- **The Jade Forest** - updated with the dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected Temple of the Jade Serpent chapter data.
+- **The Klaxxi** - restored to Epic Storylines and positioned after **What Is Worth Fighting For** for a stronger Mists of Pandaria story path.
+- **What Is Worth Fighting For** - updated with the dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected Temple of the Jade Serpent chapter data.
 - **Faction reputation data** - added across the current story set so Journal pages can show related factions beside chapter recaps.
 - **Story-relevant achievements** - cleaned up to focus on meaningful story completions, normal dungeon and raid clears, and normal boss kills where appropriate.
 
@@ -49,7 +49,7 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 | Adventure | Expansion | Notes |
 |---|---|---|
 | The Frozen Throne | Wrath of the Lich King | Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls |
-| The Jade Forest | Mists of Pandaria | Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale |
+| What Is Worth Fighting For | Mists of Pandaria | The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale |
 | The Klaxxi | Mists of Pandaria | Dread Wastes, the paragons, amber, and the Heart of Fear |
 | Insurrection | Legion | Suramar and the Nightfallen rebellion |
 | The Dark Heart of Nazmir | Battle for Azeroth | Horde-only Nazmir campaign |
