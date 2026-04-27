@@ -164,10 +164,6 @@ local function GetStoryFactions(data)
     return (data.factionsByFaction and data.factionsByFaction[faction]) or data.factions
 end
 
-local achievementElements = {}
-local aAchCards     = {}
-local aAchDividers  = {}
-
 local FindNextQuest
 
 local function GetCampaignProgress(data)
@@ -867,6 +863,9 @@ local leftChild = CreateFrame("Frame", nil, leftScroll)
 leftChild:SetWidth(LEFT_W - 24)
 leftScroll:SetScrollChild(leftChild)
 EnableMouseWheelScroll(leftScroll)
+SM.LeftContextChild = CreateFrame("Frame", nil, leftScroll)
+SM.LeftContextChild:SetWidth(LEFT_W - 24)
+SM.LeftContextChild:Hide()
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- Right section  (732 × 550, header + detail)
@@ -919,16 +918,6 @@ tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 local tabJournalHit = CreateFrame("Button", nil, rightHeader)
 tabJournalHit:SetPoint("TOPLEFT", tabJournalLabel, "TOPLEFT", -4, 4)
 tabJournalHit:SetPoint("BOTTOMRIGHT", tabJournalLabel, "BOTTOMRIGHT", 4, -4)
-
-local tabAchievementsLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
-tabAchievementsLabel:SetPoint("LEFT", tabJournalLabel, "RIGHT", 24, 0)
-tabAchievementsLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
-tabAchievementsLabel:SetText("Achievements")
-tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-
-local tabAchievementsHit = CreateFrame("Button", nil, rightHeader)
-tabAchievementsHit:SetPoint("TOPLEFT",     tabAchievementsLabel, "TOPLEFT",     -4,  4)
-tabAchievementsHit:SetPoint("BOTTOMRIGHT", tabAchievementsLabel, "BOTTOMRIGHT",  4, -4)
 
 local activeTab = "story"
 
@@ -1222,10 +1211,21 @@ sJournalHeader:SetJustifyH("CENTER")
 sJournalHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 sJournalHeader:SetText("Your Story So Far")
 
+local sJournalSubline = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+sJournalSubline:SetJustifyH("CENTER"); sJournalSubline:SetWordWrap(true)
+sJournalSubline:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+sJournalSubline:SetText("Once upon a time")
+
+local sJournalEmptyTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+sJournalEmptyTitle:SetJustifyH("CENTER")
+sJournalEmptyTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+sJournalEmptyTitle:SetText("The first page is still blank.")
+sJournalEmptyTitle:Hide()
+
 local sJournalEmptyText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sJournalEmptyText:SetJustifyH("CENTER"); sJournalEmptyText:SetSpacing(4); sJournalEmptyText:SetWordWrap(true)
 sJournalEmptyText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-sJournalEmptyText:SetText("No chapters recorded yet.")
+sJournalEmptyText:SetText("Begin this story and your completed chapters will gather here as a quiet record of the road behind you.")
 
 local sFactionHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
 sFactionHeader:SetJustifyH("CENTER")
@@ -1248,7 +1248,7 @@ local function GetJournalEntry(idx)
 end
 
 local storyElements = { sIntro, sTrackBtn, sCompleteText }
-local journalElements = { sJournalHeader, sJournalEmptyText, sFactionHeader }
+local journalElements = { sJournalHeader, sJournalSubline, sJournalEmptyTitle, sJournalEmptyText, sFactionHeader }
 
 -- ── Faction reputation cards (journal tab) ─────────────────────────────────
 -- Uses the Housing Dashboard house-level reward card surface with Blizzard's
@@ -1263,7 +1263,62 @@ local FactionUI = {
     cards = {},
     spacer = nil,
     iconOverrides = {
-        [1859] = "Interface\\Icons\\achievement_faction_nightfallen",
+        [68] = 255143,     -- Exalted Champion of the Undercity
+        [1098] = 236694,   -- Knights of the Ebon Blade
+        [1106] = 236690,   -- Argent Crusader
+        [1156] = 133441,   -- The Ashen Verdict
+        [1228] = 877482,   -- Forest Hozen
+        [1271] = 646324,   -- Order of the Cloud Serpent
+        [1337] = 646377,   -- The Klaxxi
+        [1859] = 1394956,  -- Nightfallen faction icon
+        [2103] = 2065579,  -- Zandalari Empire faction icon
+        [2156] = 2065575,  -- Talanji's Expedition faction icon
+        [2157] = 2486869,  -- Honorbound paragon cache
+        [2159] = 2486868,  -- 7th Legion paragon cache
+        [2160] = 2065573,  -- Proudmoore Admiralty faction icon
+        [2161] = 2065572,  -- Order of Embers faction icon
+        [2162] = 2065574,  -- Storm's Wake faction icon
+        [2413] = 3540525,  -- Court of Harvesters
+        [2439] = 3386971,  -- Sinstone, for The Avowed
+    },
+    achievementIconNames = {
+        [68] = "Undercity",
+        [1098] = "Knights of the Ebon Blade",
+        [1106] = "Argent Crusade",
+        [1156] = "The Ashen Verdict",
+        [1228] = "Forest Hozen",
+        [1271] = "Order of the Cloud Serpent",
+        [1337] = "The Klaxxi",
+        [1859] = "The Nightfallen",
+        [2103] = "Zandalari Empire",
+        [2156] = "Talanji's Expedition",
+        [2157] = "The Honorbound",
+        [2159] = "The 7th Legion",
+        [2160] = "Proudmoore Admiralty",
+        [2161] = "Order of Embers",
+        [2162] = "Storm's Wake",
+        [2413] = "Court of Harvesters",
+        [2439] = "The Avowed",
+    },
+    achievementIconCache = {},
+    colorOverrides = {
+        [68] = {0.45, 0.78, 0.50},    -- Undercity
+        [1098] = {0.42, 0.72, 0.62},  -- Knights of the Ebon Blade
+        [1106] = {0.95, 0.72, 0.26},  -- Argent Crusade
+        [1156] = {0.78, 0.85, 0.60},  -- The Ashen Verdict
+        [1228] = {0.58, 0.76, 0.26},  -- Forest Hozen
+        [1271] = {0.12, 0.72, 0.78},  -- Order of the Cloud Serpent
+        [1337] = {0.95, 0.62, 0.18},  -- The Klaxxi
+        [1859] = {0.62, 0.38, 0.95},  -- The Nightfallen
+        [2103] = {0.91, 0.62, 0.12},  -- Zandalari Empire
+        [2156] = {0.16, 0.72, 0.68},  -- Talanji's Expedition
+        [2157] = {0.82, 0.22, 0.16},  -- The Honorbound
+        [2159] = {0.32, 0.55, 0.95},  -- 7th Legion
+        [2160] = {0.36, 0.62, 0.94},  -- Proudmoore Admiralty
+        [2161] = {0.95, 0.48, 0.18},  -- Order of Embers
+        [2162] = {0.28, 0.78, 0.68},  -- Storm's Wake
+        [2413] = {0.74, 0.18, 0.28},  -- Court of Harvesters
+        [2439] = {0.72, 0.62, 0.48},  -- The Avowed
     },
     descriptions = {
         [1859] = "These exiled Nightborne elves suffer withdrawals after being cut off from the Nightwell. They oppose their people's alliance with the Legion and fight for some kind of redemption.",
@@ -1311,6 +1366,11 @@ function FactionUI:Create()
         card.button.IconFrame.Border:SetAllPoints(card.button.IconFrame)
         card.button.IconFrame.Icon = card.button.IconFrame:CreateTexture(nil, "OVERLAY")
         card.button.IconFrame.Icon:SetPoint("CENTER", card.button.IconFrame, "CENTER", 0, 0)
+        card.button.IconFrame.IconMask = card.button.IconFrame:CreateMaskTexture()
+        card.button.IconFrame.IconMask:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask",
+            "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+        card.button.IconFrame.IconMask:SetAllPoints(card.button.IconFrame.Icon)
+        card.button.IconFrame.Icon:AddMaskTexture(card.button.IconFrame.IconMask)
     end
 
     if not card.button.RenownCardFactionName then
@@ -1405,6 +1465,33 @@ function FactionUI:SetCardAtlas(card, atlas)
     end
 end
 
+function FactionUI:GetAchievementIcon(factionID)
+    if self.achievementIconCache[factionID] ~= nil then
+        return self.achievementIconCache[factionID] or nil
+    end
+
+    local targetName = self.achievementIconNames[factionID]
+    if not targetName then
+        self.achievementIconCache[factionID] = false
+        return nil
+    end
+
+    for id = 1, 50000 do
+        local _, name, _, _, _, _, _, _, _, icon = GetAchievementInfo(id)
+        if name == targetName and icon then
+            self.achievementIconCache[factionID] = icon
+            return icon
+        end
+    end
+
+    self.achievementIconCache[factionID] = false
+    return nil
+end
+
+function FactionUI:GetFactionIcon(factionID, entry)
+    return (entry and entry.icon) or self.iconOverrides[factionID] or self:GetAchievementIcon(factionID)
+end
+
 function FactionUI:SetIcon(tex, atlas, texture)
     if not tex then return end
     tex:Hide()
@@ -1420,8 +1507,43 @@ function FactionUI:SetIcon(tex, atlas, texture)
         tex:SetTexCoord(0.08, 0.92, 0.08, 0.92)
         tex:SetVertexColor(1, 1, 1)
     end
+    if not tex:GetTexture() then
+        tex:SetTexture(236681) -- Achievement_Reputation_01
+        if tex:GetTexture() then
+            tex:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+            tex:SetVertexColor(1, 1, 1)
+        end
+    end
     if tex:GetTexture() then
         tex:Show()
+    end
+end
+
+function FactionUI:GetAccentColor(factionID, entry, majorFactionData, reputationInfo)
+    if entry and entry.color then
+        return entry.color[1], entry.color[2], entry.color[3]
+    end
+    local override = self.colorOverrides[factionID]
+    if override then
+        return override[1], override[2], override[3]
+    end
+    if majorFactionData and majorFactionData.factionFontColor and majorFactionData.factionFontColor.color then
+        return majorFactionData.factionFontColor.color:GetRGB()
+    end
+    if reputationInfo and FACTION_BAR_COLORS then
+        local standingColor = FACTION_BAR_COLORS[reputationInfo.reaction or 4]
+        if standingColor then
+            return standingColor.r, standingColor.g, standingColor.b
+        end
+    end
+    return C_GOLD[1], C_GOLD[2], C_GOLD[3]
+end
+
+function FactionUI:ApplyAccentColor(card, r, g, b)
+    if card.progress then card.progress:SetSwipeColor(r, g, b, 1) end
+    if card.fullRing then card.fullRing:SetVertexColor(r, g, b, 1) end
+    if card.button and card.button.IconFrame and card.button.IconFrame.Border then
+        card.button.IconFrame.Border:SetVertexColor(r, g, b)
     end
 end
 
@@ -1430,6 +1552,7 @@ function FactionUI:ApplyArt(card, expansionID, textureKit)
 
     if card.button and card.button.IconFrame and card.button.IconFrame.Border then
         self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false)
+        card.button.IconFrame.Border:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     end
 
     local fillAtlas = "ui-journeys-renown-radial-fill"
@@ -1481,6 +1604,37 @@ function FactionUI:SetProgress(card, pct)
     end
 end
 
+function FactionUI:LayoutLeftCardText(card)
+    if not card or not card.leftContext or not card.nameLabel or not card.statusLabel then return end
+    if not card.textGroup then
+        card.textGroup = CreateFrame("Frame", nil, card.button)
+    end
+
+    local textGap = 1
+    local textW = math.max(80, (card.button:GetWidth() or (LEFT_W - 32)) - 84)
+    card.nameLabel:SetWidth(textW)
+    card.statusLabel:SetWidth(textW)
+    local nameH = math.ceil(math.max(14, card.nameLabel:GetStringHeight() or 14))
+    local statusH = math.ceil(math.max(12, card.statusLabel:GetStringHeight() or 12))
+    local blockH = nameH + textGap + statusH
+
+    card.textGroup:ClearAllPoints()
+    card.textGroup:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 10, 0)
+    card.textGroup:SetPoint("RIGHT", card.button, "RIGHT", -12, 0)
+    card.textGroup:SetPoint("TOP", card.button, "CENTER", 0, blockH / 2)
+    card.textGroup:SetHeight(blockH)
+
+    card.nameLabel:ClearAllPoints()
+    card.nameLabel:SetPoint("TOPLEFT", card.textGroup, "TOPLEFT", 0, 0)
+    card.nameLabel:SetPoint("RIGHT", card.textGroup, "RIGHT", 0, 0)
+    card.nameLabel:SetHeight(nameH)
+    card.nameLabel:SetJustifyV("TOP")
+    card.statusLabel:ClearAllPoints()
+    card.statusLabel:SetPoint("TOPLEFT", card.nameLabel, "BOTTOMLEFT", 0, -textGap)
+    card.statusLabel:SetPoint("RIGHT", card.textGroup, "RIGHT", 0, 0)
+    card.statusLabel:SetHeight(statusH)
+end
+
 function FactionUI:NormalizeEntry(entry)
     if type(entry) == "table" then
         return entry
@@ -1515,12 +1669,8 @@ function FactionUI:Update(card, entry, storyData)
             and string.format("Renown %d/%d", mf.renownLevel or 0, maxLevel)
             or string.format("Renown %d", mf.renownLevel or 0)
         self:ApplyArt(card, mf.expansionID, mf.textureKit)
-        if mf.factionFontColor and mf.factionFontColor.color then
-            local r, g, b = mf.factionFontColor.color:GetRGB()
-            if card.progress then card.progress:SetSwipeColor(r, g, b, 1) end
-            if card.fullRing then card.fullRing:SetVertexColor(r, g, b, 1) end
-        end
-        self:SetIcon(card.icon, entry.iconAtlas or (mf.textureKit and ("majorfactions_icons_" .. mf.textureKit .. "512")), entry.icon)
+        self:SetIcon(card.icon, entry.iconAtlas or (mf.textureKit and ("majorfactions_icons_" .. mf.textureKit .. "512")), self:GetFactionIcon(factionID, entry))
+        self:ApplyAccentColor(card, self:GetAccentColor(factionID, entry, mf, nil))
     else
         local info = C_Reputation and C_Reputation.GetFactionDataByID
             and C_Reputation.GetFactionDataByID(factionID)
@@ -1538,16 +1688,18 @@ function FactionUI:Update(card, entry, storyData)
         end
         status = _G["FACTION_STANDING_LABEL" .. reaction] or ""
         self:ApplyArt(card, entry.expansionID, entry.textureKit)
-        local standingColor = FACTION_BAR_COLORS and FACTION_BAR_COLORS[reaction]
-        if standingColor then
-            if card.progress then card.progress:SetSwipeColor(standingColor.r, standingColor.g, standingColor.b, 1) end
-            if card.fullRing then card.fullRing:SetVertexColor(standingColor.r, standingColor.g, standingColor.b, 1) end
-        end
-        self:SetIcon(card.icon, entry.iconAtlas, entry.icon or self.iconOverrides[factionID])
+        self:SetIcon(card.icon, entry.iconAtlas, self:GetFactionIcon(factionID, entry))
+        self:ApplyAccentColor(card, self:GetAccentColor(factionID, entry, nil, info))
     end
 
     if card.nameLabel then card.nameLabel:SetText(name) end
     if card.statusLabel then card.statusLabel:SetText(status) end
+    self:LayoutLeftCardText(card)
+    if card.leftContext and C_Timer then
+        C_Timer.After(0, function()
+            FactionUI:LayoutLeftCardText(card)
+        end)
+    end
     card.tooltipTitle = name
     card.tooltipStatus = status
     card.tooltipDescription = description
@@ -2497,114 +2649,6 @@ end
 dChapterAchievementCard = CreateAchievementRow(detailChild)
 dChapterAchievementCard:Hide()
 
--- ── No-achievements placeholder label ───────────────────────────────
-local aNoAchLabel = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
-aNoAchLabel:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
-aNoAchLabel:SetText("No achievements tracked for this story.")
-aNoAchLabel:Hide()
-achievementElements[#achievementElements + 1] = aNoAchLabel
-
--- ── Layout achievements tab (centered list with fading dividers) ─────
-local function LayoutAchievementsTab(data)
-    local ids    = GetStoryAchievements(data)
-    local numDiv = math.max(0, #ids - 1)
-
-    -- Pool-expand rows
-    while #aAchCards < #ids do
-        local r = CreateAchievementRow(detailChild)
-        aAchCards[#aAchCards + 1] = r
-        achievementElements[#achievementElements + 1] = r
-    end
-
-    -- Pool-expand dividers.
-    -- KEY: use a Frame as container positioned with TOPLEFT+TOPRIGHT, then textures
-    -- inside anchored LEFT+RIGHT only. Raw textures with 3 anchor points (TOP+LEFT+RIGHT)
-    -- do not render reliably in WoW — this is the proven pattern from CreateCatDivider.
-    while #aAchDividers < numDiv do
-        local f = CreateFrame("Frame", nil, detailChild)
-        f:SetHeight(1)
-        local tL = f:CreateTexture(nil, "ARTWORK")
-        tL:SetTexture(SOLID)
-        tL:SetHeight(1)
-        tL:SetPoint("LEFT",   f, "LEFT",   0, 0)
-        tL:SetPoint("RIGHT",  f, "CENTER", 0, 0)
-        tL:SetGradient("HORIZONTAL",
-            CreateColor(1.0, 0.80, 0.45, 0),
-            CreateColor(1.0, 0.80, 0.45, 0.2))
-        local tR = f:CreateTexture(nil, "ARTWORK")
-        tR:SetTexture(SOLID)
-        tR:SetHeight(1)
-        tR:SetPoint("LEFT",   f, "CENTER", 0, 0)
-        tR:SetPoint("RIGHT",  f, "RIGHT",  0, 0)
-        tR:SetGradient("HORIZONTAL",
-            CreateColor(1.0, 0.80, 0.45, 0.2),
-            CreateColor(1.0, 0.80, 0.45, 0))
-        f:Hide()
-        aAchDividers[#aAchDividers + 1] = f
-        achievementElements[#achievementElements + 1] = f
-    end
-
-    if #ids == 0 then
-        aNoAchLabel:ClearAllPoints()
-        aNoAchLabel:SetPoint("TOP", detailChild, "TOP", 0, -24)
-        aNoAchLabel:Show()
-        return
-    end
-
-    local halfW = math.floor(AROW_MAX_W / 2)
-    -- yOff counts downward from detailChild TOP; all positions are absolute, no chained anchors.
-    local yOff  = -24
-    -- spacing: 8 px gap → 2 px divider → 8 px gap = 18 px between row bottoms and next row tops
-    local DIV_ABOVE = 8
-    local DIV_H     = 2
-    local DIV_BELOW = 8
-
-    for i, achID in ipairs(ids) do
-        local row = aAchCards[i]
-        local _, achName, _, completed, _, _, _, _, _, icon = GetAchievementInfo(achID)
-
-        row.achievementID = achID
-        row.icon:SetTexture(icon)
-        row.icon:SetDesaturated(not completed)
-        row.iconBorder:SetVertexColor(
-            completed and C_GOLD[1] or C_DIM[1],
-            completed and C_GOLD[2] or C_DIM[2],
-            completed and C_GOLD[3] or C_DIM[3])
-        row.iconBorder:SetAlpha(0.95)
-        row.title:SetText(achName or "")
-        row.title:SetTextColor(
-            completed and C_BODY[1] or C_DIM[1],
-            completed and C_BODY[2] or C_DIM[2],
-            completed and C_BODY[3] or C_DIM[3])
-
-        row:ClearAllPoints()
-        row:SetWidth(AROW_MAX_W)
-        row:SetPoint("TOP",  detailChild, "TOP",    0,      yOff)
-        row:SetPoint("LEFT", detailChild, "CENTER", -halfW, 0)
-        row:Show()
-
-        yOff = yOff - AROW_H
-
-        -- Divider frame below this row (not after the last row)
-        if i < #ids then
-            local dY = yOff - DIV_ABOVE
-            local f  = aAchDividers[i]
-            f:ClearAllPoints()
-            f:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  DP + 80,  dY)
-            f:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -(DP + 80), dY)
-            f:Show()
-            yOff = yOff - DIV_ABOVE - DIV_H - DIV_BELOW
-        end
-    end
-
-    -- Resize scroll child to fit
-    local listH = math.abs(yOff) + 24
-    C_Timer.After(0, function()
-        local childTop = detailChild:GetTop()
-        if childTop then detailChild:SetHeight(math.max(listH + 24, 400)) end
-    end)
-end
-
 -- ── Render quest cards for selected chapter ─────────────────────────
 LayoutSelectedChapter = function()
     local data = currentStoryData
@@ -2946,7 +2990,6 @@ local function ShowTab(tab)
     for _, node in ipairs(dTrackNodes) do node:Hide() end
     for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
     for _, card in ipairs(dQuestCards) do card:Hide() end
-    for _, el in ipairs(achievementElements) do el:Hide() end
     sTrackBtn:Hide(); sCompleteText:Hide()
     dCompleteText:Hide()
     aCoverFrame:Hide()
@@ -2967,8 +3010,6 @@ local function ShowTab(tab)
         for _, el in ipairs(storyElements) do el:Show() end
     elseif tab == "journal" then
         for _, el in ipairs(journalElements) do el:Show() end
-    elseif tab == "achievements" then
-        -- LayoutAchievementsTab shows only the cards it needs; nothing to pre-show here
     elseif tab == "progress" then
         heroPort:Hide()
         heroFrame:SetHeight(50)
@@ -2985,22 +3026,14 @@ local function SetActiveTab(tab)
         tabStoryLabel:SetTextColor(1, 1, 1)
         tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     elseif tab == "journal" then
         tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabJournalLabel:SetTextColor(1, 1, 1)
-        tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-    elseif tab == "achievements" then
-        tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabAchievementsLabel:SetTextColor(1, 1, 1)
     else
         tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabProgressLabel:SetTextColor(1, 1, 1)
         tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     end
 end
 
@@ -3117,74 +3150,24 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
         local journalIdx = 0
         local hasAnyRecap = false
         local quest = FindNextQuest(data)
+        local done = GetCampaignProgress(data)
         local lastAnchor = sJournalHeader
 
-        -- ── Faction reputation cards (after image+title, before chapters) ──
-        -- Always two fixed columns. A lone faction keeps the same half-row
-        -- width instead of stretching wider.
+        -- Factions live in the contextual left panel on the Journal tab.
         FactionUI:HideAll()
-        local factionAnchor, factionBottomY = nil, -16
-        local factionList = GetStoryFactions(data)
-        if factionList and #factionList > 0 then
-            local PER_ROW = 2
-            local GAP_X, GAP_Y = 12, 8
-            local rowTop = -50
-
-            -- First pass: filter visible cards.
-            local visible = {}
-            for i, factionID in ipairs(factionList) do
-                local card = FactionUI:Get(i)
-                if FactionUI:Update(card, factionID, data) then
-                    visible[#visible + 1] = card
-                end
-            end
-
-            local total = #visible
-            local rows = math.ceil(total / PER_ROW)
-            local cardW = (contentW - (PER_ROW - 1) * GAP_X) / PER_ROW
-            local cardH = FactionUI.CARD_H * math.min(1, cardW / FactionUI.CARD_W)
-
-            if total > 0 then
-                sFactionHeader:ClearAllPoints()
-                sFactionHeader:SetPoint("TOP", detailChild, "TOP", 0, -18)
-                sFactionHeader:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
-                sFactionHeader:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
-                sFactionHeader:Show()
-
-                for idx, card in ipairs(visible) do
-                    local row = math.floor((idx - 1) / PER_ROW)
-                    local col = (idx - 1) % PER_ROW
-                    local x = CP + col * (cardW + GAP_X)
-                    local y = rowTop - row * (cardH + GAP_Y)
-                    card:ClearAllPoints()
-                    FactionUI:Resize(card, cardW)
-                    -- TOP from detailChild (vertical), LEFT from detailChild
-                    -- (horizontal) so the journal has no hero/title gap.
-                    card:SetPoint("TOP", detailChild, "TOP", 0, y)
-                    card:SetPoint("LEFT", detailChild, "LEFT", x, 0)
-                end
-
-                if not FactionUI.spacer then
-                    FactionUI.spacer = CreateFrame("Frame", nil, detailChild)
-                    FactionUI.spacer:SetHeight(1)
-                end
-                local yBelow = rowTop - rows * cardH - (rows - 1) * GAP_Y
-                FactionUI.spacer:ClearAllPoints()
-                FactionUI.spacer:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  0, yBelow)
-                FactionUI.spacer:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", 0, yBelow)
-                FactionUI.spacer:Show()
-                factionAnchor = FactionUI.spacer
-            end
-        end
+        sFactionHeader:Hide()
 
         sJournalHeader:SetText(quest and "Your Story So Far" or "Your Story")
         sJournalHeader:ClearAllPoints()
-        if factionAnchor then
-            sJournalHeader:SetPoint("TOP", factionAnchor, "BOTTOM", 0, factionBottomY)
-        else
-            sJournalHeader:SetPoint("TOP", detailChild, "TOP", 0, -18)
-        end
+        sJournalHeader:SetPoint("TOP", detailChild, "TOP", 0, -18)
         sJournalHeader:Show()
+
+        sJournalSubline:ClearAllPoints()
+        sJournalSubline:SetPoint("TOP", sJournalHeader, "BOTTOM", 0, -4)
+        sJournalSubline:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
+        sJournalSubline:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
+        if contentW > 20 then sJournalSubline:SetWidth(contentW) end
+        sJournalSubline:Show()
 
         for ci, ch in ipairs(chapters) do
             local cd, ct = GetChapterProgress(ch)
@@ -3197,7 +3180,7 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
                 -- Chapter title
                 entry.title:ClearAllPoints()
                 if journalIdx == 1 then
-                    entry.title:SetPoint("TOP", sJournalHeader, "BOTTOM", 0, -16)
+                    entry.title:SetPoint("TOP", sJournalSubline, "BOTTOM", 0, -18)
                 else
                     local prev = sJournalEntries[journalIdx - 1]
                     entry.title:SetPoint("TOP", prev.body, "BOTTOM", 0, -20)
@@ -3220,13 +3203,31 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
         end
 
         if not hasAnyRecap then
+            sJournalHeader:Hide()
+            sJournalSubline:Hide()
+            local emptyTop = -math.max(150, math.floor((detailScroll:GetHeight() or 420) * 0.42))
+            sJournalEmptyTitle:ClearAllPoints()
+            sJournalEmptyTitle:SetPoint("TOP", detailChild, "TOP", 0, emptyTop)
+            sJournalEmptyTitle:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
+            sJournalEmptyTitle:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
+            if done > 0 then
+                sJournalEmptyTitle:SetText("No chapter recaps yet.")
+                sJournalEmptyText:SetText("Keep going. Once you finish a chapter, its recap will appear here.")
+            else
+                sJournalEmptyTitle:SetText("The first page is still blank.")
+                sJournalEmptyText:SetText("Begin this story and your completed chapters will gather here as a quiet record of the road behind you.")
+            end
+            sJournalEmptyTitle:Show()
             sJournalEmptyText:ClearAllPoints()
-            sJournalEmptyText:SetPoint("TOPLEFT", sJournalHeader, "BOTTOMLEFT", CP, -16)
-            sJournalEmptyText:SetPoint("TOPRIGHT", sJournalHeader, "BOTTOMRIGHT", -CP, -16)
+            sJournalEmptyText:SetPoint("TOPLEFT", sJournalEmptyTitle, "BOTTOMLEFT", 0, -8)
+            sJournalEmptyText:SetPoint("TOPRIGHT", sJournalEmptyTitle, "BOTTOMRIGHT", 0, -8)
             if contentW > 20 then sJournalEmptyText:SetWidth(contentW) end
             sJournalEmptyText:Show()
             lastAnchor = sJournalEmptyText
         else
+            sJournalHeader:Show()
+            sJournalSubline:Show()
+            sJournalEmptyTitle:Hide()
             sJournalEmptyText:Hide()
         end
 
@@ -3450,6 +3451,9 @@ local function LayoutDetailTab()
     local visibleContentW = w - 34
 
     ShowTab(activeTab)
+    if SM.UpdateLeftPanelForTab then
+        SM.UpdateLeftPanelForTab(activeTab, data)
+    end
 
     local divW = w - DP * 2
     if divW < 20 then divW = 400 end
@@ -3460,8 +3464,6 @@ local function LayoutDetailTab()
         LayoutJournalTab(data, w, contentW, visibleContentW)
     elseif activeTab == "progress" then
         LayoutProgressTab(data, w, contentW, visibleContentW)
-    elseif activeTab == "achievements" then
-        LayoutAchievementsTab(data)
     end
 end
 
@@ -3511,21 +3513,6 @@ tabJournalHit:SetScript("OnClick", function()
     end
 end)
 
-tabAchievementsHit:SetScript("OnEnter", function()
-    if activeTab ~= "achievements" then tabAchievementsLabel:SetTextColor(1, 1, 1) end
-end)
-tabAchievementsHit:SetScript("OnLeave", function()
-    if activeTab ~= "achievements" then tabAchievementsLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3]) end
-end)
-tabAchievementsHit:SetScript("OnClick", function()
-    if activeTab ~= "achievements" and currentStoryData then
-        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-        SetActiveTab("achievements")
-        detailScroll:SetVerticalScroll(0)
-        LayoutDetailTab()
-    end
-end)
-
 -- ── Main entry point ────────────────────────────────────────────────────────
 local function UpdateStoryDetail(data)
     if not data then
@@ -3539,7 +3526,6 @@ local function UpdateStoryDetail(data)
         for _, node in ipairs(dTrackNodes) do node:Hide() end
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
-        for _, el in ipairs(achievementElements) do el:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
         dCompleteText:Hide()
         introIcon2:Show(); introTitle:Show(); introText:Show()
@@ -3547,8 +3533,8 @@ local function UpdateStoryDetail(data)
         smHeaderSub:SetText("")
         SetActiveTab("story")
         -- Hide tabs on intro page
-        tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabJournalLabel:Hide(); tabAchievementsLabel:Hide()
-        tabStoryHit:Hide(); tabProgressHit:Hide(); tabJournalHit:Hide(); tabAchievementsHit:Hide()
+        tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabJournalLabel:Hide()
+        tabStoryHit:Hide(); tabProgressHit:Hide(); tabJournalHit:Hide()
         C_Timer.After(0, function()
             local w = detailScroll:GetWidth()
             if w > 20 then
@@ -3565,16 +3551,8 @@ local function UpdateStoryDetail(data)
 
     currentStoryData = data
     introIcon2:Hide(); introTitle:Hide(); introText:Hide(); ShowDetail(true)
-    -- Show tabs; hide achievements tab if this story has none
     tabStoryLabel:Show(); tabProgressLabel:Show(); tabJournalLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show(); tabJournalHit:Show()
-    local hasAchievements = #GetStoryAchievements(data) > 0
-    tabAchievementsLabel:SetShown(hasAchievements)
-    tabAchievementsHit:SetShown(hasAchievements)
-    -- If currently on achievements tab but new story has none, fall back to story tab
-    if activeTab == "achievements" and not hasAchievements then
-        activeTab = "story"
-    end
 
     -- Portrait icon (creature portrait or texture)
     heroIcon:SetTexture(nil)
@@ -3689,6 +3667,7 @@ local function CreateCatDivider(parent, text, yOff)
     lbl:SetJustifyH("CENTER")
     lbl:SetText(text)
     lbl:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+    f.label = lbl
 
     -- Thin ruled lines flanking the label (fade out toward edges)
     local lineL = f:CreateTexture(nil, "BACKGROUND")
@@ -3709,7 +3688,255 @@ local function CreateCatDivider(parent, text, yOff)
         CreateColor(C_DIVIDER[1], C_DIVIDER[2], C_DIVIDER[3], 0.5),
         CreateColor(C_DIVIDER[1], C_DIVIDER[2], C_DIVIDER[3], 0))
 
-    return CAT_H
+    return CAT_H, f
+end
+
+SM.LeftContextAchievementButtons = {}
+SM.LeftContextFactionCards = {}
+SM.LeftContextDividers = {}
+SM.LeftContextEmptyText = NoShadow(SM.LeftContextChild:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+SM.LeftContextEmptyText:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
+SM.LeftContextEmptyText:SetJustifyH("CENTER")
+SM.LeftContextEmptyText:Hide()
+
+function SM.HideLeftContext()
+    for _, btn in ipairs(SM.LeftContextAchievementButtons) do btn:Hide() end
+    for _, card in ipairs(SM.LeftContextFactionCards) do card:Hide() end
+    for _, div in ipairs(SM.LeftContextDividers) do div:Hide() end
+    SM.LeftContextEmptyText:Hide()
+end
+
+function SM.UseStoryLeftPanel()
+    SM.HideLeftContext()
+    SM.LeftContextChild:Hide()
+    leftChild:Show()
+    leftScroll:SetScrollChild(leftChild)
+end
+
+function SM.UseContextLeftPanel()
+    leftChild:Hide()
+    SM.LeftContextChild:Show()
+    leftScroll:SetScrollChild(SM.LeftContextChild)
+    leftScroll:SetVerticalScroll(0)
+    SM.HideLeftContext()
+end
+
+function SM.GetLeftContextDivider(index, text, yOff)
+    local div = SM.LeftContextDividers[index]
+    if not div then
+        local _
+        _, div = CreateCatDivider(SM.LeftContextChild, text, yOff)
+        SM.LeftContextDividers[index] = div
+    end
+    div:ClearAllPoints()
+    div:SetPoint("TOPLEFT",  SM.LeftContextChild, "TOPLEFT",  4, yOff)
+    div:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -4, yOff)
+    div:Show()
+    if div.label then div.label:SetText(text) end
+    return 26
+end
+
+function SM.CreateLeftAchievementButton(parent)
+    local btn = CreateFrame("Button", nil, parent)
+    btn:SetSize(42, 42)
+    btn:EnableMouse(true)
+
+    local icon = btn:CreateTexture(nil, "ARTWORK")
+    icon:SetSize(34, 34)
+    icon:SetPoint("CENTER")
+    icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+    btn.icon = icon
+
+    local border = btn:CreateTexture(nil, "OVERLAY", nil, 2)
+    border:SetAtlas("talents-node-square-gray", false)
+    border:SetSize(42, 42)
+    border:SetPoint("CENTER", icon, "CENTER", 0, 0)
+    btn.border = border
+
+    btn:SetScript("OnEnter", function(self)
+        if not self.achievementID then return end
+        self.border:SetVertexColor(1, 0.90, 0.60)
+        local _, achName, _, completed, month, day, year, description, _, _, _, rewardText =
+            GetAchievementInfo(self.achievementID)
+        SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:ClearLines()
+        SMTooltip:AddLine(achName or "", 1, 1, 1)
+        if completed then
+            local dateStr = (month and month > 0) and (" — " .. month .. "/" .. day .. "/" .. year) or ""
+            SMTooltip:AddLine("Earned" .. dateStr, 0.2, 0.83, 0.2)
+        else
+            SMTooltip:AddLine("Not yet earned", C_DIM[1], C_DIM[2], C_DIM[3])
+        end
+        if description and description ~= "" then
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine(description, C_BODY[1], C_BODY[2], C_BODY[3], true)
+        end
+        if type(rewardText) == "string" and rewardText ~= "" then
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine("Reward: " .. rewardText, C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
+        end
+        SMTooltip:AddLine(" ")
+        SMTooltip:AddLine("Click to open in Achievement log", 0.5, 0.5, 0.5)
+        SMTooltip:Show()
+    end)
+    btn:SetScript("OnLeave", function(self)
+        self.border:SetVertexColor(self.borderR or C_DIM[1], self.borderG or C_DIM[2], self.borderB or C_DIM[3])
+        SMTooltip:Hide()
+    end)
+    btn:SetScript("OnClick", function(self)
+        if not self.achievementID then return end
+        SMTooltip:Hide()
+        storyFrame:Hide()
+        if not AchievementFrame then C_AddOns.LoadAddOn("Blizzard_AchievementUI") end
+        ShowUIPanel(AchievementFrame)
+        AchievementFrame_SelectAchievement(self.achievementID)
+    end)
+
+    return btn
+end
+
+function SM.PrepareLeftFactionCard(card)
+    card.leftContext = true
+    card:SetParent(SM.LeftContextChild)
+    card:SetSize(LEFT_W - 32, 78)
+    card.button:SetScale(1)
+    card.button:ClearAllPoints()
+    card.button:SetAllPoints(card)
+    card.button:SetSize(LEFT_W - 32, 78)
+    card.button.IconFrame:SetSize(46, 46)
+    card.button.IconFrame:ClearAllPoints()
+    card.button.IconFrame:SetPoint("LEFT", card.button, "LEFT", 16, 0)
+    if card.button.IconFrame.Border then
+        card.button.IconFrame.Border:SetSize(46, 46)
+    end
+    if card.button.IconFrame.IconMask then
+        card.button.IconFrame.IconMask:SetAllPoints(card.icon)
+    end
+    if card.progress then
+        card.progress:SetAllPoints(card.button.IconFrame)
+    end
+    if card.fullRing then
+        card.fullRing:SetAllPoints(card.button.IconFrame)
+    end
+    card.icon:SetSize(34, 34)
+    card.nameLabel:ClearAllPoints()
+    card.nameLabel:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 10, 0)
+    card.nameLabel:SetPoint("RIGHT", card.button, "RIGHT", -12, 0)
+    card.nameLabel:SetPoint("BOTTOM", card.button, "CENTER", 0, 1)
+    card.nameLabel:SetJustifyV("BOTTOM")
+    card.nameLabel:SetScale(1)
+    card.nameLabel:SetMaxLines(2)
+    card.nameLabel:SetWordWrap(true)
+    card.statusLabel:ClearAllPoints()
+    card.statusLabel:SetPoint("TOPLEFT", card.nameLabel, "BOTTOMLEFT", 0, 0)
+    card.statusLabel:SetPoint("RIGHT", card.nameLabel, "RIGHT", 0, 0)
+    card.statusLabel:SetScale(1)
+    FactionUI:LayoutLeftCardText(card)
+end
+
+function SM.LayoutLeftAchievements(data)
+    local yOffset = SM.LeftContextYOffset or -16
+    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, "Achievements", yOffset) - 8
+    SM.LeftContextDividerIndex = (SM.LeftContextDividerIndex or 1) + 1
+
+    local ids = GetStoryAchievements(data)
+    if #ids == 0 then
+        SM.LeftContextEmptyText:SetText("No achievements tracked.")
+        SM.LeftContextEmptyText:ClearAllPoints()
+        SM.LeftContextEmptyText:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 12, yOffset)
+        SM.LeftContextEmptyText:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -12, yOffset)
+        SM.LeftContextEmptyText:Show()
+        SM.LeftContextYOffset = yOffset - 32
+        return SM.LeftContextYOffset
+    end
+
+    local iconSize, gap, cols = 42, 8, 5
+    local startX = 4
+    for i, achID in ipairs(ids) do
+        local btn = SM.LeftContextAchievementButtons[i]
+        if not btn then
+            btn = SM.CreateLeftAchievementButton(SM.LeftContextChild)
+            SM.LeftContextAchievementButtons[i] = btn
+        end
+        local _, _, _, completed, _, _, _, _, _, icon = GetAchievementInfo(achID)
+        btn.achievementID = achID
+        btn.icon:SetTexture(icon)
+        btn.icon:SetDesaturated(not completed)
+        btn.borderR = completed and C_GOLD[1] or C_DIM[1]
+        btn.borderG = completed and C_GOLD[2] or C_DIM[2]
+        btn.borderB = completed and C_GOLD[3] or C_DIM[3]
+        btn.border:SetVertexColor(btn.borderR, btn.borderG, btn.borderB)
+        btn:ClearAllPoints()
+        local col = (i - 1) % cols
+        local row = math.floor((i - 1) / cols)
+        btn:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", startX + col * (iconSize + gap), yOffset - row * (iconSize + gap))
+        btn:Show()
+    end
+    for i = #ids + 1, #SM.LeftContextAchievementButtons do
+        SM.LeftContextAchievementButtons[i]:Hide()
+    end
+
+    local rows = math.ceil(#ids / cols)
+    SM.LeftContextYOffset = yOffset - rows * iconSize - math.max(0, rows - 1) * gap - 14
+    return SM.LeftContextYOffset
+end
+
+function SM.LayoutLeftFactions(data)
+    local yOffset = SM.LeftContextYOffset or -16
+    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, "Factions", yOffset) - 4
+    SM.LeftContextDividerIndex = (SM.LeftContextDividerIndex or 1) + 1
+
+    local factions = GetStoryFactions(data)
+    local shown = 0
+    if factions then
+        for _, entry in ipairs(factions) do
+            local card = SM.LeftContextFactionCards[shown + 1]
+            if not card then
+                card = FactionUI:Create()
+                SM.LeftContextFactionCards[shown + 1] = card
+            end
+            SM.PrepareLeftFactionCard(card)
+            if FactionUI:Update(card, entry, data) then
+                shown = shown + 1
+                card:ClearAllPoints()
+                card:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 4, yOffset)
+                card:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -4, yOffset)
+                yOffset = yOffset - 78 - 5
+            end
+        end
+    end
+    for i = shown + 1, #SM.LeftContextFactionCards do
+        SM.LeftContextFactionCards[i]:Hide()
+    end
+
+    if shown == 0 then
+        SM.LeftContextEmptyText:SetText("No factions tracked.")
+        SM.LeftContextEmptyText:ClearAllPoints()
+        SM.LeftContextEmptyText:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 12, yOffset)
+        SM.LeftContextEmptyText:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -12, yOffset)
+        SM.LeftContextEmptyText:Show()
+    end
+    SM.LeftContextYOffset = yOffset
+    return SM.LeftContextYOffset
+end
+
+function SM.LayoutLeftProgressJournal(data)
+    SM.UseContextLeftPanel()
+    SM.LeftContextYOffset = -16
+    SM.LeftContextDividerIndex = 1
+    SM.LayoutLeftAchievements(data)
+    SM.LayoutLeftFactions(data)
+    SM.LeftContextChild:SetHeight(math.max(math.abs(SM.LeftContextYOffset or -16) + 16, 180))
+end
+
+SM.UpdateLeftPanelForTab = function(tab, data)
+    if not data or tab == "story" then
+        SM.UseStoryLeftPanel()
+    elseif tab == "progress" or tab == "journal" then
+        SM.LayoutLeftProgressJournal(data)
+    else
+        SM.UseStoryLeftPanel()
+    end
 end
 
 local function BuildStoryWindow()
@@ -3806,12 +4033,6 @@ local function BuildStoryWindow()
                 coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -7, 7)
                 coverTex:SetAlpha(0.78)
                 coverTex:Hide()
-
-                local coverMask = card:CreateMaskTexture()
-                coverMask:SetTexture("Interface\\AddOns\\StoryMode\\Textures\\CoverFadeMask",
-                    "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-                coverMask:SetAllPoints(coverTex)
-                coverTex:AddMaskTexture(coverMask)
 
                 card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
                 card:GetHighlightTexture():SetAllPoints()
