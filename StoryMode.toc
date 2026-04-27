@@ -44,6 +44,8 @@ Storylines\SylvanasData.lua
 Storylines\JainaData.lua
 Storylines\TeddiesAndTeaData.lua
 Core\SavedVariables.lua
+Core\Progress.lua
+Core\Tracking.lua
 UI\Tooltip.lua
 UI\Banners.lua
 UI\MinimapButton.lua

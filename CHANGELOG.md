@@ -5,6 +5,7 @@
 ### Maintenance
 - Bumped addon version to `1.5.0`
 - Updated addon metadata with the plain **Story Mode** title, refreshed notes text, and the new addon icon asset
+- Split quest progress helpers and waypoint tracking helpers out of `StoryMode.lua` into `Core/Progress.lua` and `Core/Tracking.lua`
 - Cleaned storyline achievement lists to keep story-relevant achievements only, using normal/base dungeon and raid clears plus normal boss kills where applicable
 - Cleaned chapter hint behavior so notes only appear on gated/squared chapters with actionable unlock steps; removed misleading legacy Wrath notes
 - Added gated hints for Rogue "Hiding In Plain Sight" and the Forsaken loyalist epilogue so squared chapters always explain their prerequisite
