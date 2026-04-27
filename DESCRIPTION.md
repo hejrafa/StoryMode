@@ -2,7 +2,7 @@
 
 **Story Mode** is a World of Warcraft addon for players who want to experience Azeroth's quest stories in a clearer, more intentional order.
 
-It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and one-click TomTom waypoints.
+It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and one-click map guidance.
 
 ## Version 1.5.0 Highlights
 
@@ -19,7 +19,7 @@ It turns scattered quest chains into guided adventures with chapter progress, st
 - Finds your real next quest by skipping completed, hidden, optional, or faction-ineligible steps.
 - Tracks chapter, story, achievement, and reputation progress in one place.
 - Filters class, race, and faction-specific content so your character sees the stories they can actually play.
-- Sends you toward the next objective with TomTom waypoint support.
+- Sends you toward the next objective with WoW's built-in quest tracking and user waypoints.
 - Shows real-time completion banners when quests, chapters, and full stories finish.
 
 ## Included Adventures

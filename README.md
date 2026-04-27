@@ -13,7 +13,7 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 - **Browse curated adventures** across expansions, grouped into Epic Storylines, Character Stories, Short Stories, and Identity.
 - **Follow chapter-by-chapter guidance** with story summaries, recaps, key characters, quest lists, and the next available step.
 - **Track real progress** with logic for completed quests, active quests, optional steps, hidden steps, replayable chapters, faction variants, class restrictions, and race restrictions.
-- **Use one-click waypoints** through TomTom to head straight to the next quest objective.
+- **Use one-click map guidance** through WoW's built-in quest tracking, user waypoints, and world map pins.
 - **Read the Journal** to revisit completed chapter recaps and see related faction reputation progress.
 - **Check achievements** with story-relevant achievement lists and faction-aware achievement variants.
 - **See completion banners** when quests, chapters, and full adventures finish.
@@ -111,7 +111,7 @@ Track your next quest directly from chat:
 
 You can also open the **World Map** and click the **Story Mode** tab on the side panel.
 
-Story Mode works best with [TomTom](https://www.curseforge.com/wow/addons/tomtom) installed for waypoint arrows. Without TomTom, the addon still shows the relevant quest and location context.
+Story Mode uses WoW's built-in quest tracking, user waypoint, and world map systems. When a quest is already in your log, it super-tracks that quest; when it is not, it opens the relevant map and sets a native waypoint where possible.
 
 ---
 
