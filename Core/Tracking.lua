@@ -79,6 +79,17 @@ local function PingOnWorldMap(mapID, x, y)
     end)
 end
 
+local function GetQuestLocation(data, quest)
+    local loc = data.npcLocations and data.npcLocations[quest.npc]
+    if loc then return loc end
+
+    if data.startQuest and quest.id == data.startQuest.id and data.startMapID and data.startX and data.startY then
+        return { mapID = data.startMapID, x = data.startX, y = data.startY }
+    end
+
+    return nil
+end
+
 function SM.SetWaypointForQuest(data, quest)
     if not quest then return "no_location", nil, nil end
 
@@ -88,14 +99,14 @@ function SM.SetWaypointForQuest(data, quest)
         local qid = quest.id
         C_QuestLog.AddQuestWatch(qid)
         C_SuperTrack.SetSuperTrackedQuestID(qid)
-        local loc = data.npcLocations and data.npcLocations[quest.npc]
+        local loc = GetQuestLocation(data, quest)
         if loc then
             PingOnWorldMap(loc.mapID, loc.x, loc.y)
         end
         return "supertracked", loc and loc.mapID, loc
     end
 
-    local loc = data.npcLocations and data.npcLocations[quest.npc]
+    local loc = GetQuestLocation(data, quest)
     local qid = quest.id
 
     if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
@@ -128,7 +139,7 @@ end
 
 function SM.PrintTrackResult(result, quest, data)
     local P = "|cff64b5f6Story Mode:|r "
-    local loc = data.npcLocations and data.npcLocations[quest.npc]
+    local loc = GetQuestLocation(data, quest)
     local zone = loc and GetZoneName(loc.mapID) or nil
 
     if result == "supertracked" then

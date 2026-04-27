@@ -21,12 +21,16 @@ SM.DreadWastesData = {
     factions = { 1337 }, -- The Klaxxi
     adventureGuideInstanceName = "Heart of Fear",
 
-    startQuest = { id = 31001, name = "Falling Down", npc = "Shado-Pan Scout", location = "Terrace of Gurthan" },
+    startQuest = { id = 31001, name = "Falling Down", npc = "Bowmistress Li", location = "Serpent's Spine" },
     startMapID = 422,
-    startX = 0.3400,
-    startY = 0.2200,
+    startX = 0.7500,
+    startY = 0.2120,
 
     npcLocations = {
+        ["Bowmistress Li"]          = { mapID = 422, x = 0.7500, y = 0.2120 },  -- Serpent's Spine
+        ["Shado-Pan Scout"]         = { mapID = 422, x = 0.7500, y = 0.2120 },  -- fallback alias for the wall camp
+        ["Marksman Lann"]           = { mapID = 422, x = 0.7260, y = 0.2860 },  -- Terrace of Gurthan
+        ["Klaxxi'va Tik"]           = { mapID = 422, x = 0.7260, y = 0.2860 },  -- cave beside Marksman Lann
         ["Ambersmith Zikk"]         = { mapID = 422, x = 0.5580, y = 0.5060 },  -- Klaxxi'vess
         ["Kil'ruk the Wind-Reaver"] = { mapID = 422, x = 0.5240, y = 0.4850 },
         ["Ka'roz the Locust"]       = { mapID = 422, x = 0.5460, y = 0.5200 },
@@ -35,12 +39,17 @@ SM.DreadWastesData = {
     },
 
     npcDisplayIDs = {
+        ["Bowmistress Li"]          = 42354,
         ["Shado-Pan Scout"]         = 42080,
         ["Ambersmith Zikk"]         = 43587,
         ["Master Angler Ju Lien"]   = 43494,
         ["Kil'ruk the Wind-Reaver"] = 0,  -- TODO: verify
         ["Ka'roz the Locust"]       = 0,  -- TODO: verify
         ["Kaz'tik the Manipulator"] = 0,  -- TODO: verify
+    },
+
+    chapterDisplayIDs = {
+        ["The First Paragons"]       = 42354, -- Bowmistress Li
     },
 
     portraitDisplayID = 43587,  -- Ambersmith Zikk (TODO: swap for Kil'ruk once ID is known)
@@ -53,13 +62,15 @@ SM.DreadWastesData = {
         -- CHAPTER 1: The First Paragons
         {
             chapter = "The First Paragons",
+            gated = true,
             summary = "A wall stands between Pandaria and the mantid swarm. It just cracked open.",
+            note = "Begin with Bowmistress Li on top of the Serpent's Spine. If she is missing or phases out, speak with Zidormi near the Seat of Knowledge in the Vale of Eternal Blossoms and switch the Vale to the pre-N'Zoth assault timeline.",
             recap = "The Shado-Pan had held the Serpent's Spine against the mantid for centuries, but when you arrived, the swarm had already turned on itself. Grand Empress Shek'zeer had been touched by sha energy, and the corruption was spreading. You fell from the wall into the Dread Wastes and survived by luck and stubbornness. The Klaxxi, the mantid council of elders, had been watching. They named you a Wakener — a rare outsider trusted to free their greatest warriors from amber prisons.\n\nAt Klaxxi'vess, the heart of the Klaxxi, you stood before paragons who had been preserved in amber for decades. Kil'ruk the Wind-Reaver regarded you with the cool assessment of someone who had fought wars before your grandparents were born. You proved your worth. The first paragons were free, and the Klaxxi's war against the Empress had begun in earnest.",
             quests = {
-                { id = 31001, name = "Falling Down",                npc = "Shado-Pan Scout" },
-                { id = 31002, name = "Nope",                        npc = "Shado-Pan Scout" },
-                { id = 31003, name = "Psycho Mantid",               npc = "Shado-Pan Scout" },
-                { id = 31004, name = "Preserved in Amber",          npc = "Shado-Pan Scout" },
+                { id = 31001, name = "Falling Down",                npc = "Bowmistress Li" },
+                { id = 31002, name = "Nope",                        npc = "Bowmistress Li" },
+                { id = 31003, name = "Psycho Mantid",               npc = "Marksman Lann" },
+                { id = 31004, name = "Preserved in Amber",          npc = "Klaxxi'va Tik" },
                 { id = 31005, name = "Wakening Sickness",           npc = "Kil'ruk the Wind-Reaver" },
                 { id = 31676, name = "Ancient Vengeance",           npc = "Kil'ruk the Wind-Reaver" },
                 { id = 31006, name = "The Klaxxi Council",          npc = "Kil'ruk the Wind-Reaver" },

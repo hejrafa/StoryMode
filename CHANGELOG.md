@@ -17,6 +17,7 @@
 - Added Revendreth-related achievements for Loremaster, Sojourner, Halls of Atonement, Sanguine Depths, and Castle Nathria
 - Refreshed story, campaign, and heritage descriptions and linked each track to a thematically matching Encounter Journal cover source
 - Re-enabled **The Klaxxi** in Epic Storylines and positioned it after **The Jade Forest**
+- Fixed **The Klaxxi** starting guidance so "Begin This Story" points to Bowmistress Li on the Serpent's Spine instead of opening the Dread Wastes map without a waypoint, added a first-chapter note about the wall/rope route and Zidormi phasing, and set Bowmistress Li as the first chapter portrait
 - Added faction reputation data to story journals across the current story set, including The Klaxxi, Jade Forest, Suramar, BfA zone stories, Revendreth, Frozen Throne, Lilian Voss, Sylvanas, and A Tea Party
 - Added the Jade Forest dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected **Restoring Jade's Purity** to Priestess Summerpetal, including her chapter portrait display ID
 
@@ -39,6 +40,7 @@
 - Updated the minimap button to use the custom addon icon without the fake shadow layer
 - Hid the detail scrollbar when the active view has no scrollable overflow
 - Limited the left Achievements section to four icons per row and centered the grid
+- Added a start-quest coordinate fallback so stories with `startMapID`, `startX`, and `startY` can still set a native waypoint when a specific NPC location is missing
 
 ---
 
