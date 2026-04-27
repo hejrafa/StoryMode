@@ -1,41 +1,50 @@
-# Story Mode — Narrative Questline Companion
+# Story Mode - Narrative Questline Companion
 
-**Story Mode** is a World of Warcraft addon for players who want to experience Azeroth's best quest stories in order, with context and clean progression tracking.
+**Story Mode** is a World of Warcraft addon for players who want to experience Azeroth's quest stories in a clearer, more intentional order.
 
-It turns scattered quest chains into guided campaigns: chapter-based, lore-aware, and easy to follow from start to finish.
+It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and one-click TomTom waypoints.
+
+## Version 1.5.0 Highlights
+
+- **The Master of Revendreth** joins Epic Storylines with the full Shadowlands zone campaign, from Darkhaven and the Court of Harvesters to Prince Renathal, Sire Denathrius, and the anima crisis.
+- **The Klaxxi** returns to Epic Storylines, placing the Dread Wastes back alongside the Mists of Pandaria story path.
+- **Adventure pages** now use large Blizzard cover art, cleaner title overlays, and a sharper left-side story list.
+- **Journal pages** now keep chapter recaps together with faction reputation cards and progress details.
+- **Achievements and hints** were cleaned up so they stay story-relevant and give practical unlock instructions.
 
 ## What Story Mode Does
 
-- **Curated story campaigns** across expansions
-- **Chapter-by-chapter structure** with summaries and recaps
-- **Smart progression tracking** to show your real next step
-- **One-click waypoint support** to your next objective
-- **Story journal** so completed chapters feel like a coherent saga
-- **Faction, class, and race filtering** so you only see campaigns your character can do
-- **Lore chapters** with in-depth story context
-- **Achievement tracking** with full criteria details
-- **Real-time completion banners** for quests and chapters
+- Curates major zone stories, character arcs, class campaigns, and heritage armor quests.
+- Breaks each adventure into readable chapters with summaries, recaps, key characters, and quest flow.
+- Finds your real next quest by skipping completed, hidden, optional, or faction-ineligible steps.
+- Tracks chapter, story, achievement, and reputation progress in one place.
+- Filters class, race, and faction-specific content so your character sees the stories they can actually play.
+- Sends you toward the next objective with TomTom waypoint support.
+- Shows real-time completion banners when quests, chapters, and full stories finish.
 
-## Current Content
+## Included Adventures
 
-**Epic Storylines** — major multi-chapter world arcs
-- Insurrection (Suramar) — Legion
-- The Frozen Throne (Arthas Menethil) — Wrath of the Lich King
-- Drustvar — Battle for Azeroth
-- The Forsaken Daughter (Lilian Voss) — Cataclysm → Battle for Azeroth
+**Epic Storylines**
+- The Frozen Throne
+- The Jade Forest
+- The Klaxxi
+- Insurrection
+- The Dark Heart of Nazmir
+- The Master of Revendreth
+- The Witchwood of Drustvar
 
-**Character Stories** — focused stories following a single character
-- The Banshee Queen (Sylvanas Windrunner) — Wrath → Dragonflight
-- Daughter of the Sea (Jaina Proudmoore) — Battle for Azeroth
-- The Desolate Council (Lilian Voss) — Cataclysm → Battle for Azeroth
+**Character Stories**
+- The Banshee Queen
+- Daughter of the Sea
+- The Forsaken Daughter
 
-**Short Stories** — self-contained tales and side adventures
-- A Tea Party (Drustvar)
+**Short Stories**
+- A Tea Party
 
-**Identity** — class campaigns and heritage armor questlines
-- All Legion class campaigns (one per class)
-- Heritage armor quests for all available races
+**Identity**
+- All 12 Legion class order hall campaigns
+- 14 heritage armor questlines
 
 ## Why Use Story Mode
 
-If you've ever wanted to **play WoW's story in a clean, intentional order** — instead of bouncing between disconnected quests — Story Mode gives you that structure without removing the freedom of the game.
+WoW has wonderful storylines, but they are often spread across old quest hubs, faction variants, dungeon finales, achievements, and patch-era prerequisites. Story Mode gives those stories a clean table of contents, a readable journal, and a practical "what do I do next?" button while still letting the game be the game.
