@@ -1570,9 +1570,9 @@ dCompleteText:SetTextColor(0.40, 0.82, 0.35)
 dCompleteText:SetText("|A:common-icon-checkmark:0:0|a Campaign Complete")
 
 -- Progress summary (shown at top of progress tab, under hero)
-local dProgSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+local dProgSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 dProgSummary:SetJustifyH("CENTER")
-dProgSummary:SetTextColor(C_BODY[1]*0.80, C_BODY[2]*0.80, C_BODY[3]*0.80)
+dProgSummary:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
 -- Set a 2D NPC portrait from a pre-stored creature display ID
 local HERITAGE_ICON_BY_RACE = {
@@ -1939,10 +1939,10 @@ end
 -- ══ Renown-Track Style Chapter Selector + Quest Cards ══════════════════
 -- Horizontal chapter track with quest detail cards below
 
-local TRACK_NODE_SIZE = 40      -- portrait circle diameter
-local TRACK_ARROW_GAP = 20     -- space between nodes (contains arrow)
-local TRACK_STEP = TRACK_NODE_SIZE + TRACK_ARROW_GAP  -- 60px per step
-local TRACK_H = 60              -- track container height
+local TRACK_NODE_SIZE = 48      -- portrait circle diameter
+local TRACK_ARROW_GAP = 24      -- space between nodes (contains arrow)
+local TRACK_STEP = TRACK_NODE_SIZE + TRACK_ARROW_GAP  -- 72px per step
+local TRACK_H = 72              -- track container height
 
 local QCARD_H = 44 + 8         -- quest card height (44 + 4px top/bottom padding)
 local QCARD_GAP = 3            -- gap between cards
@@ -2015,13 +2015,13 @@ end
 -- Navigation arrows — always visible, navigate between chapters
 local LayoutSelectedChapter  -- forward declare for arrow callbacks
 
-local NAV_ARROW_SIZE = 22
+local NAV_ARROW_SIZE = 26
 local NAV_ARROW_INSET = 12
 
 -- Left arrow
 local dTrackLeftBtn = CreateFrame("Button", nil, dTrackContainer)
 dTrackLeftBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
-dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 5)
+dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 2)
 dTrackLeftBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
 local dTrackLeftTex = dTrackLeftBtn:CreateTexture(nil, "ARTWORK")
 dTrackLeftTex:SetAtlas("common-icon-forwardarrow", false)
@@ -2043,7 +2043,7 @@ end)
 -- Right arrow
 local dTrackRightBtn = CreateFrame("Button", nil, dTrackContainer)
 dTrackRightBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
-dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 5)
+dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 2)
 dTrackRightBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
 local dTrackRightTex = dTrackRightBtn:CreateTexture(nil, "ARTWORK")
 dTrackRightTex:SetAtlas("common-icon-forwardarrow", false)
@@ -2182,8 +2182,8 @@ local function CreateTrackNode(parent)
     -- Checkmark badge (top-right), sublevel 6 so it sits above squareBorder
     local checkmark = btn:CreateTexture(nil, "OVERLAY", nil, 6)
     checkmark:SetAtlas("common-icon-checkmark", false)
-    checkmark:SetSize(14, 14)
-    checkmark:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 4, -4)
+    checkmark:SetSize(18, 18)
+    checkmark:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 5, -5)
     checkmark:Hide()
     btn.checkmark = checkmark
 
@@ -2292,10 +2292,18 @@ local function CreateQuestCard(parent)
     bg:SetAllPoints()
     card.bg = bg
 
+    local cardMask = card:CreateMaskTexture()
+    cardMask:SetTexture("Interface/Buttons/WHITE8x8")
+    cardMask:SetPoint("TOPLEFT", card, "TOPLEFT", 2, -2)
+    cardMask:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -2, 2)
+    bg:AddMaskTexture(cardMask)
+    card.bgMask = cardMask
+
     -- Hover highlight
     card:SetHighlightAtlas("housing-dashboard-initiatives-tasks-listitem-bg")
     card:GetHighlightTexture():SetAllPoints()
     card:GetHighlightTexture():SetAlpha(0.3)
+    card:GetHighlightTexture():AddMaskTexture(cardMask)
 
     -- Status icon (always 14x14 for consistent text alignment)
     local ICON_LEFT = 10
@@ -3256,7 +3264,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
         dProgSummary:SetText("Chapter " .. chapDone .. " of " .. #chapters
             .. "  \194\183  " .. done .. "/" .. total .. " quests")
         dProgSummary:ClearAllPoints()
-        dProgSummary:SetPoint("TOP", dTitle, "BOTTOM", 0, -2)
+        dProgSummary:SetPoint("TOP", dTitle, "BOTTOM", 0, -4)
         dProgSummary:Show()
 
         -- ── Horizontal chapter track + quest cards ────────────────────
@@ -3363,7 +3371,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
             -- Position
             node:ClearAllPoints()
             local x = (i - 1) * TRACK_STEP
-            node:SetPoint("TOP", dTrackInner, "TOPLEFT", x + TRACK_NODE_SIZE / 2, -6)
+            node:SetPoint("TOP", dTrackInner, "TOPLEFT", x + TRACK_NODE_SIZE / 2, -8)
 
             -- Click handler
             local idx = i
@@ -3387,7 +3395,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
                 local arrow = dTrackArrows[i]
                 arrow:ClearAllPoints()
                 arrow:SetPoint("LEFT", dTrackInner, "TOPLEFT",
-                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 10) / 2, -(lineY + 6))
+                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 10) / 2, -(lineY + 8))
 
                 -- Arrow color
                 if isComplete then
@@ -3403,7 +3411,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
 
         -- Position track container
         dTrackContainer:ClearAllPoints()
-        dTrackContainer:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -6)
+        dTrackContainer:SetPoint("TOP", dProgSummary, "BOTTOM", 0, -18)
         dTrackContainer:SetPoint("LEFT", detailChild, "LEFT", 0, 0)
         dTrackContainer:SetPoint("RIGHT", detailChild, "RIGHT", 0, 0)
         dTrackContainer:Show()
@@ -3712,7 +3720,7 @@ local function BuildStoryWindow()
 
     local CARD_H   = 78
     local CARD_PAD = 4
-    local yOffset  = -8
+    local yOffset  = -16
     local globalIdx = 0
 
     -- ── Introduction card (index 0 = show intro text on right) ───────────
@@ -3798,6 +3806,12 @@ local function BuildStoryWindow()
                 coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -7, 7)
                 coverTex:SetAlpha(0.78)
                 coverTex:Hide()
+
+                local coverMask = card:CreateMaskTexture()
+                coverMask:SetTexture("Interface\\AddOns\\StoryMode\\Textures\\CoverFadeMask",
+                    "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+                coverMask:SetAllPoints(coverTex)
+                coverTex:AddMaskTexture(coverMask)
 
                 card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
                 card:GetHighlightTexture():SetAllPoints()
