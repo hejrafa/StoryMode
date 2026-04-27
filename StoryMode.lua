@@ -716,8 +716,13 @@ local journalElements = { sJournalHeader, sJournalSubline, sJournalEmptyTitle, s
 local FactionUI = {
     CARD_W = 304,
     CARD_H = 88,
+    TILE_SIZE = 112,
     CARD_ATLAS = "house-upgrade-reward-large-tile-bg",
     CARD_HOVER_ATLAS = "house-upgrade-reward-large-tile-bg-highlight",
+    TILE_ATLASES = {
+        "house-chest-list-item-default",
+        "house-chest-list-Item-default",
+    },
     cards = {},
     spacer = nil,
     iconOverrides = {
@@ -796,7 +801,11 @@ function FactionUI:Create()
     card.button.Background:SetAtlas(self.CARD_ATLAS, false)
 
     card.button:SetScript("OnEnter", function(button)
-        FactionUI:SetCardAtlas(card, FactionUI.CARD_HOVER_ATLAS)
+        if card.tileMode then
+            FactionUI:ApplyTileVisual(card, true)
+        else
+            FactionUI:SetCardAtlas(card, FactionUI:GetCardAtlas(card, true))
+        end
         if card.tooltipTitle then
             SMTooltip:SetOwner(button, "ANCHOR_RIGHT")
             SMTooltip:ClearLines()
@@ -812,7 +821,11 @@ function FactionUI:Create()
         end
     end)
     card.button:SetScript("OnLeave", function()
-        FactionUI:SetCardAtlas(card, FactionUI.CARD_ATLAS)
+        if card.tileMode then
+            FactionUI:ApplyTileVisual(card, false)
+        else
+            FactionUI:SetCardAtlas(card, FactionUI:GetCardAtlas(card, false))
+        end
         SMTooltip:Hide()
     end)
     card.button:SetScript("OnClick", nil)
@@ -914,13 +927,80 @@ function FactionUI:SetAtlas(tex, atlas, useAtlasSize)
     return ok and (not tex.GetAtlas or tex:GetAtlas() == atlas)
 end
 
+function FactionUI:ApplyTileVisual(card, isHover)
+    if not card or not card.button or not card.tileMode then return false end
+    local button = card.button
+    local function SetCatalogTileAtlas(tex)
+        for _, atlas in ipairs(self.TILE_ATLASES) do
+            if self:SetAtlas(tex, atlas, false) then
+                return true
+            end
+        end
+        return false
+    end
+
+    if button.TileBg then button.TileBg:Hide() end
+    if button.TileBorder then
+        for _, tex in ipairs(button.TileBorder) do
+            tex:Hide()
+        end
+    end
+
+    if button.Background then
+        button.Background:ClearAllPoints()
+        button.Background:SetAllPoints(button)
+        if SetCatalogTileAtlas(button.Background) then
+            button.Background:SetVertexColor(1, 1, 1, 1)
+        else
+            button.Background:SetTexture(SOLID)
+            button.Background:SetVertexColor(0.015, 0.012, 0.010, 0.96)
+        end
+        button.Background:SetAlpha(1)
+        button.Background:SetDesaturated(false)
+        button.Background:Show()
+
+        if not button.HoverBackground then
+            button.HoverBackground = button:CreateTexture(nil, "BACKGROUND", nil, 1)
+            button.HoverBackground:SetBlendMode("ADD")
+        end
+        button.HoverBackground:ClearAllPoints()
+        button.HoverBackground:SetAllPoints(button)
+        if SetCatalogTileAtlas(button.HoverBackground) then
+            button.HoverBackground:SetAlpha(isHover and 0.45 or 0)
+            button.HoverBackground:SetVertexColor(1, 1, 1, 1)
+            button.HoverBackground:SetShown(isHover)
+        else
+            button.HoverBackground:Hide()
+        end
+        return true
+    end
+
+    return false
+end
+
 function FactionUI:SetCardAtlas(card, atlas)
     if not card or not atlas then return end
-    if card.button and card.button.Background then
-        self:SetAtlas(card.button.Background, atlas, false)
-    elseif card.button and card.button.bg then
-        self:SetAtlas(card.button.bg, atlas, false)
+    if card.tileMode and self:ApplyTileVisual(card, false) then
+        return true
     end
+    if type(atlas) == "table" then
+        for _, candidate in ipairs(atlas) do
+            if self:SetCardAtlas(card, candidate) then
+                return true
+            end
+        end
+        return false
+    end
+    if card.button and card.button.Background then
+        return self:SetAtlas(card.button.Background, atlas, false)
+    elseif card.button and card.button.bg then
+        return self:SetAtlas(card.button.bg, atlas, false)
+    end
+    return false
+end
+
+function FactionUI:GetCardAtlas(card, isHover)
+    return isHover and self.CARD_HOVER_ATLAS or self.CARD_ATLAS
 end
 
 function FactionUI:GetAchievementIcon(factionID)
@@ -1006,7 +1086,7 @@ function FactionUI:ApplyAccentColor(card, r, g, b)
 end
 
 function FactionUI:ApplyArt(card, expansionID, textureKit)
-    self:SetCardAtlas(card, self.CARD_ATLAS)
+    self:SetCardAtlas(card, self:GetCardAtlas(card, false))
 
     if card.button and card.button.IconFrame and card.button.IconFrame.Border then
         self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false)
@@ -1064,6 +1144,27 @@ end
 
 function FactionUI:LayoutLeftCardText(card)
     if not card or not card.leftContext or not card.nameLabel or not card.statusLabel then return end
+    if card.tileMode then
+        local textW = math.max(70, (card:GetWidth() or self.TILE_SIZE) - 16)
+        card.nameLabel:SetWidth(textW)
+        card.statusLabel:SetWidth(textW)
+        local nameH = math.ceil(math.max(14, card.nameLabel:GetStringHeight() or 14))
+        local statusH = math.ceil(math.max(12, card.statusLabel:GetStringHeight() or 12))
+
+        card.nameLabel:ClearAllPoints()
+        card.nameLabel:SetPoint("TOP", card.button.IconFrame, "BOTTOM", 0, -4)
+        card.nameLabel:SetPoint("LEFT", card, "LEFT", 8, 0)
+        card.nameLabel:SetPoint("RIGHT", card, "RIGHT", -8, 0)
+        card.nameLabel:SetHeight(nameH)
+        card.nameLabel:SetJustifyH("CENTER")
+        card.nameLabel:SetJustifyV("TOP")
+        card.statusLabel:ClearAllPoints()
+        card.statusLabel:SetPoint("TOPLEFT", card.nameLabel, "BOTTOMLEFT", 0, 0)
+        card.statusLabel:SetPoint("RIGHT", card.nameLabel, "RIGHT", 0, 0)
+        card.statusLabel:SetHeight(statusH)
+        card.statusLabel:SetJustifyH("CENTER")
+        return
+    end
     if not card.textGroup then
         card.textGroup = CreateFrame("Frame", nil, card.button)
     end
@@ -3255,17 +3356,21 @@ end
 
 function SM.PrepareLeftFactionCard(card)
     card.leftContext = true
+    card.tileMode = true
     card:SetParent(SM.LeftContextChild)
-    card:SetSize(LEFT_W - 32, 78)
     card.button:SetScale(1)
     card.button:ClearAllPoints()
     card.button:SetAllPoints(card)
-    card.button:SetSize(LEFT_W - 32, 78)
-    card.button.IconFrame:SetSize(46, 46)
+    if card.button.Background then
+        card.button.Background:ClearAllPoints()
+        card.button.Background:SetAllPoints(card.button)
+    end
+    FactionUI:SetCardAtlas(card, FactionUI:GetCardAtlas(card, false))
+    card.button.IconFrame:SetSize(58, 58)
     card.button.IconFrame:ClearAllPoints()
-    card.button.IconFrame:SetPoint("LEFT", card.button, "LEFT", 16, 0)
+    card.button.IconFrame:SetPoint("TOP", card.button, "TOP", 0, -10)
     if card.button.IconFrame.Border then
-        card.button.IconFrame.Border:SetSize(46, 46)
+        card.button.IconFrame.Border:SetSize(58, 58)
     end
     if card.button.IconFrame.IconMask then
         card.button.IconFrame.IconMask:SetAllPoints(card.icon)
@@ -3276,19 +3381,23 @@ function SM.PrepareLeftFactionCard(card)
     if card.fullRing then
         card.fullRing:SetAllPoints(card.button.IconFrame)
     end
-    card.icon:SetSize(34, 34)
+    card.icon:SetSize(42, 42)
     card.nameLabel:ClearAllPoints()
-    card.nameLabel:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 10, 0)
-    card.nameLabel:SetPoint("RIGHT", card.button, "RIGHT", -12, 0)
-    card.nameLabel:SetPoint("BOTTOM", card.button, "CENTER", 0, 1)
-    card.nameLabel:SetJustifyV("BOTTOM")
+    card.nameLabel:SetPoint("TOP", card.button.IconFrame, "BOTTOM", 0, -4)
+    card.nameLabel:SetPoint("LEFT", card, "LEFT", 8, 0)
+    card.nameLabel:SetPoint("RIGHT", card, "RIGHT", -8, 0)
+    card.nameLabel:SetJustifyH("CENTER")
+    card.nameLabel:SetJustifyV("TOP")
     card.nameLabel:SetScale(1)
     card.nameLabel:SetMaxLines(2)
     card.nameLabel:SetWordWrap(true)
     card.statusLabel:ClearAllPoints()
     card.statusLabel:SetPoint("TOPLEFT", card.nameLabel, "BOTTOMLEFT", 0, 0)
     card.statusLabel:SetPoint("RIGHT", card.nameLabel, "RIGHT", 0, 0)
+    card.statusLabel:SetJustifyH("CENTER")
     card.statusLabel:SetScale(1)
+    card.statusLabel:SetMaxLines(1)
+    card.statusLabel:SetWordWrap(false)
     FactionUI:LayoutLeftCardText(card)
 end
 
@@ -3343,11 +3452,15 @@ end
 
 function SM.LayoutLeftFactions(data)
     local yOffset = SM.LeftContextYOffset or -16
-    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, "Factions", yOffset) - 4
+    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, "Factions", yOffset) - 8
     SM.LeftContextDividerIndex = (SM.LeftContextDividerIndex or 1) + 1
 
     local factions = GetStoryFactions(data)
     local shown = 0
+    local cols, gap = 2, 4
+    local contentW = SM.LeftContextChild:GetWidth() or (LEFT_W - 24)
+    local tileW = math.floor((contentW - 8 - gap) / cols)
+    local tileH = tileW
     if factions then
         for _, entry in ipairs(factions) do
             local card = SM.LeftContextFactionCards[shown + 1]
@@ -3355,13 +3468,14 @@ function SM.LayoutLeftFactions(data)
                 card = FactionUI:Create()
                 SM.LeftContextFactionCards[shown + 1] = card
             end
+            card:SetSize(tileW, tileH)
             SM.PrepareLeftFactionCard(card)
             if FactionUI:Update(card, entry, data) then
+                local col = shown % cols
+                local row = math.floor(shown / cols)
                 shown = shown + 1
                 card:ClearAllPoints()
-                card:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 4, yOffset)
-                card:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -4, yOffset)
-                yOffset = yOffset - 78 - 5
+                card:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 4 + col * (tileW + gap), yOffset - row * (tileH + gap))
             end
         end
     end
@@ -3375,6 +3489,10 @@ function SM.LayoutLeftFactions(data)
         SM.LeftContextEmptyText:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 12, yOffset)
         SM.LeftContextEmptyText:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -12, yOffset)
         SM.LeftContextEmptyText:Show()
+    end
+    if shown > 0 then
+        local rows = math.ceil(shown / cols)
+        yOffset = yOffset - rows * tileH - math.max(0, rows - 1) * gap
     end
     SM.LeftContextYOffset = yOffset
     return SM.LeftContextYOffset
