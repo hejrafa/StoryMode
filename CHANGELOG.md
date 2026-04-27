@@ -4,6 +4,7 @@
 
 ### Maintenance
 - Bumped addon version to `1.5.0`
+- Updated addon metadata with the plain **Story Mode** title, refreshed notes text, and the new addon icon asset
 - Cleaned storyline achievement lists to keep story-relevant achievements only, using normal/base dungeon and raid clears plus normal boss kills where applicable
 - Cleaned chapter hint behavior so notes only appear on gated/squared chapters with actionable unlock steps; removed misleading legacy Wrath notes
 - Added gated hints for Rogue "Hiding In Plain Sight" and the Forsaken loyalist epilogue so squared chapters always explain their prerequisite
@@ -32,6 +33,11 @@
 - Added Journal faction cards with Housing Dashboard card art, circular reputation progress, faction standing text, hover states, and reputation tooltips
 - Added a "Factions" section heading to the Journal tab and removed the Journal/Achievements hero title block for a cleaner content-first layout
 - Removed the Progress tab portrait while keeping the story title and tightened its title, summary, and chapter-track spacing
+- Replaced the intro page flame icon with custom Story Mode hero art, refreshed the intro copy, and updated the intro card to use the custom addon icon
+- Updated the left intro divider to greet the current character by name
+- Updated the minimap button to use the custom addon icon without the fake shadow layer
+- Hid the detail scrollbar when the active view has no scrollable overflow
+- Limited the left Achievements section to four icons per row and centered the grid
 
 ---
 

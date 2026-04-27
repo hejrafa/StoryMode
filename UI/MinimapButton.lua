@@ -1,25 +1,17 @@
 local addonName, SM = ...
 
+local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\storymode_icon"
+
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
     minimapBtn:SetSize(42, 42)
     minimapBtn:SetFrameStrata("MEDIUM")
     minimapBtn:SetFrameLevel(9)
 
-    -- Soft shadow (multiple offset copies for fake blur)
-    for _, s in ipairs({{0.5, -0.5, 0.25}, {-0.5, -0.5, 0.15}, {0, -1, 0.3}, {1, 0, 0.15}}) do
-        local sh = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 1)
-        sh:SetSize(38, 38)
-        sh:SetPoint("CENTER", s[1], s[2])
-        sh:SetAtlas("majorfactions_icons_flame512", false)
-        sh:SetVertexColor(0, 0, 0)
-        sh:SetAlpha(s[3])
-    end
-
     local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
     minimapIcon:SetSize(36, 36)
     minimapIcon:SetPoint("CENTER", 0, 2)
-    minimapIcon:SetAtlas("majorfactions_icons_flame512", false)
+    minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
 
     local minimapMask = minimapBtn:CreateMaskTexture()
     minimapMask:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask",

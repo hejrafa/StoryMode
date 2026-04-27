@@ -767,6 +767,8 @@ local GAP      = 6
 local RIGHT_W  = 732   -- FRAME_W - LEFT_W - GAP
 local HEADER_H = 68
 local SOLID    = "Interface\\Buttons\\WHITE8x8"
+local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\storymode_icon"
+local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\storymode_hero"
 
 -- Color palette
 local C_BODY = {0.922, 0.871, 0.761}
@@ -816,6 +818,19 @@ local function EnableMouseWheelScroll(scrollFrame)
         local new = math.max(0, math.min(range, cur - delta * SCROLL_STEP))
         self:SetVerticalScroll(new)
     end)
+end
+
+local function UpdateScrollbarVisibility(scrollFrame)
+    local scrollbar = scrollFrame.ScrollBar
+    if not scrollbar then return end
+
+    local range = scrollFrame:GetVerticalScrollRange() or 0
+    if range > 1 then
+        scrollbar:Show()
+    else
+        scrollFrame:SetVerticalScroll(0)
+        scrollbar:Hide()
+    end
 end
 
 -- ─── Major divider (Journeys renown divider atlas) ─────────────────────────
@@ -955,40 +970,41 @@ if detailScroll.ScrollBar then
     detailScroll.ScrollBar:ClearAllPoints()
     detailScroll.ScrollBar:SetPoint("TOPRIGHT",    detailScroll, "TOPRIGHT",    -10, -16)
     detailScroll.ScrollBar:SetPoint("BOTTOMRIGHT", detailScroll, "BOTTOMRIGHT", -10,  16)
+    detailScroll:HookScript("OnScrollRangeChanged", function(self)
+        C_Timer.After(0, function() UpdateScrollbarVisibility(self) end)
+    end)
+    UpdateScrollbarVisibility(detailScroll)
 end
 
 local DP  = 32   -- divider padding (left/right)
 local CP  = 80   -- content padding (left/right) — narrower than dividers
 
 -- ── Intro (visible when no story is selected) ──────────────────────────────
-local introIcon2 = detailChild:CreateTexture(nil, "ARTWORK")
-introIcon2:SetSize(96, 96)
-introIcon2:SetPoint("TOP", detailChild, "TOP", 0, -30)
-introIcon2:SetAtlas("majorfactions_icons_flame512", false)
+local INTRO_HERO_W = 256
+local INTRO_HERO_H = 128
 
-local introTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
-introTitle:SetPoint("TOP", introIcon2, "BOTTOM", 0, -12)
-introTitle:SetJustifyH("CENTER")
-introTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-introTitle:SetText("Story Mode")
+local introHero = detailChild:CreateTexture(nil, "ARTWORK")
+introHero:SetSize(INTRO_HERO_W, INTRO_HERO_H)
+introHero:SetPoint("TOP", detailChild, "TOP", 0, -34)
+introHero:SetTexture(STORYMODE_HERO_TEXTURE)
+introHero:SetTexCoord(0, 1, 0, 1)
 
 local introText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
-introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -180)
-introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -180)
+introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(INTRO_HERO_H + 48))
+introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -(INTRO_HERO_H + 48))
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
 introText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 introText:SetText(
     "Warcraft has told some extraordinary stories. "
-    .."Most of them are buried in quest chains that are easy to miss "
-    .."and hard to find your way back to."
-    .."\n\nThis is a personal collection — questlines I played and thought "
-    .."were worth going back to. Each one is laid out chapter by chapter: "
-    .."the characters, the context, and your next step. "
-    .."As you progress, your story is written into a journal "
-    .."you can revisit any time."
-    .."\n\nFor the best experience, pair this with Dialogue UI — "
-    .."it transforms quest text into a conversation you actually want to read."
-    .."\n\nChoose a story on the left.")
+    .."Many of them are tucked inside old quest hubs, faction paths, "
+    .."dungeon finales, and prerequisites that are easy to miss."
+    .."\n\nStory Mode collects the questlines I think are worth returning to "
+    .."and lays them out chapter by chapter. You get the characters, "
+    .."the context, your progress, and the next step when the trail gets messy. "
+    .."As you play, completed chapters are written into a journal you can revisit any time."
+    .."\n\nFor the best experience, pair this with Dialogue UI. "
+    .."It turns quest text into a conversation you actually want to read."
+    .."\n\nRelive your adventure.")
 
 -- ══════════════════════════════════════════════════════════════════════════════
 -- Detail view — centered portrait hero + clean sections
@@ -1214,7 +1230,7 @@ sJournalHeader:SetText("Your Story So Far")
 local sJournalSubline = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sJournalSubline:SetJustifyH("CENTER"); sJournalSubline:SetWordWrap(true)
 sJournalSubline:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-sJournalSubline:SetText("Once upon a time")
+sJournalSubline:SetText("Relieve your adventure.")
 
 local sJournalEmptyTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sJournalEmptyTitle:SetJustifyH("CENTER")
@@ -3528,7 +3544,7 @@ local function UpdateStoryDetail(data)
         for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
         dCompleteText:Hide()
-        introIcon2:Show(); introTitle:Show(); introText:Show()
+        introHero:Show(); introText:Show()
         heroIcon:SetTexture(nil)
         smHeaderSub:SetText("")
         SetActiveTab("story")
@@ -3550,7 +3566,7 @@ local function UpdateStoryDetail(data)
     end
 
     currentStoryData = data
-    introIcon2:Hide(); introTitle:Hide(); introText:Hide(); ShowDetail(true)
+    introHero:Hide(); introText:Hide(); ShowDetail(true)
     tabStoryLabel:Show(); tabProgressLabel:Show(); tabJournalLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show(); tabJournalHit:Show()
 
@@ -3850,8 +3866,10 @@ function SM.LayoutLeftAchievements(data)
         return SM.LeftContextYOffset
     end
 
-    local iconSize, gap, cols = 42, 8, 5
-    local startX = 4
+    local iconSize, gap, cols = 42, 8, 4
+    local gridW = cols * iconSize + (cols - 1) * gap
+    local startX = math.floor(((SM.LeftContextChild:GetWidth() or 0) - gridW) / 2)
+    startX = math.max(4, startX)
     for i, achID in ipairs(ids) do
         local btn = SM.LeftContextAchievementButtons[i]
         if not btn then
@@ -3951,7 +3969,8 @@ local function BuildStoryWindow()
     local globalIdx = 0
 
     -- ── Introduction card (index 0 = show intro text on right) ───────────
-    local introDivH = CreateCatDivider(leftChild, "Story Mode", yOffset)
+    local playerName = UnitName("player")
+    local introDivH = CreateCatDivider(leftChild, playerName and ("Hej, " .. playerName) or "Hej", yOffset)
     yOffset = yOffset - introDivH - 4
 
     local introCard = CreateFrame("Button", nil, leftChild)
@@ -3974,7 +3993,7 @@ local function BuildStoryWindow()
     local introIcon = introPort:CreateTexture(nil, "ARTWORK")
     introIcon:SetSize(ICON, ICON)
     introIcon:SetPoint("CENTER")
-    introIcon:SetAtlas("majorfactions_icons_flame512", false)
+    introIcon:SetTexture(STORYMODE_ICON_TEXTURE)
 
     local introIconMask = introPort:CreateMaskTexture()
     introIconMask:SetTexture(
@@ -3984,10 +4003,11 @@ local function BuildStoryWindow()
     introIcon:AddMaskTexture(introIconMask)
 
     local introName = NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-    introName:SetPoint("LEFT",  introPort, "RIGHT",  1,  0)
-    introName:SetPoint("RIGHT", introCard, "RIGHT", -8,  0)
+    introName:SetPoint("LEFT",  introIcon, "RIGHT", 8, 0)
+    introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
     introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
-    introName:SetText("Introduction")
+    introName:SetMaxLines(1); introName:SetWordWrap(false)
+    introName:SetText("Story Mode")
     introName:SetTextColor(1.0, 1.0, 1.0)
 
     local introZone = nil  -- no subline

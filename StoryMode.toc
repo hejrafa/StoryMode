@@ -1,6 +1,6 @@
 ## Interface: 120001, 120005
-## Title: Story|cff64b5f6Mode|r
-## Notes: |cff999999By Rafael Polutta|r|n|nA quest story companion that helps you discover, follow, and understand WoW's storylines.|nBrowse questlines, get context and lore, and follow guided paths through the world's stories.
+## Title: Story Mode
+## Notes: A narrative questline companion for following WoW stories chapter by chapter, with story context, progress tracking, and native map guidance.
 ## SavedVariables: StoryModeDB
 ## Version: 1.5.0
 ## Author: Rafael Polutta
