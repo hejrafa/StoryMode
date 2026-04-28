@@ -99,6 +99,14 @@ end
 function SM.GetStoryAchievements(data)
     local ids, seen = {}, {}
     local function add(id)
+        if type(id) == "string" then
+            local target = id:lower()
+            for scan = 1, 50000 do
+                local _, scanName = GetAchievementInfo(scan)
+                if scanName and scanName:lower() == target then id = scan; break end
+            end
+            if type(id) ~= "number" then return end
+        end
         if id and not seen[id] then
             seen[id] = true
             local _, name = GetAchievementInfo(id)

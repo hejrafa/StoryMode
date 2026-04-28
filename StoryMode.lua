@@ -1152,7 +1152,7 @@ function FactionUI:LayoutLeftCardText(card)
         local statusH = math.ceil(math.max(12, card.statusLabel:GetStringHeight() or 12))
 
         card.nameLabel:ClearAllPoints()
-        card.nameLabel:SetPoint("TOP", card.button.IconFrame, "BOTTOM", 0, -4)
+        card.nameLabel:SetPoint("TOP", card.button.IconFrame, "BOTTOM", 0, -6)
         card.nameLabel:SetPoint("LEFT", card, "LEFT", 8, 0)
         card.nameLabel:SetPoint("RIGHT", card, "RIGHT", -8, 0)
         card.nameLabel:SetHeight(nameH)
@@ -1251,6 +1251,8 @@ function FactionUI:Update(card, entry, storyData)
         self:ApplyAccentColor(card, self:GetAccentColor(factionID, entry, nil, info))
     end
 
+    card.factionID = factionID
+    card.isMajorFaction = (mf and mf.name) and true or false
     if card.nameLabel then card.nameLabel:SetText(name) end
     if card.statusLabel then card.statusLabel:SetText(status) end
     self:LayoutLeftCardText(card)
@@ -3198,10 +3200,11 @@ local function SelectStory(index)
             end
         end
         if row.coverTex then
-            local hasCover = sel and SetAdventureCoverTexture(row.coverTex, row.data)
+            local hasCover = SetAdventureCoverTexture(row.coverTex, row.data)
             row.coverTex:SetShown(hasCover)
+            row.coverTex:SetAlpha(1)
         end
-        row.bg:SetAlpha(sel and 1.0 or 0.6)
+        row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
@@ -3391,14 +3394,70 @@ function SM.PrepareLeftFactionCard(card)
     card.nameLabel:SetScale(1)
     card.nameLabel:SetMaxLines(2)
     card.nameLabel:SetWordWrap(true)
+    do
+        local f, _, fl = card.nameLabel:GetFont()
+        if f then card.nameLabel:SetFont(f, 10, fl) end
+    end
     card.statusLabel:ClearAllPoints()
     card.statusLabel:SetPoint("TOPLEFT", card.nameLabel, "BOTTOMLEFT", 0, 0)
     card.statusLabel:SetPoint("RIGHT", card.nameLabel, "RIGHT", 0, 0)
     card.statusLabel:SetJustifyH("CENTER")
     card.statusLabel:SetScale(1)
+    do
+        local f, _, fl = card.statusLabel:GetFont()
+        if f then card.statusLabel:SetFont(f, 9, fl) end
+    end
     card.statusLabel:SetMaxLines(1)
     card.statusLabel:SetWordWrap(false)
     FactionUI:LayoutLeftCardText(card)
+    card.button:RegisterForClicks("LeftButtonUp")
+    card.button:SetScript("OnClick", function()
+        local factionID = card.factionID
+        if not factionID then return end
+        local isMajor = card.isMajorFaction
+        SMTooltip:Hide()
+        storyFrame:Hide()
+        C_Timer.After(0, function()
+        if isMajor and EventRegistry then
+            C_AddOns.LoadAddOn("Blizzard_MajorFactions")
+            EventRegistry:TriggerEvent("MajorFactionRenownMixin.MajorFactionRenownRequest", factionID)
+        else
+            if not CharacterFrame or not CharacterFrame:IsShown() then
+                ToggleCharacter("ReputationFrame")
+            elseif ReputationFrame and not ReputationFrame:IsShown() then
+                ToggleCharacter("ReputationFrame")
+            end
+            local function findIndex()
+                local n = C_Reputation.GetNumFactions and C_Reputation.GetNumFactions() or 0
+                for i = 1, n do
+                    local d = C_Reputation.GetFactionDataByIndex(i)
+                    if d and d.factionID == factionID then return i end
+                end
+            end
+            local idx = findIndex()
+            if not idx then
+                local n = C_Reputation.GetNumFactions and C_Reputation.GetNumFactions() or 0
+                for i = n, 1, -1 do
+                    local d = C_Reputation.GetFactionDataByIndex(i)
+                    if d and d.isHeader and d.isCollapsed then
+                        C_Reputation.ExpandFactionHeader(i)
+                    end
+                end
+                idx = findIndex()
+            end
+            if idx and C_Reputation.SetSelectedFaction then
+                C_Reputation.SetSelectedFaction(idx)
+                if ReputationFrame and ReputationFrame.Update then ReputationFrame:Update() end
+                if ReputationFrame and ReputationFrame.ScrollBox and ReputationFrame.ScrollBox.ScrollToElementDataByPredicate then
+                    ReputationFrame.ScrollBox:ScrollToElementDataByPredicate(function(node)
+                        local d = node and node.GetData and node:GetData()
+                        return d and d.factionID == factionID
+                    end, ScrollBoxConstants and ScrollBoxConstants.AlignCenter or 0.5)
+                end
+            end
+        end
+        end)
+    end)
 end
 
 function SM.LayoutLeftAchievements(data)
@@ -3417,10 +3476,12 @@ function SM.LayoutLeftAchievements(data)
         return SM.LeftContextYOffset
     end
 
-    local iconSize, gap, cols = 42, 8, 4
-    local gridW = cols * iconSize + (cols - 1) * gap
-    local startX = math.floor(((SM.LeftContextChild:GetWidth() or 0) - gridW) / 2)
-    startX = math.max(4, startX)
+    local iconSize, cols = 42, 5
+    local contentW = LEFT_W - 24
+    -- Match the faction grid's effective width (4px margin on each side).
+    local rowW = contentW - 8
+    local gap = (cols > 1) and math.max(4, math.floor((rowW - cols * iconSize) / (cols - 1))) or 8
+    local total = #ids
     for i, achID in ipairs(ids) do
         local btn = SM.LeftContextAchievementButtons[i]
         if not btn then
@@ -3438,6 +3499,10 @@ function SM.LayoutLeftAchievements(data)
         btn:ClearAllPoints()
         local col = (i - 1) % cols
         local row = math.floor((i - 1) / cols)
+        local rowStart = row * cols + 1
+        local rowCount = math.min(cols, total - rowStart + 1)
+        local thisRowW = rowCount * iconSize + (rowCount - 1) * gap
+        local startX = math.floor((contentW - thisRowW) / 2)
         btn:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", startX + col * (iconSize + gap), yOffset - row * (iconSize + gap))
         btn:Show()
     end
@@ -3458,7 +3523,7 @@ function SM.LayoutLeftFactions(data)
     local factions = GetStoryFactions(data)
     local shown = 0
     local cols, gap = 2, 4
-    local contentW = SM.LeftContextChild:GetWidth() or (LEFT_W - 24)
+    local contentW = LEFT_W - 24
     local tileW = math.floor((contentW - 8 - gap) / cols)
     local tileH = tileW
     if factions then

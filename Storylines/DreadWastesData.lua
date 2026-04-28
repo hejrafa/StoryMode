@@ -11,6 +11,8 @@ SM.DreadWastesData = {
     achievements = {
         6540,   -- Dread Haste Makes Dread Waste (zone story — 4 questlines)
         6545,   -- Klaxxi (Exalted with The Klaxxi)
+        "Stay Klaxxi",
+        "Amber Is the Color of My Energy",
     },
     description = "The mantid are ancient and alien: older than the mogu, older than written history, and bound to traditions outsiders barely understand. In the Dread Wastes, something has gone wrong inside the swarm, and even the Klaxxi have begun to move against their own Empress.\n\nThey name you a Wakener, an outsider trusted to free legendary paragons from amber and help steady a civilization that sees war, loyalty, and destiny very differently than the rest of Pandaria.",
     zone = "Dread Wastes",

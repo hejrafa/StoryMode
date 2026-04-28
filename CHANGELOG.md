@@ -40,7 +40,13 @@
 - Updated the left intro divider to greet the current character by name
 - Updated the minimap button to use the custom addon icon without the fake shadow layer
 - Hid the detail scrollbar when the active view has no scrollable overflow
-- Limited the left Achievements section to four icons per row and centered the grid
+- Laid out the left Achievements section with up to five icons per row spanning the same width as the faction grid, with each row independently centered
+- Shrunk the faction card name and status label fonts and tightened the spacing between them while increasing the gap from the icon
+- Made faction cards clickable: closes Story Mode and opens the matching Renown UI for major factions or the Reputation tab for legacy factions, expanding any collapsed headers and scrolling the list to the selected faction
+- Fixed faction-card clicks failing to reopen the reputation window on subsequent attempts by deferring the panel toggle and only re-toggling when the target panel is hidden
+- Allowed story achievement entries to be specified by name and resolved case-insensitively at runtime, and added Stay Klaxxi and Amber Is the Color of My Energy to the Klaxxi storyline
+- Story list cover art now renders for every card (selected and unselected) at full alpha, with selection feedback handled solely by the highlight overlay
+- Held the Achievements and Factions grid widths to the panel's fixed content width to prevent layout jumps when the window is reopened after a faction-card click
 - Added a start-quest coordinate fallback so stories with `startMapID`, `startX`, and `startY` can still set a native waypoint when a specific NPC location is missing
 
 ---
