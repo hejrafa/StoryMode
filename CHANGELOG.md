@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1
+
+### Fixes
+- Fixed a taint error caused by the "Begin This Story" map ping reparenting an insecure frame onto the secure WorldMap canvas, which propagated into AreaPOI tooltip widget setup (`secret number` arithmetic on `textHeight`). The ping is now a proper `MapCanvasDataProvider` with a `StoryModePingPinTemplate`, registered through `WorldMapFrame:AddDataProvider`
+- Pings now land on the actual quest icon by querying Blizzard's live pin location (`C_QuestLog.GetNextWaypointForMap` for tracked quests, `C_QuestLog.GetQuestsOnMap` for offered quests), falling back to hardcoded `npcLocations` only when the engine doesn't know the position
+
 ## 1.5.0
 
 ### Maintenance

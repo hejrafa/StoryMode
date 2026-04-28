@@ -19,41 +19,63 @@ local function EnsureTrivialQuestsVisible()
     end
 end
 
-local pingFrame
-local function GetPingFrame()
-    if pingFrame then return pingFrame end
+-- Map data provider for the "begin tracking" ping. We can't parent an insecure
+-- frame to WorldMapFrame.ScrollContainer.Child directly — that taints the secure
+-- canvas and propagates into AreaPOI tooltip widgets. Going through a proper
+-- MapCanvasDataProvider with a pin template is the supported path.
 
-    local f = CreateFrame("Frame")
-    f:SetSize(32, 32)
-    f:SetFrameStrata("HIGH")
-    f:Hide()
+StoryModePingPinMixin = CreateFromMixins(MapCanvasPinMixin)
 
-    local tex = f:CreateTexture(nil, "ARTWORK")
-    tex:SetAllPoints()
-    tex:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask")
-    tex:SetVertexColor(1, 0.78, 0.1)
-    f.tex = tex
+function StoryModePingPinMixin:OnLoad()
+    self:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI")
+    self:SetIgnoreGlobalPinScale(true)
+    self.anim:SetScript("OnFinished", function()
+        local map = self:GetMap()
+        if map then map:RemovePin(self) end
+    end)
+end
 
-    local ag = f:CreateAnimationGroup()
-    ag:SetLooping("NONE")
+function StoryModePingPinMixin:OnAcquired(x, y)
+    self:SetPosition(x, y)
+    self:SetAlpha(1)
+    self.anim:Stop()
+    self.anim:Play()
+end
 
-    local s = ag:CreateAnimation("Scale")
-    s:SetScaleFrom(0.6, 0.6)
-    s:SetScaleTo(3.0, 3.0)
-    s:SetDuration(0.75)
-    s:SetSmoothing("OUT")
+function StoryModePingPinMixin:OnReleased()
+    self.anim:Stop()
+end
 
-    local a = ag:CreateAnimation("Alpha")
-    a:SetFromAlpha(0.9)
-    a:SetToAlpha(0)
-    a:SetDuration(0.75)
-    a:SetSmoothing("OUT")
+local PingDataProviderMixin = CreateFromMixins(MapCanvasDataProviderMixin)
 
-    ag:SetScript("OnFinished", function() f:Hide(); f:SetParent(UIParent) end)
-    f.anim = ag
+function PingDataProviderMixin:GetPinTemplate()
+    return "StoryModePingPinTemplate"
+end
 
-    pingFrame = f
-    return f
+function PingDataProviderMixin:RemoveAllData()
+    self:GetMap():RemoveAllPinsByTemplate(self:GetPinTemplate())
+end
+
+function PingDataProviderMixin:RefreshAllData(fromOnShow)
+    self:RemoveAllData()
+    if self.pendingX and self.pendingY then
+        self:GetMap():AcquirePin(self:GetPinTemplate(), self.pendingX, self.pendingY)
+        self.pendingX, self.pendingY = nil, nil
+    end
+end
+
+function PingDataProviderMixin:Ping(x, y)
+    self.pendingX, self.pendingY = x, y
+    self:RefreshAllData()
+end
+
+local pingProvider
+local function GetPingProvider()
+    if pingProvider then return pingProvider end
+    if not WorldMapFrame then return nil end
+    pingProvider = CreateFromMixins(PingDataProviderMixin)
+    WorldMapFrame:AddDataProvider(pingProvider)
+    return pingProvider
 end
 
 local function PingOnWorldMap(mapID, x, y)
@@ -61,25 +83,50 @@ local function PingOnWorldMap(mapID, x, y)
     OpenWorldMap(mapID)
     PlaySound(SOUNDKIT.UI_MAP_WAYPOINT_SUPER_TRACK_ON or 167425)
 
+    local provider = GetPingProvider()
+    if not provider then return end
+
+    -- Defer so the canvas has finished switching to mapID before we acquire a pin.
     C_Timer.After(0.15, function()
         if not WorldMapFrame:IsShown() then return end
-        local canvas = WorldMapFrame.ScrollContainer.Child
-        if not canvas then return end
-
-        local f = GetPingFrame()
-        f:SetParent(canvas)
-        f:ClearAllPoints()
-        f:SetPoint("CENTER", canvas, "TOPLEFT",
-            canvas:GetWidth() * x, -canvas:GetHeight() * y)
-        f:SetAlpha(1)
-        f:SetScale(1)
-        f:Show()
-        f.anim:Stop()
-        f.anim:Play()
+        provider:Ping(x, y)
     end)
 end
 
+-- Ask Blizzard where the quest's icon actually sits on the map. Works for
+-- accepted quests (next-waypoint API) and for offered quests visible on the
+-- given map (GetQuestsOnMap). Returns nil if the engine doesn't know.
+local function GetLiveQuestLocation(qid, mapHint)
+    if not qid then return nil end
+
+    if C_QuestLog.GetQuestUiMapID then
+        local mapID = C_QuestLog.GetQuestUiMapID(qid)
+        if mapID and mapID > 0 and C_QuestLog.GetNextWaypointForMap then
+            local x, y = C_QuestLog.GetNextWaypointForMap(qid, mapID)
+            if x and y then return { mapID = mapID, x = x, y = y } end
+        end
+    end
+
+    if mapHint and C_QuestLog.GetQuestsOnMap then
+        local quests = C_QuestLog.GetQuestsOnMap(mapHint)
+        if quests then
+            for _, q in ipairs(quests) do
+                if q.questID == qid and q.x and q.y then
+                    return { mapID = mapHint, x = q.x, y = q.y }
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
 local function GetQuestLocation(data, quest)
+    local mapHint = (data.npcLocations and data.npcLocations[quest.npc] and data.npcLocations[quest.npc].mapID)
+        or data.startMapID
+    local live = GetLiveQuestLocation(quest.id, mapHint)
+    if live then return live end
+
     local loc = data.npcLocations and data.npcLocations[quest.npc]
     if loc then return loc end
 
