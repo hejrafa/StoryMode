@@ -11,7 +11,7 @@ local function EnsureTrivialQuestsVisible()
                 local idx, name = i, info.name
                 C_Timer.After(0, function()
                     C_Minimap.SetTracking(idx, true)
-                    print("|cff64b5f6Story Mode:|r Enabled |cffffd200" .. name .. "|r tracking so you can see quest markers for this storyline.")
+                    print("|cffffd200Story Mode|r › Enabled |cffffd200" .. name .. "|r tracking so you can see quest markers for this storyline.")
                 end)
                 return
             end
@@ -185,43 +185,47 @@ local function GetZoneName(mapID)
 end
 
 function SM.PrintTrackResult(result, quest, data)
-    local P = "|cff64b5f6Story Mode:|r "
+    local P = "|cffffd200Story Mode|r › "
     local loc = GetQuestLocation(data, quest)
     local zone = loc and GetZoneName(loc.mapID) or nil
+    local Q = "|cffffd200" .. quest.name .. "|r"
+    local NPC = quest.npc and ("|cffffd200" .. quest.npc .. "|r") or nil
+    local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
+    local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil
 
     if result == "supertracked" then
-        if zone then
-            print(P .. "Tracking: |cffffd200" .. quest.name .. "|r — check your map.")
-        else
-            print(P .. "Tracking: |cffffd200" .. quest.name .. "|r")
-        end
+        print(P .. "Now following " .. Q .. ". Look to your map.")
     elseif result == "waypoint" or result == "waypoint_approx" then
-        if quest._isPrerequisiteForChapter then
-            if zone then
-                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r in |cff64b5f6" .. zone .. "|r first, then continue |cffffd200" .. quest._isPrerequisiteForChapter .. "|r.")
+        if CH then
+            if Z then
+                print(P .. CH .. " awaits, but first finish " .. Q .. " in " .. Z .. ".")
             else
-                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r first, then continue |cffffd200" .. quest._isPrerequisiteForChapter .. "|r.")
+                print(P .. CH .. " awaits, but first finish " .. Q .. ".")
             end
             return
         end
-        if zone then
-            print(P .. "Find |cffffd200" .. quest.npc .. "|r in |cff64b5f6" .. zone .. "|r to accept: " .. quest.name)
+        if NPC and Z then
+            print(P .. "Seek " .. NPC .. " in " .. Z .. " to begin " .. Q .. ".")
+        elseif NPC then
+            print(P .. "Seek " .. NPC .. " to begin " .. Q .. ".")
         else
-            print(P .. "Find |cffffd200" .. quest.npc .. "|r to accept: " .. quest.name)
+            print(P .. "Begin " .. Q .. ".")
         end
     else
-        if quest._isPrerequisiteForChapter then
-            if zone then
-                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r from " .. quest.npc .. " in |cff64b5f6" .. zone .. "|r first.")
+        if CH then
+            if Z then
+                print(P .. CH .. " awaits, but first finish " .. Q .. " in " .. Z .. ".")
             else
-                print(P .. "Chapter lock: complete |cffffd200" .. quest.name .. "|r first.")
+                print(P .. CH .. " awaits, but first finish " .. Q .. ".")
             end
             return
         end
-        if zone then
-            print(P .. "Next: |cffffd200" .. quest.name .. "|r from " .. quest.npc .. " in |cff64b5f6" .. zone .. "|r")
+        if NPC and Z then
+            print(P .. "Your next chapter is " .. Q .. " with " .. NPC .. " in " .. Z .. ".")
+        elseif NPC then
+            print(P .. "Your next chapter is " .. Q .. " with " .. NPC .. ".")
         else
-            print(P .. "Next: |cffffd200" .. quest.name .. "|r from |cffffd200" .. quest.npc .. "|r")
+            print(P .. "Your next chapter is " .. Q .. ".")
         end
     end
 end
