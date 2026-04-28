@@ -5,9 +5,16 @@
 ### Fixes
 - Fixed a taint error caused by the "Begin This Story" map ping reparenting an insecure frame onto the secure WorldMap canvas, which propagated into AreaPOI tooltip widget setup (`secret number` arithmetic on `textHeight`). The ping is now a proper `MapCanvasDataProvider` with a `StoryModePingPinTemplate`, registered through `WorldMapFrame:AddDataProvider`
 - Pings now land on the actual quest icon by querying Blizzard's live pin location (`C_QuestLog.GetNextWaypointForMap` for tracked quests, `C_QuestLog.GetQuestsOnMap` for offered quests), falling back to hardcoded `npcLocations` only when the engine doesn't know the position
+- Fixed Adventure Guide tier lookup taint by wrapping `EJ_SelectTier` calls in `securecall`, preventing later loot tooltip money-frame errors after Story Mode searches for cover art
+- Hid the Story Mode window automatically when combat starts to avoid protected-frame interaction during lockdown
 
 ### UI
 - Reworked the chat tracking messages: yellow `Story Mode` prefix with a chevron separator, narrator-voice phrasing (`Now following …`, `Seek <npc> in <zone> to begin …`, `Your next chapter is … with … in …`), no more stacked colons or em-dashes
+
+### Content
+- Added exploration achievements to Dread Wastes, Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
+- Added The Anglers reputation to The Klaxxi journal data
+- Split The Klaxxi amber arc into separate **The Root of the Problem** and **Taste of Amber** chapters, with corrected quest NPCs for Sapmaster Vu, Chen Stormstout, Olon, Chief Rikkitun, Iyyokuk, and Deck Boss Arie
 
 ## 1.5.0
 

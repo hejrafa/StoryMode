@@ -751,6 +751,7 @@ local FactionUI = {
         [1156] = "The Ashen Verdict",
         [1228] = "Forest Hozen",
         [1271] = "Order of the Cloud Serpent",
+        [1302] = "The Anglers",
         [1337] = "The Klaxxi",
         [1859] = "The Nightfallen",
         [2103] = "Zandalari Empire",
@@ -771,6 +772,7 @@ local FactionUI = {
         [1156] = {0.78, 0.85, 0.60},  -- The Ashen Verdict
         [1228] = {0.58, 0.76, 0.26},  -- Forest Hozen
         [1271] = {0.12, 0.72, 0.78},  -- Order of the Cloud Serpent
+        [1302] = {0.20, 0.55, 0.78},  -- The Anglers (sea blue)
         [1337] = {0.95, 0.62, 0.18},  -- The Klaxxi
         [1859] = {0.62, 0.38, 0.95},  -- The Nightfallen
         [2103] = {0.91, 0.62, 0.12},  -- Zandalari Empire
@@ -1401,19 +1403,23 @@ local function FindAdventureGuideInstanceID(instanceName)
     end
     if not EnsureEncounterJournalAPI() then return nil end
 
+    -- securecall keeps our addon's insecure taint off Blizzard_EncounterJournal's
+    -- saved tier state. Without it, EJ_SelectTier from this insecure context
+    -- taints EJ's secure data and surfaces later as a MoneyFrame_Update arithmetic
+    -- error when the user hovers loot in the Adventure Guide.
     local previousTier = EJ_GetCurrentTier and EJ_GetCurrentTier()
     local numTiers = EJ_GetNumTiers and EJ_GetNumTiers() or 0
     local normalizedTarget = NormalizeAdventureGuideName(instanceName)
     local normalizedMatches = {}
     for tier = 1, numTiers do
-        EJ_SelectTier(tier)
+        securecall(EJ_SelectTier, tier)
         for _, isRaid in ipairs({ false, true }) do
             for i = 1, 200 do
                 local instanceID, name = EJ_GetInstanceByIndex(i, isRaid)
                 if not instanceID then break end
                 if name == instanceName then
                     adventureGuideImageCache[instanceName] = instanceID
-                    if previousTier then EJ_SelectTier(previousTier) end
+                    if previousTier then securecall(EJ_SelectTier, previousTier) end
                     return instanceID
                 end
                 if NormalizeAdventureGuideName(name) == normalizedTarget then
@@ -1423,7 +1429,7 @@ local function FindAdventureGuideInstanceID(instanceName)
         end
     end
 
-    if previousTier then EJ_SelectTier(previousTier) end
+    if previousTier then securecall(EJ_SelectTier, previousTier) end
     if normalizedMatches[1] then
         adventureGuideImageCache[instanceName] = normalizedMatches[1]
         return normalizedMatches[1]
@@ -4033,7 +4039,12 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("QUEST_TURNED_IN")
+frame:RegisterEvent("PLAYER_REGEN_DISABLED")
 frame:SetScript("OnEvent", function(self, event, arg1)
+    if event == "PLAYER_REGEN_DISABLED" then
+        if storyFrame:IsShown() then storyFrame:Hide() end
+        return
+    end
     if event == "ADDON_LOADED" and arg1 == addonName then
         SM.ApplySavedVariableDefaults()
         SM.MinimapButton_Init()

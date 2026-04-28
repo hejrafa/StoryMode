@@ -2,7 +2,7 @@
 
 Story Mode is a World of Warcraft addon for following memorable quest stories from start to finish. It lays out each adventure chapter by chapter, explains where you are in the narrative, tracks what your character has already done, and gives you a practical next step when the quest chain gets messy.
 
-Version 1.5.0 expands the addon into a richer story companion: **The Master of Revendreth** is now included, **The Klaxxi** is back in the Epic Storylines list, Adventure pages have large Blizzard cover art, and the Journal tab now brings completed chapter recaps together with faction reputation progress.
+Version 1.5.1 expands the addon into a richer story companion: **The Master of Revendreth** is now included, **The Klaxxi** is back in the Epic Storylines list with cleaner chapter data, Adventure pages have large Blizzard cover art, and the Journal tab now brings completed chapter recaps together with faction reputation progress.
 
 Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui) for a more cinematic questing experience.
 
@@ -21,15 +21,15 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 
 ---
 
-## Version 1.5.0
+## Version 1.5.1
 
 ### New and Updated Content
 
 - **The Master of Revendreth** - a full seven-chapter Shadowlands storyline covering Darkhaven, the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar, Prince Renathal, Sire Denathrius, and the anima being sent to the Maw.
-- **The Klaxxi** - restored to Epic Storylines and positioned after **What Is Worth Fighting For** for a stronger Mists of Pandaria story path.
+- **The Klaxxi** - restored to Epic Storylines and positioned after **What Is Worth Fighting For** for a stronger Mists of Pandaria story path, now with the amber harvest and brewgarden arcs split into cleaner chapters.
 - **What Is Worth Fighting For** - updated with the dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected Temple of the Jade Serpent chapter data.
 - **Faction reputation data** - added across the current story set so Journal pages can show related factions beside chapter recaps.
-- **Story-relevant achievements** - cleaned up to focus on meaningful story completions, normal dungeon and raid clears, and normal boss kills where appropriate.
+- **Story-relevant achievements** - cleaned up to focus on meaningful story completions, exploration, normal dungeon and raid clears, and normal boss kills where appropriate.
 
 ### UI and Journal Changes
 
@@ -39,6 +39,7 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 - Completed adventure badges use a cleaner ribbon treatment.
 - Journal pages include faction cards with circular reputation progress, standing text, hover states, and tooltips.
 - Chapter hints now appear only where they are useful and explain what to do next instead of pointing at old version requirements.
+- Map pins, Adventure Guide cover lookup, and combat entry now avoid Blizzard UI taint paths more carefully.
 
 ---
 

@@ -10,6 +10,7 @@ SM.RevendrethData = {
     achievementID = 13878,
     achievements = {
         13878,  -- The Master of Revendreth (Revendreth zone story)
+        "Explore Revendreth",
         14280,  -- Loremaster of Shadowlands
         14798,  -- Sojourner of Revendreth
         -- Halls of Atonement (dungeon)

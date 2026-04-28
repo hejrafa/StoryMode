@@ -10,6 +10,7 @@ SM.DrustvarData = {
     achievementName = "Drust Do It.",
     achievements = {
         12497,  -- Drust Do It. (Drustvar zone story)
+        "Explore Drustvar",
         -- Waycrest Manor
         12483,  -- Waycrest Manor (Normal)
         12783,  -- Gorak Tul kills (Normal Waycrest Manor)

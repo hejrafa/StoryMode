@@ -10,6 +10,7 @@ SM.DreadWastesData = {
     achievementID = 6540,
     achievements = {
         6540,   -- Dread Haste Makes Dread Waste (zone story — 4 questlines)
+        "Explore Dread Wastes",
         6545,   -- Klaxxi (Exalted with The Klaxxi)
         "Stay Klaxxi",
         "Amber Is the Color of My Energy",
@@ -20,7 +21,7 @@ SM.DreadWastesData = {
     color = { 0.72, 0.53, 0.15 },   -- amber/ochre
 
     icon = 624970,
-    factions = { 1337 }, -- The Klaxxi
+    factions = { 1337, 1302 }, -- The Klaxxi, The Anglers
     adventureGuideInstanceName = "Heart of Fear",
 
     startQuest = { id = 31001, name = "Falling Down", npc = "Bowmistress Li", location = "Serpent's Spine" },
@@ -44,7 +45,7 @@ SM.DreadWastesData = {
         ["Bowmistress Li"]          = 42354,
         ["Shado-Pan Scout"]         = 42080,
         ["Ambersmith Zikk"]         = 43587,
-        ["Master Angler Ju Lien"]   = 43494,
+        ["Deck Boss Arie"]          = 42976,
         ["Kil'ruk the Wind-Reaver"] = 0,  -- TODO: verify
         ["Ka'roz the Locust"]       = 0,  -- TODO: verify
         ["Kaz'tik the Manipulator"] = 0,  -- TODO: verify
@@ -52,12 +53,15 @@ SM.DreadWastesData = {
 
     chapterDisplayIDs = {
         ["The First Paragons"]       = 42354, -- Bowmistress Li
+        ["Taste of Amber"]           = 42613, -- Sapmaster Vu
+        ["Like a Deck Boss"]         = 42976, -- Deck Boss Arie
     },
 
     portraitDisplayID = 43587,  -- Ambersmith Zikk (TODO: swap for Kil'ruk once ID is known)
 
     -- =========================================================================
-    -- Main storyline chapters (matching the 4 achievement questlines + epilogue)
+    -- Main storyline chapters (4 achievement questlines + epilogue, with the
+    -- amber harvest split off from Sapmaster Vu's brewgarden arc)
     -- =========================================================================
     chapters = {
 
@@ -89,37 +93,45 @@ SM.DreadWastesData = {
             },
         },
 
-        -- CHAPTER 2: Taste of Amber
+        -- CHAPTER 2: The Root of the Problem
         {
-            chapter = "Taste of Amber",
-            summary = "The Klaxxi forge weapons from amber of sacred trees — and the wastes hold older fires still.",
-            recap = "The paragons needed weapons worthy of war. The amber of Kypari Zar — a sacred tree deep in the wastes — carried the power to fortify blades beyond ordinary craft. You harvested it, fed the groves that kept living amber healthy, and traced the roots to find what corruption had touched them. In the ruins nearby, older rituals waited: the binding of shade and wood, incantations fae and primal, the crafting of daggers by ancient recipes. The Stormstout family, stranded and out of their depth in the wastes, crossed your path along the way.\n\nDeeper still, the fires of old spirits burned. You bound the glamour, faced what had been unleashed at the heart of the blaze, and came out the other side with the smell of amber and ash still in your armor. The sacred trees held. The weapons were ready.",
+            chapter = "The Root of the Problem",
+            summary = "Amber is the lifeblood of the Klaxxi. Kypari Zar is sick.",
+            recap = "The paragons needed weapons worthy of war, and amber was their craft. Ambersmith Zikk sent you out into the groves of Klaxxi'vess — to harvest, to feed the beasts that kept the trees fertile, to coax living amber from the roots and bring it back unbroken.\n\nKypari Zar, the sacred tree at the heart of the harvest, had begun to fail. Korven the Prime walked the ruins by the lakeside with you and traced the corruption all the way down to the root. The rot was contained, the amber kept flowing, and the harvest held. Zikk turned your attention north — to a recipe, and to an old brewer who had been waiting longer than anyone realized.",
             quests = {
                 { id = 31019, name = "Amber Is Life",               npc = "Ambersmith Zikk" },
                 { id = 31020, name = "Feeding the Beast",           npc = "Ambersmith Zikk" },
                 { id = 31021, name = "Living Amber",                npc = "Ambersmith Zikk" },
-                { id = 31022, name = "Kypari Zar",                  npc = "Ambersmith Zikk" },
-                { id = 31026, name = "The Root of the Problem",     npc = "Ambersmith Zikk" },
-                { id = 31067, name = "The Heavens Hum With War",    npc = "Ambersmith Zikk" },
-                { id = 31068, name = "Sacred Recipe",               npc = "Ambersmith Zikk" },
-                { id = 31069, name = "Bound With Shade",            npc = "Ambersmith Zikk" },
-                { id = 31070, name = "Daggers of the Great Ones",   npc = "Ambersmith Zikk" },
-                { id = 31071, name = "I Bring Us Great Shame",      npc = "Ambersmith Zikk" },
-                { id = 31072, name = "Rending Daggers",             npc = "Ambersmith Zikk" },
-                { id = 31073, name = "Bound With Wood",             npc = "Ambersmith Zikk" },
-                { id = 31074, name = "Wood and Shade",              npc = "Ambersmith Zikk" },
-                { id = 31075, name = "Sunset Kings",                npc = "Ambersmith Zikk" },
-                { id = 31076, name = "Fate of the Stormstouts",     npc = "Evie Stormstout",  optional = true },
-                { id = 31129, name = "Fate of the Stormstouts",     npc = "Evie Stormstout",  optional = true },
-                { id = 31077, name = "Evie Stormstout",             npc = "Evie Stormstout" },
-                { id = 31078, name = "Han Stormstout",              npc = "Han Stormstout" },
-                { id = 31079, name = "The Horror Comes A-Rising",   npc = "Ambersmith Zikk" },
-                { id = 31080, name = "Fiery Wings",                 npc = "Ambersmith Zikk" },
-                { id = 31081, name = "Incantations Fae and Primal", npc = "Ambersmith Zikk" },
-                { id = 31082, name = "Great Vessel of Salvation",   npc = "Ambersmith Zikk" },
-                { id = 31084, name = "Bind the Glamour",            npc = "Ambersmith Zikk" },
-                { id = 31085, name = "Fires and Fears of Old",      npc = "Ambersmith Zikk" },
-                { id = 31086, name = "Taste of Amber",              npc = "Ambersmith Zikk" },
+                { id = 31022, name = "Kypari Zar",                  npc = "Korven the Prime" },
+                { id = 31026, name = "The Root of the Problem",     npc = "Korven the Prime" },
+            },
+        },
+
+        -- CHAPTER 3: Taste of Amber
+        {
+            chapter = "Taste of Amber",
+            summary = "Sapmaster Vu's brewgarden is hiding more than a recipe. The Stormstouts have come looking for their own.",
+            recap = "North of the amber groves, Sapmaster Vu's Sunset Brewgarden sat at the edge of the wastes — pandaren brewers who had taken root here long before the mantid woke. The recipe Lya of Ten Songs deciphered split your work in two threads run in parallel: forge daggers of the great ones with Olon, and brew a salvation strong enough to drown an old fear. You gathered shade, wood, fang, and corewood for both at once.\n\nChen Stormstout crossed your path searching for his family. You stood beside him at one small grave, then another. First Evie. Then Han. There would be time to mourn later. You bound the glamour with Chief Rikkitun, faced Iyyokuk's old fires, and finished the recipe with a chunk of amber pried from the Heart of Fear itself. Lya tasted the brew. The work was done.",
+            quests = {
+                { id = 31067, name = "The Heavens Hum With War",    npc = "Sapmaster Vu" },
+                { id = 31068, name = "Sacred Recipe",               npc = "Lya of Ten Songs" },
+                { id = 31069, name = "Bound With Shade",            npc = "Olon" },
+                { id = 31070, name = "Daggers of the Great Ones",   npc = "Olon" },
+                { id = 31071, name = "I Bring Us Great Shame",      npc = "Olon" },
+                { id = 31072, name = "Rending Daggers",             npc = "Olon" },
+                { id = 31073, name = "Bound With Wood",             npc = "Sapmaster Vu" },
+                { id = 31074, name = "Wood and Shade",              npc = "Sapmaster Vu" },
+                { id = 31075, name = "Sunset Kings",                npc = "Sapmaster Vu" },
+                { id = 31076, name = "Fate of the Stormstouts",     npc = "Chen Stormstout", optional = true },
+                { id = 31077, name = "Evie Stormstout",             npc = "Chen Stormstout" },
+                { id = 31078, name = "Han Stormstout",              npc = "Chen Stormstout" },
+                { id = 31079, name = "The Horror Comes A-Rising",   npc = "Sapmaster Vu" },
+                { id = 31080, name = "Fiery Wings",                 npc = "Olon" },
+                { id = 31081, name = "Incantations Fae and Primal", npc = "Olon" },
+                { id = 31082, name = "Great Vessel of Salvation",   npc = "Sapmaster Vu" },
+                { id = 31084, name = "Bind the Glamour",            npc = "Chief Rikkitun" },
+                { id = 31085, name = "Fires and Fears of Old",      npc = "Iyyokuk the Lucid" },
+                { id = 31086, name = "Taste of Amber",              npc = "Sapmaster Vu" },
             },
         },
 
@@ -151,18 +163,18 @@ SM.DreadWastesData = {
             summary = "Soggy's Gamble is a shipwrecked camp at the edge of the world. The cap'n runs it on stubbornness alone.",
             recap = "Not every chapter of a war is fought on a battlefield. Soggy's Gamble — a ramshackle settlement of shipwrecked fishermen, one cantankerous captain, and a dog with strong opinions about its schedule — had been cut off from the rest of Pandaria. You helped where you could, and improvised where you couldn't. The sea creatures, the debt to Mazu the sea spirit, the shark problem, the crab problem, the cap'n's particular personality. All of it unfolded at the southern edge of the Dread Wastes with an air of absurdity the mantid would never have tolerated.\n\nYou earned Mazu's bounty. The deck, for the record, was absolutely yours.",
             quests = {
-                { id = 31265, name = "Mazu's Breath",               npc = "Master Angler Ju Lien" },
-                { id = 31181, name = "Fresh Pots",                  npc = "Master Angler Ju Lien" },
-                { id = 31182, name = "You Otter Know",              npc = "Master Angler Ju Lien" },
-                { id = 31183, name = "Meet the Cap'n",              npc = "Master Angler Ju Lien" },
+                { id = 31265, name = "Mazu's Breath",               npc = "Deck Boss Arie" },
+                { id = 31181, name = "Fresh Pots",                  npc = "Deck Boss Arie" },
+                { id = 31182, name = "You Otter Know",              npc = "Deck Boss Arie" },
+                { id = 31183, name = "Meet the Cap'n",              npc = "Deck Boss Arie" },
                 { id = 31184, name = "Old Age and Treachery",       npc = "Cap'n Aueron" },
                 { id = 31185, name = "Walking Dog",                 npc = "Cap'n Aueron" },
                 { id = 31186, name = "Dog Food",                    npc = "Cap'n Aueron" },
                 { id = 31187, name = "On the Crab",                 npc = "Cap'n Aueron" },
                 { id = 31188, name = "Shark Week",                  npc = "Cap'n Aueron" },
-                { id = 31189, name = "Reeltime Strategy",           npc = "Cap'n Aueron" },
+                { id = 31189, name = "Reeltime Strategy",           npc = "Deck Boss Arie" },
                 { id = 31190, name = "The Mariner's Revenge",       npc = "Cap'n Aueron" },
-                { id = 31354, name = "Like a Deck Boss",            npc = "Master Angler Ju Lien" },
+                { id = 31354, name = "Like a Deck Boss",            npc = "Deck Boss Arie" },
             },
         },
 

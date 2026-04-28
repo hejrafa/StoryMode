@@ -20,6 +20,7 @@ SM.SuramarData = {
     achievements = {
         -- Suramar story
         10617,  -- Nightfallen But Not Forgotten (main gated chapter chain)
+        "Explore Suramar",
         11124,  -- Good Suramaritan (all side-chapter storylines)
         11340,  -- Insurrection (all 9 patch-7.1 chapters)
         10778,  -- The Nightfallen (Exalted with The Nightfallen)

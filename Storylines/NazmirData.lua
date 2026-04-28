@@ -10,6 +10,7 @@ SM.NazmirData = {
     achievementName = "Bwon Voyage",
     achievements = {
         11868,  -- The Dark Heart of Nazmir (zone story)
+        "Explore Nazmir",
         -- The Underrot (dungeon)
         13157,  -- The Underrot
         -- Uldir
