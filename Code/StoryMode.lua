@@ -101,6 +101,8 @@ local playerFaction = UnitFactionGroup("player")  -- "Horde" or "Alliance"
 local playerRace = select(2, UnitRace("player"))  -- English token: "Human", "Orc", etc.
 
 local function CanShowQuestline(data)
+    if not data then return false end
+    if not SM.IsContentAvailableForClient(data) then return false end
     if data.class and data.class ~= playerClass then return false end
     if data.faction and data.faction ~= playerFaction then return false end
     if data.race and data.race ~= playerRace then return false end
@@ -117,6 +119,7 @@ local function AddContentData(data)
 end
 
 AddContentData(SM.FrozenThroneData)
+AddContentData(SM.DefiasBrotherhoodData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
 AddContentData(SM.NazmirData)
@@ -161,6 +164,9 @@ end
 -- Register Questlines
 -- ============================================================================
 
+if CanShowQuestline(SM.DefiasBrotherhoodData) then
+    RegisterQuestline(SM.DefiasBrotherhoodData, "Epic Storylines")
+end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
@@ -1266,8 +1272,7 @@ function FactionUI:Update(card, entry, storyData)
         self:SetIcon(card.icon, entry.iconAtlas or (mf.textureKit and ("majorfactions_icons_" .. mf.textureKit .. "512")), self:GetFactionIcon(factionID, entry))
         self:ApplyAccentColor(card, self:GetAccentColor(factionID, entry, mf, nil))
     else
-        local info = C_Reputation and C_Reputation.GetFactionDataByID
-            and C_Reputation.GetFactionDataByID(factionID)
+        local info = SM.GetFactionDataByID(factionID)
         if not info or not info.name then card:Hide(); return false end
         name = info.name
         description = description or info.description or self.descriptions[factionID]
@@ -1421,11 +1426,7 @@ end
 
 local function EnsureEncounterJournalAPI()
     if EJ_GetInstanceInfo and EJ_GetInstanceByIndex then return true end
-    if C_AddOns and C_AddOns.LoadAddOn then
-        pcall(C_AddOns.LoadAddOn, "Blizzard_EncounterJournal")
-    elseif LoadAddOn then
-        pcall(LoadAddOn, "Blizzard_EncounterJournal")
-    end
+    SM.LoadAddOn("Blizzard_EncounterJournal")
     return EJ_GetInstanceInfo and EJ_GetInstanceByIndex
 end
 
@@ -2097,9 +2098,9 @@ local function CreateQuestCard(parent)
         end
         -- Objectives — skip for completed quests; the log no longer tracks
         -- their counters so they always show stale "0/1" text.
-        local qComplete = C_QuestLog.IsQuestFlaggedCompleted(self.questID)
+        local qComplete = SM.IsQuestFlaggedCompleted(self.questID)
         if not qComplete then
-            local objectives = C_QuestLog.GetQuestObjectives(self.questID)
+            local objectives = SM.GetQuestObjectives(self.questID)
             if objectives and #objectives > 0 then
                 SMTooltip:AddLine(" ")
                 for _, obj in ipairs(objectives) do
@@ -2237,9 +2238,11 @@ local function CreateAchievementRow(parent)
         if not self.achievementID then return end
         SMTooltip:Hide()
         storyFrame:Hide()
-        if not AchievementFrame then C_AddOns.LoadAddOn("Blizzard_AchievementUI") end
-        ShowUIPanel(AchievementFrame)
-        AchievementFrame_SelectAchievement(self.achievementID)
+        if not AchievementFrame then SM.LoadAddOn("Blizzard_AchievementUI") end
+        if AchievementFrame and ShowUIPanel and AchievementFrame_SelectAchievement then
+            ShowUIPanel(AchievementFrame)
+            AchievementFrame_SelectAchievement(self.achievementID)
+        end
     end)
 
     return row
@@ -3387,9 +3390,11 @@ function SM.CreateLeftAchievementButton(parent)
         if not self.achievementID then return end
         SMTooltip:Hide()
         storyFrame:Hide()
-        if not AchievementFrame then C_AddOns.LoadAddOn("Blizzard_AchievementUI") end
-        ShowUIPanel(AchievementFrame)
-        AchievementFrame_SelectAchievement(self.achievementID)
+        if not AchievementFrame then SM.LoadAddOn("Blizzard_AchievementUI") end
+        if AchievementFrame and ShowUIPanel and AchievementFrame_SelectAchievement then
+            ShowUIPanel(AchievementFrame)
+            AchievementFrame_SelectAchievement(self.achievementID)
+        end
     end)
 
     return btn
@@ -3457,7 +3462,7 @@ function SM.PrepareLeftFactionCard(card)
         storyFrame:Hide()
         C_Timer.After(0, function()
         if isMajor and EventRegistry then
-            C_AddOns.LoadAddOn("Blizzard_MajorFactions")
+            SM.LoadAddOn("Blizzard_MajorFactions")
             EventRegistry:TriggerEvent("MajorFactionRenownMixin.MajorFactionRenownRequest", factionID)
         else
             if not CharacterFrame or not CharacterFrame:IsShown() then
@@ -3466,24 +3471,27 @@ function SM.PrepareLeftFactionCard(card)
                 ToggleCharacter("ReputationFrame")
             end
             local function findIndex()
-                local n = C_Reputation.GetNumFactions and C_Reputation.GetNumFactions() or 0
+                if not C_Reputation or not C_Reputation.GetNumFactions or not C_Reputation.GetFactionDataByIndex then
+                    return nil
+                end
+                local n = C_Reputation.GetNumFactions()
                 for i = 1, n do
                     local d = C_Reputation.GetFactionDataByIndex(i)
                     if d and d.factionID == factionID then return i end
                 end
             end
             local idx = findIndex()
-            if not idx then
-                local n = C_Reputation.GetNumFactions and C_Reputation.GetNumFactions() or 0
+            if not idx and C_Reputation and C_Reputation.GetNumFactions and C_Reputation.GetFactionDataByIndex then
+                local n = C_Reputation.GetNumFactions()
                 for i = n, 1, -1 do
                     local d = C_Reputation.GetFactionDataByIndex(i)
-                    if d and d.isHeader and d.isCollapsed then
+                    if d and d.isHeader and d.isCollapsed and C_Reputation.ExpandFactionHeader then
                         C_Reputation.ExpandFactionHeader(i)
                     end
                 end
                 idx = findIndex()
             end
-            if idx and C_Reputation.SetSelectedFaction then
+            if idx and C_Reputation and C_Reputation.SetSelectedFaction then
                 C_Reputation.SetSelectedFaction(idx)
                 if ReputationFrame and ReputationFrame.Update then ReputationFrame:Update() end
                 if ReputationFrame and ReputationFrame.ScrollBox and ReputationFrame.ScrollBox.ScrollToElementDataByPredicate then
@@ -3961,7 +3969,7 @@ SlashCmdList["STORYMODE"] = function(msg)
                         print(string.format("  |cffaaaaaa[%s]|r %d/%d", ch.chapter or "?", chDone, chTotal))
                         for j, q in ipairs(ch.quests) do
                             local inLog = IsQuestInLog(q.id)
-                            local flagged = C_QuestLog.IsQuestFlaggedCompleted(q.id)
+                            local flagged = SM.IsQuestFlaggedCompleted(q.id)
                             local effective = IsQuestEffectivelyComplete(j, ch.quests)
                             local tag = inLog and "|cff00ff00[IN LOG]|r"
                                 or (flagged and "|cffaaaaaa[done]|r")

@@ -12,11 +12,15 @@
 - Restructured addon files into root TOC metadata, `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/` folders to prepare for additional game-version TOCs and localization work
 - Added a Plumber-style localization loader with the current English UI strings in `Locales/enUS.lua`
 - Added the current English dataset content strings to the localization table and localize questline data at load time, preparing story titles, descriptions, chapters, recaps, notes, quest names, NPC labels, zones, expansions, and lookup keys for future locale files
+- Added client-specific TOCs for Classic Era (`StoryMode_Vanilla.toc`, interface `11507`) and Burning Crusade Classic (`StoryMode_TBC.toc`, interface `20505`)
+- Added `Code/Core/Compatibility.lua` for older client fallbacks around quest completion, quest log lookup, objective text, achievements, addon loading, reputation data, minimap tracking, and map pings
+- Added client expansion filtering so Classic Era and TBC load the addon shell while hiding story datasets from later expansions until version-specific content is added
 
 ### UI
 - Reworked the chat tracking messages: yellow `Story Mode` prefix with a chevron separator, narrator-voice phrasing (`Now following …`, `Seek <npc> in <zone> to begin …`, `Your next chapter is … with … in …`), no more stacked colons or em-dashes
 
 ### Content
+- Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list
 - Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools

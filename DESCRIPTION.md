@@ -11,6 +11,8 @@ It turns scattered quest chains into guided adventures with chapter progress, st
 - **Journal pages** now keep chapter recaps together with faction reputation cards and progress details.
 - **Achievements and hints** were cleaned up so they stay story-relevant and give practical unlock instructions, with exploration achievements added to more adventures.
 - **Stability fixes** reduce Blizzard UI taint around Story Mode map pins, Adventure Guide cover lookup, and combat transitions.
+- **Classic Era and Burning Crusade Classic support** adds client-specific TOCs, compatibility fallbacks, and expansion-aware content filtering so older clients can load the addon shell cleanly.
+- **The Defias Brotherhood** becomes the first Classic/TBC storyline, from Sentinel Hill and the Deadmines through the Unsent Letter, Stockade riot, and Stormwind conspiracy aftermath.
 
 ## What Story Mode Does
 
@@ -25,6 +27,7 @@ It turns scattered quest chains into guided adventures with chapter progress, st
 ## Included Adventures
 
 **Epic Storylines**
+- The Defias Brotherhood
 - The Frozen Throne
 - The Jade Forest
 - Insurrection

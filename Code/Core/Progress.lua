@@ -6,7 +6,7 @@ local function GetPlayerFaction()
 end
 
 function SM.IsQuestComplete(questID)
-    return C_QuestLog.IsQuestFlaggedCompleted(questID)
+    return SM.IsQuestFlaggedCompleted(questID)
 end
 
 function SM.IsQuestForPlayer(q)
@@ -31,11 +31,11 @@ function SM.IsQuestEffectivelyComplete(questIndex, chapterQuests)
     if not SM.IsQuestForPlayer(q) then return true end
 
     local qid = q.id
-    if C_QuestLog.GetLogIndexForQuestID(qid) ~= nil then return false end
+    if SM.GetLogIndexForQuestID(qid) ~= nil then return false end
     if SM.IsQuestComplete(qid) then return true end
 
     for i = 1, questIndex - 1 do
-        if SM.IsQuestForPlayer(chapterQuests[i]) and C_QuestLog.GetLogIndexForQuestID(chapterQuests[i].id) ~= nil then
+        if SM.IsQuestForPlayer(chapterQuests[i]) and SM.GetLogIndexForQuestID(chapterQuests[i].id) ~= nil then
             return false
         end
     end
@@ -50,7 +50,7 @@ function SM.IsQuestEffectivelyComplete(questIndex, chapterQuests)
 end
 
 function SM.IsQuestInLog(questID)
-    return C_QuestLog.GetLogIndexForQuestID(questID) ~= nil
+    return SM.GetLogIndexForQuestID(questID) ~= nil
 end
 
 function SM.GetAllChapters(data)

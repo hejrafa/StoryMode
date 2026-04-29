@@ -19,6 +19,14 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 - **See completion banners** when quests, chapters, and full adventures finish.
 - **Get actionable hints** on gated chapters, including prerequisites such as class, faction, heritage, or loyalist requirements.
 
+## Supported Clients
+
+- Retail uses `StoryMode.toc`.
+- Classic Era uses `StoryMode_Vanilla.toc`.
+- Burning Crusade Classic uses `StoryMode_TBC.toc`.
+
+Classic Era and TBC load the shared addon shell and automatically hide adventures from later expansions. The first Classic/TBC storyline is **The Defias Brotherhood**.
+
 ---
 
 ## Version 1.6.0
@@ -27,6 +35,8 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 
 - Restructured addon files into `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/`.
 - Added a Plumber-style localization loader with current English UI and dataset content strings.
+- Added Classic Era and Burning Crusade Classic TOCs plus a compatibility layer for older quest, achievement, reputation, addon-loading, minimap tracking, and map-pin APIs.
+- Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering Westfall, the Deadmines, the Unsent Letter, the Stockade, and the Stormwind noble conspiracy aftermath.
 
 ### New and Updated Content
 
@@ -53,6 +63,7 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 
 | Adventure | Expansion | Notes |
 |---|---|---|
+| The Defias Brotherhood | Classic | Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade, and Stormwind aftermath |
 | The Frozen Throne | Wrath of the Lich King | Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls |
 | What Is Worth Fighting For | Mists of Pandaria | The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale |
 | Insurrection | Legion | Suramar and the Nightfallen rebellion |
@@ -122,10 +133,12 @@ Story Mode uses WoW's built-in quest tracking, user waypoint, and world map syst
 ## Installation
 
 1. Download or clone this repository.
-2. Place the `StoryMode` folder in:
+2. Place the `StoryMode` folder in the matching client addon folder:
 
 ```text
 World of Warcraft/_retail_/Interface/AddOns/
+World of Warcraft/_classic_era_/Interface/AddOns/
+World of Warcraft/_anniversary_/Interface/AddOns/
 ```
 
 3. Restart WoW or run `/reload`.
@@ -135,7 +148,7 @@ World of Warcraft/_retail_/Interface/AddOns/
 
 ## Project Layout
 
-- `StoryMode.toc` stays at the addon root with load order and metadata.
+- `StoryMode.toc`, `StoryMode_Vanilla.toc`, and `StoryMode_TBC.toc` stay at the addon root with client-specific interface metadata and shared load order.
 - `Code/` contains runtime Lua and XML, split into `Core/`, `UI/`, and the main Story Mode window.
 - `Data/` contains questline datasets grouped by story type.
 - `Locales/` loads the current English UI and dataset content strings through `Localization.xml` and `enUS.lua`, ready for future locale files.

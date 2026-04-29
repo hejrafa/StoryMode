@@ -2,8 +2,8 @@ local addonName, SM = ...
 local L = SM.L
 
 local function EnsureTrivialQuestsVisible()
-    for i = 1, C_Minimap.GetNumTrackingTypes() do
-        local info = C_Minimap.GetTrackingInfo(i)
+    for i = 1, SM.GetNumTrackingTypes() do
+        local info = SM.GetTrackingInfo(i)
         if info and not info.active then
             local isTrivial = (MINIMAP_TRACKING_TRIVIAL_QUESTS and info.name == MINIMAP_TRACKING_TRIVIAL_QUESTS)
                 or info.name == "Trivial Quests"
@@ -11,7 +11,7 @@ local function EnsureTrivialQuestsVisible()
             if isTrivial then
                 local idx, name = i, info.name
                 C_Timer.After(0, function()
-                    C_Minimap.SetTracking(idx, true)
+                    SM.SetTracking(idx, true)
                     print(L["Addon Prefix"] .. string.format(L["Tracking Enabled Trivial Format"], name))
                 end)
                 return
@@ -25,7 +25,11 @@ end
 -- canvas and propagates into AreaPOI tooltip widgets. Going through a proper
 -- MapCanvasDataProvider with a pin template is the supported path.
 
-StoryModePingPinMixin = CreateFromMixins(MapCanvasPinMixin)
+local hasMapCanvasPins = CreateFromMixins and MapCanvasPinMixin and MapCanvasDataProviderMixin
+local GetPingProvider
+
+if hasMapCanvasPins then
+    StoryModePingPinMixin = CreateFromMixins(MapCanvasPinMixin)
 
 function StoryModePingPinMixin:OnLoad()
     self:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI")
@@ -71,19 +75,25 @@ function PingDataProviderMixin:Ping(x, y)
 end
 
 local pingProvider
-local function GetPingProvider()
+GetPingProvider = function()
     if pingProvider then return pingProvider end
     if not WorldMapFrame then return nil end
     pingProvider = CreateFromMixins(PingDataProviderMixin)
     WorldMapFrame:AddDataProvider(pingProvider)
     return pingProvider
 end
+end
 
 local function PingOnWorldMap(mapID, x, y)
     if not WorldMapFrame then return end
-    OpenWorldMap(mapID)
+    if OpenWorldMap then
+        OpenWorldMap(mapID)
+    elseif ToggleWorldMap then
+        ToggleWorldMap()
+    end
     PlaySound(SOUNDKIT.UI_MAP_WAYPOINT_SUPER_TRACK_ON or 167425)
 
+    if not hasMapCanvasPins then return end
     local provider = GetPingProvider()
     if not provider then return end
 
@@ -100,7 +110,7 @@ end
 local function GetLiveQuestLocation(qid, mapHint)
     if not qid then return nil end
 
-    if C_QuestLog.GetQuestUiMapID then
+    if C_QuestLog and C_QuestLog.GetQuestUiMapID then
         local mapID = C_QuestLog.GetQuestUiMapID(qid)
         if mapID and mapID > 0 and C_QuestLog.GetNextWaypointForMap then
             local x, y = C_QuestLog.GetNextWaypointForMap(qid, mapID)
@@ -108,7 +118,7 @@ local function GetLiveQuestLocation(qid, mapHint)
         end
     end
 
-    if mapHint and C_QuestLog.GetQuestsOnMap then
+    if mapHint and C_QuestLog and C_QuestLog.GetQuestsOnMap then
         local quests = C_QuestLog.GetQuestsOnMap(mapHint)
         if quests then
             for _, q in ipairs(quests) do
@@ -145,8 +155,10 @@ function SM.SetWaypointForQuest(data, quest)
 
     if SM.IsQuestInLog(quest.id) then
         local qid = quest.id
-        C_QuestLog.AddQuestWatch(qid)
-        C_SuperTrack.SetSuperTrackedQuestID(qid)
+        SM.AddQuestWatch(qid)
+        if C_SuperTrack and C_SuperTrack.SetSuperTrackedQuestID then
+            C_SuperTrack.SetSuperTrackedQuestID(qid)
+        end
         local loc = GetQuestLocation(data, quest)
         if loc then
             PingOnWorldMap(loc.mapID, loc.x, loc.y)
@@ -157,14 +169,18 @@ function SM.SetWaypointForQuest(data, quest)
     local loc = GetQuestLocation(data, quest)
     local qid = quest.id
 
-    if Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
+    if C_SuperTrack and C_SuperTrack.SetSuperTrackedMapPin
+        and Enum and Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
         C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
     end
 
-    if loc and C_Map.CanSetUserWaypointOnMap(loc.mapID) then
+    if loc and C_Map and C_Map.CanSetUserWaypointOnMap and C_Map.CanSetUserWaypointOnMap(loc.mapID)
+        and UiMapPoint and C_Map.SetUserWaypoint then
         local point = UiMapPoint.CreateFromCoordinates(loc.mapID, loc.x, loc.y)
         C_Map.SetUserWaypoint(point)
-        C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+        if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then
+            C_SuperTrack.SetSuperTrackedUserWaypoint(true)
+        end
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
         return "waypoint", loc.mapID, loc
     end
@@ -175,13 +191,17 @@ function SM.SetWaypointForQuest(data, quest)
     end
 
     if data.startMapID then
-        OpenWorldMap(data.startMapID)
+        if OpenWorldMap then
+            OpenWorldMap(data.startMapID)
+        elseif ToggleWorldMap then
+            ToggleWorldMap()
+        end
     end
     return "no_location", nil, nil
 end
 
 local function GetZoneName(mapID)
-    local info = mapID and C_Map.GetMapInfo(mapID)
+    local info = mapID and C_Map and C_Map.GetMapInfo and C_Map.GetMapInfo(mapID)
     return info and info.name or nil
 end
 
