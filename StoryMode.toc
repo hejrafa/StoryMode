@@ -5,6 +5,9 @@
 ## Version: 1.6.0
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\Art\Icons\storymode_icon
+## AddonCompartmentFunc: StoryMode_AddonCompartment_OnClick
+## AddonCompartmentFuncOnEnter: StoryMode_AddonCompartment_OnEnter
+## AddonCompartmentFuncOnLeave: StoryMode_AddonCompartment_OnLeave
 
 Locales\Localization.xml
 Data\Heritage\ForsakenHeritageData.lua

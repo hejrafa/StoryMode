@@ -4281,6 +4281,42 @@ end)
 local ShowStoryBanner   -- forward declaration (defined in Banner section below)
 local ShowStoryComplete -- forward declaration (defined in Banner section below)
 
+local function ToggleStoryModeFrame()
+    if InCombatLockdown() then
+        UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
+        return
+    end
+
+    C_Timer.After(0, function()
+        if storyFrame:IsShown() then
+            storyFrame:Hide()
+        else
+            storyFrame:Show()
+        end
+    end)
+end
+
+function StoryMode_AddonCompartment_OnClick(_, button)
+    if button and button ~= "LeftButton" then return end
+    ToggleStoryModeFrame()
+end
+
+function StoryMode_AddonCompartment_OnEnter(nameOrButton, maybeButton)
+    local menuButton = maybeButton or nameOrButton
+    if not menuButton or not menuButton.GetObjectType then return end
+
+    SMTooltip:SetOwner(menuButton, "ANCHOR_LEFT")
+    SMTooltip:ClearLines()
+    SMTooltip:AddLine(L["Minimap Tooltip Title"], 1, 1, 1)
+    SMTooltip:AddLine(L["Minimap Tooltip Open"], C_BODY[1], C_BODY[2], C_BODY[3])
+    SMTooltip._minW = 0
+    SMTooltip:Show()
+end
+
+function StoryMode_AddonCompartment_OnLeave()
+    SMTooltip:Hide()
+end
+
 SLASH_STORYMODE1 = "/sm"
 SLASH_STORYMODE2 = "/storymode"
 SlashCmdList["STORYMODE"] = function(msg)
@@ -4357,15 +4393,7 @@ SlashCmdList["STORYMODE"] = function(msg)
             print(L["Addon Legacy Prefix"] .. string.format(L["Slash No Match Format"], filter or ""))
         end
     else
-        if InCombatLockdown() then
-            UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
-            return
-        end
-        if storyFrame:IsShown() then
-            storyFrame:Hide()
-        else
-            storyFrame:Show()
-        end
+        ToggleStoryModeFrame()
     end
 end
 
