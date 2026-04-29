@@ -25,7 +25,7 @@ SM.BloodElfHeritageData = {
     npcDisplayIDs = {
         ["Lor'themar Theron"] = 20217,
         ["Lady Liadrin"] = 61971,
-        ["Ambassador Dawnsworn"] = 0,
+        ["Ambassador Dawnsworn"] = 89162,
     },
     chapterIcons = {
         ["Heritage of the Sin'dorei"] = 2459464,

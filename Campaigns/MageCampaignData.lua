@@ -138,7 +138,7 @@ SM.MageCampaignData = {
                 { id = 42940, name = "When There's a Will, There's a Way", npc = "Archmage Khadgar" },
                 { id = 42734, name = "Into the Oculus",             npc = "Archmage Khadgar" },
                 { id = 42914, name = "Champion: Meryl Felstorm",    npc = "Meryl Felstorm" },
-                { id = 43441, name = "A Hero's Weapon",             npc = "Meryl Felstorm" },
+                { id = 43441, name = "A Second Weapon",             npc = "Meryl Felstorm" },
                 { id = 42917, name = "Champion: Archmage Vargoth",  npc = "Archmage Vargoth" },
             },
         },

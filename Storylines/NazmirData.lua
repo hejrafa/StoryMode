@@ -12,7 +12,7 @@ SM.NazmirData = {
         11868,  -- The Dark Heart of Nazmir (zone story)
         "Explore Nazmir",
         -- The Underrot (dungeon)
-        13157,  -- The Underrot
+        12500,  -- Underrot
         -- Uldir
         12523,  -- Heart of Corruption (Mythrax, G'huun)
         12818,  -- G'huun kills (Normal Uldir)
@@ -214,7 +214,7 @@ SM.NazmirData = {
                 { id = 52073, name = "Petitioning Krag'wa",    npc = "Krag'wa" },
                 { id = 50087, name = "Ateena's Fall",           npc = "Princess Talanji" },
                 { id = 51244, name = "What Rots Beneath",         npc = "Titan Keeper Hezrel" },
-                { id = 51302, name = "Sealing G'huun's Corruption", npc = "Titan Keeper Hezrel" },
+                { id = 51302, name = "The Underrot: Sealing G'huun's Corruption", npc = "Titan Keeper Hezrel" },
                 { id = 50808, name = "Halting the Empire's Fall",   npc = "Titan Keeper Hezrel" },
             },
         },

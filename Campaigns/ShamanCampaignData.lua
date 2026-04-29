@@ -126,7 +126,7 @@ SM.ShamanCampaignData = {
             recap = "The Broken Shore brought an unwelcome ally — Magatha Grimtotem, the elder crone who had murdered Cairne Bloodhoof. She demanded a place in the Earthen Ring in exchange for her considerable power, and the elements themselves seemed to agree. You worked alongside her through gritted teeth, breaking chains and quelling snakes, while Nobundo led the main assault. Firelord Smolderon's offense scorched the Legion's fortifications, and when the calm came after the storm, Consular Celestos summoned you to a gathering of storms — where a tempest given form became your mount, the Farseer's Raging Tempest.",
             quests = {
                 { id = 47137, name = "Champions of Legionfall",     npc = "Farseer Nobundo" },
-                { id = 45652, name = "A 'Humble' Request",           npc = "Magatha Grimtotem" },
+                { id = 45652, name = "A \"Humble\" Request",         npc = "Magatha Grimtotem" },
                 { id = 45706, name = "The Power of Thousands",       npc = "Magatha Grimtotem" },
                 { id = 45725, name = "Breaking Chains",              npc = "Magatha Grimtotem" },
                 { id = 44800, name = "Against Magatha's Will",       npc = "Magatha Grimtotem" },

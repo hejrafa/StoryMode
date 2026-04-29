@@ -15,6 +15,10 @@
 - Added exploration achievements to Dread Wastes, Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Added The Anglers reputation to The Klaxxi journal data
 - Split The Klaxxi amber arc into separate **The Root of the Problem** and **Taste of Amber** chapters, with corrected quest NPCs for Sapmaster Vu, Chen Stormstout, Olon, Chief Rikkitun, Iyyokuk, and Deck Boss Arie
+- Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools
+- Corrected Klaxxi quest flow, including missing/wrong paragons, Soggy's Gamble quest givers, Sunset Brewgarden ordering, and verified Klaxxi NPC display IDs
+- Fixed stale Suramar Insurrection and Nightfallen quest IDs, including Arcway/Court of Stars optional steps, Crafting War faction variants, and the Kel'danath/Waning Crescent side flow
+- Corrected stale or mismatched achievement entries for Nazmir, Jade Forest, and the Battle for Lordaeron replay chapter
 
 ## 1.5.0
 

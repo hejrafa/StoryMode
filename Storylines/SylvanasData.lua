@@ -213,7 +213,7 @@ SM.SylvanasData = {
             summary = "The Legion has landed on the Broken Shore. The Horde answers the call — but this battle will cost far more than anyone expected.",
             recap = "The Broken Shore was a rout. The Horde threw everything at the Legion's landing force and bled for it. Vol'jin took a wound that no healer could close. By the time the retreat was called, he was dying. He summoned Sylvanas, told her the loa had whispered her name, and asked her to lead. She stood there for a moment — the Dark Lady of the Forsaken, who had never wanted anything to do with the Horde's politics — and said yes. She walked out of that room as Warchief. Nobody, including her, fully understood what that meant yet.",
             quests = {
-                { id = 43926, name = "The Legion Returns",          npc = "Holgar Stormaxe" },
+                { id = 43926, name = "Legion: The Legion Returns",  npc = "Holgar Stormaxe" },
                 { id = 40518, name = "The Battle for Broken Shore", npc = "Captain Russo" },
                 { id = 40522, name = "Fate of the Horde",           npc = "Eitrigg" },
                 { id = 40760, name = "Emissary",                    npc = "Allari the Souleater", optional = true },
@@ -239,7 +239,6 @@ SM.SylvanasData = {
         -- CHAPTER 7: The fall of Undercity
         {
             chapter = "The Battle for Lordaeron",
-            achievementID = 12584,
             replayable = true,
             summary = "The Alliance has come for Lordaeron. Sylvanas holds the walls of the Forsaken capital as Jaina and Anduin lead the siege.",
             recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity was lost. Sylvanas rode for the Dark Portal as the Alliance horns echoed behind her. The Forsaken had no home left. Again.",
@@ -337,7 +336,7 @@ SM.SylvanasData = {
             summary = "Sylvanas shatters the Helm of Domination and tears open the sky above Icecrown. The leaders of Azeroth follow her into death itself — and find that she left someone behind.",
             recap = "Sylvanas went to Icecrown and took the Helm of Domination from Bolvar Fordragon's head. Then she broke it. The veil between the living world and the realm of death split apart where she stood, and she stepped through and left. Bolvar used the shards to open a second rift — he and Jaina, Thrall, Baine, and Anduin went in after her. They landed in the Maw, the prison at the bottom of the Shadowlands, a place no soul had ever escaped from. Sylvanas was already gone deeper in. She had left Anduin behind, locked in a cage in the Tremaculum, to be broken slowly by the Jailer's forces — a message, maybe, or an experiment. Jaina found him. The Jailer's magic had already started working on Baine, poisoning his spirit through a cursed dagger. There was no clean escape: the river of souls, Gorgoa, cut across the only path out, and the Jailer's armies were moving to seal it. The group fought their way through, kept each other standing, and crossed. They came out the other side with Anduin freed and the full shape of the threat finally visible. Sylvanas had not just started a war. She had chosen a side in one that had been running since before Azeroth existed.",
             quests = {
-                { id = 62504, name = "Shadowlands: A Chilling Summons", npc = "Highlord Darion Mograine", faction = "Alliance" },
+                { id = 60545, name = "Shadowlands: A Chilling Summons", npc = "Highlord Darion Mograine", faction = "Alliance" },
                 { id = 61874, name = "Shadowlands: A Chilling Summons", npc = "Highlord Darion Mograine", faction = "Horde" },
                 { id = 59751, name = "Through the Shattered Sky",       npc = "Highlord Bolvar Fordragon" },
                 { id = 59759, name = "The Lion's Cage",                  npc = "Lady Jaina Proudmoore" },

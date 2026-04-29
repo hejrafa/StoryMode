@@ -25,7 +25,7 @@ SM.JadeForestData = {
             6855,   -- The Seven Burdens of Shaohao
             6716,   -- Between a Saurok and a Hard Place
             6757,   -- Temple of the Jade Serpent
-            "Explore the Jade Forest",
+            "Explore Jade Forest",
         },
         Horde = {
             6534,   -- Upjade Complete
@@ -38,7 +38,7 @@ SM.JadeForestData = {
             6855,   -- The Seven Burdens of Shaohao
             6716,   -- Between a Saurok and a Hard Place
             6757,   -- Temple of the Jade Serpent
-            "Explore the Jade Forest",
+            "Explore Jade Forest",
         },
     },
     achievements = {
@@ -52,7 +52,7 @@ SM.JadeForestData = {
         6855,   -- The Seven Burdens of Shaohao
         6716,   -- Between a Saurok and a Hard Place
         6757,   -- Temple of the Jade Serpent
-        "Explore the Jade Forest",
+        "Explore Jade Forest",
     },
     description = "The Alliance and Horde did not discover Pandaria gently. They arrived as wreckage, orders, pursuit, and fire, then tried to make allies before they understood what the land would remember.\n\nThe Jade Forest is the first lesson of Pandaria: every doubt, every grudge, and every easy answer has weight. Follow the campaign from the first landings into a land where war leaves marks deeper than banners in the mud.",
     zone = "The Jade Forest",
