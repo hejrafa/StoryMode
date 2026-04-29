@@ -1,124 +1,74 @@
 # Story Mode
 
-Story Mode is a World of Warcraft addon for following memorable quest stories from start to finish. It lays out each adventure chapter by chapter, explains where you are in the narrative, tracks what your character has already done, and gives you a practical next step when the quest chain gets messy.
+**Story Mode** is a World of Warcraft addon for players who want to experience Azeroth's quest stories in a clearer, more intentional order.
 
-Version 1.6.0 prepares Story Mode for multiple game versions and localization while keeping the current English experience intact.
+It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and one-click map guidance.
 
-Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui) for a more cinematic questing experience.
+It pairs especially well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui), because the whole point is to make old quest text feel worth reading again.
 
----
+## Why This Exists
 
-## What It Does
+WoW has wonderful stories, but they are often buried inside old quest hubs, faction variants, dungeon finales, achievement criteria, and patch-era prerequisites. Story Mode gives those stories a clean table of contents, a readable journal, and a practical "what do I do next?" button while still letting the game be the game.
 
-- **Browse curated adventures** across expansions, grouped into Epic Storylines, Character Stories, Short Stories, and Identity.
-- **Follow chapter-by-chapter guidance** with story summaries, recaps, key characters, quest lists, and the next available step.
-- **Track real progress** with logic for completed quests, active quests, optional steps, hidden steps, replayable chapters, faction variants, class restrictions, and race restrictions.
-- **Use one-click map guidance** through WoW's built-in quest tracking, user waypoints, and world map pins.
-- **Read the Journal** to revisit completed chapter recaps and see related faction reputation progress.
-- **Check achievements** with story-relevant achievement lists and faction-aware achievement variants.
-- **See completion banners** when quests, chapters, and full adventures finish.
-- **Get actionable hints** on gated chapters, including prerequisites such as class, faction, heritage, or loyalist requirements.
+The addon is curated rather than exhaustive. It is not trying to replace a leveling guide. It is for stories that are memorable, atmospheric, important to Warcraft's larger continuity, or just unusually good.
+
+## What Story Mode Does
+
+- Curates major zone stories, character arcs, class campaigns, heritage armor quests, and selected short stories.
+- Breaks each adventure into readable chapters with summaries, recaps, key characters, and quest flow.
+- Finds your real next quest by skipping completed, hidden, optional, or faction-ineligible steps.
+- Tracks chapter, story, achievement, and reputation progress in one place.
+- Filters class, race, faction, and client-specific content so your character sees stories they can actually play.
+- Sends you toward the next objective with WoW's built-in quest tracking, user waypoints, and world map pins where available.
+- Shows completion banners when quests, chapters, and full stories finish.
 
 ## Supported Clients
 
-- Retail uses `StoryMode.toc`.
-- Classic Era uses `StoryMode_Vanilla.toc`.
-- Burning Crusade Classic uses `StoryMode_TBC.toc`.
+Story Mode currently supports Retail, Classic Era, and Burning Crusade Classic from one shared codebase.
 
-Classic Era and TBC load the shared addon shell and automatically hide adventures from later expansions. The first Classic/TBC storyline is **The Defias Brotherhood**.
+- Retail loads through `StoryMode.toc`.
+- Classic Era loads through `StoryMode_Vanilla.toc`.
+- Burning Crusade Classic loads through `StoryMode_TBC.toc`.
 
----
+Classic Era and TBC use the same addon shell as Retail, but later-expansion adventures are hidden automatically. Classic/TBC-specific datasets can opt in with `gameVersions`, as **The Defias Brotherhood** does.
 
-## Version 1.6.0
+## Included Adventures
 
-### Maintenance
+**Epic Storylines**
 
-- Restructured addon files into `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/`.
-- Added a Plumber-style localization loader with current English UI and dataset content strings.
-- Added Classic Era and Burning Crusade Classic TOCs plus a compatibility layer for older quest, achievement, reputation, addon-loading, minimap tracking, and map-pin APIs.
-- Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering Westfall, the Deadmines, the Unsent Letter, the Stockade, and the Stormwind noble conspiracy aftermath.
+- **The Defias Brotherhood**: Classic Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, and Stormwind aftermath.
+- **The Frozen Throne**: Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls.
+- **What Is Worth Fighting For**: The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale.
+- **Insurrection**: Suramar and the Nightfallen rebellion.
+- **The Dark Heart of Nazmir**: Horde-only Nazmir campaign.
+- **The Master of Revendreth**: Revendreth zone campaign and Denathrius's betrayal.
+- **The Witchwood of Drustvar**: Alliance-only Drustvar campaign.
 
-### New and Updated Content
+**Character Stories**
 
-- **The Master of Revendreth** - a full seven-chapter Shadowlands storyline covering Darkhaven, the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar, Prince Renathal, Sire Denathrius, and the anima being sent to the Maw.
-- **What Is Worth Fighting For** - updated with the dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected Temple of the Jade Serpent chapter data.
-- **Faction reputation data** - added across the current story set so Journal pages can show related factions beside chapter recaps.
-- **Story-relevant achievements** - cleaned up to focus on meaningful story completions, exploration, normal dungeon and raid clears, and normal boss kills where appropriate.
+- **The Banshee Queen**: Sylvanas Windrunner's arc from Wrath of the Lich King through later expansions.
+- **Daughter of the Sea**: Jaina Proudmoore's Battle for Azeroth story.
+- **The Forsaken Daughter**: Lilian Voss across Tirisfal, the Scarlet Crusade, and the Horde war campaign.
 
-### UI and Journal Changes
+**Short Stories**
 
-- The first detail tab is now **Adventure**, with completed chapter recaps moved into a dedicated **Journal** tab.
-- Adventure pages now use large Blizzard loading screen or Encounter Journal cover art with title overlays.
-- The left adventure list now highlights the selected story with its cover image.
-- Completed adventure badges use a cleaner ribbon treatment.
-- Journal pages include faction cards with circular reputation progress, standing text, hover states, and tooltips.
-- Chapter hints now appear only where they are useful and explain what to do next instead of pointing at old version requirements.
-- Map pins, Adventure Guide cover lookup, and combat entry now avoid Blizzard UI taint paths more carefully.
+- **A Tea Party**: a compact Drustvar side story that starts sweet and ends badly.
 
----
-
-## Campaigns
-
-### Epic Storylines
-
-| Adventure | Expansion | Notes |
-|---|---|---|
-| The Defias Brotherhood | Classic | Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade, and Stormwind aftermath |
-| The Frozen Throne | Wrath of the Lich King | Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls |
-| What Is Worth Fighting For | Mists of Pandaria | The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale |
-| Insurrection | Legion | Suramar and the Nightfallen rebellion |
-| The Dark Heart of Nazmir | Battle for Azeroth | Horde-only Nazmir campaign |
-| The Master of Revendreth | Shadowlands | Revendreth zone campaign and Denathrius's betrayal |
-| The Witchwood of Drustvar | Battle for Azeroth | Alliance-only Drustvar campaign |
-
-### Character Stories
-
-| Character | Adventure | Expansion |
-|---|---|---|
-| Sylvanas Windrunner | The Banshee Queen | Wrath of the Lich King to Dragonflight |
-| Jaina Proudmoore | Daughter of the Sea | Battle for Azeroth |
-| Lilian Voss | The Forsaken Daughter | Cataclysm to Battle for Azeroth |
-
-### Short Stories
-
-| Adventure | Expansion | Notes |
-|---|---|---|
-| A Tea Party | Battle for Azeroth | A compact Drustvar side story |
-
-### Identity
+**Identity**
 
 Story Mode includes all 12 Legion class order hall campaigns. Your character only sees the campaign for their class.
 
-| Class | Campaign |
-|---|---|
-| Death Knight | Deathlord's Campaign |
-| Demon Hunter | Slayer's Campaign |
-| Druid | Archdruid's Campaign |
-| Hunter | Huntmaster's Campaign |
-| Mage | Archmage's Campaign |
-| Monk | Grandmaster's Campaign |
-| Paladin | Highlord's Campaign |
-| Priest | High Priest's Campaign |
-| Rogue | Shadowblade's Campaign |
-| Shaman | Farseer's Campaign |
-| Warlock | Netherlord's Campaign |
-| Warrior | Battlelord's Campaign |
-
-Story Mode also includes 14 heritage armor questlines. These appear only for matching races and factions:
-
-Heritage of the Sin'dorei, Heritage o' the Dark Iron, Heritage of the Draenei, Heritage of the Bronzebeard, Heritage of the Forsaken, Heritage of Gnomeregan, Heritage of Kezan, Lion's Heritage, Heritage of the Kaldorei, Heritage of Draenor, Pandaren Heritage, Heritage of the Shu'halo, Heritage of the Darkspear, and Heritage of Gilneas.
-
----
+It also includes 14 heritage armor questlines. These appear only for matching races and factions: Blood Elf, Dark Iron Dwarf, Draenei, Dwarf, Forsaken, Gnome, Goblin, Human, Night Elf, Orc, Pandaren, Tauren, Troll, and Worgen.
 
 ## Usage
 
-Open Story Mode:
+Open Story Mode with:
 
 ```text
 /sm
 ```
 
-Track your next quest directly from chat:
+Track your next quest directly from chat with:
 
 ```text
 /sm track
@@ -126,14 +76,11 @@ Track your next quest directly from chat:
 
 You can also open the **World Map** and click the **Story Mode** tab on the side panel.
 
-Story Mode uses WoW's built-in quest tracking, user waypoint, and world map systems. When a quest is already in your log, it super-tracks that quest; when it is not, it opens the relevant map and sets a native waypoint where possible.
-
----
+When a quest is already in your log, Story Mode uses WoW's native quest tracking where possible. When it is not, it opens the relevant map and sets a native waypoint if the client supports it. On older clients, it falls back to the best available map and tracking APIs.
 
 ## Installation
 
-1. Download or clone this repository.
-2. Place the `StoryMode` folder in the matching client addon folder:
+Download or clone this repository, then place the `StoryMode` folder inside the matching client addon folder:
 
 ```text
 World of Warcraft/_retail_/Interface/AddOns/
@@ -141,21 +88,26 @@ World of Warcraft/_classic_era_/Interface/AddOns/
 World of Warcraft/_anniversary_/Interface/AddOns/
 ```
 
-3. Restart WoW or run `/reload`.
-4. Open Story Mode with `/sm`.
+Restart WoW or run `/reload`, then open Story Mode with `/sm`.
 
----
+## Repository Guide
 
-## Project Layout
+The repository is structured so game-version support, localization, and future content additions can grow without turning the root folder into a junk drawer.
 
-- `StoryMode.toc`, `StoryMode_Vanilla.toc`, and `StoryMode_TBC.toc` stay at the addon root with client-specific interface metadata and shared load order.
-- `Code/` contains runtime Lua and XML, split into `Core/`, `UI/`, and the main Story Mode window.
+- `StoryMode.toc`, `StoryMode_Vanilla.toc`, and `StoryMode_TBC.toc` hold client-specific metadata and shared load order.
+- `Code/` contains runtime Lua and XML. `Code/Core/Compatibility.lua` is where client API fallbacks live.
 - `Data/` contains questline datasets grouped by story type.
-- `Locales/` loads the current English UI and dataset content strings through `Localization.xml` and `enUS.lua`, ready for future locale files.
+- `Locales/` loads English UI and content strings through `Localization.xml` and `enUS.lua`, ready for future locale files.
 - `Art/` contains addon-owned icons, hero art, masks, and future visual assets.
 - `_Dev/tools/` contains local audit and maintenance scripts that are not loaded by WoW.
+- `DESCRIPTION.md` is the shorter addon listing text.
+- `CHANGELOG.md` records release notes and maintenance history.
 
----
+## Content Notes
+
+New stories should be added as data files under `Data/`, then registered in `Code/StoryMode.lua` and loaded from each TOC. If a story should only appear on certain game clients, add a `gameVersions` table to the dataset.
+
+Current localization uses English source strings as keys. When adding or editing dataset text, update `Locales/enUS.lua` so future locale files can override the same content cleanly.
 
 ## Author
 

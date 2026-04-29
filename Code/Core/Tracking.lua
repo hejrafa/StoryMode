@@ -84,13 +84,39 @@ GetPingProvider = function()
 end
 end
 
-local function PingOnWorldMap(mapID, x, y)
-    if not WorldMapFrame then return end
+local function OpenStoryMap(mapID)
+    if WorldMapFrame then
+        if not WorldMapFrame:IsShown() then
+            if ToggleWorldMap then
+                ToggleWorldMap()
+            elseif ShowUIPanel then
+                ShowUIPanel(WorldMapFrame)
+            else
+                WorldMapFrame:Show()
+            end
+        end
+
+        if mapID and WorldMapFrame.SetMapID then
+            WorldMapFrame:SetMapID(mapID)
+        elseif mapID and C_Map and C_Map.OpenWorldMap then
+            C_Map.OpenWorldMap(mapID)
+        end
+        return true
+    end
+
     if OpenWorldMap then
         OpenWorldMap(mapID)
+        return true
     elseif ToggleWorldMap then
         ToggleWorldMap()
+        return true
     end
+    return false
+end
+
+local function PingOnWorldMap(mapID, x, y)
+    if not WorldMapFrame then return end
+    OpenStoryMap(mapID)
     PlaySound(SOUNDKIT.UI_MAP_WAYPOINT_SUPER_TRACK_ON or 167425)
 
     if not hasMapCanvasPins then return end
@@ -151,6 +177,13 @@ end
 function SM.SetWaypointForQuest(data, quest)
     if not quest then return "no_location", nil, nil end
 
+    if not (SM.Client and SM.Client.isRetail) then
+        if SM.IsQuestInLog(quest.id) then
+            return "classic_in_log", nil, nil
+        end
+        return "classic_guidance", nil, nil
+    end
+
     EnsureTrivialQuestsVisible()
 
     if SM.IsQuestInLog(quest.id) then
@@ -191,11 +224,7 @@ function SM.SetWaypointForQuest(data, quest)
     end
 
     if data.startMapID then
-        if OpenWorldMap then
-            OpenWorldMap(data.startMapID)
-        elseif ToggleWorldMap then
-            ToggleWorldMap()
-        end
+        OpenStoryMap(data.startMapID)
     end
     return "no_location", nil, nil
 end
@@ -205,16 +234,61 @@ local function GetZoneName(mapID)
     return info and info.name or nil
 end
 
+local TRACK_LOCATION_COLOR = "|cffffffff"
+
+local function GetLocationText(data, quest, loc)
+    if quest and quest.location then
+        return TRACK_LOCATION_COLOR .. quest.location .. "|r"
+    end
+
+    if loc and loc.location then
+        return TRACK_LOCATION_COLOR .. (L[loc.location] or loc.location) .. "|r"
+    end
+
+    local zone = loc and GetZoneName(loc.mapID) or nil
+    if zone and loc and loc.x and loc.y then
+        return string.format(TRACK_LOCATION_COLOR .. "%s|r |cffaaaaaa(%.0f, %.0f)|r", zone, loc.x * 100, loc.y * 100)
+    elseif zone then
+        return TRACK_LOCATION_COLOR .. zone .. "|r"
+    end
+
+    if data and data.startQuest and quest and quest.id == data.startQuest.id and data.startQuest.location then
+        return TRACK_LOCATION_COLOR .. data.startQuest.location .. "|r"
+    end
+
+    return nil
+end
+
 function SM.PrintTrackResult(result, quest, data)
     local P = L["Addon Prefix"]
     local loc = GetQuestLocation(data, quest)
     local zone = loc and GetZoneName(loc.mapID) or nil
+    local place = GetLocationText(data, quest, loc)
     local Q = "|cffffd200" .. quest.name .. "|r"
     local NPC = quest.npc and ("|cffffd200" .. quest.npc .. "|r") or nil
     local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
     local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil
 
-    if result == "supertracked" then
+    if result == "classic_in_log" then
+        print(P .. string.format(L["Tracking Classic In Log Format"], Q))
+    elseif result == "classic_guidance" then
+        if CH then
+            if place then
+                print(P .. string.format(L["Tracking Classic Prereq Place Format"], CH, Q, place))
+            else
+                print(P .. string.format(L["Tracking Prereq Format"], CH, Q))
+            end
+            return
+        elseif NPC and place then
+            print(P .. string.format(L["Tracking Classic Find NPC Place Format"], NPC, place, Q))
+        elseif NPC then
+            print(P .. string.format(L["Tracking Classic Find NPC Format"], NPC, Q))
+        elseif place then
+            print(P .. string.format(L["Tracking Classic Find Place Format"], place, Q))
+        else
+            print(P .. string.format(L["Tracking Classic Begin Format"], Q))
+        end
+    elseif result == "supertracked" then
         print(P .. string.format(L["Tracking Now Following Format"], Q))
     elseif result == "waypoint" or result == "waypoint_approx" then
         if CH then

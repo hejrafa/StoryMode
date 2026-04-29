@@ -7,6 +7,7 @@
 - Pings now land on the actual quest icon by querying Blizzard's live pin location (`C_QuestLog.GetNextWaypointForMap` for tracked quests, `C_QuestLog.GetQuestsOnMap` for offered quests), falling back to hardcoded `npcLocations` only when the engine doesn't know the position
 - Fixed Adventure Guide tier lookup taint by wrapping `EJ_SelectTier` calls in `securecall`, preventing later loot tooltip money-frame errors after Story Mode searches for cover art
 - Hid the Story Mode window automatically when combat starts to avoid protected-frame interaction during lockdown
+- Fixed Classic Era "Begin This Story" errors by skipping retail-only world-map waypoint and ping behavior on Classic/TBC clients
 
 ### Maintenance
 - Restructured addon files into root TOC metadata, `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/` folders to prepare for additional game-version TOCs and localization work
@@ -15,12 +16,18 @@
 - Added client-specific TOCs for Classic Era (`StoryMode_Vanilla.toc`, interface `11507`) and Burning Crusade Classic (`StoryMode_TBC.toc`, interface `20505`)
 - Added `Code/Core/Compatibility.lua` for older client fallbacks around quest completion, quest log lookup, objective text, achievements, addon loading, reputation data, minimap tracking, and map pings
 - Added client expansion filtering so Classic Era and TBC load the addon shell while hiding story datasets from later expansions until version-specific content is added
+- Limited Classic/TBC TOCs to shared addon code plus Classic-compatible story data, avoiding later-expansion datasets on older clients
 
 ### UI
 - Reworked the chat tracking messages: yellow `Story Mode` prefix with a chevron separator, narrator-voice phrasing (`Now following …`, `Seek <npc> in <zone> to begin …`, `Your next chapter is … with … in …`), no more stacked colons or em-dashes
+- Added Classic/TBC-specific frame fallbacks for missing retail atlas art while preserving the existing retail presentation
+- Reworked Classic story cards, quest cards, progress view, and chapter track styling with Classic-safe borders, solid hover/backdrop layers, hidden scrollbars, and larger circular chapter portrait rings
+- Updated Classic tracking guidance to avoid map-pin language, reference the quest name, and include readable NPC locations such as Northshire Abbey, Sentinel Hill, Lakeshire, and Stormwind districts
 
 ### Content
 - Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn
+- Expanded **The Defias Brotherhood** to begin in Northshire and Elwynn with **Brotherhood of Thieves**, **Milly Osworth**, **Milly's Harvest**, **Bounty on Garrick Padfoot**, **Fine Linen Goods**, **The Collector**, and **Manhunt**
+- Added Classic NPC display IDs, area labels, and chapter/story portrait sources for the Defias storyline
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list
 - Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools

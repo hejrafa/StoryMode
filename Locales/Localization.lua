@@ -40,6 +40,7 @@ local function LocalizeQuest(quest)
     if type(quest) ~= "table" then return end
 
     LocalizeField(quest, "name")
+    LocalizeField(quest, "displayName")
     LocalizeField(quest, "npc")
     LocalizeField(quest, "location")
 end
