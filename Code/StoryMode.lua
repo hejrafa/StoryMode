@@ -120,6 +120,7 @@ end
 
 AddContentData(SM.FrozenThroneData)
 AddContentData(SM.DefiasBrotherhoodData)
+AddContentData(SM.ScarletCrusadeData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
 AddContentData(SM.NazmirData)
@@ -166,6 +167,9 @@ end
 
 if CanShowQuestline(SM.DefiasBrotherhoodData) then
     RegisterQuestline(SM.DefiasBrotherhoodData, "Epic Storylines")
+end
+if CanShowQuestline(SM.ScarletCrusadeData) then
+    RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")
 end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
@@ -1584,8 +1588,13 @@ local function CreateCompletionRibbon(parent)
     if not SM.SafeSetAtlas(check, "common-icon-checkmark", false) then
         SM.SafeSetTexture(check, "Interface\\Buttons\\UI-CheckBox-Check")
     end
-    check:SetSize(14, 14)
-    check:SetPoint("CENTER", ribbon, "CENTER", 0, hasFlag and 3 or 0)
+    if hasFlag then
+        check:SetSize(14, 14)
+        check:SetPoint("CENTER", ribbon, "CENTER", 0, 3)
+    else
+        check:SetSize(24, 24)
+        check:SetPoint("CENTER", ribbon, "CENTER", 0, 0)
+    end
     check:SetVertexColor(0.45, 0.90, 0.35)
 
     return ribbon
@@ -4210,7 +4219,11 @@ local function BuildStoryWindow()
 
                 -- ── Completion checkmark ──────────────────────────────────────
                 local cardCheckmark = CreateCompletionRibbon(card)
-                cardCheckmark:SetPoint("TOPRIGHT", card, "TOPRIGHT", -15, -1)
+                if SM.Client and SM.Client.isRetail then
+                    cardCheckmark:SetPoint("TOPRIGHT", card, "TOPRIGHT", -15, -1)
+                else
+                    cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
+                end
                 local cdone, ctotal = GetCampaignProgress(data)
                 if cdone == ctotal and ctotal > 0 then
                     cardCheckmark:Show()

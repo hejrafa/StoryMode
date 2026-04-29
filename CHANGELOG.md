@@ -28,6 +28,7 @@
 - Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn
 - Expanded **The Defias Brotherhood** to begin in Northshire and Elwynn with **Brotherhood of Thieves**, **Milly Osworth**, **Milly's Harvest**, **Bounty on Garrick Padfoot**, **Fine Linen Goods**, **The Collector**, and **Manhunt**
 - Added Classic NPC display IDs, area labels, and chapter/story portrait sources for the Defias storyline
+- Added **The Scarlet Crusade** as a Classic/TBC epic storyline with Horde Forsaken war chapters, Alliance Monastery lead-in quests, Scarlet Monastery dungeon chapters, and the Tirion/Taelan Fordring Plaguelands finale
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list
 - Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools
