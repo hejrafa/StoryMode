@@ -1,4 +1,5 @@
 local addonName, SM = ...
+local L = SM.L
 
 local function EnsureTrivialQuestsVisible()
     for i = 1, C_Minimap.GetNumTrackingTypes() do
@@ -11,7 +12,7 @@ local function EnsureTrivialQuestsVisible()
                 local idx, name = i, info.name
                 C_Timer.After(0, function()
                     C_Minimap.SetTracking(idx, true)
-                    print("|cffffd200Story Mode|r › Enabled |cffffd200" .. name .. "|r tracking so you can see quest markers for this storyline.")
+                    print(L["Addon Prefix"] .. string.format(L["Tracking Enabled Trivial Format"], name))
                 end)
                 return
             end
@@ -185,7 +186,7 @@ local function GetZoneName(mapID)
 end
 
 function SM.PrintTrackResult(result, quest, data)
-    local P = "|cffffd200Story Mode|r › "
+    local P = L["Addon Prefix"]
     local loc = GetQuestLocation(data, quest)
     local zone = loc and GetZoneName(loc.mapID) or nil
     local Q = "|cffffd200" .. quest.name .. "|r"
@@ -194,38 +195,38 @@ function SM.PrintTrackResult(result, quest, data)
     local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil
 
     if result == "supertracked" then
-        print(P .. "Now following " .. Q .. ". Look to your map.")
+        print(P .. string.format(L["Tracking Now Following Format"], Q))
     elseif result == "waypoint" or result == "waypoint_approx" then
         if CH then
             if Z then
-                print(P .. CH .. " awaits, but first finish " .. Q .. " in " .. Z .. ".")
+                print(P .. string.format(L["Tracking Prereq Zone Format"], CH, Q, Z))
             else
-                print(P .. CH .. " awaits, but first finish " .. Q .. ".")
+                print(P .. string.format(L["Tracking Prereq Format"], CH, Q))
             end
             return
         end
         if NPC and Z then
-            print(P .. "Seek " .. NPC .. " in " .. Z .. " to begin " .. Q .. ".")
+            print(P .. string.format(L["Tracking Seek NPC Zone Format"], NPC, Z, Q))
         elseif NPC then
-            print(P .. "Seek " .. NPC .. " to begin " .. Q .. ".")
+            print(P .. string.format(L["Tracking Seek NPC Format"], NPC, Q))
         else
-            print(P .. "Begin " .. Q .. ".")
+            print(P .. string.format(L["Tracking Begin Format"], Q))
         end
     else
         if CH then
             if Z then
-                print(P .. CH .. " awaits, but first finish " .. Q .. " in " .. Z .. ".")
+                print(P .. string.format(L["Tracking Prereq Zone Format"], CH, Q, Z))
             else
-                print(P .. CH .. " awaits, but first finish " .. Q .. ".")
+                print(P .. string.format(L["Tracking Prereq Format"], CH, Q))
             end
             return
         end
         if NPC and Z then
-            print(P .. "Your next chapter is " .. Q .. " with " .. NPC .. " in " .. Z .. ".")
+            print(P .. string.format(L["Tracking Next NPC Zone Format"], Q, NPC, Z))
         elseif NPC then
-            print(P .. "Your next chapter is " .. Q .. " with " .. NPC .. ".")
+            print(P .. string.format(L["Tracking Next NPC Format"], Q, NPC))
         else
-            print(P .. "Your next chapter is " .. Q .. ".")
+            print(P .. string.format(L["Tracking Next Format"], Q))
         end
     end
 end

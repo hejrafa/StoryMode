@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.1
+## 1.6.0
 
 ### Fixes
 - Fixed a taint error caused by the "Begin This Story" map ping reparenting an insecure frame onto the secure WorldMap canvas, which propagated into AreaPOI tooltip widget setup (`secret number` arithmetic on `textHeight`). The ping is now a proper `MapCanvasDataProvider` with a `StoryModePingPinTemplate`, registered through `WorldMapFrame:AddDataProvider`
@@ -8,15 +8,18 @@
 - Fixed Adventure Guide tier lookup taint by wrapping `EJ_SelectTier` calls in `securecall`, preventing later loot tooltip money-frame errors after Story Mode searches for cover art
 - Hid the Story Mode window automatically when combat starts to avoid protected-frame interaction during lockdown
 
+### Maintenance
+- Restructured addon files into root TOC metadata, `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/` folders to prepare for additional game-version TOCs and localization work
+- Added a Plumber-style localization loader with the current English UI strings in `Locales/enUS.lua`
+- Added the current English dataset content strings to the localization table and localize questline data at load time, preparing story titles, descriptions, chapters, recaps, notes, quest names, NPC labels, zones, expansions, and lookup keys for future locale files
+
 ### UI
 - Reworked the chat tracking messages: yellow `Story Mode` prefix with a chevron separator, narrator-voice phrasing (`Now following …`, `Seek <npc> in <zone> to begin …`, `Your next chapter is … with … in …`), no more stacked colons or em-dashes
 
 ### Content
-- Added exploration achievements to Dread Wastes, Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
-- Added The Anglers reputation to The Klaxxi journal data
-- Split The Klaxxi amber arc into separate **The Root of the Problem** and **Taste of Amber** chapters, with corrected quest NPCs for Sapmaster Vu, Chen Stormstout, Olon, Chief Rikkitun, Iyyokuk, and Deck Boss Arie
+- Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
+- Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list
 - Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools
-- Corrected Klaxxi quest flow, including missing/wrong paragons, Soggy's Gamble quest givers, Sunset Brewgarden ordering, and verified Klaxxi NPC display IDs
 - Fixed stale Suramar Insurrection and Nightfallen quest IDs, including Arcway/Court of Stars optional steps, Crafting War faction variants, and the Kel'danath/Waning Crescent side flow
 - Corrected stale or mismatched achievement entries for Nazmir, Jade Forest, and the Battle for Lordaeron replay chapter
 

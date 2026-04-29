@@ -4,10 +4,9 @@
 
 It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and one-click map guidance.
 
-## Version 1.5.1 Highlights
+## Version 1.6.0 Highlights
 
 - **The Master of Revendreth** joins Epic Storylines with the full Shadowlands zone campaign, from Darkhaven and the Court of Harvesters to Prince Renathal, Sire Denathrius, and the anima crisis.
-- **The Klaxxi** returns to Epic Storylines, placing the Dread Wastes back alongside the Mists of Pandaria story path.
 - **Adventure pages** now use large Blizzard cover art, cleaner title overlays, and a sharper left-side story list.
 - **Journal pages** now keep chapter recaps together with faction reputation cards and progress details.
 - **Achievements and hints** were cleaned up so they stay story-relevant and give practical unlock instructions, with exploration achievements added to more adventures.
@@ -28,7 +27,6 @@ It turns scattered quest chains into guided adventures with chapter progress, st
 **Epic Storylines**
 - The Frozen Throne
 - The Jade Forest
-- The Klaxxi
 - Insurrection
 - The Dark Heart of Nazmir
 - The Master of Revendreth

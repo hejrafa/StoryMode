@@ -1,4 +1,5 @@
 local addonName, SM = ...
+local L = SM.L
 
 local function GetPlayerFaction()
     return UnitFactionGroup("player")
@@ -191,22 +192,22 @@ function SM.GetQuestLockReason(data, ch, questIndex)
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        return string.format("Reach level %d to begin this story.", data.requiredLevel)
+        return string.format(L["Lock Required Level Format"], data.requiredLevel)
     end
 
     local unmetPrereq = SM.GetFirstUnmetChapterPrerequisite(ch)
     if unmetPrereq then
-        local questName = unmetPrereq.name or ("Quest ID " .. tostring(unmetPrereq.id))
+        local questName = unmetPrereq.name or string.format(L["Quest ID Format"], tostring(unmetPrereq.id))
         if unmetPrereq.npc and unmetPrereq.npc ~= "" then
-            return "Pick up \"" .. questName .. "\" from " .. unmetPrereq.npc .. " to unlock this chapter."
+            return string.format(L["Lock Pick Up Quest Format"], questName, unmetPrereq.npc)
         end
-        return "Complete \"" .. questName .. "\" to unlock this chapter."
+        return string.format(L["Lock Complete Quest Format"], questName)
     end
 
     if questIndex and questIndex > 1 then
         local prevQuest = ch.quests and ch.quests[questIndex - 1]
         if prevQuest and not SM.IsQuestEffectivelyComplete(questIndex - 1, ch.quests) then
-            return "Complete \"" .. (prevQuest.name or ("Quest ID " .. tostring(prevQuest.id))) .. "\" first."
+            return string.format(L["Lock Complete Previous Quest Format"], prevQuest.name or string.format(L["Quest ID Format"], tostring(prevQuest.id)))
         end
     end
 
@@ -218,7 +219,7 @@ function SM.GetQuestlineGateReason(data)
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
-        return string.format("Reach level %d to begin this story.", data.requiredLevel)
+        return string.format(L["Lock Required Level Format"], data.requiredLevel)
     end
 
     return nil

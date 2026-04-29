@@ -3,16 +3,14 @@ import path from "node:path";
 
 const root = process.argv[2] || process.cwd();
 const cacheDir = path.join(root, ".meta-audit-cache");
+const dataRoot = path.join(root, "Data");
 
 const namedAchievements = new Map([
-  ["amber is the color of my energy", 7312],
-  ["explore dread wastes", 6978],
   ["explore drustvar", 12557],
   ["explore nazmir", 12561],
   ["explore revendreth", 14306],
   ["explore suramar", 10669],
   ["explore jade forest", 6351],
-  ["stay klaxxi", 7313],
 ]);
 
 const factionNames = new Map([
@@ -23,8 +21,6 @@ const factionNames = new Map([
   [1228, "Forest Hozen"],
   [1242, "Pearlfin Jinyu"],
   [1271, "Order of the Cloud Serpent"],
-  [1302, "The Anglers"],
-  [1337, "The Klaxxi"],
   [1859, "The Nightfallen"],
   [2103, "Zandalari Empire"],
   [2156, "Talanji's Expedition"],
@@ -180,8 +176,7 @@ function commentExpectedName(comment) {
     .trim();
 }
 
-const files = (await walk(root))
-  .filter((file) => /(?:Campaigns|Heritage|Storylines)\//.test(path.relative(root, file)));
+const files = await walk(dataRoot);
 
 const allAchievementUses = new Map();
 const allNamedAchievementUses = new Map();

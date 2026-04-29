@@ -1,6 +1,7 @@
 local addonName, SM = ...
+local L = SM.L
 
-local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\storymode_icon"
+local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
 
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
@@ -47,7 +48,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
 
     minimapBtn:SetScript("OnClick", function()
         if InCombatLockdown() then
-            UIErrorsFrame:AddMessage("You cannot toggle this UI while in combat.", 1, 0.1, 0.1)
+            UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
             return
         end
         C_Timer.After(0, function()
@@ -62,8 +63,8 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     minimapBtn:SetScript("OnEnter", function(self)
         tooltip:SetOwner(self, "ANCHOR_LEFT")
         tooltip:ClearLines()
-        tooltip:AddLine("Story Mode", 1, 1, 1)
-        tooltip:AddLine("Click to open", bodyColor[1], bodyColor[2], bodyColor[3])
+        tooltip:AddLine(L["Minimap Tooltip Title"], 1, 1, 1)
+        tooltip:AddLine(L["Minimap Tooltip Open"], bodyColor[1], bodyColor[2], bodyColor[3])
         tooltip._minW = 0
         tooltip:Show()
     end)

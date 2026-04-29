@@ -2,7 +2,7 @@
 -- Sanity-check the npcLocations tables across all data files.
 --
 -- Run from the addon root:
---     lua tools/validate_npc_locations.lua
+--     lua _Dev/tools/validate_npc_locations.lua
 --
 -- What it flags:
 --   * coords outside [0, 1]
@@ -51,7 +51,7 @@ local function scan(dir)
     end
     p:close()
 end
-scan("Storylines"); scan("Heritage"); scan("Campaigns")
+scan("Data/Storylines"); scan("Data/Heritage"); scan("Data/Campaigns")
 
 local issues = {}
 local function add(file, msg) issues[#issues+1] = file..": "..msg end

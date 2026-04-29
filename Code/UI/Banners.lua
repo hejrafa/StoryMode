@@ -1,4 +1,5 @@
 local addonName, SM = ...
+local L = SM.L
 
 function SM.CreateBanners()
     local alertFrame = CreateFrame("Frame", nil, UIParent)
@@ -52,7 +53,7 @@ function SM.CreateBanners()
     end
 
     local function ShowStoryComplete(storyTitle)
-        ShowStoryBanner("STORY COMPLETE", storyTitle or "", nil, nil, true)
+        ShowStoryBanner(L["Banner Story Complete"], storyTitle or "", nil, nil, true)
     end
 
     return ShowStoryBanner, ShowStoryComplete

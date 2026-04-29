@@ -2,7 +2,7 @@
 
 Story Mode is a World of Warcraft addon for following memorable quest stories from start to finish. It lays out each adventure chapter by chapter, explains where you are in the narrative, tracks what your character has already done, and gives you a practical next step when the quest chain gets messy.
 
-Version 1.5.1 expands the addon into a richer story companion: **The Master of Revendreth** is now included, **The Klaxxi** is back in the Epic Storylines list with cleaner chapter data, Adventure pages have large Blizzard cover art, and the Journal tab now brings completed chapter recaps together with faction reputation progress.
+Version 1.6.0 prepares Story Mode for multiple game versions and localization while keeping the current English experience intact.
 
 Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui) for a more cinematic questing experience.
 
@@ -21,12 +21,16 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 
 ---
 
-## Version 1.5.1
+## Version 1.6.0
+
+### Maintenance
+
+- Restructured addon files into `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/`.
+- Added a Plumber-style localization loader with current English UI and dataset content strings.
 
 ### New and Updated Content
 
 - **The Master of Revendreth** - a full seven-chapter Shadowlands storyline covering Darkhaven, the Court of Harvesters, the Accuser, the Penitent Hunt, Theotar, Prince Renathal, Sire Denathrius, and the anima being sent to the Maw.
-- **The Klaxxi** - restored to Epic Storylines and positioned after **What Is Worth Fighting For** for a stronger Mists of Pandaria story path, now with the amber harvest and brewgarden arcs split into cleaner chapters.
 - **What Is Worth Fighting For** - updated with the dungeon finale quest **Deep Doubts, Deep Wisdom** and corrected Temple of the Jade Serpent chapter data.
 - **Faction reputation data** - added across the current story set so Journal pages can show related factions beside chapter recaps.
 - **Story-relevant achievements** - cleaned up to focus on meaningful story completions, exploration, normal dungeon and raid clears, and normal boss kills where appropriate.
@@ -51,7 +55,6 @@ Pairs well with [Dialogue UI](https://www.curseforge.com/wow/addons/dialogue-ui)
 |---|---|---|
 | The Frozen Throne | Wrath of the Lich King | Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls |
 | What Is Worth Fighting For | Mists of Pandaria | The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale |
-| The Klaxxi | Mists of Pandaria | Dread Wastes, the paragons, amber, and the Heart of Fear |
 | Insurrection | Legion | Suramar and the Nightfallen rebellion |
 | The Dark Heart of Nazmir | Battle for Azeroth | Horde-only Nazmir campaign |
 | The Master of Revendreth | Shadowlands | Revendreth zone campaign and Denathrius's betrayal |
@@ -127,6 +130,17 @@ World of Warcraft/_retail_/Interface/AddOns/
 
 3. Restart WoW or run `/reload`.
 4. Open Story Mode with `/sm`.
+
+---
+
+## Project Layout
+
+- `StoryMode.toc` stays at the addon root with load order and metadata.
+- `Code/` contains runtime Lua and XML, split into `Core/`, `UI/`, and the main Story Mode window.
+- `Data/` contains questline datasets grouped by story type.
+- `Locales/` loads the current English UI and dataset content strings through `Localization.xml` and `enUS.lua`, ready for future locale files.
+- `Art/` contains addon-owned icons, hero art, masks, and future visual assets.
+- `_Dev/tools/` contains local audit and maintenance scripts that are not loaded by WoW.
 
 ---
 

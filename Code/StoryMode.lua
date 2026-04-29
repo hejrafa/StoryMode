@@ -1,6 +1,7 @@
 local addonName, SM = ...
+local L = SM.L
 
--- Exposed for Core/Progress.lua so lore/replayable chapter progress can read
+-- Exposed for Code/Core/Progress.lua so lore/replayable chapter progress can read
 -- the selected story without coupling that module to the UI implementation.
 local currentStoryData = nil  -- assigned by UpdateStoryDetail
 function SM.GetCurrentStoryData()
@@ -72,11 +73,11 @@ end
 -- ============================================================================
 
 local categories = {
-    { name = "Epic Storylines", questlines = {} },
-    { name = "Character Stories", questlines = {} },
-    { name = "Short Stories", questlines = {} },
-    { name = "Identity", displayName = (UnitRace("player")) .. " " .. (UnitClass("player")), questlines = {} },
-    { name = "More Coming Soon", disabled = true, questlines = {} },
+    { name = "Epic Storylines", displayName = L["Category Epic Storylines"], questlines = {} },
+    { name = "Character Stories", displayName = L["Category Character Stories"], questlines = {} },
+    { name = "Short Stories", displayName = L["Category Short Stories"], questlines = {} },
+    { name = "Identity", displayName = string.format(L["Category Identity Format"], UnitRace("player"), UnitClass("player")), questlines = {} },
+    { name = "More Coming Soon", displayName = L["Category More Coming Soon"], disabled = true, questlines = {} },
 }
 
 local allQuestlines = {}
@@ -107,6 +108,56 @@ local function CanShowQuestline(data)
 end
 
 -- ============================================================================
+-- Localize Questline Content
+-- ============================================================================
+
+local contentData = {}
+local function AddContentData(data)
+    if data then contentData[#contentData + 1] = data end
+end
+
+AddContentData(SM.FrozenThroneData)
+AddContentData(SM.JadeForestData)
+AddContentData(SM.SuramarData)
+AddContentData(SM.NazmirData)
+AddContentData(SM.RevendrethData)
+AddContentData(SM.DrustvarData)
+AddContentData(SM.SylvanasData)
+AddContentData(SM.JainaData)
+AddContentData(SM.LilianVossData)
+AddContentData(SM.TeddiesAndTeaData)
+AddContentData(SM.DeathKnightCampaignData)
+AddContentData(SM.DemonHunterCampaignData)
+AddContentData(SM.DruidCampaignData)
+AddContentData(SM.HunterCampaignData)
+AddContentData(SM.MageCampaignData)
+AddContentData(SM.MonkCampaignData)
+AddContentData(SM.PaladinCampaignData)
+AddContentData(SM.PriestCampaignData)
+AddContentData(SM.RogueCampaignData)
+AddContentData(SM.ShamanCampaignData)
+AddContentData(SM.WarlockCampaignData)
+AddContentData(SM.WarriorCampaignData)
+AddContentData(SM.ForsakenHeritageData)
+AddContentData(SM.BloodElfHeritageData)
+AddContentData(SM.GoblinHeritageData)
+AddContentData(SM.TrollHeritageData)
+AddContentData(SM.OrcHeritageData)
+AddContentData(SM.TaurenHeritageData)
+AddContentData(SM.HumanHeritageData)
+AddContentData(SM.DwarfHeritageData)
+AddContentData(SM.GnomeHeritageData)
+AddContentData(SM.NightElfHeritageData)
+AddContentData(SM.WorgenHeritageData)
+AddContentData(SM.DraeneiHeritageData)
+AddContentData(SM.PandarenHeritageData)
+AddContentData(SM.DarkIronHeritageData)
+
+for _, data in ipairs(contentData) do
+    SM.LocalizeContentData(data)
+end
+
+-- ============================================================================
 -- Register Questlines
 -- ============================================================================
 
@@ -115,9 +166,6 @@ if CanShowQuestline(SM.FrozenThroneData) then
 end
 if CanShowQuestline(SM.JadeForestData) then
     RegisterQuestline(SM.JadeForestData, "Epic Storylines")
-end
-if CanShowQuestline(SM.DreadWastesData) then
-    RegisterQuestline(SM.DreadWastesData, "Epic Storylines")
 end
 if CanShowQuestline(SM.SuramarData) then
     RegisterQuestline(SM.SuramarData, "Epic Storylines")
@@ -209,8 +257,8 @@ local GAP      = 6
 local RIGHT_W  = 732   -- FRAME_W - LEFT_W - GAP
 local HEADER_H = 68
 local SOLID    = "Interface\\Buttons\\WHITE8x8"
-local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\storymode_icon"
-local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\storymode_hero"
+local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
+local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_hero"
 
 -- Color palette
 local C_BODY = {0.922, 0.871, 0.761}
@@ -348,13 +396,13 @@ rightHeader:SetHeight(HEADER_H)
 local tabStoryLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabStoryLabel:SetPoint("LEFT", rightHeader, "LEFT", 56, 0)
 tabStoryLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
-tabStoryLabel:SetText("Adventure")
+tabStoryLabel:SetText(L["Tab Adventure"])
 tabStoryLabel:SetTextColor(1, 1, 1)
 
 local tabProgressLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabProgressLabel:SetPoint("LEFT", tabStoryLabel, "RIGHT", 24, 0)
 tabProgressLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
-tabProgressLabel:SetText("Progress")
+tabProgressLabel:SetText(L["Tab Progress"])
 tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 
 -- Clickable hit areas over tab labels
@@ -369,7 +417,7 @@ tabProgressHit:SetPoint("BOTTOMRIGHT", tabProgressLabel, "BOTTOMRIGHT", 4, -4)
 local tabJournalLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabJournalLabel:SetPoint("LEFT", tabProgressLabel, "RIGHT", 24, 0)
 tabJournalLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
-tabJournalLabel:SetText("Journal")
+tabJournalLabel:SetText(L["Tab Journal"])
 tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 
 local tabJournalHit = CreateFrame("Button", nil, rightHeader)
@@ -436,17 +484,7 @@ introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(INTRO_HERO_H + 48)
 introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -(INTRO_HERO_H + 48))
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
 introText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-introText:SetText(
-    "Warcraft has told some extraordinary stories. "
-    .."Many of them are tucked inside old quest hubs, faction paths, "
-    .."dungeon finales, and prerequisites that are easy to miss."
-    .."\n\nStory Mode collects the questlines I think are worth returning to "
-    .."and lays them out chapter by chapter. You get the characters, "
-    .."the context, your progress, and the next step when the trail gets messy. "
-    .."As you play, completed chapters are written into a journal you can revisit any time."
-    .."\n\nFor the best experience, pair this with Dialogue UI. "
-    .."It turns quest text into a conversation you actually want to read."
-    .."\n\nRelive your adventure.")
+introText:SetText(L["Intro Text"])
 
 -- ══════════════════════════════════════════════════════════════════════════════
 -- Detail view — centered portrait hero + clean sections
@@ -519,7 +557,7 @@ aCoverTexture:SetTexCoord(
 -- all four sides. Authored in Figma, exported as 32-bit TGA. The mask stretches
 -- to fit the cover, so changing fade thickness is a matter of re-exporting.
 local aCoverFadeMask = aCoverFrame:CreateMaskTexture()
-aCoverFadeMask:SetTexture("Interface\\AddOns\\StoryMode\\Textures\\CoverFadeMask",
+aCoverFadeMask:SetTexture("Interface\\AddOns\\StoryMode\\Art\\Masks\\CoverFadeMask",
     "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
 aCoverFadeMask:SetAllPoints(aCoverTexture)
 aCoverTexture:AddMaskTexture(aCoverFadeMask)
@@ -580,7 +618,7 @@ local sTrackBtnTemplate = C_XMLUtil and C_XMLUtil.GetTemplateInfo
     and "SharedButtonLargeTemplate" or "UIPanelButtonTemplate"
 local sTrackBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
 sTrackBtn:SetSize(240, 40)
-sTrackBtn:SetText("Begin This Story")
+sTrackBtn:SetText(L["Button Begin Story"])
 sTrackBtn:RegisterForClicks("AnyUp")
 sTrackBtn.lockReason = nil
 
@@ -652,7 +690,7 @@ sTrackBtn:SetScript("OnEnter", function(self)
     if self.lockReason then
         SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
         SMTooltip:ClearLines()
-        SMTooltip:AddLine("Story is locked", 1, 1, 1)
+        SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
         SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
         SMTooltip:Show()
     end
@@ -661,34 +699,34 @@ sTrackBtn:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
 local sCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sCompleteText:SetTextColor(0.40, 0.82, 0.35)
-sCompleteText:SetText("|A:common-icon-checkmark:0:0|a Campaign Complete")
+sCompleteText:SetText(L["Campaign Complete"])
 
 -- Progressive story journal entries (chapter recaps, revealed as quests are completed)
 local sJournalHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sJournalHeader:SetJustifyH("CENTER")
 sJournalHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-sJournalHeader:SetText("Your Story So Far")
+sJournalHeader:SetText(L["Journal Header"])
 
 local sJournalSubline = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sJournalSubline:SetJustifyH("CENTER"); sJournalSubline:SetWordWrap(true)
 sJournalSubline:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-sJournalSubline:SetText("Relieve your adventure.")
+sJournalSubline:SetText(L["Journal Subline"])
 
 local sJournalEmptyTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sJournalEmptyTitle:SetJustifyH("CENTER")
 sJournalEmptyTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-sJournalEmptyTitle:SetText("The first page is still blank.")
+sJournalEmptyTitle:SetText(L["Journal Empty Title"])
 sJournalEmptyTitle:Hide()
 
 local sJournalEmptyText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sJournalEmptyText:SetJustifyH("CENTER"); sJournalEmptyText:SetSpacing(4); sJournalEmptyText:SetWordWrap(true)
 sJournalEmptyText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-sJournalEmptyText:SetText("Begin this story and your completed chapters will gather here as a quiet record of the road behind you.")
+sJournalEmptyText:SetText(L["Journal Empty Text"])
 
 local sFactionHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
 sFactionHeader:SetJustifyH("CENTER")
 sFactionHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-sFactionHeader:SetText("Factions")
+sFactionHeader:SetText(L["Section Factions"])
 sFactionHeader:Hide()
 
 local sJournalEntries = {}  -- pool of { title = FontString, body = FontString }
@@ -732,7 +770,6 @@ local FactionUI = {
         [1156] = 133441,   -- The Ashen Verdict
         [1228] = 877482,   -- Forest Hozen
         [1271] = 646324,   -- Order of the Cloud Serpent
-        [1337] = 646377,   -- The Klaxxi
         [1859] = 1394956,  -- Nightfallen faction icon
         [2103] = 2065579,  -- Zandalari Empire faction icon
         [2156] = 2065575,  -- Talanji's Expedition faction icon
@@ -751,8 +788,6 @@ local FactionUI = {
         [1156] = "The Ashen Verdict",
         [1228] = "Forest Hozen",
         [1271] = "Order of the Cloud Serpent",
-        [1302] = "The Anglers",
-        [1337] = "The Klaxxi",
         [1859] = "The Nightfallen",
         [2103] = "Zandalari Empire",
         [2156] = "Talanji's Expedition",
@@ -772,8 +807,6 @@ local FactionUI = {
         [1156] = {0.78, 0.85, 0.60},  -- The Ashen Verdict
         [1228] = {0.58, 0.76, 0.26},  -- Forest Hozen
         [1271] = {0.12, 0.72, 0.78},  -- Order of the Cloud Serpent
-        [1302] = {0.20, 0.55, 0.78},  -- The Anglers (sea blue)
-        [1337] = {0.95, 0.62, 0.18},  -- The Klaxxi
         [1859] = {0.62, 0.38, 0.95},  -- The Nightfallen
         [2103] = {0.91, 0.62, 0.12},  -- Zandalari Empire
         [2156] = {0.16, 0.72, 0.68},  -- Talanji's Expedition
@@ -1282,7 +1315,7 @@ end
 
 local dCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 dCompleteText:SetTextColor(0.40, 0.82, 0.35)
-dCompleteText:SetText("|A:common-icon-checkmark:0:0|a Campaign Complete")
+dCompleteText:SetText(L["Campaign Complete"])
 
 -- Progress summary (shown at top of progress tab, under hero)
 local dProgSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
@@ -1815,7 +1848,7 @@ dChapterNote:Hide()
 -- Mark as Viewed button — shown for loreOnly chapters (same template as story CTA)
 local dMarkViewedBtn = CreateFrame("Button", nil, detailChild, sTrackBtnTemplate)
 dMarkViewedBtn:SetSize(240, 40)
-dMarkViewedBtn:SetText("Mark as Viewed")
+dMarkViewedBtn:SetText(L["Button Mark Viewed"])
 dMarkViewedBtn:Hide()
 
 -- Achievement reward line — clickable, shown when a chapter has an achievementID
@@ -2164,9 +2197,9 @@ local function CreateAchievementRow(parent)
         if completed then
             local dateStr = (month and month > 0)
                 and (" — " .. month .. "/" .. day .. "/" .. year) or ""
-            SMTooltip:AddLine("Earned" .. dateStr, 0.2, 0.83, 0.2)
+            SMTooltip:AddLine(L["Achievement Earned"] .. dateStr, 0.2, 0.83, 0.2)
         else
-            SMTooltip:AddLine("Not yet earned", C_DIM[1], C_DIM[2], C_DIM[3])
+            SMTooltip:AddLine(L["Achievement Not Yet Earned"], C_DIM[1], C_DIM[2], C_DIM[3])
         end
         -- Description
         if description and description ~= "" then
@@ -2177,7 +2210,7 @@ local function CreateAchievementRow(parent)
         local numCriteria = GetAchievementNumCriteria(self.achievementID)
         if numCriteria and numCriteria > 0 then
             SMTooltip:AddLine(" ")
-            SMTooltip:AddLine("Criteria:", C_GOLD[1], C_GOLD[2], C_GOLD[3])
+            SMTooltip:AddLine(L["Achievement Criteria"], C_GOLD[1], C_GOLD[2], C_GOLD[3])
             for i = 1, numCriteria do
                 local criteriaName, _, critCompleted = GetAchievementCriteriaInfo(self.achievementID, i)
                 if criteriaName and criteriaName ~= "" then
@@ -2190,10 +2223,10 @@ local function CreateAchievementRow(parent)
         -- Reward
         if type(rewardText) == "string" and rewardText ~= "" then
             SMTooltip:AddLine(" ")
-            SMTooltip:AddLine("Reward: " .. rewardText, C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
+            SMTooltip:AddLine(string.format(L["Achievement Reward Format"], rewardText), C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
         end
         SMTooltip:AddLine(" ")
-        SMTooltip:AddLine("Click to open in Achievement log", 0.5, 0.5, 0.5)
+        SMTooltip:AddLine(L["Achievement Open Log"], 0.5, 0.5, 0.5)
         SMTooltip:Show()
     end)
     row:SetScript("OnLeave", function()
@@ -2302,11 +2335,11 @@ LayoutSelectedChapter = function()
     elseif ch.prerequisites then
         local req = GetFirstUnmetChapterPrerequisite(ch)
         if req then
-            local reqQuest = req.name or ("Quest ID " .. tostring(req.id))
+            local reqQuest = req.name or string.format(L["Quest ID Format"], tostring(req.id))
             if req.npc then
-                dChapterNote:SetText("Speak with " .. req.npc .. " and pick up \"" .. reqQuest .. "\" to begin this chapter.")
+                dChapterNote:SetText(string.format(L["Lock Speak Pick Up Quest Format"], req.npc, reqQuest))
             else
-                dChapterNote:SetText("Complete \"" .. reqQuest .. "\" to unlock this chapter.")
+                dChapterNote:SetText(string.format(L["Lock Complete Quest Format"], reqQuest))
             end
             dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
             dChapterNote:Show()
@@ -2328,12 +2361,12 @@ LayoutSelectedChapter = function()
         dMarkViewedBtn:ClearAllPoints()
         dMarkViewedBtn:SetPoint("TOP", btnAnchor, "BOTTOM", 0, -14)
         if chIsComplete then
-            dMarkViewedBtn:SetText(ch.loreOnly and "Watched" or "Played")
+            dMarkViewedBtn:SetText(ch.loreOnly and L["Button Watched"] or L["Button Played"])
             dMarkViewedBtn:SetScript("OnClick", nil)
             dMarkViewedBtn:Disable()
             dMarkViewedBtn:SetAlpha(0.5)
         elseif ch.loreOnly then
-            dMarkViewedBtn:SetText("Mark as Viewed")
+            dMarkViewedBtn:SetText(L["Button Mark Viewed"])
             dMarkViewedBtn:SetScript("OnClick", function()
                 SM.SetLoreChapterViewed(data.title, ch.chapter)
                 LayoutSelectedChapter()
@@ -2341,7 +2374,7 @@ LayoutSelectedChapter = function()
             dMarkViewedBtn:Enable()
             dMarkViewedBtn:SetAlpha(1.0)
         else
-            dMarkViewedBtn:SetText("Mark as Played")
+            dMarkViewedBtn:SetText(L["Button Mark Played"])
             dMarkViewedBtn:SetScript("OnClick", function()
                 SM.SetChapterPlayed(data.title, ch.chapter)
                 LayoutSelectedChapter()
@@ -2416,10 +2449,10 @@ LayoutSelectedChapter = function()
             card.questID = q.id
             card.tooltipTitle = q.name
             card.tooltipNPC = q.npc
-            card.tooltipStatus = qDoneDisplay and "|cff59c746Completed|r"
-                or qInLog and "|cffffd223In Progress|r"
-                or qOptional and "|cff808080Optional|r"
-                or "|cff808080Not yet available|r"
+            card.tooltipStatus = qDoneDisplay and ("|cff59c746" .. L["Quest Status Completed"] .. "|r")
+                or qInLog and ("|cffffd223" .. L["Quest Status In Progress"] .. "|r")
+                or qOptional and ("|cff808080" .. L["Quest Status Optional"] .. "|r")
+                or ("|cff808080" .. L["Quest Status Not Available"] .. "|r")
             card.tooltipRequirement = lockReason
 
             card.icon:SetSize(14, 14)
@@ -2666,14 +2699,14 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         sCompleteText:Hide()
         if quest then
             if gateReason then
-                sTrackBtn:SetText("Story Locked")
+                sTrackBtn:SetText(L["Button Story Locked"])
                 sTrackBtn:SetScript("OnClick", nil)
                 sTrackBtnSecure:SetScript("PreClick", nil)
                 sTrackBtn:Disable()
                 sTrackBtn:SetAlpha(0.5)
                 sTrackBtn.lockReason = gateReason
             else
-                sTrackBtn:SetText(done > 0 and "Continue Story" or "Begin This Story")
+                sTrackBtn:SetText(done > 0 and L["Button Continue Story"] or L["Button Begin Story"])
                 -- PreClick on the secure overlay queues the action BEFORE the
                 -- macro fires. The macro then performs the waypoint +
                 -- supertrack calls in a secure execution context.
@@ -2686,7 +2719,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtn.lockReason = nil
             end
         else
-            sTrackBtn:SetText("Story Finished")
+            sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
             sTrackBtnSecure:SetScript("PreClick", nil)
             sTrackBtn:Disable()
@@ -2724,7 +2757,7 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
         FactionUI:HideAll()
         sFactionHeader:Hide()
 
-        sJournalHeader:SetText(quest and "Your Story So Far" or "Your Story")
+        sJournalHeader:SetText(quest and L["Journal Header"] or L["Journal Header Complete"])
         sJournalHeader:ClearAllPoints()
         sJournalHeader:SetPoint("TOP", detailChild, "TOP", 0, -18)
         sJournalHeader:Show()
@@ -2778,11 +2811,11 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
             sJournalEmptyTitle:SetPoint("LEFT", detailChild, "LEFT", CP, 0)
             sJournalEmptyTitle:SetPoint("RIGHT", detailChild, "RIGHT", -CP, 0)
             if done > 0 then
-                sJournalEmptyTitle:SetText("No chapter recaps yet.")
-                sJournalEmptyText:SetText("Keep going. Once you finish a chapter, its recap will appear here.")
+                sJournalEmptyTitle:SetText(L["Journal No Recaps Title"])
+                sJournalEmptyText:SetText(L["Journal No Recaps Text"])
             else
-                sJournalEmptyTitle:SetText("The first page is still blank.")
-                sJournalEmptyText:SetText("Begin this story and your completed chapters will gather here as a quiet record of the road behind you.")
+                sJournalEmptyTitle:SetText(L["Journal Empty Title"])
+                sJournalEmptyText:SetText(L["Journal Empty Text"])
             end
             sJournalEmptyTitle:Show()
             sJournalEmptyText:ClearAllPoints()
@@ -2829,8 +2862,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
             local cd, ct = GetChapterProgress(ch)
             if cd == ct and ct > 0 then chapDone = chapDone + 1 end
         end
-        dProgSummary:SetText("Chapter " .. chapDone .. " of " .. #chapters
-            .. "  \194\183  " .. done .. "/" .. total .. " quests")
+        dProgSummary:SetText(string.format(L["Progress Summary Format"], chapDone, #chapters, done, total))
         dProgSummary:ClearAllPoints()
         dProgSummary:SetPoint("TOP", dTitle, "BOTTOM", 0, -4)
         dProgSummary:Show()
@@ -3331,9 +3363,9 @@ function SM.CreateLeftAchievementButton(parent)
         SMTooltip:AddLine(achName or "", 1, 1, 1)
         if completed then
             local dateStr = (month and month > 0) and (" — " .. month .. "/" .. day .. "/" .. year) or ""
-            SMTooltip:AddLine("Earned" .. dateStr, 0.2, 0.83, 0.2)
+            SMTooltip:AddLine(L["Achievement Earned"] .. dateStr, 0.2, 0.83, 0.2)
         else
-            SMTooltip:AddLine("Not yet earned", C_DIM[1], C_DIM[2], C_DIM[3])
+            SMTooltip:AddLine(L["Achievement Not Yet Earned"], C_DIM[1], C_DIM[2], C_DIM[3])
         end
         if description and description ~= "" then
             SMTooltip:AddLine(" ")
@@ -3341,10 +3373,10 @@ function SM.CreateLeftAchievementButton(parent)
         end
         if type(rewardText) == "string" and rewardText ~= "" then
             SMTooltip:AddLine(" ")
-            SMTooltip:AddLine("Reward: " .. rewardText, C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
+            SMTooltip:AddLine(string.format(L["Achievement Reward Format"], rewardText), C_GOLD[1], C_GOLD[2], C_GOLD[3], true)
         end
         SMTooltip:AddLine(" ")
-        SMTooltip:AddLine("Click to open in Achievement log", 0.5, 0.5, 0.5)
+        SMTooltip:AddLine(L["Achievement Open Log"], 0.5, 0.5, 0.5)
         SMTooltip:Show()
     end)
     btn:SetScript("OnLeave", function(self)
@@ -3468,12 +3500,12 @@ end
 
 function SM.LayoutLeftAchievements(data)
     local yOffset = SM.LeftContextYOffset or -16
-    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, "Achievements", yOffset) - 8
+    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, L["Section Achievements"], yOffset) - 8
     SM.LeftContextDividerIndex = (SM.LeftContextDividerIndex or 1) + 1
 
     local ids = GetStoryAchievements(data)
     if #ids == 0 then
-        SM.LeftContextEmptyText:SetText("No achievements tracked.")
+        SM.LeftContextEmptyText:SetText(L["No Achievements Tracked"])
         SM.LeftContextEmptyText:ClearAllPoints()
         SM.LeftContextEmptyText:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 12, yOffset)
         SM.LeftContextEmptyText:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -12, yOffset)
@@ -3523,7 +3555,7 @@ end
 
 function SM.LayoutLeftFactions(data)
     local yOffset = SM.LeftContextYOffset or -16
-    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, "Factions", yOffset) - 8
+    yOffset = yOffset - SM.GetLeftContextDivider(SM.LeftContextDividerIndex or 1, L["Section Factions"], yOffset) - 8
     SM.LeftContextDividerIndex = (SM.LeftContextDividerIndex or 1) + 1
 
     local factions = GetStoryFactions(data)
@@ -3555,7 +3587,7 @@ function SM.LayoutLeftFactions(data)
     end
 
     if shown == 0 then
-        SM.LeftContextEmptyText:SetText("No factions tracked.")
+        SM.LeftContextEmptyText:SetText(L["No Factions Tracked"])
         SM.LeftContextEmptyText:ClearAllPoints()
         SM.LeftContextEmptyText:SetPoint("TOPLEFT", SM.LeftContextChild, "TOPLEFT", 12, yOffset)
         SM.LeftContextEmptyText:SetPoint("TOPRIGHT", SM.LeftContextChild, "TOPRIGHT", -12, yOffset)
@@ -3601,7 +3633,7 @@ local function BuildStoryWindow()
 
     -- ── Introduction card (index 0 = show intro text on right) ───────────
     local playerName = UnitName("player")
-    local introDivH = CreateCatDivider(leftChild, playerName and ("Hej, " .. playerName) or "Hej", yOffset)
+    local introDivH = CreateCatDivider(leftChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
     yOffset = yOffset - introDivH - 4
 
     local introCard = CreateFrame("Button", nil, leftChild)
@@ -3638,7 +3670,7 @@ local function BuildStoryWindow()
     introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
     introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
     introName:SetMaxLines(1); introName:SetWordWrap(false)
-    introName:SetText("Story Mode")
+    introName:SetText(L["Addon Name"])
     introName:SetTextColor(1.0, 1.0, 1.0)
 
     local introZone = nil  -- no subline
@@ -3876,18 +3908,18 @@ SlashCmdList["STORYMODE"] = function(msg)
     if msg == "banner" then
         local data = allQuestlines[1]
         if data then
-            ShowStoryBanner(data.title, "Test Quest Name", data, nil, true)
+            ShowStoryBanner(data.title, L["Slash Test Quest Name"], data, nil, true)
         else
-            print("|cff64b5f6StoryMode:|r No questline data to test.")
+            print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
         end
         return
     elseif msg == "chapter" then
         local data = allQuestlines[1]
         if data then
             local ch = GetAllChapters(data)[1]
-            ShowStoryBanner("CHAPTER COMPLETE", ch and ch.chapter or data.title, data, nil, true)
+            ShowStoryBanner(L["Banner Chapter Complete"], ch and ch.chapter or data.title, data, nil, true)
         else
-            print("|cff64b5f6StoryMode:|r No questline data to test.")
+            print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
         end
         return
     elseif msg == "complete" then
@@ -3895,7 +3927,7 @@ SlashCmdList["STORYMODE"] = function(msg)
         if data then
             ShowStoryComplete(data.title)
         else
-            print("|cff64b5f6StoryMode:|r No questline data to test.")
+            print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
         end
         return
     elseif msg == "track" or msg == "next" then
@@ -3909,19 +3941,19 @@ SlashCmdList["STORYMODE"] = function(msg)
                 local result = SetWaypointForQuest(data, quest)
                 local cr, cg, cb = unpack(data.color or { 1, 0.82, 0 })
                 local hex = HexColor(cr, cg, cb)
-                print("|cff64b5f6StoryMode:|r |cff" .. hex .. data.title .. " — " .. chapter .. "|r")
+                print(L["Addon Legacy Prefix"] .. "|cff" .. hex .. data.title .. " — " .. chapter .. "|r")
                 PrintTrackResult(result, quest, data)
                 return
             end
         end
-        print("|cff64b5f6StoryMode:|r All questlines complete!")
+        print(L["Addon Legacy Prefix"] .. L["Slash All Complete"])
     elseif msg:match("^debug") then
         local filter = msg:match("^debug%s+(.+)$")
         local found = false
         for _, data in ipairs(allQuestlines) do
             if not filter or data.title:lower():find(filter, 1, true) then
                 found = true
-                print("|cff64b5f6StoryMode Debug:|r " .. data.title)
+                print(L["Addon Debug Prefix"] .. data.title)
                 local chapters = GetAllChapters(data)
                 for _, ch in ipairs(chapters) do
                     if ch.quests then
@@ -3942,11 +3974,11 @@ SlashCmdList["STORYMODE"] = function(msg)
             end
         end
         if not found then
-            print("|cff64b5f6StoryMode:|r No questline matching '" .. (filter or "") .. "'")
+            print(L["Addon Legacy Prefix"] .. string.format(L["Slash No Match Format"], filter or ""))
         end
     else
         if InCombatLockdown() then
-            UIErrorsFrame:AddMessage("You cannot toggle this UI while in combat.", 1, 0.1, 0.1)
+            UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
             return
         end
         if storyFrame:IsShown() then
@@ -4011,7 +4043,7 @@ local function CheckQuestCompletion(completedQuestID)
                         end
 
                         C_Timer.After(1.5, function()
-                            ShowStoryBanner("CHAPTER COMPLETE", ch.chapter, data, questNpc, true)
+                            ShowStoryBanner(L["Banner Chapter Complete"], ch.chapter, data, questNpc, true)
                         end)
 
                         if allDone and not storylineCompletionCache[storyKey] then

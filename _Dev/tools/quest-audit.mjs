@@ -4,6 +4,7 @@ import path from "node:path";
 const root = process.argv[2] || process.cwd();
 const scope = process.argv[3] || "";
 const cacheDir = path.join(root, ".quest-audit-cache");
+const dataRoot = path.join(root, "Data");
 
 async function mapLimit(items, limit, worker) {
   const results = new Array(items.length);
@@ -213,8 +214,7 @@ function distance(a, b) {
   return Math.hypot(ax - bx, ay - by);
 }
 
-const files = (await walk(root))
-  .filter((file) => /(?:Campaigns|Heritage|Storylines)\//.test(path.relative(root, file)))
+const files = (await walk(dataRoot))
   .filter((file) => !scope || path.relative(root, file).includes(scope));
 
 const datasets = [];
