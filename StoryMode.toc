@@ -30,6 +30,9 @@ Data\Storylines\NazmirData.lua
 Data\Storylines\JadeForestData.lua
 Data\Storylines\DefiasBrotherhoodData.lua
 Data\Storylines\DuskwoodData.lua
+Data\Storylines\FallenHeroData.lua
+Data\Storylines\MissingDiplomatData.lua
+Data\Storylines\OnyxiaData.lua
 Data\Storylines\ScarletCrusadeData.lua
 Data\Storylines\RevendrethData.lua
 Data\Storylines\FrozenThroneData.lua
@@ -49,6 +52,7 @@ Data\Storylines\LilianVossData.lua
 Data\Storylines\SylvanasData.lua
 Data\Storylines\JainaData.lua
 Data\Storylines\TeddiesAndTeaData.lua
+Data\Storylines\MankriksWifeData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua
 Code\Core\Progress.lua

@@ -29,6 +29,11 @@
 - Expanded **The Defias Brotherhood** to begin in Northshire and Elwynn with **Brotherhood of Thieves**, **Milly Osworth**, **Milly's Harvest**, **Bounty on Garrick Padfoot**, **Fine Linen Goods**, **The Collector**, and **Manhunt**
 - Added Classic NPC display IDs, area labels, and chapter/story portrait sources for the Defias storyline
 - Added **The Scarlet Crusade** as a Classic/TBC epic storyline with Horde Forsaken war chapters, Alliance Monastery lead-in quests, Scarlet Monastery dungeon chapters, and the Tirion/Taelan Fordring Plaguelands finale
+- Added **The Long Watch** as a Classic/TBC Alliance Duskwood storyline, covering the Night Watch, Raven Hill, Mor'Ladim, Stalvan, worgen, Morbent Fel, Abercrombie, and Stitches
+- Added **The Fallen Hero of the Horde** as a Classic/TBC epic storyline, covering the Horde and Alliance lead-ins to the Blasted Lands, Loramus, Felbane, Razelikh, and the full **You Are Rakh'likh, Demon** chain
+- Added **The Missing Diplomat** as a Classic/TBC Alliance epic storyline, following the investigation from Stormwind and Duskwood to Menethil, Theramore, Jaina, and the disappearance of King Varian
+- Added **Onyxia and the Black Dragonflight** as a Classic/TBC cross-faction epic storyline, covering the Alliance Windsor/Prestor reveal, the Horde Rexxar/Emberstrife tests, and both Drakefire Amulet attunement paths
+- Added **Mankrik's Wife** as a Classic/TBC Horde short story for the Barrens **Lost in Battle** quest
 - Expanded **The Banshee Queen** with the Shadowlands Sylvanas bridge from Torghast visions through Chains of Domination, Sanctum of Domination, Shattered Legacies, Domination's Grasp, Crown of Wills, Sepulcher of the First Ones, and Judgment, plus the War Within **The Warning** campaign with Arator in the Maw
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list

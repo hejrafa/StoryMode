@@ -121,6 +121,9 @@ end
 AddContentData(SM.FrozenThroneData)
 AddContentData(SM.DefiasBrotherhoodData)
 AddContentData(SM.DuskwoodData)
+AddContentData(SM.FallenHeroData)
+AddContentData(SM.MissingDiplomatData)
+AddContentData(SM.OnyxiaData)
 AddContentData(SM.ScarletCrusadeData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
@@ -131,6 +134,7 @@ AddContentData(SM.SylvanasData)
 AddContentData(SM.JainaData)
 AddContentData(SM.LilianVossData)
 AddContentData(SM.TeddiesAndTeaData)
+AddContentData(SM.MankriksWifeData)
 AddContentData(SM.DeathKnightCampaignData)
 AddContentData(SM.DemonHunterCampaignData)
 AddContentData(SM.DruidCampaignData)
@@ -172,6 +176,15 @@ end
 if CanShowQuestline(SM.DuskwoodData) then
     RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
 end
+if CanShowQuestline(SM.FallenHeroData) then
+    RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
+end
+if CanShowQuestline(SM.MissingDiplomatData) then
+    RegisterQuestline(SM.MissingDiplomatData, "Epic Storylines")
+end
+if CanShowQuestline(SM.OnyxiaData) then
+    RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
+end
 if CanShowQuestline(SM.ScarletCrusadeData) then
     RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")
 end
@@ -204,6 +217,9 @@ if CanShowQuestline(SM.LilianVossData) then
 end
 if CanShowQuestline(SM.TeddiesAndTeaData) then
     RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
+end
+if CanShowQuestline(SM.MankriksWifeData) then
+    RegisterQuestline(SM.MankriksWifeData, "Short Stories")
 end
 local classCampaigns = {
     SM.DeathKnightCampaignData,

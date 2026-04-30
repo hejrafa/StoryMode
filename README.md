@@ -38,6 +38,9 @@ Classic Era and TBC use the same addon shell as Retail, but later-expansion adve
 
 - **The Defias Brotherhood**: Classic Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, and Stormwind aftermath.
 - **The Long Watch**: Classic Alliance Duskwood stories, including the Night Watch, Mor'Ladim, Stalvan, worgen, Morbent Fel, Abercrombie, and Stitches.
+- **The Fallen Hero of the Horde**: Classic Blasted Lands epic leading from a dead regiment to Loramus, Felbane, and Razelikh the Defiler.
+- **The Missing Diplomat**: Classic Alliance mystery from Stormwind and Duskwood to Menethil, Theramore, Jaina, and the disappearance of King Varian.
+- **Onyxia and the Black Dragonflight**: Classic Alliance and Horde attunement stories exposing Lady Prestor, testing Rexxar's champions, and forging the Drakefire Amulet.
 - **The Frozen Throne**: Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls.
 - **What Is Worth Fighting For**: The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale.
 - **Insurrection**: Suramar and the Nightfallen rebellion.
@@ -54,6 +57,7 @@ Classic Era and TBC use the same addon shell as Retail, but later-expansion adve
 **Short Stories**
 
 - **A Tea Party**: a compact Drustvar side story that starts sweet and ends badly.
+- **Mankrik's Wife**: the famous Barrens search for Olgra and the grief waiting at the Crossroads.
 
 **Identity**
 
