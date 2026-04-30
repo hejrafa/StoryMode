@@ -2,17 +2,17 @@ local addonName, SM = ...
 
 -- =============================================================================
 -- Sylvanas Windrunner: The Banshee Queen
--- A saga spanning Wrath of the Lich King through Dragonflight.
+-- A saga spanning Wrath of the Lich King through The War Within.
 -- From the ice halls of Icecrown to the judgment courts of Oribos —
--- the full story of a queen who broke the world, and why.
+-- the full story of a queen who broke the world, and what remains.
 -- =============================================================================
 
 SM.SylvanasData = {
     -- Questline metadata
     title = "The Banshee Queen",
     description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then a queen the Horde was never fully prepared for. Slain by Arthas at the gates of Silvermoon and raised as the first of his banshees, she clawed her way back to herself and built an undead kingdom from the ruins of Lordaeron.\n\nFollow her from Icecrown and Silverpine into wars that test what leadership, vengeance, survival, and freedom mean to someone who has already lost almost everything.",
-    zone = "Icecrown / Silverpine / Orgrimmar / Oribos",
-    expansion = "Wrath of the Lich King — Dragonflight",
+    zone = "Icecrown / Silverpine / Orgrimmar / Oribos / The Maw",
+    expansion = "Wrath of the Lich King — The War Within",
     achievements = {
         -- The Frozen Halls — dungeon completions
         4516,   -- The Forge of Souls (Normal)
@@ -26,7 +26,11 @@ SM.SylvanasData = {
         13466,  -- Tides of Vengeance (complete the 8.1 war campaign, includes Fate of Saurfang)
         13924,  -- The Fourth War (complete the full BfA war story through the Mak'gora)
         -- Shadowlands — Zereth Mortis / Judgment
+        14961,  -- Chains of Domination
         15259,  -- Secrets of the First Ones (Zereth Mortis campaign; Judgment is the final chapter)
+        -- The War Within — The Warning / Midnight prelude
+        42299,  -- Visions of a Shadowed Sun
+        61498,  -- Ready for Midnight
     },
     faction = "Horde",
     color = { 0.20, 0.40, 0.70 },  -- Forsaken void-blue
@@ -88,7 +92,7 @@ SM.SylvanasData = {
         ["Lilian Voss"]              = 85799,
         ["Valeera Sanguinar"]        = 36940,
         ["Bolvar Fordragon"]         = 95194,
-        ["Uther the Lightbringer"]   = 87100,
+        ["Uther the Lightbringer"]   = 105509,
         ["Tyrande Whisperwind"]      = 20748,
         ["Pelagos"]                  = 90000,
         ["Dori'thur"]                = 38801,
@@ -106,8 +110,14 @@ SM.SylvanasData = {
         ["Breaking the Cycle"]           = 28213,  -- Sylvanas Windrunner
         ["What Comes After"]             = 85799,  -- Lilian Voss
         ["A Chilling Summons"]           = 95194,  -- Bolvar Fordragon
+        ["Torghast Visions"]             = 28213,  -- Sylvanas Windrunner
+        ["Chains of Domination"]         = 28213,  -- Sylvanas Windrunner
+        ["Sanctum of Domination"]        = 28213,  -- Sylvanas Windrunner
+        ["Shattered Legacies"]           = 105509, -- Uther the Lightbringer
+        ["Crown of Wills"]               = 95194,  -- Bolvar Fordragon
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
         ["The Long Hunt"]                = 38801,  -- Dori'thur
+        ["The Warning"]                  = 28213,  -- Sylvanas Windrunner
     },
     chapterIcons = {
         ["The Frozen Halls"]              = 0,
@@ -122,8 +132,14 @@ SM.SylvanasData = {
         ["Breaking the Cycle"]           = 0,
         ["What Comes After"]             = 0,
         ["A Chilling Summons"]           = 0,
+        ["Torghast Visions"]             = 0,
+        ["Chains of Domination"]         = 0,
+        ["Sanctum of Domination"]        = 0,
+        ["Shattered Legacies"]           = 0,
+        ["Crown of Wills"]               = 0,
         ["Judgment"]                     = 0,
         ["The Long Hunt"]                = 0,
+        ["The Warning"]                  = 0,
     },
 
     -- =========================================================================
@@ -348,12 +364,138 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT VI — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
-        -- After the Jailer's fall, Sylvanas regains her soul — and faces
-        -- the reckoning she has earned.
+        -- ACT VI — TORGAST VISIONS (Shadowlands 9.0)
+        -- Removed/skipped for many later characters, but important context:
+        -- Sylvanas hesitates as Anduin is forged into the Jailer's weapon.
         -- =========================================================================
 
-        -- CHAPTER 12: The long walk
+        -- CHAPTER 12: The mourneblade vision
+        {
+            chapter = "Torghast Visions",
+            loreOnly = true,
+            summary = "Bolvar's visions reveal the Jailer's next weapon: Anduin, bound to a mourneblade. Sylvanas still tries to call it a choice.",
+            recap = "Before the assault on the Sanctum, Bolvar saw fragments of what was happening inside Torghast. The Jailer forged Kingsmourne, a mourneblade shaped around Anduin's own weapon and a soul crystal. Sylvanas brought the blade to Anduin and demanded he join their cause willingly or be made to serve. Anduin saw the wound she was trying to hide: she kept offering him the choice Arthas had stolen from her. Blizzard later removed or auto-completed much of this Torghast questline for catch-up characters, but the vision is the emotional bridge into Chains of Domination.",
+            quests = {},
+        },
+
+        -- =========================================================================
+        -- ACT VII — CHAINS OF DOMINATION (Shadowlands 9.1)
+        -- Anduin strikes for the Jailer, Tyrande hunts Sylvanas, and the
+        -- covenants open the way to Korthia and the Sanctum.
+        -- =========================================================================
+
+        -- CHAPTER 13: The Jailer's first move
+        {
+            chapter = "Chains of Domination",
+            gated = true,
+            note = "Begins after your covenant campaign reaches The Search for Baine. Later characters may be offered a skip to Korthia; skipping completes this chapter.",
+            summary = "Anduin steals the Archon's sigil, and Sylvanas moves on Ardenweald. Tyrande finally catches her in the Heart of the Forest.",
+            recap = "The Jailer's next move began in Bastion. Anduin, dominated through Kingsmourne, struck down the Archon and took her sigil while Sylvanas watched the plan unfold. Bolvar gathered the covenants in Oribos, and the war rushed to Ardenweald before the Winter Queen's sigil could be taken next. There, beneath the Heart of the Forest, Tyrande Whisperwind caught Sylvanas at last. Elune's wrath burned through her, but the Night Warrior's power faded before the killing blow. Sylvanas escaped, and the covenants turned toward Korthia and the Sanctum of Domination.",
+            quests = {
+                { id = 63576, name = "The First Move",            npc = "Highlord Bolvar Fordragon", location = "Oribos", mapID = 1670, x = 0.3990, y = 0.6860 },
+                { id = 63856, name = "A Gathering of Covenants",  npc = "Highlord Bolvar Fordragon" },
+                { id = 63857, name = "Voices of the Eternal",     npc = "Highlord Bolvar Fordragon" },
+                { id = 63578, name = "The Battle of Ardenweald",  npc = "Highlord Bolvar Fordragon" },
+                { id = 63638, name = "Can't Turn Our Backs",      npc = "Lady Moonberry" },
+                { id = 63904, name = "The Heart of Ardenweald",   npc = "Lady Moonberry" },
+                { id = 63639, name = "Report to Oribos",          npc = "Lady Moonberry" },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT VIII — SANCTUM OF DOMINATION (Shadowlands 9.1)
+        -- The pursuit reaches Torghast's summit, where Sylvanas finally turns
+        -- on the master she chose to serve.
+        -- =========================================================================
+
+        -- CHAPTER 14: The raid finale
+        {
+            chapter = "Sanctum of Domination",
+            gated = true,
+            completionAchievementID = 15125, -- The Reckoning: Sylvanas Windrunner wing
+            note = "Optional raid story from Chains of Domination. Pick up Storming the Sanctum from Bolvar in Korthia after The Primus Returns, or enter Sanctum of Domination directly.",
+            summary = "The covenants assault the Jailer's fortress in Torghast. At the summit waits Sylvanas, and the battle ends with the choice that makes News from Oribos possible.",
+            recap = "The assault on the Sanctum of Domination carried the covenants into the Jailer's seat of power. Sylvanas waited at the top of Torghast, fighting across shattered chains and the edge of the Maw while the Jailer dragged Oribos toward his prison. When Zovaal spoke of remaking reality so all would serve, Sylvanas finally heard Arthas in his words. She turned on him. The Jailer answered by returning the soul fragment Frostmourne had torn from her at Silvermoon, then left her unconscious at the mercy of those she had betrayed. She was defeated, but not judged. Not yet.",
+            quests = {
+                { id = 63903, name = "Storming the Sanctum", npc = "Highlord Bolvar Fordragon", optional = true, location = "Keeper's Respite, Korthia", mapID = 1961, x = 0.6280, y = 0.2500 },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT IX — SHATTERED LEGACIES (Shadowlands 9.2, Zereth Mortis)
+        -- Uther brings word from Oribos: Sylvanas has awakened, and her
+        -- divided soul may be the key to saving Anduin.
+        -- =========================================================================
+
+        -- CHAPTER 15: The restoration of Sylvanas's soul
+        {
+            chapter = "Shattered Legacies",
+            gated = true,
+            note = "Complete Zereth Mortis campaign chapter 3, Forming an Understanding. This becomes available from Uther in Haven after The Way Forward.",
+            summary = "Uther appears in Haven with news from Oribos. Sylvanas has awakened, but reaching the Sepulcher means earning the Enlightened's help first.",
+            recap = "After the first foothold in Zereth Mortis was secured, Uther arrived in Haven with news from Oribos: Sylvanas had awakened. Her soul had been split since Frostmourne killed her, and the restored fragment forced her to face the Banshee Queen's atrocities as her own. In the vision Uther shared, the Ranger-General saw Teldrassil burn, rejected the comfort of pretending those crimes belonged to someone else, and chose to wake. The campaign then turned back to Zereth Mortis. Elder Ara led you through a pilgrimage to repair the ancient translocator to the Sepulcher. At the end, Sylvanas stood with Uther, Jaina, and Bolvar before the raid entrance. She knew Anduin was the key, and Uther convinced Jaina to let Sylvanas help free him.",
+            quests = {
+                { id = 65335, name = "News from Oribos", npc = "Uther the Lightbringer", location = "Haven, Zereth Mortis", mapID = 1970, x = 0.3496, y = 0.6470 },
+                { id = 64830, name = "Enlisting the Enlightened",        npc = "Highlord Bolvar Fordragon" },
+                { id = 64833, name = "Forging Unity from Diversity",     npc = "Elder Ara" },
+                { id = 64831, name = "Remnants of the First Ones",       npc = "Elder Ara" },
+                { id = 64832, name = "Reclaiming Provis Esper",          npc = "Elder Ara" },
+                { id = 64837, name = "The Pilgrim's Journey",            npc = "Elder Ara" },
+                { id = 64834, name = "Glow and Behold",                  npc = "Elder Ara" },
+                { id = 64838, name = "Where There's a Pilgrim, There's a Way", npc = "Elder Ara" },
+                { id = 64969, name = "In the Weeds",                     npc = "Elder Ara" },
+                { id = 64835, name = "Pluck from the Vines",             npc = "Elder Ara" },
+                { id = 64836, name = "Nip It in the Bud",                npc = "Elder Ara" },
+                { id = 64839, name = "Root of the Problem",              npc = "Elder Ara" },
+                { id = 64840, name = "Unchecked Growth",                 npc = "Elder Ara" },
+                { id = 64841, name = "Take Charge",                      npc = "Elder Ara" },
+                { id = 65331, name = "Herbal Remedies",                  npc = "Elder Ara" },
+                { id = 64842, name = "Flora Frenzy",                     npc = "Elder Ara" },
+                { id = 64843, name = "Key Crafting",                     npc = "Elder Ara" },
+                { id = 64844, name = "The Pilgrimage Ends",              npc = "Elder Ara", location = "overlook behind Pilgrim's Grace", mapID = 1970, x = 0.6470, y = 0.5350 },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT X — CROWN OF WILLS (Shadowlands 9.2, Zereth Mortis)
+        -- Anduin is freed, but the Jailer cannot be faced until Domination
+        -- itself can be resisted.
+        -- =========================================================================
+
+        -- CHAPTER 16: The answer to Domination
+        {
+            chapter = "Crown of Wills",
+            gated = true,
+            note = "Continue from The Pilgrimage Ends. This chapter is story-set after Anduin is freed in Sepulcher, but no raid progress is required to play it.",
+            summary = "Anduin has been rescued, but the Jailer still commands Domination. Bolvar and the Primus seek a way to turn the broken helm into a weapon of free will.",
+            recap = "After Anduin was freed, the way forward was still blocked by the Jailer's Domination magic. Bolvar, Darion, Anduin, and Sylvanas all carried scars from the helm, the blade, or the will behind them. Their memories became part of the answer. In Bastion, Sylvanas faced the wound of what she had done and named the truth plainly: there was no absolution waiting inside a shard of memory, only the choice to keep resisting. The Primus reforged the Helm of Domination into the Crown of Wills, a symbol not of command, but of defiance. With it, Zovaal could finally be faced.",
+            quests = {
+                { id = 64799, name = "The Broken Crown",             npc = "Highlord Bolvar Fordragon" },
+                { id = 64800, name = "Our Last Option",              npc = "Highlord Bolvar Fordragon" },
+                { id = 64802, name = "Hello, Darkness",              npc = "The Primus" },
+                { id = 64801, name = "Elder Eru",                    npc = "Elder Eru" },
+                { id = 64803, name = "Testing One Two",              npc = "Elder Eru" },
+                { id = 64804, name = "Cryptic Catalogue",            npc = "Elder Eru" },
+                { id = 64805, name = "The Not-Scientific Method",    npc = "Elder Eru" },
+                { id = 64853, name = "Two Paths to Tread",           npc = "Elder Eru" },
+                { id = 64809, name = "One Half of the Equation",     npc = "The Primus" },
+                { id = 64810, name = "Oppress and Destroy",          npc = "Highlord Bolvar Fordragon" },
+                { id = 64811, name = "Aggressive Excavation",        npc = "Highlord Bolvar Fordragon" },
+                { id = 64806, name = "Where the Memory Resides",     npc = "Highlord Bolvar Fordragon" },
+                { id = 64807, name = "What We Wish to Forget",       npc = "Highlord Bolvar Fordragon" },
+                { id = 64808, name = "What Makes Us Strong",         npc = "Sylvanas Windrunner" },
+                { id = 64798, name = "What We Overcome",             npc = "Highlord Bolvar Fordragon" },
+                { id = 64812, name = "Forge of Domination",          npc = "The Primus" },
+                { id = 64813, name = "The Crown of Wills",           npc = "The Primus" },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT XI — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
+        -- After the Jailer's fall, Sylvanas faces the reckoning she has earned.
+        -- =========================================================================
+
+        -- CHAPTER 17: The long walk
         {
             chapter = "Judgment",
             gated = true,
@@ -370,11 +512,11 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT VII — THE LONG HUNT (Dragonflight 10.1.7)
+        -- ACT XII — THE LONG HUNT (Dragonflight 10.1.7)
         -- The penance continues. The hunt has no end.
         -- =========================================================================
 
-        -- CHAPTER 13: The Long Hunt
+        -- CHAPTER 18: The Long Hunt
         {
             chapter = "The Long Hunt",
             gated = true,
@@ -383,6 +525,52 @@ SM.SylvanasData = {
             recap = "The Forsaken moved on. Lordaeron was theirs again, and the long war had its accounting. But some loyalties don't dissolve with a verdict. Dori'thur arrived in the ruins of Lordaeron bearing a message — not from a queen, not a command, just acknowledgment. The hunt Sylvanas began in death has no end date. The souls in the Maw number in the countless. She is still there, freeing them one by one. The message asked nothing. It only said: she remembers who stood with her.",
             quests = {
                 { id = 75519, name = "The Long Hunt", npc = "Dori'thur" },
+            },
+        },
+
+        -- =========================================================================
+        -- ACT XIII — THE WARNING (The War Within 11.2.7)
+        -- Arator seeks the Windrunners as visions of Silvermoon's fall point
+        -- toward Midnight. The road leads back into the Maw.
+        -- =========================================================================
+
+        -- CHAPTER 19: Arator in the Maw
+        {
+            chapter = "The Warning",
+            gated = true,
+            note = "Begin in Dornogal with Meet Arator, or open the Adventure Guide and start The Warning campaign.",
+            summary = "A vision of Quel'Thalas in shadow sends Arator looking for the Windrunners. His search reaches the Maw, where Sylvanas is still freeing the souls she condemned.",
+            recap = "Vereesa's visions showed Silvermoon under a shadowed sun, and Arator went looking for the family legacy that might answer it. Alleria was still hunting Xal'atath. Vereesa carried the warning. So Arator followed the trail no one else wanted to walk: through Ve'nari's gate and into the Maw, where Sylvanas continued her penance among the damned. The Devouring Host followed him there, and together he and Sylvanas cut them out of the Tremaculum. Arator asked her to come home. Sylvanas refused. Her duty was still among the dead, but she gave him the answer he needed: Silvermoon did need a Windrunner, and he could be one.",
+            quests = {
+                { id = 92405, name = "Meet Arator",                         npc = "Silver Hand Squire", location = "outside the Dornogal bank", mapID = 2339, x = 0.5100, y = 0.4500 },
+                { id = 84996, name = "Vereesa's Tale",                      npc = "Arator" },
+                { id = 84997, name = "What Might Come",                     npc = "Vereesa Windrunner" },
+                { id = 84998, name = "Bringer of the Void",                 npc = "Vereesa Windrunner" },
+                { id = 85001, name = "Blessings Be Upon You",               npc = "Vereesa Windrunner" },
+                { id = 85002, name = "Off to Tazavesh",                     npc = "Arator" },
+                { id = 85011, name = "Where in K'aresh is Alleria Windrunner?", npc = "Arator" },
+                { id = 85804, name = "The Parent Trap",                     npc = "Arator" },
+                { id = 85151, name = "In Her Shadow",                       npc = "Arator" },
+                { id = 85155, name = "Do You Have a Spare?",                npc = "Arator" },
+                { id = 85184, name = "Repossession is Nine-Tenths of the Law", npc = "Arator" },
+                { id = 85185, name = "Those As Well",                       npc = "Arator" },
+                { id = 85186, name = "A Cage for Alleria",                  npc = "Alleria Windrunner" },
+                { id = 85196, name = "Tag, You're It",                      npc = "Alleria Windrunner" },
+                { id = 85212, name = "A Void Test of Wills",                npc = "Alleria Windrunner" },
+                { id = 85213, name = "Off to Tazavesh, Again",              npc = "Arator" },
+                { id = 85214, name = "Here Goes Something",                 npc = "Ve'nari" },
+                { id = 84935, name = "Excising the Incursion",              npc = "Sylvanas Windrunner" },
+                { id = 84936, name = "To Cleanse Shadow's Stain",           npc = "Sylvanas Windrunner" },
+                { id = 84937, name = "Distant Echoes",                      npc = "Sylvanas Windrunner" },
+                { id = 84938, name = "Chaos Control",                       npc = "Arator" },
+                { id = 84939, name = "Mad Space",                           npc = "Arator" },
+                { id = 84942, name = "The Final Hazard",                    npc = "Arator" },
+                { id = 84944, name = "Preludes and Preparations",           npc = "Sylvanas Windrunner" },
+                { id = 84943, name = "The Long Vigil",                      npc = "Sylvanas Windrunner" },
+                { id = 84945, name = "Repent of the Highborne",             npc = "Vereesa Windrunner" },
+                { id = 84946, name = "Returning to Life",                   npc = "Vereesa Windrunner" },
+                { id = 84947, name = "Determination",                       npc = "Arator" },
+                { id = 84949, name = "The Eleventh Hour",                   npc = "Vereesa Windrunner" },
             },
         },
 

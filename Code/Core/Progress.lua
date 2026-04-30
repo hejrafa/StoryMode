@@ -148,13 +148,26 @@ function SM.GetChapterProgress(ch)
         local _, _, _, completed = GetAchievementInfo(ch.achievementID)
         if completed then return 1, 1 end
     end
+    if ch.completionAchievementID then
+        local _, _, _, completed = GetAchievementInfo(ch.completionAchievementID)
+        if completed then return 1, 1 end
+    end
 
     local total, done = 0, 0
+    local optionalTotal, optionalDone = 0, 0
     for i, q in ipairs(ch.quests) do
-        if not q.optional and SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
-            total = total + 1
-            if SM.IsQuestEffectivelyComplete(i, ch.quests) then done = done + 1 end
+        if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
+            if q.optional then
+                optionalTotal = optionalTotal + 1
+                if SM.IsQuestEffectivelyComplete(i, ch.quests) then optionalDone = optionalDone + 1 end
+            else
+                total = total + 1
+                if SM.IsQuestEffectivelyComplete(i, ch.quests) then done = done + 1 end
+            end
         end
+    end
+    if total == 0 and optionalTotal > 0 then
+        return optionalDone, optionalTotal
     end
     return done, total
 end

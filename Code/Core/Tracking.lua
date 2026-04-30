@@ -159,10 +159,14 @@ local function GetLiveQuestLocation(qid, mapHint)
 end
 
 local function GetQuestLocation(data, quest)
-    local mapHint = (data.npcLocations and data.npcLocations[quest.npc] and data.npcLocations[quest.npc].mapID)
+    local questLocation = quest.mapID and quest.x and quest.y and { mapID = quest.mapID, x = quest.x, y = quest.y } or nil
+    local mapHint = (questLocation and questLocation.mapID)
+        or (data.npcLocations and data.npcLocations[quest.npc] and data.npcLocations[quest.npc].mapID)
         or data.startMapID
     local live = GetLiveQuestLocation(quest.id, mapHint)
     if live then return live end
+
+    if questLocation then return questLocation end
 
     local loc = data.npcLocations and data.npcLocations[quest.npc]
     if loc then return loc end
