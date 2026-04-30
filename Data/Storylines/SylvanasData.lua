@@ -27,6 +27,7 @@ SM.SylvanasData = {
         13924,  -- The Fourth War (complete the full BfA war story through the Mak'gora)
         -- Shadowlands — Zereth Mortis / Judgment
         14961,  -- Chains of Domination
+        15417,  -- Sepulcher of the First Ones
         15259,  -- Secrets of the First Ones (Zereth Mortis campaign; Judgment is the final chapter)
         -- The War Within — The Warning / Midnight prelude
         42299,  -- Visions of a Shadowed Sun
@@ -115,6 +116,7 @@ SM.SylvanasData = {
         ["Sanctum of Domination"]        = 28213,  -- Sylvanas Windrunner
         ["Shattered Legacies"]           = 105509, -- Uther the Lightbringer
         ["Crown of Wills"]               = 95194,  -- Bolvar Fordragon
+        ["Sepulcher of the First Ones"]  = 95194,  -- Bolvar Fordragon
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
         ["The Long Hunt"]                = 38801,  -- Dori'thur
         ["The Warning"]                  = 28213,  -- Sylvanas Windrunner
@@ -137,6 +139,7 @@ SM.SylvanasData = {
         ["Sanctum of Domination"]        = 0,
         ["Shattered Legacies"]           = 0,
         ["Crown of Wills"]               = 0,
+        ["Sepulcher of the First Ones"]  = 0,
         ["Judgment"]                     = 0,
         ["The Long Hunt"]                = 0,
         ["The Warning"]                  = 0,
@@ -491,11 +494,27 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XI — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
+        -- ACT XI — SEPULCHER OF THE FIRST ONES (Shadowlands 9.2)
+        -- The final raid of Shadowlands frees Anduin and ends the Jailer's war.
+        -- =========================================================================
+
+        -- CHAPTER 17: The Jailer's fall
+        {
+            chapter = "Sepulcher of the First Ones",
+            gated = true,
+            achievementID = 15417, -- Sepulcher of the First Ones
+            note = "Enter the Sepulcher of the First Ones in Zereth Mortis. Complete the raid on any difficulty to see Anduin's liberation and the Jailer's defeat.",
+            summary = "The campaign reaches the Sepulcher itself. Anduin must be freed from Domination before Zovaal can be stopped at the heart of the First Ones' design.",
+            recap = "The way into the Sepulcher opened, and the covenants carried the fight into the machinery of creation. At its heart stood Anduin, still bound to Kingsmourne and the Jailer's will. The heroes broke that domination, and Anduin found the strength to shatter the mourneblade from within. With the Crown of Wills reforged and the covenants united, the final battle moved deeper into the Sepulcher, where Zovaal tried to remake reality through the First Ones' design. He failed. The Jailer fell, and the Shadowlands war finally ended. Only then could Sylvanas be brought before those she had wronged.",
+            quests = {},
+        },
+
+        -- =========================================================================
+        -- ACT XII — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
         -- After the Jailer's fall, Sylvanas faces the reckoning she has earned.
         -- =========================================================================
 
-        -- CHAPTER 17: The long walk
+        -- CHAPTER 18: The long walk
         {
             chapter = "Judgment",
             gated = true,
@@ -512,11 +531,11 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XII — THE LONG HUNT (Dragonflight 10.1.7)
+        -- ACT XIII — THE LONG HUNT (Dragonflight 10.1.7)
         -- The penance continues. The hunt has no end.
         -- =========================================================================
 
-        -- CHAPTER 18: The Long Hunt
+        -- CHAPTER 19: The Long Hunt
         {
             chapter = "The Long Hunt",
             gated = true,
@@ -529,12 +548,12 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XIII — THE WARNING (The War Within 11.2.7)
+        -- ACT XIV — THE WARNING (The War Within 11.2.7)
         -- Arator seeks the Windrunners as visions of Silvermoon's fall point
         -- toward Midnight. The road leads back into the Maw.
         -- =========================================================================
 
-        -- CHAPTER 19: Arator in the Maw
+        -- CHAPTER 20: Arator in the Maw
         {
             chapter = "The Warning",
             gated = true,

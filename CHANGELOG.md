@@ -29,7 +29,7 @@
 - Expanded **The Defias Brotherhood** to begin in Northshire and Elwynn with **Brotherhood of Thieves**, **Milly Osworth**, **Milly's Harvest**, **Bounty on Garrick Padfoot**, **Fine Linen Goods**, **The Collector**, and **Manhunt**
 - Added Classic NPC display IDs, area labels, and chapter/story portrait sources for the Defias storyline
 - Added **The Scarlet Crusade** as a Classic/TBC epic storyline with Horde Forsaken war chapters, Alliance Monastery lead-in quests, Scarlet Monastery dungeon chapters, and the Tirion/Taelan Fordring Plaguelands finale
-- Expanded **The Banshee Queen** with the Shadowlands Sylvanas bridge from Torghast visions through Chains of Domination, Sanctum of Domination, Shattered Legacies, Crown of Wills, and Judgment, plus the War Within **The Warning** campaign with Arator in the Maw
+- Expanded **The Banshee Queen** with the Shadowlands Sylvanas bridge from Torghast visions through Chains of Domination, Sanctum of Domination, Shattered Legacies, Crown of Wills, Sepulcher of the First Ones, and Judgment, plus the War Within **The Warning** campaign with Arator in the Maw
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list
 - Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools
