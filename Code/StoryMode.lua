@@ -120,6 +120,7 @@ end
 
 AddContentData(SM.FrozenThroneData)
 AddContentData(SM.DefiasBrotherhoodData)
+AddContentData(SM.DuskwoodData)
 AddContentData(SM.ScarletCrusadeData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
@@ -167,6 +168,9 @@ end
 
 if CanShowQuestline(SM.DefiasBrotherhoodData) then
     RegisterQuestline(SM.DefiasBrotherhoodData, "Epic Storylines")
+end
+if CanShowQuestline(SM.DuskwoodData) then
+    RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
 end
 if CanShowQuestline(SM.ScarletCrusadeData) then
     RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")

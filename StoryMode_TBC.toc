@@ -8,6 +8,7 @@
 
 Locales\Localization.xml
 Data\Storylines\DefiasBrotherhoodData.lua
+Data\Storylines\DuskwoodData.lua
 Data\Storylines\ScarletCrusadeData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua

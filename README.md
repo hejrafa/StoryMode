@@ -37,6 +37,7 @@ Classic Era and TBC use the same addon shell as Retail, but later-expansion adve
 **Epic Storylines**
 
 - **The Defias Brotherhood**: Classic Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, and Stormwind aftermath.
+- **The Long Watch**: Classic Alliance Duskwood stories, including the Night Watch, Mor'Ladim, Stalvan, worgen, Morbent Fel, Abercrombie, and Stitches.
 - **The Frozen Throne**: Northrend war campaign, Wrathgate fallout, Icecrown, and Frozen Halls.
 - **What Is Worth Fighting For**: The Jade Forest campaign with Alliance and Horde openings, shared zone chapters, and Temple of the Jade Serpent finale.
 - **Insurrection**: Suramar and the Nightfallen rebellion.

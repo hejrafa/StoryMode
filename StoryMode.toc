@@ -29,6 +29,7 @@ Data\Storylines\DrustvarData.lua
 Data\Storylines\NazmirData.lua
 Data\Storylines\JadeForestData.lua
 Data\Storylines\DefiasBrotherhoodData.lua
+Data\Storylines\DuskwoodData.lua
 Data\Storylines\ScarletCrusadeData.lua
 Data\Storylines\RevendrethData.lua
 Data\Storylines\FrozenThroneData.lua
