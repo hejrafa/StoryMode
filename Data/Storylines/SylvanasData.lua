@@ -27,6 +27,7 @@ SM.SylvanasData = {
         13924,  -- The Fourth War (complete the full BfA war story through the Mak'gora)
         -- Shadowlands — Zereth Mortis / Judgment
         14961,  -- Chains of Domination
+        15416,  -- Domination's Grasp
         15417,  -- Sepulcher of the First Ones
         15259,  -- Secrets of the First Ones (Zereth Mortis campaign; Judgment is the final chapter)
         -- The War Within — The Warning / Midnight prelude
@@ -115,6 +116,7 @@ SM.SylvanasData = {
         ["Chains of Domination"]         = 28213,  -- Sylvanas Windrunner
         ["Sanctum of Domination"]        = 28213,  -- Sylvanas Windrunner
         ["Shattered Legacies"]           = 105509, -- Uther the Lightbringer
+        ["Domination's Grasp"]           = 95194,  -- Bolvar Fordragon
         ["Crown of Wills"]               = 95194,  -- Bolvar Fordragon
         ["Sepulcher of the First Ones"]  = 95194,  -- Bolvar Fordragon
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
@@ -138,6 +140,7 @@ SM.SylvanasData = {
         ["Chains of Domination"]         = 0,
         ["Sanctum of Domination"]        = 0,
         ["Shattered Legacies"]           = 0,
+        ["Domination's Grasp"]           = 0,
         ["Crown of Wills"]               = 0,
         ["Sepulcher of the First Ones"]  = 0,
         ["Judgment"]                     = 0,
@@ -460,12 +463,28 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT X — CROWN OF WILLS (Shadowlands 9.2, Zereth Mortis)
+        -- ACT X — DOMINATION'S GRASP (Shadowlands 9.2, Sepulcher of the First Ones)
+        -- Anduin is reached inside the Sepulcher before the Crown can be reforged.
+        -- =========================================================================
+
+        -- CHAPTER 16: The king in the Sepulcher
+        {
+            chapter = "Domination's Grasp",
+            gated = true,
+            achievementID = 15416, -- Domination's Grasp
+            note = "Enter the Sepulcher of the First Ones and clear Domination's Grasp on any difficulty to see Anduin's liberation.",
+            summary = "The path through the Sepulcher reaches Anduin at last. Freeing him from Kingsmourne sets the stage for the Crown of Wills.",
+            recap = "Within the Sepulcher, the heroes found Anduin still bound to the Jailer's will. The fight was not only to defeat him, but to reach the part of him still resisting. In the end, Anduin found the strength to help shatter Kingsmourne from within. Sylvanas's warning had been true: saving Anduin was the key to opposing Zovaal's design.",
+            quests = {},
+        },
+
+        -- =========================================================================
+        -- ACT XI — CROWN OF WILLS (Shadowlands 9.2, Zereth Mortis)
         -- Anduin is freed, but the Jailer cannot be faced until Domination
         -- itself can be resisted.
         -- =========================================================================
 
-        -- CHAPTER 16: The answer to Domination
+        -- CHAPTER 17: The answer to Domination
         {
             chapter = "Crown of Wills",
             gated = true,
@@ -494,11 +513,11 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XI — SEPULCHER OF THE FIRST ONES (Shadowlands 9.2)
+        -- ACT XII — SEPULCHER OF THE FIRST ONES (Shadowlands 9.2)
         -- The final raid of Shadowlands frees Anduin and ends the Jailer's war.
         -- =========================================================================
 
-        -- CHAPTER 17: The Jailer's fall
+        -- CHAPTER 18: The Jailer's fall
         {
             chapter = "Sepulcher of the First Ones",
             gated = true,
@@ -510,11 +529,11 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XII — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
+        -- ACT XIII — JUDGMENT (Shadowlands 9.2, Zereth Mortis)
         -- After the Jailer's fall, Sylvanas faces the reckoning she has earned.
         -- =========================================================================
 
-        -- CHAPTER 18: The long walk
+        -- CHAPTER 19: The long walk
         {
             chapter = "Judgment",
             gated = true,
@@ -531,11 +550,11 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XIII — THE LONG HUNT (Dragonflight 10.1.7)
+        -- ACT XIV — THE LONG HUNT (Dragonflight 10.1.7)
         -- The penance continues. The hunt has no end.
         -- =========================================================================
 
-        -- CHAPTER 19: The Long Hunt
+        -- CHAPTER 20: The Long Hunt
         {
             chapter = "The Long Hunt",
             gated = true,
@@ -548,12 +567,12 @@ SM.SylvanasData = {
         },
 
         -- =========================================================================
-        -- ACT XIV — THE WARNING (The War Within 11.2.7)
+        -- ACT XV — THE WARNING (The War Within 11.2.7)
         -- Arator seeks the Windrunners as visions of Silvermoon's fall point
         -- toward Midnight. The road leads back into the Maw.
         -- =========================================================================
 
-        -- CHAPTER 20: Arator in the Maw
+        -- CHAPTER 21: Arator in the Maw
         {
             chapter = "The Warning",
             gated = true,
