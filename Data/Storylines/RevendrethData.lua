@@ -19,7 +19,6 @@ SM.RevendrethData = {
         14197,  -- Sanguine Depths
         -- Castle Nathria (raid)
         14715,  -- Castle Nathria
-        14455,  -- Sire Denathrius kills (Normal Castle Nathria)
     },
     description = "Revendreth is a gothic realm of sinstones, vampire courts, and ritual penance: the place where prideful souls are meant to be broken open, judged, and remade. Sent to seek anima for the starving Shadowlands, you arrive in a kingdom that is already fraying.\n\nPrince Renathal and the Court of Harvesters are gathering resistance, Sire Denathrius still rules from above, and every misted street carries another rumor about where Revendreth's loyalty truly lies.",
     zone = "Revendreth",
@@ -53,7 +52,8 @@ SM.RevendrethData = {
         ["Theotar"]                = { mapID = 1525, x = 0.3750, y = 0.6420 },
         ["Tubbins"]                = { mapID = 1525, x = 0.3840, y = 0.6900 },
         ["Prince Renathal"]        = { mapID = 1525, x = 0.2900, y = 0.4200 },
-        ["General Draven"]         = { mapID = 1525, x = 0.2900, y = 0.4200 },
+        ["General Draven"]         = { mapID = 1525, x = 0.2600, y = 0.4360 },
+        ["Remornia"]               = { mapID = 1525, x = 0.2600, y = 0.4360 },
     },
 
     npcDisplayIDs = {
@@ -81,6 +81,7 @@ SM.RevendrethData = {
         ["The Mad Duke"]           = 93223,  -- Theotar
         ["Prince Renathal"]        = 93575,  -- Prince Renathal
         ["The Master of Lies"]     = 92797,  -- Sire Denathrius
+        ["Castle Nathria's Aftermath"] = 92399, -- General Draven
     },
 
     -- =========================================================================
@@ -199,6 +200,17 @@ SM.RevendrethData = {
             quests = {
                 { id = 59644, name = "Blinded By The Light",       npc = "Prince Renathal" },
                 { id = 58086, name = "The Master of Lies",         npc = "Prince Renathal" },
+            },
+        },
+
+        {
+            chapter = "Castle Nathria's Aftermath",
+            summary = "Denathrius's defeat leaves Revendreth with prisoners, old debts, and one last question: what does redemption mean for the realm's own master?",
+            recap = "Castle Nathria fell, but Revendreth was not finished with its former ruler. In the Sanguine Depths, General Draven found Z'rali, the naaru whose Light had wounded the realm and whose mercy might yet help contain its sins. Then Remornia, Denathrius's living blade, became the prison that would hold him. The rebellion did not simply execute its master. It chose the harsher, stranger work Revendreth was built for: to bind arrogance, preserve what could still be redeemed, and let time do what vengeance could not.",
+            quests = {
+                { id = 60502, name = "Sanguine Depths: An Ally Within", npc = "General Draven", optional = true },
+                { id = 60501, name = "Redemption for the Redeemer", npc = "Remornia", optional = true, location = "General Draven at Sinfall", mapID = 1525, x = 0.2600, y = 0.4360 },
+                { id = 63645, name = "The Dawnkeep Prisoner", npc = "Prince Renathal", optional = true, hideIf = 60501 },
             },
         },
     },
