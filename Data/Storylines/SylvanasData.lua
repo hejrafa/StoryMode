@@ -40,6 +40,8 @@ SM.SylvanasData = {
     factions = { 68, 1098, 1156, 2157 }, -- Undercity, Knights of the Ebon Blade, The Ashen Verdict, The Honorbound
     portraitDisplayID = 28213,  -- Lady Sylvanas Windrunner
     adventureGuideInstanceName = "Sanctum of Domination",
+    adventureCoverTexture = 7266211, -- Windrunner Spire loading screen
+    adventureCoverIsLoadingScreen = true,
 
     -- Start location: Dark Ranger Vorel in Dalaran (Northrend)
     startQuest = { id = 24506, name = "Inside the Frozen Citadel", npc = "Dark Ranger Vorel", location = "Dalaran" },
