@@ -545,7 +545,8 @@ local function CreateMajorDivider(parent)
     local f = CreateFrame("Frame", nil, parent)
     f:SetHeight((SM.Client and SM.Client.isRetail) and 16 or 8)
     local tex = f:CreateTexture(nil, "ARTWORK")
-    if SM.SafeSetAtlas(tex, "ui-journeys-renown-divider", false) then
+    if SM.Client and SM.Client.isRetail and tex.SetAtlas then
+        pcall(tex.SetAtlas, tex, "ui-journeys-renown-divider", false)
         tex:SetPoint("LEFT",  f, "LEFT",  0, 0)
         tex:SetPoint("RIGHT", f, "RIGHT", 0, 0)
         tex:SetHeight(16)
