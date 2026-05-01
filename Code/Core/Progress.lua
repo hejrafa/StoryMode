@@ -253,56 +253,60 @@ function SM.FindNextQuest(data)
     local readyCandidates = {}
 
     for chIdx, ch in ipairs(chapters) do
-        local unmetPrereq = SM.GetFirstUnmetChapterPrerequisite(ch)
-        if unmetPrereq then
-            readyCandidates[#readyCandidates + 1] = {
-                quest = {
-                    id = unmetPrereq.id,
-                    name = unmetPrereq.name,
-                    npc = unmetPrereq.npc,
-                    _isPrerequisiteForChapter = ch.chapter,
-                },
-                chapter = ch.chapter,
-                section = ch._section or 1,
-                depth = 0,
-                order = chIdx,
-            }
-        else
-            local chDone, chTotal = SM.GetChapterProgress(ch)
-            if chDone < chTotal then
-                local section = ch._section or 1
+        -- Optional chapters remain visible in the track, but they do not keep
+        -- the main story CTA from reaching "Story Finished".
+        if not ch.optional then
+            local unmetPrereq = SM.GetFirstUnmetChapterPrerequisite(ch)
+            if unmetPrereq then
+                readyCandidates[#readyCandidates + 1] = {
+                    quest = {
+                        id = unmetPrereq.id,
+                        name = unmetPrereq.name,
+                        npc = unmetPrereq.npc,
+                        _isPrerequisiteForChapter = ch.chapter,
+                    },
+                    chapter = ch.chapter,
+                    section = ch._section or 1,
+                    depth = 0,
+                    order = chIdx,
+                }
+            else
+                local chDone, chTotal = SM.GetChapterProgress(ch)
+                if chDone < chTotal then
+                    local section = ch._section or 1
 
-                for j, q in ipairs(ch.quests) do
-                    if not SM.IsQuestForPlayer(q) then
-                        -- skip opposing-faction variant
-                    elseif SM.IsQuestInLog(q.id) then
-                        logCandidates[#logCandidates + 1] = {
-                            quest = q, chapter = ch.chapter,
-                            section = section, depth = j, order = chIdx,
-                        }
-                        break
-                    elseif not SM.IsQuestEffectivelyComplete(j, ch.quests) then
-                        if j == 1 then
-                            if section >= 2 and hasPrereqProgress then
-                                readyCandidates[#readyCandidates + 1] = {
-                                    quest = q, chapter = ch.chapter,
-                                    section = section, depth = j, order = chIdx,
-                                }
-                            elseif section == 1 and chDone == 0 and not hasPrereqProgress then
-                                readyCandidates[#readyCandidates + 1] = {
-                                    quest = q, chapter = ch.chapter,
-                                    section = section, depth = j, order = chIdx,
-                                }
-                            end
-                            break
-                        elseif SM.IsQuestEffectivelyComplete(j - 1, ch.quests) then
-                            readyCandidates[#readyCandidates + 1] = {
+                    for j, q in ipairs(ch.quests) do
+                        if not SM.IsQuestForPlayer(q) then
+                            -- skip opposing-faction variant
+                        elseif SM.IsQuestInLog(q.id) then
+                            logCandidates[#logCandidates + 1] = {
                                 quest = q, chapter = ch.chapter,
                                 section = section, depth = j, order = chIdx,
                             }
                             break
-                        else
-                            break
+                        elseif not SM.IsQuestEffectivelyComplete(j, ch.quests) then
+                            if j == 1 then
+                                if section >= 2 and hasPrereqProgress then
+                                    readyCandidates[#readyCandidates + 1] = {
+                                        quest = q, chapter = ch.chapter,
+                                        section = section, depth = j, order = chIdx,
+                                    }
+                                elseif section == 1 and chDone == 0 and not hasPrereqProgress then
+                                    readyCandidates[#readyCandidates + 1] = {
+                                        quest = q, chapter = ch.chapter,
+                                        section = section, depth = j, order = chIdx,
+                                    }
+                                end
+                                break
+                            elseif SM.IsQuestEffectivelyComplete(j - 1, ch.quests) then
+                                readyCandidates[#readyCandidates + 1] = {
+                                    quest = q, chapter = ch.chapter,
+                                    section = section, depth = j, order = chIdx,
+                                }
+                                break
+                            else
+                                break
+                            end
                         end
                     end
                 end

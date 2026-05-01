@@ -2,7 +2,7 @@ local addonName, SM = ...
 
 -- =============================================================================
 -- Sylvanas Windrunner: The Banshee Queen
--- A saga spanning Wrath of the Lich King through The War Within.
+-- A saga spanning Wrath of the Lich King through Midnight.
 -- From the ice halls of Icecrown to the judgment courts of Oribos —
 -- the full story of a queen who broke the world, and what remains.
 -- =============================================================================
@@ -10,9 +10,9 @@ local addonName, SM = ...
 SM.SylvanasData = {
     -- Questline metadata
     title = "The Banshee Queen",
-    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then a queen the Horde was never fully prepared for. Slain by Arthas at the gates of Silvermoon and raised as the first of his banshees, she clawed her way back to herself and built an undead kingdom from the ruins of Lordaeron.\n\nFollow her from Icecrown and Silverpine into wars that test what leadership, vengeance, survival, and freedom mean to someone who has already lost almost everything.",
-    zone = "Icecrown / Silverpine / Orgrimmar / Oribos / The Maw",
-    expansion = "Wrath of the Lich King — The War Within",
+    description = "Sylvanas Windrunner was a Ranger-General, then a corpse, then a queen the Horde was never fully prepared for. Slain by Arthas at the gates of Silvermoon and raised as the first of his banshees, she clawed her way back to herself and built an undead kingdom from the ruins of Lordaeron.\n\nFollow her from Icecrown and Silverpine into wars that test leadership, vengeance, survival, freedom, and the question of what remains when a Windrunner can no longer run from what she has done.",
+    zone = "Icecrown / Silverpine / Orgrimmar / Oribos / The Maw / Quel'Thalas",
+    expansion = "Wrath of the Lich King — Midnight",
     achievements = {
         -- The Frozen Halls — dungeon completions
         4516,   -- The Forge of Souls (Normal)
@@ -220,7 +220,7 @@ SM.SylvanasData = {
         {
             chapter = "Cities in Dust",
             summary = "The campaign pushes into the ruins of Gilneas. A traitor needs to be dealt with, and the Gilneas Liberation Front is running out of room to maneuver.",
-            recap = "You fought through the Ruins of Gilneas — sabotage, ambushes, a cat-and-mouse hunt through a shattered city — and cornered Godfrey, the man who had betrayed everyone at least once. Sylvanas raised him without ceremony. Then the final push: Lorna Crowley was captured and brought before her. Sylvanas offered terms. The Gilneas Liberation Front could keep fighting and watch everything turn to dust, or stand aside. It was not a bluff. Cities in Dust is one of the best Sylvanas scenes in the game — cold, precise, and entirely in character.",
+            recap = "You fought through the Ruins of Gilneas — sabotage, ambushes, a cat-and-mouse hunt through a shattered city — and cornered Godfrey, the man who had betrayed everyone at least once. Sylvanas raised him without ceremony. Then came the final push: Lorna Crowley was captured and brought before her. Sylvanas offered terms. The Gilneas Liberation Front could keep fighting and watch everything turn to dust, or stand aside. It was not a bluff. It was cold, precise, and entirely in character.",
             quests = {
                 { id = 27364, name = "On Whose Orders?",               npc = "Grand Executor Mortuus" },
                 { id = 27401, name = "What Tomorrow Brings",           npc = "Grand Executor Mortuus" },
@@ -274,7 +274,7 @@ SM.SylvanasData = {
             chapter = "The Battle for Lordaeron",
             replayable = true,
             summary = "The Alliance has come for Lordaeron. Sylvanas holds the walls of the Forsaken capital as Jaina and Anduin lead the siege.",
-            recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity was lost. Sylvanas rode for the Dark Portal as the Alliance horns echoed behind her. The Forsaken had no home left. Again.",
+            recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity was lost, left poisoned and empty behind her. The Forsaken had no home left. Again.",
             quests = {
                 { id = 53372, name = "Battle for Azeroth: Hour of Reckoning", npc = "High Overlord Saurfang" },
                 { id = 51796, name = "The Battle for Lordaeron",              npc = "High Overlord Saurfang" },
@@ -520,15 +520,15 @@ SM.SylvanasData = {
 
         -- =========================================================================
         -- ACT XII — SEPULCHER OF THE FIRST ONES (Shadowlands 9.2)
-        -- The final raid of Shadowlands frees Anduin and ends the Jailer's war.
+        -- The final raid of Shadowlands ends the Jailer's war.
         -- =========================================================================
 
         -- CHAPTER 18: The Jailer's fall
         {
             chapter = "Sepulcher of the First Ones",
             completionAchievementID = 15417, -- Sepulcher of the First Ones
-            summary = "The campaign reaches the Sepulcher itself. Anduin must be freed from Domination before Zovaal can be stopped at the heart of the First Ones' design.",
-            recap = "The way into the Sepulcher opened, and the covenants carried the fight into the machinery of creation. At its heart stood Anduin, still bound to Kingsmourne and the Jailer's will. The heroes broke that domination, and Anduin found the strength to shatter the mourneblade from within. With the Crown of Wills reforged and the covenants united, the final battle moved deeper into the Sepulcher, where Zovaal tried to remake reality through the First Ones' design. He failed. The Jailer fell, and the Shadowlands war finally ended. Only then could Sylvanas be brought before those she had wronged.",
+            summary = "The Crown of Wills is reforged, and the covenants carry the fight to Zovaal at the heart of the Sepulcher.",
+            recap = "The way into the Sepulcher opened, and the covenants carried the fight into the machinery of creation. With the Crown of Wills reforged and Anduin freed, the final battle moved deeper into the Sepulcher, where Zovaal tried to remake reality through the First Ones' design. He failed. The Jailer fell, and the Shadowlands war finally ended. Only then could Sylvanas be brought before those she had wronged.",
             quests = {
                 { id = 65259, name = "Heart of the Sepulcher", npc = "Highlord Bolvar Fordragon", location = "Haven, Zereth Mortis", mapID = 1970, x = 0.3500, y = 0.6480 },
             },
@@ -583,13 +583,13 @@ SM.SylvanasData = {
         {
             chapter = "The Warning",
             summary = "A vision of Quel'Thalas in shadow sends Arator looking for the Windrunners. His search reaches the Maw, where Sylvanas is still freeing the souls she condemned.",
-            recap = "Vereesa's visions showed Silvermoon under a shadowed sun, and Arator went looking for the family legacy that might answer it. Alleria was still hunting Xal'atath. Vereesa carried the warning. So Arator followed the trail no one else wanted to walk: through Ve'nari's gate and into the Maw, where Sylvanas continued her penance among the damned. The Devouring Host followed him there, and together he and Sylvanas cut them out of the Tremaculum. Arator asked her to come home. Sylvanas refused. Her duty was still among the dead, but she gave him the answer he needed: Silvermoon did need a Windrunner, and he could be one.",
+            recap = "Vereesa's visions showed Silvermoon under a shadowed sun, and Arator went looking for the family legacy that might answer it. Alleria was still hunting Xal'atath, and Sylvanas remained in the Maw, freeing the souls she had condemned. So Arator followed the trail no one else wanted to walk: through Ve'nari's gate and into the realm of the damned. The Devouring Host followed him there, and together he and Sylvanas cut them out of the Tremaculum. Arator asked her to come home. Sylvanas refused. Her duty was still among the dead, but she gave him the answer he needed: Silvermoon did need a Windrunner, and he could be one.",
             quests = {
                 { id = 92405, name = "Meet Arator",                         npc = "Silver Hand Squire", location = "outside the Dornogal bank", mapID = 2339, x = 0.5100, y = 0.4500 },
                 { id = 84996, name = "Vereesa's Tale",                      npc = "Arator" },
                 { id = 84997, name = "What Might Come",                     npc = "Vereesa Windrunner" },
                 { id = 84998, name = "Bringer of the Void",                 npc = "Vereesa Windrunner" },
-                { id = 85001, name = "Blessings Be Upon You",               npc = "Vereesa Windrunner" },
+                { id = 85001, name = "Blessings Be Upon You",               npc = "Arator" },
                 { id = 85002, name = "Off to Tazavesh",                     npc = "Arator" },
                 { id = 85011, name = "Where in K'aresh is Alleria Windrunner?", npc = "Arator" },
                 { id = 85804, name = "The Parent Trap",                     npc = "Arator" },
@@ -602,18 +602,18 @@ SM.SylvanasData = {
                 { id = 85212, name = "A Void Test of Wills",                npc = "Alleria Windrunner" },
                 { id = 85213, name = "Off to Tazavesh, Again",              npc = "Arator" },
                 { id = 85214, name = "Here Goes Something",                 npc = "Ve'nari" },
-                { id = 84935, name = "Excising the Incursion",              npc = "Sylvanas Windrunner" },
-                { id = 84936, name = "To Cleanse Shadow's Stain",           npc = "Sylvanas Windrunner" },
-                { id = 84937, name = "Distant Echoes",                      npc = "Sylvanas Windrunner" },
-                { id = 84938, name = "Chaos Control",                       npc = "Arator" },
+                { id = 84935, name = "Excising the Incursion",              npc = "Arator" },
+                { id = 84936, name = "To Cleanse Shadow's Stain",           npc = "Arator" },
+                { id = 84937, name = "Distant Echoes",                      npc = "Arator" },
+                { id = 84938, name = "Chaos Control",                       npc = "Sylvanas Windrunner" },
                 { id = 84939, name = "Mad Space",                           npc = "Arator" },
                 { id = 84942, name = "The Final Hazard",                    npc = "Arator" },
                 { id = 84944, name = "Preludes and Preparations",           npc = "Sylvanas Windrunner" },
                 { id = 84943, name = "The Long Vigil",                      npc = "Sylvanas Windrunner" },
-                { id = 84945, name = "Repent of the Highborne",             npc = "Vereesa Windrunner" },
-                { id = 84946, name = "Returning to Life",                   npc = "Vereesa Windrunner" },
-                { id = 84947, name = "Determination",                       npc = "Arator" },
-                { id = 84949, name = "The Eleventh Hour",                   npc = "Vereesa Windrunner" },
+                { id = 84945, name = "Repent of the Highborne",             npc = "Sylvanas Windrunner" },
+                { id = 84946, name = "Returning to Life",                   npc = "Arator" },
+                { id = 84947, name = "Determination",                       npc = "Sylvanas Windrunner" },
+                { id = 84949, name = "The Eleventh Hour",                   npc = "Arator" },
             },
         },
 

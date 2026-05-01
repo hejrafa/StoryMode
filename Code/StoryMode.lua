@@ -57,6 +57,15 @@ local FindNextQuest = SM.FindNextQuest
 local SetWaypointForQuest = SM.SetWaypointForQuest
 local PrintTrackResult = SM.PrintTrackResult
 
+function SM.IsStoryFinished(data)
+    if not data then return false end
+    local previousStoryData = currentStoryData
+    currentStoryData = data
+    local isFinished = FindNextQuest(data) == nil
+    currentStoryData = previousStoryData
+    return isFinished
+end
+
 -- ============================================================================
 -- UI Constants & Helpers
 -- ============================================================================
@@ -1596,6 +1605,7 @@ local PANDAREN_TABARD_ICON = "Interface\\Icons\\inv_misc_tabard_tushui"
 local function CreateCompletionRibbon(parent)
     local ribbon = CreateFrame("Frame", nil, parent)
     ribbon:SetSize(34, 42)
+    ribbon:SetFrameLevel((parent:GetFrameLevel() or 0) + 20)
 
     local flag = ribbon:CreateTexture(nil, "OVERLAY", nil, 1)
     flag:SetAllPoints()
@@ -3598,6 +3608,9 @@ local function SelectStory(index)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
+        if row.checkmark and row.data then
+            row.checkmark:SetShown(SM.IsStoryFinished(row.data))
+        end
     end
     if index == 0 or not storyIndexToData[index] then
         UpdateStoryDetail(nil)
@@ -4245,8 +4258,7 @@ local function BuildStoryWindow()
                 else
                     cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
                 end
-                local cdone, ctotal = GetCampaignProgress(data)
-                if cdone == ctotal and ctotal > 0 then
+                if SM.IsStoryFinished(data) then
                     cardCheckmark:Show()
                 else
                     cardCheckmark:Hide()
@@ -4449,19 +4461,13 @@ local function CheckQuestCompletion(completedQuestID)
                     local done, total = GetChapterProgress(ch)
                     local isChapterDone = done >= total and total > 0
                     local key = (data.title or "") .. "|" .. (ch.chapter or "")
+                    local storyKey = data.title or ""
+                    local storyDone = SM.IsStoryFinished(data)
 
                     if isChapterDone and not chapterCompletionCache[key] then
                         chapterCompletionCache[key] = true
 
-                        local storyKey = data.title or ""
-                        local allDone = true
-                        for _, c in ipairs(GetAllChapters(data)) do
-                            local d, t = GetChapterProgress(c)
-                            -- t == 0 means loreOnly/achievement chapter with no quests — skip it
-                            if t > 0 and d < t then allDone = false; break end
-                        end
-
-                        if allDone then
+                        if storyDone then
                             -- Update the story card checkmark on the left panel
                             for idx, row in pairs(storyLeftRows) do
                                 if storyIndexToData[idx] == data then
@@ -4475,7 +4481,7 @@ local function CheckQuestCompletion(completedQuestID)
                             ShowStoryBanner(L["Banner Chapter Complete"], ch.chapter, data, questNpc, true)
                         end)
 
-                        if allDone and not storylineCompletionCache[storyKey] then
+                        if storyDone and not storylineCompletionCache[storyKey] then
                             storylineCompletionCache[storyKey] = true
                             C_Timer.After(6.5, function()
                                 ShowStoryComplete(data.title)
@@ -4511,16 +4517,13 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         SM.MinimapButton_Init()
         -- Pre-populate caches so already-completed chapters/storylines don't re-fire
         for _, data in ipairs(allQuestlines) do
-            local allDone = true
             for _, ch in ipairs(GetAllChapters(data)) do
                 local d, t = GetChapterProgress(ch)
                 if d >= t and t > 0 then
                     chapterCompletionCache[(data.title or "") .. "|" .. (ch.chapter or "")] = true
-                else
-                    allDone = false
                 end
             end
-            if allDone then
+            if SM.IsStoryFinished(data) then
                 storylineCompletionCache[data.title or ""] = true
             end
         end
