@@ -33,6 +33,8 @@ SM.SylvanasData = {
         -- The War Within — The Warning / Midnight prelude
         42299,  -- Visions of a Shadowed Sun
         61498,  -- Ready for Midnight
+        -- Midnight — Windrunner Spire dungeon
+        41287,  -- Windrunner Spire
     },
     faction = "Horde",
     color = { 0.20, 0.40, 0.70 },  -- Forsaken void-blue
@@ -103,6 +105,8 @@ SM.SylvanasData = {
         ["Pelagos"]                  = 90000,
         ["The Jailer"]               = 100456,
         ["Dori'thur"]                = 38801,
+        ["Silver Hand Squire"]       = 140019,
+        ["Lirath Windrunner"]        = 124688,
     },
     chapterDisplayIDs = {
         ["The Frozen Halls"]              = 30686,  -- Dark Ranger Vorel
@@ -126,7 +130,8 @@ SM.SylvanasData = {
         ["Sepulcher of the First Ones"]  = 100456, -- The Jailer
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
         ["The Long Hunt"]                = 38801,  -- Dori'thur
-        ["The Warning"]                  = 28213,  -- Sylvanas Windrunner
+        ["The Warning"]                  = 140019, -- Silver Hand Squire
+        ["Windrunner Spire"]             = 124688, -- Lirath Windrunner
     },
     chapterIcons = {
         ["The Frozen Halls"]              = 0,
@@ -151,6 +156,7 @@ SM.SylvanasData = {
         ["Judgment"]                     = 0,
         ["The Long Hunt"]                = 0,
         ["The Warning"]                  = 0,
+        ["Windrunner Spire"]             = 0,
     },
 
     -- =========================================================================
@@ -608,6 +614,19 @@ SM.SylvanasData = {
                 { id = 84946, name = "Returning to Life",                   npc = "Vereesa Windrunner" },
                 { id = 84947, name = "Determination",                       npc = "Arator" },
                 { id = 84949, name = "The Eleventh Hour",                   npc = "Vereesa Windrunner" },
+            },
+        },
+
+        -- CHAPTER 22: Windrunner family history
+        {
+            chapter = "Windrunner Spire",
+            optional = true,
+            type = "dungeon",
+            completionAchievementID = 41287, -- Windrunner Spire
+            summary = "Windrunner Spire opens its haunted halls in Midnight. This is not required for Sylvanas's penance, but it is a sharp look back at the Windrunner family home and the grief left behind by Alleria, Sylvanas, and Vereesa.",
+            recap = "The trail through Midnight returned to Windrunner Spire, the family home that still held the sisters' wounds in its stone. The halls were not only abandoned; they were haunted by memory, loyalty, resentment, and grief. For Sylvanas's story, the dungeon is context rather than command: a place where the Windrunner name still aches, and where the past keeps answering long after everyone tried to leave it behind.",
+            quests = {
+                { id = 93850, name = "Windrunner Spire: Haunting Melodies", npc = "Lirath Windrunner", optional = true, location = "Windrunner Spire, Eversong Woods" },
             },
         },
 
