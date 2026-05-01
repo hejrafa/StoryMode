@@ -30,6 +30,8 @@ SM.ForsakenHeritageData = {
     -- Use a Forsaken-themed icon for the questline card instead of a character portrait.
     icon = "Interface\\Icons\\inv_misc_tabard_forsaken",
     adventureGuideInstanceName = "Scarlet Monastery",
+    adventureCoverTexture = 131867, -- Ruins of Lordaeron battleground loading screen
+    adventureCoverIsLoadingScreen = true,
 
     -- Start location: Lilian Voss at the Ruins of Lordaeron (Dragonflight phased area)
     startQuest = { id = 76530, name = "Unliving Summons", npc = "Lilian Voss", location = "Ruins of Lordaeron" },

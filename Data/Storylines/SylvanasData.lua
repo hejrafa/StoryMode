@@ -39,7 +39,7 @@ SM.SylvanasData = {
     icon = 341221,
     factions = { 68, 1098, 1156, 2157 }, -- Undercity, Knights of the Ebon Blade, The Ashen Verdict, The Honorbound
     portraitDisplayID = 28213,  -- Lady Sylvanas Windrunner
-    adventureGuideInstanceName = "Icecrown Citadel",
+    adventureGuideInstanceName = "Sanctum of Domination",
 
     -- Start location: Dark Ranger Vorel in Dalaran (Northrend)
     startQuest = { id = 24506, name = "Inside the Frozen Citadel", npc = "Dark Ranger Vorel", location = "Dalaran" },
@@ -98,6 +98,7 @@ SM.SylvanasData = {
         ["Uther the Lightbringer"]   = 105509,
         ["Tyrande Whisperwind"]      = 20748,
         ["Pelagos"]                  = 90000,
+        ["The Jailer"]               = 100456,
         ["Dori'thur"]                = 38801,
     },
     chapterDisplayIDs = {
@@ -119,7 +120,7 @@ SM.SylvanasData = {
         ["Shattered Legacies"]           = 105509, -- Uther the Lightbringer
         ["Domination's Grasp"]           = 105386, -- Anduin Wrynn
         ["Crown of Wills"]               = 95194,  -- Bolvar Fordragon
-        ["Sepulcher of the First Ones"]  = 95194,  -- Bolvar Fordragon
+        ["Sepulcher of the First Ones"]  = 100456, -- The Jailer
         ["Judgment"]                     = 95194,  -- Bolvar Fordragon
         ["The Long Hunt"]                = 38801,  -- Dori'thur
         ["The Warning"]                  = 28213,  -- Sylvanas Windrunner
@@ -173,7 +174,7 @@ SM.SylvanasData = {
         -- CHAPTER 2: The fall of Arthas — and what Sylvanas saw in death
         {
             chapter = "Icecrown's End",
-            achievementID = 4608,  -- "Fall of the Lich King"
+            achievementID = 4608,  -- Fall of the Lich King
             summary = "The Lich King's reign ends at the Frozen Throne. For Sylvanas, the aftermath is more personal than anyone outside Icecrown will ever know.",
             recap = "Arthas died at the Frozen Throne. The moment he fell, the power of the Lich King's realm rippled outward — and Sylvanas, like every Forsaken sustained by that dark energy, briefly stopped. She died on her feet, alone at the pinnacle of Icecrown. A Val'kyr named Annhylde gave her life to pull her back. Sylvanas opened her eyes to wind and ice and herself, inexplicably, still breathing. She looked out at nothing for a long time. Then she went back to work. She never explained what she had seen. But the Val'kyr — the ones who would spend their own lives to keep her alive — suddenly became very important to her. Now she knew why.",
             quests = {},
@@ -418,9 +419,7 @@ SM.SylvanasData = {
         -- CHAPTER 14: The raid finale
         {
             chapter = "Sanctum of Domination",
-            gated = true,
             completionAchievementID = 15125, -- The Reckoning: Sylvanas Windrunner wing
-            note = "Optional raid story from Chains of Domination. Pick up Storming the Sanctum from Bolvar in Korthia after The Primus Returns, or enter Sanctum of Domination directly.",
             summary = "The covenants assault the Jailer's fortress in Torghast. At the summit waits Sylvanas, and the battle ends with the choice that makes News from Oribos possible.",
             recap = "The assault on the Sanctum of Domination carried the covenants into the Jailer's seat of power. Sylvanas waited at the top of Torghast, fighting across shattered chains and the edge of the Maw while the Jailer dragged Oribos toward his prison. When Zovaal spoke of remaking reality so all would serve, Sylvanas finally heard Arthas in his words. She turned on him. The Jailer answered by returning the soul fragment Frostmourne had torn from her at Silvermoon, then left her unconscious at the mercy of those she had betrayed. She was defeated, but not judged. Not yet.",
             quests = {
@@ -471,9 +470,7 @@ SM.SylvanasData = {
         -- CHAPTER 16: The king in the Sepulcher
         {
             chapter = "Domination's Grasp",
-            gated = true,
             achievementID = 15416, -- Domination's Grasp
-            note = "Enter the Sepulcher of the First Ones and clear Domination's Grasp on any difficulty to see Anduin's liberation.",
             summary = "The path through the Sepulcher reaches Anduin at last. Freeing him from Kingsmourne sets the stage for the Crown of Wills.",
             recap = "Within the Sepulcher, the heroes found Anduin still bound to the Jailer's will. The fight was not only to defeat him, but to reach the part of him still resisting. In the end, Anduin found the strength to help shatter Kingsmourne from within. Sylvanas's warning had been true: saving Anduin was the key to opposing Zovaal's design.",
             quests = {},
@@ -488,8 +485,6 @@ SM.SylvanasData = {
         -- CHAPTER 17: The answer to Domination
         {
             chapter = "Crown of Wills",
-            gated = true,
-            note = "Continue from The Pilgrimage Ends. This chapter is story-set after Anduin is freed in Sepulcher, but no raid progress is required to play it.",
             summary = "Anduin has been rescued, but the Jailer still commands Domination. Bolvar and the Primus seek a way to turn the broken helm into a weapon of free will.",
             recap = "After Anduin was freed, the way forward was still blocked by the Jailer's Domination magic. Bolvar, Darion, Anduin, and Sylvanas all carried scars from the helm, the blade, or the will behind them. Their memories became part of the answer. In Bastion, Sylvanas faced the wound of what she had done and named the truth plainly: there was no absolution waiting inside a shard of memory, only the choice to keep resisting. The Primus reforged the Helm of Domination into the Crown of Wills, a symbol not of command, but of defiance. With it, Zovaal could finally be faced.",
             quests = {
@@ -510,6 +505,7 @@ SM.SylvanasData = {
                 { id = 64798, name = "What We Overcome",             npc = "Highlord Bolvar Fordragon" },
                 { id = 64812, name = "Forge of Domination",          npc = "The Primus" },
                 { id = 64813, name = "The Crown of Wills",           npc = "The Primus" },
+                { id = 64816, name = "Reality's Doorstep",           npc = "Highlord Bolvar Fordragon", optional = true, location = "Haven, Zereth Mortis", mapID = 1970, x = 0.3500, y = 0.6475 },
             },
         },
 
@@ -521,12 +517,12 @@ SM.SylvanasData = {
         -- CHAPTER 18: The Jailer's fall
         {
             chapter = "Sepulcher of the First Ones",
-            gated = true,
-            achievementID = 15417, -- Sepulcher of the First Ones
-            note = "Enter the Sepulcher of the First Ones in Zereth Mortis. Complete the raid on any difficulty to see Anduin's liberation and the Jailer's defeat.",
+            completionAchievementID = 15417, -- Sepulcher of the First Ones
             summary = "The campaign reaches the Sepulcher itself. Anduin must be freed from Domination before Zovaal can be stopped at the heart of the First Ones' design.",
             recap = "The way into the Sepulcher opened, and the covenants carried the fight into the machinery of creation. At its heart stood Anduin, still bound to Kingsmourne and the Jailer's will. The heroes broke that domination, and Anduin found the strength to shatter the mourneblade from within. With the Crown of Wills reforged and the covenants united, the final battle moved deeper into the Sepulcher, where Zovaal tried to remake reality through the First Ones' design. He failed. The Jailer fell, and the Shadowlands war finally ended. Only then could Sylvanas be brought before those she had wronged.",
-            quests = {},
+            quests = {
+                { id = 65259, name = "Heart of the Sepulcher", npc = "Highlord Bolvar Fordragon", location = "Haven, Zereth Mortis", mapID = 1970, x = 0.3500, y = 0.6480 },
+            },
         },
 
         -- =========================================================================
@@ -576,8 +572,6 @@ SM.SylvanasData = {
         -- CHAPTER 21: Arator in the Maw
         {
             chapter = "The Warning",
-            gated = true,
-            note = "Begin in Dornogal with Meet Arator, or open the Adventure Guide and start The Warning campaign.",
             summary = "A vision of Quel'Thalas in shadow sends Arator looking for the Windrunners. His search reaches the Maw, where Sylvanas is still freeing the souls she condemned.",
             recap = "Vereesa's visions showed Silvermoon under a shadowed sun, and Arator went looking for the family legacy that might answer it. Alleria was still hunting Xal'atath. Vereesa carried the warning. So Arator followed the trail no one else wanted to walk: through Ve'nari's gate and into the Maw, where Sylvanas continued her penance among the damned. The Devouring Host followed him there, and together he and Sylvanas cut them out of the Tremaculum. Arator asked her to come home. Sylvanas refused. Her duty was still among the dead, but she gave him the answer he needed: Silvermoon did need a Windrunner, and he could be one.",
             quests = {
