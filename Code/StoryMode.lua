@@ -311,6 +311,7 @@ SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
 SM.ClassicPortraitRing = "Interface\\Common\\portrait-ring-withbg"
 SM.ClassicPortraitRingFallback = "Interface\\Buttons\\GoldRing64"
+SM.PanelScrollTopInset = 4
 SM.PanelScrollBottomInset = 4
 
 -- Color palette
@@ -649,7 +650,7 @@ CreateStoryPanel(leftSection)
 
 -- Scrollable card list (no scrollbar — mousewheel only)
 local leftScroll = CreateFrame("ScrollFrame", nil, leftSection, "ScrollFrameTemplate")
-leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -2)
+leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -SM.PanelScrollTopInset)
 leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12, SM.PanelScrollBottomInset)
 if leftScroll.ScrollBar then leftScroll.ScrollBar:Hide() end
 local leftChild = CreateFrame("Frame", nil, leftScroll)
@@ -3103,16 +3104,21 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtn.lockReason = nil
             end
         else
+            sCompleteText:ClearAllPoints()
+            sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
+            sCompleteText:Show()
             sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
             sTrackBtnSecure:SetScript("PreClick", nil)
-            sTrackBtn:Disable()
-            sTrackBtn:SetAlpha(0.5)
+            sTrackBtn:Hide()
             sTrackBtn.lockReason = nil
+            lastAnchor = sCompleteText
         end
-        sTrackBtn:Show()
+        if quest then
+            sTrackBtn:Show()
+            lastAnchor = sTrackBtn
+        end
         SyncSecureOverlay()
-        lastAnchor = sTrackBtn
 
         local storyBottomEl = lastAnchor
         -- Set scroll height
@@ -3521,6 +3527,7 @@ local function UpdateStoryDetail(data)
         for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
         dCompleteText:Hide()
+        introText:SetText(SM.AreAllVisibleStoriesComplete() and L["Intro Text Complete"] or L["Intro Text"])
         introHero:Show(); introText:Show()
         heroIcon:SetTexture(nil)
         smHeaderSub:SetText("")
@@ -3613,6 +3620,34 @@ local storyLeftRows    = {}
 local storyContentBuilt = false
 local storyIndexToData = {}
 
+function SM.AreAllVisibleStoriesComplete()
+    if #allQuestlines == 0 then return false end
+    local hasTrackableStory = false
+    for _, data in ipairs(allQuestlines) do
+        local done, total = GetCampaignProgress(data)
+        if total > 0 then hasTrackableStory = true end
+        if total > 0 and done < total then
+            return false
+        end
+    end
+    return hasTrackableStory
+end
+
+function SM.ApplyIntroCompletionState(row)
+    if not row or not row.btn or not row.nameLabel then return end
+    local allComplete = SM.AreAllVisibleStoriesComplete()
+
+    if row.checkmark then
+        row.checkmark:SetShown(allComplete)
+    end
+
+    row.nameLabel:ClearAllPoints()
+    row.nameLabel:SetPoint("LEFT", row.icon or row.btn, row.icon and "RIGHT" or "LEFT", row.icon and 8 or 24, 0)
+    row.nameLabel:SetPoint("RIGHT", row.btn, "RIGHT", -8, 0)
+    row.nameLabel:SetPoint("CENTER", row.btn, "CENTER", 0, 0)
+    row.nameLabel:SetJustifyV("MIDDLE")
+end
+
 -- Portrait circle sizes (Delve companion style)
 local PORT = 46
 local ICON = 34
@@ -3641,6 +3676,7 @@ local function SelectStory(index)
         end
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
+        if i == 0 then SM.ApplyIntroCompletionState(row) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
     end
@@ -4093,15 +4129,26 @@ local function BuildStoryWindow()
 
     local introZone = nil  -- no subline
 
+    introCard.checkmark = CreateCompletionRibbon(introCard)
+    if SM.Client and SM.Client.isRetail then
+        introCard.checkmark:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -15, -1)
+    else
+        introCard.checkmark:SetPoint("RIGHT", introCard, "RIGHT", -18, 0)
+    end
+    introCard.checkmark:SetShown(SM.AreAllVisibleStoriesComplete())
+
     introCard:SetScript("OnClick", function() SelectStory(0) end)
 
     -- Store intro card for select styling
     storyLeftRows[0] = {
         btn       = introCard,
         bg        = introBg,
+        icon      = introIcon,
         nameLabel = introName,
         zoneLabel = introZone,
+        checkmark = introCard.checkmark,
     }
+    SM.ApplyIntroCompletionState(storyLeftRows[0])
 
     yOffset = yOffset - CARD_H - 4
 
@@ -4516,6 +4563,7 @@ local function CheckQuestCompletion(completedQuestID)
                                     break
                                 end
                             end
+                            SM.ApplyIntroCompletionState(storyLeftRows[0])
                         end
 
                         C_Timer.After(1.5, function()

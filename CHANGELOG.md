@@ -26,6 +26,7 @@
 - Reworked Classic story cards, quest cards, progress view, and chapter track styling with Classic-safe borders, solid hover/backdrop layers, hidden scrollbars, and larger circular chapter portrait rings
 - Updated Classic tracking guidance to avoid map-pin language, reference the quest name, and include readable NPC locations such as Northshire Abbey, Sentinel Hill, Lakeshire, and Stormwind districts
 - Refined Classic window borders, story card sizing, minimap button scale, chapter arrows, track navigation arrows, quest-card arrows, and story card zone text truncation
+- Added the completed-story intro state to the Story Mode overview and tightened Classic left-panel scroll insets so content no longer touches the frame border
 - Added Classic chapter-level requirements to quest cards and the story start button so locked class quest chapters use the same level-gate behavior as retail story locks
 - Updated the Classic "quest already in log" message to say the quest was already picked up and nudge the player to read the quest log for the next objective
 
