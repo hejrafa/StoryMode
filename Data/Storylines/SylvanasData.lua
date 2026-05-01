@@ -71,6 +71,7 @@ SM.SylvanasData = {
         ["Valeera Sanguinar"]        = { mapID = 85,   x = 0.5050, y = 0.5700 },
         -- Ruins of Lordaeron (Dragonflight phased — The Long Hunt epilogue)
         ["Dori'thur"]                = { mapID = 2070, x = 0.6400, y = 0.6800 },
+        ["Dori'thur (Oribos)"]       = { mapID = 1670, x = 0.5000, y = 0.5000 },
         -- Oribos (Judgment)
         ["Bolvar Fordragon"]         = { mapID = 1670, x = 0.5000, y = 0.5000 },
         ["Uther the Lightbringer"]   = { mapID = 1670, x = 0.5100, y = 0.4900 },
@@ -543,6 +544,7 @@ SM.SylvanasData = {
                 { id = 65260, name = "A Long Walk",          npc = "Uther the Lightbringer" },
                 { id = 65263, name = "The Fate of Sylvanas", npc = "Pelagos" },
                 { id = 65297, name = "Penance and Renewal",  npc = "Tyrande Whisperwind" },
+                { id = 66170, name = "Silent Vigil",         npc = "Dori'thur (Oribos)", location = "Ring of Transference, Oribos", mapID = 1670, x = 0.5000, y = 0.5000 },
             },
         },
 
