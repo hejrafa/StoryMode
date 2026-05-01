@@ -3507,6 +3507,7 @@ L["A vision of Quel'Thalas in shadow sends Arator looking for the Windrunners. H
 L["A Void Test of Wills"] = "A Void Test of Wills"
 L["Alleria Windrunner"] = "Alleria Windrunner"
 L["Arator"] = "Arator"
+L["Be careful with the Threads of Fate choice from Fatescribe Roh-Tahl in Oribos. Choosing Threads of Fate skips the Shadowlands leveling campaign and marks Revendreth's main story quests complete, so use the replay storyline option if you want to play this chapter."] = "Be careful with the Threads of Fate choice from Fatescribe Roh-Tahl in Oribos. Choosing Threads of Fate skips the Shadowlands leveling campaign and marks Revendreth's main story quests complete, so use the replay storyline option if you want to play this chapter."
 L["Begin in Dornogal with Meet Arator, or open the Adventure Guide and start The Warning campaign."] = "Begin in Dornogal with Meet Arator, or open the Adventure Guide and start The Warning campaign."
 L["Blessings Be Upon You"] = "Blessings Be Upon You"
 L["Bringer of the Void"] = "Bringer of the Void"

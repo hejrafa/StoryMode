@@ -89,6 +89,8 @@ SM.RevendrethData = {
     chapters = {
         {
             chapter = "Welcome to Revendreth",
+            gated = true,
+            note = "Be careful with the Threads of Fate choice from Fatescribe Roh-Tahl in Oribos. Choosing Threads of Fate skips the Shadowlands leveling campaign and marks Revendreth's main story quests complete, so use the replay storyline option if you want to play this chapter.",
             summary = "The Winter Queen needs anima, and Revendreth is supposed to be the realm that knows how to harvest it. Your request begins in Darkhaven, where every sin has a stone.",
             recap = "Tal-Inara sent you toward Revendreth with a plea for aid: Ardenweald was starving, the Heart of the Forest was weakening, and Sire Denathrius was said to be a master of anima. Revendreth greeted you with teeth behind every smile. Rendle introduced the rules of the realm — sinstones, punishment, service, and the long work of repentance. Lord Chamberlain offered polished courtesy while rebels struck at the roads and Darkhaven buckled under the anima drought. The place looked like a vampire court and spoke like a church of atonement, but something in its foundations was already cracking.",
             quests = {
