@@ -28,6 +28,7 @@ SM.OnyxiaData = {
         ["Magistrate Solomon"] = { mapID = 49, x = 0.2900, y = 0.4400, location = "Lakeshire, Redridge Mountains" },
         ["Highlord Bolvar Fordragon"] = { mapID = 84, x = 0.7900, y = 0.3800, location = "Stormwind Keep" },
         ["Marshal Maxwell"] = { mapID = 36, x = 0.8400, y = 0.6900, location = "Morgan's Vigil, Burning Steppes" },
+        ["Reginald Windsor"] = { mapID = 84, x = 0.6600, y = 0.3200, location = "Stormwind gates" },
         ["Ragged John"] = { mapID = 36, x = 0.6500, y = 0.2400, location = "north of the Ruins of Thaurissan, Burning Steppes" },
         ["Marshal Windsor"] = { mapID = 242, x = 0.4800, y = 0.6200, location = "the Detention Block, Blackrock Depths" },
         ["A Crumpled Up Note"] = { mapID = 242, x = 0.4800, y = 0.6200, location = "Blackrock Depths" },
@@ -50,6 +51,7 @@ SM.OnyxiaData = {
     npcDisplayIDs = {
         ["Highlord Bolvar Fordragon"] = 5560,
         ["Marshal Windsor"] = 6047,
+        ["Reginald Windsor"] = 6047,
         ["Lady Katrana Prestor"] = 6049,
         ["Onyxia"] = 8570,
         ["Thrall"] = 4527,
@@ -91,9 +93,9 @@ SM.OnyxiaData = {
                 { id = 4183, name = "The True Masters", displayName = "To Lakeshire", npc = "Helendis Riverhorn" },
                 { id = 4184, name = "The True Masters", displayName = "To Stormwind", npc = "Magistrate Solomon" },
                 { id = 4185, name = "The True Masters", displayName = "Back to Lakeshire", npc = "Highlord Bolvar Fordragon" },
-                { id = 4186, name = "The True Masters", displayName = "To Morgan's Vigil", npc = "Magistrate Solomon" },
-                { id = 4223, name = "The True Masters", displayName = "Ragged John's Tale", npc = "Marshal Maxwell" },
-                { id = 4224, name = "The True Masters", displayName = "Return to Maxwell", npc = "Ragged John" },
+                { id = 4186, name = "The True Masters", displayName = "To Morgan's Vigil", npc = "Highlord Bolvar Fordragon" },
+                { id = 4223, name = "The True Masters", displayName = "Ragged John's Tale", npc = "Magistrate Solomon" },
+                { id = 4224, name = "The True Masters", displayName = "Return to Maxwell", npc = "Marshal Maxwell" },
             },
         },
         {
@@ -115,8 +117,8 @@ SM.OnyxiaData = {
             summary = "Windsor returns to Stormwind and marches into the keep. Lady Katrana Prestor's mask finally breaks, revealing Onyxia's hand inside the Alliance.",
             recap = "Marshal Windsor's return turned suspicion into spectacle. At the gates of Stormwind, he gathered himself for one last duty and marched through the city toward the keep. The guards, nobles, and courtiers saw what the dragon had hidden from them: Lady Katrana Prestor was no noble advisor. She was Onyxia, broodmother of the black dragonflight. Windsor died exposing her, but his sacrifice broke the illusion around Bolvar and gave the Alliance a clear enemy at last.",
             quests = {
-                { id = 6402, name = "Stormwind Rendezvous", npc = "Squire Rowe" },
-                { id = 6403, name = "The Great Masquerade", npc = "Marshal Windsor" },
+                { id = 6402, name = "Stormwind Rendezvous", npc = "Marshal Maxwell" },
+                { id = 6403, name = "The Great Masquerade", npc = "Reginald Windsor" },
             },
         },
         {

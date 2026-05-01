@@ -31,6 +31,7 @@ SM.ClassicDruidQuestData = {
     chapters = {
         {
             chapter = "Bear Form",
+            requiredLevel = 10,
             summary = "Answer the call to Moonglade, speak with the Great Bear Spirit, and earn the form that lets a young druid stand their ground.",
             recap = "Your first true lesson came from the wild itself. The path led through Moonglade to the Great Bear Spirit, whose strength was not rage but endurance. When you returned to your people, you carried that lesson in your bones.",
             quests = {
@@ -48,6 +49,7 @@ SM.ClassicDruidQuestData = {
         },
         {
             chapter = "Cure Poison",
+            requiredLevel = 14,
             summary = "Track a corruption spreading through beasts and waters, gather the cure, and learn to cleanse poison from the living.",
             recap = "The Circle's work was not always grand. Sometimes it meant kneeling beside sick creatures, following rot to its source, and learning that restoration is as much a weapon as claw or fang.",
             quests = {
@@ -65,6 +67,7 @@ SM.ClassicDruidQuestData = {
         },
         {
             chapter = "Aquatic Form",
+            requiredLevel = 16,
             summary = "Cross lake and sea for the pendant pieces that unlock the shape of the seal.",
             recap = "The water trial sent you farther than any trainer's lesson had before. Lake, coast, and current became the classroom, and when the pendant was whole, the depths opened.",
             quests = {
@@ -106,6 +109,7 @@ SM.ClassicHunterQuestData = {
     chapters = {
         {
             chapter = "Taming the Beast",
+            requiredLevel = 10,
             summary = "Learn the hunter's defining bond by taming wild beasts and earning the right to train a companion.",
             recap = "The first lesson was humility: approach the wild, survive it, and earn trust without breaking it. When the final beast answered your call, you stopped traveling alone.",
             quests = {
@@ -132,6 +136,7 @@ SM.ClassicHunterQuestData = {
         },
         {
             chapter = "Rhok'delar",
+            requiredLevel = 60,
             summary = "Bring the Ancient Petrified Leaf to Felwood, hunt the demons named by the ancients, and claim the living bow.",
             recap = "The Ancient Petrified Leaf was not a trophy. It was a summons. The ancients named four demons loose in the world, and the trial demanded the thing every hunter claims to have: control. Alone, precise, and patient, you earned Rhok'delar.",
             quests = {
@@ -170,6 +175,7 @@ SM.ClassicMageQuestData = {
     chapters = {
         {
             chapter = "Mage's Wand",
+            requiredLevel = 30,
             summary = "Travel to Tabetha, recover lost magical knowledge, and choose the wand that fits your path.",
             recap = "Tabetha's lesson was part scholarship, part field work, and part old-fashioned danger. The final ritual gave your magic a focus of its own: fire, frost, or arcane power bound into a wand.",
             quests = {
@@ -183,6 +189,7 @@ SM.ClassicMageQuestData = {
         },
         {
             chapter = "Polymorph: Pig",
+            requiredLevel = 60,
             summary = "Azshara's magic is volatile enough to teach a ridiculous but useful spell.",
             recap = "A mage's dignity rarely survives contact with field research. Warlord Krellian's magic fractured into something stranger, and the result was practical, pink, and humiliating.",
             quests = {
@@ -192,6 +199,7 @@ SM.ClassicMageQuestData = {
         },
         {
             chapter = "Arcane Refreshment",
+            requiredLevel = 60,
             summary = "Enter Dire Maul and recover the spell that lets a mage conjure proper water for allies.",
             recap = "Every veteran mage eventually learns that power is not always a fireball. Sometimes it is arriving prepared, feeding the group, and making a dungeon run smoother before the first pull.",
             quests = {
@@ -228,6 +236,7 @@ SM.ClassicPaladinQuestData = {
     chapters = {
         {
             chapter = "The Tome of Valor",
+            requiredLevel = 20,
             summary = "Carry the lesson of sacrifice from Stormwind to Westfall and learn what it means to protect the helpless.",
             recap = "Valor was not a speech in a cathedral. It was a wounded woman, a dangerous road, and the choice to spend your strength for someone who could not repay it.",
             quests = {
@@ -240,6 +249,7 @@ SM.ClassicPaladinQuestData = {
         },
         {
             chapter = "The Test of Righteousness",
+            requiredLevel = 20,
             summary = "Gather rare materials from distant dangers and forge Verigan's Fist.",
             recap = "The weapon was not handed down. It had to be assembled from effort, travel, and stubborn faith. When Verigan's Fist was complete, it felt earned.",
             quests = {
@@ -252,6 +262,7 @@ SM.ClassicPaladinQuestData = {
         },
         {
             chapter = "The Charger",
+            requiredLevel = 60,
             summary = "Redeem a charger spirit through sacrifice, craft, Stratholme, and Scholomance.",
             recap = "A paladin's charger was not bought. It was rescued from darkness. The trial moved through plague, craft, divination, and judgment until the mount answered the Light again.",
             quests = {
@@ -296,6 +307,7 @@ SM.ClassicPriestQuestData = {
     chapters = {
         {
             chapter = "The Balance of Light and Shadow",
+            requiredLevel = 60,
             summary = "With the Eye of Divinity in hand, protect the spirits of the fallen and earn Benediction.",
             recap = "The trial was not a duel. It was triage under pressure, compassion sharpened into discipline, and shadow waiting for every mistake. When the last spirit survived, the staff answered.",
             quests = {
@@ -330,6 +342,7 @@ SM.ClassicRogueQuestData = {
     chapters = {
         {
             chapter = "Poisons",
+            requiredLevel = 20,
             summary = "Infiltrate hostile ground, prove you can work quietly, and unlock the rogue's most infamous tool.",
             recap = "The lesson was simple: a rogue who cannot enter unseen, open what is locked, and survive their own antidote has no business handling poison.",
             quests = {
@@ -346,6 +359,7 @@ SM.ClassicRogueQuestData = {
         },
         {
             chapter = "Ravenholdt",
+            requiredLevel = 24,
             summary = "Find the manor hidden in the hills and step into the wider rogue world.",
             recap = "Ravenholdt was not a city trainer's lesson. It was a door into the profession behind the profession: signals, reputation, and thieves who understood exactly what you were becoming.",
             quests = {
@@ -384,6 +398,7 @@ SM.ClassicShamanQuestData = {
     chapters = {
         {
             chapter = "Call of Earth",
+            requiredLevel = 4,
             summary = "Seek the earth's trial and earn your first totem.",
             recap = "The earth did not answer because you asked. It answered because you listened, carried its sapta, and proved you could stand steady.",
             quests = {
@@ -396,6 +411,7 @@ SM.ClassicShamanQuestData = {
         },
         {
             chapter = "Call of Fire",
+            requiredLevel = 10,
             summary = "Carry the fire sapta through danger and earn the flame's service.",
             recap = "Fire demanded motion, risk, and offering. By the end, the flame was no longer just destruction. It was a companion at your feet.",
             quests = {
@@ -408,6 +424,7 @@ SM.ClassicShamanQuestData = {
         },
         {
             chapter = "Call of Water",
+            requiredLevel = 20,
             summary = "Travel farther than any earlier totem trial, carrying waters between distant lands.",
             recap = "Water was the long lesson. It sent you through Barrens dust, Ashenvale green, and Hillsbrad roads until patience became part of the ritual.",
             quests = {
@@ -423,6 +440,7 @@ SM.ClassicShamanQuestData = {
         },
         {
             chapter = "Call of Air",
+            requiredLevel = 30,
             summary = "The final leveling totem comes quickly, but it completes the shaman's elemental kit.",
             recap = "Air was brief but essential. With the last totem earned, the circle of elements finally closed around you.",
             quests = {
@@ -431,6 +449,7 @@ SM.ClassicShamanQuestData = {
         },
         {
             chapter = "Elemental Mastery",
+            requiredLevel = 50,
             summary = "Gather proofs of air, fire, earth, and water for the Sunken Temple class trial.",
             recap = "The temple trial asked for more than a single element. It asked whether you could carry all four at once and still know your own voice among them.",
             quests = {
@@ -468,6 +487,7 @@ SM.ClassicWarlockQuestData = {
     chapters = {
         {
             chapter = "Voidwalker",
+            requiredLevel = 10,
             summary = "Learn the first serious rule of warlock power: summon, bind, command.",
             recap = "The voidwalker was your first true bargain with something that did not want to serve. Names, circles, and willpower turned a threat into a shield.",
             quests = {
@@ -485,6 +505,7 @@ SM.ClassicWarlockQuestData = {
         },
         {
             chapter = "Succubus",
+            requiredLevel = 20,
             summary = "Follow the Devourer of Souls chain and bind a subtler demon.",
             recap = "Not every demon breaks a door down. Some smile first. The succubus trial taught you that control had to survive temptation as well as terror.",
             quests = {
@@ -498,6 +519,7 @@ SM.ClassicWarlockQuestData = {
         },
         {
             chapter = "Felhunter",
+            requiredLevel = 30,
             summary = "Seek Strahad Farsan and assemble the Tome of the Cabal.",
             recap = "The felhunter was not muscle. It was hunger shaped into an answer to enemy magic. Binding one meant proving you could handle a demon made to hunt power itself.",
             quests = {
@@ -513,6 +535,7 @@ SM.ClassicWarlockQuestData = {
         },
         {
             chapter = "Felsteed",
+            requiredLevel = 40,
             summary = "Bind your first demonic mount.",
             recap = "The felsteed was a promise that the road itself could be bent to your will. Other riders bought reins. You made a pact.",
             quests = {
@@ -522,6 +545,7 @@ SM.ClassicWarlockQuestData = {
         },
         {
             chapter = "Dreadsteed",
+            requiredLevel = 60,
             summary = "Prepare the ritual, bargain in Jaedenar, and open the way to Xoroth in Dire Maul.",
             recap = "The dreadsteed chain was everything warlock training warned about and promised. Blood, stardust, crafted ritual tools, Scholomance errands, and a portal to Xoroth. When the smoke cleared, the nightmare served.",
             quests = {
@@ -567,6 +591,7 @@ SM.ClassicWarriorQuestData = {
     chapters = {
         {
             chapter = "Defensive Stance",
+            requiredLevel = 10,
             summary = "Complete your first warrior trial and learn the stance that keeps you alive.",
             recap = "The first warrior lesson was not about hitting harder. It was about taking the hit, holding your ground, and understanding that survival can be trained.",
             quests = {
@@ -586,6 +611,7 @@ SM.ClassicWarriorQuestData = {
         },
         {
             chapter = "Whirlwind Weapon",
+            requiredLevel = 30,
             summary = "Survive the Islander, gather elemental charms, summon Cyclonian, and claim your weapon.",
             recap = "The Whirlwind trial was a warrior rite of passage: bruising, inconvenient, and absolutely worth it. When Cyclonian fell, your reward could carry you for levels.",
             quests = {

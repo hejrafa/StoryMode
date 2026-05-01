@@ -8,6 +8,8 @@
 - Fixed Adventure Guide tier lookup taint by wrapping `EJ_SelectTier` calls in `securecall`, preventing later loot tooltip money-frame errors after Story Mode searches for cover art
 - Hid the Story Mode window automatically when combat starts to avoid protected-frame interaction during lockdown
 - Fixed Classic Era "Begin This Story" errors by skipping retail-only world-map waypoint and ping behavior on Classic/TBC clients
+- Fixed Classic story data quest givers for Scarlet Crusade, Defias, Duskwood, Fallen Hero, Missing Diplomat, and Onyxia chains after auditing against Classic quest data
+- Fixed Scarlet Crusade's Deathknell chapter to start from Executor Arren, including its starting location, recap text, and chapter portrait source
 
 ### Maintenance
 - Restructured addon files into root TOC metadata, `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/` folders to prepare for additional game-version TOCs and localization work
@@ -23,6 +25,9 @@
 - Added Classic/TBC-specific frame fallbacks for missing retail atlas art while preserving the existing retail presentation
 - Reworked Classic story cards, quest cards, progress view, and chapter track styling with Classic-safe borders, solid hover/backdrop layers, hidden scrollbars, and larger circular chapter portrait rings
 - Updated Classic tracking guidance to avoid map-pin language, reference the quest name, and include readable NPC locations such as Northshire Abbey, Sentinel Hill, Lakeshire, and Stormwind districts
+- Refined Classic window borders, story card sizing, minimap button scale, chapter arrows, track navigation arrows, quest-card arrows, and story card zone text truncation
+- Added Classic chapter-level requirements to quest cards and the story start button so locked class quest chapters use the same level-gate behavior as retail story locks
+- Updated the Classic "quest already in log" message to say the quest was already picked up and nudge the player to read the quest log for the next objective
 
 ### Content
 - Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn
@@ -34,6 +39,9 @@
 - Added **The Missing Diplomat** as a Classic/TBC Alliance epic storyline, following the investigation from Stormwind and Duskwood to Menethil, Theramore, Jaina, and the disappearance of King Varian
 - Added **Onyxia and the Black Dragonflight** as a Classic/TBC cross-faction epic storyline, covering the Alliance Windsor/Prestor reveal, the Horde Rexxar/Emberstrife tests, and both Drakefire Amulet attunement paths
 - Added **Mankrik's Wife** as a Classic/TBC Horde short story for the Barrens **Lost in Battle** quest
+- Added Classic/TBC class quest storylines for druids, hunters, mages, paladins, priests, rogues, shamans, warlocks, and warriors, including iconic ability, tool, mount, and epic weapon chains
+- Updated Classic/TBC cover art to use closer dungeon or zone loading screens for the current Classic story set, including Barrens-adjacent art for Mankrik's Wife and Swamp of Sorrows-adjacent art for Fallen Hero
+- Retitled several Classic story cards to shorter in-game-flavored names, including **Lost in Battle**, **A Tale of Sorrow**, and **The Drakefire Amulet**
 - Expanded **The Banshee Queen** with the Shadowlands Sylvanas bridge from Torghast visions through Chains of Domination, Sanctum of Domination, Shattered Legacies, Domination's Grasp, Crown of Wills, Sepulcher of the First Ones, and Judgment, plus the War Within **The Warning** campaign with Arator in the Maw
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list

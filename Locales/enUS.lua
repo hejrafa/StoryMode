@@ -73,7 +73,7 @@ L["Quest Status Not Available"] = "Not yet available"
 
 L["Tracking Enabled Trivial Format"] = "Enabled |cffffd200%s|r tracking so you can see quest markers for this storyline."
 L["Tracking Now Following Format"] = "Now following %s. Look to your map."
-L["Tracking Classic In Log Format"] = "For %s, read the quest log for the next objective and story text."
+L["Tracking Classic In Log Format"] = "You already picked up %s. Read the quest log for the next objective."
 L["Tracking Classic Prereq Place Format"] = "%s awaits, but first finish %s. Look for it around %s."
 L["Tracking Classic Find NPC Place Format"] = "Find %s at %s to begin %s."
 L["Tracking Classic Find NPC Format"] = "Find %s to begin %s."

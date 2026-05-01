@@ -119,7 +119,7 @@ SM.MissingDiplomatData = {
             quests = {
                 { id = 1265, name = "The Missing Diplomat", displayName = "Sentry Point", npc = "Commander Samaul" },
                 { id = 1266, name = "The Missing Diplomat", displayName = "Private Hendel", npc = "Archmage Tervosh" },
-                { id = 1267, name = "The Missing Diplomat", displayName = "Jaina Proudmoore", npc = "Lady Jaina Proudmoore" },
+                { id = 1267, name = "The Missing Diplomat", displayName = "Jaina Proudmoore", npc = "Archmage Tervosh" },
             },
         },
     },

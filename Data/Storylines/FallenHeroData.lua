@@ -97,7 +97,7 @@ SM.FallenHeroData = {
             recap = "Breaking the Stones of Binding turned battle into mercy. One by one, the servants of Razelikh, Grol, Allistarj, and Sevine lost their anchors, and the dead soldiers were released from a fate worse than death. Corporal Thund Splithoof appeared long enough to honor the work and leave a token behind. Then one name remained: Lieutenant Kirith. Finding him in the Serpent's Coil revealed the next truth. Razelikh could not be reached until his protections were understood.",
             quests = {
                 { id = 2701, name = "Heroes of Old", displayName = "Corporal Thund", npc = "Corporal Thund Splithoof" },
-                { id = 2702, name = "Heroes of Old", displayName = "The Splithoof Shard", npc = "Corporal Thund Splithoof" },
+                { id = 2702, name = "Heroes of Old", displayName = "The Splithoof Shard", npc = "Fallen Hero of the Horde" },
                 { id = 2721, name = "Kirith", npc = "Fallen Hero of the Horde" },
                 { id = 2743, name = "The Cover of Darkness", npc = "Spirit of Kirith" },
             },

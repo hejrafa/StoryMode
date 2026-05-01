@@ -360,6 +360,39 @@ function SM.SafeSetButtonHighlight(button, atlas, alpha)
     return false
 end
 
+function SM.SetStoryArrowTexture(tex, direction, large)
+    if not tex then return end
+    tex:SetRotation(0)
+
+    if large == "money" then
+        if direction == "left" then
+            SM.SafeSetTexture(tex, "Interface\\MoneyFrame\\Arrow-Left-Up")
+        else
+            SM.SafeSetTexture(tex, "Interface\\MoneyFrame\\Arrow-Right-Up")
+        end
+        return
+    end
+
+    if large or (SM.Client and SM.Client.isRetail) then
+        if not SM.SafeSetAtlas(tex, "common-icon-forwardarrow", false) then
+            SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+        end
+        if direction == "left" then
+            tex:SetRotation(math.pi)
+        elseif direction == "down" then
+            tex:SetRotation(-math.pi / 2)
+        end
+        return
+    end
+
+    SM.SafeSetTexture(tex, "Interface\\RAIDFRAME\\UI-RAIDFRAME-ARROW")
+    if direction == "down" then
+        tex:SetRotation(-math.pi / 2)
+    elseif direction == "left" then
+        tex:SetRotation(math.pi)
+    end
+end
+
 function SM.CreateSimpleBorder(parent, thickness, level)
     local border = {}
     thickness = thickness or 1
@@ -2052,15 +2085,12 @@ local NAV_ARROW_INSET = 12
 -- Left arrow
 local dTrackLeftBtn = CreateFrame("Button", nil, dTrackContainer)
 dTrackLeftBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
-dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 2)
+dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 5)
 dTrackLeftBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
 local dTrackLeftTex = dTrackLeftBtn:CreateTexture(nil, "ARTWORK")
-if not SM.SafeSetAtlas(dTrackLeftTex, "common-icon-forwardarrow", false) then
-    SM.SafeSetTexture(dTrackLeftTex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-end
+SM.SetStoryArrowTexture(dTrackLeftTex, "left", true)
 dTrackLeftTex:SetSize(NAV_ARROW_SIZE, NAV_ARROW_SIZE)
 dTrackLeftTex:SetPoint("CENTER")
-dTrackLeftTex:SetRotation(math.pi)
 dTrackLeftTex:SetVertexColor(0.85, 0.75, 0.55)
 dTrackLeftBtn:SetScript("OnEnter", function() dTrackLeftTex:SetVertexColor(1, 0.90, 0.65) end)
 dTrackLeftBtn:SetScript("OnLeave", function() dTrackLeftTex:SetVertexColor(0.85, 0.75, 0.55) end)
@@ -2076,12 +2106,10 @@ end)
 -- Right arrow
 local dTrackRightBtn = CreateFrame("Button", nil, dTrackContainer)
 dTrackRightBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
-dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 2)
+dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 5)
 dTrackRightBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
 local dTrackRightTex = dTrackRightBtn:CreateTexture(nil, "ARTWORK")
-if not SM.SafeSetAtlas(dTrackRightTex, "common-icon-forwardarrow", false) then
-    SM.SafeSetTexture(dTrackRightTex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-end
+SM.SetStoryArrowTexture(dTrackRightTex, "right", true)
 dTrackRightTex:SetSize(NAV_ARROW_SIZE, NAV_ARROW_SIZE)
 dTrackRightTex:SetPoint("CENTER")
 dTrackRightTex:SetVertexColor(0.85, 0.75, 0.55)
@@ -2289,12 +2317,9 @@ local function CreateTrackNode(parent)
 
     -- Down-arrow indicator (below node, points to quest cards)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
-    if not SM.SafeSetAtlas(downArrow, "common-icon-forwardarrow", false) then
-        SM.SafeSetTexture(downArrow, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-    end
-    downArrow:SetSize(14, 14)
-    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 2)
-    downArrow:SetRotation(-math.pi / 2) -- rotate 90° clockwise to point down
+    SM.SetStoryArrowTexture(downArrow, "down", false)
+    downArrow:SetSize(22, 22)
+    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 6)
     downArrow:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     downArrow:Hide()
     btn.downArrow = downArrow
@@ -2679,7 +2704,13 @@ LayoutSelectedChapter = function()
         dChapterSummary:Hide()
     end
 
-    if ch.gated and ch.note then
+    local chapterRequiredLevel = ch.requiredLevel
+    local playerLevel = UnitLevel("player") or 0
+    if chapterRequiredLevel and playerLevel < chapterRequiredLevel then
+        dChapterNote:SetText(string.format(L["Lock Required Level Format"], chapterRequiredLevel))
+        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        dChapterNote:Show()
+    elseif ch.gated and ch.note then
         dChapterNote:SetText(ch.note)
         dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
@@ -2818,9 +2849,7 @@ LayoutSelectedChapter = function()
                 card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.6)
                 card:SetAlpha(1.0)
             elseif qInLog or qIsNextRecommended then
-                if not SM.SafeSetAtlas(card.icon, "common-icon-forwardarrow", false) then
-                    SM.SafeSetTexture(card.icon, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-                end
+                SM.SetStoryArrowTexture(card.icon, "right", "money")
                 card.icon:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
                 card.icon:Show()
                 card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
@@ -3046,9 +3075,9 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         FactionUI:HideAll()
 
         -- CTA button
-        local quest = FindNextQuest(data)
+        local quest, _, nextChapter = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
-        local gateReason = GetQuestlineGateReason(data)
+        local gateReason = GetQuestlineGateReason(data, nextChapter)
         sTrackBtn:ClearAllPoints()
         sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
         sCompleteText:Hide()
@@ -3354,15 +3383,13 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
             if i < #chapters then
                 if not dTrackArrows[i] then
                     dTrackArrows[i] = dTrackInner:CreateTexture(nil, "ARTWORK")
-                    if not SM.SafeSetAtlas(dTrackArrows[i], "common-icon-forwardarrow", false) then
-                        SM.SafeSetTexture(dTrackArrows[i], "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-                    end
-                    dTrackArrows[i]:SetSize(10, 10)
+                    SM.SetStoryArrowTexture(dTrackArrows[i], "right", false)
+                    dTrackArrows[i]:SetSize(18, 18)
                 end
                 local arrow = dTrackArrows[i]
                 arrow:ClearAllPoints()
                 arrow:SetPoint("LEFT", dTrackInner, "TOPLEFT",
-                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 10) / 2, -(lineY + 8))
+                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 18) / 2, -(lineY + 5))
 
                 -- Arrow color
                 if isComplete then

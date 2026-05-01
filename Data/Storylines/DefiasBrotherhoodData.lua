@@ -35,6 +35,7 @@ SM.DefiasBrotherhoodData = {
         ["Wiley the Black"] = { mapID = 49, x = 0.2650, y = 0.4500, location = "Lakeshire, Redridge Mountains" },
         ["Master Mathias Shaw"] = { mapID = 84, x = 0.7550, y = 0.5900, location = "Old Town, Stormwind" },
         ["Defias Messenger"] = { mapID = 52, x = 0.4400, y = 0.6900, location = "the roads south of Moonbrook, Westfall" },
+        ["The Defias Traitor"] = { mapID = 52, x = 0.5650, y = 0.4750, location = "Sentinel Hill, Westfall" },
         ["Defias Traitor"] = { mapID = 52, x = 0.5650, y = 0.4750, location = "Sentinel Hill, Westfall" },
         ["Edwin VanCleef"] = { mapID = 36, x = 0.4500, y = 0.7200, location = "the Deadmines, Westfall" },
         ["Baros Alexston"] = { mapID = 84, x = 0.4900, y = 0.3000, location = "Cathedral Square, Stormwind" },
@@ -60,6 +61,7 @@ SM.DefiasBrotherhoodData = {
         ["Wiley the Black"] = 1741,
         ["Master Mathias Shaw"] = 1736,
         ["Defias Messenger"] = 2312,
+        ["The Defias Traitor"] = 2311,
         ["Defias Traitor"] = 2311,
         ["Edwin VanCleef"] = 2029,
         ["Baros Alexston"] = 1357,
@@ -125,7 +127,7 @@ SM.DefiasBrotherhoodData = {
             recap = "Shaw's report gave Gryan a name, but not enough proof. The trail moved back to Westfall's roads, where a Defias Messenger carried word between Moonbrook, the mines, and the quarry. The stolen message revealed the Brotherhood's movement clearly enough for Stoutmantle to use a prisoner of his own. The Defias Traitor walked you through Moonbrook and pointed out the entrance beneath the ruined town. VanCleef was not hiding in the hills. He was building something under Westfall's feet.",
             quests = {
                 { id = 142, name = "The Defias Brotherhood", displayName = "The Messenger", npc = "Gryan Stoutmantle" },
-                { id = 155, name = "The Defias Brotherhood", displayName = "The Traitor", npc = "Defias Traitor" },
+                { id = 155, name = "The Defias Brotherhood", displayName = "The Traitor", npc = "The Defias Traitor" },
             },
         },
         {
@@ -163,7 +165,7 @@ SM.DefiasBrotherhoodData = {
             summary = "Tyrion's spybot draws Lescovar and Marzon into the open. Their deaths close the conspiracy, and the report finally reaches the king.",
             recap = "With silk, dye, and a rotten apple, Tyrion prepared the spybot's disguise and baited the meeting. In Stormwind Keep's garden, Lord Gregor Lescovar dismissed his guards and met Marzon the Silent Blade. Their conversation confirmed the Defias connection. You struck before the guards returned, killing both conspirators and carrying the truth back through Trias, Baros, and finally to King Varian Wrynn. The Brotherhood's first great plot was broken, but the story left a harder truth behind: VanCleef's rage had grown from a wound Stormwind chose not to heal.",
             quests = {
-                { id = 434, name = "The Attack!", npc = "Tyrion's Spybot" },
+                { id = 434, name = "The Attack!", npc = "Tyrion" },
                 { id = 394, name = "The Head of the Beast", npc = "Elling Trias" },
                 { id = 395, name = "Brotherhood's End", npc = "Master Mathias Shaw" },
                 { id = 396, name = "An Audience with the King", npc = "Baros Alexston" },
