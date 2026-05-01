@@ -6,7 +6,7 @@ local addonName, SM = ...
 -- =============================================================================
 
 SM.OnyxiaData = {
-    title = "Onyxia and the Black Dragonflight",
+    title = "The Drakefire Amulet",
     description = "The black dragonflight works through disguises, puppet kings, false warchiefs, and servants hidden in plain sight. For the Alliance, the trail exposes Lady Katrana Prestor in Stormwind Keep. For the Horde, it runs through Rend Blackhand, Rexxar, Emberstrife, and a gauntlet of dragons.\n\nFollow the Classic attunement stories that lead both factions to the Drakefire Amulet and the lair of Onyxia, broodmother of the black dragonflight.",
     zone = "Burning Steppes / Blackrock Mountain / Stormwind / Dustwallow Marsh",
     expansion = "Classic",
@@ -15,7 +15,8 @@ SM.OnyxiaData = {
     color = { 0.78, 0.24, 0.08 },
     icon = 134153,
     adventureGuideInstanceName = "Onyxia's Lair",
-    adventureCoverTexture = 1378994,
+    adventureCoverTexture = 131825, -- Blackrock Spire: closest Classic loading screen for the Rend/Drakkisath attunement path
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 4182, name = "Dragonkin Menace", npc = "Helendis Riverhorn", location = "Morgan's Vigil, Burning Steppes", faction = "Alliance" },
     startMapID = 36,

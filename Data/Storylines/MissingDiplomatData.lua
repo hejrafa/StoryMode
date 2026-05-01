@@ -15,7 +15,8 @@ SM.MissingDiplomatData = {
     achievements = {},
     color = { 0.22, 0.42, 0.78 },
     icon = 134328,
-    adventureCoverTexture = 1397139,
+    adventureCoverTexture = 131870, -- Stockade: closest Classic loading screen for Stormwind intrigue and Defias fallout
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1274, name = "The Missing Diplomat", npc = "Thomas", location = "Cathedral Square, Stormwind" },
     startMapID = 84,
@@ -54,10 +55,10 @@ SM.MissingDiplomatData = {
     },
 
     chapterDisplayIDs = {
-        ["A Discreet Matter"] = 1734,
-        ["The Defias Docket"] = 1684,
-        ["Fist"] = 1703,
-        ["Slim's Confession"] = 3132,
+        ["A Discreet Matter"] = 2961,
+        ["The Defias Docket"] = 2380,
+        ["Fist"] = 3238,
+        ["Slim's Confession"] = 2963,
         ["Hendel"] = 3387,
     },
 

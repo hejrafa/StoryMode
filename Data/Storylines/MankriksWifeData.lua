@@ -6,7 +6,7 @@ local addonName, SM = ...
 -- =============================================================================
 
 SM.MankriksWifeData = {
-    title = "Mankrik's Wife",
+    title = "Lost in Battle",
     description = "At the Crossroads, Mankrik asks every passing adventurer the same desperate question: have you seen his wife? Somewhere on the Gold Road, between quillboar camps and the wide heat of the Barrens, a small domestic story has already turned into grief.\n\nFind what happened to Olgra, and carry the truth back to the husband still waiting for her.",
     zone = "The Barrens",
     expansion = "Classic",
@@ -16,6 +16,8 @@ SM.MankriksWifeData = {
     color = { 0.72, 0.52, 0.24 },
     icon = 133469,
     portraitDisplayID = 3773,
+    adventureCoverTexture = 131882, -- Wailing Caverns: closest Classic loading screen rooted in The Barrens
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 4921, name = "Lost in Battle", npc = "Mankrik", location = "the Crossroads, The Barrens" },
     startMapID = 10,
@@ -31,7 +33,7 @@ SM.MankriksWifeData = {
     },
 
     chapterDisplayIDs = {
-        ["Lost in Battle"] = 3773,
+        ["Lost in Battle"] = 3855,
     },
 
     chapterIcons = {

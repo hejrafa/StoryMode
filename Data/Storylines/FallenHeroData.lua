@@ -6,7 +6,7 @@ local addonName, SM = ...
 -- =============================================================================
 
 SM.FallenHeroData = {
-    title = "The Fallen Hero of the Horde",
+    title = "A Tale of Sorrow",
     description = "A dead warrior stands at the road into the Blasted Lands, bound to the failure that killed his regiment. His orders never came. His soldiers were captured, broken, and chained to demonic stones, and the demon lord Razelikh still rules from the mountains.\n\nFollow one of Classic's longest old-world epics from Swamp of Sorrows and Nethergarde Keep into the Blasted Lands, Azshara, Stranglethorn Vale, and the final battle against Rakh'likh.",
     zone = "Swamp of Sorrows / Blasted Lands / Azshara / Stranglethorn Vale",
     expansion = "Classic",
@@ -14,7 +14,8 @@ SM.FallenHeroData = {
     achievements = {},
     color = { 0.64, 0.16, 0.10 },
     icon = 136189,
-    adventureCoverTexture = 1397138,
+    adventureCoverTexture = 131872, -- Sunken Temple: closest Classic loading screen rooted in Swamp of Sorrows
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 2801, name = "A Tale of Sorrow", npc = "Fallen Hero of the Horde", location = "the road between Swamp of Sorrows and the Blasted Lands" },
     startMapID = 51,
@@ -50,11 +51,11 @@ SM.FallenHeroData = {
     },
 
     chapterDisplayIDs = {
-        ["Orders That Never Came"] = 6098,
-        ["A Tale of Sorrow"] = 6098,
-        ["The Last Souls"] = 6098,
-        ["Loramus and the Beast's Name"] = 1305,
-        ["Felbane"] = 1305,
+        ["Orders That Never Came"] = 6775,
+        ["A Tale of Sorrow"] = 6775,
+        ["The Last Souls"] = 6775,
+        ["Loramus and the Beast's Name"] = 6879,
+        ["Felbane"] = 6879,
         ["Rakh'likh"] = 12293,
     },
 

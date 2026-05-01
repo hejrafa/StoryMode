@@ -176,17 +176,17 @@ end
 if CanShowQuestline(SM.DuskwoodData) then
     RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
 end
-if CanShowQuestline(SM.FallenHeroData) then
-    RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
-end
 if CanShowQuestline(SM.MissingDiplomatData) then
     RegisterQuestline(SM.MissingDiplomatData, "Epic Storylines")
 end
-if CanShowQuestline(SM.OnyxiaData) then
-    RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
-end
 if CanShowQuestline(SM.ScarletCrusadeData) then
     RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")
+end
+if CanShowQuestline(SM.FallenHeroData) then
+    RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
+end
+if CanShowQuestline(SM.OnyxiaData) then
+    RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
 end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
@@ -293,6 +293,7 @@ SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
 SM.ClassicPortraitRing = "Interface\\Common\\portrait-ring-withbg"
 SM.ClassicPortraitRingFallback = "Interface\\Buttons\\GoldRing64"
+SM.PanelScrollBottomInset = 4
 
 -- Color palette
 local C_BODY = {0.922, 0.871, 0.761}
@@ -461,7 +462,7 @@ local function CreateStoryPanel(section)
             insets = { left = 3, right = 3, top = 3, bottom = 3 },
         })
         f:SetBackdropColor(0.040, 0.035, 0.030, 0.76)
-        f:SetBackdropBorderColor(1.0, 0.80, 0.45, 0.68)
+        f:SetBackdropBorderColor(1.0, 1.0, 1.0, 0.68)
     else
         local bg = f:CreateTexture(nil, "BACKGROUND")
         bg:SetAllPoints()
@@ -598,7 +599,7 @@ CreateStoryPanel(leftSection)
 -- Scrollable card list (no scrollbar — mousewheel only)
 local leftScroll = CreateFrame("ScrollFrame", nil, leftSection, "ScrollFrameTemplate")
 leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -2)
-leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12,  2)
+leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12, SM.PanelScrollBottomInset)
 if leftScroll.ScrollBar then leftScroll.ScrollBar:Hide() end
 local leftChild = CreateFrame("Frame", nil, leftScroll)
 leftChild:SetWidth(LEFT_W - 24)
@@ -687,7 +688,7 @@ local detailScrollTemplate = (SM.Client and SM.Client.isRetail) and "ScrollFrame
 local detailScrollName = (SM.Client and SM.Client.isRetail) and nil or "StoryModeDetailScrollFrame"
 local detailScroll = CreateFrame("ScrollFrame", detailScrollName, tabContainer, detailScrollTemplate)
 detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,  -2)
-detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2,   2)
+detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2, SM.PanelScrollBottomInset)
 local detailChild = CreateFrame("Frame", nil, detailScroll)
 detailChild:SetWidth(RIGHT_W)
 detailScroll:SetScrollChild(detailChild)
@@ -3985,7 +3986,7 @@ local function BuildStoryWindow()
     for _, data in ipairs(allQuestlines) do ResolveAchievementID(data) end
     wipe(storyIndexToData)
 
-    local CARD_H   = 78
+    local CARD_H   = (SM.Client and SM.Client.isRetail) and 78 or 70
     local CARD_PAD = 4
     local yOffset  = -16
     local globalIdx = 0
@@ -4023,7 +4024,7 @@ local function BuildStoryWindow()
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
-    introPort:SetPoint("LEFT", introCard, "LEFT", 16, 2)
+    introPort:SetPoint("LEFT", introCard, "LEFT", 16, 0)
 
     local introIcon = introPort:CreateTexture(nil, "ARTWORK")
     introIcon:SetSize(ICON, ICON)
@@ -4117,7 +4118,7 @@ local function BuildStoryWindow()
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
                 portFrame:SetSize(PORT, PORT)
-                portFrame:SetPoint("LEFT", card, "LEFT", 16, 2)
+                portFrame:SetPoint("LEFT", card, "LEFT", 16, 0)
 
                 local iconTex = portFrame:CreateTexture(nil, "ARTWORK")
                 iconTex:SetSize(ICON, ICON)
@@ -4231,7 +4232,9 @@ local function BuildStoryWindow()
                 for part in zoneText:gmatch("[^/]+") do
                     parts[#parts + 1] = part:match("^%s*(.-)%s*$")
                 end
-                if #parts > 2 then
+                if not (SM.Client and SM.Client.isRetail) and #parts > 1 then
+                    zoneText = parts[1]
+                elseif #parts > 2 then
                     zoneText = parts[1] .. " / " .. parts[2] .. "…"
                 end
                 zoneLabel:SetText(zoneText)

@@ -15,7 +15,8 @@ SM.DuskwoodData = {
     achievements = {},
     color = { 0.36, 0.40, 0.46 },
     icon = 136223,
-    adventureCoverTexture = 1397142,
+    adventureCoverTexture = 131869, -- Shadowfang Keep: closest Classic loading screen for Duskwood's gothic/worgen tone
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 56, name = "The Night Watch", npc = "Commander Althea Ebonlocke", location = "Darkshire, Duskwood" },
     startMapID = 47,
