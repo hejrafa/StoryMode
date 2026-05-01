@@ -5,13 +5,16 @@ local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storym
 
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
-    minimapBtn:SetSize(42, 42)
+    local buttonSize = (SM.Client and SM.Client.isRetail) and 42 or 34
+    local iconSize = (SM.Client and SM.Client.isRetail) and 36 or 28
+    local edgeOffset = (SM.Client and SM.Client.isRetail) and 8 or 5
+    minimapBtn:SetSize(buttonSize, buttonSize)
     minimapBtn:SetFrameStrata("MEDIUM")
     minimapBtn:SetFrameLevel(9)
 
     local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
-    minimapIcon:SetSize(36, 36)
-    minimapIcon:SetPoint("CENTER", 0, 2)
+    minimapIcon:SetSize(iconSize, iconSize)
+    minimapIcon:SetPoint("CENTER", 0, (SM.Client and SM.Client.isRetail) and 2 or 1)
     minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
 
     local minimapMask = minimapBtn:CreateMaskTexture()
@@ -21,7 +24,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     minimapIcon:AddMaskTexture(minimapMask)
 
     local function UpdatePosition(angle)
-        local r = (Minimap:GetWidth() / 2) + 8  -- sit on the edge
+        local r = (Minimap:GetWidth() / 2) + edgeOffset  -- sit on the edge
         local x = math.cos(angle) * r
         local y = math.sin(angle) * r
         minimapBtn:ClearAllPoints()

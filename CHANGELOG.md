@@ -10,6 +10,8 @@
 - Fixed Classic Era "Begin This Story" errors by skipping retail-only world-map waypoint and ping behavior on Classic/TBC clients
 - Fixed story card completion badges for stories with lore-only, replayable, achievement, or optional chapters, including **The Banshee Queen** and its optional Windrunner Spire epilogue
 - Optional chapters now remain visible in the chapter track without blocking the main story from reaching **Story Finished**
+- Fixed Classic story data quest givers for Scarlet Crusade, Defias, Duskwood, Fallen Hero, Missing Diplomat, and Onyxia chains after auditing against Classic quest data
+- Fixed Scarlet Crusade's Deathknell chapter to start from Executor Arren, including its starting location, recap text, and chapter portrait source
 
 ### Maintenance
 - Restructured addon files into root TOC metadata, `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/` folders to prepare for additional game-version TOCs and localization work
@@ -28,6 +30,10 @@
 - Restored the retail Journeys texture divider while keeping Classic/TBC on their simpler divider fallback
 - Updated the main Story Mode card to receive a completion ribbon when every visible story is finished, with a new completion message for players who have cleared the full curated library
 - Matched the two main Story Mode panel borders to the default Trading Post frame color instead of the brighter custom gold tint
+- Refined Classic window borders, story card sizing, minimap button scale, chapter arrows, track navigation arrows, quest-card arrows, and story card zone text truncation
+- Added the completed-story intro state to the Story Mode overview and tightened Classic left-panel scroll insets so content no longer touches the frame border
+- Added Classic chapter-level requirements to quest cards and the story start button so locked class quest chapters use the same level-gate behavior as retail story locks
+- Updated the Classic "quest already in log" message to say the quest was already picked up and nudge the player to read the quest log for the next objective
 
 ### Content
 - Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn
@@ -39,6 +45,9 @@
 - Added **The Missing Diplomat** as a Classic/TBC Alliance epic storyline, following the investigation from Stormwind and Duskwood to Menethil, Theramore, Jaina, and the disappearance of King Varian
 - Added **Onyxia and the Black Dragonflight** as a Classic/TBC cross-faction epic storyline, covering the Alliance Windsor/Prestor reveal, the Horde Rexxar/Emberstrife tests, and both Drakefire Amulet attunement paths
 - Added **Mankrik's Wife** as a Classic/TBC Horde short story for the Barrens **Lost in Battle** quest
+- Added Classic/TBC class quest storylines for druids, hunters, mages, paladins, priests, rogues, shamans, warlocks, and warriors, including iconic ability, tool, mount, and epic weapon chains
+- Updated Classic/TBC cover art to use closer dungeon or zone loading screens for the current Classic story set, including Barrens-adjacent art for Mankrik's Wife and Swamp of Sorrows-adjacent art for Fallen Hero
+- Retitled several Classic story cards to shorter in-game-flavored names, including **Lost in Battle**, **A Tale of Sorrow**, and **The Drakefire Amulet**
 - Expanded **The Banshee Queen** with the Shadowlands Sylvanas bridge from Torghast visions through Chains of Domination, Sanctum of Domination, Shattered Legacies, Domination's Grasp, Crown of Wills, Sepulcher of the First Ones, and Judgment, plus the War Within **The Warning** campaign with Arator in the Maw
 - Extended **The Banshee Queen** through the post-Jailer aftermaths with **Silent Vigil**, the loyalist **The Long Hunt** epilogue, and an optional **Windrunner Spire** chapter using the normal dungeon achievement
 - Refined **The Banshee Queen** chapter text, cover art, warning-chain quest giver data, and Sepulcher flow, including the **Heart of the Sepulcher** handoff and the Windrunner Spire loading screen cover

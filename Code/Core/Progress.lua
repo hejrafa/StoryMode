@@ -5,12 +5,27 @@ local function GetPlayerFaction()
     return UnitFactionGroup("player")
 end
 
+local function GetPlayerRace()
+    return select(2, UnitRace("player"))
+end
+
 function SM.IsQuestComplete(questID)
     return SM.IsQuestFlaggedCompleted(questID)
 end
 
 function SM.IsQuestForPlayer(q)
-    return not q.faction or q.faction == GetPlayerFaction()
+    if q.faction and q.faction ~= GetPlayerFaction() then return false end
+    if q.race then
+        local playerRace = GetPlayerRace()
+        if type(q.race) == "table" then
+            for _, race in ipairs(q.race) do
+                if race == playerRace then return true end
+            end
+            return false
+        end
+        return q.race == playerRace
+    end
+    return true
 end
 
 function SM.ShouldHideQuest(q)
@@ -207,6 +222,9 @@ function SM.GetQuestLockReason(data, ch, questIndex)
     if data.requiredLevel and playerLevel < data.requiredLevel then
         return string.format(L["Lock Required Level Format"], data.requiredLevel)
     end
+    if ch.requiredLevel and playerLevel < ch.requiredLevel then
+        return string.format(L["Lock Required Level Format"], ch.requiredLevel)
+    end
 
     local unmetPrereq = SM.GetFirstUnmetChapterPrerequisite(ch)
     if unmetPrereq then
@@ -227,12 +245,15 @@ function SM.GetQuestLockReason(data, ch, questIndex)
     return nil
 end
 
-function SM.GetQuestlineGateReason(data)
+function SM.GetQuestlineGateReason(data, ch)
     if not data then return nil end
 
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
         return string.format(L["Lock Required Level Format"], data.requiredLevel)
+    end
+    if ch and ch.requiredLevel and playerLevel < ch.requiredLevel then
+        return string.format(L["Lock Required Level Format"], ch.requiredLevel)
     end
 
     return nil
@@ -266,6 +287,7 @@ function SM.FindNextQuest(data)
                         _isPrerequisiteForChapter = ch.chapter,
                     },
                     chapter = ch.chapter,
+                    chapterData = ch,
                     section = ch._section or 1,
                     depth = 0,
                     order = chIdx,
@@ -281,6 +303,7 @@ function SM.FindNextQuest(data)
                         elseif SM.IsQuestInLog(q.id) then
                             logCandidates[#logCandidates + 1] = {
                                 quest = q, chapter = ch.chapter,
+                                chapterData = ch,
                                 section = section, depth = j, order = chIdx,
                             }
                             break
@@ -289,11 +312,13 @@ function SM.FindNextQuest(data)
                                 if section >= 2 and hasPrereqProgress then
                                     readyCandidates[#readyCandidates + 1] = {
                                         quest = q, chapter = ch.chapter,
+                                        chapterData = ch,
                                         section = section, depth = j, order = chIdx,
                                     }
                                 elseif section == 1 and chDone == 0 and not hasPrereqProgress then
                                     readyCandidates[#readyCandidates + 1] = {
                                         quest = q, chapter = ch.chapter,
+                                        chapterData = ch,
                                         section = section, depth = j, order = chIdx,
                                     }
                                 end
@@ -301,6 +326,7 @@ function SM.FindNextQuest(data)
                             elseif SM.IsQuestEffectivelyComplete(j - 1, ch.quests) then
                                 readyCandidates[#readyCandidates + 1] = {
                                     quest = q, chapter = ch.chapter,
+                                    chapterData = ch,
                                     section = section, depth = j, order = chIdx,
                                 }
                                 break
@@ -360,10 +386,10 @@ function SM.FindNextQuest(data)
     end)
 
     if #logCandidates > 0 then
-        return logCandidates[1].quest, logCandidates[1].chapter
+        return logCandidates[1].quest, logCandidates[1].chapter, logCandidates[1].chapterData
     end
     if #readyCandidates > 0 then
-        return readyCandidates[1].quest, readyCandidates[1].chapter
+        return readyCandidates[1].quest, readyCandidates[1].chapter, readyCandidates[1].chapterData
     end
 
     return nil, nil

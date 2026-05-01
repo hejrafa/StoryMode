@@ -19,11 +19,10 @@ SM.ScarletCrusadeData = {
     adventureCoverIsLoadingScreen = true,
 
     startMapID = 18,
-    startX = 0.3100,
+    startX = 0.3260,
     startY = 0.6600,
 
     npcLocations = {
-        ["Deathguard Simmer"] = { mapID = 18, x = 0.3060, y = 0.6600, location = "Deathknell, Tirisfal Glades" },
         ["Executor Arren"] = { mapID = 18, x = 0.3260, y = 0.6500, location = "Deathknell, Tirisfal Glades" },
         ["Executor Zygand"] = { mapID = 18, x = 0.6020, y = 0.5200, location = "Brill, Tirisfal Glades" },
         ["Varimathras"] = { mapID = 90, x = 0.5600, y = 0.9200, location = "the Royal Quarter, Undercity" },
@@ -46,10 +45,11 @@ SM.ScarletCrusadeData = {
         ["Tirion Fordring"] = { mapID = 23, x = 0.0700, y = 0.4300, location = "Tirion's cottage, Eastern Plaguelands" },
         ["Artist Renfray"] = { mapID = 22, x = 0.6500, y = 0.7500, location = "Caer Darrow, Western Plaguelands" },
         ["Myranda the Hag"] = { mapID = 22, x = 0.5100, y = 0.7800, location = "Sorrow Hill, Western Plaguelands" },
-        ["Taelan Fordring"] = { mapID = 22, x = 0.4600, y = 0.1900, location = "Hearthglen, Western Plaguelands" },
+        ["Highlord Taelan Fordring"] = { mapID = 22, x = 0.4200, y = 0.1480, location = "Hearthglen, Western Plaguelands" },
     },
 
     npcDisplayIDs = {
+        ["Executor Arren"] = 1583,
         ["Executor Zygand"] = 1649,
         ["Varimathras"] = 11658,
         ["Brother Anton"] = 2070,
@@ -63,11 +63,11 @@ SM.ScarletCrusadeData = {
         ["Scarlet Commander Mograine"] = 2042,
         ["High Inquisitor Whitemane"] = 2043,
         ["Tirion Fordring"] = 9477,
-        ["Taelan Fordring"] = 10341,
+        ["Highlord Taelan Fordring"] = 10341,
     },
 
     chapterDisplayIDs = {
-        ["Deathknell's Red Messenger"] = 1649,
+        ["Deathknell's Red Messenger"] = 1583,
         ["The Brill Campaign"] = 1649,
         ["The Scarlet Path"] = 2070,
         ["Graveyard and Library"] = 2046,
@@ -89,10 +89,10 @@ SM.ScarletCrusadeData = {
             chapter = "Deathknell's Red Messenger",
             faction = "Horde",
             summary = "The newly risen Forsaken meet the Scarlet Crusade almost immediately. A red messenger rides out of Deathknell carrying word that the undead have awakened.",
-            recap = "Deathknell taught the Forsaken their first lesson about Lordaeron's living survivors: the Scarlet Crusade did not see people, only infection. Deathguard Simmer sent you against Scarlet converts and their courier. Executor Arren read the stolen intelligence and understood the warning. The Crusade was watching Deathknell, counting the dead, and preparing for war.",
+            recap = "Deathknell taught the Forsaken their first lesson about Lordaeron's living survivors: the Scarlet Crusade did not see people, only infection. Executor Arren sent you against Scarlet converts and their courier, then read the stolen intelligence and understood the warning. The Crusade was watching Deathknell, counting the dead, and preparing for war.",
             quests = {
-                { id = 381, name = "The Scarlet Crusade", npc = "Deathguard Simmer" },
-                { id = 382, name = "The Red Messenger", npc = "Deathguard Simmer" },
+                { id = 381, name = "The Scarlet Crusade", npc = "Executor Arren" },
+                { id = 382, name = "The Red Messenger", npc = "Executor Arren" },
                 { id = 383, name = "Vital Intelligence", npc = "Executor Arren" },
             },
         },
@@ -154,7 +154,7 @@ SM.ScarletCrusadeData = {
                 { id = 5848, name = "Of Love and Family", displayName = "A Father's Hope", npc = "Artist Renfray" },
                 { id = 5861, name = "Find Myranda", npc = "Tirion Fordring" },
                 { id = 5862, name = "Scarlet Subterfuge", npc = "Myranda the Hag" },
-                { id = 5944, name = "In Dreams", npc = "Taelan Fordring" },
+                { id = 5944, name = "In Dreams", npc = "Highlord Taelan Fordring" },
             },
         },
     },

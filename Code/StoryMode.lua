@@ -144,6 +144,15 @@ AddContentData(SM.JainaData)
 AddContentData(SM.LilianVossData)
 AddContentData(SM.TeddiesAndTeaData)
 AddContentData(SM.MankriksWifeData)
+AddContentData(SM.ClassicDruidQuestData)
+AddContentData(SM.ClassicHunterQuestData)
+AddContentData(SM.ClassicMageQuestData)
+AddContentData(SM.ClassicPaladinQuestData)
+AddContentData(SM.ClassicPriestQuestData)
+AddContentData(SM.ClassicRogueQuestData)
+AddContentData(SM.ClassicShamanQuestData)
+AddContentData(SM.ClassicWarlockQuestData)
+AddContentData(SM.ClassicWarriorQuestData)
 AddContentData(SM.DeathKnightCampaignData)
 AddContentData(SM.DemonHunterCampaignData)
 AddContentData(SM.DruidCampaignData)
@@ -185,17 +194,17 @@ end
 if CanShowQuestline(SM.DuskwoodData) then
     RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
 end
-if CanShowQuestline(SM.FallenHeroData) then
-    RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
-end
 if CanShowQuestline(SM.MissingDiplomatData) then
     RegisterQuestline(SM.MissingDiplomatData, "Epic Storylines")
 end
-if CanShowQuestline(SM.OnyxiaData) then
-    RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
-end
 if CanShowQuestline(SM.ScarletCrusadeData) then
     RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")
+end
+if CanShowQuestline(SM.FallenHeroData) then
+    RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
+end
+if CanShowQuestline(SM.OnyxiaData) then
+    RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
 end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
@@ -231,6 +240,15 @@ if CanShowQuestline(SM.MankriksWifeData) then
     RegisterQuestline(SM.MankriksWifeData, "Short Stories")
 end
 local classCampaigns = {
+    SM.ClassicDruidQuestData,
+    SM.ClassicHunterQuestData,
+    SM.ClassicMageQuestData,
+    SM.ClassicPaladinQuestData,
+    SM.ClassicPriestQuestData,
+    SM.ClassicRogueQuestData,
+    SM.ClassicShamanQuestData,
+    SM.ClassicWarlockQuestData,
+    SM.ClassicWarriorQuestData,
     SM.DeathKnightCampaignData,
     SM.DemonHunterCampaignData,
     SM.DruidCampaignData,
@@ -312,6 +330,8 @@ SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
 SM.ClassicPortraitRing = "Interface\\Common\\portrait-ring-withbg"
 SM.ClassicPortraitRingFallback = "Interface\\Buttons\\GoldRing64"
+SM.PanelScrollTopInset = 4
+SM.PanelScrollBottomInset = 4
 
 -- Color palette
 local C_BODY = {0.922, 0.871, 0.761}
@@ -358,6 +378,39 @@ function SM.SafeSetButtonHighlight(button, atlas, alpha)
     highlight:SetAllPoints(button)
     button:SetHighlightTexture(highlight)
     return false
+end
+
+function SM.SetStoryArrowTexture(tex, direction, large)
+    if not tex then return end
+    tex:SetRotation(0)
+
+    if large == "money" then
+        if direction == "left" then
+            SM.SafeSetTexture(tex, "Interface\\MoneyFrame\\Arrow-Left-Up")
+        else
+            SM.SafeSetTexture(tex, "Interface\\MoneyFrame\\Arrow-Right-Up")
+        end
+        return
+    end
+
+    if large or (SM.Client and SM.Client.isRetail) then
+        if not SM.SafeSetAtlas(tex, "common-icon-forwardarrow", false) then
+            SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+        end
+        if direction == "left" then
+            tex:SetRotation(math.pi)
+        elseif direction == "down" then
+            tex:SetRotation(-math.pi / 2)
+        end
+        return
+    end
+
+    SM.SafeSetTexture(tex, "Interface\\RAIDFRAME\\UI-RAIDFRAME-ARROW")
+    if direction == "down" then
+        tex:SetRotation(-math.pi / 2)
+    elseif direction == "left" then
+        tex:SetRotation(math.pi)
+    end
 end
 
 function SM.CreateSimpleBorder(parent, thickness, level)
@@ -480,7 +533,7 @@ local function CreateStoryPanel(section)
             insets = { left = 3, right = 3, top = 3, bottom = 3 },
         })
         f:SetBackdropColor(0.040, 0.035, 0.030, 0.76)
-        f:SetBackdropBorderColor(0.43, 0.36, 0.27, 0.68)
+        f:SetBackdropBorderColor(1.0, 1.0, 1.0, 0.68)
     else
         local bg = f:CreateTexture(nil, "BACKGROUND")
         bg:SetAllPoints()
@@ -617,8 +670,8 @@ CreateStoryPanel(leftSection)
 
 -- Scrollable card list (no scrollbar — mousewheel only)
 local leftScroll = CreateFrame("ScrollFrame", nil, leftSection, "ScrollFrameTemplate")
-leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -2)
-leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12,  2)
+leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -SM.PanelScrollTopInset)
+leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12, SM.PanelScrollBottomInset)
 if leftScroll.ScrollBar then leftScroll.ScrollBar:Hide() end
 local leftChild = CreateFrame("Frame", nil, leftScroll)
 leftChild:SetWidth(LEFT_W - 24)
@@ -707,7 +760,7 @@ local detailScrollTemplate = (SM.Client and SM.Client.isRetail) and "ScrollFrame
 local detailScrollName = (SM.Client and SM.Client.isRetail) and nil or "StoryModeDetailScrollFrame"
 local detailScroll = CreateFrame("ScrollFrame", detailScrollName, tabContainer, detailScrollTemplate)
 detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,  -2)
-detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2,   2)
+detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2, SM.PanelScrollBottomInset)
 local detailChild = CreateFrame("Frame", nil, detailScroll)
 detailChild:SetWidth(RIGHT_W)
 detailScroll:SetScrollChild(detailChild)
@@ -2054,15 +2107,12 @@ local NAV_ARROW_INSET = 12
 -- Left arrow
 local dTrackLeftBtn = CreateFrame("Button", nil, dTrackContainer)
 dTrackLeftBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
-dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 2)
+dTrackLeftBtn:SetPoint("LEFT", dTrackContainer, "LEFT", NAV_ARROW_INSET, 5)
 dTrackLeftBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
 local dTrackLeftTex = dTrackLeftBtn:CreateTexture(nil, "ARTWORK")
-if not SM.SafeSetAtlas(dTrackLeftTex, "common-icon-forwardarrow", false) then
-    SM.SafeSetTexture(dTrackLeftTex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-end
+SM.SetStoryArrowTexture(dTrackLeftTex, "left", true)
 dTrackLeftTex:SetSize(NAV_ARROW_SIZE, NAV_ARROW_SIZE)
 dTrackLeftTex:SetPoint("CENTER")
-dTrackLeftTex:SetRotation(math.pi)
 dTrackLeftTex:SetVertexColor(0.85, 0.75, 0.55)
 dTrackLeftBtn:SetScript("OnEnter", function() dTrackLeftTex:SetVertexColor(1, 0.90, 0.65) end)
 dTrackLeftBtn:SetScript("OnLeave", function() dTrackLeftTex:SetVertexColor(0.85, 0.75, 0.55) end)
@@ -2078,12 +2128,10 @@ end)
 -- Right arrow
 local dTrackRightBtn = CreateFrame("Button", nil, dTrackContainer)
 dTrackRightBtn:SetSize(NAV_ARROW_SIZE + 16, NAV_ARROW_SIZE + 16)
-dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 2)
+dTrackRightBtn:SetPoint("RIGHT", dTrackContainer, "RIGHT", -NAV_ARROW_INSET, 5)
 dTrackRightBtn:SetFrameLevel(dTrackClip:GetFrameLevel() + 20)
 local dTrackRightTex = dTrackRightBtn:CreateTexture(nil, "ARTWORK")
-if not SM.SafeSetAtlas(dTrackRightTex, "common-icon-forwardarrow", false) then
-    SM.SafeSetTexture(dTrackRightTex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-end
+SM.SetStoryArrowTexture(dTrackRightTex, "right", true)
 dTrackRightTex:SetSize(NAV_ARROW_SIZE, NAV_ARROW_SIZE)
 dTrackRightTex:SetPoint("CENTER")
 dTrackRightTex:SetVertexColor(0.85, 0.75, 0.55)
@@ -2291,12 +2339,9 @@ local function CreateTrackNode(parent)
 
     -- Down-arrow indicator (below node, points to quest cards)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
-    if not SM.SafeSetAtlas(downArrow, "common-icon-forwardarrow", false) then
-        SM.SafeSetTexture(downArrow, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-    end
-    downArrow:SetSize(14, 14)
-    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 2)
-    downArrow:SetRotation(-math.pi / 2) -- rotate 90° clockwise to point down
+    SM.SetStoryArrowTexture(downArrow, "down", false)
+    downArrow:SetSize(22, 22)
+    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 6)
     downArrow:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     downArrow:Hide()
     btn.downArrow = downArrow
@@ -2681,7 +2726,13 @@ LayoutSelectedChapter = function()
         dChapterSummary:Hide()
     end
 
-    if ch.gated and ch.note then
+    local chapterRequiredLevel = ch.requiredLevel
+    local playerLevel = UnitLevel("player") or 0
+    if chapterRequiredLevel and playerLevel < chapterRequiredLevel then
+        dChapterNote:SetText(string.format(L["Lock Required Level Format"], chapterRequiredLevel))
+        dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        dChapterNote:Show()
+    elseif ch.gated and ch.note then
         dChapterNote:SetText(ch.note)
         dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
@@ -2820,9 +2871,7 @@ LayoutSelectedChapter = function()
                 card.npcLabel:SetTextColor(C_BODY[1] * 0.8, C_BODY[2] * 0.8, C_BODY[3] * 0.8, 0.6)
                 card:SetAlpha(1.0)
             elseif qInLog or qIsNextRecommended then
-                if not SM.SafeSetAtlas(card.icon, "common-icon-forwardarrow", false) then
-                    SM.SafeSetTexture(card.icon, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-                end
+                SM.SetStoryArrowTexture(card.icon, "right", "money")
                 card.icon:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
                 card.icon:Show()
                 card.title:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
@@ -3048,9 +3097,9 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         FactionUI:HideAll()
 
         -- CTA button
-        local quest = FindNextQuest(data)
+        local quest, _, nextChapter = FindNextQuest(data)
         local done = select(1, GetCampaignProgress(data))
-        local gateReason = GetQuestlineGateReason(data)
+        local gateReason = GetQuestlineGateReason(data, nextChapter)
         sTrackBtn:ClearAllPoints()
         sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
         sCompleteText:Hide()
@@ -3076,16 +3125,21 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtn.lockReason = nil
             end
         else
+            sCompleteText:ClearAllPoints()
+            sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
+            sCompleteText:Show()
             sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
             sTrackBtnSecure:SetScript("PreClick", nil)
-            sTrackBtn:Disable()
-            sTrackBtn:SetAlpha(0.5)
+            sTrackBtn:Hide()
             sTrackBtn.lockReason = nil
+            lastAnchor = sCompleteText
         end
-        sTrackBtn:Show()
+        if quest then
+            sTrackBtn:Show()
+            lastAnchor = sTrackBtn
+        end
         SyncSecureOverlay()
-        lastAnchor = sTrackBtn
 
         local storyBottomEl = lastAnchor
         -- Set scroll height
@@ -3356,15 +3410,13 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
             if i < #chapters then
                 if not dTrackArrows[i] then
                     dTrackArrows[i] = dTrackInner:CreateTexture(nil, "ARTWORK")
-                    if not SM.SafeSetAtlas(dTrackArrows[i], "common-icon-forwardarrow", false) then
-                        SM.SafeSetTexture(dTrackArrows[i], "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
-                    end
-                    dTrackArrows[i]:SetSize(10, 10)
+                    SM.SetStoryArrowTexture(dTrackArrows[i], "right", false)
+                    dTrackArrows[i]:SetSize(18, 18)
                 end
                 local arrow = dTrackArrows[i]
                 arrow:ClearAllPoints()
                 arrow:SetPoint("LEFT", dTrackInner, "TOPLEFT",
-                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 10) / 2, -(lineY + 8))
+                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 18) / 2, -(lineY + 5))
 
                 -- Arrow color
                 if isComplete then
@@ -3589,6 +3641,21 @@ local storyLeftRows    = {}
 local storyContentBuilt = false
 local storyIndexToData = {}
 
+function SM.ApplyIntroCompletionState(row)
+    if not row or not row.btn or not row.nameLabel then return end
+    local allComplete = SM.AreAllStoriesFinished()
+
+    if row.checkmark then
+        row.checkmark:SetShown(allComplete)
+    end
+
+    row.nameLabel:ClearAllPoints()
+    row.nameLabel:SetPoint("LEFT", row.icon or row.btn, row.icon and "RIGHT" or "LEFT", row.icon and 8 or 24, 0)
+    row.nameLabel:SetPoint("RIGHT", row.btn, "RIGHT", -8, 0)
+    row.nameLabel:SetPoint("CENTER", row.btn, "CENTER", 0, 0)
+    row.nameLabel:SetJustifyV("MIDDLE")
+end
+
 -- Portrait circle sizes (Delve companion style)
 local PORT = 46
 local ICON = 34
@@ -3617,6 +3684,7 @@ local function SelectStory(index)
         end
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
+        if i == 0 then SM.ApplyIntroCompletionState(row) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
         if row.checkmark and row.data then
@@ -4012,7 +4080,7 @@ local function BuildStoryWindow()
     for _, data in ipairs(allQuestlines) do ResolveAchievementID(data) end
     wipe(storyIndexToData)
 
-    local CARD_H   = 78
+    local CARD_H   = (SM.Client and SM.Client.isRetail) and 78 or 70
     local CARD_PAD = 4
     local yOffset  = -16
     local globalIdx = 0
@@ -4050,7 +4118,7 @@ local function BuildStoryWindow()
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
-    introPort:SetPoint("LEFT", introCard, "LEFT", 16, 2)
+    introPort:SetPoint("LEFT", introCard, "LEFT", 16, 0)
 
     local introIcon = introPort:CreateTexture(nil, "ARTWORK")
     introIcon:SetSize(ICON, ICON)
@@ -4088,11 +4156,13 @@ local function BuildStoryWindow()
     storyLeftRows[0] = {
         btn       = introCard,
         bg        = introBg,
+        icon      = introIcon,
         nameLabel = introName,
         zoneLabel = introZone,
         checkmark = introCard.checkmark,
         isIntro   = true,
     }
+    SM.ApplyIntroCompletionState(storyLeftRows[0])
 
     yOffset = yOffset - CARD_H - 4
 
@@ -4154,7 +4224,7 @@ local function BuildStoryWindow()
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
                 portFrame:SetSize(PORT, PORT)
-                portFrame:SetPoint("LEFT", card, "LEFT", 16, 2)
+                portFrame:SetPoint("LEFT", card, "LEFT", 16, 0)
 
                 local iconTex = portFrame:CreateTexture(nil, "ARTWORK")
                 iconTex:SetSize(ICON, ICON)
@@ -4268,7 +4338,9 @@ local function BuildStoryWindow()
                 for part in zoneText:gmatch("[^/]+") do
                     parts[#parts + 1] = part:match("^%s*(.-)%s*$")
                 end
-                if #parts > 2 then
+                if not (SM.Client and SM.Client.isRetail) and #parts > 1 then
+                    zoneText = parts[1]
+                elseif #parts > 2 then
                     zoneText = parts[1] .. " / " .. parts[2] .. "…"
                 end
                 zoneLabel:SetText(zoneText)
@@ -4498,9 +4570,7 @@ local function CheckQuestCompletion(completedQuestID)
                                     break
                                 end
                             end
-                            if storyLeftRows[0] and storyLeftRows[0].checkmark then
-                                storyLeftRows[0].checkmark:SetShown(SM.AreAllStoriesFinished())
-                            end
+                            SM.ApplyIntroCompletionState(storyLeftRows[0])
                         end
 
                         C_Timer.After(1.5, function()

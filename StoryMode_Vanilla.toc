@@ -14,6 +14,7 @@ Data\Storylines\MissingDiplomatData.lua
 Data\Storylines\OnyxiaData.lua
 Data\Storylines\ScarletCrusadeData.lua
 Data\Storylines\MankriksWifeData.lua
+Data\ClassQuests\ClassicClassQuestData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua
 Code\Core\Progress.lua
