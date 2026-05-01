@@ -8,6 +8,8 @@
 - Fixed Adventure Guide tier lookup taint by wrapping `EJ_SelectTier` calls in `securecall`, preventing later loot tooltip money-frame errors after Story Mode searches for cover art
 - Hid the Story Mode window automatically when combat starts to avoid protected-frame interaction during lockdown
 - Fixed Classic Era "Begin This Story" errors by skipping retail-only world-map waypoint and ping behavior on Classic/TBC clients
+- Fixed story card completion badges for stories with lore-only, replayable, achievement, or optional chapters, including **The Banshee Queen** and its optional Windrunner Spire epilogue
+- Optional chapters now remain visible in the chapter track without blocking the main story from reaching **Story Finished**
 
 ### Maintenance
 - Restructured addon files into root TOC metadata, `Code/`, `Data/`, `Locales/`, `Art/`, and `_Dev/tools/` folders to prepare for additional game-version TOCs and localization work
@@ -23,6 +25,9 @@
 - Added Classic/TBC-specific frame fallbacks for missing retail atlas art while preserving the existing retail presentation
 - Reworked Classic story cards, quest cards, progress view, and chapter track styling with Classic-safe borders, solid hover/backdrop layers, hidden scrollbars, and larger circular chapter portrait rings
 - Updated Classic tracking guidance to avoid map-pin language, reference the quest name, and include readable NPC locations such as Northshire Abbey, Sentinel Hill, Lakeshire, and Stormwind districts
+- Restored the retail Journeys texture divider while keeping Classic/TBC on their simpler divider fallback
+- Updated the main Story Mode card to receive a completion ribbon when every visible story is finished, with a new completion message for players who have cleared the full curated library
+- Matched the two main Story Mode panel borders to the default Trading Post frame color instead of the brighter custom gold tint
 
 ### Content
 - Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn
@@ -35,6 +40,9 @@
 - Added **Onyxia and the Black Dragonflight** as a Classic/TBC cross-faction epic storyline, covering the Alliance Windsor/Prestor reveal, the Horde Rexxar/Emberstrife tests, and both Drakefire Amulet attunement paths
 - Added **Mankrik's Wife** as a Classic/TBC Horde short story for the Barrens **Lost in Battle** quest
 - Expanded **The Banshee Queen** with the Shadowlands Sylvanas bridge from Torghast visions through Chains of Domination, Sanctum of Domination, Shattered Legacies, Domination's Grasp, Crown of Wills, Sepulcher of the First Ones, and Judgment, plus the War Within **The Warning** campaign with Arator in the Maw
+- Extended **The Banshee Queen** through the post-Jailer aftermaths with **Silent Vigil**, the loyalist **The Long Hunt** epilogue, and an optional **Windrunner Spire** chapter using the normal dungeon achievement
+- Refined **The Banshee Queen** chapter text, cover art, warning-chain quest giver data, and Sepulcher flow, including the **Heart of the Sepulcher** handoff and the Windrunner Spire loading screen cover
+- Expanded **The Master of Revendreth** with Castle Nathria aftermath quests, the Redemption for the Redeemer beat, and corrected Sire Denathrius achievement tracking
 - Added exploration achievements to Drustvar, The Jade Forest, Nazmir, Revendreth, and Suramar adventure achievement lists
 - Removed **The Klaxxi** from Epic Storylines after playtesting showed the flow was not strong enough for the curated story list
 - Audited quest IDs, titles, NPCs, locations, chapter portraits, achievement IDs, and faction reputation IDs across the current story set with repeatable local validation tools
