@@ -5,12 +5,27 @@ local function GetPlayerFaction()
     return UnitFactionGroup("player")
 end
 
+local function GetPlayerRace()
+    return select(2, UnitRace("player"))
+end
+
 function SM.IsQuestComplete(questID)
     return SM.IsQuestFlaggedCompleted(questID)
 end
 
 function SM.IsQuestForPlayer(q)
-    return not q.faction or q.faction == GetPlayerFaction()
+    if q.faction and q.faction ~= GetPlayerFaction() then return false end
+    if q.race then
+        local playerRace = GetPlayerRace()
+        if type(q.race) == "table" then
+            for _, race in ipairs(q.race) do
+                if race == playerRace then return true end
+            end
+            return false
+        end
+        return q.race == playerRace
+    end
+    return true
 end
 
 function SM.ShouldHideQuest(q)

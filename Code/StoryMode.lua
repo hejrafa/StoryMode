@@ -135,6 +135,15 @@ AddContentData(SM.JainaData)
 AddContentData(SM.LilianVossData)
 AddContentData(SM.TeddiesAndTeaData)
 AddContentData(SM.MankriksWifeData)
+AddContentData(SM.ClassicDruidQuestData)
+AddContentData(SM.ClassicHunterQuestData)
+AddContentData(SM.ClassicMageQuestData)
+AddContentData(SM.ClassicPaladinQuestData)
+AddContentData(SM.ClassicPriestQuestData)
+AddContentData(SM.ClassicRogueQuestData)
+AddContentData(SM.ClassicShamanQuestData)
+AddContentData(SM.ClassicWarlockQuestData)
+AddContentData(SM.ClassicWarriorQuestData)
 AddContentData(SM.DeathKnightCampaignData)
 AddContentData(SM.DemonHunterCampaignData)
 AddContentData(SM.DruidCampaignData)
@@ -222,6 +231,15 @@ if CanShowQuestline(SM.MankriksWifeData) then
     RegisterQuestline(SM.MankriksWifeData, "Short Stories")
 end
 local classCampaigns = {
+    SM.ClassicDruidQuestData,
+    SM.ClassicHunterQuestData,
+    SM.ClassicMageQuestData,
+    SM.ClassicPaladinQuestData,
+    SM.ClassicPriestQuestData,
+    SM.ClassicRogueQuestData,
+    SM.ClassicShamanQuestData,
+    SM.ClassicWarlockQuestData,
+    SM.ClassicWarriorQuestData,
     SM.DeathKnightCampaignData,
     SM.DemonHunterCampaignData,
     SM.DruidCampaignData,
