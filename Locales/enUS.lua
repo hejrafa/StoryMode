@@ -17,6 +17,7 @@ L["Tab Progress"] = "Progress"
 L["Tab Journal"] = "Journal"
 
 L["Intro Text"] = "Warcraft has told some extraordinary stories. Many of them are tucked inside old quest hubs, faction paths, dungeon finales, and prerequisites that are easy to miss.\n\nStory Mode collects the questlines I think are worth returning to and lays them out chapter by chapter. You get the characters, the context, your progress, and the next step when the trail gets messy. As you play, completed chapters are written into a journal you can revisit any time.\n\nFor the best experience, pair this with Dialogue UI. It turns quest text into a conversation you actually want to read.\n\nRelive your adventure."
+L["Intro Text Complete"] = "Every story in Story Mode has a checkmark now, which means you have followed the old roads, the hidden prerequisites, the dungeon finales, and the conversations most people click past on the way to the next objective.\n\nAt this point it feels fair to assume you know a thing or two about Warcraft lore. Probably several things. Possibly too many things. The kind of things that make you pause in a quiet ruin and say, wait, I know why that name matters.\n\nSo here is your unofficial commendation: loremaster of loose ends, curator of questionable decisions, and certified reader of quest text.\n\nThe story remembers you."
 
 L["Button Begin Story"] = "Begin This Story"
 L["Button Continue Story"] = "Continue Story"

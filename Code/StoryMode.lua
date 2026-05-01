@@ -277,6 +277,16 @@ for _, data in ipairs(heritageQuestlines) do
     end
 end
 
+function SM.AreAllStoriesFinished()
+    if #allQuestlines == 0 then return false end
+    for _, data in ipairs(allQuestlines) do
+        if not SM.IsStoryFinished(data) then
+            return false
+        end
+    end
+    return true
+end
+
 
 -- ============================================================================
 -- Story Mode Window  —  Trading-Post-style clean dark panels
@@ -450,8 +460,8 @@ local function CreateStoryPanel(section)
     if useRetailArt and NineSliceUtil then
         local ok = pcall(NineSliceUtil.ApplyLayout, f, PERKS_LAYOUT)
         if ok then
-            -- Tint border pieces gold-bronze
-            local br, bg, bb = 1.0, 0.80, 0.45
+            -- Keep Blizzard's default Trading Post border color.
+            local br, bg, bb = 1.0, 1.0, 1.0
             for _, key in ipairs({"TopLeftCorner","TopRightCorner","BottomLeftCorner","BottomRightCorner",
                                   "TopEdge","BottomEdge","LeftEdge","RightEdge"}) do
                 if f[key] then f[key]:SetVertexColor(br, bg, bb) end
@@ -470,7 +480,7 @@ local function CreateStoryPanel(section)
             insets = { left = 3, right = 3, top = 3, bottom = 3 },
         })
         f:SetBackdropColor(0.040, 0.035, 0.030, 0.76)
-        f:SetBackdropBorderColor(1.0, 0.80, 0.45, 0.68)
+        f:SetBackdropBorderColor(0.43, 0.36, 0.27, 0.68)
     else
         local bg = f:CreateTexture(nil, "BACKGROUND")
         bg:SetAllPoints()
@@ -3486,6 +3496,7 @@ local function UpdateStoryDetail(data)
         for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
         dCompleteText:Hide()
+        introText:SetText(SM.AreAllStoriesFinished() and L["Intro Text Complete"] or L["Intro Text"])
         introHero:Show(); introText:Show()
         heroIcon:SetTexture(nil)
         smHeaderSub:SetText("")
@@ -3610,6 +3621,8 @@ local function SelectStory(index)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
         if row.checkmark and row.data then
             row.checkmark:SetShown(SM.IsStoryFinished(row.data))
+        elseif row.checkmark and row.isIntro then
+            row.checkmark:SetShown(SM.AreAllStoriesFinished())
         end
     end
     if index == 0 or not storyIndexToData[index] then
@@ -4061,6 +4074,14 @@ local function BuildStoryWindow()
 
     local introZone = nil  -- no subline
 
+    introCard.checkmark = CreateCompletionRibbon(introCard)
+    if SM.Client and SM.Client.isRetail then
+        introCard.checkmark:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -15, -1)
+    else
+        introCard.checkmark:SetPoint("RIGHT", introCard, "RIGHT", -18, 0)
+    end
+    introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
+
     introCard:SetScript("OnClick", function() SelectStory(0) end)
 
     -- Store intro card for select styling
@@ -4069,6 +4090,8 @@ local function BuildStoryWindow()
         bg        = introBg,
         nameLabel = introName,
         zoneLabel = introZone,
+        checkmark = introCard.checkmark,
+        isIntro   = true,
     }
 
     yOffset = yOffset - CARD_H - 4
@@ -4474,6 +4497,9 @@ local function CheckQuestCompletion(completedQuestID)
                                     row.checkmark:Show()
                                     break
                                 end
+                            end
+                            if storyLeftRows[0] and storyLeftRows[0].checkmark then
+                                storyLeftRows[0].checkmark:SetShown(SM.AreAllStoriesFinished())
                             end
                         end
 
