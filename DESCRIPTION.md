@@ -4,15 +4,14 @@
 
 It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and one-click map guidance.
 
-## Version 1.6.0 Highlights
+## Version 1.6.5 Highlights
 
-- **The Master of Revendreth** joins Epic Storylines with the full Shadowlands zone campaign, from Darkhaven and the Court of Harvesters to Prince Renathal, Sire Denathrius, and the anima crisis.
-- **Adventure pages** now use large Blizzard cover art, cleaner title overlays, and a sharper left-side story list.
-- **Journal pages** now keep chapter recaps together with faction reputation cards and progress details.
-- **Achievements and hints** were cleaned up so they stay story-relevant and give practical unlock instructions, with exploration achievements added to more adventures.
-- **Stability fixes** reduce Blizzard UI taint around Story Mode map pins, Adventure Guide cover lookup, and combat transitions.
-- **Classic Era and Burning Crusade Classic support** adds client-specific TOCs, compatibility fallbacks, and expansion-aware content filtering so older clients can load the addon shell cleanly.
-- **The Defias Brotherhood** becomes the first Classic/TBC storyline, from Sentinel Hill and the Deadmines through the Unsent Letter, Stockade riot, and Stormwind conspiracy aftermath.
+- **The Brazier of Invocation** joins Epic Storylines for Classic Era and Burning Crusade Classic, guiding the Dungeon Set 2 upgrade chain across Azeroth, Blackrock Depths, Dire Maul, Stratholme, and Upper Blackrock Spire.
+- **The Agamand Family** joins Short Stories, following Brill's early Forsaken quests into the Agamand Mills and the family crypt.
+- **Classic story audits** expand and correct The Scarlet Crusade, The Long Watch, The Missing Diplomat, and The Defias Brotherhood with additional quests, corrected quest names, NPCs, locations, and portraits.
+- **Quest cards are now clickable**: in-log quests open the quest log, missing quests print pickup guidance, completed quests print a completion message, and Story Mode closes before handing control back to the game.
+- **Classic card polish** adds persistent selected-story borders, brighter border hover, subtle fill hover, native spellbook navigation arrows, and clearer in-log quest-card states.
+- **Lock and quote polish** removes the experimental lock overlay, fixes hidden locked tooltip bleed, and uses curly quotation marks in generated quest prompts.
 
 ## What Story Mode Does
 

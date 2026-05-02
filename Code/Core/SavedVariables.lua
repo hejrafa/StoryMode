@@ -1,7 +1,7 @@
 local addonName, SM = ...
 
 local defaults = {
-    version = "1.6.0",
+    version = "1.6.5",
     selectedQuestline = 1,
     viewedLoreChapters = {},
     playedChapters = {},

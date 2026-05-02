@@ -50,7 +50,7 @@ SM.MissingDiplomatData = {
         ["Tapoke \"Slim\" Jahn"] = 2963,
         ["Commander Samaul"] = 2965,
         ["Archmage Tervosh"] = 2969,
-        ["Private Hendel"] = 3387,
+        ["Private Hendel"] = 2967,
         ["Lady Jaina Proudmoore"] = 30863,
     },
 
@@ -119,7 +119,8 @@ SM.MissingDiplomatData = {
             quests = {
                 { id = 1265, name = "The Missing Diplomat", displayName = "Sentry Point", npc = "Commander Samaul" },
                 { id = 1266, name = "The Missing Diplomat", displayName = "Private Hendel", npc = "Archmage Tervosh" },
-                { id = 1267, name = "The Missing Diplomat", displayName = "Jaina Proudmoore", npc = "Archmage Tervosh" },
+                { id = 1324, name = "The Missing Diplomat", npc = "Private Hendel" },
+                { id = 1267, name = "The Missing Diplomat", displayName = "Jaina Proudmoore", npc = "Lady Jaina Proudmoore" },
             },
         },
     },

@@ -44,7 +44,6 @@ end
 local IsQuestForPlayer = SM.IsQuestForPlayer
 local ShouldHideQuest = SM.ShouldHideQuest
 local IsQuestEffectivelyComplete = SM.IsQuestEffectivelyComplete
-local IsQuestInLog = SM.IsQuestInLog
 local GetAllChapters = SM.GetAllChapters
 local GetStoryAchievements = SM.GetStoryAchievements
 local GetStoryFactions = SM.GetStoryFactions
@@ -118,6 +117,15 @@ local function CanShowQuestline(data)
     return true
 end
 
+function SM.GetQuestlineZoneText(data)
+    if not data then return "" end
+    if data.zoneByFaction then
+        local factionZone = data.zoneByFaction[playerFaction]
+        if factionZone and factionZone ~= "" then return factionZone end
+    end
+    return data.zone or ""
+end
+
 -- ============================================================================
 -- Localize Questline Content
 -- ============================================================================
@@ -133,6 +141,7 @@ AddContentData(SM.DuskwoodData)
 AddContentData(SM.FallenHeroData)
 AddContentData(SM.MissingDiplomatData)
 AddContentData(SM.OnyxiaData)
+AddContentData(SM.DungeonSetTwoData)
 AddContentData(SM.ScarletCrusadeData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
@@ -143,6 +152,7 @@ AddContentData(SM.SylvanasData)
 AddContentData(SM.JainaData)
 AddContentData(SM.LilianVossData)
 AddContentData(SM.TeddiesAndTeaData)
+AddContentData(SM.AgamandFamilyData)
 AddContentData(SM.MankriksWifeData)
 AddContentData(SM.ClassicDruidQuestData)
 AddContentData(SM.ClassicHunterQuestData)
@@ -206,6 +216,9 @@ end
 if CanShowQuestline(SM.OnyxiaData) then
     RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
 end
+if CanShowQuestline(SM.DungeonSetTwoData) then
+    RegisterQuestline(SM.DungeonSetTwoData, "Epic Storylines")
+end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
@@ -235,6 +248,9 @@ if CanShowQuestline(SM.LilianVossData) then
 end
 if CanShowQuestline(SM.TeddiesAndTeaData) then
     RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
+end
+if CanShowQuestline(SM.AgamandFamilyData) then
+    RegisterQuestline(SM.AgamandFamilyData, "Short Stories")
 end
 if CanShowQuestline(SM.MankriksWifeData) then
     RegisterQuestline(SM.MankriksWifeData, "Short Stories")
@@ -394,12 +410,22 @@ function SM.SetStoryArrowTexture(tex, direction, large)
     end
 
     if large or (SM.Client and SM.Client.isRetail) then
+        if direction == "left" then
+            if SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up") then
+                return
+            end
+            if SM.SafeSetAtlas(tex, "common-icon-backarrow", false) then
+                return
+            end
+            SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+            tex:SetRotation(math.pi)
+            return
+        end
+
         if not SM.SafeSetAtlas(tex, "common-icon-forwardarrow", false) then
             SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
         end
-        if direction == "left" then
-            tex:SetRotation(math.pi)
-        elseif direction == "down" then
+        if direction == "down" then
             tex:SetRotation(-math.pi / 2)
         end
         return
@@ -975,9 +1001,14 @@ sTrackBtnSecure:RegisterForClicks("AnyUp")
 sTrackBtnSecure:SetAttribute("type", "macro")
 sTrackBtnSecure:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
 sTrackBtnSecure:SetFrameLevel((sTrackBtn:GetFrameLevel() or 0) + 5)
+sTrackBtnSecure:Hide()
 
 local function SyncSecureOverlay()
     if InCombatLockdown() then return end
+    if not sTrackBtnSecure.isActive or not sTrackBtn:IsShown() then
+        sTrackBtnSecure:Hide()
+        return
+    end
     local btnLeft, btnTop = sTrackBtn:GetLeft(), sTrackBtn:GetTop()
     local parLeft, parTop = detailChild:GetLeft(), detailChild:GetTop()
     if not (btnLeft and btnTop and parLeft and parTop) then return end
@@ -985,14 +1016,24 @@ local function SyncSecureOverlay()
     sTrackBtnSecure:SetPoint("TOPLEFT", detailChild, "TOPLEFT",
         btnLeft - parLeft, btnTop - parTop)
     sTrackBtnSecure:SetSize(sTrackBtn:GetWidth(), sTrackBtn:GetHeight())
+    sTrackBtnSecure:Show()
+end
+
+local function SetSecureOverlayActive(active)
+    pendingSecureTrack = nil
+    sTrackBtnSecure.isActive = active == true
+    if not active then
+        sTrackBtnSecure:SetScript("PreClick", nil)
+        if not InCombatLockdown() then sTrackBtnSecure:Hide() end
+    else
+        SyncSecureOverlay()
+    end
 end
 
 -- Re-sync when sTrackBtn resizes (content fonts reflowing, etc.).
 -- Layout code calls SyncSecureOverlay() explicitly after re-anchoring.
 sTrackBtn:HookScript("OnSizeChanged", SyncSecureOverlay)
 sTrackBtn:HookScript("OnShow", SyncSecureOverlay)
--- Always visible; enable/disable is effectively controlled by whether PreClick
--- queues a pending action. No pending action → the macro is a no-op.
 
 -- Forward hover events to the visible button so its template highlight and
 -- lock-reason tooltip keep working while the overlay sits on top.
@@ -2516,6 +2557,37 @@ local function CreateQuestCard(parent)
         SMTooltip:Show()
     end)
     card:SetScript("OnLeave", function() SMTooltip:Hide() end)
+    card:SetScript("OnClick", function(self)
+        if not self.questEntry then return end
+        storyFrame:Hide()
+
+        local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
+        if SM.IsQuestEntryComplete(self.questEntry) then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r “" .. questName .. "” is already complete.")
+            return
+        end
+
+        local inLog, activeQuestID = SM.IsQuestEntryInLog(self.questEntry)
+        if inLog and activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then
+            return
+        end
+
+        local npcName = self.questEntry.npc
+        local loc = self.questEntry.location
+        if not loc and self.storyData and self.storyData.npcLocations and npcName then
+            local npcLoc = self.storyData.npcLocations[npcName]
+            loc = npcLoc and npcLoc.location
+        end
+        if self.tooltipRequirement then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r " .. self.tooltipRequirement)
+        elseif npcName and loc then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from " .. npcName .. " in " .. loc .. ".")
+        elseif npcName then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from " .. npcName .. ".")
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from the next quest giver.")
+        end
+    end)
 
     return card
 end
@@ -2842,17 +2914,27 @@ LayoutSelectedChapter = function()
             card:Hide()
         else
             local qOptional = q.optional == true
-            local qDone = IsQuestEffectivelyComplete(i, ch.quests)
-            local qInLog = not qDone and IsQuestInLog(q.id)
+            local qInLog = SM.IsQuestEntryInLog(q)
+            local qDone = (not qInLog) and IsQuestEffectivelyComplete(i, ch.quests)
             -- Display fallback: if the story has no next quest ("Story Finished"),
             -- treat remaining cards as complete for UI purposes.
             local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
-            local qIsNextRecommended = (q.id == nextQuestID)
+            local qIsNextRecommended = false
+            if nextQuestID then
+                for _, questID in ipairs(SM.GetQuestIDs(q)) do
+                    if questID == nextQuestID then
+                        qIsNextRecommended = true
+                        break
+                    end
+                end
+            end
             local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i) or nil
 
             card.title:SetText(q.displayName or q.name)
             card.npcLabel:SetText(q.npc or "")
             card.questID = q.id
+            card.questEntry = q
+            card.storyData = data
             card.tooltipTitle = q.name
             card.tooltipNPC = q.npc
             card.tooltipStatus = qDoneDisplay and ("|cff59c746" .. L["Quest Status Completed"] .. "|r")
@@ -3008,8 +3090,7 @@ local function ShowTab(tab)
     dTitle:ClearAllPoints()
     dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
     if tab ~= "story" then
-        pendingSecureTrack = nil
-        sTrackBtnSecure:SetScript("PreClick", nil)
+        SetSecureOverlayActive(false)
     end
 
     if tab == "story" then
@@ -3109,7 +3190,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
             if gateReason then
                 sTrackBtn:SetText(L["Button Story Locked"])
                 sTrackBtn:SetScript("OnClick", nil)
-                sTrackBtnSecure:SetScript("PreClick", nil)
+                SetSecureOverlayActive(false)
                 sTrackBtn:Disable()
                 sTrackBtn:SetAlpha(0.5)
                 sTrackBtn.lockReason = gateReason
@@ -3121,6 +3202,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtnSecure:SetScript("PreClick", function()
                     pendingSecureTrack = { data = data, quest = quest }
                 end)
+                SetSecureOverlayActive(true)
                 sTrackBtn:SetScript("OnClick", nil)
                 sTrackBtn:Enable()
                 sTrackBtn:SetAlpha(1.0)
@@ -3129,7 +3211,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         else
             sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
-            sTrackBtnSecure:SetScript("PreClick", nil)
+            SetSecureOverlayActive(false)
             sTrackBtn:Disable()
             sTrackBtn:SetAlpha(0.5)
             sTrackBtn.lockReason = nil
@@ -3544,6 +3626,7 @@ local function UpdateStoryDetail(data)
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
+        SetSecureOverlayActive(false)
         dCompleteText:Hide()
         introText:SetText(SM.AreAllStoriesFinished() and L["Intro Text Complete"] or L["Intro Text"])
         introHero:Show(); introText:Show()
@@ -3638,6 +3721,21 @@ local storyLeftRows    = {}
 local storyContentBuilt = false
 local storyIndexToData = {}
 
+SM.StoryCardBorderNormal   = {0.48, 0.36, 0.18, 0.56}
+SM.StoryCardBorderHover    = {1.00, 0.82, 0.18, 0.95}
+SM.StoryCardBorderSelected = {1.00, 0.70, 0.12, 0.90}
+
+function SM.ApplyStoryCardBorderState(row, isHover)
+    if not row or not row.btn or not row.btn.SetBackdropBorderColor then return end
+    local color = SM.StoryCardBorderNormal
+    if isHover then
+        color = SM.StoryCardBorderHover
+    elseif row.isSelected then
+        color = SM.StoryCardBorderSelected
+    end
+    row.btn:SetBackdropBorderColor(color[1], color[2], color[3], color[4])
+end
+
 function SM.ApplyIntroCompletionState(row)
     if not row or not row.btn or not row.nameLabel then return end
     local allComplete = SM.AreAllStoriesFinished()
@@ -3703,16 +3801,17 @@ local function SelectStory(index)
                 row.coverTex:SetAlpha(0.72)
             end
         end
-        if row.btn and row.btn.SetBackdropBorderColor then
-            row.btn:SetBackdropBorderColor(0.48, 0.36, 0.18, 0.56)
-        end
+        row.isSelected = sel
+        SM.ApplyStoryCardBorderState(row, false)
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
+        local gateReason = row.data and GetQuestlineGateReason(row.data) or nil
+        if row.btn then row.btn.lockReason = gateReason end
         if row.checkmark and row.data then
-            row.checkmark:SetShown(SM.IsStoryFinished(row.data))
+            row.checkmark:SetShown(not gateReason and SM.IsStoryFinished(row.data))
         elseif row.checkmark and row.isIntro then
             row.checkmark:SetShown(SM.AreAllStoriesFinished())
         end
@@ -4141,13 +4240,7 @@ local function BuildStoryWindow()
     if not (SM.Client and SM.Client.isRetail) then
         introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
     end
-
-    if SM.Client and SM.Client.isRetail then
-        introCard:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
-        introCard:GetHighlightTexture():SetAllPoints()
-    else
-        SM.SetSubtleCardHover(introCard)
-    end
+    SM.SetSubtleCardHover(introCard)
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
@@ -4183,8 +4276,6 @@ local function BuildStoryWindow()
     end
     introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
 
-    introCard:SetScript("OnClick", function() SelectStory(0) end)
-
     -- Store intro card for select styling
     storyLeftRows[0] = {
         btn       = introCard,
@@ -4195,6 +4286,13 @@ local function BuildStoryWindow()
         checkmark = introCard.checkmark,
         isIntro   = true,
     }
+    introCard:SetScript("OnClick", function() SelectStory(0) end)
+    introCard:SetScript("OnEnter", function()
+        SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
+    end)
+    introCard:SetScript("OnLeave", function()
+        SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
+    end)
     SM.ApplyIntroCompletionState(storyLeftRows[0])
 
     yOffset = yOffset - CARD_H - 4
@@ -4246,13 +4344,7 @@ local function BuildStoryWindow()
                     coverTex:SetAlpha(0.72)
                     coverTex:SetShown(SetAdventureCoverTexture(coverTex, data))
                 end
-
-                if SM.Client and SM.Client.isRetail then
-                    card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
-                    card:GetHighlightTexture():SetAllPoints()
-                else
-                    SM.SetSubtleCardHover(card)
-                end
+                SM.SetSubtleCardHover(card)
 
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
@@ -4366,7 +4458,7 @@ local function BuildStoryWindow()
                 zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
                 zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -42,  0)
                 zoneLabel:SetJustifyH("LEFT")
-                local zoneText = data.zone or ""
+                local zoneText = SM.GetQuestlineZoneText(data)
                 local parts = {}
                 for part in zoneText:gmatch("[^/]+") do
                     parts[#parts + 1] = part:match("^%s*(.-)%s*$")
@@ -4386,14 +4478,15 @@ local function BuildStoryWindow()
                 else
                     cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
                 end
-                if SM.IsStoryFinished(data) then
+                local gateReason = GetQuestlineGateReason(data)
+                card.lockReason = gateReason
+                if gateReason then
+                    cardCheckmark:Hide()
+                elseif SM.IsStoryFinished(data) then
                     cardCheckmark:Show()
                 else
                     cardCheckmark:Hide()
                 end
-
-                -- ── Click ──────────────────────────────────────────────────────
-                card:SetScript("OnClick", function() SelectStory(idx) end)
 
                 storyLeftRows[idx] = {
                     btn       = card,
@@ -4405,6 +4498,22 @@ local function BuildStoryWindow()
                     zoneLabel = zoneLabel,
                     checkmark = cardCheckmark,
                 }
+
+                -- ── Click ──────────────────────────────────────────────────────
+                card:SetScript("OnClick", function() SelectStory(idx) end)
+                card:SetScript("OnEnter", function(self)
+                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
+                    if not self.lockReason then return end
+                    SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    SMTooltip:ClearLines()
+                    SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
+                    SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
+                    SMTooltip:Show()
+                end)
+                card:SetScript("OnLeave", function()
+                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
+                    SMTooltip:Hide()
+                end)
                 yOffset = yOffset - CARD_H - 5
             end
             yOffset = yOffset - 8
@@ -4537,8 +4646,8 @@ SlashCmdList["STORYMODE"] = function(msg)
                         local chDone, chTotal = GetChapterProgress(ch)
                         print(string.format("  |cffaaaaaa[%s]|r %d/%d", ch.chapter or "?", chDone, chTotal))
                         for j, q in ipairs(ch.quests) do
-                            local inLog = IsQuestInLog(q.id)
-                            local flagged = SM.IsQuestFlaggedCompleted(q.id)
+                            local inLog = SM.IsQuestEntryInLog(q)
+                            local flagged = SM.IsQuestEntryComplete(q)
                             local effective = IsQuestEffectivelyComplete(j, ch.quests)
                             local tag = inLog and "|cff00ff00[IN LOG]|r"
                                 or (flagged and "|cffaaaaaa[done]|r")

@@ -158,12 +158,19 @@ local function GetLiveQuestLocation(qid, mapHint)
     return nil
 end
 
+local function GetTrackedQuestID(quest)
+    if not quest then return nil end
+    local _, activeID = SM.IsQuestEntryInLog(quest)
+    return activeID or quest.id
+end
+
 local function GetQuestLocation(data, quest)
     local questLocation = quest.mapID and quest.x and quest.y and { mapID = quest.mapID, x = quest.x, y = quest.y } or nil
     local mapHint = (questLocation and questLocation.mapID)
         or (data.npcLocations and data.npcLocations[quest.npc] and data.npcLocations[quest.npc].mapID)
         or data.startMapID
-    local live = GetLiveQuestLocation(quest.id, mapHint)
+    local qid = GetTrackedQuestID(quest)
+    local live = GetLiveQuestLocation(qid, mapHint)
     if live then return live end
 
     if questLocation then return questLocation end
@@ -182,7 +189,7 @@ function SM.SetWaypointForQuest(data, quest)
     if not quest then return "no_location", nil, nil end
 
     if not (SM.Client and SM.Client.isRetail) then
-        if SM.IsQuestInLog(quest.id) then
+        if SM.IsQuestEntryInLog(quest) then
             return "classic_in_log", nil, nil
         end
         return "classic_guidance", nil, nil
@@ -190,8 +197,8 @@ function SM.SetWaypointForQuest(data, quest)
 
     EnsureTrivialQuestsVisible()
 
-    if SM.IsQuestInLog(quest.id) then
-        local qid = quest.id
+    if SM.IsQuestEntryInLog(quest) then
+        local qid = GetTrackedQuestID(quest)
         SM.AddQuestWatch(qid)
         if C_SuperTrack and C_SuperTrack.SetSuperTrackedQuestID then
             C_SuperTrack.SetSuperTrackedQuestID(qid)
@@ -204,7 +211,7 @@ function SM.SetWaypointForQuest(data, quest)
     end
 
     local loc = GetQuestLocation(data, quest)
-    local qid = quest.id
+    local qid = GetTrackedQuestID(quest)
 
     if C_SuperTrack and C_SuperTrack.SetSuperTrackedMapPin
         and Enum and Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then

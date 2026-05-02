@@ -147,6 +147,41 @@ function SM.AddQuestWatch(questID)
     end
 end
 
+function SM.OpenQuestLogToQuest(questID)
+    local logIndex = SM.GetLogIndexForQuestID(questID)
+    if not logIndex then return false end
+
+    if QuestLog_OpenToQuest and pcall(QuestLog_OpenToQuest, questID) then
+        return true
+    end
+
+    if C_QuestLog and C_QuestLog.SetSelectedQuest then
+        pcall(C_QuestLog.SetSelectedQuest, questID)
+    end
+    if QuestMapFrame_OpenToQuestDetails and pcall(QuestMapFrame_OpenToQuestDetails, questID) then
+        return true
+    end
+
+    if OpenQuestLog then
+        pcall(OpenQuestLog)
+    elseif QuestLogFrame and ShowUIPanel then
+        ShowUIPanel(QuestLogFrame)
+    elseif ToggleQuestLog then
+        ToggleQuestLog()
+    end
+
+    if SelectQuestLogEntry then
+        pcall(SelectQuestLogEntry, logIndex)
+    end
+    if QuestLog_SetSelection then
+        pcall(QuestLog_SetSelection, logIndex)
+    end
+    if QuestLog_Update then
+        pcall(QuestLog_Update)
+    end
+    return true
+end
+
 function SM.GetQuestObjectives(questID)
     if C_QuestLog and C_QuestLog.GetQuestObjectives then
         return C_QuestLog.GetQuestObjectives(questID)

@@ -2,7 +2,7 @@
 ## Title: Story Mode
 ## Notes: A narrative questline companion for following WoW stories chapter by chapter, with story context, progress tracking, and native map guidance.
 ## SavedVariables: StoryModeDB
-## Version: 1.6.0
+## Version: 1.6.5
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\Art\Icons\storymode_icon
 
@@ -12,7 +12,9 @@ Data\Storylines\DuskwoodData.lua
 Data\Storylines\FallenHeroData.lua
 Data\Storylines\MissingDiplomatData.lua
 Data\Storylines\OnyxiaData.lua
+Data\Storylines\DungeonSetTwoData.lua
 Data\Storylines\ScarletCrusadeData.lua
+Data\Storylines\AgamandFamilyData.lua
 Data\Storylines\MankriksWifeData.lua
 Data\ClassQuests\ClassicClassQuestData.lua
 Code\Core\Compatibility.lua
