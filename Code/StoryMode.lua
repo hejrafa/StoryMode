@@ -44,7 +44,6 @@ end
 local IsQuestForPlayer = SM.IsQuestForPlayer
 local ShouldHideQuest = SM.ShouldHideQuest
 local IsQuestEffectivelyComplete = SM.IsQuestEffectivelyComplete
-local IsQuestInLog = SM.IsQuestInLog
 local GetAllChapters = SM.GetAllChapters
 local GetStoryAchievements = SM.GetStoryAchievements
 local GetStoryFactions = SM.GetStoryFactions
@@ -118,6 +117,15 @@ local function CanShowQuestline(data)
     return true
 end
 
+function SM.GetQuestlineZoneText(data)
+    if not data then return "" end
+    if data.zoneByFaction then
+        local factionZone = data.zoneByFaction[playerFaction]
+        if factionZone and factionZone ~= "" then return factionZone end
+    end
+    return data.zone or ""
+end
+
 -- ============================================================================
 -- Localize Questline Content
 -- ============================================================================
@@ -133,6 +141,7 @@ AddContentData(SM.DuskwoodData)
 AddContentData(SM.FallenHeroData)
 AddContentData(SM.MissingDiplomatData)
 AddContentData(SM.OnyxiaData)
+AddContentData(SM.DungeonSetTwoData)
 AddContentData(SM.ScarletCrusadeData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
@@ -143,6 +152,7 @@ AddContentData(SM.SylvanasData)
 AddContentData(SM.JainaData)
 AddContentData(SM.LilianVossData)
 AddContentData(SM.TeddiesAndTeaData)
+AddContentData(SM.AgamandFamilyData)
 AddContentData(SM.MankriksWifeData)
 AddContentData(SM.ClassicDruidQuestData)
 AddContentData(SM.ClassicHunterQuestData)
@@ -206,6 +216,9 @@ end
 if CanShowQuestline(SM.OnyxiaData) then
     RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
 end
+if CanShowQuestline(SM.DungeonSetTwoData) then
+    RegisterQuestline(SM.DungeonSetTwoData, "Epic Storylines")
+end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
 end
@@ -235,6 +248,9 @@ if CanShowQuestline(SM.LilianVossData) then
 end
 if CanShowQuestline(SM.TeddiesAndTeaData) then
     RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
+end
+if CanShowQuestline(SM.AgamandFamilyData) then
+    RegisterQuestline(SM.AgamandFamilyData, "Short Stories")
 end
 if CanShowQuestline(SM.MankriksWifeData) then
     RegisterQuestline(SM.MankriksWifeData, "Short Stories")
@@ -975,9 +991,14 @@ sTrackBtnSecure:RegisterForClicks("AnyUp")
 sTrackBtnSecure:SetAttribute("type", "macro")
 sTrackBtnSecure:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
 sTrackBtnSecure:SetFrameLevel((sTrackBtn:GetFrameLevel() or 0) + 5)
+sTrackBtnSecure:Hide()
 
 local function SyncSecureOverlay()
     if InCombatLockdown() then return end
+    if not sTrackBtnSecure.isActive or not sTrackBtn:IsShown() then
+        sTrackBtnSecure:Hide()
+        return
+    end
     local btnLeft, btnTop = sTrackBtn:GetLeft(), sTrackBtn:GetTop()
     local parLeft, parTop = detailChild:GetLeft(), detailChild:GetTop()
     if not (btnLeft and btnTop and parLeft and parTop) then return end
@@ -985,14 +1006,24 @@ local function SyncSecureOverlay()
     sTrackBtnSecure:SetPoint("TOPLEFT", detailChild, "TOPLEFT",
         btnLeft - parLeft, btnTop - parTop)
     sTrackBtnSecure:SetSize(sTrackBtn:GetWidth(), sTrackBtn:GetHeight())
+    sTrackBtnSecure:Show()
+end
+
+local function SetSecureOverlayActive(active)
+    pendingSecureTrack = nil
+    sTrackBtnSecure.isActive = active == true
+    if not active then
+        sTrackBtnSecure:SetScript("PreClick", nil)
+        if not InCombatLockdown() then sTrackBtnSecure:Hide() end
+    else
+        SyncSecureOverlay()
+    end
 end
 
 -- Re-sync when sTrackBtn resizes (content fonts reflowing, etc.).
 -- Layout code calls SyncSecureOverlay() explicitly after re-anchoring.
 sTrackBtn:HookScript("OnSizeChanged", SyncSecureOverlay)
 sTrackBtn:HookScript("OnShow", SyncSecureOverlay)
--- Always visible; enable/disable is effectively controlled by whether PreClick
--- queues a pending action. No pending action → the macro is a no-op.
 
 -- Forward hover events to the visible button so its template highlight and
 -- lock-reason tooltip keep working while the overlay sits on top.
@@ -2842,12 +2873,20 @@ LayoutSelectedChapter = function()
             card:Hide()
         else
             local qOptional = q.optional == true
-            local qDone = IsQuestEffectivelyComplete(i, ch.quests)
-            local qInLog = not qDone and IsQuestInLog(q.id)
+            local qInLog = SM.IsQuestEntryInLog(q)
+            local qDone = (not qInLog) and IsQuestEffectivelyComplete(i, ch.quests)
             -- Display fallback: if the story has no next quest ("Story Finished"),
             -- treat remaining cards as complete for UI purposes.
             local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
-            local qIsNextRecommended = (q.id == nextQuestID)
+            local qIsNextRecommended = false
+            if nextQuestID then
+                for _, questID in ipairs(SM.GetQuestIDs(q)) do
+                    if questID == nextQuestID then
+                        qIsNextRecommended = true
+                        break
+                    end
+                end
+            end
             local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i) or nil
 
             card.title:SetText(q.displayName or q.name)
@@ -3008,8 +3047,7 @@ local function ShowTab(tab)
     dTitle:ClearAllPoints()
     dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
     if tab ~= "story" then
-        pendingSecureTrack = nil
-        sTrackBtnSecure:SetScript("PreClick", nil)
+        SetSecureOverlayActive(false)
     end
 
     if tab == "story" then
@@ -3109,7 +3147,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
             if gateReason then
                 sTrackBtn:SetText(L["Button Story Locked"])
                 sTrackBtn:SetScript("OnClick", nil)
-                sTrackBtnSecure:SetScript("PreClick", nil)
+                SetSecureOverlayActive(false)
                 sTrackBtn:Disable()
                 sTrackBtn:SetAlpha(0.5)
                 sTrackBtn.lockReason = gateReason
@@ -3121,6 +3159,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtnSecure:SetScript("PreClick", function()
                     pendingSecureTrack = { data = data, quest = quest }
                 end)
+                SetSecureOverlayActive(true)
                 sTrackBtn:SetScript("OnClick", nil)
                 sTrackBtn:Enable()
                 sTrackBtn:SetAlpha(1.0)
@@ -3129,7 +3168,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         else
             sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
-            sTrackBtnSecure:SetScript("PreClick", nil)
+            SetSecureOverlayActive(false)
             sTrackBtn:Disable()
             sTrackBtn:SetAlpha(0.5)
             sTrackBtn.lockReason = nil
@@ -3544,6 +3583,7 @@ local function UpdateStoryDetail(data)
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
+        SetSecureOverlayActive(false)
         dCompleteText:Hide()
         introText:SetText(SM.AreAllStoriesFinished() and L["Intro Text Complete"] or L["Intro Text"])
         introHero:Show(); introText:Show()
@@ -3711,8 +3751,10 @@ local function SelectStory(index)
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
+        local gateReason = row.data and GetQuestlineGateReason(row.data) or nil
+        if row.btn then row.btn.lockReason = gateReason end
         if row.checkmark and row.data then
-            row.checkmark:SetShown(SM.IsStoryFinished(row.data))
+            row.checkmark:SetShown(not gateReason and SM.IsStoryFinished(row.data))
         elseif row.checkmark and row.isIntro then
             row.checkmark:SetShown(SM.AreAllStoriesFinished())
         end
@@ -4366,7 +4408,7 @@ local function BuildStoryWindow()
                 zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
                 zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -42,  0)
                 zoneLabel:SetJustifyH("LEFT")
-                local zoneText = data.zone or ""
+                local zoneText = SM.GetQuestlineZoneText(data)
                 local parts = {}
                 for part in zoneText:gmatch("[^/]+") do
                     parts[#parts + 1] = part:match("^%s*(.-)%s*$")
@@ -4386,7 +4428,11 @@ local function BuildStoryWindow()
                 else
                     cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
                 end
-                if SM.IsStoryFinished(data) then
+                local gateReason = GetQuestlineGateReason(data)
+                card.lockReason = gateReason
+                if gateReason then
+                    cardCheckmark:Hide()
+                elseif SM.IsStoryFinished(data) then
                     cardCheckmark:Show()
                 else
                     cardCheckmark:Hide()
@@ -4394,6 +4440,15 @@ local function BuildStoryWindow()
 
                 -- ── Click ──────────────────────────────────────────────────────
                 card:SetScript("OnClick", function() SelectStory(idx) end)
+                card:SetScript("OnEnter", function(self)
+                    if not self.lockReason then return end
+                    SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    SMTooltip:ClearLines()
+                    SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
+                    SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
+                    SMTooltip:Show()
+                end)
+                card:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
                 storyLeftRows[idx] = {
                     btn       = card,
@@ -4537,8 +4592,8 @@ SlashCmdList["STORYMODE"] = function(msg)
                         local chDone, chTotal = GetChapterProgress(ch)
                         print(string.format("  |cffaaaaaa[%s]|r %d/%d", ch.chapter or "?", chDone, chTotal))
                         for j, q in ipairs(ch.quests) do
-                            local inLog = IsQuestInLog(q.id)
-                            local flagged = SM.IsQuestFlaggedCompleted(q.id)
+                            local inLog = SM.IsQuestEntryInLog(q)
+                            local flagged = SM.IsQuestEntryComplete(q)
                             local effective = IsQuestEffectivelyComplete(j, ch.quests)
                             local tag = inLog and "|cff00ff00[IN LOG]|r"
                                 or (flagged and "|cffaaaaaa[done]|r")

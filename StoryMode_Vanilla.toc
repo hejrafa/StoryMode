@@ -12,7 +12,9 @@ Data\Storylines\DuskwoodData.lua
 Data\Storylines\FallenHeroData.lua
 Data\Storylines\MissingDiplomatData.lua
 Data\Storylines\OnyxiaData.lua
+Data\Storylines\DungeonSetTwoData.lua
 Data\Storylines\ScarletCrusadeData.lua
+Data\Storylines\AgamandFamilyData.lua
 Data\Storylines\MankriksWifeData.lua
 Data\ClassQuests\ClassicClassQuestData.lua
 Code\Core\Compatibility.lua

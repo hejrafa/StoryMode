@@ -9,12 +9,47 @@ local function GetPlayerRace()
     return select(2, UnitRace("player"))
 end
 
+local function GetPlayerClass()
+    return select(2, UnitClass("player"))
+end
+
+function SM.GetQuestIDs(q)
+    if type(q) ~= "table" then return { q } end
+    local ids = {}
+    if q.id then ids[#ids + 1] = q.id end
+    if q.altIds then
+        for _, id in ipairs(q.altIds) do
+            ids[#ids + 1] = id
+        end
+    end
+    return ids
+end
+
 function SM.IsQuestComplete(questID)
     return SM.IsQuestFlaggedCompleted(questID)
 end
 
+function SM.IsQuestEntryComplete(q)
+    for _, questID in ipairs(SM.GetQuestIDs(q)) do
+        if SM.IsQuestComplete(questID) then return true end
+    end
+    return false
+end
+
 function SM.IsQuestForPlayer(q)
     if q.faction and q.faction ~= GetPlayerFaction() then return false end
+    if q.class then
+        local playerClass = GetPlayerClass()
+        if type(q.class) == "table" then
+            local classMatch = false
+            for _, class in ipairs(q.class) do
+                if class == playerClass then classMatch = true; break end
+            end
+            if not classMatch then return false end
+        elseif q.class ~= playerClass then
+            return false
+        end
+    end
     if q.race then
         local playerRace = GetPlayerRace()
         if type(q.race) == "table" then
@@ -45,18 +80,17 @@ function SM.IsQuestEffectivelyComplete(questIndex, chapterQuests)
     -- Quests for the opposing faction are irrelevant.
     if not SM.IsQuestForPlayer(q) then return true end
 
-    local qid = q.id
-    if SM.GetLogIndexForQuestID(qid) ~= nil then return false end
-    if SM.IsQuestComplete(qid) then return true end
+    if SM.IsQuestEntryInLog(q) then return false end
+    if SM.IsQuestEntryComplete(q) then return true end
 
     for i = 1, questIndex - 1 do
-        if SM.IsQuestForPlayer(chapterQuests[i]) and SM.GetLogIndexForQuestID(chapterQuests[i].id) ~= nil then
+        if SM.IsQuestForPlayer(chapterQuests[i]) and SM.IsQuestEntryInLog(chapterQuests[i]) then
             return false
         end
     end
 
     for i = questIndex + 1, #chapterQuests do
-        if SM.IsQuestForPlayer(chapterQuests[i]) and SM.IsQuestComplete(chapterQuests[i].id) then
+        if SM.IsQuestForPlayer(chapterQuests[i]) and SM.IsQuestEntryComplete(chapterQuests[i]) then
             return true
         end
     end
@@ -66,6 +100,13 @@ end
 
 function SM.IsQuestInLog(questID)
     return SM.GetLogIndexForQuestID(questID) ~= nil
+end
+
+function SM.IsQuestEntryInLog(q)
+    for _, questID in ipairs(SM.GetQuestIDs(q)) do
+        if SM.IsQuestInLog(questID) then return true, questID end
+    end
+    return false, nil
 end
 
 function SM.GetAllChapters(data)
@@ -193,7 +234,7 @@ function SM.GetCampaignProgress(data)
         for _, q in ipairs(ch.quests) do
             if not q.optional and SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
                 total = total + 1
-                if SM.IsQuestComplete(q.id) then done = done + 1 end
+                if SM.IsQuestEntryComplete(q) then done = done + 1 end
             end
         end
     end
@@ -300,7 +341,7 @@ function SM.FindNextQuest(data)
                     for j, q in ipairs(ch.quests) do
                         if not SM.IsQuestForPlayer(q) then
                             -- skip opposing-faction variant
-                        elseif SM.IsQuestInLog(q.id) then
+                        elseif SM.IsQuestEntryInLog(q) then
                             logCandidates[#logCandidates + 1] = {
                                 quest = q, chapter = ch.chapter,
                                 chapterData = ch,
