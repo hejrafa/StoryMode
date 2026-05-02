@@ -496,15 +496,25 @@ end
 
 function SM.SetSubtleCardHover(button, mask)
     if not button then return end
-    local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+    local highlight = button:CreateTexture(nil, "HIGHLIGHT", nil, 1)
     if not SM.SafeSetTexture(highlight, "Interface\\QuestFrame\\UI-QuestLogTitleHighlight") then
-        SM.SetSolidTexture(highlight, 0.92, 0.82, 0.58, 0.08)
+        SM.SetSolidTexture(highlight, 1.0, 0.82, 0.12, 0.22)
     end
     highlight:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
     highlight:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -3, 3)
-    highlight:SetVertexColor(0.92, 0.82, 0.58, 0.10)
+    highlight:SetVertexColor(1.0, 0.84, 0.18, 0.32)
+    highlight:SetBlendMode("ADD")
     if mask then highlight:AddMaskTexture(mask) end
     button:SetHighlightTexture(highlight)
+
+    local glow = button:CreateTexture(nil, "HIGHLIGHT", nil, 2)
+    glow:SetTexture(SOLID)
+    glow:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
+    glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
+    glow:SetVertexColor(1.0, 0.78, 0.05, 0.16)
+    glow:SetBlendMode("ADD")
+    if mask then glow:AddMaskTexture(mask) end
+    button.hoverGlow = glow
 end
 
 function SM.CreateInsetCardShade(parent, alpha, subLevel)
@@ -4194,12 +4204,7 @@ local function BuildStoryWindow()
         introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
     end
 
-    if SM.Client and SM.Client.isRetail then
-        introCard:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
-        introCard:GetHighlightTexture():SetAllPoints()
-    else
-        SM.SetSubtleCardHover(introCard)
-    end
+    SM.SetSubtleCardHover(introCard)
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
@@ -4299,12 +4304,7 @@ local function BuildStoryWindow()
                     coverTex:SetShown(SetAdventureCoverTexture(coverTex, data))
                 end
 
-                if SM.Client and SM.Client.isRetail then
-                    card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
-                    card:GetHighlightTexture():SetAllPoints()
-                else
-                    SM.SetSubtleCardHover(card)
-                end
+                SM.SetSubtleCardHover(card)
 
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
