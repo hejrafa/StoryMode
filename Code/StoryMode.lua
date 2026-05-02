@@ -4207,6 +4207,7 @@ local function BuildStoryWindow()
     if not (SM.Client and SM.Client.isRetail) then
         introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
     end
+    SM.SetSubtleCardHover(introCard)
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
@@ -4310,6 +4311,7 @@ local function BuildStoryWindow()
                     coverTex:SetAlpha(0.72)
                     coverTex:SetShown(SetAdventureCoverTexture(coverTex, data))
                 end
+                SM.SetSubtleCardHover(card)
 
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
