@@ -2557,6 +2557,31 @@ local function CreateQuestCard(parent)
         SMTooltip:Show()
     end)
     card:SetScript("OnLeave", function() SMTooltip:Hide() end)
+    card:SetScript("OnClick", function(self)
+        if not self.questEntry then return end
+
+        local inLog, activeQuestID = SM.IsQuestEntryInLog(self.questEntry)
+        if inLog and activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then
+            return
+        end
+
+        local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
+        local npcName = self.questEntry.npc
+        local loc = self.questEntry.location
+        if not loc and self.storyData and self.storyData.npcLocations and npcName then
+            local npcLoc = self.storyData.npcLocations[npcName]
+            loc = npcLoc and npcLoc.location
+        end
+        if self.tooltipRequirement then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r " .. self.tooltipRequirement)
+        elseif npcName and loc then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up \"" .. questName .. "\" from " .. npcName .. " in " .. loc .. ".")
+        elseif npcName then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up \"" .. questName .. "\" from " .. npcName .. ".")
+        else
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up \"" .. questName .. "\" from the next quest giver.")
+        end
+    end)
 
     return card
 end
@@ -2902,6 +2927,8 @@ LayoutSelectedChapter = function()
             card.title:SetText(q.displayName or q.name)
             card.npcLabel:SetText(q.npc or "")
             card.questID = q.id
+            card.questEntry = q
+            card.storyData = data
             card.tooltipTitle = q.name
             card.tooltipNPC = q.npc
             card.tooltipStatus = qDoneDisplay and ("|cff59c746" .. L["Quest Status Completed"] .. "|r")
