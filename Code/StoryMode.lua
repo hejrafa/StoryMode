@@ -410,7 +410,7 @@ function SM.SetStoryArrowTexture(tex, direction, large)
     end
 
     if large or (SM.Client and SM.Client.isRetail) then
-        if direction == "left" then
+        if direction == "left" and not (SM.Client and SM.Client.isRetail) then
             if SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up") then
                 return
             end
@@ -425,7 +425,9 @@ function SM.SetStoryArrowTexture(tex, direction, large)
         if not SM.SafeSetAtlas(tex, "common-icon-forwardarrow", false) then
             SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
         end
-        if direction == "down" then
+        if direction == "left" then
+            tex:SetRotation(math.pi)
+        elseif direction == "down" then
             tex:SetRotation(-math.pi / 2)
         end
         return
@@ -2072,6 +2074,7 @@ local TRACK_NODE_SIZE = 48      -- portrait circle diameter
 local TRACK_ARROW_GAP = 24      -- space between nodes (contains arrow)
 local TRACK_STEP = TRACK_NODE_SIZE + TRACK_ARROW_GAP  -- 72px per step
 local TRACK_H = 72              -- track container height
+SM.TrackArrowSize = (SM.Client and SM.Client.isRetail) and 14 or 18
 
 local QCARD_H = 44 + 8         -- quest card height (44 + 4px top/bottom padding)
 local QCARD_GAP = 3            -- gap between cards
@@ -3490,12 +3493,12 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
                 if not dTrackArrows[i] then
                     dTrackArrows[i] = dTrackInner:CreateTexture(nil, "ARTWORK")
                     SM.SetStoryArrowTexture(dTrackArrows[i], "right", false)
-                    dTrackArrows[i]:SetSize(18, 18)
                 end
                 local arrow = dTrackArrows[i]
                 arrow:ClearAllPoints()
+                arrow:SetSize(SM.TrackArrowSize, SM.TrackArrowSize)
                 arrow:SetPoint("LEFT", dTrackInner, "TOPLEFT",
-                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 18) / 2, -(lineY + 5))
+                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - SM.TrackArrowSize) / 2, -(lineY + 5))
 
                 -- Arrow color
                 if isComplete then
