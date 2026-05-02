@@ -8,13 +8,13 @@ local addonName, SM = ...
 SM.ClassicDruidQuestData = {
     title = "The Cenarion Path",
     description = "A druid's training is not learned from a trainer alone. It is answered in Moonglade, tested by spirits, carried through poison and water, and bound to the quiet duties of the Cenarion Circle.",
-    zone = "Moonglade / Kalimdor / Eastern Kingdoms",
+    zone = "Moonglade / Darkshore / Westfall / The Barrens",
     expansion = "Classic",
     class = "DRUID",
     gameVersions = { classicEra = true, tbc = true },
     color = { 1.00, 0.49, 0.04 },
     icon = 136041,
-    adventureCoverTexture = 131848,
+    adventureCoverTexture = 131882, -- Wailing Caverns: Cenarion/Naralex nature imagery closest to Classic druid class fantasy
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 5923, name = "Heeding the Call", npc = "Druid Trainer", faction = "Alliance" },
@@ -87,13 +87,13 @@ SM.ClassicDruidQuestData = {
 SM.ClassicHunterQuestData = {
     title = "The Hunter's Path",
     description = "A hunter is measured by patience, bond, and precision. Tame your first companion, then follow the ancient leaf into one of Classic's sharpest class trials.",
-    zone = "Starting Lands / Felwood / Molten Core",
+    zone = "Teldrassil / Dun Morogh / Mulgore / Durotar / Felwood / Molten Core",
     expansion = "Classic",
     class = "HUNTER",
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.67, 0.83, 0.45 },
     icon = 132164,
-    adventureCoverTexture = 131850,
+    adventureCoverTexture = 131850, -- Molten Core: source of the Ancient Petrified Leaf for Rhok'delar
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 6065, name = "The Hunter's Path", npc = "Hunter Trainer", faction = "Alliance" },
@@ -152,13 +152,13 @@ SM.ClassicHunterQuestData = {
 SM.ClassicMageQuestData = {
     title = "Mage's Wand",
     description = "Tabetha's marsh hut becomes the center of a mage's practical education: old texts, charged materials, and a wand shaped to your chosen school.",
-    zone = "Dustwallow Marsh / Scarlet Monastery",
+    zone = "Dustwallow Marsh / Scarlet Monastery / Azshara / Dire Maul",
     expansion = "Classic",
     class = "MAGE",
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.25, 0.78, 0.92 },
     icon = 135932,
-    adventureCoverTexture = 131852,
+    adventureCoverTexture = 131835, -- Dire Maul: arcane library setting for Arcane Refreshment
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1947, name = "Journey to the Marsh", npc = "Mage Trainer" },
@@ -219,7 +219,7 @@ SM.ClassicPaladinQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.96, 0.55, 0.73 },
     icon = 135920,
-    adventureCoverTexture = 131868,
+    adventureCoverTexture = 131868, -- Scholomance: final charger judgment and redemption trial
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1793, name = "The Tome of Valor", npc = "Duthorian Rall", faction = "Alliance" },
@@ -292,7 +292,7 @@ SM.ClassicPriestQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 1.00, 1.00, 1.00 },
     icon = 135940,
-    adventureCoverTexture = 131851,
+    adventureCoverTexture = 131850, -- Molten Core: source of the Eye of Divinity before the Benediction trial
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 7622, name = "The Balance of Light and Shadow", npc = "Eris Havenfire" },
@@ -326,7 +326,7 @@ SM.ClassicRogueQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 1.00, 0.96, 0.41 },
     icon = 132320,
-    adventureCoverTexture = 131870,
+    adventureCoverTexture = 131870, -- Stockade: closest Classic loading screen for rogue infiltration and lockwork
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 2360, name = "Mathias and the Defias", npc = "Rogue Trainer", faction = "Alliance" },
@@ -379,7 +379,7 @@ SM.ClassicShamanQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.00, 0.44, 0.87 },
     icon = 136048,
-    adventureCoverTexture = 131872,
+    adventureCoverTexture = 131872, -- Sunken Temple: final Elemental Mastery class trial
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1516, name = "Call of Earth", npc = "Shaman Trainer", faction = "Horde" },
@@ -468,7 +468,7 @@ SM.ClassicWarlockQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.53, 0.53, 0.93 },
     icon = 136145,
-    adventureCoverTexture = 131835,
+    adventureCoverTexture = 131835, -- Dire Maul: Dreadsteed of Xoroth ritual finale
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1685, name = "Gakin's Summons", npc = "Warlock Trainer", faction = "Alliance" },
@@ -569,13 +569,13 @@ SM.ClassicWarlockQuestData = {
 SM.ClassicWarriorQuestData = {
     title = "Whirlwind Weapon",
     description = "The warrior's Classic trials begin with stance discipline and end by calling Cyclonian down for the weapon every leveling warrior remembers.",
-    zone = "Starting Lands / The Barrens / Stranglethorn Vale / Arathi Highlands",
+    zone = "The Barrens / Stranglethorn Vale / Arathi Highlands",
     expansion = "Classic",
     class = "WARRIOR",
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.78, 0.61, 0.43 },
     icon = 132355,
-    adventureCoverTexture = 131848,
+    adventureCoverTexture = 131824, -- Blackrock Depths: martial arena imagery closest to the warrior weapon trial
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1638, name = "A Warrior's Training", npc = "Warrior Trainer", faction = "Alliance" },
