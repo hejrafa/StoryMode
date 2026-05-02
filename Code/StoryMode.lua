@@ -496,25 +496,15 @@ end
 
 function SM.SetSubtleCardHover(button, mask)
     if not button then return end
-    local highlight = button:CreateTexture(nil, "HIGHLIGHT", nil, 1)
+    local highlight = button:CreateTexture(nil, "HIGHLIGHT")
     if not SM.SafeSetTexture(highlight, "Interface\\QuestFrame\\UI-QuestLogTitleHighlight") then
-        SM.SetSolidTexture(highlight, 1.0, 0.82, 0.12, 0.22)
+        SM.SetSolidTexture(highlight, 0.92, 0.82, 0.58, 0.08)
     end
     highlight:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
     highlight:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -3, 3)
-    highlight:SetVertexColor(1.0, 0.84, 0.18, 0.32)
-    highlight:SetBlendMode("ADD")
+    highlight:SetVertexColor(0.92, 0.82, 0.58, 0.10)
     if mask then highlight:AddMaskTexture(mask) end
     button:SetHighlightTexture(highlight)
-
-    local glow = button:CreateTexture(nil, "HIGHLIGHT", nil, 2)
-    glow:SetTexture(SOLID)
-    glow:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
-    glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
-    glow:SetVertexColor(1.0, 0.78, 0.05, 0.16)
-    glow:SetBlendMode("ADD")
-    if mask then glow:AddMaskTexture(mask) end
-    button.hoverGlow = glow
 end
 
 function SM.CreateInsetCardShade(parent, alpha, subLevel)
@@ -3698,6 +3688,21 @@ local storyLeftRows    = {}
 local storyContentBuilt = false
 local storyIndexToData = {}
 
+SM.StoryCardBorderNormal   = {0.48, 0.36, 0.18, 0.56}
+SM.StoryCardBorderHover    = {1.00, 0.82, 0.18, 0.95}
+SM.StoryCardBorderSelected = {1.00, 0.70, 0.12, 0.90}
+
+function SM.ApplyStoryCardBorderState(row, isHover)
+    if not row or not row.btn or not row.btn.SetBackdropBorderColor then return end
+    local color = SM.StoryCardBorderNormal
+    if isHover then
+        color = SM.StoryCardBorderHover
+    elseif row.isSelected then
+        color = SM.StoryCardBorderSelected
+    end
+    row.btn:SetBackdropBorderColor(color[1], color[2], color[3], color[4])
+end
+
 function SM.ApplyIntroCompletionState(row)
     if not row or not row.btn or not row.nameLabel then return end
     local allComplete = SM.AreAllStoriesFinished()
@@ -3763,9 +3768,8 @@ local function SelectStory(index)
                 row.coverTex:SetAlpha(0.72)
             end
         end
-        if row.btn and row.btn.SetBackdropBorderColor then
-            row.btn:SetBackdropBorderColor(0.48, 0.36, 0.18, 0.56)
-        end
+        row.isSelected = sel
+        SM.ApplyStoryCardBorderState(row, false)
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
@@ -4204,8 +4208,6 @@ local function BuildStoryWindow()
         introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
     end
 
-    SM.SetSubtleCardHover(introCard)
-
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
     introPort:SetPoint("LEFT", introCard, "LEFT", 16, 0)
@@ -4240,8 +4242,6 @@ local function BuildStoryWindow()
     end
     introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
 
-    introCard:SetScript("OnClick", function() SelectStory(0) end)
-
     -- Store intro card for select styling
     storyLeftRows[0] = {
         btn       = introCard,
@@ -4252,6 +4252,13 @@ local function BuildStoryWindow()
         checkmark = introCard.checkmark,
         isIntro   = true,
     }
+    introCard:SetScript("OnClick", function() SelectStory(0) end)
+    introCard:SetScript("OnEnter", function()
+        SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
+    end)
+    introCard:SetScript("OnLeave", function()
+        SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
+    end)
     SM.ApplyIntroCompletionState(storyLeftRows[0])
 
     yOffset = yOffset - CARD_H - 4
@@ -4303,8 +4310,6 @@ local function BuildStoryWindow()
                     coverTex:SetAlpha(0.72)
                     coverTex:SetShown(SetAdventureCoverTexture(coverTex, data))
                 end
-
-                SM.SetSubtleCardHover(card)
 
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
@@ -4448,18 +4453,6 @@ local function BuildStoryWindow()
                     cardCheckmark:Hide()
                 end
 
-                -- ── Click ──────────────────────────────────────────────────────
-                card:SetScript("OnClick", function() SelectStory(idx) end)
-                card:SetScript("OnEnter", function(self)
-                    if not self.lockReason then return end
-                    SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    SMTooltip:ClearLines()
-                    SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
-                    SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
-                    SMTooltip:Show()
-                end)
-                card:SetScript("OnLeave", function() SMTooltip:Hide() end)
-
                 storyLeftRows[idx] = {
                     btn       = card,
                     bg        = bg,
@@ -4470,6 +4463,22 @@ local function BuildStoryWindow()
                     zoneLabel = zoneLabel,
                     checkmark = cardCheckmark,
                 }
+
+                -- ── Click ──────────────────────────────────────────────────────
+                card:SetScript("OnClick", function() SelectStory(idx) end)
+                card:SetScript("OnEnter", function(self)
+                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
+                    if not self.lockReason then return end
+                    SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    SMTooltip:ClearLines()
+                    SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
+                    SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
+                    SMTooltip:Show()
+                end)
+                card:SetScript("OnLeave", function()
+                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
+                    SMTooltip:Hide()
+                end)
                 yOffset = yOffset - CARD_H - 5
             end
             yOffset = yOffset - 8
