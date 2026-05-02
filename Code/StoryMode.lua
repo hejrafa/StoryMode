@@ -2563,7 +2563,7 @@ local function CreateQuestCard(parent)
 
         local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
         if SM.IsQuestEntryComplete(self.questEntry) then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r \"" .. questName .. "\" is already complete.")
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r “" .. questName .. "” is already complete.")
             return
         end
 
@@ -2581,11 +2581,11 @@ local function CreateQuestCard(parent)
         if self.tooltipRequirement then
             DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r " .. self.tooltipRequirement)
         elseif npcName and loc then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up \"" .. questName .. "\" from " .. npcName .. " in " .. loc .. ".")
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from " .. npcName .. " in " .. loc .. ".")
         elseif npcName then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up \"" .. questName .. "\" from " .. npcName .. ".")
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from " .. npcName .. ".")
         else
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up \"" .. questName .. "\" from the next quest giver.")
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from the next quest giver.")
         end
     end)
 
