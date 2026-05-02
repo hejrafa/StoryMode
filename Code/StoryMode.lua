@@ -3805,7 +3805,9 @@ local function SelectStory(index)
             end
         end
         row.isSelected = sel
-        SM.ApplyStoryCardBorderState(row, false)
+        if not (SM.Client and SM.Client.isRetail) then
+            SM.ApplyStoryCardBorderState(row, false)
+        end
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
@@ -4243,7 +4245,12 @@ local function BuildStoryWindow()
     if not (SM.Client and SM.Client.isRetail) then
         introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
     end
-    SM.SetSubtleCardHover(introCard)
+    if SM.Client and SM.Client.isRetail then
+        introCard:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
+        introCard:GetHighlightTexture():SetAllPoints()
+    else
+        SM.SetSubtleCardHover(introCard)
+    end
 
     local introPort = CreateFrame("Frame", nil, introCard)
     introPort:SetSize(PORT, PORT)
@@ -4291,10 +4298,14 @@ local function BuildStoryWindow()
     }
     introCard:SetScript("OnClick", function() SelectStory(0) end)
     introCard:SetScript("OnEnter", function()
-        SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
+        if not (SM.Client and SM.Client.isRetail) then
+            SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
+        end
     end)
     introCard:SetScript("OnLeave", function()
-        SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
+        if not (SM.Client and SM.Client.isRetail) then
+            SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
+        end
     end)
     SM.ApplyIntroCompletionState(storyLeftRows[0])
 
@@ -4347,7 +4358,12 @@ local function BuildStoryWindow()
                     coverTex:SetAlpha(0.72)
                     coverTex:SetShown(SetAdventureCoverTexture(coverTex, data))
                 end
-                SM.SetSubtleCardHover(card)
+                if SM.Client and SM.Client.isRetail then
+                    card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
+                    card:GetHighlightTexture():SetAllPoints()
+                else
+                    SM.SetSubtleCardHover(card)
+                end
 
                 -- ── Portrait circle ───────────────────────────────────────────
                 local portFrame = CreateFrame("Frame", nil, card)
@@ -4505,7 +4521,9 @@ local function BuildStoryWindow()
                 -- ── Click ──────────────────────────────────────────────────────
                 card:SetScript("OnClick", function() SelectStory(idx) end)
                 card:SetScript("OnEnter", function(self)
-                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
+                    if not (SM.Client and SM.Client.isRetail) then
+                        SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
+                    end
                     if not self.lockReason then return end
                     SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     SMTooltip:ClearLines()
@@ -4514,7 +4532,9 @@ local function BuildStoryWindow()
                     SMTooltip:Show()
                 end)
                 card:SetScript("OnLeave", function()
-                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
+                    if not (SM.Client and SM.Client.isRetail) then
+                        SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
+                    end
                     SMTooltip:Hide()
                 end)
                 yOffset = yOffset - CARD_H - 5
