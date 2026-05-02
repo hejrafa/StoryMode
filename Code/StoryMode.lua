@@ -2559,13 +2559,19 @@ local function CreateQuestCard(parent)
     card:SetScript("OnLeave", function() SMTooltip:Hide() end)
     card:SetScript("OnClick", function(self)
         if not self.questEntry then return end
+        storyFrame:Hide()
+
+        local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
+        if SM.IsQuestEntryComplete(self.questEntry) then
+            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r \"" .. questName .. "\" is already complete.")
+            return
+        end
 
         local inLog, activeQuestID = SM.IsQuestEntryInLog(self.questEntry)
         if inLog and activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then
             return
         end
 
-        local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
         local npcName = self.questEntry.npc
         local loc = self.questEntry.location
         if not loc and self.storyData and self.storyData.npcLocations and npcName then
