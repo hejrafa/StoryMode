@@ -2392,8 +2392,9 @@ local function CreateTrackNode(parent)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
     SM.SetStoryArrowTexture(downArrow, "down", false)
     local downArrowSize = (SM.Client and SM.Client.isRetail) and 16 or 22
+    local downArrowOffsetY = (SM.Client and SM.Client.isRetail) and 3 or 6
     downArrow:SetSize(downArrowSize, downArrowSize)
-    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 6)
+    downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, downArrowOffsetY)
     downArrow:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     downArrow:Hide()
     btn.downArrow = downArrow
