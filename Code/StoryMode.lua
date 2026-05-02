@@ -330,8 +330,8 @@ SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
 SM.ClassicPortraitRing = "Interface\\Common\\portrait-ring-withbg"
 SM.ClassicPortraitRingFallback = "Interface\\Buttons\\GoldRing64"
-SM.PanelScrollTopInset = 4
-SM.PanelScrollBottomInset = 4
+SM.PanelScrollTopInset = 2
+SM.PanelScrollBottomInset = 2
 
 -- Color palette
 local C_BODY = {0.922, 0.871, 0.761}
@@ -761,7 +761,7 @@ tabContainer:SetPoint("BOTTOMRIGHT", rightSection, "BOTTOMRIGHT", 0,  0)
 local detailScrollTemplate = (SM.Client and SM.Client.isRetail) and "ScrollFrameTemplate" or "UIPanelScrollFrameTemplate"
 local detailScrollName = (SM.Client and SM.Client.isRetail) and nil or "StoryModeDetailScrollFrame"
 local detailScroll = CreateFrame("ScrollFrame", detailScrollName, tabContainer, detailScrollTemplate)
-detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,  -2)
+detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,   0)
 detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2, SM.PanelScrollBottomInset)
 local detailChild = CreateFrame("Frame", nil, detailScroll)
 detailChild:SetWidth(RIGHT_W)
@@ -1232,9 +1232,7 @@ function FactionUI:Create()
         card.fullRing:SetAllPoints(card.button.IconFrame)
         card.fullRing:Hide()
         if card.button.IconFrame.Border then
-            if not SM.SafeSetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
-                card.button.IconFrame.Border:Hide()
-            end
+            card.button.IconFrame.Border:SetAtlas("ui-journeys-renown-radial-bar", false)
             card.button.IconFrame.Border:SetSize(60, 60)
         end
         card.icon = card.button.IconFrame.Icon
@@ -1448,10 +1446,9 @@ function FactionUI:ApplyArt(card, expansionID, textureKit)
     self:SetCardAtlas(card, self:GetCardAtlas(card, false))
 
     if card.button and card.button.IconFrame and card.button.IconFrame.Border then
-        if not self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
-            card.button.IconFrame.Border:Hide()
-        end
+        self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false)
         card.button.IconFrame.Border:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        card.button.IconFrame.Border:Show()
     end
 
     local fillAtlas = "ui-journeys-renown-radial-fill"
@@ -2031,6 +2028,9 @@ local TRACK_NODE_SIZE = 48      -- portrait circle diameter
 local TRACK_ARROW_GAP = 24      -- space between nodes (contains arrow)
 local TRACK_STEP = TRACK_NODE_SIZE + TRACK_ARROW_GAP  -- 72px per step
 local TRACK_H = 72              -- track container height
+SM.TrackBetweenArrowSize = (SM.Client and SM.Client.isRetail) and 10 or 18
+SM.TrackBetweenArrowYOffset = (SM.Client and SM.Client.isRetail) and 8 or 5
+SM.TrackDownArrowSize = (SM.Client and SM.Client.isRetail) and 14 or 22
 
 local QCARD_H = 44 + 8         -- quest card height (44 + 4px top/bottom padding)
 local QCARD_GAP = 3            -- gap between cards
@@ -2342,7 +2342,7 @@ local function CreateTrackNode(parent)
     -- Down-arrow indicator (below node, points to quest cards)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
     SM.SetStoryArrowTexture(downArrow, "down", false)
-    downArrow:SetSize(22, 22)
+    downArrow:SetSize(SM.TrackDownArrowSize, SM.TrackDownArrowSize)
     downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, 6)
     downArrow:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     downArrow:Hide()
@@ -3408,12 +3408,12 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
                 if not dTrackArrows[i] then
                     dTrackArrows[i] = dTrackInner:CreateTexture(nil, "ARTWORK")
                     SM.SetStoryArrowTexture(dTrackArrows[i], "right", false)
-                    dTrackArrows[i]:SetSize(18, 18)
+                    dTrackArrows[i]:SetSize(SM.TrackBetweenArrowSize, SM.TrackBetweenArrowSize)
                 end
                 local arrow = dTrackArrows[i]
                 arrow:ClearAllPoints()
                 arrow:SetPoint("LEFT", dTrackInner, "TOPLEFT",
-                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - 18) / 2, -(lineY + 5))
+                    x + TRACK_NODE_SIZE + (TRACK_ARROW_GAP - SM.TrackBetweenArrowSize) / 2, -(lineY + SM.TrackBetweenArrowYOffset))
 
                 -- Arrow color
                 if isComplete then
@@ -4374,7 +4374,7 @@ local function BuildStoryWindow()
                 if not (SM.Client and SM.Client.isRetail) and #parts > 1 then
                     zoneText = parts[1]
                 elseif #parts > 2 then
-                    zoneText = parts[1] .. " / " .. parts[2] .. "…"
+                    zoneText = parts[1] .. " / " .. parts[2]
                 end
                 zoneLabel:SetText(zoneText)
                 zoneLabel:SetTextColor(1.0, 0.82, 0.36)
