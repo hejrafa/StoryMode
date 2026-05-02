@@ -34,6 +34,8 @@
 - Added the completed-story intro state to the Story Mode overview and tightened Classic left-panel scroll insets so content no longer touches the frame border
 - Added Classic chapter-level requirements to quest cards and the story start button so locked class quest chapters use the same level-gate behavior as retail story locks
 - Updated the Classic "quest already in log" message to say the quest was already picked up and nudge the player to read the quest log for the next objective
+- Restored completed Adventure pages to show the disabled **Story Finished** button instead of the **Campaign Complete** checkmark text
+- Preserved the left story list scroll position when selecting story cards
 
 ### Content
 - Added **The Defias Brotherhood** as the first Classic/TBC storyline, covering the Alliance Westfall investigation, Deadmines finale, Unsent Letter, Stockade riot, Lescovar conspiracy, and audience with King Varian Wrynn

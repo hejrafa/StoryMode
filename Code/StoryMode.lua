@@ -676,6 +676,8 @@ if leftScroll.ScrollBar then leftScroll.ScrollBar:Hide() end
 local leftChild = CreateFrame("Frame", nil, leftScroll)
 leftChild:SetWidth(LEFT_W - 24)
 leftScroll:SetScrollChild(leftChild)
+SM.LeftPanelMode = "story"
+SM.LeftStoryScrollOffset = 0
 EnableMouseWheelScroll(leftScroll)
 SM.LeftContextChild = CreateFrame("Frame", nil, leftScroll)
 SM.LeftContextChild:SetWidth(LEFT_W - 24)
@@ -3125,21 +3127,16 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtn.lockReason = nil
             end
         else
-            sCompleteText:ClearAllPoints()
-            sCompleteText:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
-            sCompleteText:Show()
             sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
             sTrackBtnSecure:SetScript("PreClick", nil)
-            sTrackBtn:Hide()
+            sTrackBtn:Disable()
+            sTrackBtn:SetAlpha(0.5)
             sTrackBtn.lockReason = nil
-            lastAnchor = sCompleteText
         end
-        if quest then
-            sTrackBtn:Show()
-            lastAnchor = sTrackBtn
-        end
+        sTrackBtn:Show()
         SyncSecureOverlay()
+        lastAnchor = sTrackBtn
 
         local storyBottomEl = lastAnchor
         -- Set scroll height
@@ -3660,7 +3657,34 @@ end
 local PORT = 46
 local ICON = 34
 
+function SM.ClampLeftScrollOffset(offset)
+    local range = leftScroll:GetVerticalScrollRange() or 0
+    offset = offset or 0
+    if offset < 0 then return 0 end
+    if offset > range then return range end
+    return offset
+end
+
+function SM.SaveLeftStoryScroll()
+    if SM.LeftPanelMode == "story" then
+        SM.LeftStoryScrollOffset = leftScroll:GetVerticalScroll() or SM.LeftStoryScrollOffset or 0
+    end
+end
+
+function SM.RestoreLeftStoryScroll()
+    local function apply()
+        if SM.LeftPanelMode ~= "story" then return end
+        leftScroll:SetVerticalScroll(SM.ClampLeftScrollOffset(SM.LeftStoryScrollOffset or 0))
+    end
+    if C_Timer and C_Timer.After then
+        C_Timer.After(0, apply)
+    else
+        apply()
+    end
+end
+
 local function SelectStory(index)
+    SM.SaveLeftStoryScroll()
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
     storySelectedIdx = index
     StoryModeDB.selectedQuestline = index
@@ -3753,17 +3777,26 @@ function SM.HideLeftContext()
 end
 
 function SM.UseStoryLeftPanel()
+    local scrollOffset = SM.LeftStoryScrollOffset or 0
+    if SM.LeftPanelMode == "story" then
+        scrollOffset = leftScroll:GetVerticalScroll() or scrollOffset
+    end
     SM.HideLeftContext()
     SM.LeftContextChild:Hide()
     leftChild:Show()
     leftScroll:SetScrollChild(leftChild)
+    SM.LeftPanelMode = "story"
+    SM.LeftStoryScrollOffset = scrollOffset
+    SM.RestoreLeftStoryScroll()
 end
 
 function SM.UseContextLeftPanel()
+    SM.SaveLeftStoryScroll()
     leftChild:Hide()
     SM.LeftContextChild:Show()
     leftScroll:SetScrollChild(SM.LeftContextChild)
     leftScroll:SetVerticalScroll(0)
+    SM.LeftPanelMode = "context"
     SM.HideLeftContext()
 end
 
