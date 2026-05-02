@@ -6,6 +6,7 @@
 - Added **The Brazier of Invocation** as a Classic/TBC epic storyline for the Dungeon Set 2 upgrade chain, including level gating, class-specific quest variants, faction-specific starting cities, chapter portraits, and Blackrock-themed cover art
 - Added **The Agamand Family** as a Classic/TBC short story covering Brill, the Agamand Mills, and the family crypt
 - Expanded Classic/TBC story coverage for **The Scarlet Crusade**, **The Long Watch**, **The Missing Diplomat**, and **The Defias Brotherhood** with additional quest steps, corrected quest names, NPCs, locations, and portrait sources
+- Refined Classic/TBC class quest cards with more specific zone labels and class-flavored dungeon or raid cover art, including Blackrock Depths for warriors, Wailing Caverns for druids, Dire Maul for mages and warlocks, Molten Core for priests and hunters, Scholomance for paladins, Stockade for rogues, and Sunken Temple for shamans
 
 ### UI
 - Added clickable quest cards: clicking an in-log quest opens the quest log, clicking a missing quest prints pickup guidance, clicking a completed quest prints a completion message, and Story Mode closes before handing control back to the game
