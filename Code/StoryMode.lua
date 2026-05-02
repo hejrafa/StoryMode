@@ -410,12 +410,22 @@ function SM.SetStoryArrowTexture(tex, direction, large)
     end
 
     if large or (SM.Client and SM.Client.isRetail) then
+        if direction == "left" then
+            if SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up") then
+                return
+            end
+            if SM.SafeSetAtlas(tex, "common-icon-backarrow", false) then
+                return
+            end
+            SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
+            tex:SetRotation(math.pi)
+            return
+        end
+
         if not SM.SafeSetAtlas(tex, "common-icon-forwardarrow", false) then
             SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
         end
-        if direction == "left" then
-            tex:SetRotation(math.pi)
-        elseif direction == "down" then
+        if direction == "down" then
             tex:SetRotation(-math.pi / 2)
         end
         return
