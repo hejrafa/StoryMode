@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.6.5
+
+### Classic Era
+- Added **The Brazier of Invocation** as a Classic/TBC epic storyline for the Dungeon Set 2 upgrade chain, including level gating, class-specific quest variants, faction-specific starting cities, chapter portraits, and Blackrock-themed cover art
+- Added **The Agamand Family** as a Classic/TBC short story covering Brill, the Agamand Mills, and the family crypt
+- Expanded Classic/TBC story coverage for **The Scarlet Crusade**, **The Long Watch**, **The Missing Diplomat**, and **The Defias Brotherhood** with additional quest steps, corrected quest names, NPCs, locations, and portrait sources
+
+### UI
+- Added clickable quest cards: clicking an in-log quest opens the quest log, clicking a missing quest prints pickup guidance, clicking a completed quest prints a completion message, and Story Mode closes before handing control back to the game
+- Added Classic story-card active styling with persistent gold borders, brighter border hover, and the original subtle fill hover
+- Updated Classic chapter navigation arrows to use the native spellbook previous/next page textures instead of rotating the right arrow for the left arrow
+- Improved quest-card state display so quests already in the log stay visually active, including alternate quest IDs
+- Replaced UI-generated straight quotation marks around quest names with curly quotes
+
+### Fixes
+- Fixed the hidden locked-story tracking overlay so its tooltip no longer bleeds over other screens after leaving a locked story
+- Removed the experimental lock overlay from locked story cards and restored the cleaner card presentation
+
 ## 1.6.0
 
 ### Fixes
