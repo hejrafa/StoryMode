@@ -1275,7 +1275,9 @@ function FactionUI:Create()
         card.fullRing:SetAllPoints(card.button.IconFrame)
         card.fullRing:Hide()
         if card.button.IconFrame.Border then
-            if not SM.SafeSetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
+            if SM.Client and SM.Client.isRetail then
+                card.button.IconFrame.Border:SetAtlas("ui-journeys-renown-radial-bar", false)
+            elseif not SM.SafeSetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
                 card.button.IconFrame.Border:Hide()
             end
             card.button.IconFrame.Border:SetSize(60, 60)
@@ -1491,10 +1493,13 @@ function FactionUI:ApplyArt(card, expansionID, textureKit)
     self:SetCardAtlas(card, self:GetCardAtlas(card, false))
 
     if card.button and card.button.IconFrame and card.button.IconFrame.Border then
-        if not self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
+        if SM.Client and SM.Client.isRetail then
+            card.button.IconFrame.Border:SetAtlas("ui-journeys-renown-radial-bar", false)
+        elseif not self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
             card.button.IconFrame.Border:Hide()
         end
         card.button.IconFrame.Border:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+        card.button.IconFrame.Border:Show()
     end
 
     local fillAtlas = "ui-journeys-renown-radial-fill"
@@ -4485,7 +4490,7 @@ local function BuildStoryWindow()
                 if not (SM.Client and SM.Client.isRetail) and #parts > 1 then
                     zoneText = parts[1]
                 elseif #parts > 2 then
-                    zoneText = parts[1] .. " / " .. parts[2] .. "…"
+                    zoneText = parts[1] .. " / " .. parts[2]
                 end
                 zoneLabel:SetText(zoneText)
                 zoneLabel:SetTextColor(1.0, 0.82, 0.36)
