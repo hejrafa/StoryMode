@@ -2572,8 +2572,9 @@ local function CreateQuestCard(parent)
         storyFrame:Hide()
 
         local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
+        local questText = "|cffffd200" .. questName .. "|r"
         if SM.IsQuestEntryComplete(self.questEntry) then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r “" .. questName .. "” is already complete.")
+            print(L["Addon Prefix"] .. string.format(L["Quest Click Complete Format"], questText))
             return
         end
 
@@ -2589,13 +2590,13 @@ local function CreateQuestCard(parent)
             loc = npcLoc and npcLoc.location
         end
         if self.tooltipRequirement then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r " .. self.tooltipRequirement)
+            print(L["Addon Prefix"] .. self.tooltipRequirement)
         elseif npcName and loc then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from " .. npcName .. " in " .. loc .. ".")
+            print(L["Addon Prefix"] .. string.format(L["Quest Click Pick Up NPC Place Format"], questText, "|cffffd200" .. npcName .. "|r", "|cff64b5f6" .. loc .. "|r"))
         elseif npcName then
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from " .. npcName .. ".")
+            print(L["Addon Prefix"] .. string.format(L["Quest Click Pick Up NPC Format"], questText, "|cffffd200" .. npcName .. "|r"))
         else
-            DEFAULT_CHAT_FRAME:AddMessage("|cffffd223Story Mode:|r Pick up “" .. questName .. "” from the next quest giver.")
+            print(L["Addon Prefix"] .. string.format(L["Quest Click Pick Up Next Format"], questText))
         end
     end)
 
