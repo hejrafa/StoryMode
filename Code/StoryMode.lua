@@ -2877,9 +2877,9 @@ LayoutSelectedChapter = function()
     elseif ch.prerequisites then
         local req = GetFirstUnmetChapterPrerequisite(ch)
         if req then
-            local reqQuest = req.name or string.format(L["Quest ID Format"], tostring(req.id))
+            local reqQuest = "|cffffd200" .. (req.name or string.format(L["Quest ID Format"], tostring(req.id))) .. "|r"
             if req.npc then
-                dChapterNote:SetText(string.format(L["Lock Speak Pick Up Quest Format"], req.npc, reqQuest))
+                dChapterNote:SetText(string.format(L["Lock Speak Pick Up Quest Format"], "|cffffd200" .. req.npc .. "|r", reqQuest))
             else
                 dChapterNote:SetText(string.format(L["Lock Complete Quest Format"], reqQuest))
             end

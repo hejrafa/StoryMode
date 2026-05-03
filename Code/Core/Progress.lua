@@ -259,6 +259,10 @@ end
 function SM.GetQuestLockReason(data, ch, questIndex)
     if not data or not ch then return nil end
 
+    local function Highlight(text)
+        return "|cffffd200" .. text .. "|r"
+    end
+
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
         return string.format(L["Lock Required Level Format"], data.requiredLevel)
@@ -269,9 +273,9 @@ function SM.GetQuestLockReason(data, ch, questIndex)
 
     local unmetPrereq = SM.GetFirstUnmetChapterPrerequisite(ch)
     if unmetPrereq then
-        local questName = unmetPrereq.name or string.format(L["Quest ID Format"], tostring(unmetPrereq.id))
+        local questName = Highlight(unmetPrereq.name or string.format(L["Quest ID Format"], tostring(unmetPrereq.id)))
         if unmetPrereq.npc and unmetPrereq.npc ~= "" then
-            return string.format(L["Lock Pick Up Quest Format"], questName, unmetPrereq.npc)
+            return string.format(L["Lock Pick Up Quest Format"], questName, Highlight(unmetPrereq.npc))
         end
         return string.format(L["Lock Complete Quest Format"], questName)
     end
@@ -279,7 +283,7 @@ function SM.GetQuestLockReason(data, ch, questIndex)
     if questIndex and questIndex > 1 then
         local prevQuest = ch.quests and ch.quests[questIndex - 1]
         if prevQuest and not SM.IsQuestEffectivelyComplete(questIndex - 1, ch.quests) then
-            return string.format(L["Lock Complete Previous Quest Format"], prevQuest.name or string.format(L["Quest ID Format"], tostring(prevQuest.id)))
+            return string.format(L["Lock Complete Previous Quest Format"], Highlight(prevQuest.name or string.format(L["Quest ID Format"], tostring(prevQuest.id))))
         end
     end
 
