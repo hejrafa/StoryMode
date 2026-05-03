@@ -184,6 +184,7 @@ end
 
 function SM.GetStoryFactions(data)
     if not data then return nil end
+    if not (SM.Client and SM.Client.isRetail) then return nil end
     local faction = GetPlayerFaction()
     return (data.factionsByFaction and data.factionsByFaction[faction]) or data.factions
 end
