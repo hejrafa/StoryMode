@@ -40,6 +40,25 @@ SM.FallenHeroData = {
         ["Razelikh the Defiler"] = { mapID = 17, x = 0.4700, y = 0.2300, location = "the Rise of the Defiler, Blasted Lands" },
     },
 
+    npcDisplayIDs = {
+        ["Fallen Hero of the Horde"] = 6775,
+        ["Loramus Thalipedes"] = 6879,
+        ["Lord Arkkoroc"] = 5489,
+        ["Grol the Destroyer"] = 12292,
+        ["Archmage Allistarj"] = 12290,
+        ["Lady Sevine"] = 12291,
+        ["Razelikh the Defiler"] = 12293,
+    },
+
+    chapterDisplayIDs = {
+        ["Orders That Never Came"] = 6775,
+        ["A Tale of Sorrow"] = 6775,
+        ["The Last Souls"] = 6775,
+        ["Loramus and the Beast's Name"] = 6879,
+        ["Felbane"] = 6879,
+        ["Rakh'likh"] = 12293,
+    },
+
     chapterIcons = {
         ["Orders That Never Came"] = 132343,
         ["A Tale of Sorrow"] = 136189,

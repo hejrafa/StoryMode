@@ -48,6 +48,29 @@ SM.OnyxiaData = {
         ["General Drakkisath"] = { mapID = 250, x = 0.6200, y = 0.3500, location = "Upper Blackrock Spire" },
     },
 
+    npcDisplayIDs = {
+        ["Highlord Bolvar Fordragon"] = 5560,
+        ["Marshal Windsor"] = 6047,
+        ["Reginald Windsor"] = 6047,
+        ["Lady Katrana Prestor"] = 6049,
+        ["Onyxia"] = 8570,
+        ["Thrall"] = 4527,
+        ["Rexxar"] = 10182,
+        ["Emberstrife"] = 6377,
+        ["General Drakkisath"] = 10115,
+    },
+
+    chapterDisplayIDs = {
+        ["The True Masters"] = 5560,
+        ["Marshal Windsor"] = 6047,
+        ["The Great Masquerade"] = 6049,
+        ["The Drakefire Amulet"] = 8570,
+        ["For the Horde"] = 4527,
+        ["Rexxar's Testament"] = 10182,
+        ["The Test of Skulls"] = 6377,
+        ["Blood of the Black Dragon Champion"] = 10115,
+    },
+
     chapterIcons = {
         ["The True Masters"] = 134327,
         ["Marshal Windsor"] = 134943,

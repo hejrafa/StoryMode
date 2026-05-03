@@ -14,6 +14,7 @@ SM.LinkenData = {
     achievements = {},
     color = { 0.30, 0.66, 0.34 },
     icon = 135346,
+    portraitDisplayID = 7111,
     adventureCoverTexture = 131886,
     adventureCoverIsLoadingScreen = true,
 
@@ -31,6 +32,22 @@ SM.LinkenData = {
         ["Eridan Bluewind"] = { mapID = 77, x = 0.5100, y = 0.8200, location = "Emerald Sanctuary, Felwood" },
         ["Aquementas"] = { mapID = 78, x = 0.7100, y = 0.7600, location = "the lakes east of Fire Plume Ridge, Un'Goro Crater" },
         ["Blazerunner"] = { mapID = 78, x = 0.4900, y = 0.5100, location = "Fire Plume Ridge, Un'Goro Crater" },
+    },
+
+    npcDisplayIDs = {
+        ["Linken"] = 7111,
+        ["Donova Snowden"] = 7801,
+        ["Gaeriyan"] = 7120,
+        ["Eridan Bluewind"] = 7274,
+        ["Aquementas"] = 104,
+        ["Blazerunner"] = 10916,
+    },
+
+    chapterDisplayIDs = {
+        ["A Secret to Everybody"] = 7111,
+        ["Linken's Memory"] = 7274,
+        ["Aquementas"] = 104,
+        ["It's Dangerous to Go Alone"] = 10916,
     },
 
     chapterIcons = {

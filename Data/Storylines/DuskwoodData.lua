@@ -54,6 +54,36 @@ SM.DuskwoodData = {
         ["An Old Footlocker"] = { mapID = 52, x = 0.4100, y = 0.6600, location = "Moonbrook, Westfall" },
     },
 
+    npcDisplayIDs = {
+        ["Commander Althea Ebonlocke"] = 1725,
+        ["Lord Ello Ebonlocke"] = 3326,
+        ["Madame Eva"] = 1829,
+        ["Clerk Daltry"] = 1689,
+        ["Sirra Von'Indi"] = 1810,
+        ["Calor"] = 3349,
+        ["Jitters"] = 712,
+        ["Bishop Farthing"] = 5548,
+        ["Glorin Steelbrow"] = 712,
+        ["Grimand Elmore"] = 4998,
+        ["Abercrombie"] = 3338,
+        ["Stitches"] = 4503,
+        ["Eliza"] = 3337,
+        ["Mor'Ladim"] = 343,
+        ["Watcher Ladimore"] = 895,
+        ["Sven Yorgen"] = 2453,
+        ["Morbent Fel"] = 1902,
+        ["Stalvan Mistmantle"] = 3340,
+    },
+
+    chapterDisplayIDs = {
+        ["Darkshire Holds"] = 1725,
+        ["Raven Hill"] = 1902,
+        ["Morgan Ladimore"] = 343,
+        ["The Legend of Stalvan"] = 3340,
+        ["Worgen in the Woods"] = 3349,
+        ["The Embalmer"] = 3338,
+    },
+
     chapterIcons = {
         ["Darkshire Holds"] = 134435,
         ["Raven Hill"] = 136145,

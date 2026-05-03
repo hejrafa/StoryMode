@@ -15,6 +15,7 @@ SM.MankriksWifeData = {
     achievements = {},
     color = { 0.72, 0.52, 0.24 },
     icon = 133469,
+    portraitDisplayID = 3773,
     adventureCoverTexture = 131882, -- Wailing Caverns: closest Classic loading screen rooted in The Barrens
     adventureCoverIsLoadingScreen = true,
 
@@ -25,6 +26,14 @@ SM.MankriksWifeData = {
 
     npcLocations = {
         ["Mankrik"] = { mapID = 10, x = 0.5520, y = 0.4100, location = "the Crossroads, The Barrens" },
+    },
+
+    npcDisplayIDs = {
+        ["Mankrik"] = 3855,
+    },
+
+    chapterDisplayIDs = {
+        ["Lost in Battle"] = 3855,
     },
 
     chapterIcons = {
