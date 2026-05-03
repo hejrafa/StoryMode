@@ -4728,6 +4728,46 @@ function SM.FindQuestStory(questID)
     return nil
 end
 
+function SM.FindQuestStoryByName(questName)
+    if not questName or questName == "" then return nil end
+
+    for _, data in ipairs(allQuestlines) do
+        for _, ch in ipairs(GetAllChapters(data)) do
+            for _, q in ipairs(ch.quests) do
+                if q.name == questName and SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
+                    return data, q
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
+function SM.GetQuestAcceptedMessageQuestName(message)
+    if not message or not ERR_QUEST_ACCEPTED_S then return nil end
+
+    local pattern = ERR_QUEST_ACCEPTED_S:gsub("([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
+    pattern = pattern:gsub("%%%%s", "(.+)")
+    return message:match("^" .. pattern .. "$")
+end
+
+function SM.QuestAcceptedSystemMessageFilter(_, _, message)
+    local questName = SM.GetQuestAcceptedMessageQuestName(message)
+    if questName and SM.FindQuestStoryByName(questName) then
+        return true
+    end
+    return false
+end
+
+function SM.RegisterQuestAcceptedSystemMessageFilter()
+    if SM.questAcceptedSystemMessageFilterRegistered then return end
+    if ChatFrame_AddMessageEventFilter then
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", SM.QuestAcceptedSystemMessageFilter)
+        SM.questAcceptedSystemMessageFilterRegistered = true
+    end
+end
+
 function SM.PrintQuestAcceptedStory(questID)
     local data, quest = SM.FindQuestStory(questID)
     if data and data.title and data.title ~= "" and quest and quest.name then
@@ -4812,6 +4852,7 @@ frame:SetScript("OnEvent", function(self, event, arg1, arg2)
     if event == "ADDON_LOADED" and arg1 == addonName then
         SM.ApplySavedVariableDefaults()
         SM.MinimapButton_Init()
+        SM.RegisterQuestAcceptedSystemMessageFilter()
         -- Pre-populate caches so already-completed chapters/storylines don't re-fire
         for _, data in ipairs(allQuestlines) do
             for _, ch in ipairs(GetAllChapters(data)) do
