@@ -4250,6 +4250,13 @@ function SM.LayoutLeftFactions(data)
 end
 
 function SM.LayoutLeftProgressJournal(data)
+    local achievements = GetStoryAchievements(data)
+    local factions = GetStoryFactions(data)
+    if (not achievements or #achievements == 0) and (not factions or #factions == 0) then
+        SM.UseStoryLeftPanel()
+        return
+    end
+
     SM.UseContextLeftPanel()
     SM.LeftContextYOffset = -16
     SM.LeftContextDividerIndex = 1
