@@ -73,7 +73,7 @@ L["Quest Status Optional"] = "Optional"
 L["Quest Status Not Available"] = "Not yet available"
 
 L["Tracking Enabled Trivial Format"] = "Enabled |cffffd200%s|r tracking so you can see quest markers for this storyline."
-L["Quest Accepted Story Format"] = "Part of |cffffd200%s|r."
+L["Quest Accepted Story Format"] = "%s is part of %s."
 L["Quest Click Complete Format"] = "%s is already complete."
 L["Quest Click Pick Up NPC Place Format"] = "Pick up %s from %s in %s."
 L["Quest Click Pick Up NPC Format"] = "Pick up %s from %s."

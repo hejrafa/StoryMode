@@ -4717,7 +4717,7 @@ function SM.FindQuestStory(questID)
                 if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
                     for _, id in ipairs(SM.GetQuestIDs(q)) do
                         if id == questID then
-                            return data
+                            return data, q
                         end
                     end
                 end
@@ -4729,9 +4729,9 @@ function SM.FindQuestStory(questID)
 end
 
 function SM.PrintQuestAcceptedStory(questID)
-    local data = SM.FindQuestStory(questID)
-    if data and data.title and data.title ~= "" then
-        print(L["Addon Prefix"] .. string.format(L["Quest Accepted Story Format"], data.title))
+    local data, quest = SM.FindQuestStory(questID)
+    if data and data.title and data.title ~= "" and quest and quest.name then
+        print(L["Addon Prefix"] .. string.format(L["Quest Accepted Story Format"], "|cffffd200" .. quest.name .. "|r", "|cffffd200" .. data.title .. "|r"))
     end
 end
 
