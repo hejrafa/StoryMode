@@ -15,7 +15,6 @@ SM.AgamandFamilyData = {
     achievements = {},
     color = { 0.46, 0.56, 0.44 },
     icon = 136123,
-    portraitDisplayID = 3516,
     adventureCoverTexture = 131867, -- Ruins of Lordaeron battleground loading screen
     adventureCoverIsLoadingScreen = true,
 
@@ -34,23 +33,6 @@ SM.AgamandFamilyData = {
         ["Nissa Agamand"] = { mapID = 18, x = 0.4974, y = 0.3634, location = "Agamand Mills, Tirisfal Glades" },
         ["Thurman Agamand"] = { mapID = 18, x = 0.4400, y = 0.3364, location = "Agamand Mills, Tirisfal Glades" },
         ["Captain Dargol"] = { mapID = 18, x = 0.5281, y = 0.2635, location = "the Agamand Family Crypt, Tirisfal Glades" },
-    },
-
-    npcDisplayIDs = {
-        ["Deathguard Dillinger"] = 2855,
-        ["Coleman Farthing"] = 3516,
-        ["Magistrate Sevren"] = 3514,
-        ["Yvette Farthing"] = 3517,
-        ["Devlin Agamand"] = 11399,
-        ["Gregor Agamand"] = 646,
-        ["Nissa Agamand"] = 10702,
-        ["Thurman Agamand"] = 1196,
-        ["Captain Dargol"] = 733,
-    },
-
-    chapterDisplayIDs = {
-        ["The Haunted Mills"] = 3516,
-        ["The Family Crypt"] = 3514,
     },
 
     chapterIcons = {

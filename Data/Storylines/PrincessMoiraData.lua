@@ -14,7 +14,6 @@ SM.PrincessMoiraData = {
     achievements = {},
     color = { 0.76, 0.48, 0.28 },
     icon = 133416,
-    portraitDisplayID = 8929,
     adventureGuideInstanceName = "Blackrock Depths",
     adventureCoverTexture = 131824,
     adventureCoverIsLoadingScreen = true,
@@ -32,22 +31,6 @@ SM.PrincessMoiraData = {
         ["Galamav the Marksman"] = { mapID = 15, x = 0.0500, y = 0.4700, location = "Kargath, Badlands" },
         ["Commander Gor'shak"] = { mapID = 242, x = 0.4500, y = 0.6300, location = "the Detention Block, Blackrock Depths" },
         ["Thrall"] = { mapID = 85, x = 0.3200, y = 0.3800, location = "Grommash Hold, Orgrimmar" },
-    },
-
-    npcDisplayIDs = {
-        ["King Magni Bronzebeard"] = 3597,
-        ["Royal Historian Archesonus"] = 4949,
-        ["Kharan Mighthammer"] = 5728,
-        ["Princess Moira Bronzebeard"] = 8929,
-        ["Galamav the Marksman"] = 1780,
-        ["Commander Gor'shak"] = 6783,
-        ["Thrall"] = 4527,
-    },
-
-    chapterDisplayIDs = {
-        ["Kharan's Tale"] = 5728,
-        ["The Royal Rescue"] = 8929,
-        ["The Warchief's Rescue"] = 4527,
     },
 
     chapterIcons = {

@@ -17,7 +17,6 @@ SM.TimbermawData = {
     },
     color = { 0.48, 0.58, 0.36 },
     icon = 132183,
-    portraitDisplayID = 1465,
     adventureCoverTexture = 131850,
     adventureCoverIsLoadingScreen = true,
 
@@ -31,19 +30,6 @@ SM.TimbermawData = {
         ["Nafien"] = { mapID = 77, x = 0.6450, y = 0.0810, location = "the Felwood entrance to Timbermaw Hold" },
         ["Salfa"] = { mapID = 83, x = 0.2700, y = 0.3400, location = "the Winterspring entrance to Timbermaw Hold" },
         ["Kernda"] = { mapID = 77, x = 0.5100, y = 0.8500, location = "south Felwood near Emerald Sanctuary" },
-    },
-
-    npcDisplayIDs = {
-        ["Grazle"] = 1465,
-        ["Nafien"] = 1465,
-        ["Salfa"] = 1465,
-        ["Kernda"] = 1465,
-    },
-
-    chapterDisplayIDs = {
-        ["Timbermaw Ally"] = 1465,
-        ["Through the Hold"] = 1465,
-        ["Ritual Totems"] = 1465,
     },
 
     chapterIcons = {

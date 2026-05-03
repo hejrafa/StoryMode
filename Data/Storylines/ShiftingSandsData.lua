@@ -17,7 +17,6 @@ SM.ShiftingSandsData = {
     },
     color = { 0.78, 0.58, 0.20 },
     icon = 134962,
-    portraitDisplayID = 15464,
     adventureGuideInstanceName = "Ahn'Qiraj",
     adventureCoverTexture = 131819,
     adventureCoverIsLoadingScreen = true,
@@ -36,26 +35,6 @@ SM.ShiftingSandsData = {
         ["Azuregos"] = { mapID = 76, x = 0.5600, y = 0.8000, location = "southeastern Azshara" },
         ["Narain Soothfancy"] = { mapID = 71, x = 0.6500, y = 0.1800, location = "north of Steamwheedle Port, Tanaris" },
         ["Dirge Quikcleave"] = { mapID = 71, x = 0.5200, y = 0.2800, location = "Gadgetzan, Tanaris" },
-    },
-
-    npcDisplayIDs = {
-        ["Baristolth of the Shifting Sands"] = 15467,
-        ["Anachronos"] = 15464,
-        ["Malfurion Stormrage"] = 15362,
-        ["Keeper Remulos"] = 13158,
-        ["Vaelastrasz the Corrupt"] = 13992,
-        ["Azuregos"] = 6109,
-        ["Narain Soothfancy"] = 15306,
-        ["Dirge Quikcleave"] = 14740,
-    },
-
-    chapterDisplayIDs = {
-        ["The Brood of Nozdormu"] = 15467,
-        ["The Charge of the Dragonflights"] = 15464,
-        ["Green Scepter Shard"] = 13158,
-        ["Red Scepter Shard"] = 13992,
-        ["Blue Scepter Shard"] = 15306,
-        ["Bang a Gong"] = 15464,
     },
 
     chapterIcons = {

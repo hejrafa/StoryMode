@@ -39,29 +39,6 @@ SM.MissingDiplomatData = {
         ["Lady Jaina Proudmoore"] = { mapID = 70, x = 0.6600, y = 0.4900, location = "Theramore Isle" },
     },
 
-    npcDisplayIDs = {
-        ["Thomas"] = 262,
-        ["Bishop DeLavey"] = 2961,
-        ["Jorgen"] = 4469,
-        ["Elling Trias"] = 3246,
-        ["Watcher Backus"] = 2380,
-        ["Dashel Stonefist"] = 3238,
-        ["Mikhail"] = 2964,
-        ["Tapoke \"Slim\" Jahn"] = 2963,
-        ["Commander Samaul"] = 2965,
-        ["Archmage Tervosh"] = 2969,
-        ["Private Hendel"] = 2967,
-        ["Lady Jaina Proudmoore"] = 30863,
-    },
-
-    chapterDisplayIDs = {
-        ["A Discreet Matter"] = 2961,
-        ["The Defias Docket"] = 2380,
-        ["Fist"] = 3238,
-        ["Slim's Confession"] = 2963,
-        ["Hendel"] = 3387,
-    },
-
     chapterIcons = {
         ["A Discreet Matter"] = 134328,
         ["The Defias Docket"] = 134943,

@@ -14,7 +14,6 @@ SM.DarrowshireData = {
     achievements = {},
     color = { 0.68, 0.62, 0.48 },
     icon = 134331,
-    portraitDisplayID = 7069,
     adventureCoverTexture = 131859,
     adventureCoverIsLoadingScreen = true,
 
@@ -29,21 +28,6 @@ SM.DarrowshireData = {
         ["Pamela Redpath"] = { mapID = 23, x = 0.3600, y = 0.9000, location = "Darrowshire, Eastern Plaguelands" },
         ["Chromie"] = { mapID = 22, x = 0.3900, y = 0.6600, location = "the ruined inn of Andorhal, Western Plaguelands" },
         ["Carlin Redpath"] = { mapID = 23, x = 0.8100, y = 0.5900, location = "Light's Hope Chapel, Eastern Plaguelands" },
-    },
-
-    npcDisplayIDs = {
-        ["Marlene Redpath"] = 7069,
-        ["Jessica Redpath"] = 7069,
-        ["Pamela Redpath"] = 7069,
-        ["Chromie"] = 2489,
-        ["Carlin Redpath"] = 9479,
-    },
-
-    chapterDisplayIDs = {
-        ["Pamela's Doll"] = 7069,
-        ["The Annals of Darrowshire"] = 2489,
-        ["The Redpath Relics"] = 9479,
-        ["Darrowshire Rewritten"] = 7069,
     },
 
     chapterIcons = {

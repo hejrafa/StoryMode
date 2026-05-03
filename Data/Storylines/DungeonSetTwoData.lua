@@ -44,36 +44,6 @@ SM.DungeonSetTwoData = {
         ["Spirit of Lord Valthalak"] = { mapID = 250, x = 0.7000, y = 0.3200, location = "Beast's room, Upper Blackrock Spire" },
     },
 
-    npcDisplayIDs = {
-        ["Deliana"] = 15965,
-        ["Mokvar"] = 15966,
-        ["Mux Manascrambler"] = 15998,
-        ["Anthion Harmon"] = 15968,
-        ["Ysida Harmon"] = 15967,
-        ["Falrin Treeshaper"] = 15996,
-        ["Bodley"] = 15994,
-        ["Theldren"] = 15981,
-        ["Isalien"] = 16000,
-        ["Jarien"] = 16018,
-        ["Sothos"] = 16003,
-        ["Kormok"] = 16020,
-        ["Mor Grayhoof"] = 15997,
-        ["Spirit of Lord Valthalak"] = 15987,
-        ["Lord Valthalak"] = 14308,
-    },
-
-    chapterDisplayIDs = {
-        ["A Bracer at the Gate"] = 15965,
-        ["Mux's Supernatural Device"] = 15998,
-        ["Anthion and the Dead Man's Plea"] = 15967,
-        ["Falrin's Vendetta"] = 15996,
-        ["The Challenge"] = 15981,
-        ["Bodley's Unfortunate Fate"] = 15994,
-        ["The Amulet of Lord Valthalak"] = 16000,
-        ["Final Preparations"] = 15987,
-        ["Saving the Best for Last"] = 14308,
-    },
-
     chapterIcons = {
         ["A Bracer at the Gate"] = 132606,
         ["Mux's Supernatural Device"] = 133871,
