@@ -73,6 +73,7 @@ L["Quest Status Optional"] = "Optional"
 L["Quest Status Not Available"] = "Not yet available"
 
 L["Tracking Enabled Trivial Format"] = "Enabled |cffffd200%s|r tracking so you can see quest markers for this storyline."
+L["Quest Accepted Story Format"] = "Part of |cffffd200%s|r."
 L["Tracking Now Following Format"] = "Now following %s. Look to your map."
 L["Tracking Classic In Log Format"] = "You already picked up %s. Read the quest log for the next objective."
 L["Tracking Classic Prereq Place Format"] = "%s awaits, but first finish %s. Look for it around %s."

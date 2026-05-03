@@ -4707,6 +4707,33 @@ ShowStoryBanner, ShowStoryComplete = SM.CreateBanners()
 local chapterCompletionCache  = {}  -- [questlineTitle|chapterName] = true
 local storylineCompletionCache = {}  -- [questlineTitle] = true
 
+function SM.FindQuestStory(questID)
+    if not questID then return nil end
+
+    for _, data in ipairs(allQuestlines) do
+        for _, ch in ipairs(GetAllChapters(data)) do
+            for _, q in ipairs(ch.quests) do
+                if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
+                    for _, id in ipairs(SM.GetQuestIDs(q)) do
+                        if id == questID then
+                            return data
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
+function SM.PrintQuestAcceptedStory(questID)
+    local data = SM.FindQuestStory(questID)
+    if data and data.title and data.title ~= "" then
+        print(L["Addon Prefix"] .. string.format(L["Quest Accepted Story Format"], data.title))
+    end
+end
+
 local function CheckQuestCompletion(completedQuestID)
     for _, data in ipairs(allQuestlines) do
         for _, ch in ipairs(GetAllChapters(data)) do
@@ -4773,9 +4800,10 @@ end
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
+frame:RegisterEvent("QUEST_ACCEPTED")
 frame:RegisterEvent("QUEST_TURNED_IN")
 frame:RegisterEvent("PLAYER_REGEN_DISABLED")
-frame:SetScript("OnEvent", function(self, event, arg1)
+frame:SetScript("OnEvent", function(self, event, arg1, arg2)
     if event == "PLAYER_REGEN_DISABLED" then
         if storyFrame:IsShown() then storyFrame:Hide() end
         return
@@ -4797,5 +4825,7 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         end
     elseif event == "QUEST_TURNED_IN" then
         CheckQuestCompletion(arg1)
+    elseif event == "QUEST_ACCEPTED" then
+        SM.PrintQuestAcceptedStory(arg2 or arg1)
     end
 end)

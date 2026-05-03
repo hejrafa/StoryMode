@@ -2,7 +2,7 @@
 ## Title: Story Mode
 ## Notes: A narrative questline companion for following WoW stories chapter by chapter, with story context, progress tracking, and native map guidance.
 ## SavedVariables: StoryModeDB
-## Version: 1.6.5
+## Version: 1.6.6
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\Art\Icons\storymode_icon
 ## AddonCompartmentFunc: StoryMode_AddonCompartment_OnClick
