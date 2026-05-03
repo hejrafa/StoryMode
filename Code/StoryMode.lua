@@ -1798,6 +1798,39 @@ SM.AdventureGuideLoadingScreenByMapID = {
     [2296] = 3582016, -- Castle Nathria
 }
 
+SM.LoadingScreenChoices = {
+    { name = "Ragefire Chasm", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenRagefireChasm" },
+    { name = "Wailing Caverns", texture = 131882 },
+    { name = "The Deadmines", texture = 131833 },
+    { name = "Shadowfang Keep", texture = 131869 },
+    { name = "Blackfathom Deeps", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenBlackfathomDeeps" },
+    { name = "The Stockade", texture = 131870 },
+    { name = "Gnomeregan", texture = 131841 },
+    { name = "Razorfen Kraul", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenRazorfenKraul" },
+    { name = "Scarlet Monastery", texture = 645156 },
+    { name = "Razorfen Downs", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenRazorfenDowns" },
+    { name = "Uldaman", texture = 131876 },
+    { name = "Zul'Farrak", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenZulFarrak" },
+    { name = "Maraudon", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenMaraudon" },
+    { name = "Sunken Temple", texture = 131872 },
+    { name = "Blackrock Depths", texture = 131824 },
+    { name = "Blackrock Spire", texture = 131825 },
+    { name = "Dire Maul", texture = 131835 },
+    { name = "Scholomance", texture = 131868 },
+    { name = "Stratholme", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenStratholme" },
+    { name = "Molten Core", texture = 131850 },
+    { name = "Onyxia's Lair", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenOnyxia" },
+    { name = "Blackwing Lair", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenBlackwingLair" },
+    { name = "Ruins of Ahn'Qiraj", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenAhnQiraj" },
+    { name = "Temple of Ahn'Qiraj", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenAhnQiraj" },
+    { name = "Zul'Gurub", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenZulGurub" },
+    { name = "Naxxramas", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenNaxxramas" },
+    { name = "Alterac Valley", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenAlteracValley" },
+    { name = "Arathi Basin", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenArathiBasin" },
+    { name = "Warsong Gulch", texture = "Interface\\Glues\\LoadingScreens\\LoadScreenWarsongGulch" },
+    { name = "Ruins of Lordaeron", texture = 131867 },
+}
+
 local function NormalizeAdventureGuideName(name)
     if not name then return nil end
     name = string.lower(name)
@@ -4638,11 +4671,130 @@ function StoryMode_AddonCompartment_OnLeave()
     SMTooltip:Hide()
 end
 
+function SM.ShowLoadingScreenBrowser()
+    if not SM.loadingScreenBrowser then
+        local frame = CreateFrame("Frame", "StoryModeLoadingScreenBrowser", UIParent, "BackdropTemplate")
+        frame:SetSize(860, 620)
+        frame:SetPoint("CENTER")
+        frame:SetFrameStrata("DIALOG")
+        frame:SetMovable(true)
+        frame:EnableMouse(true)
+        frame:RegisterForDrag("LeftButton")
+        frame:SetScript("OnDragStart", frame.StartMoving)
+        frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+        frame:SetBackdrop({
+            bgFile = SOLID,
+            edgeFile = SM.ClassicCardBorder,
+            edgeSize = 14,
+            insets = { left = 4, right = 4, top = 4, bottom = 4 },
+        })
+        frame:SetBackdropColor(0.035, 0.030, 0.026, 0.96)
+        frame:SetBackdropBorderColor(0.95, 0.72, 0.32, 0.85)
+
+        local title = NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"))
+        title:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
+        title:SetText("Story Mode Loading Screens")
+        title:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+
+        local hint = NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+        hint:SetPoint("LEFT", title, "RIGHT", 18, 0)
+        hint:SetText("/sm loadingscreens")
+        hint:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+
+        local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
+        close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -6, -6)
+
+        local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+        scroll:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -48)
+        scroll:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -34, 18)
+
+        local child = CreateFrame("Frame", nil, scroll)
+        child:SetWidth(780)
+        scroll:SetScrollChild(child)
+
+        frame.child = child
+        frame.tiles = {}
+        SM.loadingScreenBrowser = frame
+    end
+
+    local frame = SM.loadingScreenBrowser
+    local child = frame.child
+    local tileW, tileH = 374, 246
+    local imageW, imageH = 348, 196
+    local gapX, gapY = 18, 18
+    local cols = 2
+
+    for _, tile in ipairs(frame.tiles) do
+        tile:Hide()
+    end
+
+    for i, choice in ipairs(SM.LoadingScreenChoices or {}) do
+        local tile = frame.tiles[i]
+        if not tile then
+            tile = CreateFrame("Button", nil, child, "BackdropTemplate")
+            tile:SetSize(tileW, tileH)
+            tile:SetBackdrop({
+                bgFile = SOLID,
+                edgeFile = SM.ClassicCardBorder,
+                edgeSize = 10,
+                insets = { left = 3, right = 3, top = 3, bottom = 3 },
+            })
+            tile:SetBackdropColor(0.08, 0.07, 0.06, 0.92)
+            tile:SetBackdropBorderColor(0.75, 0.58, 0.30, 0.55)
+
+            tile.image = tile:CreateTexture(nil, "ARTWORK")
+            tile.image:SetSize(imageW, imageH)
+            tile.image:SetPoint("TOP", tile, "TOP", 0, -12)
+            tile.image:SetTexCoord(0, 1, SM.AdventureLoadingScreenTexTop, SM.AdventureLoadingScreenTexBottom)
+
+            tile.name = NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+            tile.name:SetPoint("TOPLEFT", tile.image, "BOTTOMLEFT", 0, -8)
+            tile.name:SetPoint("RIGHT", tile.image, "RIGHT", 0, 0)
+            tile.name:SetJustifyH("LEFT")
+            tile.name:SetTextColor(1, 1, 1)
+
+            tile.textureName = NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+            tile.textureName:SetPoint("TOPLEFT", tile.name, "BOTTOMLEFT", 0, -3)
+            tile.textureName:SetPoint("RIGHT", tile.image, "RIGHT", 0, 0)
+            tile.textureName:SetJustifyH("LEFT")
+            tile.textureName:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+
+            tile:SetScript("OnEnter", function(self)
+                self:SetBackdropBorderColor(1.0, 0.82, 0.36, 0.95)
+            end)
+            tile:SetScript("OnLeave", function(self)
+                self:SetBackdropBorderColor(0.75, 0.58, 0.30, 0.55)
+            end)
+
+            frame.tiles[i] = tile
+        end
+
+        local col = (i - 1) % cols
+        local row = math.floor((i - 1) / cols)
+        tile:ClearAllPoints()
+        tile:SetPoint("TOPLEFT", child, "TOPLEFT", col * (tileW + gapX), -row * (tileH + gapY))
+        tile.name:SetText(choice.name or "")
+        tile.textureName:SetText(tostring(choice.texture or ""))
+        if not SM.SafeSetTexture(tile.image, choice.texture) then
+            tile.image:SetColorTexture(0.08, 0.07, 0.06, 1)
+            tile.textureName:SetText((choice.texture and tostring(choice.texture) or "") .. " (missing)")
+        end
+        tile:Show()
+    end
+
+    local rows = math.ceil(#(SM.LoadingScreenChoices or {}) / cols)
+    child:SetHeight(math.max(1, rows * tileH + math.max(0, rows - 1) * gapY + 8))
+    frame:Show()
+end
+
 SLASH_STORYMODE1 = "/sm"
 SLASH_STORYMODE2 = "/storymode"
 SlashCmdList["STORYMODE"] = function(msg)
     msg = msg and msg:trim():lower() or ""
-    if msg == "banner" then
+    if msg == "loadingscreens" or msg == "loading" or msg == "covers" then
+        SM.ShowLoadingScreenBrowser()
+        return
+    elseif msg == "banner" then
         local data = allQuestlines[1]
         if data then
             ShowStoryBanner(data.title, L["Slash Test Quest Name"], data, nil, true)

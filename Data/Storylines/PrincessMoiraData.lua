@@ -16,7 +16,7 @@ SM.PrincessMoiraData = {
     icon = 133416,
     portraitDisplayID = 8929,
     adventureGuideInstanceName = "Blackrock Depths",
-    adventureCoverTexture = 131830,
+    adventureCoverTexture = 131824,
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 3702, name = "The Smoldering Ruins of Thaurissan", npc = "Royal Historian Archesonus", location = "Ironforge", faction = "Alliance" },
