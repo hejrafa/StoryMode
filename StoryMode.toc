@@ -34,6 +34,10 @@ Data\Storylines\FallenHeroData.lua
 Data\Storylines\MissingDiplomatData.lua
 Data\Storylines\OnyxiaData.lua
 Data\Storylines\ScarletCrusadeData.lua
+Data\Storylines\DarrowshireData.lua
+Data\Storylines\ShiftingSandsData.lua
+Data\Storylines\PrincessMoiraData.lua
+Data\Storylines\TimbermawData.lua
 Data\Storylines\RevendrethData.lua
 Data\Storylines\FrozenThroneData.lua
 Data\Campaigns\DeathKnightCampaignData.lua
@@ -52,6 +56,7 @@ Data\Storylines\LilianVossData.lua
 Data\Storylines\SylvanasData.lua
 Data\Storylines\JainaData.lua
 Data\Storylines\TeddiesAndTeaData.lua
+Data\Storylines\LinkenData.lua
 Data\Storylines\MankriksWifeData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua

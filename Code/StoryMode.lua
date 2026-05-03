@@ -143,6 +143,10 @@ AddContentData(SM.MissingDiplomatData)
 AddContentData(SM.OnyxiaData)
 AddContentData(SM.DungeonSetTwoData)
 AddContentData(SM.ScarletCrusadeData)
+AddContentData(SM.DarrowshireData)
+AddContentData(SM.ShiftingSandsData)
+AddContentData(SM.PrincessMoiraData)
+AddContentData(SM.TimbermawData)
 AddContentData(SM.JadeForestData)
 AddContentData(SM.SuramarData)
 AddContentData(SM.NazmirData)
@@ -152,6 +156,7 @@ AddContentData(SM.SylvanasData)
 AddContentData(SM.JainaData)
 AddContentData(SM.LilianVossData)
 AddContentData(SM.TeddiesAndTeaData)
+AddContentData(SM.LinkenData)
 AddContentData(SM.AgamandFamilyData)
 AddContentData(SM.MankriksWifeData)
 AddContentData(SM.ClassicDruidQuestData)
@@ -210,6 +215,9 @@ end
 if CanShowQuestline(SM.ScarletCrusadeData) then
     RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")
 end
+if CanShowQuestline(SM.DarrowshireData) then
+    RegisterQuestline(SM.DarrowshireData, "Epic Storylines")
+end
 if CanShowQuestline(SM.FallenHeroData) then
     RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
 end
@@ -218,6 +226,15 @@ if CanShowQuestline(SM.OnyxiaData) then
 end
 if CanShowQuestline(SM.DungeonSetTwoData) then
     RegisterQuestline(SM.DungeonSetTwoData, "Epic Storylines")
+end
+if CanShowQuestline(SM.ShiftingSandsData) then
+    RegisterQuestline(SM.ShiftingSandsData, "Epic Storylines")
+end
+if CanShowQuestline(SM.PrincessMoiraData) then
+    RegisterQuestline(SM.PrincessMoiraData, "Epic Storylines")
+end
+if CanShowQuestline(SM.TimbermawData) then
+    RegisterQuestline(SM.TimbermawData, "Epic Storylines")
 end
 if CanShowQuestline(SM.FrozenThroneData) then
     RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
@@ -248,6 +265,9 @@ if CanShowQuestline(SM.LilianVossData) then
 end
 if CanShowQuestline(SM.TeddiesAndTeaData) then
     RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
+end
+if CanShowQuestline(SM.LinkenData) then
+    RegisterQuestline(SM.LinkenData, "Short Stories")
 end
 if CanShowQuestline(SM.AgamandFamilyData) then
     RegisterQuestline(SM.AgamandFamilyData, "Short Stories")
