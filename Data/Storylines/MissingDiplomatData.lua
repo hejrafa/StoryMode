@@ -51,7 +51,7 @@ SM.MissingDiplomatData = {
         ["Commander Samaul"] = 2965,
         ["Archmage Tervosh"] = 2969,
         ["Private Hendel"] = 2967,
-        ["Lady Jaina Proudmoore"] = 30863,
+        ["Lady Jaina Proudmoore"] = 2970,
     },
 
     chapterDisplayIDs = {

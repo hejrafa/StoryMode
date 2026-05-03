@@ -14,7 +14,7 @@ SM.LinkenData = {
     achievements = {},
     color = { 0.30, 0.66, 0.34 },
     icon = 135346,
-    portraitDisplayID = 7111,
+    portraitDisplayID = 8012,
     adventureCoverTexture = 131886,
     adventureCoverIsLoadingScreen = true,
 
@@ -35,19 +35,19 @@ SM.LinkenData = {
     },
 
     npcDisplayIDs = {
-        ["Linken"] = 7111,
-        ["Donova Snowden"] = 7801,
-        ["Gaeriyan"] = 7120,
-        ["Eridan Bluewind"] = 7274,
-        ["Aquementas"] = 104,
-        ["Blazerunner"] = 10916,
+        ["Linken"] = 8012,
+        ["Donova Snowden"] = 8949,
+        ["Gaeriyan"] = 8717,
+        ["Eridan Bluewind"] = 9136,
+        ["Aquementas"] = 5564,
+        ["Blazerunner"] = 1204,
     },
 
     chapterDisplayIDs = {
-        ["A Secret to Everybody"] = 7111,
-        ["Linken's Memory"] = 7274,
-        ["Aquementas"] = 104,
-        ["It's Dangerous to Go Alone"] = 10916,
+        ["A Secret to Everybody"] = 8012,
+        ["Linken's Memory"] = 9136,
+        ["Aquementas"] = 5564,
+        ["It's Dangerous to Go Alone"] = 1204,
     },
 
     chapterIcons = {

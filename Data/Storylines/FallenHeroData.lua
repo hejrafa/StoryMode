@@ -43,11 +43,11 @@ SM.FallenHeroData = {
     npcDisplayIDs = {
         ["Fallen Hero of the Horde"] = 6775,
         ["Loramus Thalipedes"] = 6879,
-        ["Lord Arkkoroc"] = 5489,
-        ["Grol the Destroyer"] = 12292,
-        ["Archmage Allistarj"] = 12290,
-        ["Lady Sevine"] = 12291,
-        ["Razelikh the Defiler"] = 12293,
+        ["Lord Arkkoroc"] = 170,
+        ["Grol the Destroyer"] = 10169,
+        ["Archmage Allistarj"] = 6769,
+        ["Lady Sevine"] = 6768,
+        ["Razelikh the Defiler"] = 10543,
     },
 
     chapterDisplayIDs = {
@@ -56,7 +56,7 @@ SM.FallenHeroData = {
         ["The Last Souls"] = 6775,
         ["Loramus and the Beast's Name"] = 6879,
         ["Felbane"] = 6879,
-        ["Rakh'likh"] = 12293,
+        ["Rakh'likh"] = 10543,
     },
 
     chapterIcons = {

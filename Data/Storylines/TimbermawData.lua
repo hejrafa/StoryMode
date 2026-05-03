@@ -17,7 +17,7 @@ SM.TimbermawData = {
     },
     color = { 0.48, 0.58, 0.36 },
     icon = 132183,
-    portraitDisplayID = 1465,
+    portraitDisplayID = 5851,
     adventureCoverTexture = 131850,
     adventureCoverIsLoadingScreen = true,
 
@@ -34,16 +34,16 @@ SM.TimbermawData = {
     },
 
     npcDisplayIDs = {
-        ["Grazle"] = 1465,
-        ["Nafien"] = 1465,
-        ["Salfa"] = 1465,
-        ["Kernda"] = 1465,
+        ["Grazle"] = 5851,
+        ["Nafien"] = 5851,
+        ["Salfa"] = 6829,
+        ["Kernda"] = 21528,
     },
 
     chapterDisplayIDs = {
-        ["Timbermaw Ally"] = 1465,
-        ["Through the Hold"] = 1465,
-        ["Ritual Totems"] = 1465,
+        ["Timbermaw Ally"] = 5851,
+        ["Through the Hold"] = 5851,
+        ["Ritual Totems"] = 6829,
     },
 
     chapterIcons = {

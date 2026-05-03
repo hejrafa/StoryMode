@@ -32,18 +32,18 @@ SM.DarrowshireData = {
     },
 
     npcDisplayIDs = {
-        ["Marlene Redpath"] = 7069,
-        ["Jessica Redpath"] = 7069,
-        ["Pamela Redpath"] = 7069,
-        ["Chromie"] = 2489,
-        ["Carlin Redpath"] = 9479,
+        ["Marlene Redpath"] = 10232,
+        ["Jessica Redpath"] = 11512,
+        ["Pamela Redpath"] = 10445,
+        ["Chromie"] = 10008,
+        ["Carlin Redpath"] = 10476,
     },
 
     chapterDisplayIDs = {
-        ["Pamela's Doll"] = 7069,
-        ["The Annals of Darrowshire"] = 2489,
-        ["The Redpath Relics"] = 9479,
-        ["Darrowshire Rewritten"] = 7069,
+        ["Pamela's Doll"] = 10445,
+        ["The Annals of Darrowshire"] = 10008,
+        ["The Redpath Relics"] = 10476,
+        ["Darrowshire Rewritten"] = 10445,
     },
 
     chapterIcons = {

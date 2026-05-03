@@ -14,7 +14,7 @@ SM.PrincessMoiraData = {
     achievements = {},
     color = { 0.76, 0.48, 0.28 },
     icon = 133416,
-    portraitDisplayID = 8929,
+    portraitDisplayID = 8705,
     adventureGuideInstanceName = "Blackrock Depths",
     adventureCoverTexture = 131824,
     adventureCoverIsLoadingScreen = true,
@@ -36,17 +36,17 @@ SM.PrincessMoiraData = {
 
     npcDisplayIDs = {
         ["King Magni Bronzebeard"] = 3597,
-        ["Royal Historian Archesonus"] = 4949,
-        ["Kharan Mighthammer"] = 5728,
-        ["Princess Moira Bronzebeard"] = 8929,
-        ["Galamav the Marksman"] = 1780,
-        ["Commander Gor'shak"] = 6783,
+        ["Royal Historian Archesonus"] = 8171,
+        ["Kharan Mighthammer"] = 8708,
+        ["Princess Moira Bronzebeard"] = 8705,
+        ["Galamav the Marksman"] = 8334,
+        ["Commander Gor'shak"] = 8703,
         ["Thrall"] = 4527,
     },
 
     chapterDisplayIDs = {
-        ["Kharan's Tale"] = 5728,
-        ["The Royal Rescue"] = 8929,
+        ["Kharan's Tale"] = 8708,
+        ["The Royal Rescue"] = 8705,
         ["The Warchief's Rescue"] = 4527,
     },
 

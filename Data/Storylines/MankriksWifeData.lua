@@ -15,7 +15,7 @@ SM.MankriksWifeData = {
     achievements = {},
     color = { 0.72, 0.52, 0.24 },
     icon = 133469,
-    portraitDisplayID = 3773,
+    portraitDisplayID = 3855,
     adventureCoverTexture = 131882, -- Wailing Caverns: closest Classic loading screen rooted in The Barrens
     adventureCoverIsLoadingScreen = true,
 
