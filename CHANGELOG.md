@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.6.6
+
+### Classic Era
+- Added five Classic/TBC storylines: **The Battle of Darrowshire**, **Linken's Adventure**, **The Princess of Ironforge**, **Timbermaw Hold**, and **The Scepter of the Shifting Sands**
+- Added a `/sm loadingscreens` browser for available loading-screen cover art, then updated several Classic story covers with closer matches including Caverns of Time, Blackwing Lair, Ahn'Qiraj, Zul'Gurub, Maraudon, Blackrock Depths, Ruins of Lordaeron, and Naxxramas
+- Corrected Classic story NPC portrait display IDs across Darrowshire, Linken, Timbermaw, Princess Moira, Shifting Sands, Duskwood, Onyxia, Fallen Hero, Missing Diplomat, Defias, and Mankrik's Wife
+- Fixed the Horde rogue poisons class quest zone label so it no longer points Horde players to Westfall
+- Hid the Journal faction card section on Classic/TBC clients while keeping Retail faction cards unchanged
+
+### UI
+- Added Story Mode quest-accept chat messages for story quests, including the accepted quest name and the story it belongs to, while hiding Blizzard's default accepted line for those story quests
+- Aligned quest-click chat messages with the Story Mode prefix, arrow styling, and yellow quest-name treatment used elsewhere
+- Added the quest name to pickup guidance messages and removed mixed quotation/color styling around quest names
+- Fixed Classic left-panel flicker when switching stories from Progress or Journal tabs by avoiding empty contextual panel swaps
+
+### Maintenance
+- Bumped addon metadata to `1.6.6`
+
 ## 1.6.5
 
 ### Classic Era
