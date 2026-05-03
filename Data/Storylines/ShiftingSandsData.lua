@@ -19,7 +19,7 @@ SM.ShiftingSandsData = {
     icon = 134962,
     portraitDisplayID = 15464,
     adventureGuideInstanceName = "Ahn'Qiraj",
-    adventureCoverTexture = "Interface\\Glues\\LoadingScreens\\LoadScreenAhnQiraj",
+    adventureCoverTexture = 131819,
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 8286, name = "What Tomorrow Brings", npc = "Baristolth of the Shifting Sands", location = "Cenarion Hold, Silithus" },

@@ -93,7 +93,7 @@ SM.ClassicHunterQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 0.67, 0.83, 0.45 },
     icon = 132164,
-    adventureCoverTexture = 131850, -- Molten Core: source of the Ancient Petrified Leaf for Rhok'delar
+    adventureCoverTexture = 131851, -- Molten Core: source of the Ancient Petrified Leaf for Rhok'delar
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 6065, name = "The Hunter's Path", npc = "Hunter Trainer", faction = "Alliance" },
@@ -292,7 +292,7 @@ SM.ClassicPriestQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 1.00, 1.00, 1.00 },
     icon = 135940,
-    adventureCoverTexture = 131850, -- Molten Core: source of the Eye of Divinity before the Benediction trial
+    adventureCoverTexture = 131851, -- Molten Core: source of the Eye of Divinity before the Benediction trial
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 7622, name = "The Balance of Light and Shadow", npc = "Eris Havenfire" },

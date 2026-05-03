@@ -15,7 +15,7 @@ SM.DarrowshireData = {
     color = { 0.68, 0.62, 0.48 },
     icon = 134331,
     portraitDisplayID = 7069,
-    adventureCoverTexture = "Interface\\Glues\\LoadingScreens\\LoadScreenStratholme",
+    adventureCoverTexture = 131871,
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 5142, altIds = { 5601 }, name = "Little Pamela", npc = "Marlene Redpath", location = "Sorrow Hill, Western Plaguelands" },
