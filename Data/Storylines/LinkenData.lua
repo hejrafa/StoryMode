@@ -15,7 +15,7 @@ SM.LinkenData = {
     color = { 0.30, 0.66, 0.34 },
     icon = 135346,
     portraitDisplayID = 7111,
-    adventureCoverTexture = 131870,
+    adventureCoverTexture = 131886,
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 3844, name = "It's a Secret to Everybody", npc = "A Wrecked Raft", location = "the Marshlands, Un'Goro Crater" },

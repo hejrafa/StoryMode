@@ -20,7 +20,7 @@ SM.DungeonSetTwoData = {
     color = { 0.78, 0.58, 0.18 },
     icon = 132762,
     adventureGuideInstanceName = "Blackrock Depths",
-    adventureCoverTexture = 131824,
+    adventureCoverTexture = 131835,
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 8906, name = "An Earnest Proposition", npc = "Deliana", location = "Ironforge", faction = "Alliance", class = "HUNTER" },

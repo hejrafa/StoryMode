@@ -326,7 +326,7 @@ SM.ClassicRogueQuestData = {
     gameVersions = { classicEra = true, tbc = true },
     color = { 1.00, 0.96, 0.41 },
     icon = 132320,
-    adventureCoverTexture = 131870, -- Stockade: closest Classic loading screen for rogue infiltration and lockwork
+    adventureCoverTexture = 131854, -- Naxxramas: undead infiltration imagery closest to the poison trial
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 2360, name = "Mathias and the Defias", npc = "Rogue Trainer", faction = "Alliance" },

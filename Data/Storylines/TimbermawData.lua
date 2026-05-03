@@ -18,7 +18,7 @@ SM.TimbermawData = {
     color = { 0.48, 0.58, 0.36 },
     icon = 132183,
     portraitDisplayID = 1465,
-    adventureCoverTexture = 131870,
+    adventureCoverTexture = 131850,
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 8460, name = "Timbermaw Ally", npc = "Grazle", location = "south Felwood near Emerald Sanctuary" },
