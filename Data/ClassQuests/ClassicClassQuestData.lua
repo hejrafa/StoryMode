@@ -321,6 +321,10 @@ SM.ClassicRogueQuestData = {
     title = "Poisons",
     description = "A rogue's craft lives in preparation: hidden towers, lockboxes, antidotes, and the first deadly edge on a blade.",
     zone = "Westfall / The Barrens / Hillsbrad Foothills / Ravenholdt",
+    zoneByFaction = {
+        Alliance = "Westfall / Ravenholdt",
+        Horde = "The Barrens / Hillsbrad Foothills / Ravenholdt",
+    },
     expansion = "Classic",
     class = "ROGUE",
     gameVersions = { classicEra = true, tbc = true },
