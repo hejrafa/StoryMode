@@ -1,8 +1,9 @@
 local addonName, SM = ...
 
 local defaults = {
-    version = "1.6.5",
+    version = "1.7.0",
     selectedQuestline = 1,
+    selectedQuestlineID = nil,
     viewedLoreChapters = {},
     playedChapters = {},
 }
@@ -29,6 +30,7 @@ function SM.SetLoreChapterViewed(storylineTitle, chapterName)
     if not StoryModeDB then return end
     if not StoryModeDB.viewedLoreChapters then StoryModeDB.viewedLoreChapters = {} end
     StoryModeDB.viewedLoreChapters[ChapterFlagKey(storylineTitle, chapterName)] = true
+    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
 function SM.IsChapterPlayed(storylineTitle, chapterName)
@@ -40,4 +42,5 @@ function SM.SetChapterPlayed(storylineTitle, chapterName)
     if not StoryModeDB then return end
     if not StoryModeDB.playedChapters then StoryModeDB.playedChapters = {} end
     StoryModeDB.playedChapters[ChapterFlagKey(storylineTitle, chapterName)] = true
+    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end

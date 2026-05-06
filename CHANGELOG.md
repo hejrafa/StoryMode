@@ -11,6 +11,11 @@
 
 ### Maintenance
 - Split Classic level-guide formatting into `Code/Core/LevelGuide.lua` and loaded it from all TOCs
+- Split questline registration and story-data normalization into `Code/Core/Registry.lua`
+- Added stable story IDs for saved selection, progress-cache invalidation, and normalized quest metadata
+- Cached chapter, campaign, and next-quest progress calculations between quest-log events
+- Returned structured tracking results from quest tracking while preserving existing chat behavior
+- Added `_Dev/tools/validate-story-data.mjs` for local story schema and TOC coverage checks
 - Refactored `StoryMode.lua` to reduce main-scope locals and avoid Lua's 200-local limit
 - Bumped addon metadata to `1.7.0`
 

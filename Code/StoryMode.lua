@@ -57,307 +57,8 @@ function SM.HexColor(r, g, b)
         math.min(255, math.floor(b * 255)))
 end
 
--- ============================================================================
--- Category & Questline Registry
--- ============================================================================
-
-local categories = {
-    { name = "Epic Storylines", displayName = L["Category Epic Storylines"], questlines = {} },
-    { name = "Character Stories", displayName = L["Category Character Stories"], questlines = {} },
-    { name = "Short Stories", displayName = L["Category Short Stories"], questlines = {} },
-    { name = "Identity", displayName = string.format(L["Category Identity Format"], UnitRace("player"), UnitClass("player")), questlines = {} },
-    { name = "More Coming Soon", displayName = L["Category More Coming Soon"], disabled = true, questlines = {} },
-}
-
-local allQuestlines = {}
-local questlineSortOrder = 0
-
-local function RegisterQuestline(data, categoryName)
-    questlineSortOrder = questlineSortOrder + 1
-    data._storyModeSortOrder = questlineSortOrder
-    allQuestlines[#allQuestlines + 1] = data
-    for _, cat in ipairs(categories) do
-        if cat.name == categoryName then
-            cat.questlines[#cat.questlines + 1] = data
-            break
-        end
-    end
-end
-
-local function GetQuestlineSortLevel(data)
-    return SM.GetRecommendedLevelMinimum(data) or math.huge
-end
-
-local function SortQuestlineCategories()
-    for _, cat in ipairs(categories) do
-        if cat.questlines and #cat.questlines > 1 then
-            table.sort(cat.questlines, function(a, b)
-                local aLevel = GetQuestlineSortLevel(a)
-                local bLevel = GetQuestlineSortLevel(b)
-                if aLevel ~= bLevel then
-                    return aLevel < bLevel
-                end
-                return (a._storyModeSortOrder or 0) < (b._storyModeSortOrder or 0)
-            end)
-        end
-    end
-end
-
--- ============================================================================
--- Player filtering helpers
--- ============================================================================
-
-local _, playerClass = UnitClass("player")   -- English token: "ROGUE", "WARRIOR", etc.
-local playerFaction = UnitFactionGroup("player")  -- "Horde" or "Alliance"
-local playerRace = select(2, UnitRace("player"))  -- English token: "Human", "Orc", etc.
-
-local function CanShowQuestline(data)
-    if not data then return false end
-    if not SM.IsContentAvailableForClient(data) then return false end
-    if data.class and data.class ~= playerClass then return false end
-    if data.faction and data.faction ~= playerFaction then return false end
-    if data.race and data.race ~= playerRace then return false end
-    return true
-end
-
-function SM.GetQuestlineZoneText(data)
-    if not data then return "" end
-    if data.zoneByFaction then
-        local factionZone = data.zoneByFaction[playerFaction]
-        if factionZone and factionZone ~= "" then return factionZone end
-    end
-    return data.zone or ""
-end
-
--- ============================================================================
--- Localize Questline Content
--- ============================================================================
-
-local contentData = {}
-local function AddContentData(data)
-    if data then contentData[#contentData + 1] = data end
-end
-
-AddContentData(SM.FrozenThroneData)
-AddContentData(SM.DefiasBrotherhoodData)
-AddContentData(SM.ArugalData)
-AddContentData(SM.AlthalaxxData)
-AddContentData(SM.DuskwoodData)
-AddContentData(SM.RaenesCleansingData)
-AddContentData(SM.BattleOfHillsbradData)
-AddContentData(SM.FallenHeroData)
-AddContentData(SM.MissingDiplomatData)
-AddContentData(SM.OnyxiaData)
-AddContentData(SM.DungeonSetTwoData)
-AddContentData(SM.ScarletCrusadeData)
-AddContentData(SM.DarrowshireData)
-AddContentData(SM.ShiftingSandsData)
-AddContentData(SM.PrincessMoiraData)
-AddContentData(SM.TimbermawData)
-AddContentData(SM.JadeForestData)
-AddContentData(SM.SuramarData)
-AddContentData(SM.NazmirData)
-AddContentData(SM.RevendrethData)
-AddContentData(SM.DrustvarData)
-AddContentData(SM.SylvanasData)
-AddContentData(SM.JainaData)
-AddContentData(SM.LilianVossData)
-AddContentData(SM.TeddiesAndTeaData)
-AddContentData(SM.LinkenData)
-AddContentData(SM.AgamandFamilyData)
-AddContentData(SM.MankriksWifeData)
-AddContentData(SM.ClassicDruidQuestData)
-AddContentData(SM.ClassicHunterQuestData)
-AddContentData(SM.ClassicMageQuestData)
-AddContentData(SM.ClassicPaladinQuestData)
-AddContentData(SM.ClassicPriestQuestData)
-AddContentData(SM.ClassicRogueQuestData)
-AddContentData(SM.ClassicShamanQuestData)
-AddContentData(SM.ClassicWarlockQuestData)
-AddContentData(SM.ClassicWarriorQuestData)
-AddContentData(SM.DeathKnightCampaignData)
-AddContentData(SM.DemonHunterCampaignData)
-AddContentData(SM.DruidCampaignData)
-AddContentData(SM.HunterCampaignData)
-AddContentData(SM.MageCampaignData)
-AddContentData(SM.MonkCampaignData)
-AddContentData(SM.PaladinCampaignData)
-AddContentData(SM.PriestCampaignData)
-AddContentData(SM.RogueCampaignData)
-AddContentData(SM.ShamanCampaignData)
-AddContentData(SM.WarlockCampaignData)
-AddContentData(SM.WarriorCampaignData)
-AddContentData(SM.ForsakenHeritageData)
-AddContentData(SM.BloodElfHeritageData)
-AddContentData(SM.GoblinHeritageData)
-AddContentData(SM.TrollHeritageData)
-AddContentData(SM.OrcHeritageData)
-AddContentData(SM.TaurenHeritageData)
-AddContentData(SM.HumanHeritageData)
-AddContentData(SM.DwarfHeritageData)
-AddContentData(SM.GnomeHeritageData)
-AddContentData(SM.NightElfHeritageData)
-AddContentData(SM.WorgenHeritageData)
-AddContentData(SM.DraeneiHeritageData)
-AddContentData(SM.PandarenHeritageData)
-AddContentData(SM.DarkIronHeritageData)
-
-function SM.LocalizeContentRegistry()
-    for _, data in ipairs(contentData) do
-        SM.LocalizeContentData(data)
-    end
-end
-
-SM.LocalizeContentRegistry()
-
--- ============================================================================
--- Register Questlines
--- ============================================================================
-
-function SM.RegisterQuestlines()
-if CanShowQuestline(SM.DefiasBrotherhoodData) then
-    RegisterQuestline(SM.DefiasBrotherhoodData, "Epic Storylines")
-end
-if CanShowQuestline(SM.ArugalData) then
-    RegisterQuestline(SM.ArugalData, "Epic Storylines")
-end
-if CanShowQuestline(SM.AlthalaxxData) then
-    RegisterQuestline(SM.AlthalaxxData, "Epic Storylines")
-end
-if CanShowQuestline(SM.DuskwoodData) then
-    RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
-end
-if CanShowQuestline(SM.RaenesCleansingData) then
-    RegisterQuestline(SM.RaenesCleansingData, "Epic Storylines")
-end
-if CanShowQuestline(SM.BattleOfHillsbradData) then
-    RegisterQuestline(SM.BattleOfHillsbradData, "Epic Storylines")
-end
-if CanShowQuestline(SM.MissingDiplomatData) then
-    RegisterQuestline(SM.MissingDiplomatData, "Epic Storylines")
-end
-if CanShowQuestline(SM.ScarletCrusadeData) then
-    RegisterQuestline(SM.ScarletCrusadeData, "Epic Storylines")
-end
-if CanShowQuestline(SM.DarrowshireData) then
-    RegisterQuestline(SM.DarrowshireData, "Epic Storylines")
-end
-if CanShowQuestline(SM.FallenHeroData) then
-    RegisterQuestline(SM.FallenHeroData, "Epic Storylines")
-end
-if CanShowQuestline(SM.OnyxiaData) then
-    RegisterQuestline(SM.OnyxiaData, "Epic Storylines")
-end
-if CanShowQuestline(SM.DungeonSetTwoData) then
-    RegisterQuestline(SM.DungeonSetTwoData, "Epic Storylines")
-end
-if CanShowQuestline(SM.ShiftingSandsData) then
-    RegisterQuestline(SM.ShiftingSandsData, "Epic Storylines")
-end
-if CanShowQuestline(SM.PrincessMoiraData) then
-    RegisterQuestline(SM.PrincessMoiraData, "Epic Storylines")
-end
-if CanShowQuestline(SM.TimbermawData) then
-    RegisterQuestline(SM.TimbermawData, "Epic Storylines")
-end
-if CanShowQuestline(SM.FrozenThroneData) then
-    RegisterQuestline(SM.FrozenThroneData, "Epic Storylines")
-end
-if CanShowQuestline(SM.JadeForestData) then
-    RegisterQuestline(SM.JadeForestData, "Epic Storylines")
-end
-if CanShowQuestline(SM.SuramarData) then
-    RegisterQuestline(SM.SuramarData, "Epic Storylines")
-end
-if CanShowQuestline(SM.NazmirData) then
-    RegisterQuestline(SM.NazmirData, "Epic Storylines")
-end
-if CanShowQuestline(SM.RevendrethData) then
-    RegisterQuestline(SM.RevendrethData, "Epic Storylines")
-end
-if CanShowQuestline(SM.DrustvarData) then
-    RegisterQuestline(SM.DrustvarData, "Epic Storylines")
-end
-if CanShowQuestline(SM.SylvanasData) then
-    RegisterQuestline(SM.SylvanasData, "Character Stories")
-end
-if CanShowQuestline(SM.JainaData) then
-    RegisterQuestline(SM.JainaData, "Character Stories")
-end
-if CanShowQuestline(SM.LilianVossData) then
-    RegisterQuestline(SM.LilianVossData, "Character Stories")
-end
-if CanShowQuestline(SM.TeddiesAndTeaData) then
-    RegisterQuestline(SM.TeddiesAndTeaData, "Short Stories")
-end
-if CanShowQuestline(SM.LinkenData) then
-    RegisterQuestline(SM.LinkenData, "Short Stories")
-end
-if CanShowQuestline(SM.AgamandFamilyData) then
-    RegisterQuestline(SM.AgamandFamilyData, "Short Stories")
-end
-if CanShowQuestline(SM.MankriksWifeData) then
-    RegisterQuestline(SM.MankriksWifeData, "Short Stories")
-end
-local classCampaigns = {
-    SM.ClassicDruidQuestData,
-    SM.ClassicHunterQuestData,
-    SM.ClassicMageQuestData,
-    SM.ClassicPaladinQuestData,
-    SM.ClassicPriestQuestData,
-    SM.ClassicRogueQuestData,
-    SM.ClassicShamanQuestData,
-    SM.ClassicWarlockQuestData,
-    SM.ClassicWarriorQuestData,
-    SM.DeathKnightCampaignData,
-    SM.DemonHunterCampaignData,
-    SM.DruidCampaignData,
-    SM.HunterCampaignData,
-    SM.MageCampaignData,
-    SM.MonkCampaignData,
-    SM.PaladinCampaignData,
-    SM.PriestCampaignData,
-    SM.RogueCampaignData,
-    SM.ShamanCampaignData,
-    SM.WarlockCampaignData,
-    SM.WarriorCampaignData,
-}
-for _, data in ipairs(classCampaigns) do
-    if CanShowQuestline(data) then
-        RegisterQuestline(data, "Identity")
-    end
-end
-
-if SM.ForsakenHeritageData then
-    if CanShowQuestline(SM.ForsakenHeritageData) then
-        RegisterQuestline(SM.ForsakenHeritageData, "Identity")
-    end
-end
-
-local heritageQuestlines = {
-    SM.BloodElfHeritageData,
-    SM.GoblinHeritageData,
-    SM.TrollHeritageData,
-    SM.OrcHeritageData,
-    SM.TaurenHeritageData,
-    SM.HumanHeritageData,
-    SM.DwarfHeritageData,
-    SM.GnomeHeritageData,
-    SM.NightElfHeritageData,
-    SM.WorgenHeritageData,
-    SM.DraeneiHeritageData,
-    SM.PandarenHeritageData,
-    SM.DarkIronHeritageData,
-}
-for _, data in ipairs(heritageQuestlines) do
-    if data and CanShowQuestline(data) then
-        RegisterQuestline(data, "Identity")
-    end
-end
-SortQuestlineCategories()
-end
-
-SM.RegisterQuestlines()
+local categories = SM.GetQuestlineCategories()
+local allQuestlines = SM.GetAllQuestlines()
 
 function SM.AreAllStoriesFinished()
     if #allQuestlines == 0 then return false end
@@ -2096,6 +1797,7 @@ function SM.GetChapterPortraitSource(data, chapter)
     if not data or not chapter then
         return nil, nil
     end
+    local playerFaction = UnitFactionGroup("player")
 
     -- Heritage chains: use explicit chapter override when provided, otherwise first-quest NPC.
     if data.race and not data.class then
@@ -3882,6 +3584,8 @@ function SM.SelectStory(index)
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
     storySelectedIdx = index
     StoryModeDB.selectedQuestline = index
+    local selectedData = storyIndexToData[index]
+    StoryModeDB.selectedQuestlineID = selectedData and selectedData.id or nil
     StoryModeDB.selectedChapter = 1  -- reset to first chapter when switching stories
     for i, row in pairs(storyLeftRows) do
         local sel = (i == index)
@@ -3914,11 +3618,19 @@ function SM.SelectStory(index)
             row.checkmark:SetShown(SM.AreAllStoriesFinished())
         end
     end
-    if index == 0 or not storyIndexToData[index] then
+    if index == 0 or not selectedData then
         SM.UpdateStoryDetail(nil)
     else
-        SM.UpdateStoryDetail(storyIndexToData[index])
+        SM.UpdateStoryDetail(selectedData)
     end
+end
+
+function SM.GetStoryIndexByID(storyID)
+    if not storyID then return nil end
+    for idx, data in pairs(storyIndexToData) do
+        if data and data.id == storyID then return idx end
+    end
+    return nil
 end
 
 -- Category header (Trading Post style: label with thin ruled lines)
@@ -4655,7 +4367,11 @@ storyFrame:SetScript("OnShow", function()
         -- Frame 2: now word-wrap can measure properly
         C_Timer.After(0, function()
             -- Restore last selected questline, or default to intro
+            local savedID = StoryModeDB.selectedQuestlineID
             local savedIdx = StoryModeDB.selectedQuestline or 0
+            if savedID then
+                savedIdx = SM.GetStoryIndexByID(savedID) or savedIdx
+            end
             -- Validate saved index exists
             if savedIdx > 0 and storyIndexToData[savedIdx] then
                 SM.SelectStory(savedIdx)
@@ -5053,6 +4769,7 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("QUEST_ACCEPTED")
+frame:RegisterEvent("QUEST_LOG_UPDATE")
 frame:RegisterEvent("QUEST_TURNED_IN")
 frame:RegisterEvent("PLAYER_REGEN_DISABLED")
 frame:SetScript("OnEvent", function(self, event, arg1, arg2)
@@ -5062,6 +4779,7 @@ frame:SetScript("OnEvent", function(self, event, arg1, arg2)
     end
     if event == "ADDON_LOADED" and arg1 == addonName then
         SM.ApplySavedVariableDefaults()
+        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
         SM.MinimapButton_Init()
         SM.RegisterQuestAcceptedSystemMessageFilter()
         -- Pre-populate caches so already-completed chapters/storylines don't re-fire
@@ -5077,8 +4795,12 @@ frame:SetScript("OnEvent", function(self, event, arg1, arg2)
             end
         end
     elseif event == "QUEST_TURNED_IN" then
+        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
         SM.CheckQuestCompletion(arg1)
     elseif event == "QUEST_ACCEPTED" then
+        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
         SM.PrintQuestAcceptedStory(arg2 or arg1)
+    elseif event == "QUEST_LOG_UPDATE" then
+        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
     end
 end)

@@ -15,6 +15,7 @@ end
 
 function SM.GetQuestIDs(q)
     if type(q) ~= "table" then return { q } end
+    if q._questIDs then return q._questIDs end
     local ids = {}
     if q.id then ids[#ids + 1] = q.id end
     if q.altIds then
@@ -23,6 +24,24 @@ function SM.GetQuestIDs(q)
         end
     end
     return ids
+end
+
+local function NewWeakKeyCache()
+    return setmetatable({}, { __mode = "k" })
+end
+
+local progressCache = {
+    allChapters = NewWeakKeyCache(),
+    chapterProgress = NewWeakKeyCache(),
+    campaignProgress = NewWeakKeyCache(),
+    nextQuest = NewWeakKeyCache(),
+}
+
+function SM.InvalidateProgressCache()
+    progressCache.allChapters = NewWeakKeyCache()
+    progressCache.chapterProgress = NewWeakKeyCache()
+    progressCache.campaignProgress = NewWeakKeyCache()
+    progressCache.nextQuest = NewWeakKeyCache()
 end
 
 function SM.IsQuestComplete(questID)
@@ -110,6 +129,7 @@ function SM.IsQuestEntryInLog(q)
 end
 
 function SM.GetAllChapters(data)
+    if progressCache.allChapters[data] then return progressCache.allChapters[data] end
     local all = {}
     local playerFaction = GetPlayerFaction()
 
@@ -150,6 +170,7 @@ function SM.GetAllChapters(data)
             _section = 2,
         }
     end
+    progressCache.allChapters[data] = all
     return all
 end
 
@@ -190,24 +211,35 @@ function SM.GetStoryFactions(data)
 end
 
 function SM.GetChapterProgress(ch)
-    local currentStoryData = SM.GetCurrentStoryData and SM.GetCurrentStoryData()
+    local cached = progressCache.chapterProgress[ch]
+    if cached then return cached.done, cached.total end
+    local currentStoryData = ch and ch._story or (SM.GetCurrentStoryData and SM.GetCurrentStoryData())
 
     if ch.loreOnly then
         if currentStoryData and SM.IsLoreChapterViewed(currentStoryData.title, ch.chapter) then
+            progressCache.chapterProgress[ch] = { done = 1, total = 1 }
             return 1, 1
         end
+        progressCache.chapterProgress[ch] = { done = 0, total = 0 }
         return 0, 0
     end
     if ch.replayable and currentStoryData and SM.IsChapterPlayed(currentStoryData.title, ch.chapter) then
+        progressCache.chapterProgress[ch] = { done = 1, total = 1 }
         return 1, 1
     end
     if ch.achievementID then
         local _, _, _, completed = GetAchievementInfo(ch.achievementID)
-        if completed then return 1, 1 end
+        if completed then
+            progressCache.chapterProgress[ch] = { done = 1, total = 1 }
+            return 1, 1
+        end
     end
     if ch.completionAchievementID then
         local _, _, _, completed = GetAchievementInfo(ch.completionAchievementID)
-        if completed then return 1, 1 end
+        if completed then
+            progressCache.chapterProgress[ch] = { done = 1, total = 1 }
+            return 1, 1
+        end
     end
 
     local total, done = 0, 0
@@ -224,12 +256,16 @@ function SM.GetChapterProgress(ch)
         end
     end
     if total == 0 and optionalTotal > 0 then
+        progressCache.chapterProgress[ch] = { done = optionalDone, total = optionalTotal }
         return optionalDone, optionalTotal
     end
+    progressCache.chapterProgress[ch] = { done = done, total = total }
     return done, total
 end
 
 function SM.GetCampaignProgress(data)
+    local cached = progressCache.campaignProgress[data]
+    if cached then return cached.done, cached.total end
     local total, done = 0, 0
     for _, ch in ipairs(SM.GetAllChapters(data)) do
         for _, q in ipairs(ch.quests) do
@@ -244,6 +280,7 @@ function SM.GetCampaignProgress(data)
     if not nextQuest and total > 0 then
         done = total
     end
+    progressCache.campaignProgress[data] = { done = done, total = total }
     return done, total
 end
 
@@ -306,6 +343,10 @@ function SM.GetQuestlineGateReason(data, ch)
 end
 
 function SM.FindNextQuest(data)
+    local cached = progressCache.nextQuest[data]
+    if cached then
+        return cached.quest, cached.chapter, cached.chapterData
+    end
     local chapters = SM.GetAllChapters(data)
     local hasPrereqProgress = not data.prereqs
 
@@ -432,11 +473,16 @@ function SM.FindNextQuest(data)
     end)
 
     if #logCandidates > 0 then
-        return logCandidates[1].quest, logCandidates[1].chapter, logCandidates[1].chapterData
+        local best = logCandidates[1]
+        progressCache.nextQuest[data] = { quest = best.quest, chapter = best.chapter, chapterData = best.chapterData }
+        return best.quest, best.chapter, best.chapterData
     end
     if #readyCandidates > 0 then
-        return readyCandidates[1].quest, readyCandidates[1].chapter, readyCandidates[1].chapterData
+        local best = readyCandidates[1]
+        progressCache.nextQuest[data] = { quest = best.quest, chapter = best.chapter, chapterData = best.chapterData }
+        return best.quest, best.chapter, best.chapterData
     end
 
+    progressCache.nextQuest[data] = { quest = nil, chapter = nil, chapterData = nil }
     return nil, nil
 end
