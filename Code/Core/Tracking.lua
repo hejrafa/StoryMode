@@ -185,18 +185,28 @@ local function GetQuestLocation(data, quest)
     return nil
 end
 
+local function TrackResult(kind, questID, loc, openedQuestLog)
+    return {
+        kind = kind,
+        questID = questID,
+        mapID = loc and loc.mapID or nil,
+        location = loc,
+        openedQuestLog = openedQuestLog == true,
+    }
+end
+
 function SM.SetWaypointForQuest(data, quest)
-    if not quest then return "no_location", nil, nil end
+    if not quest then return TrackResult("no_location") end
 
     if not (SM.Client and SM.Client.isRetail) then
         local inLog, activeQuestID = SM.IsQuestEntryInLog(quest)
         if inLog then
             if activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then
-                return "classic_in_log_opened", nil, nil
+                return TrackResult("classic_in_log_opened", activeQuestID, nil, true)
             end
-            return "classic_in_log", nil, nil
+            return TrackResult("classic_in_log", activeQuestID)
         end
-        return "classic_guidance", nil, nil
+        return TrackResult("classic_guidance", GetTrackedQuestID(quest))
     end
 
     EnsureTrivialQuestsVisible()
@@ -211,7 +221,7 @@ function SM.SetWaypointForQuest(data, quest)
         if loc then
             PingOnWorldMap(loc.mapID, loc.x, loc.y)
         end
-        return "supertracked", loc and loc.mapID, loc
+        return TrackResult("supertracked", qid, loc)
     end
 
     local loc = GetQuestLocation(data, quest)
@@ -230,18 +240,18 @@ function SM.SetWaypointForQuest(data, quest)
             C_SuperTrack.SetSuperTrackedUserWaypoint(true)
         end
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
-        return "waypoint", loc.mapID, loc
+        return TrackResult("waypoint", qid, loc)
     end
 
     if loc then
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
-        return "waypoint_approx", loc.mapID, loc
+        return TrackResult("waypoint_approx", qid, loc)
     end
 
     if data.startMapID then
         OpenStoryMap(data.startMapID)
     end
-    return "no_location", nil, nil
+    return TrackResult("no_location", qid)
 end
 
 local function GetZoneName(mapID)
@@ -275,8 +285,9 @@ local function GetLocationText(data, quest, loc)
 end
 
 function SM.PrintTrackResult(result, quest, data)
+    local resultKind = type(result) == "table" and result.kind or result
     local P = L["Addon Prefix"]
-    local loc = GetQuestLocation(data, quest)
+    local loc = type(result) == "table" and result.location or GetQuestLocation(data, quest)
     local zone = loc and GetZoneName(loc.mapID) or nil
     local place = GetLocationText(data, quest, loc)
     local Q = "|cffffd200" .. quest.name .. "|r"
@@ -284,9 +295,9 @@ function SM.PrintTrackResult(result, quest, data)
     local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
     local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil
 
-    if result == "classic_in_log" or result == "classic_in_log_opened" then
+    if resultKind == "classic_in_log" or resultKind == "classic_in_log_opened" then
         print(P .. string.format(L["Tracking Classic In Log Format"], Q))
-    elseif result == "classic_guidance" then
+    elseif resultKind == "classic_guidance" then
         if CH then
             if place then
                 print(P .. string.format(L["Tracking Classic Prereq Place Format"], CH, Q, place))
@@ -303,9 +314,9 @@ function SM.PrintTrackResult(result, quest, data)
         else
             print(P .. string.format(L["Tracking Classic Begin Format"], Q))
         end
-    elseif result == "supertracked" then
+    elseif resultKind == "supertracked" then
         print(P .. string.format(L["Tracking Now Following Format"], Q))
-    elseif result == "waypoint" or result == "waypoint_approx" then
+    elseif resultKind == "waypoint" or resultKind == "waypoint_approx" then
         if CH then
             if Z then
                 print(P .. string.format(L["Tracking Prereq Zone Format"], CH, Q, Z))
