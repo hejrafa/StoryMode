@@ -253,86 +253,90 @@ function SM.RegisterQuestlines()
     RefreshPlayerContext()
     if not (playerClass and playerFaction and playerRace) then return end
 
-    local epicQuestlines = {
-        SM.DefiasBrotherhoodData,
-        SM.ArugalData,
-        SM.AlthalaxxData,
-        SM.DuskwoodData,
-        SM.RaenesCleansingData,
-        SM.BattleOfHillsbradData,
-        SM.MissingDiplomatData,
-        SM.ScarletCrusadeData,
-        SM.DarrowshireData,
-        SM.FallenHeroData,
-        SM.OnyxiaData,
-        SM.DungeonSetTwoData,
-        SM.ShiftingSandsData,
-        SM.PrincessMoiraData,
-        SM.TimbermawData,
-        SM.FrozenThroneData,
-        SM.JadeForestData,
-        SM.SuramarData,
-        SM.NazmirData,
-        SM.RevendrethData,
-        SM.DrustvarData,
-    }
+    local epicQuestlines = {}
+    AddContentData(epicQuestlines, SM.DefiasBrotherhoodData)
+    AddContentData(epicQuestlines, SM.ArugalData)
+    AddContentData(epicQuestlines, SM.AlthalaxxData)
+    AddContentData(epicQuestlines, SM.DuskwoodData)
+    AddContentData(epicQuestlines, SM.RaenesCleansingData)
+    AddContentData(epicQuestlines, SM.BattleOfHillsbradData)
+    AddContentData(epicQuestlines, SM.MissingDiplomatData)
+    AddContentData(epicQuestlines, SM.ScarletCrusadeData)
+    AddContentData(epicQuestlines, SM.DarrowshireData)
+    AddContentData(epicQuestlines, SM.FallenHeroData)
+    AddContentData(epicQuestlines, SM.OnyxiaData)
+    AddContentData(epicQuestlines, SM.DungeonSetTwoData)
+    AddContentData(epicQuestlines, SM.ShiftingSandsData)
+    AddContentData(epicQuestlines, SM.PrincessMoiraData)
+    AddContentData(epicQuestlines, SM.TimbermawData)
+    AddContentData(epicQuestlines, SM.FrozenThroneData)
+    AddContentData(epicQuestlines, SM.JadeForestData)
+    AddContentData(epicQuestlines, SM.SuramarData)
+    AddContentData(epicQuestlines, SM.NazmirData)
+    AddContentData(epicQuestlines, SM.RevendrethData)
+    AddContentData(epicQuestlines, SM.DrustvarData)
     for _, data in ipairs(epicQuestlines) do
         if CanShowQuestline(data) then RegisterQuestline(data, "Epic Storylines") end
     end
 
-    local characterQuestlines = { SM.SylvanasData, SM.JainaData, SM.LilianVossData }
+    local characterQuestlines = {}
+    AddContentData(characterQuestlines, SM.SylvanasData)
+    AddContentData(characterQuestlines, SM.JainaData)
+    AddContentData(characterQuestlines, SM.LilianVossData)
     for _, data in ipairs(characterQuestlines) do
         if CanShowQuestline(data) then RegisterQuestline(data, "Character Stories") end
     end
 
-    local shortQuestlines = { SM.TeddiesAndTeaData, SM.LinkenData, SM.AgamandFamilyData, SM.MankriksWifeData }
+    local shortQuestlines = {}
+    AddContentData(shortQuestlines, SM.TeddiesAndTeaData)
+    AddContentData(shortQuestlines, SM.LinkenData)
+    AddContentData(shortQuestlines, SM.AgamandFamilyData)
+    AddContentData(shortQuestlines, SM.MankriksWifeData)
     for _, data in ipairs(shortQuestlines) do
         if CanShowQuestline(data) then RegisterQuestline(data, "Short Stories") end
     end
 
-    local classCampaigns = {
-        SM.ClassicDruidQuestData,
-        SM.ClassicHunterQuestData,
-        SM.ClassicMageQuestData,
-        SM.ClassicPaladinQuestData,
-        SM.ClassicPriestQuestData,
-        SM.ClassicRogueQuestData,
-        SM.ClassicShamanQuestData,
-        SM.ClassicWarlockQuestData,
-        SM.ClassicWarriorQuestData,
-        SM.DeathKnightCampaignData,
-        SM.DemonHunterCampaignData,
-        SM.DruidCampaignData,
-        SM.HunterCampaignData,
-        SM.MageCampaignData,
-        SM.MonkCampaignData,
-        SM.PaladinCampaignData,
-        SM.PriestCampaignData,
-        SM.RogueCampaignData,
-        SM.ShamanCampaignData,
-        SM.WarlockCampaignData,
-        SM.WarriorCampaignData,
-    }
+    local classCampaigns = {}
+    AddContentData(classCampaigns, SM.ClassicDruidQuestData)
+    AddContentData(classCampaigns, SM.ClassicHunterQuestData)
+    AddContentData(classCampaigns, SM.ClassicMageQuestData)
+    AddContentData(classCampaigns, SM.ClassicPaladinQuestData)
+    AddContentData(classCampaigns, SM.ClassicPriestQuestData)
+    AddContentData(classCampaigns, SM.ClassicRogueQuestData)
+    AddContentData(classCampaigns, SM.ClassicShamanQuestData)
+    AddContentData(classCampaigns, SM.ClassicWarlockQuestData)
+    AddContentData(classCampaigns, SM.ClassicWarriorQuestData)
+    AddContentData(classCampaigns, SM.DeathKnightCampaignData)
+    AddContentData(classCampaigns, SM.DemonHunterCampaignData)
+    AddContentData(classCampaigns, SM.DruidCampaignData)
+    AddContentData(classCampaigns, SM.HunterCampaignData)
+    AddContentData(classCampaigns, SM.MageCampaignData)
+    AddContentData(classCampaigns, SM.MonkCampaignData)
+    AddContentData(classCampaigns, SM.PaladinCampaignData)
+    AddContentData(classCampaigns, SM.PriestCampaignData)
+    AddContentData(classCampaigns, SM.RogueCampaignData)
+    AddContentData(classCampaigns, SM.ShamanCampaignData)
+    AddContentData(classCampaigns, SM.WarlockCampaignData)
+    AddContentData(classCampaigns, SM.WarriorCampaignData)
     for _, data in ipairs(classCampaigns) do
         if CanShowQuestline(data) then RegisterQuestline(data, "Identity") end
     end
 
-    local heritageQuestlines = {
-        SM.ForsakenHeritageData,
-        SM.BloodElfHeritageData,
-        SM.GoblinHeritageData,
-        SM.TrollHeritageData,
-        SM.OrcHeritageData,
-        SM.TaurenHeritageData,
-        SM.HumanHeritageData,
-        SM.DwarfHeritageData,
-        SM.GnomeHeritageData,
-        SM.NightElfHeritageData,
-        SM.WorgenHeritageData,
-        SM.DraeneiHeritageData,
-        SM.PandarenHeritageData,
-        SM.DarkIronHeritageData,
-    }
+    local heritageQuestlines = {}
+    AddContentData(heritageQuestlines, SM.ForsakenHeritageData)
+    AddContentData(heritageQuestlines, SM.BloodElfHeritageData)
+    AddContentData(heritageQuestlines, SM.GoblinHeritageData)
+    AddContentData(heritageQuestlines, SM.TrollHeritageData)
+    AddContentData(heritageQuestlines, SM.OrcHeritageData)
+    AddContentData(heritageQuestlines, SM.TaurenHeritageData)
+    AddContentData(heritageQuestlines, SM.HumanHeritageData)
+    AddContentData(heritageQuestlines, SM.DwarfHeritageData)
+    AddContentData(heritageQuestlines, SM.GnomeHeritageData)
+    AddContentData(heritageQuestlines, SM.NightElfHeritageData)
+    AddContentData(heritageQuestlines, SM.WorgenHeritageData)
+    AddContentData(heritageQuestlines, SM.DraeneiHeritageData)
+    AddContentData(heritageQuestlines, SM.PandarenHeritageData)
+    AddContentData(heritageQuestlines, SM.DarkIronHeritageData)
     for _, data in ipairs(heritageQuestlines) do
         if CanShowQuestline(data) then RegisterQuestline(data, "Identity") end
     end
