@@ -10,6 +10,7 @@ SM.FallenHeroData = {
     description = "A dead warrior stands at the road into the Blasted Lands, bound to the failure that killed his regiment. His orders never came. His soldiers were captured, broken, and chained to demonic stones, and the demon lord Razelikh still rules from the mountains.\n\nFollow one of Classic's longest old-world epics from Swamp of Sorrows and Nethergarde Keep into the Blasted Lands, Azshara, Stranglethorn Vale, and the final battle against Rakh'likh.",
     zone = "Swamp of Sorrows / Blasted Lands / Azshara / Stranglethorn Vale",
     expansion = "Classic",
+    recommendedLevel = { min = 45, max = 60 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.64, 0.16, 0.10 },

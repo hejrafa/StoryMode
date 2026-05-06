@@ -37,30 +37,11 @@ local function ResolveAchievementID(data)
     end
 end
 
--- ============================================================================
--- Core helper aliases
--- ============================================================================
-
-local IsQuestForPlayer = SM.IsQuestForPlayer
-local ShouldHideQuest = SM.ShouldHideQuest
-local IsQuestEffectivelyComplete = SM.IsQuestEffectivelyComplete
-local GetAllChapters = SM.GetAllChapters
-local GetStoryAchievements = SM.GetStoryAchievements
-local GetStoryFactions = SM.GetStoryFactions
-local GetCampaignProgress = SM.GetCampaignProgress
-local GetChapterProgress = SM.GetChapterProgress
-local GetFirstUnmetChapterPrerequisite = SM.GetFirstUnmetChapterPrerequisite
-local GetQuestLockReason = SM.GetQuestLockReason
-local GetQuestlineGateReason = SM.GetQuestlineGateReason
-local FindNextQuest = SM.FindNextQuest
-local SetWaypointForQuest = SM.SetWaypointForQuest
-local PrintTrackResult = SM.PrintTrackResult
-
 function SM.IsStoryFinished(data)
     if not data then return false end
     local previousStoryData = currentStoryData
     currentStoryData = data
-    local isFinished = FindNextQuest(data) == nil
+    local isFinished = SM.FindNextQuest(data) == nil
     currentStoryData = previousStoryData
     return isFinished
 end
@@ -69,7 +50,7 @@ end
 -- UI Constants & Helpers
 -- ============================================================================
 
-local function HexColor(r, g, b)
+function SM.HexColor(r, g, b)
     return string.format("%02x%02x%02x",
         math.min(255, math.floor(r * 255)),
         math.min(255, math.floor(g * 255)),
@@ -89,13 +70,35 @@ local categories = {
 }
 
 local allQuestlines = {}
+local questlineSortOrder = 0
 
 local function RegisterQuestline(data, categoryName)
+    questlineSortOrder = questlineSortOrder + 1
+    data._storyModeSortOrder = questlineSortOrder
     allQuestlines[#allQuestlines + 1] = data
     for _, cat in ipairs(categories) do
         if cat.name == categoryName then
             cat.questlines[#cat.questlines + 1] = data
             break
+        end
+    end
+end
+
+local function GetQuestlineSortLevel(data)
+    return SM.GetRecommendedLevelMinimum(data) or math.huge
+end
+
+local function SortQuestlineCategories()
+    for _, cat in ipairs(categories) do
+        if cat.questlines and #cat.questlines > 1 then
+            table.sort(cat.questlines, function(a, b)
+                local aLevel = GetQuestlineSortLevel(a)
+                local bLevel = GetQuestlineSortLevel(b)
+                if aLevel ~= bLevel then
+                    return aLevel < bLevel
+                end
+                return (a._storyModeSortOrder or 0) < (b._storyModeSortOrder or 0)
+            end)
         end
     end
 end
@@ -137,7 +140,11 @@ end
 
 AddContentData(SM.FrozenThroneData)
 AddContentData(SM.DefiasBrotherhoodData)
+AddContentData(SM.ArugalData)
+AddContentData(SM.AlthalaxxData)
 AddContentData(SM.DuskwoodData)
+AddContentData(SM.RaenesCleansingData)
+AddContentData(SM.BattleOfHillsbradData)
 AddContentData(SM.FallenHeroData)
 AddContentData(SM.MissingDiplomatData)
 AddContentData(SM.OnyxiaData)
@@ -195,19 +202,36 @@ AddContentData(SM.DraeneiHeritageData)
 AddContentData(SM.PandarenHeritageData)
 AddContentData(SM.DarkIronHeritageData)
 
-for _, data in ipairs(contentData) do
-    SM.LocalizeContentData(data)
+function SM.LocalizeContentRegistry()
+    for _, data in ipairs(contentData) do
+        SM.LocalizeContentData(data)
+    end
 end
+
+SM.LocalizeContentRegistry()
 
 -- ============================================================================
 -- Register Questlines
 -- ============================================================================
 
+function SM.RegisterQuestlines()
 if CanShowQuestline(SM.DefiasBrotherhoodData) then
     RegisterQuestline(SM.DefiasBrotherhoodData, "Epic Storylines")
 end
+if CanShowQuestline(SM.ArugalData) then
+    RegisterQuestline(SM.ArugalData, "Epic Storylines")
+end
+if CanShowQuestline(SM.AlthalaxxData) then
+    RegisterQuestline(SM.AlthalaxxData, "Epic Storylines")
+end
 if CanShowQuestline(SM.DuskwoodData) then
     RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
+end
+if CanShowQuestline(SM.RaenesCleansingData) then
+    RegisterQuestline(SM.RaenesCleansingData, "Epic Storylines")
+end
+if CanShowQuestline(SM.BattleOfHillsbradData) then
+    RegisterQuestline(SM.BattleOfHillsbradData, "Epic Storylines")
 end
 if CanShowQuestline(SM.MissingDiplomatData) then
     RegisterQuestline(SM.MissingDiplomatData, "Epic Storylines")
@@ -330,6 +354,10 @@ for _, data in ipairs(heritageQuestlines) do
         RegisterQuestline(data, "Identity")
     end
 end
+SortQuestlineCategories()
+end
+
+SM.RegisterQuestlines()
 
 function SM.AreAllStoriesFinished()
     if #allQuestlines == 0 then return false end
@@ -375,7 +403,7 @@ local C_GOLD = {1,     0.82,  0}
 local C_DIM  = {0.50,  0.50,  0.50}
 local C_DIVIDER = {1.0, 0.80, 0.45}
 
-local function NoShadow(fs) fs:SetShadowOffset(0,0); return fs end
+function SM.NoShadow(fs) fs:SetShadowOffset(0,0); return fs end
 
 function SM.SafeSetTexture(tex, path)
     if not tex or not path then return false end
@@ -552,7 +580,7 @@ local PERKS_LAYOUT = {
     Center            = { atlas = "Perks-List-NineSlice-Center" },
 }
 
-local function CreateStoryPanel(section)
+function SM.CreateStoryPanel(section)
     local useRetailArt = SM.Client and SM.Client.isRetail
     local template = (useRetailArt and NineSliceUtil) and "NineSlicePanelTemplate" or "BackdropTemplate"
     local f = CreateFrame("Frame", nil, section, template)
@@ -594,7 +622,7 @@ end
 -- mouse-wheel support (the default template doesn't always wire it up).
 local SCROLL_STEP = 40
 
-local function EnableMouseWheelScroll(scrollFrame)
+function SM.EnableMouseWheelScroll(scrollFrame)
     scrollFrame:EnableMouseWheel(true)
     scrollFrame:SetScript("OnMouseWheel", function(self, delta)
         local range = self:GetVerticalScrollRange() or 0
@@ -612,7 +640,7 @@ function SM.GetScrollBar(scrollFrame)
         or (scrollFrame.GetName and scrollFrame:GetName() and _G[scrollFrame:GetName() .. "ScrollBar"])
 end
 
-local function UpdateScrollbarVisibility(scrollFrame)
+function SM.UpdateScrollbarVisibility(scrollFrame)
     local scrollbar = SM.GetScrollBar(scrollFrame)
     if not scrollbar then return end
 
@@ -661,7 +689,7 @@ function SM.StyleStoryScrollbar(scrollFrame)
 end
 
 -- ─── Major divider (Journeys renown divider atlas) ─────────────────────────
-local function CreateMajorDivider(parent)
+function SM.CreateMajorDivider(parent)
     local f = CreateFrame("Frame", nil, parent)
     f:SetHeight((SM.Client and SM.Client.isRetail) and 16 or 8)
     local tex = f:CreateTexture(nil, "ARTWORK")
@@ -714,7 +742,7 @@ tinsert(UISpecialFrames, "StoryModeFrame")
 local leftSection = CreateFrame("Frame", nil, storyFrame)
 leftSection:SetSize(LEFT_W, FRAME_H)
 leftSection:SetPoint("TOPLEFT", storyFrame, "TOPLEFT", 0, 0)
-CreateStoryPanel(leftSection)
+SM.CreateStoryPanel(leftSection)
 
 -- Scrollable card list (no scrollbar — mousewheel only)
 local leftScroll = CreateFrame("ScrollFrame", nil, leftSection, "ScrollFrameTemplate")
@@ -726,7 +754,7 @@ leftChild:SetWidth(LEFT_W - 24)
 leftScroll:SetScrollChild(leftChild)
 SM.LeftPanelMode = "story"
 SM.LeftStoryScrollOffset = 0
-EnableMouseWheelScroll(leftScroll)
+SM.EnableMouseWheelScroll(leftScroll)
 SM.LeftContextChild = CreateFrame("Frame", nil, leftScroll)
 SM.LeftContextChild:SetWidth(LEFT_W - 24)
 SM.LeftContextChild:Hide()
@@ -738,7 +766,7 @@ SM.LeftContextChild:Hide()
 local rightSection = CreateFrame("Frame", nil, storyFrame)
 rightSection:SetSize(RIGHT_W, FRAME_H)
 rightSection:SetPoint("TOPLEFT", leftSection, "TOPRIGHT", GAP, 0)
-CreateStoryPanel(rightSection)
+SM.CreateStoryPanel(rightSection)
 
 -- ── Close button (standard Blizzard X) ──────────────────────────────────────
 local closeBtn = CreateFrame("Button", nil, rightSection, "UIPanelCloseButton")
@@ -752,13 +780,13 @@ rightHeader:SetPoint("TOPRIGHT", rightSection, "TOPRIGHT", 0, 0)
 rightHeader:SetHeight(HEADER_H)
 
 -- Tab labels
-local tabStoryLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
+local tabStoryLabel = SM.NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabStoryLabel:SetPoint("LEFT", rightHeader, "LEFT", 56, 0)
 tabStoryLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
 tabStoryLabel:SetText(L["Tab Adventure"])
 tabStoryLabel:SetTextColor(1, 1, 1)
 
-local tabProgressLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
+local tabProgressLabel = SM.NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabProgressLabel:SetPoint("LEFT", tabStoryLabel, "RIGHT", 24, 0)
 tabProgressLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
 tabProgressLabel:SetText(L["Tab Progress"])
@@ -773,7 +801,7 @@ local tabProgressHit = CreateFrame("Button", nil, rightHeader)
 tabProgressHit:SetPoint("TOPLEFT", tabProgressLabel, "TOPLEFT", -4, 4)
 tabProgressHit:SetPoint("BOTTOMRIGHT", tabProgressLabel, "BOTTOMRIGHT", 4, -4)
 
-local tabJournalLabel = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
+local tabJournalLabel = SM.NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
 tabJournalLabel:SetPoint("LEFT", tabProgressLabel, "RIGHT", 24, 0)
 tabJournalLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
 tabJournalLabel:SetText(L["Tab Journal"])
@@ -786,14 +814,14 @@ tabJournalHit:SetPoint("BOTTOMRIGHT", tabJournalLabel, "BOTTOMRIGHT", 4, -4)
 local activeTab = "story"
 
 -- Kept for backward compat in UpdateStoryDetail
-local smHeaderSub = NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+local smHeaderSub = SM.NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
 smHeaderSub:SetPoint("RIGHT", rightHeader, "RIGHT", -56, 0)
 smHeaderSub:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
 smHeaderSub:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
 smHeaderSub:SetJustifyH("RIGHT")
 
 -- Divider at bottom of header
-local headerDiv = CreateMajorDivider(rightSection)
+local headerDiv = SM.CreateMajorDivider(rightSection)
 headerDiv:SetPoint("LEFT",  rightHeader, "BOTTOMLEFT",  28, 0)
 headerDiv:SetPoint("RIGHT", rightHeader, "BOTTOMRIGHT", -36, 0)
 
@@ -814,7 +842,7 @@ detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2, SM.PanelSc
 local detailChild = CreateFrame("Frame", nil, detailScroll)
 detailChild:SetWidth(RIGHT_W)
 detailScroll:SetScrollChild(detailChild)
-EnableMouseWheelScroll(detailScroll)
+SM.EnableMouseWheelScroll(detailScroll)
 
 -- Move scrollbar inside the panel. Classic uses the options/settings scroll art.
 local detailScrollbar = SM.GetScrollBar(detailScroll)
@@ -827,9 +855,9 @@ if detailScrollbar then
         detailScrollbar:Hide()
     end
     detailScroll:HookScript("OnScrollRangeChanged", function(self)
-        C_Timer.After(0, function() UpdateScrollbarVisibility(self) end)
+        C_Timer.After(0, function() SM.UpdateScrollbarVisibility(self) end)
     end)
-    UpdateScrollbarVisibility(detailScroll)
+    SM.UpdateScrollbarVisibility(detailScroll)
 end
 
 local DP  = 32   -- divider padding (left/right)
@@ -845,7 +873,7 @@ introHero:SetPoint("TOP", detailChild, "TOP", 0, -34)
 introHero:SetTexture(STORYMODE_HERO_TEXTURE)
 introHero:SetTexCoord(0, 1, 0, 1)
 
-local introText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+local introText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(INTRO_HERO_H + 48))
 introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -(INTRO_HERO_H + 48))
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
@@ -890,7 +918,7 @@ heroRing:SetPoint("BOTTOMRIGHT", heroIcon, "BOTTOMRIGHT",  3, -3)
 heroRing:SetVertexColor(1.0, 0.82, 0.5)
 heroRing:SetAlpha(0.85)
 
-local dTitle = NoShadow(heroFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge"))
+local dTitle = SM.NoShadow(heroFrame:CreateFontString(nil, "OVERLAY", "QuestFont_Huge"))
 dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
 dTitle:SetJustifyH("CENTER"); dTitle:SetWordWrap(false)
 dTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
@@ -969,7 +997,7 @@ aCoverDividerR:SetGradient("HORIZONTAL",
 -- ════════════════════════════════════════════════════════════════════════════
 
 -- Story intro paragraph
-local sIntro = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+local sIntro = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sIntro:SetJustifyH("LEFT"); sIntro:SetSpacing(4); sIntro:SetWordWrap(true)
 sIntro:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
@@ -995,14 +1023,14 @@ local pendingSecureTrack = nil
 
 -- Called from the macro via /run — runs in secure context, so its calls to
 -- OpenWorldMap / AddQuestWatch / SetSuperTrackedQuestID / SetUserWaypoint
--- don't taint the execution path. Upvalues SetWaypointForQuest,
--- PrintTrackResult and storyFrame resolve at call time.
+-- don't taint the execution path. Upvalues SM.SetWaypointForQuest,
+-- SM.PrintTrackResult and storyFrame resolve at call time.
 function StoryMode_ExecuteSecureTrack()
     local pending = pendingSecureTrack
     pendingSecureTrack = nil
     if not pending then return end
-    local result = SetWaypointForQuest(pending.data, pending.quest)
-    PrintTrackResult(result, pending.quest, pending.data)
+    local result = SM.SetWaypointForQuest(pending.data, pending.quest)
+    SM.PrintTrackResult(result, pending.quest, pending.data)
     if storyFrame then storyFrame:Hide() end
 end
 
@@ -1012,7 +1040,7 @@ end
 -- sTrackBtn, sTrackBtn would inherit the protected-frame anchor rules and
 -- could no longer be anchored to FontStrings during layout — raising
 -- "Cannot anchor protected frames to regions". If sTrackBtn anchored to
--- the overlay, the same thing would happen.) SyncSecureOverlay() keeps it
+-- the overlay, the same thing would happen.) SM.SyncSecureOverlay() keeps it
 -- positioned on top of sTrackBtn; it's called after every layout pass and
 -- is a no-op during combat (SetPoint on protected frames is combat-
 -- restricted — minor cosmetic drift is acceptable).
@@ -1025,7 +1053,7 @@ sTrackBtnSecure:SetAttribute("macrotext", "/run StoryMode_ExecuteSecureTrack()")
 sTrackBtnSecure:SetFrameLevel((sTrackBtn:GetFrameLevel() or 0) + 5)
 sTrackBtnSecure:Hide()
 
-local function SyncSecureOverlay()
+function SM.SyncSecureOverlay()
     if InCombatLockdown() then return end
     if not sTrackBtnSecure.isActive or not sTrackBtn:IsShown() then
         sTrackBtnSecure:Hide()
@@ -1041,21 +1069,21 @@ local function SyncSecureOverlay()
     sTrackBtnSecure:Show()
 end
 
-local function SetSecureOverlayActive(active)
+function SM.SetSecureOverlayActive(active)
     pendingSecureTrack = nil
     sTrackBtnSecure.isActive = active == true
     if not active then
         sTrackBtnSecure:SetScript("PreClick", nil)
         if not InCombatLockdown() then sTrackBtnSecure:Hide() end
     else
-        SyncSecureOverlay()
+        SM.SyncSecureOverlay()
     end
 end
 
 -- Re-sync when sTrackBtn resizes (content fonts reflowing, etc.).
--- Layout code calls SyncSecureOverlay() explicitly after re-anchoring.
-sTrackBtn:HookScript("OnSizeChanged", SyncSecureOverlay)
-sTrackBtn:HookScript("OnShow", SyncSecureOverlay)
+-- Layout code calls SM.SyncSecureOverlay() explicitly after re-anchoring.
+sTrackBtn:HookScript("OnSizeChanged", SM.SyncSecureOverlay)
+sTrackBtn:HookScript("OnShow", SM.SyncSecureOverlay)
 
 -- Forward hover events to the visible button so its template highlight and
 -- lock-reason tooltip keep working while the overlay sits on top.
@@ -1080,33 +1108,33 @@ sTrackBtn:SetScript("OnEnter", function(self)
 end)
 sTrackBtn:SetScript("OnLeave", function() SMTooltip:Hide() end)
 
-local sCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+local sCompleteText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sCompleteText:SetTextColor(0.40, 0.82, 0.35)
 sCompleteText:SetText(L["Campaign Complete"])
 
 -- Progressive story journal entries (chapter recaps, revealed as quests are completed)
-local sJournalHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+local sJournalHeader = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sJournalHeader:SetJustifyH("CENTER")
 sJournalHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 sJournalHeader:SetText(L["Journal Header"])
 
-local sJournalSubline = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+local sJournalSubline = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sJournalSubline:SetJustifyH("CENTER"); sJournalSubline:SetWordWrap(true)
 sJournalSubline:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 sJournalSubline:SetText(L["Journal Subline"])
 
-local sJournalEmptyTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+local sJournalEmptyTitle = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 sJournalEmptyTitle:SetJustifyH("CENTER")
 sJournalEmptyTitle:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 sJournalEmptyTitle:SetText(L["Journal Empty Title"])
 sJournalEmptyTitle:Hide()
 
-local sJournalEmptyText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+local sJournalEmptyText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 sJournalEmptyText:SetJustifyH("CENTER"); sJournalEmptyText:SetSpacing(4); sJournalEmptyText:SetWordWrap(true)
 sJournalEmptyText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 sJournalEmptyText:SetText(L["Journal Empty Text"])
 
-local sFactionHeader = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
+local sFactionHeader = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
 sFactionHeader:SetJustifyH("CENTER")
 sFactionHeader:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 sFactionHeader:SetText(L["Section Factions"])
@@ -1114,12 +1142,12 @@ sFactionHeader:Hide()
 
 local sJournalEntries = {}  -- pool of { title = FontString, body = FontString }
 
-local function GetJournalEntry(idx)
+function SM.GetJournalEntry(idx)
     if sJournalEntries[idx] then return sJournalEntries[idx] end
-    local title = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
+    local title = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
     title:SetJustifyH("CENTER")
     title:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-    local body = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+    local body = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
     body:SetJustifyH("LEFT"); body:SetSpacing(4); body:SetWordWrap(true)
     body:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
     sJournalEntries[idx] = { title = title, body = body }
@@ -1265,14 +1293,14 @@ function FactionUI:Create()
     end
 
     if not card.button.RenownCardFactionName then
-        card.button.RenownCardFactionName = NoShadow(card.button:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+        card.button.RenownCardFactionName = SM.NoShadow(card.button:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
         card.button.RenownCardFactionName:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 5, 5)
         card.button.RenownCardFactionName:SetSize(225, 20)
         card.button.RenownCardFactionName:SetJustifyH("LEFT")
     end
 
     if not card.button.RenownCardFactionLevel then
-        card.button.RenownCardFactionLevel = NoShadow(card.button:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+        card.button.RenownCardFactionLevel = SM.NoShadow(card.button:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
         card.button.RenownCardFactionLevel:SetPoint("LEFT", card.button.IconFrame, "RIGHT", 5, -15)
         card.button.RenownCardFactionLevel:SetSize(220, 15)
         card.button.RenownCardFactionLevel:SetJustifyH("LEFT")
@@ -1706,12 +1734,12 @@ end
 -- PROGRESS TAB elements
 -- ════════════════════════════════════════════════════════════════════════════
 
-local dCompleteText = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+local dCompleteText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 dCompleteText:SetTextColor(0.40, 0.82, 0.35)
 dCompleteText:SetText(L["Campaign Complete"])
 
 -- Progress summary (shown at top of progress tab, under hero)
-local dProgSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+local dProgSummary = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 dProgSummary:SetJustifyH("CENTER")
 dProgSummary:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 
@@ -1735,7 +1763,7 @@ local HERITAGE_ICON_BY_RACE = {
 local HERITAGE_ICON_FALLBACK = "Interface\\Icons\\inv_misc_cape_18"
 local PANDAREN_TABARD_ICON = "Interface\\Icons\\inv_misc_tabard_tushui"
 
-local function CreateCompletionRibbon(parent)
+function SM.CreateCompletionRibbon(parent)
     local ribbon = CreateFrame("Frame", nil, parent)
     ribbon:SetSize(34, 42)
     ribbon:SetFrameLevel((parent:GetFrameLevel() or 0) + 20)
@@ -1831,7 +1859,7 @@ SM.LoadingScreenChoices = {
     { name = "Ruins of Lordaeron", texture = 131867 },
 }
 
-local function NormalizeAdventureGuideName(name)
+function SM.NormalizeAdventureGuideName(name)
     if not name then return nil end
     name = string.lower(name)
     name = name:gsub("^the%s+", "")
@@ -1839,18 +1867,18 @@ local function NormalizeAdventureGuideName(name)
     return name
 end
 
-local function EnsureEncounterJournalAPI()
+function SM.EnsureEncounterJournalAPI()
     if EJ_GetInstanceInfo and EJ_GetInstanceByIndex then return true end
     SM.LoadAddOn("Blizzard_EncounterJournal")
     return EJ_GetInstanceInfo and EJ_GetInstanceByIndex
 end
 
-local function FindAdventureGuideInstanceID(instanceName)
+function SM.FindAdventureGuideInstanceID(instanceName)
     if not instanceName or instanceName == "" then return nil end
     if adventureGuideImageCache[instanceName] ~= nil then
         return adventureGuideImageCache[instanceName]
     end
-    if not EnsureEncounterJournalAPI() then return nil end
+    if not SM.EnsureEncounterJournalAPI() then return nil end
 
     -- securecall keeps our addon's insecure taint off Blizzard_EncounterJournal's
     -- saved tier state. Without it, EJ_SelectTier from this insecure context
@@ -1869,7 +1897,7 @@ local function FindAdventureGuideInstanceID(instanceName)
         end
     end
 
-    local normalizedTarget = NormalizeAdventureGuideName(instanceName)
+    local normalizedTarget = SM.NormalizeAdventureGuideName(instanceName)
     local normalizedMatches = {}
     for tier = 1, numTiers do
         pcall(securecall, EJ_SelectTier, tier)
@@ -1882,7 +1910,7 @@ local function FindAdventureGuideInstanceID(instanceName)
                     RestorePreviousTier()
                     return instanceID
                 end
-                if NormalizeAdventureGuideName(name) == normalizedTarget then
+                if SM.NormalizeAdventureGuideName(name) == normalizedTarget then
                     normalizedMatches[#normalizedMatches + 1] = instanceID
                 end
             end
@@ -1898,15 +1926,15 @@ local function FindAdventureGuideInstanceID(instanceName)
     return nil
 end
 
-local function GetAdventureCoverTexture(data)
+function SM.GetAdventureCoverTexture(data)
     if not data then return nil end
     if data.adventureCoverTexture then
         return data.adventureCoverTexture, data.adventureCoverIsLoadingScreen
     end
 
     local instanceID = data.adventureGuideInstanceID
-        or FindAdventureGuideInstanceID(data.adventureGuideInstanceName)
-    if instanceID and EnsureEncounterJournalAPI() then
+        or SM.FindAdventureGuideInstanceID(data.adventureGuideInstanceName)
+    if instanceID and SM.EnsureEncounterJournalAPI() then
         local _, _, bgImage, buttonImage1, loreImage, buttonImage2, _, _, _, mapID = EJ_GetInstanceInfo(instanceID)
         if not data.adventureGuideImage then
             local loadingScreen = SM.AdventureGuideLoadingScreenByMapID[mapID]
@@ -1929,9 +1957,9 @@ local function GetAdventureCoverTexture(data)
     return data.adventureFallbackTexture or data.icon
 end
 
-local function SetAdventureCover(data, displayTitle)
+function SM.SetAdventureCover(data, displayTitle)
     aCoverTitle:SetText(displayTitle or (data and data.title) or "")
-    local texture, useFullTexCoords = GetAdventureCoverTexture(data)
+    local texture, useFullTexCoords = SM.GetAdventureCoverTexture(data)
     local texCoords = data and data.adventureCoverTexCoords
     if texture then
         if texCoords then
@@ -1954,9 +1982,9 @@ local function SetAdventureCover(data, displayTitle)
     end
 end
 
-local function SetAdventureCoverTexture(tex, data)
+function SM.SetAdventureCoverTexture(tex, data)
     if not tex then return false end
-    local texture, useFullTexCoords = GetAdventureCoverTexture(data)
+    local texture, useFullTexCoords = SM.GetAdventureCoverTexture(data)
     if not texture then
         tex:SetTexture(nil)
         return false
@@ -1984,7 +2012,7 @@ local function SetAdventureCoverTexture(tex, data)
     return false
 end
 
-local function SetChapterPortrait(portraitTex, displayID, iconPath, questID)
+function SM.SetChapterPortrait(portraitTex, displayID, iconPath, questID)
     -- Prevent stale portrait reuse when a source fails to resolve.
     portraitTex:SetTexture(nil)
 
@@ -2064,7 +2092,7 @@ local function SetChapterPortrait(portraitTex, displayID, iconPath, questID)
 end
 
 -- Resolve chapter portrait source: explicit chapter override first, then first quest's NPC portrait.
-local function GetChapterPortraitSource(data, chapter)
+function SM.GetChapterPortraitSource(data, chapter)
     if not data or not chapter then
         return nil, nil
     end
@@ -2165,7 +2193,7 @@ dTrackInner:SetHeight(TRACK_H)
 
 -- Centers the track so selected chapter is in the middle of the clip
 -- Also applies distance-based alpha fade to each node
-local function CenterTrackOnSelected(clipW)
+function SM.CenterTrackOnSelected(clipW)
     if clipW <= 0 then clipW = 350 end
     local selCenterX = (dSelectedChapter - 1) * TRACK_STEP + TRACK_NODE_SIZE / 2
     local offset = selCenterX - clipW / 2
@@ -2225,7 +2253,7 @@ dTrackLeftBtn:SetScript("OnClick", function()
         PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
         dSelectedChapter = dSelectedChapter - 1
         LayoutSelectedChapter()
-        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+        C_Timer.After(0, function() SM.CenterTrackOnSelected(dTrackClip:GetWidth()) end)
     end
 end)
 
@@ -2246,7 +2274,7 @@ dTrackRightBtn:SetScript("OnClick", function()
         PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
         dSelectedChapter = dSelectedChapter + 1
         LayoutSelectedChapter()
-        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+        C_Timer.After(0, function() SM.CenterTrackOnSelected(dTrackClip:GetWidth()) end)
     end
 end)
 
@@ -2257,27 +2285,27 @@ dTrackContainer:SetScript("OnMouseWheel", function(_, delta)
         PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
         dSelectedChapter = dSelectedChapter - 1
         LayoutSelectedChapter()
-        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+        C_Timer.After(0, function() SM.CenterTrackOnSelected(dTrackClip:GetWidth()) end)
     elseif delta < 0 and dSelectedChapter < dTrackChapterCount then
         PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
         dSelectedChapter = dSelectedChapter + 1
         LayoutSelectedChapter()
-        C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+        C_Timer.After(0, function() SM.CenterTrackOnSelected(dTrackClip:GetWidth()) end)
     end
 end)
 
 -- Chapter title + summary below track
-local dChapterTitle = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+local dChapterTitle = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
 dChapterTitle:SetJustifyH("CENTER")
 dChapterTitle:Hide()
 
-local dChapterSummary = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+local dChapterSummary = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 dChapterSummary:SetJustifyH("LEFT"); dChapterSummary:SetSpacing(4); dChapterSummary:SetWordWrap(true)
 dChapterSummary:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 dChapterSummary:Hide()
 
 -- Prerequisite note — shown when a chapter has a .note field
-local dChapterNote = NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Shadow_Small"))
+local dChapterNote = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Shadow_Small"))
 dChapterNote:SetJustifyH("LEFT"); dChapterNote:SetSpacing(3); dChapterNote:SetWordWrap(true)
 dChapterNote:SetTextColor(1.0, 0.82, 0.35)
 dChapterNote:Hide()
@@ -2298,7 +2326,7 @@ do
     icon:SetPoint("LEFT", dChapterAchievement, "LEFT", 0, -1)
     dChapterAchievement.icon = icon
 
-    local label = NoShadow(dChapterAchievement:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+    local label = SM.NoShadow(dChapterAchievement:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
     label:SetPoint("LEFT", icon, "RIGHT", 5, 0)
     label:SetJustifyH("LEFT")
     dChapterAchievement.label = label
@@ -2327,11 +2355,11 @@ do
 end
 
 -- Full-size achievement card for chapters that have no quest list.
--- Reuses CreateAchievementRow (defined later) — forward-created after that function.
+-- Reuses SM.CreateAchievementRow(defined later) — forward-created after that function.
 local dChapterAchievementCard  -- assigned after CreateAchievementRow is defined
 
 -- ── Track node pool ─────────────────────────────────────────────────
-local function CreateTrackNode(parent)
+function SM.CreateTrackNode(parent)
     local btn = CreateFrame("Button", nil, parent)
     btn:SetSize(TRACK_NODE_SIZE, TRACK_NODE_SIZE)
 
@@ -2512,7 +2540,7 @@ end
 -- ── Quest card pool ─────────────────────────────────────────────────
 local dQuestCards = {}
 
-local function CreateQuestCard(parent)
+function SM.CreateQuestCard(parent)
     local card = CreateFrame("Button", nil, parent, (SM.Client and SM.Client.isRetail) and nil or "BackdropTemplate")
     card:EnableMouse(true)
     card:SetHeight(QCARD_H)
@@ -2561,7 +2589,7 @@ local function CreateQuestCard(parent)
     card.icon = icon
 
     -- Quest name (top line)
-    local title = NoShadow(card:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+    local title = SM.NoShadow(card:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
     title:SetPoint("LEFT", card, "LEFT", TEXT_LEFT, 0)
     title:SetPoint("RIGHT", card, "RIGHT", -10, 0)
     title:SetPoint("BOTTOM", card, "CENTER", 0, 1)
@@ -2571,7 +2599,7 @@ local function CreateQuestCard(parent)
     card.title = title
 
     -- NPC name (bottom line, same left edge as title)
-    local npcLabel = NoShadow(card:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+    local npcLabel = SM.NoShadow(card:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
     npcLabel:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -2)
     npcLabel:SetPoint("RIGHT", card, "RIGHT", -10, 0)
     npcLabel:SetJustifyH("LEFT")
@@ -2662,7 +2690,7 @@ local AROW_MAX_W = 300   -- max row width, centered in the panel
 local AICON_SZ   = 32    -- icon size
 local AROW_PAD   = 16    -- inner left/right padding
 
-local function CreateAchievementRow(parent)
+function SM.CreateAchievementRow(parent)
     local row = CreateFrame("Button", nil, parent)
     row:SetHeight(AROW_H)
     row:EnableMouse(true)
@@ -2706,7 +2734,7 @@ local function CreateAchievementRow(parent)
     row.iconBorder = iconBorder
 
     -- Achievement name
-    local title = NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
+    local title = SM.NoShadow(row:CreateFontString(nil, "ARTWORK", "GameFontNormal"))
     title:SetPoint("LEFT",  icon, "RIGHT",  10,        0)
     title:SetPoint("RIGHT", row,  "RIGHT",  -AROW_PAD, 0)
     title:SetJustifyH("LEFT")
@@ -2777,14 +2805,14 @@ local function CreateAchievementRow(parent)
 end
 
 -- Assign the forward-declared chapter achievement card now that CreateAchievementRow exists.
-dChapterAchievementCard = CreateAchievementRow(detailChild)
+dChapterAchievementCard = SM.CreateAchievementRow(detailChild)
 dChapterAchievementCard:Hide()
 
 -- ── Render quest cards for selected chapter ─────────────────────────
 LayoutSelectedChapter = function()
     local data = currentStoryData
     if not data then return end
-    local chapters = GetAllChapters(data)
+    local chapters = SM.GetAllChapters(data)
     local ch = chapters[dSelectedChapter]
     if not ch then return end
 
@@ -2837,7 +2865,7 @@ LayoutSelectedChapter = function()
                         node.checkmark:Hide()
                     end
                 else
-                    local cd, ct = GetChapterProgress(thCh)
+                    local cd, ct = SM.GetChapterProgress(thCh)
                     local isComp = cd == ct and ct > 0
                     local isAct  = cd > 0 and not isComp
                     if isComp then
@@ -2875,7 +2903,7 @@ LayoutSelectedChapter = function()
         dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
     elseif ch.prerequisites then
-        local req = GetFirstUnmetChapterPrerequisite(ch)
+        local req = SM.GetFirstUnmetChapterPrerequisite(ch)
         if req then
             local reqQuest = "|cffffd200" .. (req.name or string.format(L["Quest ID Format"], tostring(req.id))) .. "|r"
             if req.npc then
@@ -2892,7 +2920,7 @@ LayoutSelectedChapter = function()
         dChapterNote:Hide()
     end
 
-    local cdNote, ctNote = GetChapterProgress(ch)
+    local cdNote, ctNote = SM.GetChapterProgress(ch)
     local chIsComplete = cdNote == ctNote and ctNote > 0
 
     -- Mark as Viewed / Mark as Played button
@@ -2965,21 +2993,21 @@ LayoutSelectedChapter = function()
     end
 
     -- Quest cards — skipped for replayable chapters (button is the sole interaction point)
-    local nextQuest = FindNextQuest(data)
+    local nextQuest = SM.FindNextQuest(data)
     local nextQuestID = nextQuest and nextQuest.id
     local campaignFinished = (nextQuestID == nil)
 
     for i, q in ipairs(ch.quests) do
         if not dQuestCards[i] then
-            dQuestCards[i] = CreateQuestCard(detailChild)
+            dQuestCards[i] = SM.CreateQuestCard(detailChild)
         end
         local card = dQuestCards[i]
-        if ch.replayable or not IsQuestForPlayer(q) or ShouldHideQuest(q) then
+        if ch.replayable or not SM.IsQuestForPlayer(q) or SM.ShouldHideQuest(q) then
             card:Hide()
         else
             local qOptional = q.optional == true
             local qInLog = SM.IsQuestEntryInLog(q)
-            local qDone = (not qInLog) and IsQuestEffectivelyComplete(i, ch.quests)
+            local qDone = (not qInLog) and SM.IsQuestEffectivelyComplete(i, ch.quests)
             -- Display fallback: if the story has no next quest ("Story Finished"),
             -- treat remaining cards as complete for UI purposes.
             local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
@@ -2992,7 +3020,7 @@ LayoutSelectedChapter = function()
                     end
                 end
             end
-            local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and GetQuestLockReason(data, ch, i) or nil
+            local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and SM.GetQuestLockReason(data, ch, i) or nil
 
             card.title:SetText(q.displayName or q.name)
             card.npcLabel:SetText(q.npc or "")
@@ -3125,7 +3153,7 @@ end
 
 local progressElements = { dProgSummary, dTrackContainer, dChapterTitle, dChapterSummary, dChapterNote, dChapterAchievement, dChapterAchievementCard, dMarkViewedBtn }
 
-local function ShowDetail(show)
+function SM.ShowDetail(show)
     -- Always hide both frames here. When opening a new story, the hero icon
     -- and adventure cover both still hold the previous story's content, and
     -- ShowTab (which runs from the deferred LayoutDetailTab) is what reveals
@@ -3135,7 +3163,7 @@ local function ShowDetail(show)
     aCoverFrame:Hide()
 end
 
-local function ShowTab(tab)
+function SM.ShowTab(tab)
     -- Hide all tab-specific elements
     for _, el in ipairs(storyElements) do el:Hide() end
     for _, el in ipairs(journalElements) do el:Hide() end
@@ -3154,7 +3182,7 @@ local function ShowTab(tab)
     dTitle:ClearAllPoints()
     dTitle:SetPoint("TOP", heroPort, "BOTTOM", 0, -12)
     if tab ~= "story" then
-        SetSecureOverlayActive(false)
+        SM.SetSecureOverlayActive(false)
     end
 
     if tab == "story" then
@@ -3173,7 +3201,7 @@ local function ShowTab(tab)
     end
 end
 
-local function SetActiveTab(tab)
+function SM.SetActiveTab(tab)
     activeTab = tab
     if tab == "story" then
         tabStoryLabel:SetTextColor(1, 1, 1)
@@ -3190,10 +3218,14 @@ local function SetActiveTab(tab)
     end
 end
 
-ShowDetail(false)
-for _, el in ipairs(storyElements) do el:Hide() end
-for _, el in ipairs(journalElements) do el:Hide() end
-for _, el in ipairs(progressElements) do el:Hide() end
+SM.ShowDetail(false)
+function SM.HideInitialDetailElements()
+    for _, el in ipairs(storyElements) do el:Hide() end
+    for _, el in ipairs(journalElements) do el:Hide() end
+    for _, el in ipairs(progressElements) do el:Hide() end
+end
+
+SM.HideInitialDetailElements()
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- UpdateStoryDetail  +  LayoutDetailTab
@@ -3205,7 +3237,7 @@ local storySelectedIdx = nil
 -- The per-tab branches each live in their own local function so that the
 -- dispatcher does not exceed Lua's 60-upvalue limit.
 
-local function LayoutStoryTab(data, w, contentW, visibleContentW)
+function SM.LayoutStoryTab(data, w, contentW, visibleContentW)
         -- ── STORY TAB layout ────────────────────────────────────────────
         -- Clean top-down chain: cover → intro → CTA
 
@@ -3244,9 +3276,9 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         FactionUI:HideAll()
 
         -- CTA button
-        local quest, _, nextChapter = FindNextQuest(data)
-        local done = select(1, GetCampaignProgress(data))
-        local gateReason = GetQuestlineGateReason(data, nextChapter)
+        local quest, _, nextChapter = SM.FindNextQuest(data)
+        local done = select(1, SM.GetCampaignProgress(data))
+        local gateReason = SM.GetQuestlineGateReason(data, nextChapter)
         sTrackBtn:ClearAllPoints()
         sTrackBtn:SetPoint("TOP", lastAnchor, "BOTTOM", 0, -24)
         sCompleteText:Hide()
@@ -3254,7 +3286,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
             if gateReason then
                 sTrackBtn:SetText(L["Button Story Locked"])
                 sTrackBtn:SetScript("OnClick", nil)
-                SetSecureOverlayActive(false)
+                SM.SetSecureOverlayActive(false)
                 sTrackBtn:Disable()
                 sTrackBtn:SetAlpha(0.5)
                 sTrackBtn.lockReason = gateReason
@@ -3266,7 +3298,7 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtnSecure:SetScript("PreClick", function()
                     pendingSecureTrack = { data = data, quest = quest }
                 end)
-                SetSecureOverlayActive(true)
+                SM.SetSecureOverlayActive(true)
                 sTrackBtn:SetScript("OnClick", nil)
                 sTrackBtn:Enable()
                 sTrackBtn:SetAlpha(1.0)
@@ -3275,13 +3307,13 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         else
             sTrackBtn:SetText(L["Button Story Finished"])
             sTrackBtn:SetScript("OnClick", nil)
-            SetSecureOverlayActive(false)
+            SM.SetSecureOverlayActive(false)
             sTrackBtn:Disable()
             sTrackBtn:SetAlpha(0.5)
             sTrackBtn.lockReason = nil
         end
         sTrackBtn:Show()
-        SyncSecureOverlay()
+        SM.SyncSecureOverlay()
         lastAnchor = sTrackBtn
 
         local storyBottomEl = lastAnchor
@@ -3297,14 +3329,14 @@ local function LayoutStoryTab(data, w, contentW, visibleContentW)
         end)
 end
 
-local function LayoutJournalTab(data, w, contentW, visibleContentW)
+function SM.LayoutJournalTab(data, w, contentW, visibleContentW)
         -- ── JOURNAL TAB layout ──────────────────────────────────────────
         -- Show recap for each completed chapter (no spoilers for future ones)
-        local chapters = GetAllChapters(data)
+        local chapters = SM.GetAllChapters(data)
         local journalIdx = 0
         local hasAnyRecap = false
-        local quest = FindNextQuest(data)
-        local done = GetCampaignProgress(data)
+        local quest = SM.FindNextQuest(data)
+        local done = SM.GetCampaignProgress(data)
         local lastAnchor = sJournalHeader
 
         -- Factions live in the contextual left panel on the Journal tab.
@@ -3324,12 +3356,12 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
         sJournalSubline:Show()
 
         for ci, ch in ipairs(chapters) do
-            local cd, ct = GetChapterProgress(ch)
+            local cd, ct = SM.GetChapterProgress(ch)
             local chComplete = cd == ct and ct > 0
             if chComplete and ch.recap then
                 journalIdx = journalIdx + 1
                 hasAnyRecap = true
-                local entry = GetJournalEntry(journalIdx)
+                local entry = SM.GetJournalEntry(journalIdx)
 
                 -- Chapter title
                 entry.title:ClearAllPoints()
@@ -3404,16 +3436,16 @@ local function LayoutJournalTab(data, w, contentW, visibleContentW)
         end)
 end
 
-local function LayoutProgressTab(data, w, contentW, visibleContentW)
+function SM.LayoutProgressTab(data, w, contentW, visibleContentW)
         -- ── PROGRESS TAB layout ─────────────────────────────────────────
-        local chapters = GetAllChapters(data)
+        local chapters = SM.GetAllChapters(data)
 
         -- CTA
         -- Progress summary line
-        local done, total = GetCampaignProgress(data)
+        local done, total = SM.GetCampaignProgress(data)
         local chapDone = 0
         for ci, ch in ipairs(chapters) do
-            local cd, ct = GetChapterProgress(ch)
+            local cd, ct = SM.GetChapterProgress(ch)
             if cd == ct and ct > 0 then chapDone = chapDone + 1 end
         end
         dProgSummary:SetText(string.format(L["Progress Summary Format"], chapDone, #chapters, done, total))
@@ -3434,7 +3466,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
         -- Find the first incomplete chapter (current chapter)
         local currentChapter = #chapters
         for i, ch in ipairs(chapters) do
-            local cd, ct = GetChapterProgress(ch)
+            local cd, ct = SM.GetChapterProgress(ch)
             if cd < ct or ct == 0 then currentChapter = i; break end
         end
         dSelectedChapter = currentChapter
@@ -3447,16 +3479,16 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
 
         for i, ch in ipairs(chapters) do
             if not dTrackNodes[i] then
-                dTrackNodes[i] = CreateTrackNode(dTrackInner)
+                dTrackNodes[i] = SM.CreateTrackNode(dTrackInner)
             end
             local node = dTrackNodes[i]
-            local cDone, cTotal = GetChapterProgress(ch)
+            local cDone, cTotal = SM.GetChapterProgress(ch)
             local isComplete = cDone == cTotal and cTotal > 0
             local isActive = cDone > 0 and not isComplete
 
             -- NPC portrait
-            local displayID, chapterIcon = GetChapterPortraitSource(data, ch)
-            SetChapterPortrait(node.portrait, displayID, chapterIcon, ch.quests and ch.quests[1] and ch.quests[1].id)
+            local displayID, chapterIcon = SM.GetChapterPortraitSource(data, ch)
+            SM.SetChapterPortrait(node.portrait, displayID, chapterIcon, ch.quests and ch.quests[1] and ch.quests[1].id)
 
             -- Tooltip
             node.tooltipTitle = ch.chapter
@@ -3544,7 +3576,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
                 dSelectedChapter = idx
                 StoryModeDB.selectedChapter = idx
                 LayoutSelectedChapter()
-                C_Timer.After(0, function() CenterTrackOnSelected(dTrackClip:GetWidth()) end)
+                C_Timer.After(0, function() SM.CenterTrackOnSelected(dTrackClip:GetWidth()) end)
             end)
 
             node:Show()
@@ -3583,7 +3615,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
         -- Center track on selected chapter + apply node fading
         C_Timer.After(0, function()
             local clipW = dTrackClip:GetWidth()
-            CenterTrackOnSelected(clipW)
+            SM.CenterTrackOnSelected(clipW)
             dTrackLeftBtn:Show()
             dTrackRightBtn:Show()
         end)
@@ -3605,7 +3637,7 @@ local function LayoutProgressTab(data, w, contentW, visibleContentW)
         LayoutSelectedChapter()
 end
 
-local function LayoutDetailTab()
+function SM.LayoutDetailTab()
     local data = currentStoryData
     if not data then return end
 
@@ -3613,7 +3645,7 @@ local function LayoutDetailTab()
     local contentW = w - CP * 2
     local visibleContentW = w - 34
 
-    ShowTab(activeTab)
+    SM.ShowTab(activeTab)
     if SM.UpdateLeftPanelForTab then
         SM.UpdateLeftPanelForTab(activeTab, data)
     end
@@ -3622,11 +3654,11 @@ local function LayoutDetailTab()
     if divW < 20 then divW = 400 end
 
     if activeTab == "story" then
-        LayoutStoryTab(data, w, contentW, visibleContentW)
+        SM.LayoutStoryTab(data, w, contentW, visibleContentW)
     elseif activeTab == "journal" then
-        LayoutJournalTab(data, w, contentW, visibleContentW)
+        SM.LayoutJournalTab(data, w, contentW, visibleContentW)
     elseif activeTab == "progress" then
-        LayoutProgressTab(data, w, contentW, visibleContentW)
+        SM.LayoutProgressTab(data, w, contentW, visibleContentW)
     end
 end
 
@@ -3640,9 +3672,9 @@ end)
 tabStoryHit:SetScript("OnClick", function()
     if activeTab ~= "story" and currentStoryData then
         PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-        SetActiveTab("story")
+        SM.SetActiveTab("story")
         detailScroll:SetVerticalScroll(0)
-        LayoutDetailTab()
+        SM.LayoutDetailTab()
     end
 end)
 
@@ -3655,9 +3687,9 @@ end)
 tabProgressHit:SetScript("OnClick", function()
     if activeTab ~= "progress" and currentStoryData then
         PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-        SetActiveTab("progress")
+        SM.SetActiveTab("progress")
         detailScroll:SetVerticalScroll(0)
-        LayoutDetailTab()
+        SM.LayoutDetailTab()
     end
 end)
 
@@ -3670,17 +3702,17 @@ end)
 tabJournalHit:SetScript("OnClick", function()
     if activeTab ~= "journal" and currentStoryData then
         PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
-        SetActiveTab("journal")
+        SM.SetActiveTab("journal")
         detailScroll:SetVerticalScroll(0)
-        LayoutDetailTab()
+        SM.LayoutDetailTab()
     end
 end)
 
 -- ── Main entry point ────────────────────────────────────────────────────────
-local function UpdateStoryDetail(data)
+function SM.UpdateStoryDetail(data)
     if not data then
         currentStoryData = nil
-        ShowDetail(false)
+        SM.ShowDetail(false)
         -- Hide all tab elements
         for _, el in ipairs(storyElements) do el:Hide() end
         for _, el in ipairs(journalElements) do el:Hide() end
@@ -3690,13 +3722,13 @@ local function UpdateStoryDetail(data)
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
         sTrackBtn:Hide(); sCompleteText:Hide()
-        SetSecureOverlayActive(false)
+        SM.SetSecureOverlayActive(false)
         dCompleteText:Hide()
         introText:SetText(SM.AreAllStoriesFinished() and L["Intro Text Complete"] or L["Intro Text"])
         introHero:Show(); introText:Show()
         heroIcon:SetTexture(nil)
         smHeaderSub:SetText("")
-        SetActiveTab("story")
+        SM.SetActiveTab("story")
         -- Hide tabs on intro page
         tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabJournalLabel:Hide()
         tabStoryHit:Hide(); tabProgressHit:Hide(); tabJournalHit:Hide()
@@ -3715,7 +3747,7 @@ local function UpdateStoryDetail(data)
     end
 
     currentStoryData = data
-    introHero:Hide(); introText:Hide(); ShowDetail(true)
+    introHero:Hide(); introText:Hide(); SM.ShowDetail(true)
     tabStoryLabel:Show(); tabProgressLabel:Show(); tabJournalLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show(); tabJournalHit:Show()
 
@@ -3764,15 +3796,15 @@ local function UpdateStoryDetail(data)
 
     smHeaderSub:SetText("")
     dTitle:SetText(displayTitle)
-    SetAdventureCover(data, displayTitle)
-    sIntro:SetText(data.description or "")
+    SM.SetAdventureCover(data, displayTitle)
+    sIntro:SetText(SM.GetStoryIntroText(data))
 
     -- Layout the active tab
     C_Timer.After(0, function()
         local w = detailChild:GetWidth()
         if w > 20 then sIntro:SetWidth(w - CP * 2) end
         C_Timer.After(0, function()
-            LayoutDetailTab()
+            SM.LayoutDetailTab()
         end)
     end)
 end
@@ -3845,7 +3877,7 @@ function SM.RestoreLeftStoryScroll()
     end
 end
 
-local function SelectStory(index)
+function SM.SelectStory(index)
     SM.SaveLeftStoryScroll()
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
     storySelectedIdx = index
@@ -3856,11 +3888,11 @@ local function SelectStory(index)
         if row.btn then row.btn:UnlockHighlight() end
         if row.coverTex then
             if SM.Client and SM.Client.isRetail then
-                local hasCover = SetAdventureCoverTexture(row.coverTex, row.data)
+                local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
                 row.coverTex:SetAlpha(1)
             else
-                local hasCover = SetAdventureCoverTexture(row.coverTex, row.data)
+                local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
                 row.coverTex:SetAlpha(0.72)
             end
@@ -3874,7 +3906,7 @@ local function SelectStory(index)
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
-        local gateReason = row.data and GetQuestlineGateReason(row.data) or nil
+        local gateReason = row.data and SM.GetQuestlineGateReason(row.data) or nil
         if row.btn then row.btn.lockReason = gateReason end
         if row.checkmark and row.data then
             row.checkmark:SetShown(not gateReason and SM.IsStoryFinished(row.data))
@@ -3883,21 +3915,21 @@ local function SelectStory(index)
         end
     end
     if index == 0 or not storyIndexToData[index] then
-        UpdateStoryDetail(nil)
+        SM.UpdateStoryDetail(nil)
     else
-        UpdateStoryDetail(storyIndexToData[index])
+        SM.UpdateStoryDetail(storyIndexToData[index])
     end
 end
 
 -- Category header (Trading Post style: label with thin ruled lines)
-local function CreateCatDivider(parent, text, yOff)
+function SM.CreateCatDivider(parent, text, yOff)
     local CAT_H = 26
     local f = CreateFrame("Frame", nil, parent)
     f:SetHeight(CAT_H)
     f:SetPoint("TOPLEFT",  parent, "TOPLEFT",  4, yOff)
     f:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -4, yOff)
 
-    local lbl = NoShadow(f:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+    local lbl = SM.NoShadow(f:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
     lbl:SetPoint("CENTER", f, "CENTER", 0, 0)
     lbl:SetJustifyH("CENTER")
     lbl:SetText(text)
@@ -3929,7 +3961,7 @@ end
 SM.LeftContextAchievementButtons = {}
 SM.LeftContextFactionCards = {}
 SM.LeftContextDividers = {}
-SM.LeftContextEmptyText = NoShadow(SM.LeftContextChild:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+SM.LeftContextEmptyText = SM.NoShadow(SM.LeftContextChild:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
 SM.LeftContextEmptyText:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
 SM.LeftContextEmptyText:SetJustifyH("CENTER")
 SM.LeftContextEmptyText:Hide()
@@ -3969,7 +4001,7 @@ function SM.GetLeftContextDivider(index, text, yOff)
     local div = SM.LeftContextDividers[index]
     if not div then
         local _
-        _, div = CreateCatDivider(SM.LeftContextChild, text, yOff)
+        _, div = SM.CreateCatDivider(SM.LeftContextChild, text, yOff)
         SM.LeftContextDividers[index] = div
     end
     div:ClearAllPoints()
@@ -4151,7 +4183,7 @@ end
 
 function SM.LayoutLeftAchievements(data)
     local yOffset = SM.LeftContextYOffset or -16
-    local ids = GetStoryAchievements(data)
+    local ids = SM.GetStoryAchievements(data)
     if #ids == 0 then
         for _, btn in ipairs(SM.LeftContextAchievementButtons) do btn:Hide() end
         return yOffset, false
@@ -4201,7 +4233,7 @@ end
 
 function SM.LayoutLeftFactions(data)
     local yOffset = SM.LeftContextYOffset or -16
-    local factions = GetStoryFactions(data)
+    local factions = SM.GetStoryFactions(data)
     if not factions or #factions == 0 then
         for _, card in ipairs(SM.LeftContextFactionCards) do card:Hide() end
         return yOffset, false
@@ -4250,8 +4282,8 @@ function SM.LayoutLeftFactions(data)
 end
 
 function SM.LayoutLeftProgressJournal(data)
-    local achievements = GetStoryAchievements(data)
-    local factions = GetStoryFactions(data)
+    local achievements = SM.GetStoryAchievements(data)
+    local factions = SM.GetStoryFactions(data)
     if (not achievements or #achievements == 0) and (not factions or #factions == 0) then
         SM.UseStoryLeftPanel()
         return
@@ -4279,7 +4311,7 @@ SM.UpdateLeftPanelForTab = function(tab, data)
     end
 end
 
-local function BuildStoryWindow()
+function SM.BuildStoryWindow()
     if storyContentBuilt then return end
     storyContentBuilt = true
     for _, data in ipairs(allQuestlines) do ResolveAchievementID(data) end
@@ -4292,7 +4324,7 @@ local function BuildStoryWindow()
 
     -- ── Introduction card (index 0 = show intro text on right) ───────────
     local playerName = UnitName("player")
-    local introDivH = CreateCatDivider(leftChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
+    local introDivH = SM.CreateCatDivider(leftChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
     yOffset = yOffset - introDivH - 4
 
     local introCard = CreateFrame("Button", nil, leftChild, (SM.Client and SM.Client.isRetail) and nil or "BackdropTemplate")
@@ -4336,7 +4368,7 @@ local function BuildStoryWindow()
     introIconMask:SetAllPoints(introIcon)
     introIcon:AddMaskTexture(introIconMask)
 
-    local introName = NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+    local introName = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
     introName:SetPoint("LEFT",  introIcon, "RIGHT", 8, 0)
     introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
     introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
@@ -4346,7 +4378,7 @@ local function BuildStoryWindow()
 
     local introZone = nil  -- no subline
 
-    introCard.checkmark = CreateCompletionRibbon(introCard)
+    introCard.checkmark = SM.CreateCompletionRibbon(introCard)
     if SM.Client and SM.Client.isRetail then
         introCard.checkmark:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -15, -1)
     else
@@ -4364,7 +4396,7 @@ local function BuildStoryWindow()
         checkmark = introCard.checkmark,
         isIntro   = true,
     }
-    introCard:SetScript("OnClick", function() SelectStory(0) end)
+    introCard:SetScript("OnClick", function() SM.SelectStory(0) end)
     introCard:SetScript("OnEnter", function()
         if not (SM.Client and SM.Client.isRetail) then
             SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
@@ -4382,10 +4414,10 @@ local function BuildStoryWindow()
     -- ── Questline cards ──────────────────────────────────────────────────
     for _, cat in ipairs(categories) do
         if cat.disabled then
-            local divH = CreateCatDivider(leftChild, cat.displayName or cat.name, yOffset)
+            local divH = SM.CreateCatDivider(leftChild, cat.displayName or cat.name, yOffset)
             yOffset = yOffset - divH - 12
         elseif #cat.questlines > 0 then
-            local divH = CreateCatDivider(leftChild, cat.displayName or cat.name, yOffset)
+            local divH = SM.CreateCatDivider(leftChild, cat.displayName or cat.name, yOffset)
             yOffset = yOffset - divH - 4
             for _, data in ipairs(cat.questlines) do
                 globalIdx = globalIdx + 1
@@ -4424,7 +4456,7 @@ local function BuildStoryWindow()
                     coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 3, -3)
                     coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -3, 3)
                     coverTex:SetAlpha(0.72)
-                    coverTex:SetShown(SetAdventureCoverTexture(coverTex, data))
+                    coverTex:SetShown(SM.SetAdventureCoverTexture(coverTex, data))
                 end
                 if SM.Client and SM.Client.isRetail then
                     card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
@@ -4532,7 +4564,7 @@ local function BuildStoryWindow()
                 portFrame:Hide()
 
                 -- ── Text labels (vertically centred on card) ──────────────────
-                local nameLabel = NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+                local nameLabel = SM.NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
                 nameLabel:SetPoint("LEFT",   card,      "LEFT",  24,  0)
                 nameLabel:SetPoint("RIGHT",  card,      "RIGHT", -42,  0)
                 nameLabel:SetPoint("BOTTOM", card,      "CENTER", 0,  1)
@@ -4541,11 +4573,11 @@ local function BuildStoryWindow()
                 nameLabel:SetText(data.title)
                 nameLabel:SetTextColor(1.0, 1.0, 1.0)
 
-                local zoneLabel = NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+                local zoneLabel = SM.NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
                 zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
                 zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -42,  0)
                 zoneLabel:SetJustifyH("LEFT")
-                local zoneText = SM.GetQuestlineZoneText(data)
+                local zoneText = SM.GetQuestlineCardSubline(data)
                 local parts = {}
                 for part in zoneText:gmatch("[^/]+") do
                     parts[#parts + 1] = part:match("^%s*(.-)%s*$")
@@ -4559,13 +4591,13 @@ local function BuildStoryWindow()
                 zoneLabel:SetTextColor(1.0, 0.82, 0.36)
 
                 -- ── Completion checkmark ──────────────────────────────────────
-                local cardCheckmark = CreateCompletionRibbon(card)
+                local cardCheckmark = SM.CreateCompletionRibbon(card)
                 if SM.Client and SM.Client.isRetail then
                     cardCheckmark:SetPoint("TOPRIGHT", card, "TOPRIGHT", -15, -1)
                 else
                     cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
                 end
-                local gateReason = GetQuestlineGateReason(data)
+                local gateReason = SM.GetQuestlineGateReason(data)
                 card.lockReason = gateReason
                 if gateReason then
                     cardCheckmark:Hide()
@@ -4587,7 +4619,7 @@ local function BuildStoryWindow()
                 }
 
                 -- ── Click ──────────────────────────────────────────────────────
-                card:SetScript("OnClick", function() SelectStory(idx) end)
+                card:SetScript("OnClick", function() SM.SelectStory(idx) end)
                 card:SetScript("OnEnter", function(self)
                     if not (SM.Client and SM.Client.isRetail) then
                         SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
@@ -4615,7 +4647,7 @@ end
 
 storyFrame:SetScript("OnShow", function()
     PlaySound(SOUNDKIT.IG_MAINMENU_OPEN)
-    BuildStoryWindow()
+    SM.BuildStoryWindow()
     -- Frame 1: let layout settle so detailScroll has a real width
     C_Timer.After(0, function()
         local w = detailScroll:GetWidth()
@@ -4626,9 +4658,9 @@ storyFrame:SetScript("OnShow", function()
             local savedIdx = StoryModeDB.selectedQuestline or 0
             -- Validate saved index exists
             if savedIdx > 0 and storyIndexToData[savedIdx] then
-                SelectStory(savedIdx)
+                SM.SelectStory(savedIdx)
             else
-                SelectStory(0)  -- default to Introduction card
+                SM.SelectStory(0)  -- default to Introduction card
             end
         end)
     end)
@@ -4642,7 +4674,7 @@ end)
 local ShowStoryBanner   -- forward declaration (defined in Banner section below)
 local ShowStoryComplete -- forward declaration (defined in Banner section below)
 
-local function ToggleStoryModeFrame()
+function SM.ToggleStoryModeFrame()
     if InCombatLockdown() then
         UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
         return
@@ -4659,7 +4691,7 @@ end
 
 function StoryMode_AddonCompartment_OnClick(_, button)
     if button and button ~= "LeftButton" then return end
-    ToggleStoryModeFrame()
+    SM.ToggleStoryModeFrame()
 end
 
 function StoryMode_AddonCompartment_OnEnter(nameOrButton, maybeButton)
@@ -4698,12 +4730,12 @@ function SM.ShowLoadingScreenBrowser()
         frame:SetBackdropColor(0.035, 0.030, 0.026, 0.96)
         frame:SetBackdropBorderColor(0.95, 0.72, 0.32, 0.85)
 
-        local title = NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"))
+        local title = SM.NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"))
         title:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
         title:SetText("Story Mode Loading Screens")
         title:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
 
-        local hint = NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+        local hint = SM.NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
         hint:SetPoint("LEFT", title, "RIGHT", 18, 0)
         hint:SetText("/sm loadingscreens")
         hint:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
@@ -4754,13 +4786,13 @@ function SM.ShowLoadingScreenBrowser()
             tile.image:SetPoint("TOP", tile, "TOP", 0, -12)
             tile.image:SetTexCoord(0, 1, SM.AdventureLoadingScreenTexTop, SM.AdventureLoadingScreenTexBottom)
 
-            tile.name = NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+            tile.name = SM.NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
             tile.name:SetPoint("TOPLEFT", tile.image, "BOTTOMLEFT", 0, -8)
             tile.name:SetPoint("RIGHT", tile.image, "RIGHT", 0, 0)
             tile.name:SetJustifyH("LEFT")
             tile.name:SetTextColor(1, 1, 1)
 
-            tile.textureName = NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+            tile.textureName = SM.NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
             tile.textureName:SetPoint("TOPLEFT", tile.name, "BOTTOMLEFT", 0, -3)
             tile.textureName:SetPoint("RIGHT", tile.image, "RIGHT", 0, 0)
             tile.textureName:SetJustifyH("LEFT")
@@ -4812,7 +4844,7 @@ SlashCmdList["STORYMODE"] = function(msg)
     elseif msg == "chapter" then
         local data = allQuestlines[1]
         if data then
-            local ch = GetAllChapters(data)[1]
+            local ch = SM.GetAllChapters(data)[1]
             ShowStoryBanner(L["Banner Chapter Complete"], ch and ch.chapter or data.title, data, nil, true)
         else
             print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
@@ -4832,13 +4864,13 @@ SlashCmdList["STORYMODE"] = function(msg)
         -- in-UI "Continue Story" button, which routes through the secure
         -- macro dispatch and avoids taint.
         for _, data in ipairs(allQuestlines) do
-            local quest, chapter = FindNextQuest(data)
+            local quest, chapter = SM.FindNextQuest(data)
             if quest then
-                local result = SetWaypointForQuest(data, quest)
+                local result = SM.SetWaypointForQuest(data, quest)
                 local cr, cg, cb = unpack(data.color or { 1, 0.82, 0 })
-                local hex = HexColor(cr, cg, cb)
+                local hex = SM.HexColor(cr, cg, cb)
                 print(L["Addon Legacy Prefix"] .. "|cff" .. hex .. data.title .. " — " .. chapter .. "|r")
-                PrintTrackResult(result, quest, data)
+                SM.PrintTrackResult(result, quest, data)
                 return
             end
         end
@@ -4850,15 +4882,15 @@ SlashCmdList["STORYMODE"] = function(msg)
             if not filter or data.title:lower():find(filter, 1, true) then
                 found = true
                 print(L["Addon Debug Prefix"] .. data.title)
-                local chapters = GetAllChapters(data)
+                local chapters = SM.GetAllChapters(data)
                 for _, ch in ipairs(chapters) do
                     if ch.quests then
-                        local chDone, chTotal = GetChapterProgress(ch)
+                        local chDone, chTotal = SM.GetChapterProgress(ch)
                         print(string.format("  |cffaaaaaa[%s]|r %d/%d", ch.chapter or "?", chDone, chTotal))
                         for j, q in ipairs(ch.quests) do
                             local inLog = SM.IsQuestEntryInLog(q)
                             local flagged = SM.IsQuestEntryComplete(q)
-                            local effective = IsQuestEffectivelyComplete(j, ch.quests)
+                            local effective = SM.IsQuestEffectivelyComplete(j, ch.quests)
                             local tag = inLog and "|cff00ff00[IN LOG]|r"
                                 or (flagged and "|cffaaaaaa[done]|r")
                                 or (effective and "|cffff8800[eff-done]|r")
@@ -4873,7 +4905,7 @@ SlashCmdList["STORYMODE"] = function(msg)
             print(L["Addon Legacy Prefix"] .. string.format(L["Slash No Match Format"], filter or ""))
         end
     else
-        ToggleStoryModeFrame()
+        SM.ToggleStoryModeFrame()
     end
 end
 
@@ -4891,7 +4923,7 @@ function SM.FindQuestStory(questID)
     if not questID then return nil end
 
     for _, data in ipairs(allQuestlines) do
-        for _, ch in ipairs(GetAllChapters(data)) do
+        for _, ch in ipairs(SM.GetAllChapters(data)) do
             for _, q in ipairs(ch.quests) do
                 if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
                     for _, id in ipairs(SM.GetQuestIDs(q)) do
@@ -4911,7 +4943,7 @@ function SM.FindQuestStoryByName(questName)
     if not questName or questName == "" then return nil end
 
     for _, data in ipairs(allQuestlines) do
-        for _, ch in ipairs(GetAllChapters(data)) do
+        for _, ch in ipairs(SM.GetAllChapters(data)) do
             for _, q in ipairs(ch.quests) do
                 if q.name == questName and SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
                     return data, q
@@ -4954,9 +4986,9 @@ function SM.PrintQuestAcceptedStory(questID)
     end
 end
 
-local function CheckQuestCompletion(completedQuestID)
+function SM.CheckQuestCompletion(completedQuestID)
     for _, data in ipairs(allQuestlines) do
-        for _, ch in ipairs(GetAllChapters(data)) do
+        for _, ch in ipairs(SM.GetAllChapters(data)) do
             local questName, questNpc
             for _, q in ipairs(ch.quests) do
                 if q.id == completedQuestID then
@@ -4969,10 +5001,10 @@ local function CheckQuestCompletion(completedQuestID)
                 -- Delay so IsQuestFlaggedCompleted is reliable before we check progress
                 C_Timer.After(0.1, function()
                     if storyFrame:IsShown() and currentStoryData == data then
-                        UpdateStoryDetail(data)
+                        SM.UpdateStoryDetail(data)
                     end
 
-                    local done, total = GetChapterProgress(ch)
+                    local done, total = SM.GetChapterProgress(ch)
                     local isChapterDone = done >= total and total > 0
                     local key = (data.title or "") .. "|" .. (ch.chapter or "")
                     local storyKey = data.title or ""
@@ -5034,8 +5066,8 @@ frame:SetScript("OnEvent", function(self, event, arg1, arg2)
         SM.RegisterQuestAcceptedSystemMessageFilter()
         -- Pre-populate caches so already-completed chapters/storylines don't re-fire
         for _, data in ipairs(allQuestlines) do
-            for _, ch in ipairs(GetAllChapters(data)) do
-                local d, t = GetChapterProgress(ch)
+            for _, ch in ipairs(SM.GetAllChapters(data)) do
+                local d, t = SM.GetChapterProgress(ch)
                 if d >= t and t > 0 then
                     chapterCompletionCache[(data.title or "") .. "|" .. (ch.chapter or "")] = true
                 end
@@ -5045,7 +5077,7 @@ frame:SetScript("OnEvent", function(self, event, arg1, arg2)
             end
         end
     elseif event == "QUEST_TURNED_IN" then
-        CheckQuestCompletion(arg1)
+        SM.CheckQuestCompletion(arg1)
     elseif event == "QUEST_ACCEPTED" then
         SM.PrintQuestAcceptedStory(arg2 or arg1)
     end

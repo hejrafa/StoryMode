@@ -10,6 +10,7 @@ SM.ScarletCrusadeData = {
     description = "The Scarlet Crusade calls itself the last pure flame of Lordaeron, but its crusade burns everyone it touches: Forsaken farmers, human dissenters, prisoners in the Monastery, and even its own sons.\n\nFollow the Scarlet trail from Deathknell and Southshore into Scarlet Monastery, through Stratholme's Scarlet Bastion, and north to Hearthglen, where Tirion Fordring tries to save Taelan from the order's fanatic heart.",
     zone = "Tirisfal / Monastery / Stratholme / Plaguelands",
     expansion = "Classic",
+    recommendedLevel = { min = 2, max = 60 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.82, 0.10, 0.12 },

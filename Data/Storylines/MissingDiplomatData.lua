@@ -10,6 +10,7 @@ SM.MissingDiplomatData = {
     description = "A quiet request from the Cathedral becomes one of Classic's strangest Alliance mysteries. A diplomat bound for Theramore has vanished, Bishop DeLavey wants discretion, and every contact points toward a plot larger than a missing courier.\n\nFollow the trail from Stormwind to Duskwood, Menethil Harbor, and Theramore as the Defias connection gives way to a more dangerous truth: the missing diplomat may be Stormwind's own king.",
     zone = "Stormwind / Duskwood / Wetlands / Dustwallow Marsh",
     expansion = "Classic",
+    recommendedLevel = { min = 28, max = 38 },
     faction = "Alliance",
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},

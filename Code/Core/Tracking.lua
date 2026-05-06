@@ -189,7 +189,11 @@ function SM.SetWaypointForQuest(data, quest)
     if not quest then return "no_location", nil, nil end
 
     if not (SM.Client and SM.Client.isRetail) then
-        if SM.IsQuestEntryInLog(quest) then
+        local inLog, activeQuestID = SM.IsQuestEntryInLog(quest)
+        if inLog then
+            if activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then
+                return "classic_in_log_opened", nil, nil
+            end
             return "classic_in_log", nil, nil
         end
         return "classic_guidance", nil, nil
@@ -280,7 +284,7 @@ function SM.PrintTrackResult(result, quest, data)
     local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
     local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil
 
-    if result == "classic_in_log" then
+    if result == "classic_in_log" or result == "classic_in_log_opened" then
         print(P .. string.format(L["Tracking Classic In Log Format"], Q))
     elseif result == "classic_guidance" then
         if CH then

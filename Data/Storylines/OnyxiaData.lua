@@ -10,6 +10,7 @@ SM.OnyxiaData = {
     description = "The black dragonflight works through disguises, puppet kings, false warchiefs, and servants hidden in plain sight. For the Alliance, the trail exposes Lady Katrana Prestor in Stormwind Keep. For the Horde, it runs through Rend Blackhand, Rexxar, Emberstrife, and a gauntlet of dragons.\n\nFollow the Classic attunement stories that lead both factions to the Drakefire Amulet and the lair of Onyxia, broodmother of the black dragonflight.",
     zone = "Burning Steppes / Blackrock Mountain / Stormwind / Dustwallow Marsh",
     expansion = "Classic",
+    recommendedLevel = { min = 48, max = 60 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.78, 0.24, 0.08 },

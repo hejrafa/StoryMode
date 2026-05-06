@@ -10,6 +10,7 @@ SM.DarrowshireData = {
     description = "In the Plaguelands, a little girl waits in the ruins of Darrowshire with no memory of what really happened to her family. Pamela Redpath wants her doll back. Her surviving kin want answers. Chromie wants history's broken pieces gathered carefully enough to be touched again.\n\nFollow the Redpath family through one of Classic's most remembered tragedies, from Pamela's burned home to the battle where Joseph Redpath can finally be saved from what the Scourge made of him.",
     zone = "Western Plaguelands / Eastern Plaguelands",
     expansion = "Classic",
+    recommendedLevel = { min = 50, max = 60 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.68, 0.62, 0.48 },

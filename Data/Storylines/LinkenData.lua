@@ -10,6 +10,7 @@ SM.LinkenData = {
     description = "A wrecked raft in Un'Goro holds a compass, a map, a key, and a faded photograph. Their owner is alive at Marshal's Refuge, but Linken remembers almost nothing about himself or the strange sword he carried into the crater.\n\nFollow one of Classic's strangest and most beloved treasure-hunt stories from Un'Goro to Tanaris, Felwood, Winterspring, and back to Fire Plume Ridge.",
     zone = "Un'Goro Crater / Tanaris / Felwood / Winterspring",
     expansion = "Classic",
+    recommendedLevel = { min = 47, max = 56 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.30, 0.66, 0.34 },

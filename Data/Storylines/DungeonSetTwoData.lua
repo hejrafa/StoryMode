@@ -16,6 +16,7 @@ SM.DungeonSetTwoData = {
     expansion = "Classic",
     gameVersions = { classicEra = true, tbc = true },
     requiredLevel = 58,
+    recommendedLevel = { min = 58, max = 60 },
     achievements = {},
     color = { 0.78, 0.58, 0.18 },
     icon = 132762,

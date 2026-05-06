@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.7.0
+
+### Classic Era
+- Added four lower-level Classic/TBC storylines: **Arugal and Shadowfang Keep**, **The Tower of Althalaxx**, **Raene's Cleansing**, and **Battle of Hillsbrad**
+- Added Classic/TBC story level guidance using minimum required quest level through maximum quest level, shown on story cards and story introductions
+- Sorted stories within each category by their lowest suggested level so earlier Classic stories appear higher in the list
+- Added **Consumed by Hatred** to the **Lost in Battle** Mankrik story
+- Fixed **Continue Story** on Classic/TBC so quests already in the player's log open the selected quest log entry instead of only printing chat guidance
+
+### Maintenance
+- Split Classic level-guide formatting into `Code/Core/LevelGuide.lua` and loaded it from all TOCs
+- Refactored `StoryMode.lua` to reduce main-scope locals and avoid Lua's 200-local limit
+- Bumped addon metadata to `1.7.0`
+
 ## 1.6.6
 
 ### Classic Era

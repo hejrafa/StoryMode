@@ -10,6 +10,7 @@ SM.DefiasBrotherhoodData = {
     description = "The red masks appear first as a local nuisance: thieves across the river from Northshire, bandits in Elwynn, and a collector shaking down the kingdom's own mines. Then Westfall reveals the pattern. Gryan Stoutmantle thinks the Defias are more than a bandit problem, and every errand pulls the thread tighter: Lakeshire, SI:7, the Stonemasons, Moonbrook, and finally the ship hidden beneath the Deadmines.\n\nFollow the Alliance's first great conspiracy story from Northshire to Sentinel Hill, from Edwin VanCleef to the letter he never sent, and into the noble rot still waiting inside Stormwind.",
     zone = "Northshire / Elwynn / Westfall / Stormwind",
     expansion = "Classic",
+    recommendedLevel = { min = 2, max = 31 },
     faction = "Alliance",
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
