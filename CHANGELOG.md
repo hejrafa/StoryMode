@@ -19,6 +19,10 @@
 - Added registry-backed story quest lookup indexes for quest IDs and quest names
 - Added UI refresh hooks for story cards/current detail plus coalesced detail layout scheduling
 - Added Classic faction IDs for Timbermaw Hold and Brood of Nozdormu to the metadata audit map
+- Added shared keyed scheduling/debounce helpers, story-state snapshots, and a reusable UI frame-pool helper
+- Split the loading-screen browser and achievement/story-state resolution out of `StoryMode.lua`
+- Centralized Classic/Retail client checks behind compatibility helpers and refreshed story state on level-up
+- Added `_Dev/tools/check-core-behavior.mjs` to guard TOC module loading and the `StoryMode.lua` local-count budget
 - Added `_Dev/tools/validate-story-data.mjs` for local story schema and TOC coverage checks
 - Refactored `StoryMode.lua` to reduce main-scope locals and avoid Lua's 200-local limit
 - Bumped addon metadata to `1.7.0`

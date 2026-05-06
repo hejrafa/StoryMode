@@ -5,16 +5,16 @@ local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storym
 
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
-    local buttonSize = (SM.Client and SM.Client.isRetail) and 42 or 34
-    local iconSize = (SM.Client and SM.Client.isRetail) and 36 or 28
-    local edgeOffset = (SM.Client and SM.Client.isRetail) and 8 or 5
+    local buttonSize = (SM.IsRetailClient()) and 42 or 34
+    local iconSize = (SM.IsRetailClient()) and 36 or 28
+    local edgeOffset = (SM.IsRetailClient()) and 8 or 5
     minimapBtn:SetSize(buttonSize, buttonSize)
     minimapBtn:SetFrameStrata("MEDIUM")
     minimapBtn:SetFrameLevel(9)
 
     local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
     minimapIcon:SetSize(iconSize, iconSize)
-    minimapIcon:SetPoint("CENTER", 0, (SM.Client and SM.Client.isRetail) and 2 or 1)
+    minimapIcon:SetPoint("CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
     minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
 
     local minimapMask = minimapBtn:CreateMaskTexture()

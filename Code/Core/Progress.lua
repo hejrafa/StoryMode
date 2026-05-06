@@ -42,6 +42,7 @@ function SM.InvalidateProgressCache()
     progressCache.chapterProgress = NewWeakKeyCache()
     progressCache.campaignProgress = NewWeakKeyCache()
     progressCache.nextQuest = NewWeakKeyCache()
+    if SM.InvalidateStoryStateCache then SM.InvalidateStoryStateCache() end
 end
 
 function SM.IsQuestComplete(questID)
@@ -205,7 +206,7 @@ end
 
 function SM.GetStoryFactions(data)
     if not data then return nil end
-    if not (SM.Client and SM.Client.isRetail) then return nil end
+    if SM.IsClassicClient() then return nil end
     local faction = GetPlayerFaction()
     return (data.factionsByFaction and data.factionsByFaction[faction]) or data.factions
 end

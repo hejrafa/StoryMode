@@ -64,13 +64,17 @@ Data\Storylines\LinkenData.lua
 Data\Storylines\MankriksWifeData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua
+Code\Core\Scheduler.lua
 Code\Core\Progress.lua
 Code\Core\LevelGuide.lua
 Code\Core\Registry.lua
+Code\Core\StoryState.lua
 Code\Core\Events.lua
 Code\Core\PingPin.xml
 Code\Core\Tracking.lua
 Code\UI\Tooltip.lua
+Code\UI\Pools.lua
 Code\UI\Banners.lua
 Code\UI\MinimapButton.lua
+Code\UI\LoadingScreenBrowser.lua
 Code\StoryMode.lua

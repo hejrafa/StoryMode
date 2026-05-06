@@ -7,43 +7,8 @@ local currentStoryData = nil  -- assigned by UpdateStoryDetail
 function SM.GetCurrentStoryData()
     return currentStoryData
 end
-
--- ============================================================================
--- Achievement Resolver — find achievement ID by name at runtime
--- ============================================================================
-
-local function ResolveAchievementID(data)
-    local faction = UnitFactionGroup("player")
-    if data.achievementIDByFaction then
-        data.achievementID = data.achievementIDByFaction[faction] or data.achievementID
-    end
-    if data.achievementsByFaction then
-        data.achievements = data.achievementsByFaction[faction] or data.achievements
-    end
-
-    if data.achievementID then
-        local _, name = GetAchievementInfo(data.achievementID)
-        if name then return end  -- ID is valid
-    end
-    -- Search by name across achievement ID ranges
-    if data.achievementName then
-        for id = 1, 50000 do
-            local _, name = GetAchievementInfo(id)
-            if name == data.achievementName then
-                data.achievementID = id
-                return
-            end
-        end
-    end
-end
-
-function SM.IsStoryFinished(data)
-    if not data then return false end
-    local previousStoryData = currentStoryData
+function SM.SetCurrentStoryData(data)
     currentStoryData = data
-    local isFinished = SM.FindNextQuest(data) == nil
-    currentStoryData = previousStoryData
-    return isFinished
 end
 
 -- ============================================================================
@@ -89,6 +54,7 @@ local GAP      = 6
 local RIGHT_W  = 732   -- FRAME_W - LEFT_W - GAP
 local HEADER_H = 68
 local SOLID    = "Interface\\Buttons\\WHITE8x8"
+SM.SOLID_TEXTURE = SOLID
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
 local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_hero"
 SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
@@ -103,6 +69,12 @@ local C_BODY = {0.922, 0.871, 0.761}
 local C_GOLD = {1,     0.82,  0}
 local C_DIM  = {0.50,  0.50,  0.50}
 local C_DIVIDER = {1.0, 0.80, 0.45}
+SM.UIColors = {
+    body = C_BODY,
+    gold = C_GOLD,
+    dim = C_DIM,
+    divider = C_DIVIDER,
+}
 
 function SM.NoShadow(fs) fs:SetShadowOffset(0,0); return fs end
 
@@ -114,7 +86,7 @@ end
 
 function SM.SafeSetAtlas(tex, atlas, useAtlasSize)
     if not tex or not tex.SetAtlas or not atlas then return false end
-    if not (SM.Client and SM.Client.isRetail) then return false end
+    if SM.IsClassicClient() then return false end
     if C_Texture and C_Texture.GetAtlasInfo and not C_Texture.GetAtlasInfo(atlas) then
         return false
     end
@@ -158,8 +130,8 @@ function SM.SetStoryArrowTexture(tex, direction, large)
         return
     end
 
-    if large or (SM.Client and SM.Client.isRetail) then
-        if direction == "left" and not (SM.Client and SM.Client.isRetail) then
+    if large or (SM.IsRetailClient()) then
+        if direction == "left" and SM.IsClassicClient() then
             if SM.SafeSetTexture(tex, "Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up") then
                 return
             end
@@ -282,7 +254,7 @@ local PERKS_LAYOUT = {
 }
 
 function SM.CreateStoryPanel(section)
-    local useRetailArt = SM.Client and SM.Client.isRetail
+    local useRetailArt = SM.IsRetailClient()
     local template = (useRetailArt and NineSliceUtil) and "NineSlicePanelTemplate" or "BackdropTemplate"
     local f = CreateFrame("Frame", nil, section, template)
     f:SetAllPoints(section)
@@ -346,7 +318,7 @@ function SM.UpdateScrollbarVisibility(scrollFrame)
     if not scrollbar then return end
 
     local range = scrollFrame:GetVerticalScrollRange() or 0
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         if range > 1 then
             scrollbar:Show()
         else
@@ -360,7 +332,7 @@ function SM.UpdateScrollbarVisibility(scrollFrame)
 end
 
 function SM.StyleStoryScrollbar(scrollFrame)
-    if not (SM.Client and SM.Client.isRetail) then return end
+    if SM.IsClassicClient() then return end
     local scrollbar = SM.GetScrollBar(scrollFrame)
     if not scrollbar then return end
 
@@ -392,9 +364,9 @@ end
 -- ─── Major divider (Journeys renown divider atlas) ─────────────────────────
 function SM.CreateMajorDivider(parent)
     local f = CreateFrame("Frame", nil, parent)
-    f:SetHeight((SM.Client and SM.Client.isRetail) and 16 or 8)
+    f:SetHeight((SM.IsRetailClient()) and 16 or 8)
     local tex = f:CreateTexture(nil, "ARTWORK")
-    if SM.Client and SM.Client.isRetail and tex.SetAtlas then
+    if SM.IsRetailClient() and tex.SetAtlas then
         pcall(tex.SetAtlas, tex, "ui-journeys-renown-divider", false)
         tex:SetPoint("LEFT",  f, "LEFT",  0, 0)
         tex:SetPoint("RIGHT", f, "RIGHT", 0, 0)
@@ -535,8 +507,8 @@ tabContainer:SetPoint("BOTTOMRIGHT", rightSection, "BOTTOMRIGHT", 0,  0)
 -- Detail pane  (scrollable, lives inside tabContainer)
 -- ════════════════════════════════════════════════════════════════════════════
 
-local detailScrollTemplate = (SM.Client and SM.Client.isRetail) and "ScrollFrameTemplate" or "UIPanelScrollFrameTemplate"
-local detailScrollName = (SM.Client and SM.Client.isRetail) and nil or "StoryModeDetailScrollFrame"
+local detailScrollTemplate = (SM.IsRetailClient()) and "ScrollFrameTemplate" or "UIPanelScrollFrameTemplate"
+local detailScrollName = (SM.IsRetailClient()) and nil or "StoryModeDetailScrollFrame"
 local detailScroll = CreateFrame("ScrollFrame", detailScrollName, tabContainer, detailScrollTemplate)
 detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,  -2)
 detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2, SM.PanelScrollBottomInset)
@@ -548,7 +520,7 @@ SM.EnableMouseWheelScroll(detailScroll)
 -- Move scrollbar inside the panel. Classic uses the options/settings scroll art.
 local detailScrollbar = SM.GetScrollBar(detailScroll)
 if detailScrollbar then
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         detailScrollbar:ClearAllPoints()
         detailScrollbar:SetPoint("TOPRIGHT",    detailScroll, "TOPRIGHT",    -10, -16)
         detailScrollbar:SetPoint("BOTTOMRIGHT", detailScroll, "BOTTOMRIGHT", -10,  16)
@@ -1024,7 +996,7 @@ function FactionUI:Create()
         card.fullRing:SetAllPoints(card.button.IconFrame)
         card.fullRing:Hide()
         if card.button.IconFrame.Border then
-            if SM.Client and SM.Client.isRetail then
+            if SM.IsRetailClient() then
                 card.button.IconFrame.Border:SetAtlas("ui-journeys-renown-radial-bar", false)
             elseif not SM.SafeSetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
                 card.button.IconFrame.Border:Hide()
@@ -1242,7 +1214,7 @@ function FactionUI:ApplyArt(card, expansionID, textureKit)
     self:SetCardAtlas(card, self:GetCardAtlas(card, false))
 
     if card.button and card.button.IconFrame and card.button.IconFrame.Border then
-        if SM.Client and SM.Client.isRetail then
+        if SM.IsRetailClient() then
             card.button.IconFrame.Border:SetAtlas("ui-journeys-renown-radial-bar", false)
         elseif not self:SetAtlas(card.button.IconFrame.Border, "ui-journeys-renown-radial-bar", false) then
             card.button.IconFrame.Border:Hide()
@@ -1732,7 +1704,7 @@ function SM.SetChapterPortrait(portraitTex, displayID, iconPath, questID)
     local tryID = nil
     if displayID and displayID ~= 0 then
         tryID = displayID
-    elseif (SM.Client and SM.Client.isRetail) and fallbackID then
+    elseif (SM.IsRetailClient()) and fallbackID then
         tryID = fallbackID
     end
     if tryID then
@@ -1840,7 +1812,7 @@ function SM.GetChapterPortraitSource(data, chapter)
         end
     end
 
-    if (SM.Client and SM.Client.isRetail) and data.npcDisplayIDs and chapter.quests then
+    if (SM.IsRetailClient()) and data.npcDisplayIDs and chapter.quests then
         -- Walk the quest list to find the first quest whose faction matches (or has no faction).
         for _, q in ipairs(chapter.quests) do
             if not q.faction or q.faction == playerFaction then
@@ -1862,7 +1834,7 @@ local TRACK_NODE_SIZE = 48      -- portrait circle diameter
 local TRACK_ARROW_GAP = 24      -- space between nodes (contains arrow)
 local TRACK_STEP = TRACK_NODE_SIZE + TRACK_ARROW_GAP  -- 72px per step
 local TRACK_H = 72              -- track container height
-SM.TrackArrowSize = (SM.Client and SM.Client.isRetail) and 14 or 18
+SM.TrackArrowSize = (SM.IsRetailClient()) and 14 or 18
 
 local QCARD_H = 44 + 8         -- quest card height (44 + 4px top/bottom padding)
 local QCARD_GAP = 3            -- gap between cards
@@ -2090,7 +2062,7 @@ function SM.CreateTrackNode(parent)
             or SM.SafeSetTexture(ring, "Interface\\Buttons\\UI-ActionButton-Border")
     end
     if hasRingAtlas then
-        if SM.Client and SM.Client.isRetail then
+        if SM.IsRetailClient() then
             ring:SetPoint("TOPLEFT", portrait, "TOPLEFT", -3, 3)
             ring:SetPoint("BOTTOMRIGHT", portrait, "BOTTOMRIGHT", 3, -3)
         else
@@ -2174,8 +2146,8 @@ function SM.CreateTrackNode(parent)
     -- Down-arrow indicator (below node, points to quest cards)
     local downArrow = btn:CreateTexture(nil, "OVERLAY", nil, 3)
     SM.SetStoryArrowTexture(downArrow, "down", false)
-    local downArrowSize = (SM.Client and SM.Client.isRetail) and 16 or 22
-    local downArrowOffsetY = (SM.Client and SM.Client.isRetail) and 3 or 6
+    local downArrowSize = (SM.IsRetailClient()) and 16 or 22
+    local downArrowOffsetY = (SM.IsRetailClient()) and 3 or 6
     downArrow:SetSize(downArrowSize, downArrowSize)
     downArrow:SetPoint("TOP", portrait, "BOTTOM", 0, downArrowOffsetY)
     downArrow:SetVertexColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
@@ -2243,23 +2215,23 @@ end
 local dQuestCards = {}
 
 function SM.CreateQuestCard(parent)
-    local card = CreateFrame("Button", nil, parent, (SM.Client and SM.Client.isRetail) and nil or "BackdropTemplate")
+    local card = CreateFrame("Button", nil, parent, (SM.IsRetailClient()) and nil or "BackdropTemplate")
     card:EnableMouse(true)
     card:SetHeight(QCARD_H)
-    if not (SM.Client and SM.Client.isRetail) then
+    if SM.IsClassicClient() then
         SM.ApplyClassicCardBackdrop(card, 0.18, 0.50)
     end
 
     -- Housing endeavor-style card background
     local bg = card:CreateTexture(nil, "BACKGROUND")
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         bg:SetAtlas("housing-dashboard-initiatives-tasks-listitem-bg", false)
     else
         SM.ClearCardFillTexture(bg)
     end
     bg:SetAllPoints()
     card.bg = bg
-    if not (SM.Client and SM.Client.isRetail) then
+    if SM.IsClassicClient() then
         card.shade = SM.CreateInsetCardShade(card, 0.38)
     end
 
@@ -2271,7 +2243,7 @@ function SM.CreateQuestCard(parent)
     card.bgMask = cardMask
 
     -- Hover highlight
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         card:SetHighlightAtlas("housing-dashboard-initiatives-tasks-listitem-bg")
         card:GetHighlightTexture():SetAllPoints()
         card:GetHighlightTexture():SetAlpha(0.3)
@@ -2532,12 +2504,12 @@ LayoutSelectedChapter = function()
     -- Deselected nodes get their completion-state ring color restored.
     -- Gated nodes (with prerequisites) use squareBorder instead of ring.
     local function SetNodeBorder(node, r, g, b, a)
-        if SM.Client and SM.Client.isRetail then
+        if SM.IsRetailClient() then
             node.ring:SetVertexColor(r, g, b)
         else
             node.ring:SetVertexColor(1, 1, 1)
         end
-        local ringAlpha = (SM.Client and SM.Client.isRetail) and a or 1.0
+        local ringAlpha = (SM.IsRetailClient()) and a or 1.0
         node.ring:SetAlpha(ringAlpha)
         node.borderR, node.borderG, node.borderB, node.borderA = r, g, b, ringAlpha
         if node.isGated then
@@ -3203,32 +3175,32 @@ function SM.LayoutProgressTab(data, w, contentW, visibleContentW)
                 node.isDimmed = true
                 node.portrait:SetVertexColor(0.80, 0.80, 0.80)
                 node.portrait:SetDesaturation(0.4)
-                node.ring:SetVertexColor((SM.Client and SM.Client.isRetail) and 0.55 or 1, (SM.Client and SM.Client.isRetail) and 0.48 or 1, (SM.Client and SM.Client.isRetail) and 0.38 or 1)
-                node.ring:SetAlpha((SM.Client and SM.Client.isRetail) and 0.55 or 1.0)
+                node.ring:SetVertexColor((SM.IsRetailClient()) and 0.55 or 1, (SM.IsRetailClient()) and 0.48 or 1, (SM.IsRetailClient()) and 0.38 or 1)
+                node.ring:SetAlpha((SM.IsRetailClient()) and 0.55 or 1.0)
                 SM.SetSimpleBorder(node.portraitBorder, 0.55, 0.48, 0.38, node.hasRingAtlas and 0 or 0.55)
                 node.checkmark:Hide()
             elseif isComplete then
                 node.isDimmed = false
                 node.portrait:SetVertexColor(1, 1, 1)
                 node.portrait:SetDesaturation(0)
-                node.ring:SetVertexColor((SM.Client and SM.Client.isRetail) and GREEN_R or 1, (SM.Client and SM.Client.isRetail) and GREEN_G or 1, (SM.Client and SM.Client.isRetail) and GREEN_B or 1)
-                node.ring:SetAlpha((SM.Client and SM.Client.isRetail) and 0.8 or 1.0)
+                node.ring:SetVertexColor((SM.IsRetailClient()) and GREEN_R or 1, (SM.IsRetailClient()) and GREEN_G or 1, (SM.IsRetailClient()) and GREEN_B or 1)
+                node.ring:SetAlpha((SM.IsRetailClient()) and 0.8 or 1.0)
                 SM.SetSimpleBorder(node.portraitBorder, GREEN_R, GREEN_G, GREEN_B, node.hasRingAtlas and 0 or 0.8)
                 node.checkmark:Show()
             elseif isActive then
                 node.isDimmed = false
                 node.portrait:SetVertexColor(1, 1, 1)
                 node.portrait:SetDesaturation(0)
-                node.ring:SetVertexColor((SM.Client and SM.Client.isRetail) and GOLD_R or 1, (SM.Client and SM.Client.isRetail) and GOLD_G or 1, (SM.Client and SM.Client.isRetail) and GOLD_B or 1)
-                node.ring:SetAlpha((SM.Client and SM.Client.isRetail) and 0.9 or 1.0)
+                node.ring:SetVertexColor((SM.IsRetailClient()) and GOLD_R or 1, (SM.IsRetailClient()) and GOLD_G or 1, (SM.IsRetailClient()) and GOLD_B or 1)
+                node.ring:SetAlpha((SM.IsRetailClient()) and 0.9 or 1.0)
                 SM.SetSimpleBorder(node.portraitBorder, GOLD_R, GOLD_G, GOLD_B, node.hasRingAtlas and 0 or 0.9)
                 node.checkmark:Hide()
             else
                 node.isDimmed = true
                 node.portrait:SetVertexColor(0.6, 0.6, 0.6)
                 node.portrait:SetDesaturation(0.7)
-                node.ring:SetVertexColor((SM.Client and SM.Client.isRetail) and 0.4 or 1, (SM.Client and SM.Client.isRetail) and 0.35 or 1, (SM.Client and SM.Client.isRetail) and 0.30 or 1)
-                node.ring:SetAlpha((SM.Client and SM.Client.isRetail) and 0.5 or 1.0)
+                node.ring:SetVertexColor((SM.IsRetailClient()) and 0.4 or 1, (SM.IsRetailClient()) and 0.35 or 1, (SM.IsRetailClient()) and 0.30 or 1)
+                node.ring:SetAlpha((SM.IsRetailClient()) and 0.5 or 1.0)
                 SM.SetSimpleBorder(node.portraitBorder, 0.4, 0.35, 0.30, node.hasRingAtlas and 0 or 0.5)
                 node.checkmark:Hide()
             end
@@ -3411,21 +3383,6 @@ tabJournalHit:SetScript("OnClick", function()
 end)
 
 -- ── Main entry point ────────────────────────────────────────────────────────
-local detailLayoutScheduled = false
-
-function SM.ScheduleLayout(callback)
-    if detailLayoutScheduled then return end
-    detailLayoutScheduled = true
-    C_Timer.After(0, function()
-        detailLayoutScheduled = false
-        if callback then
-            callback()
-        else
-            SM.LayoutDetailTab()
-        end
-    end)
-end
-
 function SM.UpdateStoryDetail(data)
     if not data then
         currentStoryData = nil
@@ -3616,7 +3573,7 @@ function SM.SelectStory(index)
         local sel = (i == index)
         if row.btn then row.btn:UnlockHighlight() end
         if row.coverTex then
-            if SM.Client and SM.Client.isRetail then
+            if SM.IsRetailClient() then
                 local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
                 row.coverTex:SetAlpha(1)
@@ -3627,7 +3584,7 @@ function SM.SelectStory(index)
             end
         end
         row.isSelected = sel
-        if not (SM.Client and SM.Client.isRetail) then
+        if SM.IsClassicClient() then
             SM.ApplyStoryCardBorderState(row, false)
         end
         row.bg:SetAlpha(1.0)
@@ -3635,10 +3592,11 @@ function SM.SelectStory(index)
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
-        local gateReason = row.data and SM.GetQuestlineGateReason(row.data) or nil
+        local state = row.data and SM.GetStoryState(row.data) or nil
+        local gateReason = state and state.gateReason or nil
         if row.btn then row.btn.lockReason = gateReason end
         if row.checkmark and row.data then
-            row.checkmark:SetShown(not gateReason and SM.IsStoryFinished(row.data))
+            row.checkmark:SetShown(state and state.isFinished)
         elseif row.checkmark and row.isIntro then
             row.checkmark:SetShown(SM.AreAllStoriesFinished())
         end
@@ -3663,16 +3621,17 @@ function SM.RefreshStoryListState()
         if idx == 0 or row.isIntro then
             SM.ApplyIntroCompletionState(row)
         elseif row.data then
-            local gateReason = SM.GetQuestlineGateReason(row.data)
+            local state = SM.GetStoryState(row.data)
+            local gateReason = state and state.gateReason or nil
             if row.btn then row.btn.lockReason = gateReason end
             if row.checkmark then
-                row.checkmark:SetShown(not gateReason and SM.IsStoryFinished(row.data))
+                row.checkmark:SetShown(state and state.isFinished)
             end
-            if row.coverTex and not (SM.Client and SM.Client.isRetail) then
+            if row.coverTex and SM.IsClassicClient() then
                 row.coverTex:SetShown(SM.SetAdventureCoverTexture(row.coverTex, row.data))
             end
         end
-        if not (SM.Client and SM.Client.isRetail) then
+        if SM.IsClassicClient() then
             SM.ApplyStoryCardBorderState(row, false)
         end
     end
@@ -4077,10 +4036,10 @@ end
 function SM.BuildStoryWindow()
     if storyContentBuilt then return end
     storyContentBuilt = true
-    for _, data in ipairs(allQuestlines) do ResolveAchievementID(data) end
+    for _, data in ipairs(allQuestlines) do SM.ResolveAchievementID(data) end
     wipe(storyIndexToData)
 
-    local CARD_H   = (SM.Client and SM.Client.isRetail) and 78 or 70
+    local CARD_H   = (SM.IsRetailClient()) and 78 or 70
     local CARD_PAD = 4
     local yOffset  = -16
     local globalIdx = 0
@@ -4090,25 +4049,25 @@ function SM.BuildStoryWindow()
     local introDivH = SM.CreateCatDivider(leftChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
     yOffset = yOffset - introDivH - 4
 
-    local introCard = CreateFrame("Button", nil, leftChild, (SM.Client and SM.Client.isRetail) and nil or "BackdropTemplate")
+    local introCard = CreateFrame("Button", nil, leftChild, (SM.IsRetailClient()) and nil or "BackdropTemplate")
     introCard:SetHeight(CARD_H)
     introCard:SetPoint("TOPLEFT",  leftChild, "TOPLEFT",  CARD_PAD, yOffset)
     introCard:SetPoint("TOPRIGHT", leftChild, "TOPRIGHT", -CARD_PAD, yOffset)
     introCard:RegisterForClicks("AnyUp")
-    if not (SM.Client and SM.Client.isRetail) then
+    if SM.IsClassicClient() then
         SM.ApplyClassicCardBackdrop(introCard, 0, 0.50)
     end
     local introBg = introCard:CreateTexture(nil, "BACKGROUND")
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         introBg:SetAtlas("housefinder_neighborhood-list-item-default", false)
         introBg:SetAllPoints()
     else
         SM.ClearCardFillTexture(introBg)
     end
-    if not (SM.Client and SM.Client.isRetail) then
+    if SM.IsClassicClient() then
         introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
     end
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         introCard:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
         introCard:GetHighlightTexture():SetAllPoints()
     else
@@ -4142,7 +4101,7 @@ function SM.BuildStoryWindow()
     local introZone = nil  -- no subline
 
     introCard.checkmark = SM.CreateCompletionRibbon(introCard)
-    if SM.Client and SM.Client.isRetail then
+    if SM.IsRetailClient() then
         introCard.checkmark:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -15, -1)
     else
         introCard.checkmark:SetPoint("RIGHT", introCard, "RIGHT", -18, 0)
@@ -4161,12 +4120,12 @@ function SM.BuildStoryWindow()
     }
     introCard:SetScript("OnClick", function() SM.SelectStory(0) end)
     introCard:SetScript("OnEnter", function()
-        if not (SM.Client and SM.Client.isRetail) then
+        if SM.IsClassicClient() then
             SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
         end
     end)
     introCard:SetScript("OnLeave", function()
-        if not (SM.Client and SM.Client.isRetail) then
+        if SM.IsClassicClient() then
             SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
         end
     end)
@@ -4189,28 +4148,28 @@ function SM.BuildStoryWindow()
                 local cr, cg, cb = unpack(data.color or {0.5, 0.3, 0.9})
 
                 -- ── Card frame ────────────────────────────────────────────────
-                local card = CreateFrame("Button", nil, leftChild, (SM.Client and SM.Client.isRetail) and nil or "BackdropTemplate")
+                local card = CreateFrame("Button", nil, leftChild, (SM.IsRetailClient()) and nil or "BackdropTemplate")
                 card:SetHeight(CARD_H)
                 card:SetPoint("TOPLEFT",  leftChild, "TOPLEFT",  CARD_PAD, yOffset)
                 card:SetPoint("TOPRIGHT", leftChild, "TOPRIGHT", -CARD_PAD, yOffset)
                 card:RegisterForClicks("AnyUp")
-                if not (SM.Client and SM.Client.isRetail) then
+                if SM.IsClassicClient() then
                     SM.ApplyClassicCardBackdrop(card, 0, 0.50)
                 end
                 -- House Finder card background
                 local bg = card:CreateTexture(nil, "BACKGROUND", nil, 2)
-                if SM.Client and SM.Client.isRetail then
+                if SM.IsRetailClient() then
                     bg:SetAtlas("housefinder_neighborhood-list-item-default", false)
                     bg:SetAllPoints()
                 else
                     SM.ClearCardFillTexture(bg)
                 end
-                if not (SM.Client and SM.Client.isRetail) then
+                if SM.IsClassicClient() then
                     card.shade = SM.CreateInsetCardShade(card, 0.38, 4)
                 end
 
-                local coverTex = card:CreateTexture(nil, "BACKGROUND", nil, (SM.Client and SM.Client.isRetail) and 0 or 2)
-                if SM.Client and SM.Client.isRetail then
+                local coverTex = card:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
+                if SM.IsRetailClient() then
                     coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 7, -7)
                     coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -7, 7)
                     coverTex:SetAlpha(0.78)
@@ -4221,7 +4180,7 @@ function SM.BuildStoryWindow()
                     coverTex:SetAlpha(0.72)
                     coverTex:SetShown(SM.SetAdventureCoverTexture(coverTex, data))
                 end
-                if SM.Client and SM.Client.isRetail then
+                if SM.IsRetailClient() then
                     card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
                     card:GetHighlightTexture():SetAllPoints()
                 else
@@ -4345,7 +4304,7 @@ function SM.BuildStoryWindow()
                 for part in zoneText:gmatch("[^/]+") do
                     parts[#parts + 1] = part:match("^%s*(.-)%s*$")
                 end
-                if not (SM.Client and SM.Client.isRetail) and #parts > 1 then
+                if SM.IsClassicClient() and #parts > 1 then
                     zoneText = parts[1]
                 elseif #parts > 2 then
                     zoneText = parts[1] .. " / " .. parts[2]
@@ -4355,16 +4314,17 @@ function SM.BuildStoryWindow()
 
                 -- ── Completion checkmark ──────────────────────────────────────
                 local cardCheckmark = SM.CreateCompletionRibbon(card)
-                if SM.Client and SM.Client.isRetail then
+                if SM.IsRetailClient() then
                     cardCheckmark:SetPoint("TOPRIGHT", card, "TOPRIGHT", -15, -1)
                 else
                     cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
                 end
-                local gateReason = SM.GetQuestlineGateReason(data)
+                local state = SM.GetStoryState(data)
+                local gateReason = state and state.gateReason or nil
                 card.lockReason = gateReason
                 if gateReason then
                     cardCheckmark:Hide()
-                elseif SM.IsStoryFinished(data) then
+                elseif state and state.isFinished then
                     cardCheckmark:Show()
                 else
                     cardCheckmark:Hide()
@@ -4384,7 +4344,7 @@ function SM.BuildStoryWindow()
                 -- ── Click ──────────────────────────────────────────────────────
                 card:SetScript("OnClick", function() SM.SelectStory(idx) end)
                 card:SetScript("OnEnter", function(self)
-                    if not (SM.Client and SM.Client.isRetail) then
+                    if SM.IsClassicClient() then
                         SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
                     end
                     if not self.lockReason then return end
@@ -4395,7 +4355,7 @@ function SM.BuildStoryWindow()
                     SMTooltip:Show()
                 end)
                 card:SetScript("OnLeave", function()
-                    if not (SM.Client and SM.Client.isRetail) then
+                    if SM.IsClassicClient() then
                         SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
                     end
                     SMTooltip:Hide()
@@ -4472,122 +4432,6 @@ end
 
 function StoryMode_AddonCompartment_OnLeave()
     SMTooltip:Hide()
-end
-
-function SM.ShowLoadingScreenBrowser()
-    if not SM.loadingScreenBrowser then
-        local frame = CreateFrame("Frame", "StoryModeLoadingScreenBrowser", UIParent, "BackdropTemplate")
-        frame:SetSize(860, 620)
-        frame:SetPoint("CENTER")
-        frame:SetFrameStrata("DIALOG")
-        frame:SetMovable(true)
-        frame:EnableMouse(true)
-        frame:RegisterForDrag("LeftButton")
-        frame:SetScript("OnDragStart", frame.StartMoving)
-        frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
-        frame:SetBackdrop({
-            bgFile = SOLID,
-            edgeFile = SM.ClassicCardBorder,
-            edgeSize = 14,
-            insets = { left = 4, right = 4, top = 4, bottom = 4 },
-        })
-        frame:SetBackdropColor(0.035, 0.030, 0.026, 0.96)
-        frame:SetBackdropBorderColor(0.95, 0.72, 0.32, 0.85)
-
-        local title = SM.NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"))
-        title:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -16)
-        title:SetText("Story Mode Loading Screens")
-        title:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-
-        local hint = SM.NoShadow(frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
-        hint:SetPoint("LEFT", title, "RIGHT", 18, 0)
-        hint:SetText("/sm loadingscreens")
-        hint:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-
-        local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
-        close:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -6, -6)
-
-        local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-        scroll:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -48)
-        scroll:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -34, 18)
-
-        local child = CreateFrame("Frame", nil, scroll)
-        child:SetWidth(780)
-        scroll:SetScrollChild(child)
-
-        frame.child = child
-        frame.tiles = {}
-        SM.loadingScreenBrowser = frame
-    end
-
-    local frame = SM.loadingScreenBrowser
-    local child = frame.child
-    local tileW, tileH = 374, 246
-    local imageW, imageH = 348, 196
-    local gapX, gapY = 18, 18
-    local cols = 2
-
-    for _, tile in ipairs(frame.tiles) do
-        tile:Hide()
-    end
-
-    for i, choice in ipairs(SM.LoadingScreenChoices or {}) do
-        local tile = frame.tiles[i]
-        if not tile then
-            tile = CreateFrame("Button", nil, child, "BackdropTemplate")
-            tile:SetSize(tileW, tileH)
-            tile:SetBackdrop({
-                bgFile = SOLID,
-                edgeFile = SM.ClassicCardBorder,
-                edgeSize = 10,
-                insets = { left = 3, right = 3, top = 3, bottom = 3 },
-            })
-            tile:SetBackdropColor(0.08, 0.07, 0.06, 0.92)
-            tile:SetBackdropBorderColor(0.75, 0.58, 0.30, 0.55)
-
-            tile.image = tile:CreateTexture(nil, "ARTWORK")
-            tile.image:SetSize(imageW, imageH)
-            tile.image:SetPoint("TOP", tile, "TOP", 0, -12)
-            tile.image:SetTexCoord(0, 1, SM.AdventureLoadingScreenTexTop, SM.AdventureLoadingScreenTexBottom)
-
-            tile.name = SM.NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-            tile.name:SetPoint("TOPLEFT", tile.image, "BOTTOMLEFT", 0, -8)
-            tile.name:SetPoint("RIGHT", tile.image, "RIGHT", 0, 0)
-            tile.name:SetJustifyH("LEFT")
-            tile.name:SetTextColor(1, 1, 1)
-
-            tile.textureName = SM.NoShadow(tile:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
-            tile.textureName:SetPoint("TOPLEFT", tile.name, "BOTTOMLEFT", 0, -3)
-            tile.textureName:SetPoint("RIGHT", tile.image, "RIGHT", 0, 0)
-            tile.textureName:SetJustifyH("LEFT")
-            tile.textureName:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-
-            tile:SetScript("OnEnter", function(self)
-                self:SetBackdropBorderColor(1.0, 0.82, 0.36, 0.95)
-            end)
-            tile:SetScript("OnLeave", function(self)
-                self:SetBackdropBorderColor(0.75, 0.58, 0.30, 0.55)
-            end)
-
-            frame.tiles[i] = tile
-        end
-
-        local col = (i - 1) % cols
-        local row = math.floor((i - 1) / cols)
-        tile:ClearAllPoints()
-        tile:SetPoint("TOPLEFT", child, "TOPLEFT", col * (tileW + gapX), -row * (tileH + gapY))
-        tile.name:SetText(choice.name or "")
-        tile.textureName:SetText(tostring(choice.texture or ""))
-        if not SM.SafeSetTexture(tile.image, choice.texture) then
-            tile.image:SetColorTexture(0.08, 0.07, 0.06, 1)
-            tile.textureName:SetText((choice.texture and tostring(choice.texture) or "") .. " (missing)")
-        end
-        tile:Show()
-    end
-
-    local rows = math.ceil(#(SM.LoadingScreenChoices or {}) / cols)
-    child:SetHeight(math.max(1, rows * tileH + math.max(0, rows - 1) * gapY + 8))
-    frame:Show()
 end
 
 SM.MinimapButton_Init = SM.CreateMinimapButton(storyFrame, SMTooltip, C_BODY)

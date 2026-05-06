@@ -17,6 +17,10 @@ local function InvalidateProgress()
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
+local function RefreshVisibleStoryList()
+    if SM.RefreshStoryListState then SM.RefreshStoryListState() end
+end
+
 function SM.GetQuestAcceptedMessageQuestName(message)
     if not message or not ERR_QUEST_ACCEPTED_S then return nil end
 
@@ -209,6 +213,7 @@ function SM.InitializeCoreEvents(storyFrame)
     eventFrame:RegisterEvent("QUEST_ACCEPTED")
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
+    eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
     eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
     eventFrame:SetScript("OnEvent", function(_, event, arg1, arg2)
         if event == "PLAYER_REGEN_DISABLED" then
@@ -227,10 +232,17 @@ function SM.InitializeCoreEvents(storyFrame)
         elseif event == "QUEST_ACCEPTED" then
             InvalidateProgress()
             SM.PrintQuestAcceptedStory(arg2 or arg1)
-            if SM.RefreshStoryListState then SM.RefreshStoryListState() end
+            RefreshVisibleStoryList()
         elseif event == "QUEST_LOG_UPDATE" then
             InvalidateProgress()
-            if SM.RefreshStoryListState then SM.RefreshStoryListState() end
+            if SM.DebounceTask then
+                SM.DebounceTask("quest-log-update-refresh", 0.05, RefreshVisibleStoryList)
+            else
+                RefreshVisibleStoryList()
+            end
+        elseif event == "PLAYER_LEVEL_UP" then
+            InvalidateProgress()
+            RefreshVisibleStoryList()
         end
     end)
 end
