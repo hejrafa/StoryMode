@@ -10,6 +10,7 @@ SM.AgamandFamilyData = {
     description = "North of Brill, the Agamand Mills still carry the family name, but the family itself has become part of Tirisfal's dead. Coleman Farthing wants proof, Deathguard Dillinger wants the mills cleared, and Magistrate Sevren knows the family crypt has not been quiet either.\n\nRecover the remains of Devlin, Nissa, Thurman, and Gregor Agamand, then descend into the crypt where the old dead of the estate still wail under the earth.",
     zone = "Tirisfal Glades",
     expansion = "Classic",
+    recommendedLevel = { min = 4, max = 13 },
     faction = "Horde",
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},

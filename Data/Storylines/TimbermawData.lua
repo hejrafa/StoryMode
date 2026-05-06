@@ -10,6 +10,7 @@ SM.TimbermawData = {
     description = "Felwood's corruption did not take every furbolg. The Timbermaw still guard their hold between Felwood, Winterspring, and Moonglade, wary of strangers and grieving what the Deadwood and Winterfall tribes have become.\n\nEarn their trust by fighting corrupted kin on both sides of the mountain and carrying word through the tunnels of one of Classic's most memorable reputation stories.",
     zone = "Felwood / Winterspring / Timbermaw Hold",
     expansion = "Classic",
+    recommendedLevel = { min = 45, max = 60 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     factions = {

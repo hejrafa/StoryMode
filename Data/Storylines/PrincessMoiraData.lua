@@ -10,6 +10,7 @@ SM.PrincessMoiraData = {
     description = "Princess Moira Bronzebeard vanished into Blackrock Depths, and both Ironforge and Orgrimmar read danger in the same name: Emperor Dagran Thaurissan. To Magni, she is a daughter to be rescued. To Thrall, she is a political crisis that could place a Dark Iron heir inside Ironforge itself.\n\nFollow the Blackrock Depths chains that turn a dungeon rescue into one of Classic's sharpest succession stories.",
     zone = "Blackrock Depths / Ironforge / Orgrimmar",
     expansion = "Classic",
+    recommendedLevel = { min = 48, max = 60 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.76, 0.48, 0.28 },

@@ -10,6 +10,7 @@ SM.ShiftingSandsData = {
     description = "Before the gates of Ahn'Qiraj could open, one champion had to earn the trust of the Brood of Nozdormu, gather the scattered shards of the ancient scepter, and carry the war effort of an entire realm to the Scarab Gong.\n\nFollow Classic's most legendary questline: Blackwing Lair, Silithus, the Nightmare, Azuregos, Narain's absurd errands, and the moment Azeroth rang the gong.",
     zone = "Silithus / Tanaris / Moonglade / Azshara / Blackwing Lair",
     expansion = "Classic",
+    recommendedLevel = 60,
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     factions = {

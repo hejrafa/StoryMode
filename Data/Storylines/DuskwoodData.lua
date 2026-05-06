@@ -10,6 +10,7 @@ SM.DuskwoodData = {
     description = "Duskwood is what happens when a human town is left holding a lantern at the edge of too much darkness. Darkshire's Night Watch fights undead from Raven Hill, worgen from the orchards, old murders, cursed graves, and the terrible kindness of a hermit who only wants his wife back.\n\nFollow Classic Duskwood's gothic stories from the roads outside Darkshire to Mor'Ladim, Stalvan Mistmantle, Morbent Fel, Abercrombie, and the long walk of Stitches.",
     zone = "Duskwood",
     expansion = "Classic",
+    recommendedLevel = { min = 17, max = 35 },
     faction = "Alliance",
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},

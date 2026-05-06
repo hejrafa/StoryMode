@@ -7,9 +7,10 @@ local addonName, SM = ...
 
 SM.MankriksWifeData = {
     title = "Lost in Battle",
-    description = "At the Crossroads, Mankrik asks every passing adventurer the same desperate question: have you seen his wife? Somewhere on the Gold Road, between quillboar camps and the wide heat of the Barrens, a small domestic story has already turned into grief.\n\nFind what happened to Olgra, and carry the truth back to the husband still waiting for her.",
+    description = "At the Crossroads, Mankrik asks every passing adventurer the same desperate question: have you seen his wife? Somewhere on the Gold Road, between quillboar camps and the wide heat of the Barrens, a small domestic story has already turned into grief.\n\nFind what happened to Olgra, carry the truth back to the husband still waiting for her, and follow the hatred that grief leaves behind.",
     zone = "The Barrens",
     expansion = "Classic",
+    recommendedLevel = { min = 14, max = 20 },
     faction = "Horde",
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
@@ -43,10 +44,11 @@ SM.MankriksWifeData = {
     chapters = {
         {
             chapter = "Lost in Battle",
-            summary = "Mankrik survived a quillboar attack on the Gold Road. His wife, Olgra, did not return with him. He asks you to search the road south of the Crossroads for any sign of her.",
-            recap = "Mankrik's request was plain enough to become famous: find his wife. The Barrens was enormous, the directions were thin, and the road south of the Crossroads was full of danger. When you found Olgra's body, the search stopped being a joke about getting lost in a huge zone. It became one of Classic's smallest, sharpest losses: a husband waiting in the dust for news that could only hurt him.",
+            summary = "Mankrik survived a quillboar attack on the Gold Road. His wife, Olgra, did not return with him. He asks you to search the road south of the Crossroads, then turns his grief toward the Bristleback quillboar.",
+            recap = "Mankrik's request was plain enough to become famous: find his wife. The Barrens was enormous, the directions were thin, and the road south of the Crossroads was full of danger. When you found Olgra's body, the search stopped being a joke about getting lost in a huge zone. It became one of Classic's smallest, sharpest losses: a husband waiting in the dust for news that could only hurt him. What came after was exactly what the quest name promised. Mankrik's grief had nowhere gentle to go, so it became hatred, measured in Bristleback tusks.",
             quests = {
                 { id = 4921, name = "Lost in Battle", npc = "Mankrik" },
+                { id = 899, name = "Consumed by Hatred", npc = "Mankrik" },
             },
         },
     },
