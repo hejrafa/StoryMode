@@ -301,6 +301,10 @@ function SM.IsContentAvailableForClient(data)
         return false
     end
 
+    if isRetail then
+        return true
+    end
+
     local contentLevel = SM.GetContentExpansionLevel(data)
     return not contentLevel or contentLevel <= maxExpansionLevel
 end
