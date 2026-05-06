@@ -16,6 +16,7 @@ SM.AlthalaxxData = {
     achievements = {},
     color = { 0.38, 0.50, 0.64 },
     icon = 136145,
+    portraitDisplayID = 4413,
     adventureCoverTexture = 131878, -- Blackfathom Deeps loading screen; closest dark Night Elf ruin art
     adventureCoverIsLoadingScreen = true,
 
@@ -36,16 +37,16 @@ SM.AlthalaxxData = {
     },
 
     npcDisplayIDs = {
-        ["Sentinel Elissa Starbreeze"] = 2209,
-        ["Balthule Shadowstrike"] = 2181,
-        ["Delgren the Purifier"] = 2256,
-        ["Athrikus Narassin"] = 2362,
+        ["Sentinel Elissa Starbreeze"] = 2529,
+        ["Balthule Shadowstrike"] = 2530,
+        ["Delgren the Purifier"] = 2531,
+        ["Athrikus Narassin"] = 4413,
     },
 
     chapterDisplayIDs = {
-        ["The Dark Strand"] = 2181,
-        ["Ashenvale Soul Gems"] = 2256,
-        ["Athrikus Narassin"] = 2362,
+        ["The Dark Strand"] = 2530,
+        ["Ashenvale Soul Gems"] = 2531,
+        ["Athrikus Narassin"] = 4413,
     },
 
     chapterIcons = {

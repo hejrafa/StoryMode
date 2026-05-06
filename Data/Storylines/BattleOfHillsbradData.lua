@@ -16,6 +16,7 @@ SM.BattleOfHillsbradData = {
     achievements = {},
     color = { 0.54, 0.44, 0.36 },
     icon = 132349,
+    portraitDisplayID = 1645,
     adventureCoverTexture = 131867, -- Ruins of Lordaeron battleground loading screen
     adventureCoverIsLoadingScreen = true,
 
@@ -34,14 +35,14 @@ SM.BattleOfHillsbradData = {
     },
 
     npcDisplayIDs = {
-        ["High Executor Darthalia"] = 4731,
-        ["Varimathras"] = 3879,
+        ["High Executor Darthalia"] = 1645,
+        ["Varimathras"] = 11658,
     },
 
     chapterDisplayIDs = {
-        ["Hillsbrad Fields"] = 4731,
-        ["Town and Mine"] = 4731,
-        ["Dun Garok"] = 3879,
+        ["Hillsbrad Fields"] = 1645,
+        ["Town and Mine"] = 1645,
+        ["Dun Garok"] = 11658,
     },
 
     chapterIcons = {

@@ -16,6 +16,7 @@ SM.ArugalData = {
     achievements = {},
     color = { 0.42, 0.48, 0.58 },
     icon = 136150,
+    portraitDisplayID = 2353,
     adventureCoverTexture = 131869, -- Shadowfang Keep loading screen
     adventureCoverIsLoadingScreen = true,
 
@@ -37,17 +38,17 @@ SM.ArugalData = {
     },
 
     npcDisplayIDs = {
-        ["Dalar Dawnweaver"] = 1224,
-        ["Shadow Priest Allister"] = 1125,
-        ["Keeper Bel'dugur"] = 2425,
-        ["Archmage Ataeric"] = 1619,
-        ["Archmage Arugal"] = 1279,
+        ["Dalar Dawnweaver"] = 1278,
+        ["Shadow Priest Allister"] = 1948,
+        ["Keeper Bel'dugur"] = 5751,
+        ["Archmage Ataeric"] = 3601,
+        ["Archmage Arugal"] = 2353,
     },
 
     chapterDisplayIDs = {
-        ["Arugal's Folly"] = 1224,
-        ["Ambermill"] = 1125,
-        ["Shadowfang Keep"] = 1279,
+        ["Arugal's Folly"] = 1278,
+        ["Ambermill"] = 3601,
+        ["Shadowfang Keep"] = 2353,
     },
 
     chapterIcons = {
