@@ -294,15 +294,14 @@ function SM.GetContentExpansionLevel(data)
 end
 
 function SM.IsContentAvailableForClient(data)
+    if isRetail then
+        return true
+    end
+
     if type(data) == "table" and type(data.gameVersions) == "table" then
-        if isRetail and data.gameVersions.retail then return true end
         if isClassicEra and data.gameVersions.classicEra then return true end
         if isTBC and data.gameVersions.tbc then return true end
         return false
-    end
-
-    if isRetail then
-        return true
     end
 
     local contentLevel = SM.GetContentExpansionLevel(data)
