@@ -3411,6 +3411,21 @@ tabJournalHit:SetScript("OnClick", function()
 end)
 
 -- ── Main entry point ────────────────────────────────────────────────────────
+local detailLayoutScheduled = false
+
+function SM.ScheduleLayout(callback)
+    if detailLayoutScheduled then return end
+    detailLayoutScheduled = true
+    C_Timer.After(0, function()
+        detailLayoutScheduled = false
+        if callback then
+            callback()
+        else
+            SM.LayoutDetailTab()
+        end
+    end)
+end
+
 function SM.UpdateStoryDetail(data)
     if not data then
         currentStoryData = nil
@@ -3502,12 +3517,10 @@ function SM.UpdateStoryDetail(data)
     sIntro:SetText(SM.GetStoryIntroText(data))
 
     -- Layout the active tab
-    C_Timer.After(0, function()
+    SM.ScheduleLayout(function()
         local w = detailChild:GetWidth()
         if w > 20 then sIntro:SetWidth(w - CP * 2) end
-        C_Timer.After(0, function()
-            SM.LayoutDetailTab()
-        end)
+        SM.LayoutDetailTab()
     end)
 end
 
@@ -3518,6 +3531,18 @@ end
 local storyLeftRows    = {}
 local storyContentBuilt = false
 local storyIndexToData = {}
+
+function SM.GetIntroStoryRow()
+    return storyLeftRows[0]
+end
+
+function SM.GetStoryRowForData(data)
+    if not data then return nil end
+    for _, row in pairs(storyLeftRows) do
+        if row.data == data then return row end
+    end
+    return nil
+end
 
 SM.StoryCardBorderNormal   = {0.48, 0.36, 0.18, 0.56}
 SM.StoryCardBorderHover    = {1.00, 0.82, 0.18, 0.95}
@@ -3631,6 +3656,32 @@ function SM.GetStoryIndexByID(storyID)
         if data and data.id == storyID then return idx end
     end
     return nil
+end
+
+function SM.RefreshStoryListState()
+    for idx, row in pairs(storyLeftRows) do
+        if idx == 0 or row.isIntro then
+            SM.ApplyIntroCompletionState(row)
+        elseif row.data then
+            local gateReason = SM.GetQuestlineGateReason(row.data)
+            if row.btn then row.btn.lockReason = gateReason end
+            if row.checkmark then
+                row.checkmark:SetShown(not gateReason and SM.IsStoryFinished(row.data))
+            end
+            if row.coverTex and not (SM.Client and SM.Client.isRetail) then
+                row.coverTex:SetShown(SM.SetAdventureCoverTexture(row.coverTex, row.data))
+            end
+        end
+        if not (SM.Client and SM.Client.isRetail) then
+            SM.ApplyStoryCardBorderState(row, false)
+        end
+    end
+end
+
+function SM.RefreshCurrentStoryDetail(data)
+    if storyFrame:IsShown() and currentStoryData and (not data or currentStoryData == data) then
+        SM.UpdateStoryDetail(currentStoryData)
+    end
 end
 
 -- Category header (Trading Post style: label with thin ruled lines)
@@ -4387,9 +4438,6 @@ storyFrame:SetScript("OnHide", function()
 end)
 
 
-local ShowStoryBanner   -- forward declaration (defined in Banner section below)
-local ShowStoryComplete -- forward declaration (defined in Banner section below)
-
 function SM.ToggleStoryModeFrame()
     if InCombatLockdown() then
         UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
@@ -4542,265 +4590,7 @@ function SM.ShowLoadingScreenBrowser()
     frame:Show()
 end
 
-SLASH_STORYMODE1 = "/sm"
-SLASH_STORYMODE2 = "/storymode"
-SlashCmdList["STORYMODE"] = function(msg)
-    msg = msg and msg:trim():lower() or ""
-    if msg == "loadingscreens" or msg == "loading" or msg == "covers" then
-        SM.ShowLoadingScreenBrowser()
-        return
-    elseif msg == "banner" then
-        local data = allQuestlines[1]
-        if data then
-            ShowStoryBanner(data.title, L["Slash Test Quest Name"], data, nil, true)
-        else
-            print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
-        end
-        return
-    elseif msg == "chapter" then
-        local data = allQuestlines[1]
-        if data then
-            local ch = SM.GetAllChapters(data)[1]
-            ShowStoryBanner(L["Banner Chapter Complete"], ch and ch.chapter or data.title, data, nil, true)
-        else
-            print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
-        end
-        return
-    elseif msg == "complete" then
-        local data = allQuestlines[1]
-        if data then
-            ShowStoryComplete(data.title)
-        else
-            print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
-        end
-        return
-    elseif msg == "track" or msg == "next" then
-        -- Slash commands always execute in an insecure Lua context, so the
-        -- waypoint calls below will taint the quest-reward path. Prefer the
-        -- in-UI "Continue Story" button, which routes through the secure
-        -- macro dispatch and avoids taint.
-        for _, data in ipairs(allQuestlines) do
-            local quest, chapter = SM.FindNextQuest(data)
-            if quest then
-                local result = SM.SetWaypointForQuest(data, quest)
-                local cr, cg, cb = unpack(data.color or { 1, 0.82, 0 })
-                local hex = SM.HexColor(cr, cg, cb)
-                print(L["Addon Legacy Prefix"] .. "|cff" .. hex .. data.title .. " — " .. chapter .. "|r")
-                SM.PrintTrackResult(result, quest, data)
-                return
-            end
-        end
-        print(L["Addon Legacy Prefix"] .. L["Slash All Complete"])
-    elseif msg:match("^debug") then
-        local filter = msg:match("^debug%s+(.+)$")
-        local found = false
-        for _, data in ipairs(allQuestlines) do
-            if not filter or data.title:lower():find(filter, 1, true) then
-                found = true
-                print(L["Addon Debug Prefix"] .. data.title)
-                local chapters = SM.GetAllChapters(data)
-                for _, ch in ipairs(chapters) do
-                    if ch.quests then
-                        local chDone, chTotal = SM.GetChapterProgress(ch)
-                        print(string.format("  |cffaaaaaa[%s]|r %d/%d", ch.chapter or "?", chDone, chTotal))
-                        for j, q in ipairs(ch.quests) do
-                            local inLog = SM.IsQuestEntryInLog(q)
-                            local flagged = SM.IsQuestEntryComplete(q)
-                            local effective = SM.IsQuestEffectivelyComplete(j, ch.quests)
-                            local tag = inLog and "|cff00ff00[IN LOG]|r"
-                                or (flagged and "|cffaaaaaa[done]|r")
-                                or (effective and "|cffff8800[eff-done]|r")
-                                or "|cffff4444[incomplete]|r"
-                            print(string.format("    %s %d %s", tag, q.id, q.name or "?"))
-                        end
-                    end
-                end
-            end
-        end
-        if not found then
-            print(L["Addon Legacy Prefix"] .. string.format(L["Slash No Match Format"], filter or ""))
-        end
-    else
-        SM.ToggleStoryModeFrame()
-    end
-end
-
 SM.MinimapButton_Init = SM.CreateMinimapButton(storyFrame, SMTooltip, C_BODY)
-ShowStoryBanner, ShowStoryComplete = SM.CreateBanners()
-
--- ============================================================================
--- Quest Completion Tracking — detect chapter and storyline completion
--- ============================================================================
-
-local chapterCompletionCache  = {}  -- [questlineTitle|chapterName] = true
-local storylineCompletionCache = {}  -- [questlineTitle] = true
-
-function SM.FindQuestStory(questID)
-    if not questID then return nil end
-
-    for _, data in ipairs(allQuestlines) do
-        for _, ch in ipairs(SM.GetAllChapters(data)) do
-            for _, q in ipairs(ch.quests) do
-                if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
-                    for _, id in ipairs(SM.GetQuestIDs(q)) do
-                        if id == questID then
-                            return data, q
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    return nil
-end
-
-function SM.FindQuestStoryByName(questName)
-    if not questName or questName == "" then return nil end
-
-    for _, data in ipairs(allQuestlines) do
-        for _, ch in ipairs(SM.GetAllChapters(data)) do
-            for _, q in ipairs(ch.quests) do
-                if q.name == questName and SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
-                    return data, q
-                end
-            end
-        end
-    end
-
-    return nil
-end
-
-function SM.GetQuestAcceptedMessageQuestName(message)
-    if not message or not ERR_QUEST_ACCEPTED_S then return nil end
-
-    local pattern = ERR_QUEST_ACCEPTED_S:gsub("([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
-    pattern = pattern:gsub("%%%%s", "(.+)")
-    return message:match("^" .. pattern .. "$")
-end
-
-function SM.QuestAcceptedSystemMessageFilter(_, _, message)
-    local questName = SM.GetQuestAcceptedMessageQuestName(message)
-    if questName and SM.FindQuestStoryByName(questName) then
-        return true
-    end
-    return false
-end
-
-function SM.RegisterQuestAcceptedSystemMessageFilter()
-    if SM.questAcceptedSystemMessageFilterRegistered then return end
-    if ChatFrame_AddMessageEventFilter then
-        ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", SM.QuestAcceptedSystemMessageFilter)
-        SM.questAcceptedSystemMessageFilterRegistered = true
-    end
-end
-
-function SM.PrintQuestAcceptedStory(questID)
-    local data, quest = SM.FindQuestStory(questID)
-    if data and data.title and data.title ~= "" and quest and quest.name then
-        print(L["Addon Prefix"] .. string.format(L["Quest Accepted Story Format"], "|cffffd200" .. quest.name .. "|r", "|cffffd200" .. data.title .. "|r"))
-    end
-end
-
-function SM.CheckQuestCompletion(completedQuestID)
-    for _, data in ipairs(allQuestlines) do
-        for _, ch in ipairs(SM.GetAllChapters(data)) do
-            local questName, questNpc
-            for _, q in ipairs(ch.quests) do
-                if q.id == completedQuestID then
-                    questName = q.name
-                    questNpc = q.npc
-                    break
-                end
-            end
-            if questName then
-                -- Delay so IsQuestFlaggedCompleted is reliable before we check progress
-                C_Timer.After(0.1, function()
-                    if storyFrame:IsShown() and currentStoryData == data then
-                        SM.UpdateStoryDetail(data)
-                    end
-
-                    local done, total = SM.GetChapterProgress(ch)
-                    local isChapterDone = done >= total and total > 0
-                    local key = (data.title or "") .. "|" .. (ch.chapter or "")
-                    local storyKey = data.title or ""
-                    local storyDone = SM.IsStoryFinished(data)
-
-                    if isChapterDone and not chapterCompletionCache[key] then
-                        chapterCompletionCache[key] = true
-
-                        if storyDone then
-                            -- Update the story card checkmark on the left panel
-                            for idx, row in pairs(storyLeftRows) do
-                                if storyIndexToData[idx] == data then
-                                    row.checkmark:Show()
-                                    break
-                                end
-                            end
-                            SM.ApplyIntroCompletionState(storyLeftRows[0])
-                        end
-
-                        C_Timer.After(1.5, function()
-                            ShowStoryBanner(L["Banner Chapter Complete"], ch.chapter, data, questNpc, true)
-                        end)
-
-                        if storyDone and not storylineCompletionCache[storyKey] then
-                            storylineCompletionCache[storyKey] = true
-                            C_Timer.After(6.5, function()
-                                ShowStoryComplete(data.title)
-                            end)
-                        end
-                    else
-                        C_Timer.After(1.0, function()
-                            ShowStoryBanner(data.title, questName, data, questNpc, true)
-                        end)
-                    end
-                end)
-                break
-            end
-        end
-    end
-end
-
--- ============================================================================
--- Initialization
--- ============================================================================
-
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("QUEST_ACCEPTED")
-frame:RegisterEvent("QUEST_LOG_UPDATE")
-frame:RegisterEvent("QUEST_TURNED_IN")
-frame:RegisterEvent("PLAYER_REGEN_DISABLED")
-frame:SetScript("OnEvent", function(self, event, arg1, arg2)
-    if event == "PLAYER_REGEN_DISABLED" then
-        if storyFrame:IsShown() then storyFrame:Hide() end
-        return
-    end
-    if event == "ADDON_LOADED" and arg1 == addonName then
-        SM.ApplySavedVariableDefaults()
-        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
-        SM.MinimapButton_Init()
-        SM.RegisterQuestAcceptedSystemMessageFilter()
-        -- Pre-populate caches so already-completed chapters/storylines don't re-fire
-        for _, data in ipairs(allQuestlines) do
-            for _, ch in ipairs(SM.GetAllChapters(data)) do
-                local d, t = SM.GetChapterProgress(ch)
-                if d >= t and t > 0 then
-                    chapterCompletionCache[(data.title or "") .. "|" .. (ch.chapter or "")] = true
-                end
-            end
-            if SM.IsStoryFinished(data) then
-                storylineCompletionCache[data.title or ""] = true
-            end
-        end
-    elseif event == "QUEST_TURNED_IN" then
-        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
-        SM.CheckQuestCompletion(arg1)
-    elseif event == "QUEST_ACCEPTED" then
-        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
-        SM.PrintQuestAcceptedStory(arg2 or arg1)
-    elseif event == "QUEST_LOG_UPDATE" then
-        if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
-    end
-end)
+SM.ShowStoryBanner, SM.ShowStoryComplete = SM.CreateBanners()
+SM.InitializeSlashCommands()
+SM.InitializeCoreEvents(storyFrame)

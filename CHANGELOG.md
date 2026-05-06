@@ -15,6 +15,10 @@
 - Added stable story IDs for saved selection, progress-cache invalidation, and normalized quest metadata
 - Cached chapter, campaign, and next-quest progress calculations between quest-log events
 - Returned structured tracking results from quest tracking while preserving existing chat behavior
+- Split event, slash-command, and quest-completion handling into `Code/Core/Events.lua`
+- Added registry-backed story quest lookup indexes for quest IDs and quest names
+- Added UI refresh hooks for story cards/current detail plus coalesced detail layout scheduling
+- Added Classic faction IDs for Timbermaw Hold and Brood of Nozdormu to the metadata audit map
 - Added `_Dev/tools/validate-story-data.mjs` for local story schema and TOC coverage checks
 - Refactored `StoryMode.lua` to reduce main-scope locals and avoid Lua's 200-local limit
 - Bumped addon metadata to `1.7.0`

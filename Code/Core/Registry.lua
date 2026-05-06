@@ -11,6 +11,8 @@ local categories = {
 
 local allQuestlines = {}
 local questlinesByID = {}
+local questLookupByID = {}
+local questLookupByName = {}
 local questlineSortOrder = 0
 
 local _, playerClass = UnitClass("player")
@@ -59,6 +61,12 @@ local function NormalizeQuestlineData(data)
                 q._chapterIndex = chapterIndex
                 q._questIndex = questIndex
                 q._questIDs = SM.GetQuestIDs(q)
+                for _, questID in ipairs(q._questIDs) do
+                    questLookupByID[questID] = { story = data, quest = q, chapter = ch }
+                end
+                if q.name and q.name ~= "" then
+                    questLookupByName[q.name] = { story = data, quest = q, chapter = ch }
+                end
             end
         end
     end
@@ -129,6 +137,29 @@ end
 
 function SM.GetQuestlineCategories()
     return categories
+end
+
+local function IsLookupVisible(match)
+    if not match then return false end
+    return SM.IsQuestForPlayer(match.quest) and not SM.ShouldHideQuest(match.quest)
+end
+
+function SM.FindQuestStory(questID)
+    if not questID then return nil end
+    local match = questLookupByID[questID]
+    if IsLookupVisible(match) then
+        return match.story, match.quest, match.chapter
+    end
+    return nil
+end
+
+function SM.FindQuestStoryByName(questName)
+    if not questName or questName == "" then return nil end
+    local match = questLookupByName[questName]
+    if IsLookupVisible(match) then
+        return match.story, match.quest, match.chapter
+    end
+    return nil
 end
 
 function SM.LocalizeContentRegistry()

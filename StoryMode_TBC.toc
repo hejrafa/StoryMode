@@ -31,6 +31,7 @@ Code\Core\SavedVariables.lua
 Code\Core\Progress.lua
 Code\Core\LevelGuide.lua
 Code\Core\Registry.lua
+Code\Core\Events.lua
 Code\Core\PingPin.xml
 Code\Core\Tracking.lua
 Code\UI\Tooltip.lua
