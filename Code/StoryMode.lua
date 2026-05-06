@@ -140,7 +140,11 @@ end
 
 AddContentData(SM.FrozenThroneData)
 AddContentData(SM.DefiasBrotherhoodData)
+AddContentData(SM.ArugalData)
+AddContentData(SM.AlthalaxxData)
 AddContentData(SM.DuskwoodData)
+AddContentData(SM.RaenesCleansingData)
+AddContentData(SM.BattleOfHillsbradData)
 AddContentData(SM.FallenHeroData)
 AddContentData(SM.MissingDiplomatData)
 AddContentData(SM.OnyxiaData)
@@ -214,8 +218,20 @@ function SM.RegisterQuestlines()
 if CanShowQuestline(SM.DefiasBrotherhoodData) then
     RegisterQuestline(SM.DefiasBrotherhoodData, "Epic Storylines")
 end
+if CanShowQuestline(SM.ArugalData) then
+    RegisterQuestline(SM.ArugalData, "Epic Storylines")
+end
+if CanShowQuestline(SM.AlthalaxxData) then
+    RegisterQuestline(SM.AlthalaxxData, "Epic Storylines")
+end
 if CanShowQuestline(SM.DuskwoodData) then
     RegisterQuestline(SM.DuskwoodData, "Epic Storylines")
+end
+if CanShowQuestline(SM.RaenesCleansingData) then
+    RegisterQuestline(SM.RaenesCleansingData, "Epic Storylines")
+end
+if CanShowQuestline(SM.BattleOfHillsbradData) then
+    RegisterQuestline(SM.BattleOfHillsbradData, "Epic Storylines")
 end
 if CanShowQuestline(SM.MissingDiplomatData) then
     RegisterQuestline(SM.MissingDiplomatData, "Epic Storylines")
