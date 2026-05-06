@@ -77,4 +77,5 @@ Code\UI\Pools.lua
 Code\UI\Banners.lua
 Code\UI\MinimapButton.lua
 Code\UI\LoadingScreenBrowser.lua
+Code\UI\StoryList.lua
 Code\StoryMode.lua

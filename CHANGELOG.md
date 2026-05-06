@@ -21,6 +21,8 @@
 - Added Classic faction IDs for Timbermaw Hold and Brood of Nozdormu to the metadata audit map
 - Added shared keyed scheduling/debounce helpers, story-state snapshots, and a reusable UI frame-pool helper
 - Split the loading-screen browser and achievement/story-state resolution out of `StoryMode.lua`
+- Split story-list card building, selection, scroll restore, and targeted row refresh into `Code/UI/StoryList.lua`
+- Updated quest accepted/completed events to refresh the affected story row when the changed story is known
 - Centralized Classic/Retail client checks behind compatibility helpers and refreshed story state on level-up
 - Added `_Dev/tools/check-core-behavior.mjs` to guard TOC module loading and the `StoryMode.lua` local-count budget
 - Added `_Dev/tools/validate-story-data.mjs` for local story schema and TOC coverage checks

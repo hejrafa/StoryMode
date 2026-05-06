@@ -9,6 +9,7 @@ const requiredModules = [
   "Code\\Core\\Events.lua",
   "Code\\UI\\Pools.lua",
   "Code\\UI\\LoadingScreenBrowser.lua",
+  "Code\\UI\\StoryList.lua",
 ];
 const maxStoryModeLocals = 160;
 

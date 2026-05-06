@@ -17,8 +17,8 @@ local function InvalidateProgress()
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
-local function RefreshVisibleStoryList()
-    if SM.RefreshStoryListState then SM.RefreshStoryListState() end
+local function RefreshVisibleStoryList(data)
+    if SM.RefreshStoryListState then SM.RefreshStoryListState(data) end
 end
 
 function SM.GetQuestAcceptedMessageQuestName(message)
@@ -75,10 +75,7 @@ function SM.CheckQuestCompletion(completedQuestID)
             chapterCompletionCache[chapterKey] = true
 
             if storyDone then
-                if SM.RefreshStoryListState then SM.RefreshStoryListState() end
-                if SM.ApplyIntroCompletionState and SM.GetIntroStoryRow then
-                    SM.ApplyIntroCompletionState(SM.GetIntroStoryRow())
-                end
+                RefreshVisibleStoryList(data)
             end
 
             C_Timer.After(1.5, function()
@@ -231,8 +228,9 @@ function SM.InitializeCoreEvents(storyFrame)
             SM.CheckQuestCompletion(arg1)
         elseif event == "QUEST_ACCEPTED" then
             InvalidateProgress()
+            local data = SM.FindQuestStory(arg2 or arg1)
             SM.PrintQuestAcceptedStory(arg2 or arg1)
-            RefreshVisibleStoryList()
+            RefreshVisibleStoryList(data)
         elseif event == "QUEST_LOG_UPDATE" then
             InvalidateProgress()
             if SM.DebounceTask then
