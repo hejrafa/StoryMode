@@ -173,6 +173,8 @@ end
 
 function SM.BuildStoryWindow()
     if storyContentBuilt then return end
+    if SM.RegisterQuestlines then SM.RegisterQuestlines() end
+    if SM.IsQuestlineRegistryReady and not SM.IsQuestlineRegistryReady() then return end
     storyContentBuilt = true
     for _, data in ipairs(allQuestlines) do SM.ResolveAchievementID(data) end
     wipe(storyIndexToData)

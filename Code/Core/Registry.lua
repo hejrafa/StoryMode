@@ -14,10 +14,22 @@ local questlinesByID = {}
 local questLookupByID = {}
 local questLookupByName = {}
 local questlineSortOrder = 0
+local registryReady = false
 
-local _, playerClass = UnitClass("player")
-local playerFaction = UnitFactionGroup("player")
-local playerRace = select(2, UnitRace("player"))
+local playerClass
+local playerFaction
+local playerRace
+
+local function RefreshPlayerContext()
+    local raceName
+    local className
+    raceName, playerRace = UnitRace("player")
+    className, playerClass = UnitClass("player")
+    playerFaction = UnitFactionGroup("player")
+    if raceName and className and categories[4] then
+        categories[4].displayName = string.format(L["Category Identity Format"], raceName, className)
+    end
+end
 
 local function SlugifyQuestlineID(text)
     text = tostring(text or ""):lower()
@@ -74,6 +86,7 @@ local function NormalizeQuestlineData(data)
 end
 
 local function CanShowQuestline(data)
+    RefreshPlayerContext()
     if not data then return false end
     if not SM.IsContentAvailableForClient(data) then return false end
     if data.class and data.class ~= playerClass then return false end
@@ -119,6 +132,7 @@ local function AddContentData(list, data)
 end
 
 function SM.GetQuestlineZoneText(data)
+    RefreshPlayerContext()
     if not data then return "" end
     if data.zoneByFaction then
         local factionZone = data.zoneByFaction[playerFaction]
@@ -235,6 +249,10 @@ function SM.LocalizeContentRegistry()
 end
 
 function SM.RegisterQuestlines()
+    if registryReady then return end
+    RefreshPlayerContext()
+    if not (playerClass and playerFaction and playerRace) then return end
+
     local epicQuestlines = {
         SM.DefiasBrotherhoodData,
         SM.ArugalData,
@@ -320,8 +338,12 @@ function SM.RegisterQuestlines()
     end
 
     SortQuestlineCategories()
+    registryReady = true
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
+function SM.IsQuestlineRegistryReady()
+    return registryReady
+end
+
 SM.LocalizeContentRegistry()
-SM.RegisterQuestlines()

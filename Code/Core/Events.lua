@@ -211,6 +211,7 @@ function SM.InitializeCoreEvents(storyFrame)
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
+    eventFrame:RegisterEvent("PLAYER_LOGIN")
     eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
     eventFrame:SetScript("OnEvent", function(_, event, arg1, arg2)
         if event == "PLAYER_REGEN_DISABLED" then
@@ -223,6 +224,11 @@ function SM.InitializeCoreEvents(storyFrame)
             if SM.MinimapButton_Init then SM.MinimapButton_Init() end
             SM.RegisterQuestAcceptedSystemMessageFilter()
             SM.PrimeCompletionCaches()
+        elseif event == "PLAYER_LOGIN" then
+            if SM.RegisterQuestlines then SM.RegisterQuestlines() end
+            InvalidateProgress()
+            SM.PrimeCompletionCaches()
+            RefreshVisibleStoryList()
         elseif event == "QUEST_TURNED_IN" then
             InvalidateProgress()
             SM.CheckQuestCompletion(arg1)
