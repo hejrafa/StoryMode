@@ -198,7 +198,7 @@ end
 function SM.SetWaypointForQuest(data, quest)
     if not quest then return TrackResult("no_location") end
 
-    if not (SM.Client and SM.Client.isRetail) then
+    if SM.IsClassicClient() then
         local inLog, activeQuestID = SM.IsQuestEntryInLog(quest)
         if inLog then
             if activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then

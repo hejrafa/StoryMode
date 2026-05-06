@@ -43,6 +43,14 @@ SM.Client = {
     maxExpansionLevel = maxExpansionLevel,
 }
 
+function SM.IsRetailClient()
+    return SM.Client and SM.Client.isRetail
+end
+
+function SM.IsClassicClient()
+    return not SM.IsRetailClient()
+end
+
 if not CopyTable then
     function CopyTable(source)
         if type(source) ~= "table" then return source end

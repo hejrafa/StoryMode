@@ -15,6 +15,8 @@ const namedAchievements = new Map([
 
 const factionNames = new Map([
   [68, "Undercity"],
+  [576, "Timbermaw Hold"],
+  [910, "Brood of Nozdormu"],
   [1098, "Knights of the Ebon Blade"],
   [1106, "Argent Crusade"],
   [1156, "The Ashen Verdict"],
