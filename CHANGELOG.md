@@ -26,6 +26,7 @@
 - Fixed Retail login-time story registration so faction/race/class stories are not filtered before player identity is ready
 - Fixed Retail expansion availability so stories are not hidden by an early or unstable expansion-level API value during login
 - Fixed Retail story registration so Classic/TBC-only data gaps do not stop later Retail stories from appearing
+- Fixed the Classic/TBC **Begin Story** button by using the normal click path there instead of the Retail secure waypoint overlay
 - Centralized Classic/Retail client checks behind compatibility helpers and refreshed story state on level-up
 - Added `_Dev/tools/check-core-behavior.mjs` to guard TOC module loading and the `StoryMode.lua` local-count budget
 - Added `_Dev/tools/validate-story-data.mjs` for local story schema and TOC coverage checks

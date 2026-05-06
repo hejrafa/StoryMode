@@ -711,6 +711,13 @@ function StoryMode_ExecuteSecureTrack()
     if storyFrame then storyFrame:Hide() end
 end
 
+local function ExecuteTrackButton(data, quest)
+    if not data or not quest then return end
+    local result = SM.SetWaypointForQuest(data, quest)
+    SM.PrintTrackResult(result, quest, data)
+    if storyFrame then storyFrame:Hide() end
+end
+
 -- Invisible SecureActionButtonTemplate overlay. Parented to detailChild, and
 -- its anchor points are computed manually from sTrackBtn's rect so there is
 -- NO anchor dependency in either direction. (If the overlay anchored to
@@ -2971,14 +2978,21 @@ function SM.LayoutStoryTab(data, w, contentW, visibleContentW)
                 sTrackBtn.lockReason = gateReason
             else
                 sTrackBtn:SetText(done > 0 and L["Button Continue Story"] or L["Button Begin Story"])
-                -- PreClick on the secure overlay queues the action BEFORE the
-                -- macro fires. The macro then performs the waypoint +
-                -- supertrack calls in a secure execution context.
-                sTrackBtnSecure:SetScript("PreClick", function()
-                    pendingSecureTrack = { data = data, quest = quest }
-                end)
-                SM.SetSecureOverlayActive(true)
-                sTrackBtn:SetScript("OnClick", nil)
+                if SM.IsClassicClient() then
+                    SM.SetSecureOverlayActive(false)
+                    sTrackBtn:SetScript("OnClick", function()
+                        ExecuteTrackButton(data, quest)
+                    end)
+                else
+                    -- PreClick on the secure overlay queues the action BEFORE the
+                    -- macro fires. The macro then performs the waypoint +
+                    -- supertrack calls in a secure execution context.
+                    sTrackBtnSecure:SetScript("PreClick", function()
+                        pendingSecureTrack = { data = data, quest = quest }
+                    end)
+                    SM.SetSecureOverlayActive(true)
+                    sTrackBtn:SetScript("OnClick", nil)
+                end
                 sTrackBtn:Enable()
                 sTrackBtn:SetAlpha(1.0)
                 sTrackBtn.lockReason = nil
