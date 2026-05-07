@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.8.0
+
+### Localization
+- Added locale loading for German (`deDE`), French (`frFR`), and Russian (`ruRU`)
+- Added translated addon UI strings for German, French, and Russian clients, with English fallback for untranslated story content
+- Added localized TOC notes for German, French, and Russian clients
+- Added German, French, and Russian translations for addon-owned story titles, descriptions, summaries, notes, and recap text
+- Added `_Dev/tools/localization-audit.mjs` to track locale coverage and placeholder safety across locale files
+- Added `_Dev/tools/recap-coverage.mjs` to verify recap translation coverage across supported locales
+
+### Maintenance
+- Bumped addon metadata to `1.8.0`
+
 ## 1.7.0
 
 ### Classic Era
