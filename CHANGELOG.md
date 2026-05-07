@@ -4,6 +4,7 @@
 
 ### Classic Era
 - Fixed the Classic/TBC rogue poisons story to point Alliance players to Master Mathias Shaw and Horde players to Shenthul instead of a generic rogue trainer
+- Added **Deathstalkers in Shadowfang** to the Classic/TBC **Arugal and Shadowfang Keep** dungeon chapter
 
 ### Localization
 - Added locale loading for German (`deDE`), French (`frFR`), and Russian (`ruRU`)
