@@ -47,7 +47,7 @@ function SM.GetQuestAcceptedMessageQuestName(message)
     return SM.NormalizeQuestAcceptedMessageQuestName(message:match("^" .. pattern .. "$"))
 end
 
-function SM.QuestAcceptedSystemMessageFilter(_, _, message)
+function SM.ShouldSuppressQuestAcceptedSystemMessage(message)
     local questID = SM.GetQuestAcceptedMessageQuestID(message)
     if questID and SM.FindQuestStory(questID) then
         return true
@@ -58,6 +58,10 @@ function SM.QuestAcceptedSystemMessageFilter(_, _, message)
         return true
     end
     return false
+end
+
+function SM.QuestAcceptedSystemMessageFilter(_, _, message)
+    return SM.ShouldSuppressQuestAcceptedSystemMessage(message)
 end
 
 function SM.RegisterQuestAcceptedSystemMessageFilter()

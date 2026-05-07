@@ -15,6 +15,7 @@
 - Added `_Dev/tools/recap-coverage.mjs` to verify recap translation coverage across supported locales
 
 ### Maintenance
+- Exposed a small quest-accepted suppression API so companion addons can avoid restyling Story Mode quest accepted lines
 - Bumped addon metadata to `1.8.0`
 
 ## 1.7.0
