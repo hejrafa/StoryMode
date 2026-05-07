@@ -333,10 +333,15 @@ SM.ClassicRogueQuestData = {
     adventureCoverTexture = 131854, -- Naxxramas: undead infiltration imagery closest to the poison trial
     adventureCoverIsLoadingScreen = true,
 
-    startQuest = { id = 2360, name = "Mathias and the Defias", npc = "Rogue Trainer", faction = "Alliance" },
+    startQuest = { id = 2360, name = "Mathias and the Defias", npc = "Master Mathias Shaw", location = "SI:7, Old Town, Stormwind", faction = "Alliance" },
     startMapID = 84,
-    startX = 0.7400,
-    startY = 0.5900,
+    startX = 0.7620,
+    startY = 0.6010,
+
+    npcLocations = {
+        ["Master Mathias Shaw"] = { mapID = 84, x = 0.7620, y = 0.6010, location = "SI:7, Old Town, Stormwind" },
+        ["Shenthul"] = { mapID = 85, x = 0.4300, y = 0.5360, location = "Cleft of Shadow, Orgrimmar" },
+    },
 
     chapterIcons = {
         ["Poisons"] = 132273,
@@ -350,11 +355,11 @@ SM.ClassicRogueQuestData = {
             summary = "Infiltrate hostile ground, prove you can work quietly, and unlock the rogue's most infamous tool.",
             recap = "The lesson was simple: a rogue who cannot enter unseen, open what is locked, and survive their own antidote has no business handling poison.",
             quests = {
-                { id = 2360, name = "Mathias and the Defias", npc = "Rogue Trainer", faction = "Alliance" },
+                { id = 2360, name = "Mathias and the Defias", npc = "Master Mathias Shaw", faction = "Alliance" },
                 { id = 2359, name = "Klaven's Tower", npc = "Agent Kearnen", faction = "Alliance" },
                 { id = 2607, name = "The Touch of Zanzil", npc = "Doc Mixilpixil", faction = "Alliance" },
                 { id = 2609, name = "The Touch of Zanzil", npc = "Doc Mixilpixil", faction = "Alliance" },
-                { id = 2460, name = "The Shattered Salute", npc = "Rogue Trainer", faction = "Horde" },
+                { id = 2460, name = "The Shattered Salute", npc = "Shenthul", faction = "Horde" },
                 { id = 2458, name = "Deep Cover", npc = "Shenthul", faction = "Horde" },
                 { id = 2478, name = "Mission: Possible But Not Probable", npc = "Shenthul", faction = "Horde" },
                 { id = 2479, name = "Hinott's Assistance", npc = "Shenthul", faction = "Horde" },
