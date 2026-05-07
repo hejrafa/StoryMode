@@ -37,6 +37,14 @@ for (const tocFile of tocFiles) {
   }
 }
 
+const eventsLua = await readFile(`${root}/Code/Core/Events.lua`, "utf8");
+if (!eventsLua.includes("|Hquest:(%d+)")) {
+  findings.push("Code/Core/Events.lua quest accepted system-message filter does not recognize linked quest IDs");
+}
+if (!eventsLua.includes("NormalizeQuestAcceptedMessageQuestName")) {
+  findings.push("Code/Core/Events.lua quest accepted system-message filter does not normalize linked quest names");
+}
+
 const luac = spawnSync("luac", ["-l", "-p", "Code/StoryMode.lua"], {
   cwd: root,
   encoding: "utf8",

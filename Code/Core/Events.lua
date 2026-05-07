@@ -21,15 +21,38 @@ local function RefreshVisibleStoryList(data)
     if SM.RefreshStoryListState then SM.RefreshStoryListState(data) end
 end
 
+function SM.GetQuestAcceptedMessageQuestID(message)
+    local questID = message and message:match("|Hquest:(%d+)")
+    return questID and tonumber(questID) or nil
+end
+
+function SM.NormalizeQuestAcceptedMessageQuestName(questName)
+    if not questName or questName == "" then return nil end
+
+    questName = questName:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+    questName = questName:gsub("|H.-|h%[(.-)%]|h", "%1")
+    questName = questName:gsub("|H.-|h(.-)|h", "%1")
+    questName = questName:match("^%[(.+)%]$") or questName
+    questName = questName:match("^%s*(.-)%s*$")
+
+    if questName == "" then return nil end
+    return questName
+end
+
 function SM.GetQuestAcceptedMessageQuestName(message)
     if not message or not ERR_QUEST_ACCEPTED_S then return nil end
 
     local pattern = ERR_QUEST_ACCEPTED_S:gsub("([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1")
     pattern = pattern:gsub("%%%%s", "(.+)")
-    return message:match("^" .. pattern .. "$")
+    return SM.NormalizeQuestAcceptedMessageQuestName(message:match("^" .. pattern .. "$"))
 end
 
 function SM.QuestAcceptedSystemMessageFilter(_, _, message)
+    local questID = SM.GetQuestAcceptedMessageQuestID(message)
+    if questID and SM.FindQuestStory(questID) then
+        return true
+    end
+
     local questName = SM.GetQuestAcceptedMessageQuestName(message)
     if questName and SM.FindQuestStoryByName(questName) then
         return true
