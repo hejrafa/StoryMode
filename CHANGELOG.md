@@ -4,7 +4,9 @@
 
 ### Classic Era
 - Fixed the Classic/TBC rogue poisons story to point Alliance players to Master Mathias Shaw and Horde players to Shenthul instead of a generic rogue trainer
+- Fixed Classic/TBC class quest starter guidance across class stories, including more specific trainer/NPC routing where the quest does not come from every trainer
 - Added **Deathstalkers in Shadowfang** to the Classic/TBC **Arugal and Shadowfang Keep** dungeon chapter
+- Corrected Classic/TBC guidance for **A Tea Party** so **Teddies and Tea** points to the quest location players see in-game
 
 ### Localization
 - Added locale loading for German (`deDE`), French (`frFR`), and Russian (`ruRU`)
@@ -16,7 +18,16 @@
 
 ### Maintenance
 - Exposed a small quest-accepted suppression API so companion addons can avoid restyling Story Mode quest accepted lines
+- Added quest guidance audits for missing NPC locations, map/location mismatches, class/faction availability, and chain holes, plus documented exceptions for intentionally curated quest paths
+- Aligned quest-card clicks with **Begin This Story** and **Continue Story** behavior so direct quest-card tracking uses the same location guidance, map opening, and completed-quest messages
+- Added native guidance snapshots and availability aliases to catch bad map targets such as Legion Dalaran vs. class hall submaps
 - Bumped addon metadata to `1.8.0`
+
+### Retail
+- Audited and corrected quest starters, NPC locations, map targets, and criteria handoffs across Retail campaigns, heritage stories, and storylines
+- Fixed Suramar/Insurrection startup guidance so Archmage Khadgar points to the Violet Citadel in Legion Dalaran instead of the Hall of Shadows
+- Marked completed Suramar Nightfallen prerequisite chapters through **Nightfallen But Not Forgotten** so completed characters are not sent back to **Khadgar's Discovery**
+- Updated the Retail story-card selected state to reuse the native hover highlight while the Story Mode window is open
 
 ## 1.7.0
 
