@@ -15,9 +15,9 @@ SM.NightElfHeritageData = {
     adventureGuideInstanceName = "Darkheart Thicket",
     startQuest = { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", location = "Stormwind Embassy", mapID = 77, x = 0.4350, y = 0.6270, location = "Stormwind / Felwood" },
     npcLocations = {
-        ["Maiev Shadowsong"] = { mapID = 77, x = 0.4340, y = 0.6240 }, -- Felwood (approx)
-        ["Arko'narin Starshade"] = { mapID = 77, x = 0.4350, y = 0.6270 }, -- Felwood (approx)
-        ["Lysander Starshade"] = { mapID = 77, x = 0.4380, y = 0.6300 }, -- Felwood (approx)
+        ["Maiev Shadowsong"] = { mapID = 77, x = 0.3600, y = 0.5880 }, -- Felwood (approx)
+        ["Arko'narin Starshade"] = { mapID = 77, x = 0.3800, y = 0.4620 }, -- Felwood (approx)
+        ["Lysander Starshade"] = { mapID = 77, x = 0.3660, y = 0.5160 }, -- Felwood (approx)
     },
     chapterDisplayIDs = {
         ["Heritage of the Kaldorei"] = 112157,

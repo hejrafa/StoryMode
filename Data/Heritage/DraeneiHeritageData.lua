@@ -15,10 +15,10 @@ SM.DraeneiHeritageData = {
     adventureGuideInstanceName = "Auchindoun",
     startQuest = { id = 78068, name = "An Artificer's Appeal", npc = "Automatic / Magically-Sealed Parcel", location = "Stormwind Embassy / Exodar", mapID = 103, x = 0.5450, y = 0.5030, location = "Exodar / Outland / Bloodmyst Isle" },
     npcLocations = {
-        ["Grand Artificer Romuul"] = { mapID = 103, x = 0.5450, y = 0.5030 }, -- Exodar (approx)
-        ["High Artificer Ataanya"] = { mapID = 103, x = 0.5480, y = 0.4980 }, -- Exodar (approx)
-        ["Exarch Maladaar"] = { mapID = 102, x = 0.3950, y = 0.2630 }, -- Bloodmyst Isle (approx)
-        ["Prophet Velen"] = { mapID = 103, x = 0.3220, y = 0.5430 }, -- Exodar (approx)
+        ["Grand Artificer Romuul"] = { mapID = 103, x = 0.5500, y = 0.7980 }, -- Exodar (approx)
+        ["High Artificer Ataanya"] = { mapID = 103, x = 0.3880, y = 0.4680 }, -- Exodar (approx)
+        ["Exarch Maladaar"] = { mapID = 102, x = 0.4160, y = 0.6160 }, -- Bloodmyst Isle (approx)
+        ["Prophet Velen"] = { mapID = 103, x = 0.4140, y = 0.3300 }, -- Exodar (approx)
     },
     chapterIcons = {
         ["Heritage of the Draenei"] = "Interface\\Icons\\inv_helm_mail_draenei_d_01",

@@ -42,10 +42,10 @@ SM.ForsakenHeritageData = {
     npcLocations = {
         -- Ruins of Lordaeron (#2070)
         ["Lilian Voss"] = { mapID = 2070, x = 0.6380, y = 0.6820 },
-        ["Deathstalker Commander Belmont"] = { mapID = 2070, x = 0.6000, y = 0.7100 },
+        ["Deathstalker Commander Belmont"] = { mapID = 2070, x = 0.6120, y = 0.8260 },
 
         -- Silverpine Forest (classic mapID 21)
-        ["Dark Ranger Velonara"] = { mapID = 21, x = 0.4500, y = 0.4200 , location = "Tirisfal Glades / Silverpine Forest"}, -- Sepulcher area (approx)
+        ["Dark Ranger Velonara"] = { mapID = 21, x = 0.7040, y = 0.1820 , location = "Tirisfal Glades / Silverpine Forest"}, -- Sepulcher area (approx)
         ["Master Apothecary Faranell"] = { mapID = 21, x = 0.4500, y = 0.4200 , location = "Tirisfal Glades / Silverpine Forest"}, -- Sepulcher area (approx)
 
         -- Fenris Isle / Scarlet camp (Silverpine)
@@ -53,17 +53,18 @@ SM.ForsakenHeritageData = {
 
         -- Loyalist-only epilogue
         ["Dori'thur"] = { mapID = 2070, x = 0.6400, y = 0.6800 }, -- appears near completion (approx)
+        ["Calia Menethil"] = { mapID = 21, x = 0.4540, y = 0.4160, location = "Silverpine Forest" },
     },
 
     npcDisplayIDs = {
         -- These are non-critical (used for portraits if your UI chooses to).
         -- Leaving unknowns as 0 is fine.
         ["Lilian Voss"] = 67721,
-        ["Deathstalker Commander Belmont"] = 34077,
-        ["Dark Ranger Velonara"] = 6483,
+        ["Deathstalker Commander Belmont"] = 114139,
+        ["Dark Ranger Velonara"] = 105389,
         ["Master Apothecary Faranell"] = 90372,
         ["Quartermaster Newlem"] = 113266,
-        ["Dori'thur"] = 38801,
+        ["Dori'thur"] = 90230,
     },
     chapterDisplayIDs = {
         ["Heritage of the Forsaken"] = 67721, -- Lilian Voss
@@ -87,18 +88,18 @@ SM.ForsakenHeritageData = {
                 -- Gathering reagents (these can be offered in parallel)
                 { id = 72856, name = "Nothing Like the Classic", npc = "Master Apothecary Faranell" },
                 { id = 72857, name = "Boom Weed", npc = "Master Apothecary Faranell" },
-                { id = 72858, name = "Acid Beats Paper", npc = "Master Apothecary Faranell" },
+                { id = 72858, name = "Acid Beats Paper", npc = "Dark Ranger Velonara" },
 
                 -- Set up infiltration
-                { id = 72859, name = "A Proper Disguise", npc = "Lilian Voss" },
-                { id = 72860, name = "Fear is Our Weapon", npc = "Dark Ranger Velonara" },
+                { id = 72859, name = "A Proper Disguise", npc = "Calia Menethil" },
+                { id = 72860, name = "Fear is Our Weapon", npc = "Lilian Voss" },
                 { id = 72861, name = "The Scarlet Spy", npc = "Lilian Voss" },
 
                 -- Fenris Isle
                 { id = 72862, name = "Among Us", npc = "Quartermaster Newlem" },
                 { id = 72863, name = "The Flight of the Banshee", npc = "Dark Ranger Velonara" },
-                { id = 72864, name = "Death to the Living", npc = "Dark Ranger Velonara" },
-                { id = 72865, name = "This is the Hour of the Forsaken", npc = "Dark Ranger Velonara" },
+                { id = 72864, name = "Death to the Living", npc = "Deathstalker Commander Belmont" },
+                { id = 72865, name = "This is the Hour of the Forsaken", npc = "Lilian Voss" },
 
                 -- Wrap up
                 { id = 72866, name = "Return to Lordaeron", npc = "Lilian Voss" },

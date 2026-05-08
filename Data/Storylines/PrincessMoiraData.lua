@@ -42,7 +42,7 @@ SM.PrincessMoiraData = {
         ["Princess Moira Bronzebeard"] = 8705,
         ["Galamav the Marksman"] = 8334,
         ["Commander Gor'shak"] = 8703,
-        ["Thrall"] = 4527,
+        ["Thrall"] = 61727,
     },
 
     chapterDisplayIDs = {

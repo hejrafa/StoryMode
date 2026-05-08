@@ -16,7 +16,7 @@ SM.DwarfHeritageData = {
     startQuest = { id = 53838, name = "Keep Yer Feet On The Ground", npc = "Digger Golad", location = "Stormwind Embassy" },
     npcLocations = {
         ["Digger Golad"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy
-        ["Brann Bronzebeard"] = { mapID = 87, x = 0.3980, y = 0.5560 }, -- Ironforge (approx)
+        ["Brann Bronzebeard"] = { mapID = 87, x = 0.3500, y = 0.4880 },
         ["Advisor Belgrum"] = { mapID = 87, x = 0.3950, y = 0.5490 }, -- Ironforge (approx)
     },
     npcDisplayIDs = {

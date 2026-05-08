@@ -48,7 +48,7 @@ if (reportPath) {
   }
 }
 
-const suppressedByType = (report?.suppressedFindings || []).reduce((counts, finding) => {
+const suppressedByType = report?.suppressedFindingsByType || (report?.suppressedFindings || []).reduce((counts, finding) => {
   counts[finding.type] = (counts[finding.type] || 0) + 1;
   return counts;
 }, {});

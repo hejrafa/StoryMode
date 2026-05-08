@@ -23,7 +23,7 @@ SM.BloodElfHeritageData = {
         ["Lady Liadrin"] = { mapID = 122, x = 0.4800, y = 0.3500 }, -- Isle of Quel'Danas (approx)
     },
     npcDisplayIDs = {
-        ["Lor'themar Theron"] = 20217,
+        ["Lor'themar Theron"] = 17122,
         ["Lady Liadrin"] = 61971,
         ["Ambassador Dawnsworn"] = 89162,
     },

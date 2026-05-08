@@ -32,8 +32,10 @@ SM.WarlockCampaignData = {
         ["Lulubelle Fizzlebang"]        = { mapID = 634, x = 0.5480, y = 0.3920 },
         ["Ernest Carlisle"]             = { mapID = 641, x = 0.3920, y = 0.6260 },
         ["Zinnin Smythe"]               = { mapID = 717, x = 0.5800, y = 0.3700 },
-        ["Kanrethad Ebonlocke"]         = { mapID = 646, x = 0.4500, y = 0.6300 },
-        ["Mor'zul Bloodbringer"]        = { mapID = 717, x = 0.5700, y = 0.3400 },
+        ["Kanrethad Ebonlocke"]         = { mapID = 646, x = 0.5580, y = 0.3440 },
+        ["Mor'zul Bloodbringer"]        = { mapID = 717, x = 0.3540, y = 0.3820 },
+        ["Elithys Firestorm"]           = { mapID = 646, x = 0.4380, y = 0.6320 },
+        ["Maiev Shadowsong"]            = { mapID = 646, x = 0.4460, y = 0.6340 },
     },
 
     npcDisplayIDs = {
@@ -46,7 +48,7 @@ SM.WarlockCampaignData = {
         ["Lulubelle Fizzlebang"]        = 67425,
         ["Ernest Carlisle"]             = 68720,
         ["Zinnin Smythe"]               = 65985,
-        ["Kanrethad Ebonlocke"]         = 47903,
+        ["Kanrethad Ebonlocke"]         = 46573,
         ["Mor'zul Bloodbringer"]        = 14565,
     },
 
@@ -125,14 +127,14 @@ SM.WarlockCampaignData = {
             summary = "On the Broken Shore, rescue Kanrethad Ebonlocke from imprisonment and earn the Netherlord's Chaotic Wrathsteed.",
             recap = "The Broken Shore held a prisoner the Council had long sought — Kanrethad Ebonlocke, the warlock who had tried to bind a pit lord and paid the price with his freedom. Shinfel and Jubeka led the search while you culled the Legion cult guarding him and contained the fel crystals keeping him sealed. Kanrethad was freed, scarred but unbroken, and joined as your newest champion. Then came the final rite — Mor'zul Bloodbringer opened a portal to Xoroth, where a wrathsteed of chaotic fire waited. You broke its will and bent it to yours, and the Netherlord's Chaotic Wrathsteed carried you from the flames.",
             quests = {
-                { id = 47137, name = "Champions of Legionfall",     npc = "Ritssyn Flamescowl" },
+                { id = 47137, name = "Champions of Legionfall",     npc = "Maiev Shadowsong" },
                 { id = 45021, name = "Answers Unknown",              npc = "Shinfel Blightsworn" },
                 { id = 45024, name = "Cult Culling",                 npc = "Jubeka Shadowbreaker" },
                 { id = 45025, name = "Stealing the Source of Power", npc = "Jubeka Shadowbreaker" },
                 { id = 45028, name = "The Fate of Kanrethad",        npc = "Jubeka Shadowbreaker" },
                 { id = 46020, name = "Crystal Containment",          npc = "Jubeka Shadowbreaker" },
                 { id = 46047, name = "Champion: Kanrethad Ebonlocke", npc = "Kanrethad Ebonlocke" },
-                { id = 46237, name = "Bloodbringer's Missive",       npc = "Mor'zul Bloodbringer" },
+                { id = 46237, name = "Bloodbringer's Missive",       npc = "Elithys Firestorm" },
                 { id = 46239, name = "Fel to the Core",              npc = "Mor'zul Bloodbringer" },
                 { id = 46240, name = "Give Me Fuel, Give Me Fire",   npc = "Mor'zul Bloodbringer" },
                 { id = 46243, name = "The Wrathsteed of Xoroth",     npc = "Mor'zul Bloodbringer" },

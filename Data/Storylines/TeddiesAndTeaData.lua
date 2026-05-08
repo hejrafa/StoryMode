@@ -24,6 +24,7 @@ SM.TeddiesAndTeaData = {
     npcLocations = {
         ["Abby Lewis"]    = { mapID = 896, x = 0.5440, y = 0.3935, location = "Glenbrook Homestead, Drustvar" },
         ["Annie Warren"]  = { mapID = 896, x = 0.4580, y = 0.7450 },
+        ["Mangled Body"] = { mapID = 896, x = 0.5460, y = 0.4900, location = "Drustvar" },
     },
 
     npcDisplayIDs = {
@@ -55,7 +56,7 @@ SM.TeddiesAndTeaData = {
             recap = "When Smoochums was found in the woods, Abby was gone. In her place: a register listing every Glenbrook villager — most names struck through. Jonathan Hayes had his heart removed for a ritual. Samuel Hawthorne lay dead in the trees. Mary Hayes had turned witch and killed her own husband. Only Annie Warren survived, barely, imprisoned in a cave.\n\nAbby came back. She led you to a circle of candles with Smoochums — the cat, now sacrificed — at the center. She poured the tea. She said there was one more guest to meet. Then she ran, and the Conjured Horror arrived in her place.",
             quests = {
                 { id = 53464, name = "The Village of Glenbrook", npc = "Annie Warren" },
-                { id = 53465, name = "Tea Party",                npc = "Annie Warren" },
+                { id = 53465, name = "Tea Party",                npc = "Mangled Body" },
             },
         },
     },

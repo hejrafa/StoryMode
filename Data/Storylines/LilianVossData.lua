@@ -58,16 +58,21 @@ SM.LilianVossData = {
         ["Thomas Zelling"]            = { mapID = 942, x = 0.5956, y = 0.3070 },
         -- BfA — At the Bottom of the Sea
         ["Dread-Admiral Tattersail"]  = { mapID = 862, x = 0.5620, y = 0.6480 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- Banshee's Wail, Port of Zandalar
-        ["Hobart Grapplehammer"]      = { mapID = 862, x = 0.5620, y = 0.6480 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- aboard ship before dive
+        ["Hobart Grapplehammer"]      = { mapID = 862, x = 0.4160, y = 0.6740 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},
         -- BfA — Strike on Boralus / Testing Loyalties
         ["Captain Amalia Stone"]      = { mapID = 862, x = 0.5620, y = 0.6480 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- VERIFY: Banshee's Wail / Stormsong
-        ["Baine Bloodhoof"]           = { mapID = 862, x = 0.5840, y = 0.6260 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- Banshee's Wail / Plunder Harbor
+        ["Baine Bloodhoof"]           = { mapID = 862, x = 0.7660, y = 0.4300 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},
         ["Sylvanas Windrunner"]       = { mapID = 862, x = 0.5840, y = 0.6260, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
         ["Derek Proudmoore"]          = { mapID = 862, x = 0.5840, y = 0.6260, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
         -- 9.2.5 — Return to Lordaeron (Brill / Ruins of Lordaeron, Tirisfal)
         ["Calia Menethil"]            = { mapID = 18,  x = 0.5670, y = 0.5910 },  -- Brill
         ["Master Apothecary Faranell"]= { mapID = 18,  x = 0.5990, y = 0.6400 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- House of Plagues / Undercity ruins
         ["Dark Ranger Velonara"]      = { mapID = 18,  x = 0.5990, y = 0.6400, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
+        ["Bluffwatcher Proudscar"] = { mapID = 1165, x = 0.4980, y = 0.9600, location = "Dazar'alor" },
+        ["Boss Mida"] = { mapID = 942, x = 0.5100, y = 0.3280, location = "Stormsong Valley" },
+        ["Valeera Sanguinar"] = { mapID = 84, x = 0.8480, y = 0.3400, location = "Stormwind City" },
+        ["Margrave Sin'dane"] = { mapID = 1536, x = 0.7460, y = 0.3360, location = "Maldraxxus" },
+        ["Plague Deviser Marileth"] = { mapID = 1536, x = 0.7100, y = 0.7140, location = "Maldraxxus" },
     },
 
     -- NPC creature display IDs for chapter portraits
@@ -85,20 +90,20 @@ SM.LilianVossData = {
         ["Hooded Crusader"]             = 43650,   -- Lilian in disguise
         ["Talking Skull"]               = 40322,
         -- BfA NPCs
-        ["Lilian Voss"]                 = 85799,
+        ["Lilian Voss"]                 = 67721,
         ["Nathanos Blightcaller"]       = 86219,
-        ["Rexxar"]                      = 22319,
+        ["Rexxar"]                      = 60766,
         ["Thomas Zelling"]              = 86134,
         ["Dread-Admiral Tattersail"]    = 64374,   -- VERIFY
-        ["Hobart Grapplehammer"]        = 23704,   -- VERIFY: goblin tinker model
-        ["Captain Amalia Stone"]        = 86452,   -- VERIFY
-        ["Baine Bloodhoof"]             = 86237,   -- VERIFY: BfA Baine model
-        ["Sylvanas Windrunner"]         = 28213,
+        ["Hobart Grapplehammer"]        = 92727,   -- VERIFY: goblin tinker model
+        ["Captain Amalia Stone"]        = 86073,   -- VERIFY
+        ["Baine Bloodhoof"]             = 30272,   -- VERIFY: BfA Baine model
+        ["Sylvanas Windrunner"]         = 102134,
         ["Derek Proudmoore"]            = 86396,   -- VERIFY: undead Derek model
         -- 9.2.5 NPCs
-        ["Calia Menethil"]              = 92900,
-        ["Master Apothecary Faranell"]  = 25262,   -- VERIFY
-        ["Dark Ranger Velonara"]        = 92615,   -- VERIFY
+        ["Calia Menethil"]              = 67797,
+        ["Master Apothecary Faranell"]  = 90372,   -- VERIFY
+        ["Dark Ranger Velonara"]        = 105389,   -- VERIFY
     },
     chapterDisplayIDs = {
         ["The Wakening"]                  = 67721,  -- Lilian Voss
@@ -266,9 +271,9 @@ SM.LilianVossData = {
             summary = "The Horde's war at sea claims a significant prize: Derek Proudmoore, son of the Lord Admiral, goes down with his ship in the waters off Kul Tiras. Hobart Grapplehammer equips you with experimental diving gear as Dread-Admiral Tattersail leads the expedition into the deep. What Sylvanas intends to do with the body is not yet spoken aloud — but the silence on the ship ride home says enough.",
             recap = "The war at sea gave the Horde what blades on land could not: Derek Proudmoore, heir to Kul Tiras, dead at the bottom of the ocean. Hobart Grapplehammer put you in a diving suit and you went down. The ocean floor was littered with the wreckage of the battle — dog tags, sunken ships, the bones of sailors on both sides. You found Derek and hauled him up. No one said what Sylvanas would do with him. No one had to.",
             quests = {
-                { id = 52764, name = "Journey to the Middle of Nowhere", npc = "Dread-Admiral Tattersail" },
+                { id = 52764, name = "Journey to the Middle of Nowhere", npc = "Nathanos Blightcaller" },
                 { id = 53067, name = "Operation: Bottom Feeder",         npc = "Nathanos Blightcaller", optional = true },
-                { id = 52765, name = "Deep Dive",                        npc = "Hobart Grapplehammer" },
+                { id = 52765, name = "Deep Dive",                        npc = "Nathanos Blightcaller" },
                 { id = 52766, name = "Seafloor Shipwreck",               npc = "Hobart Grapplehammer" },
                 { id = 52767, name = "Checking Dog Tags",                npc = "Hobart Grapplehammer" },
                 { id = 52768, name = "The Sunken Graveyard",             npc = "Hobart Grapplehammer" },
@@ -276,9 +281,9 @@ SM.LilianVossData = {
                 { id = 52770, name = "Biolumi-Nuisance",                 npc = "Hobart Grapplehammer" },
                 { id = 52772, name = "The Undersea Ledge",               npc = "Hobart Grapplehammer" },
                 { id = 52773, name = "Water-Breathing Dragon",           npc = "Hobart Grapplehammer" },
-                { id = 52774, name = "Grab and Go",                      npc = "Nathanos Blightcaller" },
-                { id = 53121, name = "Siege of Boralus",                 npc = "Nathanos Blightcaller", optional = true },
-                { id = 52978, name = "With Prince in Tow",               npc = "Dread-Admiral Tattersail" },
+                { id = 52774, name = "Grab and Go",                      npc = "Hobart Grapplehammer" },
+                { id = 53121, name = "Siege of Boralus",                 npc = "Lilian Voss", optional = true },
+                { id = 52978, name = "With Prince in Tow",               npc = "Nathanos Blightcaller" },
             },
         },
 
@@ -311,20 +316,20 @@ SM.LilianVossData = {
             summary = "Baine Bloodhoof has decided Derek Proudmoore cannot be used as a weapon against his own family and asks for your help freeing him. The plan runs through Plunder Harbor under false colors, with Thomas Zelling — the very tidesage Lilian helped raise — guiding the escape from the inside. When Baine and Zelling are punished for their defiance, Lilian says nothing to Sylvanas. She tells Zelling's family he died a hero. Then the War Campaign rolls on regardless — Warfang Hold needs securing, and Nathanos is already planning the next move.",
             recap = "Baine Bloodhoof looked at Derek Proudmoore — raised, hollowed out, aimed at his own kin — and decided he would not be part of it. He asked for your help. Thomas Zelling, the tidesage whose raising Lilian had stood witness to in Stormsong, helped guide Derek out from the inside. They freed him.\n\nSylvanas had Baine arrested and Zelling killed. Lilian said nothing aloud. Later, quietly, she went to Zelling's family and told them he had died a hero. It was not defiance. It was a choice. Small enough that no one noticed. Large enough that she did.\n\nAnd then the war moved on. Warfang Hold needed to be secured for a leadership summit. Boss Mida handled the SI:7 spies and the gate-crashers. Nathanos arrived to make a display of the Horde's strength. The machine kept turning, indifferent to what had just been lost.",
             quests = {
-                { id = 54961, name = "Righting Wrongs",                  npc = "Nathanos Blightcaller" },
-                { id = 55124, name = "Righting Wrongs",                  npc = "Baine Bloodhoof" },
+                { id = 54961, name = "Righting Wrongs",                  npc = "Bluffwatcher Proudscar" },
+                { id = 55124, name = "Righting Wrongs",                  npc = "Bluffwatcher Proudscar" },
                 { id = 54958, name = "Ships in the Night",               npc = "Baine Bloodhoof" },
                 { id = 54959, name = "Under Lock and Keys",              npc = "Baine Bloodhoof" },
                 { id = 54997, name = "Dead in the Water",                npc = "Baine Bloodhoof", optional = true },
                 { id = 54960, name = "A Bitter Reunion",                 npc = "Baine Bloodhoof" },
                 { id = 54999, name = "Under False Colors",               npc = "Thomas Zelling" },
-                { id = 55034, name = "Under False Colors",               npc = "Nathanos Blightcaller", optional = true },
+                { id = 55034, name = "Under False Colors",               npc = "Thomas Zelling", optional = true },
                 { id = 55047, name = "Securing Warfang Hold",            npc = "Dark Ranger Alina", mapID = 862, x = 0.5840, y = 0.6260, location = "Banshee's Wail, Dazar'alor" },
-                { id = 55052, name = "Securing Warfang Hold",            npc = "Boss Mida", mapID = 942, x = 0.4721, y = 0.3552, location = "Warfang Hold, Stormsong Valley" },
+                { id = 55052, name = "Securing Warfang Hold",            npc = "Nathanos Blightcaller", mapID = 942, x = 0.4721, y = 0.3552, location = "Warfang Hold, Stormsong Valley" },
                 { id = 55048, name = "Spy Games",                        npc = "Boss Mida", mapID = 942, x = 0.4721, y = 0.3552, location = "Warfang Hold, Stormsong Valley" },
                 { id = 55049, name = "Communication Breakdown",          npc = "Boss Mida", mapID = 942, x = 0.4721, y = 0.3552, location = "Warfang Hold, Stormsong Valley" },
-                { id = 55050, name = "Tickets, Please?",                 npc = "Boss Mida", mapID = 942, x = 0.4721, y = 0.3552, location = "Warfang Hold, Stormsong Valley" },
-                { id = 55051, name = "A Display of Power",               npc = "Nathanos Blightcaller" },
+                { id = 55050, name = "Tickets, Please?",                 npc = "Kazit", mapID = 942, x = 0.4721, y = 0.3552, location = "Warfang Hold, Stormsong Valley" },
+                { id = 55051, name = "A Display of Power",               npc = "Boss Mida" },
             },
         },
 
@@ -336,10 +341,10 @@ SM.LilianVossData = {
             summary = "Sylvanas is gone. The Horde's leaders gather to decide what it becomes without her — and Lilian Voss speaks for the Forsaken.",
             recap = "When the gate went quiet and Sylvanas left, Lilian Voss was already in the room. Baine, Lor'themar, Ji Firepaw — all the leaders who had waited out the war with their doubts held close — and the question nobody wanted to be first to say: what do they do about the Warchief's throne? Before the full council assembled, Lilian stepped away from the main hall to arrange a quieter meeting — Forsaken leadership, Calia Menethil, and Derek Proudmoore. Hidden, necessary, and entirely hers to broker. Then she came back into the room and made the case for leaving the throne empty. No single voice. A council, where every people kept their own weight and no one leader could burn the world on a private conviction. She had spent years being used by the powerful as a tool. She knew exactly what concentrated authority looked like from the receiving end. The others listened. They agreed. It was the first time Lilian Voss had spoken in a room full of power and been heard.",
             quests = {
-                { id = 57198, name = "Sense of Obligation",      npc = "High Overlord Saurfang", mapID = 862, x = 0.5840, y = 0.6260, location = "Dazar'alor, Zuldazar" },
+                { id = 57198, name = "Sense of Obligation",      npc = "Lilian Voss", mapID = 862, x = 0.5840, y = 0.6260, location = "Dazar'alor, Zuldazar" },
                 { id = 57376, name = "The Hidden Need",          npc = "Lilian Voss" },
                 { id = 58672, name = "A Gathering of Champions", npc = "Valeera Sanguinar", mapID = 862, x = 0.5840, y = 0.6260, location = "Dazar'alor, Zuldazar" },
-                { id = 58673, name = "Warchief of the Horde",    npc = "Lilian Voss" },
+                { id = 58673, name = "Warchief of the Horde",    npc = "Valeera Sanguinar" },
             },
         },
 
@@ -360,18 +365,18 @@ SM.LilianVossData = {
             quests = {
                 { id = 65656, name = "Call to Lordaeron",                npc = "Calia Menethil" },
                 { id = 65657, name = "Assemble the Forsaken",            npc = "Calia Menethil" },
-                { id = 65658, name = "This Land is Ours",                npc = "Calia Menethil" },
-                { id = 65659, name = "The Blight Congress",              npc = "Calia Menethil" },
+                { id = 65658, name = "This Land is Ours",                npc = "Dark Ranger Velonara" },
+                { id = 65659, name = "The Blight Congress",              npc = "Lilian Voss" },
                 { id = 65660, name = "Walk of Faith",                    npc = "Calia Menethil" },
-                { id = 65661, name = "Consulting Our Allies",            npc = "Calia Menethil" },
-                { id = 65662, name = "House of Plagues",                 npc = "Master Apothecary Faranell" },
-                { id = 65663, name = "Feed the Eater",                   npc = "Master Apothecary Faranell" },
-                { id = 65664, name = "Essence of Plague",                npc = "Master Apothecary Faranell" },
-                { id = 65665, name = "Embodiment",                       npc = "Master Apothecary Faranell" },
-                { id = 65666, name = "Return to Brill",                  npc = "Master Apothecary Faranell" },
+                { id = 65661, name = "Consulting Our Allies",            npc = "Lilian Voss" },
+                { id = 65662, name = "House of Plagues",                 npc = "Margrave Sin'dane" },
+                { id = 65663, name = "Feed the Eater",                   npc = "Calia Menethil" },
+                { id = 65664, name = "Essence of Plague",                npc = "Plague Deviser Marileth" },
+                { id = 65665, name = "Embodiment",                       npc = "Plague Deviser Marileth" },
+                { id = 65666, name = "Return to Brill",                  npc = "Lilian Voss" },
                 { id = 65667, name = "The Remedy of Lordaeron",          npc = "Calia Menethil" },
                 { id = 65668, name = "The Desolate Council",             npc = "Lilian Voss" },
-                { id = 66090, name = "Path of the Dark Rangers",         npc = "Dark Ranger Velonara" },
+                { id = 66091, name = "Path of the Dark Rangers",         npc = "Dark Ranger Velonara" },
                 { id = 65788, name = "A Walk with Ghosts",               npc = "Lilian Voss" },
             },
         },

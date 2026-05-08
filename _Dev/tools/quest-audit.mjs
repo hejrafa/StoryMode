@@ -5,6 +5,7 @@ const positionalArgs = process.argv.slice(2).filter((arg) => !arg.startsWith("--
 const root = positionalArgs[0] || process.cwd();
 const scope = positionalArgs[1] || "";
 const includeQaReport = process.argv.includes("--qa-report");
+const showSuppressedFindings = process.argv.includes("--show-suppressed");
 const cacheDir = path.join(root, ".quest-audit-cache");
 const dataRoot = path.join(root, "Data");
 const exceptionsPath = path.join(root, "_Dev", "quest-audit-exceptions.json");
@@ -538,6 +539,14 @@ const unmatchedExceptions = exceptions
 visibleFindings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
 suppressedFindings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
 
+function countBy(items, keyFn) {
+  return items.reduce((counts, item) => {
+    const key = keyFn(item);
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {});
+}
+
 const questsBySource = quests.reduce((counts, quest) => {
   counts[quest.source] = (counts[quest.source] || 0) + 1;
   return counts;
@@ -571,8 +580,14 @@ console.log(JSON.stringify({
   questKeysBySource,
   fullQuestPages: [...questData.values()].filter((quest) => !quest.pageError).length,
   tooltipQuestFallbacks: [...questData.values()].filter((quest) => quest.pageError).length,
+  activeFindingsBySeverity: countBy(visibleFindings, (finding) => finding.severity),
+  activeFindingsByType: countBy(visibleFindings, (finding) => finding.type),
+  suppressedFindingsByType: countBy(suppressedFindings, (finding) => finding.type),
+  suppressedFindingsCount: suppressedFindings.length,
   findings: visibleFindings,
-  suppressedFindings,
+  suppressedFindings: showSuppressedFindings ? suppressedFindings : undefined,
   unmatchedExceptions,
   qaReport,
 }, null, 2));
+
+process.exit(visibleFindings.some((finding) => finding.severity === "error") ? 1 : 0);

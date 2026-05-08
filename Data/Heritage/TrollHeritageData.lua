@@ -19,13 +19,13 @@ SM.TrollHeritageData = {
     startY = 0.6470,
     npcLocations = {
         ["Zi'guma"] = { mapID = 85, x = 0.3270, y = 0.6470 },
-        ["Rokhan"] = { mapID = 85, x = 0.3280, y = 0.6490 }, -- Valley of Spirits (approx)
-        ["Master Gadrin"] = { mapID = 1, x = 0.5680, y = 0.7420 }, -- Echo Isles (approx)
+        ["Rokhan"] = { mapID = 85, x = 0.5860, y = 0.6540 }, -- Valley of Spirits (approx)
+        ["Master Gadrin"] = { mapID = 1, x = 0.6120, y = 0.6540 }, -- Echo Isles (approx)
     },
     npcDisplayIDs = {
         ["Zi'guma"] = 115696,
         ["Rokhan"] = 116250,
-        ["Master Gadrin"] = 4072,
+        ["Master Gadrin"] = 116153,
         ["Witch Doctor Tzadah"] = 114020,
         ["Kevo ya Siti"] = 113967,
         ["Lukou"] = 114061,
@@ -47,15 +47,15 @@ SM.TrollHeritageData = {
                 { id = 77881, name = "There is Another", npc = "Kevo ya Siti", mapID = 85, x = 0.3280, y = 0.6490, location = "Heritage of the Darkspear, Echo Isles / Northern Stranglethorn" },
                 { id = 77880, name = "Looking for Lukou", npc = "Rokhan" },
                 { id = 77877, name = "One with the Loa", npc = "Kevo ya Siti", mapID = 85, x = 0.3280, y = 0.6490, location = "Heritage of the Darkspear, Echo Isles / Northern Stranglethorn" },
-                { id = 78875, name = "The Unkillable", npc = "Rokhan" },
                 { id = 77882, name = "Stolen but Not Forgotten", npc = "Rokhan" },
+                { id = 78875, name = "The Unkillable", npc = "Rokhan" },
                 { id = 77894, name = "Heart of Lukou", npc = "Rokhan" },
                 { id = 77898, name = "Honor and Tribute", npc = "Rokhan" },
                 { id = 77899, name = "The Rush'kah", npc = "Witch Doctor Tzadah", mapID = 85, x = 0.3280, y = 0.6490, location = "Heritage of the Darkspear, Echo Isles / Northern Stranglethorn" },
                 { id = 77900, name = "The Loa Trials", npc = "Rokhan" },
-                { id = 77903, name = "De Power of Death", npc = "Rokhan" },
-                { id = 77902, name = "Ritual Recovery", npc = "Lukou", mapID = 85, x = 0.3280, y = 0.6490, location = "Heritage of the Darkspear, Echo Isles / Northern Stranglethorn" },
                 { id = 77901, name = "Retraining the Trainees", npc = "Kevo ya Siti", mapID = 85, x = 0.3280, y = 0.6490, location = "Heritage of the Darkspear, Echo Isles / Northern Stranglethorn" },
+                { id = 77902, name = "Ritual Recovery", npc = "Lukou", mapID = 85, x = 0.3280, y = 0.6490, location = "Heritage of the Darkspear, Echo Isles / Northern Stranglethorn" },
+                { id = 77903, name = "De Power of Death", npc = "Rokhan" },
                 { id = 77905, name = "Avatar of Mueh'zala", npc = "Rokhan" },
                 { id = 77906, name = "De Darkspear Loa", npc = "Rokhan" },
             },

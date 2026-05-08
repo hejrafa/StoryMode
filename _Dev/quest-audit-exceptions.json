@@ -135,6 +135,13 @@
     },
     {
       "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 45798,
+      "remoteContains": "between 45764 and 45798: 46725 Power Outage",
+      "reason": "Power Outage is a short setup step inside the same Broken Shore class-mount beat; StoryMode keeps the curated path focused on the named narrative quests."
+    },
+    {
+      "type": "chain-hole",
       "file": "Data/Campaigns/DruidCampaignData.lua",
       "quest": 42585,
       "remoteContains": "between 42583 and 42585: 40650 Champion: Zen'tabra, 42096 Champion: Naralex, 42584 Sister Lilith",
@@ -146,6 +153,13 @@
       "quest": 43368,
       "remoteContains": "between 42048 and 43368: 42719 Eye of Azshara: Cleansing the Dreamway, 43365 The Cycle Continues, 42129 The Pendant of Starlight",
       "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 46048,
+      "remoteContains": "between 46060 and 46048: 46235 Secured Surroundings",
+      "reason": "Secured Surroundings is an intermediate setup step in the hunter class-mount sequence; StoryMode preserves the higher-level narrative path."
     },
     {
       "type": "order",
@@ -170,6 +184,13 @@
     },
     {
       "type": "chain-hole",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 45574,
+      "remoteContains": "between 45404 and 45574: 45459 Storming the Legion",
+      "reason": "Storming the Legion is a short setup step in the Ban-Lu class-mount sequence; StoryMode keeps the curated path focused on named story beats."
+    },
+    {
+      "type": "chain-hole",
       "file": "Data/Campaigns/PaladinCampaignData.lua",
       "quest": 38566,
       "remoteContains": "between 42811 and 38566: 42812 We Meet at Light's Hope",
@@ -188,6 +209,13 @@
       "quest": 42881,
       "remoteContains": "between 39696 and 42881: 42846 The Blood Matriarch",
       "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 45148,
+      "remoteContains": "between 45143 and 45148: 45145 Moonfang Family Relics, 45146 Runic Reading",
+      "reason": "The Moonfang relic handoff is represented by the surrounding Golden Charger chapter beats instead of listed as separate StoryMode steps."
     },
     {
       "type": "chain-hole",
@@ -654,22 +682,8 @@
     {
       "type": "order",
       "file": "Data/Storylines/SuramarData.lua",
-      "quest": 40391,
-      "remoteContains": "series index 3 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
       "quest": 40730,
       "remoteContains": "series index 6 after 7",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 41916,
-      "remoteContains": "series index 6 after 10",
       "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
     },
     {
@@ -689,57 +703,8 @@
     {
       "type": "order",
       "file": "Data/Storylines/SuramarData.lua",
-      "quest": 43810,
-      "remoteContains": "series index 4 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 44831,
-      "remoteContains": "series index 5 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 44834,
-      "remoteContains": "series index 9 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 44843,
-      "remoteContains": "series index 7 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 44844,
-      "remoteContains": "series index 8 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
       "quest": 45260,
       "remoteContains": "series index 1 after 8",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 45263,
-      "remoteContains": "series index 2 after 10",
-      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
-    },
-    {
-      "type": "order",
-      "file": "Data/Storylines/SuramarData.lua",
-      "quest": 45316,
-      "remoteContains": "series index 1 after 10",
       "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
     },
     {
@@ -1371,6 +1336,81 @@
       "quest": 45269,
       "remoteContains": "series index 1 after 3",
       "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PriestCampaignData.lua",
+      "chapter": "The Sunken Vault",
+      "reason": "The priest class-mount chapter omits minor cure/setup errands while retaining the main contagion, champion, and mount story beats."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/WarlockCampaignData.lua",
+      "chapter": "The Wrathsteed of Xoroth",
+      "reason": "The warlock class-mount chapter omits minor setup errands while retaining the Kanrethad rescue and Xoroth mount beats."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "chapter": "Return of the Battlelord",
+      "reason": "The warrior class-mount chapter summarizes mission-table rescue setup instead of listing every mission handoff as a story step."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/DrustvarData.lua",
+      "reason": "Drustvar omits selected local side errands where the curated storyline keeps focus on the coven and Order of Embers arc."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/NazmirData.lua",
+      "reason": "Nazmir keeps the loa and blood-troll arc readable by omitting selected duplicate or minor transition quests from external series data."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "reason": "The Sylvanas arc omits selected side/system quests around the war-campaign spine while preserving the character story beats."
+    },
+    {
+      "type": "order",
+      "file": "Data/Heritage/BloodElfHeritageData.lua",
+      "reason": "The blood elf heritage chain order is kept in StoryMode's narrative presentation where external series order swaps adjacent handoff beats."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/DrustvarData.lua",
+      "reason": "Drustvar's chapter order follows StoryMode narrative flow where external series order swaps adjacent hub or side-objective steps."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JainaData.lua",
+      "chapter": "The Fog of War",
+      "reason": "The Fog of War chapter preserves the Battle for Dazar'alor narrative presentation rather than raw external quest-series ordering."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/LilianVossData.lua",
+      "reason": "Lilian Voss war-campaign chapters follow StoryMode's character-arc order where external series data reflects broader hub sequencing."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/NazmirData.lua",
+      "reason": "Nazmir preserves curated loa/chapter flow where external zone-series ordering swaps adjacent objective beats."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/RevendrethData.lua",
+      "reason": "Revendreth preserves StoryMode's chapter flow where external series order swaps adjacent handoffs in the zone campaign."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "reason": "Suramar external ordering reflects branching, reputation-gated, and hub-flow indexing; StoryMode preserves narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "chapter": "Stay of Execution",
+      "reason": "Stay of Execution keeps the cinematic character beat order where external series data swaps adjacent setup steps."
     }
   ]
 }

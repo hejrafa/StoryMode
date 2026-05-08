@@ -59,6 +59,8 @@ SM.SuramarData = {
         ["Toryl"]                       = { mapID = 680, x = 0.6380, y = 0.5200 },  -- Jandvik
         ["Lyana Darksorrow"]            = { mapID = 680, x = 0.3100, y = 0.6200 },  -- Felsoul Hold area
         ["Ancient Keeper"]              = { mapID = 680, x = 0.3000, y = 0.1350 },  -- Moon Guard Stronghold
+        ["Lady Liadrin"] = { mapID = 680, x = 0.4060, y = 0.5300, location = "Suramar" },
+        ["Tyrande Whisperwind"] = { mapID = 680, x = 0.4160, y = 0.5140, location = "Suramar" },
     },
 
     -- NPC creature display IDs for chapter portraits
@@ -70,10 +72,10 @@ SM.SuramarData = {
         ["Chief Telemancer Oculeth"]    = 73853,
         ["Arcanist Valtrois"]           = 67696,
         ["Arcanist Kel'danath"]         = 70943,
-        ["Morhun Rivertamer"]           = 67257,
+        ["Morhun Rivertamer"]           = 66338,
         ["Valewalker Farodin"]          = 69847,
         ["Ly'leth Lunastre"]            = 70210,
-        ["Silgryn"]                     = 65081,
+        ["Silgryn"]                     = 68890,
         ["Theryn"]                      = 68238,
         ["Mylune"]                      = 72120,
         ["Keeper Remulos"]              = 11906,
@@ -83,9 +85,9 @@ SM.SuramarData = {
         ["Thalrenus Rivertree"]         = 66972,
         ["Syrana Starweaver"]          = 66971,
         ["Lady Liadrin"]                = 61971,
-        ["Tyrande Whisperwind"]         = 694523,
+        ["Tyrande Whisperwind"]         = 39623,
         ["Noressa"]                     = 70017,
-        ["Stellagosa"]                  = 64545,
+        ["Stellagosa"]                  = 61799,
     },
 
     -- =========================================================================
@@ -391,7 +393,7 @@ SM.SuramarData = {
             recap = "The rebellion emerged from hiding and seized the Waning Crescent district in an act of open defiance. You helped Oculeth triangulate and rescue an imprisoned ally put on public display as a warning, then established the first openly rebel-held territory in Suramar City. The Dusk Lily — the rebellion's symbol — flew for the first time where Elisande's banners once hung.",
             criteriaQuest = { id = 44756, name = "Sign of the Dusk Lily", mapID = 680, x = 0.4880, y = 0.6700, location = "Suramar" },
             quests = {
-                { id = 45262, name = "A Message From Ly'leth",          npc = "Ly'leth Lunastre" },
+                { id = 45262, name = "A Message From Ly'leth",          npc = "First Arcanist Thalyssra" },
                 { id = 44742, name = "Tavernkeeper's Fate",             npc = "First Arcanist Thalyssra", mapID = 680, x = 0.3640, y = 0.4580, location = "Suramar" },
                 { id = 44752, name = "Essence Triangulation",           npc = "First Arcanist Thalyssra", mapID = 680, x = 0.4320, y = 0.7880, location = "Suramar" },
                 { id = 44753, name = "On Public Display",               npc = "First Arcanist Thalyssra", mapID = 680, x = 0.4320, y = 0.7880, location = "Suramar" },
@@ -417,7 +419,7 @@ SM.SuramarData = {
                 { id = 44843, name = "Crystal Clearing",                npc = "Sentinel Moonshade", mapID = 680, x = 0.4060, y = 0.6440, location = "Suramar" },
                 { id = 44844, name = "Powering Down the Portal",        npc = "Sentinel Moonshade", mapID = 680, x = 0.4060, y = 0.6440, location = "Suramar" },
                 { id = 44834, name = "Nullified",                       npc = "Magus Sendath", mapID = 680, x = 0.4640, y = 0.5800, location = "Suramar" },
-                { id = 44845, name = "Break An Arm",                    npc = "Silgryn" },
+                { id = 44845, name = "Break An Arm",                    npc = "First Arcanist Thalyssra" },
             },
         },
         -- -----------------------------------------------------------------
@@ -432,18 +434,18 @@ SM.SuramarData = {
                 { id = 45280, name = "Insurrection: Crafting War",      npc = "Automatic", optional = true, mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 45265, name = "Feeding the Rebellion",           npc = "First Arcanist Thalyssra" },
                 { id = 44743, name = "Tyrande's Command",               npc = "First Arcanist Thalyssra", faction = "Alliance", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
-                { id = 44859, name = "Liadrin's Command",               npc = "Lady Liadrin", faction = "Horde", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 44859, name = "Liadrin's Command",               npc = "First Arcanist Thalyssra", faction = "Horde", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 45056, name = "Noressa",                         npc = "Absolon", optional = true, mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
-                { id = 44870, name = "Mouths to Feed",                  npc = "Noressa", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
-                { id = 44873, name = "Oculeth Ex Machina",              npc = "Chief Telemancer Oculeth" },
+                { id = 44870, name = "Mouths to Feed",                  npc = "First Arcanist Thalyssra", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 44873, name = "Oculeth Ex Machina",              npc = "Arcanist Valtrois" },
                 { id = 44874, name = "Unbeleyvable",                    npc = "Arcanist Valtrois" },
                 { id = 44875, name = "The Art of Flow",                 npc = "Arcanist Valtrois" },
                 { id = 44876, name = "A Dance With Dragons",            npc = "Stellagosa", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 44858, name = "Trolling Them",                   npc = "Tyrande Whisperwind", faction = "Alliance", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 44860, name = "Trolling Them",                   npc = "Lady Liadrin", faction = "Horde", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 44928, name = "Something's Not Quite Right...",  npc = "Archmage Khadgar" },
-                { id = 44861, name = "Arming the Rebels",               npc = "Silgryn" },  -- Alliance
-                { id = 44862, name = "Arming the Rebels",               npc = "Silgryn" },  -- Horde
+                { id = 44861, name = "Arming the Rebels",               npc = "Tyrande Whisperwind" },  -- Alliance
+                { id = 44862, name = "Arming the Rebels",               npc = "Lady Liadrin" },  -- Horde
                 { id = 44827, name = "Citizens' Army",                  npc = "Victoire", mapID = 680, x = 0.3980, y = 0.5120, location = "Suramar" },
                 { id = 44830, name = "Learning From the Dead",          npc = "Silgryn" },
                 { id = 44829, name = "We Need Weapons",                 npc = "Chief Telemancer Oculeth", mapID = 680, x = 0.3980, y = 0.5140, location = "Suramar" },
@@ -477,7 +479,7 @@ SM.SuramarData = {
                 { id = 45267, name = "Before the Siege",                npc = "First Arcanist Thalyssra" },
                 { id = 44736, name = "Gates of the Nighthold",          npc = "First Arcanist Thalyssra" },
                 { id = 44822, name = "Temporal Investigations",         npc = "Archmage Khadgar", mapID = 680, x = 0.5480, y = 0.7280, location = "Suramar" },
-                { id = 45209, name = "Those Scrying Eyes",              npc = "Arcanist Valtrois" },
+                { id = 45209, name = "Those Scrying Eyes",              npc = "First Arcanist Thalyssra" },
                 { id = 44832, name = "Scouting the Breach",             npc = "First Arcanist Thalyssra", mapID = 680, x = 0.3640, y = 0.4580, location = "Suramar" },
                 { id = 44833, name = "The Seal's Power",                npc = "Arcanist Valtrois", mapID = 680, x = 0.4400, y = 0.5980, location = "Suramar" },
             },
@@ -494,11 +496,11 @@ SM.SuramarData = {
                 { id = 45268, name = "The Advisor and the Arcanist",    npc = "First Arcanist Thalyssra" },
                 { id = 44918, name = "A Message From Our Enemies",      npc = "First Arcanist Thalyssra" },
                 { id = 44919, name = "A Challenge From Our Enemies",    npc = "First Arcanist Thalyssra" },
-                { id = 45067, name = "Telemantic Expanse",              npc = "Chief Telemancer Oculeth" },
-                { id = 45063, name = "The Felsoul Experiments",         npc = "Arcanist Kel'danath" },
+                { id = 45067, name = "Telemantic Expanse",              npc = "First Arcanist Thalyssra" },
+                { id = 45063, name = "The Felsoul Experiments",         npc = "First Arcanist Thalyssra" },
                 { id = 45065, name = "Survey the City",                 npc = "Chief Telemancer Oculeth" },
-                { id = 45062, name = "Resisting Arrest",                npc = "Arcanist Kel'danath" },
-                { id = 45066, name = "Experimental Instability",        npc = "Arcanist Kel'danath" },
+                { id = 45062, name = "Resisting Arrest",                npc = "First Arcanist Thalyssra" },
+                { id = 45066, name = "Experimental Instability",        npc = "Chief Telemancer Oculeth" },
                 { id = 45064, name = "Felborne No More",                npc = "First Arcanist Thalyssra" },
             },
         },
@@ -512,11 +514,11 @@ SM.SuramarData = {
             criteriaQuest = { id = 44719, name = "Breaching the Sanctum", mapID = 680, x = 0.3660, y = 0.4500, location = "Suramar" },
             quests = {
                 { id = 45269, name = "A Taste of Freedom",              npc = "First Arcanist Thalyssra" },
-                { id = 44964, name = "I'll Just Leave This Here",       npc = "Silgryn" },
+                { id = 44964, name = "I'll Just Leave This Here",       npc = "First Arcanist Thalyssra" },
                 { id = 44719, name = "Breaching the Sanctum",           npc = "Chief Telemancer Oculeth", mapID = 680, x = 0.3660, y = 0.4500, location = "Suramar" },
-                { id = 45417, name = "The Nighthold: Lord of the Shadow Council", npc = "First Arcanist Thalyssra" },
+                { id = 45417, name = "The Nighthold: Lord of the Shadow Council", npc = "Archmage Khadgar" },
                 { id = 45420, name = "The Nighthold: The Eye of Aman'Thul", npc = "First Arcanist Thalyssra" },
-                { id = 45372, name = "Fate of the Nightborne",          npc = "First Arcanist Thalyssra" },
+                { id = 45372, name = "Fate of the Nightborne",          npc = "Chief Telemancer Oculeth" },
             },
         },
     },

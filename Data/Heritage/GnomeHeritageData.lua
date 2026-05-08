@@ -16,9 +16,9 @@ SM.GnomeHeritageData = {
     startQuest = { id = 54402, name = "Shifting Gears", npc = "Ace Pilot Stormcog", location = "Stormwind Embassy" },
     npcLocations = {
         ["Ace Pilot Stormcog"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy
-        ["Captain Tread Sparknozzle"] = { mapID = 27, x = 0.3960, y = 0.5530 }, -- New Tinkertown (approx)
-        ["Fizzi Tinkerbow"] = { mapID = 114, x = 0.4120, y = 0.5340 }, -- Borean Tundra (approx)
-        ["Cog Captain Winklespring"] = { mapID = 120, x = 0.4100, y = 0.8500 }, -- Storm Peaks (approx)
+        ["Captain Tread Sparknozzle"] = { mapID = 27, x = 0.4180, y = 0.3140 },
+        ["Fizzi Tinkerbow"] = { mapID = 114, x = 0.3800, y = 0.3400 },
+        ["Cog Captain Winklespring"] = { mapID = 120, x = 0.3760, y = 0.6020 },
     },
     chapterIcons = {
         ["Heritage of Gnomeregan"] = "Interface\\Icons\\inv_cape_armor_gnome_d_01",

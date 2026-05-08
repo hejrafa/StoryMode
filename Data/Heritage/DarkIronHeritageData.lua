@@ -16,8 +16,8 @@ SM.DarkIronHeritageData = {
     startQuest = { id = 51483, name = "Heritage o' the Dark Iron", npc = "Automatic", location = "Alliance city call-up", mapID = 242, x = 0.3500, y = 0.3800, location = "Stormwind Embassy / Blackrock Depths" },
     npcLocations = {
         ["Moira Thaurissan"] = { mapID = 87, x = 0.2460, y = 0.5350 }, -- Hall of Explorers / Ironforge area (approx)
-        ["Anvil-Thane Thurgaden"] = { mapID = 242, x = 0.3500, y = 0.3800 }, -- Blackrock Depths (approx)
-        ["Kasea Angerforge"] = { mapID = 242, x = 0.3600, y = 0.4000 }, -- Blackrock Depths (approx)
+        ["Anvil-Thane Thurgaden"] = { mapID = 242, x = 0.5700, y = 0.3180 }, -- Blackrock Depths (approx)
+        ["Kasea Angerforge"] = { mapID = 242, x = 0.4780, y = 0.4640 }, -- Blackrock Depths (approx)
     },
     chapterIcons = {
         ["Heritage o' the Dark Iron"] = "Interface\\Icons\\inv_helm_plate_raidwarrior_p_01",

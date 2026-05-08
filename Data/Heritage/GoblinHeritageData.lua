@@ -19,12 +19,12 @@ SM.GoblinHeritageData = {
     startY = 0.8130,
     npcLocations = {
         ["Izzy"] = { mapID = 85, x = 0.3790, y = 0.8130, location = "Stranglethorn / Crapopolis" },
-        ["Sassy Hardwrench"] = { mapID = 85, x = 0.3790, y = 0.8130 , location = "Stranglethorn / Crapopolis"}, -- Orgrimmar Embassy (approx)
+        ["Sassy Hardwrench"] = { mapID = 85, x = 0.3460, y = 0.2860 , location = "Stranglethorn / Crapopolis"},
         ["Hobart Grapplehammer"] = { mapID = 210, x = 0.5200, y = 0.5200 }, -- Crapopolis area (approx)
     },
     npcDisplayIDs = {
-        ["Sassy Hardwrench"] = 29889,
-        ["Hobart Grapplehammer"] = 677599,
+        ["Sassy Hardwrench"] = 33206,
+        ["Hobart Grapplehammer"] = 92727,
         ["Izzy"] = 29482,
     },
     chapterIcons = {

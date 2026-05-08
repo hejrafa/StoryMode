@@ -3,8 +3,19 @@ import path from "node:path";
 
 const root = process.argv.find((arg, index) => index > 1 && !arg.startsWith("--")) || process.cwd();
 const showAllFindings = process.argv.includes("--all-findings");
+const showSuppressedFindings = process.argv.includes("--show-suppressed");
 const dataRoot = path.join(root, "Data");
 const tocFiles = ["StoryMode.toc", "StoryMode_TBC.toc", "StoryMode_Vanilla.toc"];
+const exceptionsPath = path.join(root, "_Dev", "story-data-exceptions.json");
+
+async function readExceptions() {
+  try {
+    const parsed = JSON.parse(await readFile(exceptionsPath, "utf8"));
+    return Array.isArray(parsed.exceptions) ? parsed.exceptions : [];
+  } catch {
+    return [];
+  }
+}
 
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -148,17 +159,59 @@ for (const toc of tocFiles) {
   }
 }
 
-const severityCounts = findings.reduce((counts, finding) => {
+const exceptions = await readExceptions();
+
+function matchesException(finding, exception) {
+  if (exception.type && exception.type !== finding.type) return false;
+  if (exception.file && exception.file !== finding.file) return false;
+  if (exception.quest && Number(exception.quest) !== Number(finding.quest)) return false;
+  if (exception.npc && exception.npc !== finding.npc) return false;
+  if (exception.chapter && exception.chapter !== finding.chapter) return false;
+  if (exception.detailContains && !String(finding.detail || "").includes(exception.detailContains)) return false;
+  return true;
+}
+
+const suppressedFindings = [];
+const activeFindings = [];
+const usedExceptionIndexes = new Set();
+for (const finding of findings) {
+  const exceptionIndex = exceptions.findIndex((candidate) => matchesException(finding, candidate));
+  const exception = exceptionIndex >= 0 ? exceptions[exceptionIndex] : null;
+  if (exception) {
+    usedExceptionIndexes.add(exceptionIndex);
+    suppressedFindings.push({ ...finding, exception: exception.reason || "story-data exception", exceptionIndex });
+  } else {
+    activeFindings.push(finding);
+  }
+}
+
+const unmatchedExceptions = exceptions
+  .map((exception, index) => ({ index, ...exception }))
+  .filter((exception) => !usedExceptionIndexes.has(exception.index));
+
+function countBy(items, keyFn) {
+  return items.reduce((counts, item) => {
+    const key = keyFn(item);
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {});
+}
+
+const severityCounts = activeFindings.reduce((counts, finding) => {
   counts[finding.severity] = (counts[finding.severity] || 0) + 1;
   return counts;
 }, {});
-const visibleFindings = showAllFindings ? findings : findings.filter((finding) => finding.severity === "error");
+const visibleFindings = showAllFindings ? activeFindings : activeFindings.filter((finding) => finding.severity === "error");
 const errorCount = severityCounts.error || 0;
 console.log(JSON.stringify({
   files: datasets.length,
   storyIDs: ids.size,
   severityCounts,
+  suppressedFindingsByType: countBy(suppressedFindings, (finding) => finding.type),
+  suppressedFindingsCount: suppressedFindings.length,
   findings: visibleFindings,
+  suppressedFindings: showSuppressedFindings ? suppressedFindings : undefined,
+  unmatchedExceptions,
   hint: showAllFindings ? undefined : "Run with --all-findings to print warnings and info findings.",
 }, null, 2));
 

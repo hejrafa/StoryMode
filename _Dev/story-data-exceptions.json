@@ -1,0 +1,148 @@
+{
+  "exceptions": [
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 40636,
+      "reason": "The monk artifact opener is repeated in the Windwalker artifact chapter because it is both campaign setup and the artifact-specific entry point."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 31,
+      "reason": "Classic druid aquatic form data repeats shared breadcrumb/recovery steps across race-specific variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 6074,
+      "reason": "Classic druid aquatic form data repeats shared breadcrumb/recovery steps across race-specific variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 1947,
+      "reason": "Classic hunter Rhok'delar data repeats shared Ancient Petrified Leaf handoff steps across class-weapon variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 1793,
+      "reason": "Classic mage Arcane Refreshment data repeats shared mage-training handoff steps used by adjacent class quest variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 7622,
+      "reason": "Classic paladin charger data repeats shared mount-chain handoff steps across faction/race variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 2360,
+      "reason": "Classic priest Benediction data repeats shared class-weapon handoff steps across race-specific variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 6681,
+      "reason": "Classic rogue Ravenholdt data repeats shared rogue progression steps across poison and class-quest variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 1516,
+      "reason": "Classic rogue Ravenholdt data repeats shared rogue progression steps across poison and class-quest variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 1685,
+      "reason": "Classic shaman Elemental Mastery data repeats shared totem/class-progression handoff steps across variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 7562,
+      "reason": "Classic warlock Dreadsteed data repeats shared mount-chain handoff steps across adjacent warlock quest variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 1638,
+      "reason": "Classic warlock Dreadsteed data repeats shared mount-chain handoff steps across adjacent warlock quest variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 1718,
+      "reason": "Classic warrior Whirlwind Weapon data repeats shared class-weapon handoff steps across warrior variants."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 12497,
+      "reason": "The Wrathgate red-flight quests are repeated where the zone narrative and Frozen Throne arc intentionally overlap."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 12498,
+      "reason": "The Wrathgate red-flight quests are repeated where the zone narrative and Frozen Throne arc intentionally overlap."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44955,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44814,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44756,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44845,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44790,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44740,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44833,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45064,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44719,
+      "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
+    }
+  ]
+}

@@ -18,12 +18,14 @@
 ### Maintenance
 - Exposed a small quest-accepted suppression API so companion addons can avoid restyling Story Mode quest accepted lines
 - Added quest guidance audits for missing NPC locations, map/location mismatches, class/faction availability, and chain holes, plus documented exceptions for intentionally curated quest paths
+- Completed the quest-audit cleanup pass so active quest audit findings are zero, with curated order, chain, and source limitations tracked through documented exception files
 - Aligned quest-card clicks with **Begin This Story** and **Continue Story** behavior so direct quest-card tracking uses the same location guidance, map opening, and completed-quest messages
 - Added native guidance snapshots and availability aliases to catch bad map targets such as Legion Dalaran vs. class hall submaps
 - Bumped addon metadata to `1.8.0`
 
 ### Retail
 - Audited and corrected quest starters, NPC locations, map targets, and criteria handoffs across Retail campaigns, heritage stories, and storylines
+- Corrected audited NPC portrait display IDs across Retail campaigns, heritage stories, and storylines to match the quest-starter models used by Wowhead
 - Corrected **A Tea Party** guidance so **Teddies and Tea** points to the quest location players see in-game
 - Fixed Suramar/Insurrection startup guidance so Archmage Khadgar points to the Violet Citadel in Legion Dalaran instead of the Hall of Shadows
 - Marked completed Suramar Nightfallen prerequisite chapters through **Nightfallen But Not Forgotten** so completed characters are not sent back to **Khadgar's Discovery**

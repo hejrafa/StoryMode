@@ -16,9 +16,9 @@ SM.WorgenHeritageData = {
     startQuest = { id = 54976, name = "The Shadow of Gilneas", npc = "Courier Claridge", location = "Stormwind Embassy" },
     npcLocations = {
         ["Courier Claridge"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy
-        ["Mia Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 , location = "Stormwind / Duskwood / Emerald Dream (phased)"}, -- Stormwind Keep (approx)
-        ["Vassandra Stormclaw"] = { mapID = 47, x = 0.7400, y = 0.4680 }, -- Duskwood (approx)
-        ["Princess Tess Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 , location = "Stormwind / Duskwood / Emerald Dream (phased)"}, -- Stormwind Keep (approx)
+        ["Mia Greymane"] = { mapID = 84, x = 0.8240, y = 0.2800 , location = "Stormwind / Duskwood / Emerald Dream (phased)"},
+        ["Vassandra Stormclaw"] = { mapID = 47, x = 0.1820, y = 0.5720 },
+        ["Princess Tess Greymane"] = { mapID = 84, x = 0.4640, y = 0.3700 , location = "Stormwind / Duskwood / Emerald Dream (phased)"},
     },
     chapterIcons = {
         ["Heritage of Gilneas"] = "Interface\\Icons\\inv_helm_armor_worgen_c_01",
