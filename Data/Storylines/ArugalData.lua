@@ -35,7 +35,7 @@ SM.ArugalData = {
         ["Ambermill"] = { mapID = 21, x = 0.6100, y = 0.6400, location = "Ambermill, Silverpine Forest" },
         ["Shadowfang Keep"] = { mapID = 21, x = 0.4400, y = 0.6750, location = "Shadowfang Keep, Silverpine Forest" },
         ["Archmage Ataeric"] = { mapID = 21, x = 0.6120, y = 0.6400, location = "Ambermill, Silverpine Forest" },
-        ["Archmage Arugal"] = { mapID = 310, x = 0.5000, y = 0.5000, location = "Shadowfang Keep" },
+        ["Archmage Arugal"] = { mapID = 310, x = 0.5120, y = 0.4820, location = "Shadowfang Keep" },
     },
 
     npcDisplayIDs = {

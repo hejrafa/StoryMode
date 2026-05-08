@@ -37,7 +37,7 @@ SM.GnomeHeritageData = {
                 { id = 54577, name = "Shadowed Halls and Dusty Cogs", npc = "Captain Tread Sparknozzle" },
                 { id = 54580, name = "A Tundra Conundrum", npc = "Captain Tread Sparknozzle" },
                 { id = 54581, name = "Now With More Mechanical Fowl", npc = "Fizzi Tinkerbow" },
-                { id = 54582, name = "Smarter Than Your Average Trogg", npc = "Automatic" },
+                { id = 54582, name = "Smarter Than Your Average Trogg", npc = "Automatic", mapID = 114, x = 0.4120, y = 0.5340, location = "Heritage of Gnomeregan, New Tinkertown / Borean Tundra / Storm Peaks" },
                 { id = 54579, name = "The Gnome Behind the Trogg", npc = "Fizzi Tinkerbow" },
                 { id = 54639, name = "A Signal in Storm Peaks", npc = "Fizzi Tinkerbow" },
                 { id = 54640, name = "Gnomercy!", npc = "Cog Captain Winklespring" },

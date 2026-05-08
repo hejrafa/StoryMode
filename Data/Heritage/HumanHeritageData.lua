@@ -17,9 +17,9 @@ SM.HumanHeritageData = {
     npcLocations = {
         ["Agent Render"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy (approx)
         ["Master Mathias Shaw"] = { mapID = 84, x = 0.7620, y = 0.6010 }, -- SI:7 area (approx)
-        ["Vanessa VanCleef"] = { mapID = 52, x = 0.4190, y = 0.6990 }, -- Moonbrook (approx)
+        ["Vanessa VanCleef"] = { mapID = 52, x = 0.4190, y = 0.6990 , location = "Stormwind / Westfall / Elwynn"}, -- Moonbrook (approx)
         ["Ragged John"] = { mapID = 52, x = 0.4470, y = 0.2510 }, -- Sentinel Hill area (approx)
-        ["Cecilia Clessington"] = { mapID = 52, x = 0.4190, y = 0.6990 }, -- Moonbrook (approx)
+        ["Cecilia Clessington"] = { mapID = 52, x = 0.4190, y = 0.6990 , location = "Stormwind / Westfall / Elwynn"}, -- Moonbrook (approx)
         ["Marshal McBride"] = { mapID = 37, x = 0.4840, y = 0.4200 }, -- Northshire (approx)
     },
     npcDisplayIDs = {

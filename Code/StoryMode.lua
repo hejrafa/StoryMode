@@ -2991,7 +2991,9 @@ function SM.LayoutStoryTab(data, w, contentW, visibleContentW)
                         pendingSecureTrack = { data = data, quest = quest }
                     end)
                     SM.SetSecureOverlayActive(true)
-                    sTrackBtn:SetScript("OnClick", nil)
+                    sTrackBtn:SetScript("OnClick", function()
+                        ExecuteTrackButton(data, quest)
+                    end)
                 end
                 sTrackBtn:Enable()
                 sTrackBtn:SetAlpha(1.0)

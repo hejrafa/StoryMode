@@ -76,8 +76,8 @@ SM.LinkenData = {
             quests = {
                 { id = 3909, name = "The Videre Elixir", npc = "Donova Snowden" },
                 { id = 3912, name = "Meet at the Grave", npc = "Gaeriyan" },
-                { id = 3913, name = "A Grave Situation", npc = "A Conspicuous Gravestone" },
-                { id = 3914, name = "Linken's Sword", npc = "A Conspicuous Gravestone" },
+                { id = 3913, name = "A Grave Situation", npc = "A Conspicuous Gravestone", mapID = 71, x = 0.5300, y = 0.2900, location = "Linken's Memory, Un'Goro Crater / Tanaris / Felwood / Winterspring" },
+                { id = 3914, name = "Linken's Sword", npc = "A Conspicuous Gravestone", mapID = 71, x = 0.5300, y = 0.2900, location = "Linken's Memory, Un'Goro Crater / Tanaris / Felwood / Winterspring" },
                 { id = 3941, name = "A Gnome's Assistance", npc = "Linken" },
                 { id = 3942, name = "Linken's Memory", npc = "Linken" },
             },

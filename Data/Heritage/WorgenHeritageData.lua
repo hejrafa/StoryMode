@@ -16,9 +16,9 @@ SM.WorgenHeritageData = {
     startQuest = { id = 54976, name = "The Shadow of Gilneas", npc = "Courier Claridge", location = "Stormwind Embassy" },
     npcLocations = {
         ["Courier Claridge"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy
-        ["Mia Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 }, -- Stormwind Keep (approx)
+        ["Mia Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 , location = "Stormwind / Duskwood / Emerald Dream (phased)"}, -- Stormwind Keep (approx)
         ["Vassandra Stormclaw"] = { mapID = 47, x = 0.7400, y = 0.4680 }, -- Duskwood (approx)
-        ["Princess Tess Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 }, -- Stormwind Keep (approx)
+        ["Princess Tess Greymane"] = { mapID = 84, x = 0.7920, y = 0.3850 , location = "Stormwind / Duskwood / Emerald Dream (phased)"}, -- Stormwind Keep (approx)
     },
     chapterIcons = {
         ["Heritage of Gilneas"] = "Interface\\Icons\\inv_helm_armor_worgen_c_01",
@@ -38,7 +38,7 @@ SM.WorgenHeritageData = {
                 { id = 54981, name = "Cry to the Moon", npc = "Vassandra Stormclaw" },
                 { id = 54982, name = "The Spirit of the Hunter", npc = "Vassandra Stormclaw" },
                 { id = 54983, name = "Waking a Dreamer", npc = "Vassandra Stormclaw" },
-                { id = 54984, name = "Let Sleeping Wolves Lie", npc = "Goldrinn" },
+                { id = 54984, name = "Let Sleeping Wolves Lie", npc = "Goldrinn", mapID = 47, x = 0.7400, y = 0.4680, location = "Heritage of Gilneas, Stormwind / Duskwood / Emerald Dream (phased)" },
                 { id = 54990, name = "The New Guard", npc = "Princess Tess Greymane" },
             },
         },

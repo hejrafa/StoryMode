@@ -428,49 +428,16 @@ function SM.FindNextQuest(data)
         end
     end
 
-    local sectionHasProgress = {}
-    for _, ch in ipairs(chapters) do
-        local s = ch._section or 1
-        if not sectionHasProgress[s] then
-            local d = SM.GetChapterProgress(ch)
-            if d > 0 then sectionHasProgress[s] = true end
-        end
-    end
-
-    local lastCompleteOrder = {}
-    for chIdx, ch in ipairs(chapters) do
-        local d, t = SM.GetChapterProgress(ch)
-        local s = ch._section or 1
-        if d >= t and t > 0 then
-            if not lastCompleteOrder[s] or chIdx > lastCompleteOrder[s] then
-                lastCompleteOrder[s] = chIdx
-            end
-        end
-    end
-
     table.sort(logCandidates, function(a, b)
-        if a.section ~= b.section then return a.section > b.section end
-        if a.depth ~= b.depth then return a.depth > b.depth end
-        return a.order < b.order
+        if a.section ~= b.section then return a.section < b.section end
+        if a.order ~= b.order then return a.order < b.order end
+        return a.depth < b.depth
     end)
 
     table.sort(readyCandidates, function(a, b)
-        local aP = sectionHasProgress[a.section] and true or false
-        local bP = sectionHasProgress[b.section] and true or false
-        if aP ~= bP then return aP end
-        if aP then
-            if a.section ~= b.section then return a.section > b.section end
-        else
-            if a.section ~= b.section then return a.section < b.section end
-        end
-        if a.depth ~= b.depth then return a.depth > b.depth end
-
-        local aLast = lastCompleteOrder[a.section] or 0
-        local bLast = lastCompleteOrder[b.section] or 0
-        local aAfter = a.order > aLast
-        local bAfter = b.order > bLast
-        if aAfter ~= bAfter then return aAfter end
-        return a.order < b.order
+        if a.section ~= b.section then return a.section < b.section end
+        if a.order ~= b.order then return a.order < b.order end
+        return a.depth < b.depth
     end)
 
     if #logCandidates > 0 then

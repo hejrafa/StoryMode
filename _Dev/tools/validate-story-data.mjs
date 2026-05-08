@@ -106,7 +106,9 @@ for (const data of datasets) {
     } else {
       questIDs.set(quest.id, quest.chapter || "(root)");
     }
-    if (quest.npc && !data.npcLocations.has(quest.npc) && !quest.line.includes("location =")) {
+    const hasQuestLocation = quest.line.includes("location =")
+      || (quest.line.includes("mapID =") && quest.line.includes("x =") && quest.line.includes("y ="));
+    if (quest.npc && !data.npcLocations.has(quest.npc) && !hasQuestLocation) {
       findings.push({ type: "missing-npc-location", severity: "warn", file: data.rel, quest: quest.id, npc: quest.npc });
     }
   }

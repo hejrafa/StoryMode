@@ -45,8 +45,8 @@ SM.ForsakenHeritageData = {
         ["Deathstalker Commander Belmont"] = { mapID = 2070, x = 0.6000, y = 0.7100 },
 
         -- Silverpine Forest (classic mapID 21)
-        ["Dark Ranger Velonara"] = { mapID = 21, x = 0.4500, y = 0.4200 }, -- Sepulcher area (approx)
-        ["Master Apothecary Faranell"] = { mapID = 21, x = 0.4500, y = 0.4200 }, -- Sepulcher area (approx)
+        ["Dark Ranger Velonara"] = { mapID = 21, x = 0.4500, y = 0.4200 , location = "Tirisfal Glades / Silverpine Forest"}, -- Sepulcher area (approx)
+        ["Master Apothecary Faranell"] = { mapID = 21, x = 0.4500, y = 0.4200 , location = "Tirisfal Glades / Silverpine Forest"}, -- Sepulcher area (approx)
 
         -- Fenris Isle / Scarlet camp (Silverpine)
         ["Quartermaster Newlem"] = { mapID = 21, x = 0.6600, y = 0.3000 }, -- Fenris Isle (approx)

@@ -18,8 +18,8 @@ SM.GoblinHeritageData = {
     startX = 0.3790,
     startY = 0.8130,
     npcLocations = {
-        ["Izzy"] = { mapID = 85, x = 0.3790, y = 0.8130 },
-        ["Sassy Hardwrench"] = { mapID = 85, x = 0.3790, y = 0.8130 }, -- Orgrimmar Embassy (approx)
+        ["Izzy"] = { mapID = 85, x = 0.3790, y = 0.8130, location = "Stranglethorn / Crapopolis" },
+        ["Sassy Hardwrench"] = { mapID = 85, x = 0.3790, y = 0.8130 , location = "Stranglethorn / Crapopolis"}, -- Orgrimmar Embassy (approx)
         ["Hobart Grapplehammer"] = { mapID = 210, x = 0.5200, y = 0.5200 }, -- Crapopolis area (approx)
     },
     npcDisplayIDs = {
@@ -43,8 +43,8 @@ SM.GoblinHeritageData = {
                 { id = 57045, name = "A Special Delivery", npc = "Sassy Hardwrench" },
                 { id = 57047, name = "A Simple Experiment", npc = "Hobart Grapplehammer" },
                 { id = 57048, name = "Shopping For Parts", npc = "Hobart Grapplehammer" },
-                { id = 57051, name = "Debt Collection!", npc = "Crank Greasefuse" },
-                { id = 57052, name = "I've Got What You Need", npc = "Crank Greasefuse" },
+                { id = 57051, name = "Debt Collection!", npc = "Crank Greasefuse", mapID = 210, x = 0.5200, y = 0.5200, location = "Heritage of Kezan, Stranglethorn / Crapopolis" },
+                { id = 57052, name = "I've Got What You Need", npc = "Crank Greasefuse", mapID = 210, x = 0.5200, y = 0.5200, location = "Heritage of Kezan, Stranglethorn / Crapopolis" },
                 { id = 57053, name = "Blunt Force Testing", npc = "Hobart Grapplehammer" },
                 { id = 57058, name = "Fun With Landmines", npc = "Hobart Grapplehammer" },
                 { id = 57059, name = "Let's Rumble!", npc = "Hobart Grapplehammer" },

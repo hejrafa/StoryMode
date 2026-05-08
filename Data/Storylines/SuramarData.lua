@@ -41,17 +41,17 @@ SM.SuramarData = {
     -- Key NPC locations for waypoint guidance (mapID, x, y)
     npcLocations = {
         ["Archmage Khadgar"]            = { mapID = 626, x = 0.2858, y = 0.4857 },  -- Dalaran, Violet Citadel
-        ["First Arcanist Thalyssra"]    = { mapID = 680, x = 0.3674, y = 0.4680 },  -- Shal'Aran, Suramar
-        ["Chief Telemancer Oculeth"]    = { mapID = 680, x = 0.3674, y = 0.4680 },  -- Shal'Aran
-        ["Arcanist Valtrois"]           = { mapID = 680, x = 0.3674, y = 0.4680 },  -- Shal'Aran
-        ["Arcanist Kel'danath"]         = { mapID = 680, x = 0.3674, y = 0.4680 },  -- Shal'Aran
+        ["First Arcanist Thalyssra"]    = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran, Suramar
+        ["Chief Telemancer Oculeth"]    = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
+        ["Arcanist Valtrois"]           = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
+        ["Arcanist Kel'danath"]         = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
         ["Morhun Rivertamer"]           = { mapID = 680, x = 0.4340, y = 0.4170 },  -- Azurefall, Suramar
-        ["Valewalker Farodin"]          = { mapID = 680, x = 0.3674, y = 0.4680 },  -- Shal'Aran
+        ["Valewalker Farodin"]          = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
         ["Ly'leth Lunastre"]            = { mapID = 680, x = 0.4258, y = 0.3131 },  -- Lunastre Estate, Suramar City
         ["Silgryn"]                     = { mapID = 680, x = 0.3430, y = 0.4880 },  -- Waning Crescent area
         ["Theryn"]                      = { mapID = 680, x = 0.4400, y = 0.3520 },  -- Tel'anor
-        ["Mylune"]                      = { mapID = 680, x = 0.2250, y = 0.3950 },  -- Irongrove Retreat
-        ["Keeper Remulos"]              = { mapID = 680, x = 0.2250, y = 0.3950 },  -- Irongrove Retreat
+        ["Mylune"]                      = { mapID = 680, x = 0.2250, y = 0.3950 , location = "Suramar"},  -- Irongrove Retreat
+        ["Keeper Remulos"]              = { mapID = 680, x = 0.2250, y = 0.3950 , location = "Suramar"},  -- Irongrove Retreat
         ["Toryl"]                       = { mapID = 680, x = 0.6380, y = 0.5200 },  -- Jandvik
         ["Lyana Darksorrow"]            = { mapID = 680, x = 0.3100, y = 0.6200 },  -- Felsoul Hold area
         ["Ancient Keeper"]              = { mapID = 680, x = 0.3000, y = 0.1350 },  -- Moon Guard Stronghold
@@ -246,20 +246,20 @@ SM.SuramarData = {
             quests = {
                 { id = 42828, name = "Moths to a Flame",                npc = "First Arcanist Thalyssra" },
                 { id = 42829, name = "Make an Entrance",                npc = "First Arcanist Thalyssra" },
-                { id = 42832, name = "The Fruit of Our Efforts",        npc = "Vintner Iltheux" },
-                { id = 42833, name = "How It's Made: Arcwine",          npc = "Vintner Iltheux" },
-                { id = 42834, name = "Intense Concentration",           npc = "Vintner Iltheux" },
-                { id = 42835, name = "The Old Fashioned Way",           npc = "Vintner Iltheux" },
-                { id = 42836, name = "Silkwing Sabotage",               npc = "Margaux" },
-                { id = 42837, name = "Balance to Spare",                npc = "Margaux" },
-                { id = 42838, name = "Reversal",                        npc = "Margaux" },
+                { id = 42832, name = "The Fruit of Our Efforts",        npc = "Vintner Iltheux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42833, name = "How It's Made: Arcwine",          npc = "Vintner Iltheux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42834, name = "Intense Concentration",           npc = "Vintner Iltheux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42835, name = "The Old Fashioned Way",           npc = "Vintner Iltheux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42836, name = "Silkwing Sabotage",               npc = "Margaux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42837, name = "Balance to Spare",                npc = "Margaux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42838, name = "Reversal",                        npc = "Margaux", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
                 { id = 44084, name = "Vengeance for Margaux",           npc = "First Arcanist Thalyssra" },
                 { id = 42839, name = "Seek the Unsavory",               npc = "First Arcanist Thalyssra" },
-                { id = 43969, name = "Hired Help",                      npc = "Meline" },
-                { id = 42840, name = "If Words Don't Work...",          npc = "Meline" },
-                { id = 42841, name = "A Big Score",                     npc = "Meline" },
-                { id = 43352, name = "Asset Security",                  npc = "Meline" },
-                { id = 42792, name = "Make Your Mark",                  npc = "Meline" },
+                { id = 43969, name = "Hired Help",                      npc = "Meline", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42840, name = "If Words Don't Work...",          npc = "Meline", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42841, name = "A Big Score",                     npc = "Meline", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 43352, name = "Asset Security",                  npc = "Meline", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
+                { id = 42792, name = "Make Your Mark",                  npc = "Meline", mapID = 680, x = 0.3674, y = 0.4680, location = "Blood and Wine, Suramar" },
                 { id = 44052, name = "And They Will Tremble",           npc = "First Arcanist Thalyssra" },
             },
         },
@@ -322,7 +322,7 @@ SM.SuramarData = {
                 { id = 43565, name = "Bring Home the Beacon",           npc = "Arcanist Valtrois" },
                 { id = 43567, name = "All In",                          npc = "First Arcanist Thalyssra" },
                 { id = 43568, name = "Arcan'dor, Gift of the Ancient Magi", npc = "First Arcanist Thalyssra" },
-                { id = 43569, name = "Arluin's Request",                npc = "Arluin" },
+                { id = 43569, name = "Arluin's Request",                npc = "Arluin", mapID = 680, x = 0.3674, y = 0.4680, location = "A Change of Seasons, Suramar" },
             },
         },
     },
@@ -403,7 +403,7 @@ SM.SuramarData = {
                 { id = 40391, name = "Take Me To Your Leader",          npc = "First Arcanist Thalyssra" },
                 { id = 43810, name = "Down to Business",                npc = "Silgryn" },
                 { id = 44831, name = "Taking a Promenade",              npc = "Silgryn" },
-                { id = 41916, name = "A Better Future",                 npc = "Lady Liadrin / Tyrande Whisperwind" },
+                { id = 41916, name = "A Better Future",                 npc = "Lady Liadrin / Tyrande Whisperwind", mapID = 680, x = 0.3430, y = 0.4880, location = "An Elven Problem, Suramar" },
                 { id = 44843, name = "Crystal Clearing",                npc = "Silgryn" },
                 { id = 44844, name = "Powering Down the Portal",        npc = "Silgryn" },
                 { id = 44834, name = "Nullified",                       npc = "Silgryn" },
@@ -419,18 +419,18 @@ SM.SuramarData = {
             recap = "The time for subtlety had passed. You helped Oculeth build war machines, gathered supplies with Valtrois, trained civilian volunteers into a fighting force, and armed the rebellion with weapons taken from the Legion itself. When the trial by demonfire proved the rebels could hold their own, there was nothing left to do but march.",
             criteriaQuest = { id = 44790, name = "Trial by Demonfire" },
             quests = {
-                { id = 45280, name = "Insurrection: Crafting War",      npc = "Automatic", optional = true },
+                { id = 45280, name = "Insurrection: Crafting War",      npc = "Automatic", optional = true, mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 45265, name = "Feeding the Rebellion",           npc = "First Arcanist Thalyssra" },
-                { id = 44743, name = "Tyrande's Command",               npc = "Tyrande Whisperwind" },  -- Alliance
-                { id = 44859, name = "Liadrin's Command",               npc = "Lady Liadrin" },          -- Horde
-                { id = 45056, name = "Noressa",                         npc = "Absolon", optional = true },
-                { id = 44870, name = "Mouths to Feed",                  npc = "Noressa" },
+                { id = 44743, name = "Tyrande's Command",               npc = "Tyrande Whisperwind", faction = "Alliance", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 44859, name = "Liadrin's Command",               npc = "Lady Liadrin", faction = "Horde", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 45056, name = "Noressa",                         npc = "Absolon", optional = true, mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 44870, name = "Mouths to Feed",                  npc = "Noressa", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 44873, name = "Oculeth Ex Machina",              npc = "Chief Telemancer Oculeth" },
                 { id = 44874, name = "Unbeleyvable",                    npc = "Arcanist Valtrois" },
                 { id = 44875, name = "The Art of Flow",                 npc = "Arcanist Valtrois" },
-                { id = 44876, name = "A Dance With Dragons",            npc = "Stellagosa" },
-                { id = 44858, name = "Trolling Them",                   npc = "Tyrande Whisperwind", faction = "Alliance" },
-                { id = 44860, name = "Trolling Them",                   npc = "Lady Liadrin", faction = "Horde" },
+                { id = 44876, name = "A Dance With Dragons",            npc = "Stellagosa", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 44858, name = "Trolling Them",                   npc = "Tyrande Whisperwind", faction = "Alliance", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
+                { id = 44860, name = "Trolling Them",                   npc = "Lady Liadrin", faction = "Horde", mapID = 680, x = 0.3674, y = 0.4680, location = "Crafting War, Suramar" },
                 { id = 44928, name = "Something's Not Quite Right...",  npc = "Archmage Khadgar" },
                 { id = 44861, name = "Arming the Rebels",               npc = "Silgryn" },  -- Alliance
                 { id = 44862, name = "Arming the Rebels",               npc = "Silgryn" },  -- Horde

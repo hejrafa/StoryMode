@@ -52,22 +52,22 @@ SM.LilianVossData = {
         ["Hooded Crusader"]           = { mapID = 18,  x = 0.8540, y = 0.3100 },
         ["Talking Skull"]             = { mapID = 18,  x = 0.7000, y = 0.7300 },
         -- BfA — Zuldazar / Kul Tiras
-        ["Nathanos Blightcaller"]     = { mapID = 862, x = 0.5840, y = 0.6260 },
-        ["Lilian Voss"]               = { mapID = 862, x = 0.5840, y = 0.6260 },
+        ["Nathanos Blightcaller"]     = { mapID = 862, x = 0.5840, y = 0.6260, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
+        ["Lilian Voss"]               = { mapID = 862, x = 0.5840, y = 0.6260, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
         ["Rexxar"]                    = { mapID = 942, x = 0.5200, y = 0.3360 },
         ["Thomas Zelling"]            = { mapID = 942, x = 0.5956, y = 0.3070 },
         -- BfA — At the Bottom of the Sea
-        ["Dread-Admiral Tattersail"]  = { mapID = 862, x = 0.5620, y = 0.6480 },  -- Banshee's Wail, Port of Zandalar
-        ["Hobart Grapplehammer"]      = { mapID = 862, x = 0.5620, y = 0.6480 },  -- aboard ship before dive
+        ["Dread-Admiral Tattersail"]  = { mapID = 862, x = 0.5620, y = 0.6480 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- Banshee's Wail, Port of Zandalar
+        ["Hobart Grapplehammer"]      = { mapID = 862, x = 0.5620, y = 0.6480 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- aboard ship before dive
         -- BfA — Strike on Boralus / Testing Loyalties
-        ["Captain Amalia Stone"]      = { mapID = 862, x = 0.5620, y = 0.6480 },  -- VERIFY: Banshee's Wail / Stormsong
-        ["Baine Bloodhoof"]           = { mapID = 862, x = 0.5840, y = 0.6260 },  -- Banshee's Wail / Plunder Harbor
-        ["Sylvanas Windrunner"]       = { mapID = 862, x = 0.5840, y = 0.6260 },
-        ["Derek Proudmoore"]          = { mapID = 862, x = 0.5840, y = 0.6260 },
+        ["Captain Amalia Stone"]      = { mapID = 862, x = 0.5620, y = 0.6480 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- VERIFY: Banshee's Wail / Stormsong
+        ["Baine Bloodhoof"]           = { mapID = 862, x = 0.5840, y = 0.6260 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- Banshee's Wail / Plunder Harbor
+        ["Sylvanas Windrunner"]       = { mapID = 862, x = 0.5840, y = 0.6260, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
+        ["Derek Proudmoore"]          = { mapID = 862, x = 0.5840, y = 0.6260, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
         -- 9.2.5 — Return to Lordaeron (Brill / Ruins of Lordaeron, Tirisfal)
         ["Calia Menethil"]            = { mapID = 18,  x = 0.5670, y = 0.5910 },  -- Brill
-        ["Master Apothecary Faranell"]= { mapID = 18,  x = 0.5990, y = 0.6400 },  -- House of Plagues / Undercity ruins
-        ["Dark Ranger Velonara"]      = { mapID = 18,  x = 0.5990, y = 0.6400 },
+        ["Master Apothecary Faranell"]= { mapID = 18,  x = 0.5990, y = 0.6400 , location = "Tirisfal Glades / Kul Tiras / Lordaeron"},  -- House of Plagues / Undercity ruins
+        ["Dark Ranger Velonara"]      = { mapID = 18,  x = 0.5990, y = 0.6400, location = "Tirisfal Glades / Kul Tiras / Lordaeron" },
     },
 
     -- NPC creature display IDs for chapter portraits
@@ -319,11 +319,11 @@ SM.LilianVossData = {
                 { id = 54960, name = "A Bitter Reunion",                 npc = "Baine Bloodhoof" },
                 { id = 54999, name = "Under False Colors",               npc = "Thomas Zelling" },
                 { id = 55034, name = "Under False Colors",               npc = "Nathanos Blightcaller", optional = true },
-                { id = 55047, name = "Securing Warfang Hold",            npc = "Dark Ranger Alina" },
-                { id = 55052, name = "Securing Warfang Hold",            npc = "Boss Mida" },
-                { id = 55048, name = "Spy Games",                        npc = "Boss Mida" },
-                { id = 55049, name = "Communication Breakdown",          npc = "Boss Mida" },
-                { id = 55050, name = "Tickets, Please?",                 npc = "Boss Mida" },
+                { id = 55047, name = "Securing Warfang Hold",            npc = "Dark Ranger Alina", mapID = 862, x = 0.5840, y = 0.6260, location = "Testing Loyalties, Tirisfal Glades / Kul Tiras / Lordaeron" },
+                { id = 55052, name = "Securing Warfang Hold",            npc = "Boss Mida", mapID = 862, x = 0.5840, y = 0.6260, location = "Testing Loyalties, Tirisfal Glades / Kul Tiras / Lordaeron" },
+                { id = 55048, name = "Spy Games",                        npc = "Boss Mida", mapID = 862, x = 0.5840, y = 0.6260, location = "Testing Loyalties, Tirisfal Glades / Kul Tiras / Lordaeron" },
+                { id = 55049, name = "Communication Breakdown",          npc = "Boss Mida", mapID = 862, x = 0.5840, y = 0.6260, location = "Testing Loyalties, Tirisfal Glades / Kul Tiras / Lordaeron" },
+                { id = 55050, name = "Tickets, Please?",                 npc = "Boss Mida", mapID = 862, x = 0.5840, y = 0.6260, location = "Testing Loyalties, Tirisfal Glades / Kul Tiras / Lordaeron" },
                 { id = 55051, name = "A Display of Power",               npc = "Nathanos Blightcaller" },
             },
         },
@@ -336,9 +336,9 @@ SM.LilianVossData = {
             summary = "Sylvanas is gone. The Horde's leaders gather to decide what it becomes without her — and Lilian Voss speaks for the Forsaken.",
             recap = "When the gate went quiet and Sylvanas left, Lilian Voss was already in the room. Baine, Lor'themar, Ji Firepaw — all the leaders who had waited out the war with their doubts held close — and the question nobody wanted to be first to say: what do they do about the Warchief's throne? Before the full council assembled, Lilian stepped away from the main hall to arrange a quieter meeting — Forsaken leadership, Calia Menethil, and Derek Proudmoore. Hidden, necessary, and entirely hers to broker. Then she came back into the room and made the case for leaving the throne empty. No single voice. A council, where every people kept their own weight and no one leader could burn the world on a private conviction. She had spent years being used by the powerful as a tool. She knew exactly what concentrated authority looked like from the receiving end. The others listened. They agreed. It was the first time Lilian Voss had spoken in a room full of power and been heard.",
             quests = {
-                { id = 57198, name = "Sense of Obligation",      npc = "High Overlord Saurfang" },
+                { id = 57198, name = "Sense of Obligation",      npc = "High Overlord Saurfang", mapID = 862, x = 0.5840, y = 0.6260, location = "What Comes After, Tirisfal Glades / Kul Tiras / Lordaeron" },
                 { id = 57376, name = "The Hidden Need",          npc = "Lilian Voss" },
-                { id = 58672, name = "A Gathering of Champions", npc = "Valeera Sanguinar" },
+                { id = 58672, name = "A Gathering of Champions", npc = "Valeera Sanguinar", mapID = 862, x = 0.5840, y = 0.6260, location = "What Comes After, Tirisfal Glades / Kul Tiras / Lordaeron" },
                 { id = 58673, name = "Warchief of the Horde",    npc = "Lilian Voss" },
             },
         },

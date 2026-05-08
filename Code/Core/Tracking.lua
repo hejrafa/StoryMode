@@ -271,9 +271,7 @@ local function GetLocationText(data, quest, loc)
     end
 
     local zone = loc and GetZoneName(loc.mapID) or nil
-    if zone and loc and loc.x and loc.y then
-        return string.format(TRACK_LOCATION_COLOR .. "%s|r |cffaaaaaa(%.0f, %.0f)|r", zone, loc.x * 100, loc.y * 100)
-    elseif zone then
+    if zone then
         return TRACK_LOCATION_COLOR .. zone .. "|r"
     end
 
@@ -315,36 +313,72 @@ function SM.PrintTrackResult(result, quest, data)
             print(P .. string.format(L["Tracking Classic Begin Format"], Q))
         end
     elseif resultKind == "supertracked" then
-        print(P .. string.format(L["Tracking Now Following Format"], Q))
+        if NPC and place then
+            print(P .. string.format(L["Tracking Now Following NPC Place Format"], Q, NPC, place))
+        elseif NPC and Z then
+            print(P .. string.format(L["Tracking Now Following NPC Zone Format"], Q, NPC, Z))
+        else
+            print(P .. string.format(L["Tracking Now Following Format"], Q))
+        end
     elseif resultKind == "waypoint" or resultKind == "waypoint_approx" then
         if CH then
-            if Z then
+            if place then
+                print(P .. string.format(L["Tracking Classic Prereq Place Format"], CH, Q, place))
+            elseif Z then
                 print(P .. string.format(L["Tracking Prereq Zone Format"], CH, Q, Z))
             else
                 print(P .. string.format(L["Tracking Prereq Format"], CH, Q))
             end
             return
         end
-        if NPC and Z then
+        if NPC and place then
+            print(P .. string.format(L["Tracking Classic Find NPC Place Format"], NPC, place, Q))
+        elseif NPC and Z then
             print(P .. string.format(L["Tracking Seek NPC Zone Format"], NPC, Z, Q))
         elseif NPC then
             print(P .. string.format(L["Tracking Seek NPC Format"], NPC, Q))
+        elseif place then
+            print(P .. string.format(L["Tracking Classic Find Place Format"], place, Q))
+        else
+            print(P .. string.format(L["Tracking Begin Format"], Q))
+        end
+    elseif resultKind == "no_location" then
+        if CH then
+            if place then
+                print(P .. string.format(L["Tracking Classic Prereq Place Format"], CH, Q, place))
+            else
+                print(P .. string.format(L["Tracking Prereq Format"], CH, Q))
+            end
+            return
+        end
+        if NPC and place then
+            print(P .. string.format(L["Tracking Classic Find NPC Place Format"], NPC, place, Q))
+        elseif NPC then
+            print(P .. string.format(L["Tracking Seek NPC Format"], NPC, Q))
+        elseif place then
+            print(P .. string.format(L["Tracking Classic Find Place Format"], place, Q))
         else
             print(P .. string.format(L["Tracking Begin Format"], Q))
         end
     else
         if CH then
-            if Z then
+            if place then
+                print(P .. string.format(L["Tracking Classic Prereq Place Format"], CH, Q, place))
+            elseif Z then
                 print(P .. string.format(L["Tracking Prereq Zone Format"], CH, Q, Z))
             else
                 print(P .. string.format(L["Tracking Prereq Format"], CH, Q))
             end
             return
         end
-        if NPC and Z then
+        if NPC and place then
+            print(P .. string.format(L["Tracking Classic Find NPC Place Format"], NPC, place, Q))
+        elseif NPC and Z then
             print(P .. string.format(L["Tracking Next NPC Zone Format"], Q, NPC, Z))
         elseif NPC then
             print(P .. string.format(L["Tracking Next NPC Format"], Q, NPC))
+        elseif place then
+            print(P .. string.format(L["Tracking Classic Find Place Format"], place, Q))
         else
             print(P .. string.format(L["Tracking Next Format"], Q))
         end

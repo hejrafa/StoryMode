@@ -13,7 +13,7 @@ SM.NightElfHeritageData = {
     color = { 0.46, 0.40, 0.78 },
     icon = 255131,
     adventureGuideInstanceName = "Darkheart Thicket",
-    startQuest = { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", location = "Stormwind Embassy" },
+    startQuest = { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", location = "Stormwind Embassy", mapID = 77, x = 0.4350, y = 0.6270, location = "Stormwind / Felwood" },
     npcLocations = {
         ["Maiev Shadowsong"] = { mapID = 77, x = 0.4340, y = 0.6240 }, -- Felwood (approx)
         ["Arko'narin Starshade"] = { mapID = 77, x = 0.4350, y = 0.6270 }, -- Felwood (approx)
@@ -31,7 +31,7 @@ SM.NightElfHeritageData = {
             summary = "Join Maiev and the Wardens against old corruption and reclaim a symbol of night elf devotion.",
             recap = "The kaldorei endured calamity without abandoning duty. By hunting corruption in Felwood and standing beside the Wardens, you helped preserve the legacy of Elune's people.",
             quests = {
-                { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll" },
+                { id = 75890, name = "The Clarion Call", npc = "Automatic / Sealed Kaldorei Scroll", mapID = 77, x = 0.4350, y = 0.6270, location = "Heritage of the Kaldorei, Stormwind / Felwood" },
                 { id = 75891, name = "Ancient Curses", npc = "Arko'narin Starshade" },
                 { id = 76194, name = "A Grim Portent", npc = "Maiev Shadowsong" },
                 { id = 76195, name = "Countering Corruption", npc = "Lysander Starshade" },
