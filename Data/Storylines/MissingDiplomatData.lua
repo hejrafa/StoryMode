@@ -25,13 +25,13 @@ SM.MissingDiplomatData = {
     startY = 0.4600,
 
     npcLocations = {
-        ["Thomas"] = { mapID = 84, x = 0.5000, y = 0.4600, location = "Cathedral Square, Stormwind" },
-        ["Bishop DeLavey"] = { mapID = 84, x = 0.8060, y = 0.3500, location = "Stormwind Keep" },
+        ["Thomas"] = { mapID = 84, x = 0.4168, y = 0.3183, location = "Cathedral Square, Stormwind" },
+        ["Bishop DeLavey"] = { mapID = 84, x = 0.7830, y = 0.2545, location = "Stormwind Keep" },
         ["Jorgen"] = { mapID = 84, x = 0.7300, y = 0.7800, location = "the Valley of Heroes, Stormwind" },
-        ["Elling Trias"] = { mapID = 84, x = 0.6600, y = 0.7420, location = "Trias' Cheese, Trade District, Stormwind" },
+        ["Elling Trias"] = { mapID = 84, x = 0.5991, y = 0.6418, location = "Trias' Cheese, Trade District, Stormwind" },
         ["Watcher Backus"] = { mapID = 47, x = 0.7200, y = 0.3500, location = "the north road out of Darkshire, Duskwood" },
         ["Defias Docket"] = { mapID = 47, x = 0.2400, y = 0.7200, location = "the small house at Addle's Stead, Duskwood" },
-        ["Dashel Stonefist"] = { mapID = 84, x = 0.7400, y = 0.5920, location = "Old Town, Stormwind" },
+        ["Dashel Stonefist"] = { mapID = 84, x = 0.7053, y = 0.4488, location = "Old Town, Stormwind" },
         ["Mikhail"] = { mapID = 56, x = 0.1000, y = 0.6000, location = "the Deepwater Tavern, Menethil Harbor" },
         ["Tapoke \"Slim\" Jahn"] = { mapID = 56, x = 0.1000, y = 0.6000, location = "the Deepwater Tavern, Menethil Harbor" },
         ["Commander Samaul"] = { mapID = 70, x = 0.6700, y = 0.4700, location = "Foothold Citadel, Theramore" },
@@ -52,7 +52,7 @@ SM.MissingDiplomatData = {
         ["Commander Samaul"] = 2965,
         ["Archmage Tervosh"] = 2969,
         ["Private Hendel"] = 2967,
-        ["Lady Jaina Proudmoore"] = 2970,
+        ["Lady Jaina Proudmoore"] = 30867,
     },
 
     chapterDisplayIDs = {
@@ -121,7 +121,7 @@ SM.MissingDiplomatData = {
                 { id = 1265, name = "The Missing Diplomat", displayName = "Sentry Point", npc = "Commander Samaul" },
                 { id = 1266, name = "The Missing Diplomat", displayName = "Private Hendel", npc = "Archmage Tervosh" },
                 { id = 1324, name = "The Missing Diplomat", npc = "Private Hendel" },
-                { id = 1267, name = "The Missing Diplomat", displayName = "Jaina Proudmoore", npc = "Lady Jaina Proudmoore" },
+                { id = 1267, name = "The Missing Diplomat", displayName = "Jaina Proudmoore", npc = "Archmage Tervosh" },
             },
         },
     },

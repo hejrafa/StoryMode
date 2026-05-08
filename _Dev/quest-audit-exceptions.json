@@ -1,0 +1,795 @@
+{
+  "exceptions": [
+    {
+      "type": "fetch",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 6123,
+      "source": "classic",
+      "reason": "ClassicDB returns 500 for this old druid Cure Poison quest page; local start was checked against adjacent chain data."
+    },
+    {
+      "type": "fetch",
+      "file": "Data/ClassQuests/ClassicClassQuestData.lua",
+      "quest": 6128,
+      "source": "classic",
+      "reason": "ClassicDB returns 500 for this old druid Cure Poison quest page; local start was checked against adjacent chain data."
+    },
+    {
+      "type": "title",
+      "file": "Data/Storylines/TimbermawData.lua",
+      "quest": 8460,
+      "source": "classic",
+      "reason": "ClassicDB does not expose the Timbermaw Ally repeatable reputation quest page; the local Classic Timbermaw opener is retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/DungeonSetTwoData.lua",
+      "npc": "Ysida Harmon",
+      "reason": "ClassicDB identifies Ysida Harmon as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/DungeonSetTwoData.lua",
+      "npc": "Spirit of Lord Valthalak",
+      "reason": "ClassicDB identifies Spirit of Lord Valthalak as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/FallenHeroData.lua",
+      "npc": "Corporal Thund Splithoof",
+      "reason": "ClassicDB identifies Corporal Thund Splithoof as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/FallenHeroData.lua",
+      "npc": "Spirit of Kirith",
+      "reason": "ClassicDB identifies Spirit of Kirith as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/ScarletCrusadeData.lua",
+      "npc": "Vorrel Sengutz",
+      "reason": "ClassicDB identifies Vorrel Sengutz as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/ShiftingSandsData.lua",
+      "npc": "Malfurion Stormrage",
+      "reason": "ClassicDB identifies Malfurion Stormrage as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "location",
+      "file": "Data/Storylines/ShiftingSandsData.lua",
+      "npc": "Vaelastrasz the Corrupt",
+      "reason": "ClassicDB identifies Vaelastrasz the Corrupt as the quest starter but does not expose coordinates on the quest page; local waypoint retained."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 43265,
+      "remoteContains": "between 39818 and 43265: 44550 Called to Acherus",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 40249,
+      "remoteContains": "between 41807 and 40249: 41863 Vengeance Will Be Ours",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 40814,
+      "remoteContains": "between 39261 and 40814: 40816 The Power to Survive",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41037,
+      "remoteContains": "between 41221 and 41037: 41060 Unbridled Power",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41062,
+      "remoteContains": "between 41037 and 41062: 41070 Spoils of Victory",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41067,
+      "remoteContains": "between 41066 and 41067: 41096 Time is of the Essence",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41069,
+      "remoteContains": "between 41067 and 41069: 41099 Direct Our Wrath",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41221,
+      "remoteContains": "between 42872 and 41221: 41033 Return to Mardum",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41804,
+      "remoteContains": "between 41803 and 41804: 40247 Asking a Favor",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41807,
+      "remoteContains": "between 41804 and 41807: 41806 Return to Jace",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DruidCampaignData.lua",
+      "quest": 42585,
+      "remoteContains": "between 42583 and 42585: 40650 Champion: Zen'tabra, 42096 Champion: Naralex, 42584 Sister Lilith",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DruidCampaignData.lua",
+      "quest": 43368,
+      "remoteContains": "between 42048 and 43368: 42719 Eye of Azshara: Cleansing the Dreamway, 43365 The Cycle Continues, 42129 The Pendant of Starlight",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 42186,
+      "remoteContains": "series index 6 after 9",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 42187,
+      "remoteContains": "between 40636 and 42187: 40793 A Matter of Planning, 40795 The Fight Begins",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 42210,
+      "remoteContains": "between 42186 and 42210: 41945 Tianji of the Ox, 41946 Building Our Troops",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 38566,
+      "remoteContains": "between 42811 and 38566: 42812 We Meet at Light's Hope",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 42811,
+      "remoteContains": "between 40408 and 42811: 38576 We Meet at Light's Hope",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 42881,
+      "remoteContains": "between 39696 and 42881: 42846 The Blood Matriarch",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 42114,
+      "remoteContains": "between 41510 and 42114: 42188 Nobundo Awaits, 44544 Call of the Earthen Ring",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 42197,
+      "remoteContains": "series index 9 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/DungeonSetTwoData.lua",
+      "quest": 8970,
+      "remoteContains": "between 8963 and 8970: 8967 The Left Piece of Lord Valthalak's Amulet",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FallenHeroData.lua",
+      "quest": 2702,
+      "remoteContains": "series index 4 after 5",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 12955,
+      "remoteContains": "series index 99 after 113",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13039,
+      "remoteContains": "series index 3 after 4",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13040,
+      "remoteContains": "series index 2 after 4",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13044,
+      "remoteContains": "series index 5 after 7",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13045,
+      "remoteContains": "series index 6 after 7",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13110,
+      "remoteContains": "series index 12 after 16",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13130,
+      "remoteContains": "series index 14 after 16",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13135,
+      "remoteContains": "series index 15 after 16",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13140,
+      "remoteContains": "series index 120 after 126",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13142,
+      "remoteContains": "series index 106 after 113",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13143,
+      "remoteContains": "series index 90 after 91",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13144,
+      "remoteContains": "series index 123 after 126",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13146,
+      "remoteContains": "series index 92 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13147,
+      "remoteContains": "series index 93 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13155,
+      "remoteContains": "series index 89 after 91",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13160,
+      "remoteContains": "series index 94 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13168,
+      "remoteContains": "series index 83 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13169,
+      "remoteContains": "series index 84 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13170,
+      "remoteContains": "series index 85 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13171,
+      "remoteContains": "series index 86 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13172,
+      "remoteContains": "series index 87 after 98",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13174,
+      "remoteContains": "series index 88 after 91",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13231,
+      "remoteContains": "series index 21 after 23",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13260,
+      "remoteContains": "series index 22 after 27",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13287,
+      "remoteContains": "between 13231 and 13287: 13286 ...All the Help We Can Get.",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13295,
+      "remoteContains": "series index 28 after 29",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13316,
+      "remoteContains": "between 13367 and 13316: 13306 Raise the Barricades, 13307 Bloodspattered Banners, 13313 Blinding the Eyes in the Sky, 13312 The Ironwall Rampart, 13329 Before the Gate of Horror",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13319,
+      "remoteContains": "between 13295 and 13319: 13315 Sneak Preview",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13338,
+      "remoteContains": "between 13346 and 13338: 13332 Raise the Barricades, 13334 Bloodspattered Banners, 13314 Get the Message, 13337 The Ironwall Rampart, 13335 Before the Gate of Horror",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13346,
+      "remoteContains": "between 13319 and 13346: 13320 Cannot Reproduce, 13321 Retest Now, 13342 Not a Bug, 13345 Need More Info",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/FrozenThroneData.lua",
+      "quest": 13351,
+      "remoteContains": "series index 28 after 31",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29556,
+      "remoteContains": "series index 18 after 19",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29580,
+      "remoteContains": "series index 33 after 34",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29622,
+      "remoteContains": "series index 14 after 21",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29623,
+      "remoteContains": "series index 15 after 21",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29624,
+      "remoteContains": "series index 16 after 21",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29647,
+      "remoteContains": "between 29637 and 29647: 29639 Flying Colors, 29646 Flying Colors",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29694,
+      "remoteContains": "series index 11 after 12",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29717,
+      "remoteContains": "between 29716 and 29717: 29882 Quill of Stingers, 29881 The Perfect Color",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29723,
+      "remoteContains": "series index 60 after 61",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29750,
+      "remoteContains": "series index 10 after 11",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29827,
+      "remoteContains": "series index 20 after 22",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29865,
+      "remoteContains": "series index 54 after 61",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29866,
+      "remoteContains": "series index 53 after 61",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29887,
+      "remoteContains": "series index 28 after 29",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29920,
+      "remoteContains": "series index 59 after 61",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29967,
+      "remoteContains": "series index 43 after 45",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29968,
+      "remoteContains": "series index 42 after 44",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29993,
+      "remoteContains": "series index 55 after 61",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 29995,
+      "remoteContains": "series index 56 after 61",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 30002,
+      "remoteContains": "series index 74 after 75",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 31167,
+      "remoteContains": "series index 27 after 28",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/JadeForestData.lua",
+      "quest": 31853,
+      "remoteContains": "between 29612 and 31853: 29611 The Art of War",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/LilianVossData.lua",
+      "quest": 24981,
+      "remoteContains": "between 24980 and 24981: 25090 A Putrid Task",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/RaenesCleansingData.lua",
+      "quest": 1029,
+      "remoteContains": "between 1028 and 1029: 1055 Raene's Cleansing",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 38649,
+      "remoteContains": "series index 2 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 38692,
+      "remoteContains": "series index 4 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 38694,
+      "remoteContains": "series index 6 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 38695,
+      "remoteContains": "series index 3 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 38720,
+      "remoteContains": "series index 5 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 39986,
+      "remoteContains": "between 39985 and 39986: 44555 Khadgar's Discovery",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 40326,
+      "remoteContains": "series index 2 after 3",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 40391,
+      "remoteContains": "series index 3 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 40730,
+      "remoteContains": "series index 6 after 7",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 41916,
+      "remoteContains": "series index 6 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 42889,
+      "remoteContains": "series index 7 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 43360,
+      "remoteContains": "series index 2 after 3",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 43810,
+      "remoteContains": "series index 4 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44831,
+      "remoteContains": "series index 5 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44834,
+      "remoteContains": "series index 9 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44843,
+      "remoteContains": "series index 7 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44844,
+      "remoteContains": "series index 8 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45260,
+      "remoteContains": "series index 1 after 8",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45263,
+      "remoteContains": "series index 2 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45316,
+      "remoteContains": "series index 1 after 10",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 26992,
+      "remoteContains": "series index 2 after 4",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 26995,
+      "remoteContains": "series index 3 after 4",
+      "reason": "External source ordering reflects branching hub flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 27045,
+      "remoteContains": "between 26998 and 27045: 27039 Dangerous Intentions",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 27096,
+      "remoteContains": "between 27065 and 27096: 27082 Playing Dirty, 27069 Steel Thunder, 27073 Give 'em Hell!, 27088 It's Only Poisonous if You Ingest It, 27093 Lost in the Darkness, 27094 Deeper into Darkness",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 27438,
+      "remoteContains": "between 27405 and 27438: 27406 A Man Named Godfrey, 27423 Resistance is Futile",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 27580,
+      "remoteContains": "between 27474 and 27580: 27475 Unyielding Servitors, 27476 Dalar Dawnweaver, 27478 Relios the Relic Keeper, 27484 Only One May Enter, 27512 Transdimensional Warfare: Chapter I, 27513 Transdimensional Warfare: Chapter II, 27518 Transdimensional Warfare: Chapter III, 27542 Taking the Battlefront, 27547 Of No Consequence, 27548 Lessons in Fear, 27550 Pyrewood's Fall, 27577 7th Legion Battle Plans",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Storylines/SylvanasData.lua",
+      "quest": 40518,
+      "remoteContains": "between 43926 and 40518: 44281 To Be Prepared",
+      "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    }
+  ]
+}

@@ -63,7 +63,7 @@ SM.MonkCampaignData = {
             quests = {
                 { id = 12103, name = "Before the Storm",           npc = "Initiate Da-Nel" },
                 { id = 40236, name = "The Dawning Light",           npc = "Fearsome Jang" },
-                { id = 40636, name = "Prepare To Strike",           npc = "Fearsome Jang" },
+                { id = 40636, name = "Prepare To Strike",           npc = "Iron-Body Ponshu" },
                 { id = 42187, name = "Rise, Champions",             npc = "Iron-Body Ponshu" },
                 { id = 41115, name = "Champion: Chen Stormstout",   npc = "Chen Stormstout" },
                 { id = 40704, name = "Champion: Li Li Stormstout",  npc = "Li Li Stormstout" },
@@ -161,7 +161,7 @@ SM.MonkCampaignData = {
             summary = "Claim the Fists of the Heavens, a pair of enchanted handwraps charged with the fury of storms.",
             recap = "In the wake of the Peak of Serenity's fall, you prepared to strike back. The Fists of the Heavens — enchanted handwraps that crackled with storm energy — were said to channel the very fury of the skies. You fought through the Legion's forces to claim them, and with each punch, thunder rolled across the battlefield.",
             quests = {
-                { id = 40636, name = "Prepare To Strike",           npc = "Fearsome Jang" },
+                { id = 40636, name = "Prepare To Strike",           npc = "Iron-Body Ponshu" },
             },
         },
     },

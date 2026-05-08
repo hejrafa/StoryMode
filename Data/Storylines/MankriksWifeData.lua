@@ -26,7 +26,7 @@ SM.MankriksWifeData = {
     startY = 0.4100,
 
     npcLocations = {
-        ["Mankrik"] = { mapID = 10, x = 0.5520, y = 0.4100, location = "the Crossroads, The Barrens" },
+        ["Mankrik"] = { mapID = 10, x = 0.5195, y = 0.3158, location = "the Crossroads, The Barrens" },
     },
 
     npcDisplayIDs = {

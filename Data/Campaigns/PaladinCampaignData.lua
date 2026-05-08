@@ -60,7 +60,7 @@ SM.PaladinCampaignData = {
                 { id = 42811, name = "We Meet at Light's Hope",     npc = "Lord Maxwell Tyrosus" },
                 { id = 38566, name = "A United Force",              npc = "Lord Maxwell Tyrosus" },
                 { id = 38933, name = "Logistical Matters",          npc = "Lord Maxwell Tyrosus" },
-                { id = 39756, name = "A Sound Plan",                npc = "Lord Maxwell Tyrosus" },
+                { id = 39756, name = "A Sound Plan",                npc = "Lord Grayson Shadowbreaker" },
                 { id = 42844, name = "Growing Power",               npc = "Justicar Julia Celeste" },
                 { id = 39696, name = "Rise, Champions",             npc = "Lord Maxwell Tyrosus" },
                 { id = 42881, name = "Champion: Lady Liadrin",      npc = "Lady Liadrin" },

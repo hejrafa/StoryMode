@@ -48,7 +48,7 @@ SM.SuramarData = {
         ["Morhun Rivertamer"]           = { mapID = 680, x = 0.4340, y = 0.4170 },  -- Azurefall, Suramar
         ["Valewalker Farodin"]          = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
         ["Ly'leth Lunastre"]            = { mapID = 680, x = 0.4258, y = 0.3131 },  -- Lunastre Estate, Suramar City
-        ["Silgryn"]                     = { mapID = 680, x = 0.3430, y = 0.4880 },  -- Waning Crescent area
+        ["Silgryn"]                     = { mapID = 680, x = 0.5240, y = 0.8020 },  -- Waning Crescent area
         ["Theryn"]                      = { mapID = 680, x = 0.4400, y = 0.3520 },  -- Tel'anor
         ["Mylune"]                      = { mapID = 680, x = 0.2250, y = 0.3950 , location = "Suramar"},  -- Irongrove Retreat
         ["Keeper Remulos"]              = { mapID = 680, x = 0.2250, y = 0.3950 , location = "Suramar"},  -- Irongrove Retreat
@@ -102,7 +102,7 @@ SM.SuramarData = {
                 { id = 39985, name = "Khadgar's Discovery",             npc = "Archmage Khadgar" },
                 { id = 39986, name = "Magic Message",                   npc = "Archmage Khadgar" },
                 { id = 39987, name = "Trail of Echoes",                 npc = "Archmage Khadgar" },
-                { id = 40008, name = "The Only Way Out is Through",     npc = "Archmage Khadgar" },
+                { id = 40008, name = "The Only Way Out is Through",     npc = "First Arcanist Thalyssra" },
                 { id = 40123, name = "The Nightborne Pact",             npc = "First Arcanist Thalyssra" },
                 { id = 40009, name = "Arcane Thirst",                   npc = "First Arcanist Thalyssra" },
                 { id = 43994, name = "Feed Thalyssra",                  npc = "First Arcanist Thalyssra" },
@@ -190,8 +190,8 @@ SM.SuramarData = {
             recap = "Guided by Kel'danath's research, you descended into ancient caverns beneath Suramar, where moonlight filtered through crystal and the memories of the city's founding still lingered. You discovered the hidden legacy of Valewalker Farodin and the Arcan'dor — a tree of immense power that might hold the key to curing the nightfallen's addiction to the Nightwell.",
             achievement = nil,
             quests = {
-                { id = 40324, name = "Arcane Communion",                npc = "Arcanist Kel'danath" },
-                { id = 40325, name = "Scenes from a Memory",            npc = "Arcanist Kel'danath" },
+                { id = 40324, name = "Arcane Communion",                npc = "First Arcanist Thalyssra" },
+                { id = 40325, name = "Scenes from a Memory",            npc = "First Arcanist Thalyssra" },
                 { id = 42224, name = "Cloaked in Moonshade",            npc = "Arcanist Kel'danath" },
                 { id = 42225, name = "Breaking the Seal",               npc = "Arcanist Kel'danath" },
                 { id = 42226, name = "Moonshade Holdout",               npc = "Arcanist Kel'danath" },
@@ -345,7 +345,7 @@ SM.SuramarData = {
             quests = {
                 { id = 45260, name = "One Day at a Time",               npc = "First Arcanist Thalyssra" },
                 { id = 38649, name = "Silence in the City",             npc = "First Arcanist Thalyssra" },
-                { id = 38695, name = "Crackdown",                       npc = "Silgryn" },
+                { id = 38695, name = "Crackdown",                       npc = "Chief Telemancer Oculeth" },
                 { id = 38692, name = "Answering Aggression",            npc = "Silgryn" },
                 { id = 38720, name = "No Reason to Stay",               npc = "Silgryn" },
                 { id = 38694, name = "Regroup",                         npc = "Silgryn" },

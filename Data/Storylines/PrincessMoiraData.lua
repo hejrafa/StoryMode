@@ -28,10 +28,10 @@ SM.PrincessMoiraData = {
     npcLocations = {
         ["King Magni Bronzebeard"] = { mapID = 87, x = 0.3900, y = 0.5600, location = "the High Seat, Ironforge" },
         ["Royal Historian Archesonus"] = { mapID = 87, x = 0.3800, y = 0.5500, location = "the High Seat, Ironforge" },
-        ["Kharan Mighthammer"] = { mapID = 242, x = 0.4500, y = 0.6300, location = "the Detention Block, Blackrock Depths" },
-        ["Princess Moira Bronzebeard"] = { mapID = 242, x = 0.5900, y = 0.2300, location = "the Imperial Seat, Blackrock Depths" },
+        ["Kharan Mighthammer"] = { mapID = 242, x = 0.4552, y = 0.8656, location = "the Detention Block, Blackrock Depths" },
+        ["Princess Moira Bronzebeard"] = { mapID = 242, x = 0.7657, y = 0.0923, location = "the Imperial Seat, Blackrock Depths" },
         ["Galamav the Marksman"] = { mapID = 15, x = 0.0500, y = 0.4700, location = "Kargath, Badlands" },
-        ["Commander Gor'shak"] = { mapID = 242, x = 0.4500, y = 0.6300, location = "the Detention Block, Blackrock Depths" },
+        ["Commander Gor'shak"] = { mapID = 242, x = 0.4392, y = 0.9023, location = "the Detention Block, Blackrock Depths" },
         ["Thrall"] = { mapID = 85, x = 0.3200, y = 0.3800, location = "Grommash Hold, Orgrimmar" },
     },
 
@@ -90,7 +90,7 @@ SM.PrincessMoiraData = {
                 { id = 3981, name = "Commander Gor'shak", npc = "Galamav the Marksman" },
                 { id = 3982, name = "What Is Going On?", npc = "Commander Gor'shak" },
                 { id = 4001, name = "What Is Going On?", npc = "Commander Gor'shak" },
-                { id = 4002, name = "The Eastern Kingdoms", npc = "Thrall" },
+                { id = 4002, name = "The Eastern Kingdom", displayName = "The Eastern Kingdoms", npc = "Thrall" },
                 { id = 4003, name = "The Royal Rescue", npc = "Thrall" },
                 { id = 4004, name = "The Princess Saved?", npc = "Princess Moira Bronzebeard" },
             },

@@ -27,11 +27,11 @@ SM.OnyxiaData = {
     npcLocations = {
         ["Helendis Riverhorn"] = { mapID = 36, x = 0.8500, y = 0.6900, location = "Morgan's Vigil, Burning Steppes" },
         ["Magistrate Solomon"] = { mapID = 49, x = 0.2900, y = 0.4400, location = "Lakeshire, Redridge Mountains" },
-        ["Highlord Bolvar Fordragon"] = { mapID = 84, x = 0.7900, y = 0.3800, location = "Stormwind Keep" },
+        ["Highlord Bolvar Fordragon"] = { mapID = 84, x = 0.7817, y = 0.1809, location = "Stormwind Keep" },
         ["Marshal Maxwell"] = { mapID = 36, x = 0.8400, y = 0.6900, location = "Morgan's Vigil, Burning Steppes" },
-        ["Reginald Windsor"] = { mapID = 84, x = 0.6600, y = 0.3200, location = "Stormwind gates" },
+        ["Reginald Windsor"] = { mapID = 84, x = 0.6470, y = 0.7679, location = "Stormwind gates" },
         ["Ragged John"] = { mapID = 36, x = 0.6500, y = 0.2400, location = "north of the Ruins of Thaurissan, Burning Steppes" },
-        ["Marshal Windsor"] = { mapID = 242, x = 0.4800, y = 0.6200, location = "the Detention Block, Blackrock Depths" },
+        ["Marshal Windsor"] = { mapID = 242, x = 0.4628, y = 0.9469, location = "the Detention Block, Blackrock Depths" },
         ["A Crumpled Up Note"] = { mapID = 242, x = 0.4800, y = 0.6200, location = "Blackrock Depths" },
         ["Squire Rowe"] = { mapID = 84, x = 0.6600, y = 0.3200, location = "Stormwind gates" },
         ["Haleh"] = { mapID = 83, x = 0.5400, y = 0.5100, location = "Mazthoril, Winterspring" },
@@ -39,7 +39,7 @@ SM.OnyxiaData = {
         ["Warlord Goretooth"] = { mapID = 15, x = 0.0500, y = 0.4700, location = "Kargath, Badlands" },
         ["Eitrigg"] = { mapID = 85, x = 0.3200, y = 0.3800, location = "Grommash Hold, Orgrimmar" },
         ["Thrall"] = { mapID = 85, x = 0.3200, y = 0.3800, location = "Grommash Hold, Orgrimmar" },
-        ["Rexxar"] = { mapID = 66, x = 0.4400, y = 0.7600, location = "the road through Desolace" },
+        ["Rexxar"] = { mapID = 66, x = 0.2574, y = 0.7006, location = "the road through Desolace" },
         ["Myranda the Hag"] = { mapID = 22, x = 0.5100, y = 0.7800, location = "Sorrow Hill, Western Plaguelands" },
         ["Emberstrife"] = { mapID = 70, x = 0.5600, y = 0.8700, location = "Emberstrife's Den, Dustwallow Marsh" },
         ["Scryer"] = { mapID = 83, x = 0.5200, y = 0.5500, location = "southwest of Everlook, Winterspring" },
@@ -50,7 +50,7 @@ SM.OnyxiaData = {
     },
 
     npcDisplayIDs = {
-        ["Highlord Bolvar Fordragon"] = 5566,
+        ["Highlord Bolvar Fordragon"] = 24879,
         ["Marshal Windsor"] = 8707,
         ["Reginald Windsor"] = 9052,
         ["Lady Katrana Prestor"] = 8769,
@@ -151,7 +151,7 @@ SM.OnyxiaData = {
             recap = "Thrall knew Onyxia's threat reached beyond Blackrock Mountain, so he sent you to Rexxar. The champion of the Horde carried old knowledge and a hard road: find Myranda, wear an illusion, gather dragon eyes in Upper Blackrock Spire, and use that disguise to reach Emberstrife. Where the Alliance exposed a dragon in court, the Horde had to deceive a dragon servant into opening the next gate.",
             quests = {
                 { id = 6567, name = "The Champion of the Horde", npc = "Thrall" },
-                { id = 6568, name = "Mistress of Deception", npc = "Rexxar" },
+                { id = 6568, name = "The Testament of Rexxar", displayName = "Mistress of Deception", npc = "Rexxar" },
                 { id = 6569, name = "Oculus Illusions", npc = "Myranda the Hag" },
                 { id = 6570, name = "Emberstrife", npc = "Myranda the Hag" },
             },

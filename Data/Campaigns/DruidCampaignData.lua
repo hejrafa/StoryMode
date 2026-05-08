@@ -22,9 +22,9 @@ SM.DruidCampaignData = {
     startY = 0.4600,
 
     npcLocations = {
-        ["Archdruid Hamuul Runetotem"]  = { mapID = 627, x = 0.7200, y = 0.4600 },
+        ["Archdruid Hamuul Runetotem"]  = { mapID = 627, x = 0.5620, y = 0.3200 },
         ["Malfurion Stormrage"]         = { mapID = 641, x = 0.5200, y = 0.5100 },
-        ["Keeper Remulos"]              = { mapID = 641, x = 0.5300, y = 0.5200 },
+        ["Keeper Remulos"]              = { mapID = 641, x = 0.6040, y = 0.2360 },
         ["Rensar Greathoof"]            = { mapID = 747, x = 0.5200, y = 0.5100 },
         ["Skylord Omnuron"]             = { mapID = 747, x = 0.5000, y = 0.4800 },
         ["Naralex"]                     = { mapID = 747, x = 0.5300, y = 0.5300 },
@@ -61,8 +61,8 @@ SM.DruidCampaignData = {
             quests = {
                 { id = 40643, name = "A Summons From Moonglade",   npc = "Archdruid Hamuul Runetotem" },
                 { id = 41106, name = "Call of the Wilds",           npc = "Archdruid Hamuul Runetotem" },
-                { id = 40644, name = "The Dreamway",                npc = "Malfurion Stormrage" },
-                { id = 40645, name = "To The Dreamgrove",           npc = "Keeper Remulos" },
+                { id = 40644, name = "The Dreamway",                npc = "Archdruid Hamuul Runetotem" },
+                { id = 40645, name = "To The Dreamgrove",           npc = "Malfurion Stormrage" },
                 { id = 40646, name = "Weapons of Legend",           npc = "Rensar Greathoof" },
                 { id = 41255, name = "Sowing The Seed",             npc = "Rensar Greathoof" },
                 { id = 40651, name = "The Seed of Ages",            npc = "Rensar Greathoof" },
@@ -76,7 +76,7 @@ SM.DruidCampaignData = {
             summary = "Strengthen the Dreamgrove by recruiting champions, training troops, and establishing flight paths through the ancient dreamways.",
             recap = "The Dreamgrove needed defenders. Rensar Greathoof tasked you with growing the order's power — recruiting champions to stand at your side and training troops drawn from every corner of Azeroth's wilds. Skylord Omnuron opened new paths through the Dreamway, connecting the Dreamgrove to the wider world. With each branch that grew, the sanctuary's roots dug deeper.",
             quests = {
-                { id = 40652, name = "Word on the Winds",          npc = "Rensar Greathoof" },
+                { id = 40652, name = "Word on the Winds",          npc = "Malfurion Stormrage" },
                 { id = 40653, name = "Making Trails",               npc = "Skylord Omnuron" },
                 { id = 42516, name = "Growing Power",               npc = "Rensar Greathoof" },
                 { id = 42583, name = "Rise, Champions",             npc = "Rensar Greathoof" },
@@ -107,7 +107,7 @@ SM.DruidCampaignData = {
             summary = "With the Idol recovered, recruit Hamuul and Mylune as champions and power the Dreamgrove's portal to prepare for the final battle.",
             recap = "The Idol of the Wilds breathed new life into the Dreamgrove. Archdruid Hamuul Runetotem and the irrepressible Mylune pledged themselves as champions, along with the spirited Brightwing. Together you focused the Dreamgrove's energies into its portal, strengthening the connection between the waking world and the Dream. The Cenarion Circle stood united — and the Nightmare would feel its wrath.",
             quests = {
-                { id = 42046, name = "A New Beginning",             npc = "Rensar Greathoof" },
+                { id = 42046, name = "A New Beginning",             npc = "Keeper Remulos" },
                 { id = 42047, name = "Champion: Hamuul Runetotem",  npc = "Archdruid Hamuul Runetotem" },
                 { id = 42048, name = "Champion: Mylune",            npc = "Mylune" },
                 { id = 43368, name = "Champion: Brightwing",        npc = "Rensar Greathoof" },

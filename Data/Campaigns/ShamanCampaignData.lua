@@ -22,10 +22,10 @@ SM.ShamanCampaignData = {
     startY = 0.4870,
 
     npcLocations = {
-        ["Thrall"]                      = { mapID = 736, x = 0.2900, y = 0.5200 },
+        ["Thrall"]                      = { mapID = 736, x = 0.4720, y = 0.3380 },
         ["Farseer Nobundo"]             = { mapID = 736, x = 0.3200, y = 0.5100 },
         ["Advisor Sevel"]               = { mapID = 736, x = 0.3300, y = 0.5300 },
-        ["Stormcaller Mylra"]           = { mapID = 736, x = 0.3100, y = 0.5000 },
+        ["Stormcaller Mylra"]           = { mapID = 736, x = 0.4700, y = 0.5240 },
         ["Consular Celestos"]           = { mapID = 736, x = 0.3000, y = 0.5100 },
         ["Thunderaan"]                  = { mapID = 736, x = 0.2800, y = 0.5000 },
         ["Muln Earthfury"]              = { mapID = 736, x = 0.3200, y = 0.4900 },

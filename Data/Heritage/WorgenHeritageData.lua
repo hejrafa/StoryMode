@@ -38,7 +38,7 @@ SM.WorgenHeritageData = {
                 { id = 54981, name = "Cry to the Moon", npc = "Vassandra Stormclaw" },
                 { id = 54982, name = "The Spirit of the Hunter", npc = "Vassandra Stormclaw" },
                 { id = 54983, name = "Waking a Dreamer", npc = "Vassandra Stormclaw" },
-                { id = 54984, name = "Let Sleeping Wolves Lie", npc = "Goldrinn", mapID = 47, x = 0.7400, y = 0.4680, location = "Heritage of Gilneas, Stormwind / Duskwood / Emerald Dream (phased)" },
+                { id = 54984, name = "Let Sleeping Wolves Lie", npc = "Goldrinn", mapID = 47, x = 0.7400, y = 0.4680, location = "Stormwind Embassy" },
                 { id = 54990, name = "The New Guard", npc = "Princess Tess Greymane" },
             },
         },

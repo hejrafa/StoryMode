@@ -25,7 +25,7 @@ SM.WarlockCampaignData = {
         ["Ritssyn Flamescowl"]          = { mapID = 717, x = 0.5800, y = 0.3500 },
         ["Calydus"]                     = { mapID = 717, x = 0.5900, y = 0.3400 },
         ["Gakin the Darkbinder"]        = { mapID = 717, x = 0.5700, y = 0.3600 },
-        ["Kira Iresoul"]                = { mapID = 630, x = 0.4800, y = 0.4300 },
+        ["Kira Iresoul"]                = { mapID = 630, x = 0.6080, y = 0.3060 },
         ["Jubeka Shadowbreaker"]        = { mapID = 717, x = 0.5600, y = 0.3500 },
         ["Shinfel Blightsworn"]         = { mapID = 717, x = 0.6000, y = 0.3600 },
         ["Lulubelle Fizzlebang"]        = { mapID = 634, x = 0.6000, y = 0.5200 },

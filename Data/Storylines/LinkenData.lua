@@ -28,6 +28,7 @@ SM.LinkenData = {
         ["A Wrecked Raft"] = { mapID = 78, x = 0.6300, y = 0.6800, location = "the Marshlands, Un'Goro Crater" },
         ["A Small Pack"] = { mapID = 78, x = 0.6300, y = 0.6900, location = "beside the wrecked raft, Un'Goro Crater" },
         ["Linken"] = { mapID = 78, x = 0.4450, y = 0.0810, location = "Marshal's Refuge, Un'Goro Crater" },
+        ["J.D. Collie"] = { mapID = 78, x = 0.4192, y = 0.0270, location = "Marshal's Refuge, Un'Goro Crater" },
         ["Donova Snowden"] = { mapID = 83, x = 0.3100, y = 0.4500, location = "Frostfire Hot Springs, Winterspring" },
         ["Gaeriyan"] = { mapID = 71, x = 0.5300, y = 0.2900, location = "Gadgetzan, Tanaris" },
         ["Eridan Bluewind"] = { mapID = 77, x = 0.5100, y = 0.8200, location = "Emerald Sanctuary, Felwood" },
@@ -75,11 +76,11 @@ SM.LinkenData = {
             recap = "Linken's memory did not return like a clean answer. It came through strange errands, ghostly meetings, and a sword that changed in flashes of light. Donova, Gaeriyan, and the grave outside Gadgetzan turned the lost gnome's story into a ritual of recovery. By the time the sword was reforged, Linken still did not fully understand himself, but the adventure had momentum again.",
             quests = {
                 { id = 3909, name = "The Videre Elixir", npc = "Donova Snowden" },
-                { id = 3912, name = "Meet at the Grave", npc = "Gaeriyan" },
-                { id = 3913, name = "A Grave Situation", npc = "A Conspicuous Gravestone", mapID = 71, x = 0.5300, y = 0.2900, location = "Linken's Memory, Un'Goro Crater / Tanaris / Felwood / Winterspring" },
-                { id = 3914, name = "Linken's Sword", npc = "A Conspicuous Gravestone", mapID = 71, x = 0.5300, y = 0.2900, location = "Linken's Memory, Un'Goro Crater / Tanaris / Felwood / Winterspring" },
+                { id = 3912, name = "Meet at the Grave", npc = "Donova Snowden" },
+                { id = 3913, name = "A Grave Situation", npc = "Gaeriyan", mapID = 71, x = 0.5300, y = 0.2900, location = "Marshal's Refuge, Un'Goro Crater" },
+                { id = 3914, name = "Linken's Sword", npc = "A Conspicuous Gravestone", mapID = 71, x = 0.5300, y = 0.2900, location = "Marshal's Refuge, Un'Goro Crater" },
                 { id = 3941, name = "A Gnome's Assistance", npc = "Linken" },
-                { id = 3942, name = "Linken's Memory", npc = "Linken" },
+                { id = 3942, name = "Linken's Memory", npc = "J.D. Collie" },
             },
         },
         {
@@ -89,7 +90,7 @@ SM.LinkenData = {
             quests = {
                 { id = 4084, name = "Silver Heart", npc = "Eridan Bluewind" },
                 { id = 4005, name = "Aquementas", npc = "Eridan Bluewind" },
-                { id = 3961, name = "Linken's Adventure", npc = "Aquementas" },
+                { id = 3961, name = "Linken's Adventure", npc = "J.D. Collie" },
             },
         },
         {

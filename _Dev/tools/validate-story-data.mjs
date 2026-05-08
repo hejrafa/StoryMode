@@ -65,7 +65,8 @@ function parseLuaData(rel, text) {
     if (!questMatch) continue;
     const name = stringField(line, "name");
     const npc = stringField(line, "npc");
-    quests.push({ id: Number(questMatch[1]), name, npc, chapter, line: line.trim() });
+    const location = stringField(line, "location");
+    quests.push({ id: Number(questMatch[1]), name, npc, location, chapter, line: line.trim() });
   }
 
   return { rel, title, id, explicitID, quests, npcLocations, npcDisplayIDs, chapterDisplayIDs };
@@ -110,6 +111,15 @@ for (const data of datasets) {
       || (quest.line.includes("mapID =") && quest.line.includes("x =") && quest.line.includes("y ="));
     if (quest.npc && !data.npcLocations.has(quest.npc) && !hasQuestLocation) {
       findings.push({ type: "missing-npc-location", severity: "warn", file: data.rel, quest: quest.id, npc: quest.npc });
+    }
+    if (quest.npc && /\b[A-Z][A-Za-z]+ Trainer\b/.test(quest.npc)) {
+      findings.push({ type: "generic-quest-source", severity: "warn", file: data.rel, quest: quest.id, npc: quest.npc });
+    }
+    if (quest.line.includes("mapID =") && quest.line.includes("x = 0.5000") && quest.line.includes("y = 0.5000")) {
+      findings.push({ type: "placeholder-quest-location", severity: "warn", file: data.rel, quest: quest.id, detail: "exact zone center coordinates" });
+    }
+    if (quest.location && (quest.location.match(/\//g) || []).length >= 2) {
+      findings.push({ type: "broad-quest-location", severity: "warn", file: data.rel, quest: quest.id, location: quest.location });
     }
   }
 

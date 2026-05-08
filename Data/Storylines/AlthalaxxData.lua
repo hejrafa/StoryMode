@@ -74,7 +74,7 @@ SM.AlthalaxxData = {
                 { id = 970, name = "The Tower of Althalaxx", displayName = "Glowing Soul Gem", npc = "Delgren the Purifier" },
                 { id = 973, name = "The Tower of Althalaxx", displayName = "Ilkrud Magthrull's Tome", npc = "Delgren the Purifier" },
                 { id = 1140, name = "The Tower of Althalaxx", displayName = "Highborne Souls", npc = "Delgren the Purifier" },
-                { id = 1167, name = "The Tower of Althalaxx", displayName = "Return to Balthule", npc = "Delgren the Purifier" },
+                { id = 1167, name = "The Tower of Althalaxx part 7", displayName = "Return to Balthule", npc = "Delgren the Purifier" },
             },
         },
         {
@@ -82,7 +82,7 @@ SM.AlthalaxxData = {
             summary = "With Athrikus weakened, Balthule sends you back into the tower to kill the warlock at its summit.",
             recap = "The screams and lightning from the tower left little mystery. Athrikus Narassin was exposed, weakened, and still dangerous. Balthule sent you into the tower itself, past the warlocks who had made Althalaxx their sanctuary. Athrikus died where the cult had gathered, and Delgren's final blessing turned a strange errand from Auberdine into one of the first great victories of the Night Elf lands.",
             quests = {
-                { id = 1143, name = "The Tower of Althalaxx", displayName = "Athrikus Narassin", npc = "Balthule Shadowstrike" },
+                { id = 1143, name = "The Tower of Althalaxx part 8", displayName = "Athrikus Narassin", npc = "Balthule Shadowstrike" },
                 { id = 981, name = "The Tower of Althalaxx", displayName = "Report to Delgren", npc = "Balthule Shadowstrike" },
             },
         },

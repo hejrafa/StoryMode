@@ -42,7 +42,7 @@ SM.DeathKnightCampaignData = {
         ["Highlord Darion Mograine"]    = 27153,
         ["Thassarian"]                  = 26608,
         ["Nazgrim"]                     = 49521,
-        ["Koltira Deathweaver"]         = 25048,
+        ["Koltira Deathweaver"]         = 23920,
         ["Siouxsie the Banshee"]        = 65573,
         ["Salanar the Horseman"]        = 25235,
         ["Amal'thazad"]                 = 65572,
@@ -75,7 +75,7 @@ SM.DeathKnightCampaignData = {
             recap = "Darion Mograine revealed the Lich King's plan — to raise the Four Horsemen, death knights of legendary power, to serve as the Ebon Blade's vanguard. The first was Nazgrim, the Horde general who fell defending the gates of Orgrimmar. You tore his spirit from the grave and bound it in service. Thassarian and Nazgrim pledged as your champions, and the order's forces began to take shape — troops recruited, missions dispatched, and a war machine built from bone and shadow.",
             quests = {
                 { id = 39832, name = "Plans and Preparations",     npc = "Highlord Darion Mograine" },
-                { id = 39799, name = "Our Next Move",               npc = "Highlord Darion Mograine" },
+                { id = 39799, name = "Our Next Move",               npc = "Siouxsie the Banshee" },
                 { id = 42449, name = "Return of the Four Horsemen", npc = "Highlord Darion Mograine" },
                 { id = 42484, name = "The Firstborn Rises",         npc = "Thassarian" },
                 { id = 43264, name = "Rise, Champions",             npc = "Highlord Darion Mograine" },

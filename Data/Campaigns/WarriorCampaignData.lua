@@ -22,10 +22,10 @@ SM.WarriorCampaignData = {
     startY = 0.4540,
 
     npcLocations = {
-        ["Danica the Reclaimer"]        = { mapID = 627, x = 0.7430, y = 0.4540 },
-        ["Odyn"]                        = { mapID = 695, x = 0.5840, y = 0.1340 },
+        ["Danica the Reclaimer"]        = { mapID = 627, x = 0.5900, y = 0.2940 },
+        ["Odyn"]                        = { mapID = 695, x = 0.5840, y = 0.8300 },
         ["Hymdall"]                     = { mapID = 695, x = 0.5900, y = 0.3070 },
-        ["Skyseer Ghrent"]              = { mapID = 695, x = 0.4520, y = 0.2650 },
+        ["Skyseer Ghrent"]              = { mapID = 695, x = 0.5920, y = 0.1340 },
         ["Svergan Stormcloak"]          = { mapID = 634, x = 0.5200, y = 0.5700 },
         ["Jarum Skymane"]               = { mapID = 650, x = 0.5100, y = 0.3400 },
         ["Finna Bjornsdottir"]          = { mapID = 695, x = 0.5600, y = 0.2600 },

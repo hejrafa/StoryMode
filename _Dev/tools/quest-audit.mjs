@@ -1,10 +1,46 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const root = process.argv[2] || process.cwd();
-const scope = process.argv[3] || "";
+const positionalArgs = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
+const root = positionalArgs[0] || process.cwd();
+const scope = positionalArgs[1] || "";
+const includeQaReport = process.argv.includes("--qa-report");
 const cacheDir = path.join(root, ".quest-audit-cache");
 const dataRoot = path.join(root, "Data");
+const exceptionsPath = path.join(root, "_Dev", "quest-audit-exceptions.json");
+
+const CLASSIC_ZONE_TO_UI_MAP = new Map([
+  [1, 27],      // Dun Morogh
+  [8, 51],      // Swamp of Sorrows
+  [12, 37],     // Elwynn Forest
+  [14, 1],      // Durotar
+  [15, 70],     // Dustwallow Marsh
+  [16, 76],     // Azshara
+  [17, 10],     // The Barrens
+  [28, 23],     // Western Plaguelands
+  [33, 50],     // Stranglethorn Vale
+  [36, 25],     // Alterac Mountains / Hillsbrad area
+  [38, 48],     // Loch Modan
+  [40, 52],     // Westfall
+  [46, 36],     // Burning Steppes
+  [85, 18],     // Tirisfal Glades
+  [130, 21],    // Silverpine Forest
+  [141, 57],    // Teldrassil
+  [148, 62],    // Darkshore
+  [215, 7],     // Mulgore
+  [267, 25],    // Hillsbrad Foothills
+  [361, 77],    // Felwood
+  [400, 64],    // Thousand Needles
+  [490, 78],    // Un'Goro Crater
+  [493, 80],    // Moonglade
+  [1497, 90],   // Undercity
+  [1519, 84],   // Stormwind
+  [1537, 87],   // Ironforge
+  [1637, 85],   // Orgrimmar
+  [1638, 88],   // Thunder Bluff
+  [1657, 89],   // Darnassus
+  [2557, 234],  // Dire Maul
+]);
 
 async function mapLimit(items, limit, worker) {
   const results = new Array(items.length);
@@ -30,6 +66,15 @@ async function walk(dir) {
   return out;
 }
 
+async function readExceptions() {
+  try {
+    const parsed = JSON.parse(await readFile(exceptionsPath, "utf8"));
+    return Array.isArray(parsed.exceptions) ? parsed.exceptions : [];
+  } catch {
+    return [];
+  }
+}
+
 function unescapeLuaString(value) {
   return value.replace(/\\"/g, '"').replace(/\\\\/g, "\\");
 }
@@ -39,9 +84,17 @@ function extractString(line, key) {
   return match ? unescapeLuaString(match[1]) : null;
 }
 
+function extractNumber(line, key) {
+  const match = line.match(new RegExp(`${key}\\s*=\\s*([0-9.]+)`));
+  return match ? Number(match[1]) : null;
+}
+
 function parseDataFile(file, text) {
   const rel = path.relative(root, file);
   const story = extractString(text, "title") || rel;
+  const classicCompatible = /gameVersions\s*=\s*\{[^}]*classicEra\s*=\s*true/.test(text)
+    || rel.includes(`${path.sep}ClassQuests${path.sep}Classic`);
+  const source = classicCompatible ? "classic" : "retail";
   const quests = [];
   const npcLocations = new Map();
   const npcDisplayIDs = new Map();
@@ -79,11 +132,24 @@ function parseDataFile(file, text) {
     const idMatch = line.match(/\bid\s*=\s*(\d+)/);
     const name = extractString(line, "name");
     const npc = extractString(line, "npc");
+    const location = extractString(line, "location");
+    const faction = extractString(line, "faction");
+    const race = extractString(line, "race") || (line.match(/race\s*=\s*\{\s*([^}]+)\s*\}/)?.[1] || null);
+    const mapID = extractNumber(line, "mapID");
+    const x = extractNumber(line, "x");
+    const y = extractNumber(line, "y");
     if (idMatch && name) {
       quests.push({
         id: Number(idMatch[1]),
         name,
         npc,
+        location,
+        faction,
+        race,
+        mapID,
+        x,
+        y,
+        source,
         story,
         chapter,
         file: rel,
@@ -92,16 +158,20 @@ function parseDataFile(file, text) {
     }
   }
 
-  return { rel, story, quests, npcLocations, npcDisplayIDs, chapterDisplayIDs };
+  return { rel, story, source, quests, npcLocations, npcDisplayIDs, chapterDisplayIDs };
 }
 
 function htmlDecode(value) {
-  return value
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
+  let decoded = value || "";
+  for (let i = 0; i < 3; i++) {
+    decoded = decoded
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">");
+  }
+  return decoded;
 }
 
 function slug(value) {
@@ -174,10 +244,59 @@ function parseQuestPage(id, html) {
   };
 }
 
-async function fetchQuestData(id) {
+function parseClassicQuestPage(id, html) {
+  const titleMatch = html.match(/<title>(.*?) - Quest/);
+  const title = titleMatch ? htmlDecode(titleMatch[1]) : null;
+  const series = [];
+  const seriesMatch = html.match(/<table class="series">([\s\S]*?)<\/table>/);
+  if (seriesMatch) {
+    const itemRegex = /(?:<a href="\?quest=(\d+)">([\s\S]*?)<\/a>)|(?:<b>([\s\S]*?)<\/b>)/g;
+    let match;
+    while ((match = itemRegex.exec(seriesMatch[1]))) {
+      if (match[1]) series.push({ id: Number(match[1]), name: htmlDecode(match[2].replace(/<[^>]+>/g, "")) });
+      else series.push({ id, name: htmlDecode(match[3].replace(/<[^>]+>/g, "")) });
+    }
+  }
+
+  const starts = [];
+  const startRegex = /zone:(\d+),coords:\[\[([0-9.]+),([0-9.]+),\{label:'[\s\S]*?<b class=q>(.*?)<\/b>[\s\S]*?Starts the quest/g;
+  let match;
+  while ((match = startRegex.exec(html))) {
+    const classicZone = Number(match[1]);
+    starts.push({
+      name: htmlDecode(match[4].replace(/<[^>]+>/g, "")),
+      x: Number(match[2]),
+      y: Number(match[3]),
+      classicZone,
+      mapID: CLASSIC_ZONE_TO_UI_MAP.get(classicZone) || classicZone,
+      id: null,
+    });
+  }
+
+  const fallbackStart = html.match(/Start:\s*<a href="\?npc=(\d+)"[^>]*>(.*?)<\/a>/s);
+  if (!starts.length && fallbackStart) {
+    starts.push({
+      name: htmlDecode(fallbackStart[2].replace(/<[^>]+>/g, "")),
+      x: null,
+      y: null,
+      classicZone: null,
+      mapID: null,
+      id: Number(fallbackStart[1]),
+    });
+  }
+
+  return { id, title, series, starts, source: "classic" };
+}
+
+async function fetchQuestData(id, source = "retail") {
+  if (source === "classic") {
+    const html = await fetchCached("classic-quest", id, `https://classicdb.ch/?quest=${id}`);
+    return parseClassicQuestPage(id, html);
+  }
+
   try {
     const html = await fetchCached("quest", id, `https://www.wowhead.com/quest=${id}`);
-    return parseQuestPage(id, html);
+    return { ...parseQuestPage(id, html), source: "retail" };
   } catch (pageError) {
     const tooltip = await fetchCached("quest-tooltip", id, `https://nether.wowhead.com/tooltip/quest/${id}`);
     const data = JSON.parse(tooltip);
@@ -186,6 +305,7 @@ async function fetchQuestData(id) {
       title: data.name || null,
       series: [],
       starts: [],
+      source: "retail",
       pageError: pageError.message,
     };
   }
@@ -205,6 +325,10 @@ function norm(value) {
   return (value || "").toLowerCase().replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, " ").trim();
 }
 
+function normQuestTitle(value) {
+  return norm(value).replace(/\s+\(part\s+\d+\)$/i, "");
+}
+
 function distance(a, b) {
   if (!a || !b) return null;
   const ax = a.x <= 1 ? a.x * 100 : a.x;
@@ -216,37 +340,60 @@ function distance(a, b) {
 
 const files = (await walk(dataRoot))
   .filter((file) => !scope || path.relative(root, file).includes(scope));
+const exceptions = await readExceptions();
 
 const datasets = [];
 for (const file of files) datasets.push(parseDataFile(file, await readFile(file, "utf8")));
 
 const quests = datasets.flatMap((data) => data.quests);
-const uniqueQuestIds = [...new Set(quests.map((quest) => quest.id))].sort((a, b) => a - b);
+const questKeys = [...new Set(quests.map((quest) => `${quest.source}:${quest.id}`))]
+  .map((key) => {
+    const [source, id] = key.split(":");
+    return { key, source, id: Number(id) };
+  })
+  .sort((a, b) => a.source.localeCompare(b.source) || a.id - b.id);
 const questData = new Map();
 const findings = [];
-await mapLimit(uniqueQuestIds, 6, async (id, index) => {
-  if (index % 50 === 0) console.error(`quests ${index}/${uniqueQuestIds.length}`);
+await mapLimit(questKeys, 6, async ({ key, source, id }, index) => {
+  if (index % 50 === 0) console.error(`quests ${index}/${questKeys.length}`);
   try {
-    questData.set(id, await fetchQuestData(id));
+    questData.set(key, await fetchQuestData(id, source));
   } catch (error) {
-    const examples = quests.filter((quest) => quest.id === id);
+    const examples = quests.filter((quest) => quest.id === id && quest.source === source);
     for (const quest of examples) {
       findings.push({ type: "fetch", severity: "error", quest, remote: error.message });
     }
   }
 });
 
+function questKey(quest) {
+  return `${quest.source}:${quest.id}`;
+}
+
 const npcIds = new Set();
 for (const quest of quests) {
-  const remote = questData.get(quest.id);
+  const remote = questData.get(questKey(quest));
+  if (quest.npc && /\b[A-Z][A-Za-z]+ Trainer\b/.test(quest.npc)) {
+    findings.push({ type: "generic-source", severity: "warn", quest, remote: "replace generic trainer with the specific quest starter when possible" });
+  }
+  if (quest.mapID && Math.abs((quest.x || 0) - 0.5) < 0.005 && Math.abs((quest.y || 0) - 0.5) < 0.005) {
+    findings.push({ type: "placeholder-location", severity: "warn", quest, remote: "exact zone center coordinates" });
+  }
+  if (quest.location && (quest.location.match(/\//g) || []).length >= 2) {
+    findings.push({ type: "broad-location", severity: "warn", quest, remote: quest.location });
+  }
   if (!remote) continue;
-  if (remote.title && norm(remote.title) !== norm(quest.name)) {
+  if (remote.title && normQuestTitle(remote.title) !== normQuestTitle(quest.name)) {
     findings.push({ type: "title", severity: "error", quest, remote: remote.title });
   }
   if (quest.npc && remote.starts.length && !remote.starts.some((start) => norm(start.name) === norm(quest.npc))) {
     findings.push({ type: "npc", severity: "warn", quest, remote: remote.starts.map((start) => `${start.name} (${start.id})`).join(", ") });
   }
-  for (const start of remote.starts) npcIds.add(start.id);
+  if (quest.source === "retail") {
+    for (const start of remote.starts) {
+      if (start.id) npcIds.add(start.id);
+    }
+  }
 }
 
 for (const data of datasets) {
@@ -258,22 +405,63 @@ for (const data of datasets) {
   }
 
   for (const [chapter, chapterQuests] of byChapter) {
-    const series = questData.get(chapterQuests[0]?.id)?.series || [];
-    if (!series.length) continue;
-    const seriesIndex = new Map(series.map((quest, index) => [quest.id, index]));
-    let previous = -1;
+    const branchGroups = new Map();
     for (const quest of chapterQuests) {
-      if (!seriesIndex.has(quest.id)) continue;
-      const index = seriesIndex.get(quest.id);
-      if (index < previous) findings.push({ type: "order", severity: "warn", quest, remote: `series index ${index + 1} after ${previous + 1}` });
-      previous = Math.max(previous, index);
+      const branch = [quest.faction || "Any", quest.race || "Any"].join(":");
+      if (!branchGroups.has(branch)) branchGroups.set(branch, []);
+      branchGroups.get(branch).push(quest);
+    }
+
+    for (const branchQuests of branchGroups.values()) {
+      const candidateSeries = branchQuests
+        .map((quest) => questData.get(questKey(quest))?.series || [])
+        .filter((series) => series.length);
+      const series = candidateSeries
+        .map((series) => ({
+          series,
+          matches: branchQuests.filter((quest) => series.some((remoteQuest) => remoteQuest.id === quest.id)).length,
+        }))
+        .sort((a, b) => b.matches - a.matches)[0]?.series || [];
+      if (!series.length) continue;
+      const seriesIndex = new Map(series.map((quest, index) => [quest.id, index]));
+      const matchedIndexes = branchQuests
+        .map((quest) => seriesIndex.get(quest.id))
+        .filter((index) => index !== undefined);
+      const span = matchedIndexes.length
+        ? Math.max(...matchedIndexes) - Math.min(...matchedIndexes) + 1
+        : 0;
+      const toleratedGaps = Math.max(3, Math.ceil(matchedIndexes.length * 1.5));
+      if (matchedIndexes.length < 2 || span > matchedIndexes.length + toleratedGaps) continue;
+      let previous = -1;
+      let previousQuest = null;
+      const storyQuestIDs = new Set(data.quests.map((quest) => quest.id));
+      for (const quest of branchQuests) {
+        if (!seriesIndex.has(quest.id)) continue;
+        const index = seriesIndex.get(quest.id);
+        if (index < previous) findings.push({ type: "order", severity: "warn", quest, remote: `series index ${index + 1} after ${previous + 1}` });
+        if (previousQuest && index > previous + 1) {
+          const missing = series
+            .slice(previous + 1, index)
+            .filter((remoteQuest) => !storyQuestIDs.has(remoteQuest.id));
+          if (missing.length) {
+            findings.push({
+              type: "chain-hole",
+              severity: "warn",
+              quest,
+              remote: `between ${previousQuest.id} and ${quest.id}: ${missing.map((remoteQuest) => `${remoteQuest.id} ${remoteQuest.name}`).join(", ")}`,
+            });
+          }
+        }
+        previous = Math.max(previous, index);
+        previousQuest = quest;
+      }
     }
   }
 
   for (const [npcName, localLocation] of data.npcLocations) {
     const starts = data.quests
       .filter((quest) => norm(quest.npc) === norm(npcName))
-      .flatMap((quest) => questData.get(quest.id)?.starts || [])
+      .flatMap((quest) => questData.get(questKey(quest))?.starts || [])
       .filter((start) => norm(start.name) === norm(npcName));
     if (!starts.length) continue;
     const nearest = starts.map((start) => ({ start, dist: distance(localLocation, start) })).sort((a, b) => a.dist - b.dist)[0];
@@ -296,7 +484,7 @@ await mapLimit([...npcIds], 8, async (id, index) => {
 
 const startsByName = new Map();
 for (const quest of quests) {
-  const starts = questData.get(quest.id)?.starts || [];
+  const starts = questData.get(questKey(quest))?.starts || [];
   for (const start of starts) {
     const key = norm(start.name);
     if (!startsByName.has(key)) startsByName.set(key, []);
@@ -318,13 +506,63 @@ for (const data of datasets) {
   }
 }
 
-findings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
+function matchesException(finding, exception) {
+  if (exception.type && exception.type !== finding.type) return false;
+  if (exception.file && exception.file !== finding.quest.file) return false;
+  if (exception.quest && Number(exception.quest) !== Number(finding.quest.id)) return false;
+  if (exception.source && exception.source !== finding.quest.source) return false;
+  if (exception.npc && exception.npc !== finding.quest.npc) return false;
+  if (exception.chapter && exception.chapter !== finding.quest.chapter) return false;
+  if (exception.name && exception.name !== finding.quest.name) return false;
+  if (exception.remoteContains && !String(finding.remote || "").includes(exception.remoteContains)) return false;
+  return true;
+}
+
+const suppressedFindings = [];
+const visibleFindings = [];
+for (const finding of findings) {
+  const exception = exceptions.find((candidate) => matchesException(finding, candidate));
+  if (exception) suppressedFindings.push({ ...finding, exception: exception.reason || "audit exception" });
+  else visibleFindings.push(finding);
+}
+
+visibleFindings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
+suppressedFindings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
+
+const questsBySource = quests.reduce((counts, quest) => {
+  counts[quest.source] = (counts[quest.source] || 0) + 1;
+  return counts;
+}, {});
+const questKeysBySource = questKeys.reduce((counts, quest) => {
+  counts[quest.source] = (counts[quest.source] || 0) + 1;
+  return counts;
+}, {});
+const qaReport = includeQaReport ? datasets.map((data) => {
+  const firstQuest = data.quests[0];
+  const firstIncompletePath = firstQuest ? {
+    quest: firstQuest.name,
+    npc: firstQuest.npc || null,
+    place: firstQuest.location || null,
+    mapID: firstQuest.mapID || null,
+  } : null;
+  return {
+    story: data.story,
+    file: data.rel,
+    source: data.source,
+    quests: data.quests.length,
+    firstIncompletePath,
+  };
+}) : undefined;
 
 console.log(JSON.stringify({
   files: datasets.length,
   quests: quests.length,
-  uniqueQuestIds: uniqueQuestIds.length,
+  questsBySource,
+  uniqueQuestKeys: questKeys.length,
+  questKeysBySource,
   fullQuestPages: [...questData.values()].filter((quest) => !quest.pageError).length,
   tooltipQuestFallbacks: [...questData.values()].filter((quest) => quest.pageError).length,
-  findings,
+  findings: visibleFindings,
+  suppressedFindings,
+  qaReport,
 }, null, 2));

@@ -30,7 +30,7 @@ SM.ArugalData = {
         ["Shadow Priest Allister"] = { mapID = 21, x = 0.4340, y = 0.4100, location = "the Sepulcher, Silverpine Forest" },
         ["High Executor Hadrec"] = { mapID = 21, x = 0.4300, y = 0.4100, location = "the Sepulcher, Silverpine Forest" },
         ["Keeper Bel'dugur"] = { mapID = 90, x = 0.5300, y = 0.5400, location = "the Apothecarium, Undercity" },
-        ["Dalaran Crate"] = { mapID = 21, x = 0.4650, y = 0.7200, location = "the Dalaran camp north of Pyrewood Village" },
+        ["Dalaran Crate"] = { mapID = 21, x = 0.4989, y = 0.6033, location = "the Dalaran camp north of Pyrewood Village" },
         ["Pyrewood Village"] = { mapID = 21, x = 0.4600, y = 0.7350, location = "Pyrewood Village, Silverpine Forest" },
         ["Ambermill"] = { mapID = 21, x = 0.6100, y = 0.6400, location = "Ambermill, Silverpine Forest" },
         ["Shadowfang Keep"] = { mapID = 21, x = 0.4400, y = 0.6750, location = "Shadowfang Keep, Silverpine Forest" },

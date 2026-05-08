@@ -31,12 +31,12 @@ SM.DungeonSetTwoData = {
 
     npcLocations = {
         ["Deliana"] = { mapID = 87, x = 0.4300, y = 0.5200, location = "the High Seat, Ironforge" },
-        ["Mokvar"] = { mapID = 85, x = 0.4920, y = 0.7160, location = "the Valley of Spirits, Orgrimmar" },
+        ["Mokvar"] = { mapID = 85, x = 0.3495, y = 0.3829, location = "the Valley of Spirits, Orgrimmar" },
         ["Mux Manascrambler"] = { mapID = 71, x = 0.5150, y = 0.2800, location = "Gadgetzan, Tanaris" },
         ["Anthion Harmon"] = { mapID = 23, x = 0.2700, y = 0.1200, location = "outside Stratholme, Eastern Plaguelands" },
         ["Ysida Harmon"] = { mapID = 317, x = 0.5600, y = 0.1800, location = "Stratholme" },
-        ["Falrin Treeshaper"] = { mapID = 429, x = 0.5400, y = 0.6900, location = "Dire Maul Library" },
-        ["Bodley"] = { mapID = 36, x = 0.2100, y = 0.3800, location = "Blackrock Mountain, near Blackrock Spire" },
+        ["Falrin Treeshaper"] = { mapID = 429, x = 0.2814, y = 0.6847, location = "Dire Maul Library" },
+        ["Bodley"] = { mapID = 36, x = 0.3987, y = 0.9646, location = "Blackrock Mountain, near Blackrock Spire" },
         ["Lord Incendius"] = { mapID = 242, x = 0.5900, y = 0.6000, location = "Blackrock Depths" },
         ["Pyroguard Emberseer"] = { mapID = 250, x = 0.4300, y = 0.5000, location = "Upper Blackrock Spire" },
         ["Hermit Ortell"] = { mapID = 81, x = 0.6800, y = 0.7000, location = "southwestern Silithus" },
@@ -195,8 +195,8 @@ SM.DungeonSetTwoData = {
             recap = "Bodley is not a grand champion, which is why he works. He is frightened, talkative, and in over his head. Through him the armor chain reveals its real center: Lord Valthalak, a spirit bound by pride, betrayal, and a shattered amulet. Before you can summon that story, Bodley needs flame, reputation, and the first hard confession of what went wrong.",
             quests = {
                 { id = 8323, name = "True Believers", npc = "Hermit Ortell", optional = true },
-                { id = 8960, name = "Bodley's Unfortunate Fate", npc = "Anthion Harmon", faction = "Alliance" },
-                { id = 9032, name = "Bodley's Unfortunate Fate", npc = "Mokvar", faction = "Horde" },
+                { id = 8960, name = "Bodley's Unfortunate Fate", npc = "Deliana", faction = "Alliance" },
+                { id = 9032, name = "Bodleys Unfortunate Fate", displayName = "Bodley's Unfortunate Fate", npc = "Mokvar", faction = "Horde" },
                 { id = 8961, name = "Three Kings of Flame", npc = "Bodley" },
             },
         },

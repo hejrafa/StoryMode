@@ -23,7 +23,7 @@ SM.DemonHunterCampaignData = {
 
     npcLocations = {
         ["Kor'vas Bloodthorn"]          = { mapID = 720, x = 0.5900, y = 0.5100 },
-        ["Kayn Sunfury"]                = { mapID = 720, x = 0.5800, y = 0.5200 },
+        ["Kayn Sunfury"]                = { mapID = 720, x = 0.7460, y = 0.4860 },
         ["Jace Darkweaver"]             = { mapID = 720, x = 0.6000, y = 0.5000 },
         ["Allari the Souleater"]        = { mapID = 720, x = 0.5700, y = 0.5300 },
         ["Matron Mother Malevolence"]    = { mapID = 720, x = 0.5600, y = 0.5100 },
@@ -157,7 +157,7 @@ SM.DemonHunterCampaignData = {
                 { id = 41803, name = "Asking a Favor",              npc = "Jace Darkweaver" },
                 { id = 41804, name = "Ask and You Shall Receive",   npc = "Jace Darkweaver" },
                 { id = 41807, name = "Establishing a Connection",   npc = "Jace Darkweaver" },
-                { id = 40249, name = "Vengeance Will Be Ours",      npc = "Jace Darkweaver" },
+                { id = 40249, name = "Vengeance Will Be Ours",      npc = "Kayn Sunfury" },
             },
         },
     },

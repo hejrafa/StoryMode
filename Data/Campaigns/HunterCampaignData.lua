@@ -23,7 +23,7 @@ SM.HunterCampaignData = {
 
     npcLocations = {
         ["Snowfeather"]                 = { mapID = 627, x = 0.5500, y = 0.6200 },
-        ["Emmarel Shadewarden"]         = { mapID = 739, x = 0.4360, y = 0.4820 },
+        ["Emmarel Shadewarden"]         = { mapID = 739, x = 0.5980, y = 0.5300 },
         ["Tactician Tinderfell"]        = { mapID = 739, x = 0.4500, y = 0.5000 },
         ["Altar Keeper Biehn"]          = { mapID = 739, x = 0.4400, y = 0.4600 },
         ["Hudson Crawford"]             = { mapID = 634, x = 0.6000, y = 0.5100, location = "Trueshot Lodge / Broken Isles" },
