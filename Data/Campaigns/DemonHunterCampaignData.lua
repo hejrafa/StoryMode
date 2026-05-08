@@ -22,9 +22,11 @@ SM.DemonHunterCampaignData = {
     startY = 0.4900,
 
     npcLocations = {
+        ["Altruis the Sufferer"] = { mapID = 7502, x = 0.7480, y = 0.4860, location = "Dalaran" },
+        ["Archmage Khadgar"] = { mapID = 7502, x = 0.2880, y = 0.4840, location = "Dalaran" },
         ["Kor'vas Bloodthorn"]          = { mapID = 720, x = 0.5900, y = 0.5100 },
         ["Kayn Sunfury"]                = { mapID = 720, x = 0.7460, y = 0.4860 },
-        ["Jace Darkweaver"]             = { mapID = 720, x = 0.6000, y = 0.5000 },
+        ["Jace Darkweaver"]             = { mapID = 720, x = 0.7400, y = 0.5140 },
         ["Allari the Souleater"]        = { mapID = 720, x = 0.5700, y = 0.5300 },
         ["Matron Mother Malevolence"]    = { mapID = 720, x = 0.5600, y = 0.5100 },
         ["Battlelord Gaardoun"]         = { mapID = 720, x = 0.5800, y = 0.4900 },
@@ -144,9 +146,9 @@ SM.DemonHunterCampaignData = {
             summary = "Hunt down the Twinblades of the Deceiver — warglaives forged in felfire and wielded by a champion of the Legion.",
             recap = "Kayn Sunfury arranged the hunt for the Twinblades of the Deceiver — a pair of warglaives crackling with felfire, wielded by one of the Legion's own champions. You tracked the demon through shadowed ruins and claimed the blades in combat. They burned in your hands, eager for the blood of their former masters.",
             quests = {
-                { id = 41120, name = "Making Arrangements",         npc = "Kayn Sunfury" },
-                { id = 41121, name = "By Any Means",                npc = "Kayn Sunfury" },
-                { id = 41119, name = "The Hunt",                    npc = "Kayn Sunfury" },
+                { id = 41120, name = "Making Arrangements",         npc = "Altruis the Sufferer" },
+                { id = 41121, name = "By Any Means",                npc = "Altruis the Sufferer" },
+                { id = 41119, name = "The Hunt",                    npc = "Altruis the Sufferer" },
             },
         },
         {
@@ -154,8 +156,8 @@ SM.DemonHunterCampaignData = {
             summary = "Seek the Aldrachi Warblades, weapons of a race that defeated a demon lord and chose death over servitude.",
             recap = "Jace Darkweaver told the story of the Aldrachi — a warrior race so fierce they defeated the demon lord Sargeras sent to enslave them. Rather than serve, they fell on their own blades. Those weapons had been lost for millennia, but Jace had found a lead. You followed it through a series of trials, establishing a connection to the blades through sheer will. The Aldrachi Warblades chose you — the first wielder since the race that forged them chose extinction over submission.",
             quests = {
-                { id = 41803, name = "Asking a Favor",              npc = "Jace Darkweaver" },
-                { id = 41804, name = "Ask and You Shall Receive",   npc = "Jace Darkweaver" },
+                { id = 41803, name = "Asking a Favor",              npc = "Altruis the Sufferer" },
+                { id = 41804, name = "Ask and You Shall Receive",   npc = "Archmage Khadgar" },
                 { id = 41807, name = "Establishing a Connection",   npc = "Jace Darkweaver" },
                 { id = 40249, name = "Vengeance Will Be Ours",      npc = "Kayn Sunfury" },
             },

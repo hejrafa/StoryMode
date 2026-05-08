@@ -22,14 +22,15 @@ SM.WarlockCampaignData = {
     startY = 0.6400,
 
     npcLocations = {
+        ["Revil Kost"] = { mapID = 10, x = 0.7740, y = 0.3620, location = "Duskwood" },
         ["Ritssyn Flamescowl"]          = { mapID = 717, x = 0.5800, y = 0.3500 },
-        ["Calydus"]                     = { mapID = 717, x = 0.5900, y = 0.3400 },
-        ["Gakin the Darkbinder"]        = { mapID = 717, x = 0.5700, y = 0.3600 },
+        ["Calydus"]                     = { mapID = 717, x = 0.3760, y = 0.3160 },
+        ["Gakin the Darkbinder"]        = { mapID = 717, x = 0.6660, y = 0.4600 },
         ["Kira Iresoul"]                = { mapID = 630, x = 0.6080, y = 0.3060 },
         ["Jubeka Shadowbreaker"]        = { mapID = 717, x = 0.5600, y = 0.3500 },
         ["Shinfel Blightsworn"]         = { mapID = 717, x = 0.6000, y = 0.3600 },
-        ["Lulubelle Fizzlebang"]        = { mapID = 634, x = 0.6000, y = 0.5200 },
-        ["Ernest Carlisle"]             = { mapID = 641, x = 0.5300, y = 0.5600 },
+        ["Lulubelle Fizzlebang"]        = { mapID = 634, x = 0.5480, y = 0.3920 },
+        ["Ernest Carlisle"]             = { mapID = 641, x = 0.3920, y = 0.6260 },
         ["Zinnin Smythe"]               = { mapID = 717, x = 0.5800, y = 0.3700 },
         ["Kanrethad Ebonlocke"]         = { mapID = 646, x = 0.4500, y = 0.6300 },
         ["Mor'zul Bloodbringer"]        = { mapID = 717, x = 0.5700, y = 0.3400 },
@@ -143,7 +144,7 @@ SM.WarlockCampaignData = {
             summary = "Seek Ulthalesh, a scythe that reaps souls from the living and binds them in eternal torment.",
             recap = "Calydus pointed you toward Ulthalesh — the Deadwind Harvester, a scythe of terrible power that had reaped souls for millennia. You followed the curse through Deadwind Pass, where the Dark Riders still haunted the roads. In their shadowed lair, you tore Ulthalesh from their grasp. The scythe's whispers joined the chorus in your mind — a weapon that was never truly silent.",
             quests = {
-                { id = 40931, name = "Following the Curse",          npc = "Calydus" },
+                { id = 40931, name = "Following the Curse",          npc = "Revil Kost" },
             },
         },
         {

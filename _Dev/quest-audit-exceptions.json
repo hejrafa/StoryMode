@@ -790,6 +790,167 @@
       "quest": 40518,
       "remoteContains": "between 43926 and 40518: 44281 To Be Prepared",
       "reason": "External source series includes alternate, side, or system quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41119,
+      "remoteContains": "between 41121 and 41119: 39051 By Any Means",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 41121,
+      "remoteContains": "between 41120 and 41121: 40819 Making Arrangements",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 42131,
+      "remoteContains": "between 42665 and 42131: 42653 Champion: Akama, 42664 Champion: Shade of Akama, 42673 Champion: Kor'vas Bloodthorn",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 42665,
+      "remoteContains": "between 42921 and 42665: 42634 Confrontation at the Black Temple, 39741 Into Our Ranks",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DruidCampaignData.lua",
+      "quest": 42032,
+      "remoteContains": "series index 1 after 2",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 42400,
+      "remoteContains": "between 42412 and 42400: 42399 Ready to Work",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 42413,
+      "remoteContains": "between 42134 and 42413: 42436 Aiding Our Allies, 42930 Big Gamy Ribs, 42928 Silkweave Bandages, 42929 Highmountain Salmon, 42414 Champion: Addie Fizzlebog",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 42415,
+      "remoteContains": "between 42657 and 42415: 42658 Delicate Enchantments, 42133 Same Day Delivery",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 42654,
+      "remoteContains": "between 42405 and 42654: 43182 The Missing Vessel, 42408 Required Reagents, 91616 Required Reagents",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 42657,
+      "remoteContains": "between 44680 and 42657: 42656 Azure Weaponry",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/HunterCampaignData.lua",
+      "quest": 44680,
+      "remoteContains": "between 42654 and 44680: 42655 Ore Under the Sea",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MageCampaignData.lua",
+      "quest": 42493,
+      "remoteContains": "between 42521 and 42493: 42494 More Than Just A Food Vendor",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 41040,
+      "remoteContains": "between 41039 and 41040: 41910 Freya's Spring, 41086 A Peaceful World, 41911 Amaranthine Hops, 43151 Making A Trade",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MonkCampaignData.lua",
+      "quest": 41087,
+      "remoteContains": "between 41059 and 41087: 32442 Impending Danger",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PriestCampaignData.lua",
+      "quest": 43273,
+      "remoteContains": "between 43272 and 43273: 44100 Proper Introductions",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 41772,
+      "remoteContains": "between 42208 and 41772: 41747 Champion: Avalanchion",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 41776,
+      "remoteContains": "between 41771 and 41776: 41981 Traversing the Heavens",
+      "reason": "External source series includes alternate, side, or mission-table quests that are not required StoryMode beats for this curated path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarlockCampaignData.lua",
+      "quest": 41795,
+      "remoteContains": "series index 11 after 12",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "quest": 42107,
+      "remoteContains": "series index 6 after 11",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "quest": 42110,
+      "remoteContains": "series index 7 after 11",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "quest": 42202,
+      "remoteContains": "series index 8 after 11",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "quest": 42204,
+      "remoteContains": "series index 9 after 11",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "quest": 43585,
+      "remoteContains": "series index 10 after 11",
+      "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
     }
   ]
 }

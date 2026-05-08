@@ -2338,35 +2338,22 @@ function SM.CreateQuestCard(parent)
     card:SetScript("OnLeave", function() SMTooltip:Hide() end)
     card:SetScript("OnClick", function(self)
         if not self.questEntry then return end
-        storyFrame:Hide()
 
         local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
         local questText = "|cffffd200" .. questName .. "|r"
         if SM.IsQuestEntryComplete(self.questEntry) then
+            storyFrame:Hide()
             print(L["Addon Prefix"] .. string.format(L["Quest Click Complete Format"], questText))
             return
         end
 
-        local inLog, activeQuestID = SM.IsQuestEntryInLog(self.questEntry)
-        if inLog and activeQuestID and SM.OpenQuestLogToQuest(activeQuestID) then
+        if self.tooltipRequirement then
+            storyFrame:Hide()
+            print(L["Addon Prefix"] .. self.tooltipRequirement)
             return
         end
 
-        local npcName = self.questEntry.npc
-        local loc = self.questEntry.location
-        if not loc and self.storyData and self.storyData.npcLocations and npcName then
-            local npcLoc = self.storyData.npcLocations[npcName]
-            loc = npcLoc and npcLoc.location
-        end
-        if self.tooltipRequirement then
-            print(L["Addon Prefix"] .. self.tooltipRequirement)
-        elseif npcName and loc then
-            print(L["Addon Prefix"] .. string.format(L["Quest Click Pick Up NPC Place Format"], questText, "|cffffd200" .. npcName .. "|r", "|cff64b5f6" .. loc .. "|r"))
-        elseif npcName then
-            print(L["Addon Prefix"] .. string.format(L["Quest Click Pick Up NPC Format"], questText, "|cffffd200" .. npcName .. "|r"))
-        else
-            print(L["Addon Prefix"] .. string.format(L["Quest Click Pick Up Next Format"], questText))
-        end
+        ExecuteTrackButton(self.storyData, self.questEntry)
     end)
 
     return card

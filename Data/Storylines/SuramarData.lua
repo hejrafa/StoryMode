@@ -40,16 +40,20 @@ SM.SuramarData = {
 
     -- Key NPC locations for waypoint guidance (mapID, x, y)
     npcLocations = {
+        ["Ancient Seed"] = { mapID = 7637, x = 0.2120, y = 0.3400, location = "Suramar" },
+        ["Deline"] = { mapID = 7637, x = 0.5120, y = 0.7600, location = "Suramar" },
+        ["Korine"] = { mapID = 7637, x = 0.4420, y = 0.7300, location = "Suramar" },
+        ["Vanthir"] = { mapID = 7637, x = 0.3640, y = 0.4660, location = "Suramar" },
         ["Archmage Khadgar"]            = { mapID = 626, x = 0.2858, y = 0.4857 },  -- Dalaran, Violet Citadel
         ["First Arcanist Thalyssra"]    = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran, Suramar
         ["Chief Telemancer Oculeth"]    = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
-        ["Arcanist Valtrois"]           = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
+        ["Arcanist Valtrois"]           = { mapID = 680, x = 0.4160, y = 0.3900 , location = "Suramar"},  -- Shal'Aran
         ["Arcanist Kel'danath"]         = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
         ["Morhun Rivertamer"]           = { mapID = 680, x = 0.4340, y = 0.4170 },  -- Azurefall, Suramar
         ["Valewalker Farodin"]          = { mapID = 680, x = 0.3674, y = 0.4680 , location = "Suramar"},  -- Shal'Aran
-        ["Ly'leth Lunastre"]            = { mapID = 680, x = 0.4258, y = 0.3131 },  -- Lunastre Estate, Suramar City
+        ["Ly'leth Lunastre"]            = { mapID = 680, x = 0.4340, y = 0.7880 },  -- Lunastre Estate, Suramar City
         ["Silgryn"]                     = { mapID = 680, x = 0.5240, y = 0.8020 },  -- Waning Crescent area
-        ["Theryn"]                      = { mapID = 680, x = 0.4400, y = 0.3520 },  -- Tel'anor
+        ["Theryn"]                      = { mapID = 680, x = 0.3700, y = 0.4620 },  -- Tel'anor
         ["Mylune"]                      = { mapID = 680, x = 0.2250, y = 0.3950 , location = "Suramar"},  -- Irongrove Retreat
         ["Keeper Remulos"]              = { mapID = 680, x = 0.2250, y = 0.3950 , location = "Suramar"},  -- Irongrove Retreat
         ["Toryl"]                       = { mapID = 680, x = 0.6380, y = 0.5200 },  -- Jandvik
@@ -124,8 +128,8 @@ SM.SuramarData = {
                 { id = 41149, name = "A Re-Warding Effort",             npc = "Arcanist Kel'danath" },
                 { id = 40326, name = "Scattered Memories",              npc = "Arcanist Kel'danath" },
                 { id = 41702, name = "Written in Stone",                npc = "Arcanist Kel'danath" },
-                { id = 41704, name = "Subject 16",                      npc = "Arcanist Kel'danath" },
-                { id = 41760, name = "Kel'danath's Legacy",             npc = "Arcanist Kel'danath" },
+                { id = 41704, name = "Subject 16",                      npc = "Theryn" },
+                { id = 41760, name = "Kel'danath's Legacy",             npc = "First Arcanist Thalyssra" },
             },
         },
         -- -----------------------------------------------------------------
@@ -175,10 +179,10 @@ SM.SuramarData = {
             achievement = nil,
             quests = {
                 { id = 41762, name = "Sympathizers Among the Shal'dorei", npc = "First Arcanist Thalyssra" },
-                { id = 41834, name = "The Masks We Wear",               npc = "Ly'leth Lunastre" },
+                { id = 41834, name = "The Masks We Wear",               npc = "Silgryn" },
                 { id = 41989, name = "Blood of My Blood",               npc = "Ly'leth Lunastre" },
                 { id = 42079, name = "Masquerade",                      npc = "Ly'leth Lunastre" },
-                { id = 42147, name = "First Contact",                   npc = "First Arcanist Thalyssra" },
+                { id = 42147, name = "First Contact",                   npc = "Ly'leth Lunastre" },
             },
         },
         -- -----------------------------------------------------------------
@@ -192,12 +196,12 @@ SM.SuramarData = {
             quests = {
                 { id = 40324, name = "Arcane Communion",                npc = "First Arcanist Thalyssra" },
                 { id = 40325, name = "Scenes from a Memory",            npc = "First Arcanist Thalyssra" },
-                { id = 42224, name = "Cloaked in Moonshade",            npc = "Arcanist Kel'danath" },
+                { id = 42224, name = "Cloaked in Moonshade",            npc = "First Arcanist Thalyssra" },
                 { id = 42225, name = "Breaking the Seal",               npc = "Arcanist Kel'danath" },
                 { id = 42226, name = "Moonshade Holdout",               npc = "Arcanist Kel'danath" },
-                { id = 42227, name = "Into the Crevasse",               npc = "Arcanist Kel'danath" },
-                { id = 42228, name = "The Hidden City",                 npc = "Arcanist Kel'danath" },
-                { id = 42230, name = "The Valewalker's Burden",         npc = "Valewalker Farodin" },
+                { id = 42227, name = "Into the Crevasse",               npc = "Valewalker Farodin" },
+                { id = 42228, name = "The Hidden City",                 npc = "Valewalker Farodin" },
+                { id = 42230, name = "The Valewalker's Burden",         npc = "Ancient Seed" },
             },
         },
     },
@@ -220,19 +224,19 @@ SM.SuramarData = {
             summary = "Make contact with nightfallen refugees hiding in the slums of Suramar City, right under Elisande's nose.",
             recap = "You slipped into the Waning Crescent, a forgotten slum where nightfallen refugees huddled in the shadows of Suramar City. Working alongside Silgryn, you established supply lines, freed imprisoned allies, and built a network of safe houses right beneath the Duskwatch's nose. What began as a handful of desperate exiles became the backbone of an underground resistance.",
             quests = {
-                { id = 41877, name = "Lady Lunastre",                   npc = "Ly'leth Lunastre" },
+                { id = 41877, name = "Lady Lunastre",                   npc = "First Arcanist Thalyssra" },
                 { id = 40746, name = "One of the People",               npc = "Ly'leth Lunastre" },
-                { id = 41148, name = "Dispensing Compassion",           npc = "Silgryn" },
+                { id = 41148, name = "Dispensing Compassion",           npc = "Vanthir" },
                 { id = 40947, name = "Special Delivery",                npc = "Silgryn" },
-                { id = 41878, name = "The Gondolier",                   npc = "Silgryn" },
-                { id = 40727, name = "All Along the Waterways",         npc = "Silgryn" },
-                { id = 40730, name = "Redistribution",                  npc = "Silgryn" },
+                { id = 41878, name = "The Gondolier",                   npc = "Vanthir" },
+                { id = 40727, name = "All Along the Waterways",         npc = "Deline" },
+                { id = 40730, name = "Redistribution",                  npc = "Deline" },
                 { id = 40745, name = "Shift Change",                    npc = "Silgryn" },
                 { id = 42722, name = "Friends in Cages",                npc = "Silgryn" },
-                { id = 42486, name = "Little One Lost",                 npc = "Silgryn" },
-                { id = 42487, name = "Friends On the Outside",          npc = "Silgryn" },
+                { id = 42486, name = "Little One Lost",                 npc = "Korine" },
+                { id = 42487, name = "Friends On the Outside",          npc = "Vanthir" },
                 { id = 44051, name = "Wasted Potential",                npc = "Silgryn" },
-                { id = 42488, name = "Thalyssra's Abode",               npc = "Silgryn" },
+                { id = 42488, name = "Thalyssra's Abode",               npc = "First Arcanist Thalyssra" },
                 { id = 42489, name = "Thalyssra's Drawers",             npc = "First Arcanist Thalyssra" },
             },
         },
@@ -284,7 +288,7 @@ SM.SuramarData = {
                 { id = 44053, name = "Friends With Benefits",           npc = "Ly'leth Lunastre" },
                 { id = 42490, name = "The Arcway: Opening the Arcway",  npc = "First Arcanist Thalyssra", optional = true },
                 { id = 43314, name = "Court of Stars: Beware the Fury of a Patient Elf", npc = "Ly'leth Lunastre",        optional = true },
-                { id = 42491, name = "The Arcway: Long Buried Knowledge",                npc = "First Arcanist Thalyssra", optional = true },
+                { id = 42491, name = "The Arcway: Long Buried Knowledge",                npc = "Arcanist Valtrois", optional = true },
             },
         },
         -- -----------------------------------------------------------------
@@ -403,7 +407,7 @@ SM.SuramarData = {
                 { id = 40391, name = "Take Me To Your Leader",          npc = "First Arcanist Thalyssra" },
                 { id = 43810, name = "Down to Business",                npc = "Silgryn" },
                 { id = 44831, name = "Taking a Promenade",              npc = "Silgryn" },
-                { id = 41916, name = "A Better Future",                 npc = "Lady Liadrin / Tyrande Whisperwind", mapID = 680, x = 0.3430, y = 0.4880, location = "An Elven Problem, Suramar" },
+                { id = 41916, name = "A Better Future",                 npc = "First Arcanist Thalyssra", mapID = 680, x = 0.3430, y = 0.4880, location = "An Elven Problem, Suramar" },
                 { id = 44843, name = "Crystal Clearing",                npc = "Silgryn" },
                 { id = 44844, name = "Powering Down the Portal",        npc = "Silgryn" },
                 { id = 44834, name = "Nullified",                       npc = "Silgryn" },

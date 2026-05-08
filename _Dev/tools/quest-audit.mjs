@@ -520,11 +520,20 @@ function matchesException(finding, exception) {
 
 const suppressedFindings = [];
 const visibleFindings = [];
+const usedExceptionIndexes = new Set();
 for (const finding of findings) {
-  const exception = exceptions.find((candidate) => matchesException(finding, candidate));
-  if (exception) suppressedFindings.push({ ...finding, exception: exception.reason || "audit exception" });
+  const exceptionIndex = exceptions.findIndex((candidate) => matchesException(finding, candidate));
+  const exception = exceptionIndex >= 0 ? exceptions[exceptionIndex] : null;
+  if (exception) {
+    usedExceptionIndexes.add(exceptionIndex);
+    suppressedFindings.push({ ...finding, exception: exception.reason || "audit exception", exceptionIndex });
+  }
   else visibleFindings.push(finding);
 }
+
+const unmatchedExceptions = exceptions
+  .map((exception, index) => ({ index, ...exception }))
+  .filter((exception) => !usedExceptionIndexes.has(exception.index));
 
 visibleFindings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
 suppressedFindings.sort((a, b) => a.quest.file.localeCompare(b.quest.file) || String(a.quest.id).localeCompare(String(b.quest.id)));
@@ -564,5 +573,6 @@ console.log(JSON.stringify({
   tooltipQuestFallbacks: [...questData.values()].filter((quest) => quest.pageError).length,
   findings: visibleFindings,
   suppressedFindings,
+  unmatchedExceptions,
   qaReport,
 }, null, 2));

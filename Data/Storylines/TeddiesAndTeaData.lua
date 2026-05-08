@@ -18,11 +18,11 @@ SM.TeddiesAndTeaData = {
 
     startQuest = { id = 47289, name = "Teddies and Tea", npc = "Abby Lewis", location = "Glenbrook Homestead, Drustvar" },
     startMapID = 896,
-    startX     = 0.4620,
-    startY     = 0.7380,
+    startX     = 0.5440,
+    startY     = 0.3935,
 
     npcLocations = {
-        ["Abby Lewis"]    = { mapID = 896, x = 0.4620, y = 0.7380 },
+        ["Abby Lewis"]    = { mapID = 896, x = 0.5440, y = 0.3935, location = "Glenbrook Homestead, Drustvar" },
         ["Annie Warren"]  = { mapID = 896, x = 0.4580, y = 0.7450 },
     },
 

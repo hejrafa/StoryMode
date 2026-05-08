@@ -24,10 +24,10 @@ SM.PriestCampaignData = {
     npcLocations = {
         ["Hooded Priestess"]            = { mapID = 627, x = 0.4700, y = 0.4800 },
         ["Alonsus Faol"]                = { mapID = 702, x = 0.5100, y = 0.4900 },
-        ["Prophet Velen"]               = { mapID = 702, x = 0.5200, y = 0.5000 },
+        ["Prophet Velen"]               = { mapID = 702, x = 0.4640, y = 0.2080 },
         ["Calia Menethil"]              = { mapID = 702, x = 0.5000, y = 0.5100 },
         ["Moira Thaurissan"]            = { mapID = 702, x = 0.5300, y = 0.5200 },
-        ["Zabra Hexx"]                  = { mapID = 630, x = 0.4700, y = 0.4400 },
+        ["Zabra Hexx"]                  = { mapID = 630, x = 0.5860, y = 0.3720 },
         ["Yalia Sagewhisper"]           = { mapID = 630, x = 0.4800, y = 0.4300 },
         ["Delas Moonfang"]              = { mapID = 702, x = 0.5100, y = 0.5200 },
         ["Natalie Seline"]              = { mapID = 702, x = 0.4900, y = 0.5000 },
