@@ -30,7 +30,16 @@ SM.StoryCardBorderHover    = {1.00, 0.82, 0.18, 0.95}
 SM.StoryCardBorderSelected = {1.00, 0.70, 0.12, 0.90}
 
 function SM.ApplyStoryCardBorderState(row, isHover)
-    if not row or not row.btn or not row.btn.SetBackdropBorderColor then return end
+    if not row or not row.btn then return end
+    if SM.IsRetailClient() then
+        if row.isSelected then
+            row.btn:LockHighlight()
+        else
+            row.btn:UnlockHighlight()
+        end
+        return
+    end
+    if not row.btn.SetBackdropBorderColor then return end
     local color = SM.StoryCardBorderNormal
     if isHover then
         color = SM.StoryCardBorderHover
@@ -107,9 +116,7 @@ function SM.SelectStory(index)
             end
         end
         row.isSelected = sel
-        if SM.IsClassicClient() then
-            SM.ApplyStoryCardBorderState(row, false)
-        end
+        SM.ApplyStoryCardBorderState(row, false)
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
@@ -154,9 +161,7 @@ local function RefreshStoryRow(row)
             row.coverTex:SetShown(SM.SetAdventureCoverTexture(row.coverTex, row.data))
         end
     end
-    if SM.IsClassicClient() then
-        SM.ApplyStoryCardBorderState(row, false)
-    end
+    SM.ApplyStoryCardBorderState(row, false)
 end
 
 function SM.RefreshStoryListState(data)
@@ -260,14 +265,10 @@ function SM.BuildStoryWindow()
     }
     introCard:SetScript("OnClick", function() SM.SelectStory(0) end)
     introCard:SetScript("OnEnter", function()
-        if SM.IsClassicClient() then
-            SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
-        end
+        SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
     end)
     introCard:SetScript("OnLeave", function()
-        if SM.IsClassicClient() then
-            SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
-        end
+        SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
     end)
     SM.ApplyIntroCompletionState(storyLeftRows[0])
 
@@ -483,9 +484,7 @@ function SM.BuildStoryWindow()
                 -- ── Click ──────────────────────────────────────────────────────
                 card:SetScript("OnClick", function() SM.SelectStory(idx) end)
                 card:SetScript("OnEnter", function(self)
-                    if SM.IsClassicClient() then
-                        SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
-                    end
+                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
                     if not self.lockReason then return end
                     SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     SMTooltip:ClearLines()
@@ -494,9 +493,7 @@ function SM.BuildStoryWindow()
                     SMTooltip:Show()
                 end)
                 card:SetScript("OnLeave", function()
-                    if SM.IsClassicClient() then
-                        SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
-                    end
+                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
                     SMTooltip:Hide()
                 end)
                 yOffset = yOffset - CARD_H - 5

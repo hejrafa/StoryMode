@@ -29,6 +29,7 @@ SM.ShamanCampaignData = {
         ["Farseer Nobundo"]             = { mapID = 736, x = 0.3200, y = 0.5100 },
         ["Advisor Sevel"]               = { mapID = 736, x = 0.3300, y = 0.5300 },
         ["Stormcaller Mylra"]           = { mapID = 736, x = 0.4700, y = 0.5240 },
+        ["Erunak Stonespeaker"]         = { mapID = 736, x = 0.4360, y = 0.6320 },
         ["Consular Celestos"]           = { mapID = 736, x = 0.3000, y = 0.5100 },
         ["Thunderaan"]                  = { mapID = 736, x = 0.5260, y = 0.7800 },
         ["Muln Earthfury"]              = { mapID = 736, x = 0.3200, y = 0.4900 },
@@ -36,8 +37,9 @@ SM.ShamanCampaignData = {
         ["Therazane"]                   = { mapID = 207, x = 0.5700, y = 0.1400 },
         ["Firelord Smolderon"]          = { mapID = 736, x = 0.4900, y = 0.3040 },
         ["Elementalist Janai"]          = { mapID = 736, x = 0.3300, y = 0.5000 },
-        ["Highlord Demitrian"]          = { mapID = 81, x = 0.2200, y = 0.4900 },
-        ["Magatha Grimtotem"]           = { mapID = 646, x = 0.4600, y = 0.6400 },
+        ["Highlord Demitrian"]          = { mapID = 81, x = 0.2960, y = 0.1060 },
+        ["Magatha Grimtotem"]           = { mapID = 646, x = 0.4220, y = 0.4520 },
+        ["Odyn"]                        = { mapID = 695, x = 0.5840, y = 0.8300, location = "Skyhold" },
     },
 
     npcDisplayIDs = {
@@ -119,7 +121,7 @@ SM.ShamanCampaignData = {
                 { id = 41934, name = "The Brand of Damnation",       npc = "Lord Smolderon" },
                 { id = 41888, name = "Allegiance of Flame",          npc = "Firelord Smolderon" },
                 { id = 41744, name = "Champion: Rehgar Earthfury",   npc = "Rehgar Earthfury" },
-                { id = 43425, name = "A Hero's Weapon",              npc = "Farseer Nobundo" },
+                { id = 43425, name = "A Hero's Weapon",              npc = "Odyn" },
             },
         },
 
@@ -146,7 +148,7 @@ SM.ShamanCampaignData = {
             summary = "Thrall passes the Doomhammer to you — the weapon of Orgrim Doomhammer, carried through two wars and across worlds.",
             recap = "Thrall could no longer hear the elements. The Doomhammer — Orgrim's weapon, carried through the First and Second Wars — had gone silent in his hands. He passed it to you, and the moment your fingers closed around the haft, thunder split the sky. The elements had chosen a new wielder. The Doomhammer was yours.",
             quests = {
-                { id = 42931, name = "Where the Hammer Falls",      npc = "Thrall" },
+                { id = 42931, name = "Where the Hammer Falls",      npc = "Stormcaller Mylra" },
             },
         },
         {
@@ -154,7 +156,7 @@ SM.ShamanCampaignData = {
             summary = "Seek the Fist of Ra-den, a weapon forged by the titan keeper who tamed the storms of Azeroth.",
             recap = "Nobundo spoke of Ra-den, the titan keeper who had shaped Azeroth's storms. His weapon — the Fist of Ra-den — lay hidden in a vault sealed since the ordering of the world. You braved the coming storm to claim it, and when lightning struck the weapon in your hands, the power of a titan keeper surged through you.",
             quests = {
-                { id = 43334, name = "The Coming Storm",            npc = "Farseer Nobundo" },
+                { id = 43334, name = "The Coming Storm",            npc = "Rehgar Earthfury" },
             },
         },
         {
@@ -162,7 +164,7 @@ SM.ShamanCampaignData = {
             summary = "Descend into the depths to recover Sharas'dal, a scepter that commands the tides themselves.",
             recap = "Erunak Stonespeaker called you to the deeps — Sharas'dal, the Scepter of Tides, had been sensed stirring beneath the ocean floor. You descended into the crushing darkness where water elementals guarded the weapon with fierce devotion. The Scepter of Tides chose to rise with you, and the seas themselves seemed to bow as you surfaced.",
             quests = {
-                { id = 43644, name = "To the Deeps",                npc = "Farseer Nobundo" },
+                { id = 43644, name = "To the Deeps",                npc = "Erunak Stonespeaker" },
             },
         },
     },

@@ -951,6 +951,426 @@
       "quest": 43585,
       "remoteContains": "series index 10 after 11",
       "reason": "External source ordering reflects branching campaign flow; local chapter order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 43572,
+      "remoteContains": "between 43571 and 43572: 44482 Recruiting Ebon Knights",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 43574,
+      "remoteContains": "series index 13 after 15",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44082,
+      "remoteContains": "series index 8 after 10",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44245,
+      "remoteContains": "between 42824 and 44245: 43928 Aggregates of Anguish",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44246,
+      "remoteContains": "series index 12 after 15",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44282,
+      "remoteContains": "between 43573 and 44282: 43928 Aggregates of Anguish, 91615 A Thirst For Blood",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44286,
+      "remoteContains": "series index 8 after 15",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44690,
+      "remoteContains": "series index 10 after 15",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 44775,
+      "remoteContains": "series index 5 after 11",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 45103,
+      "remoteContains": "series index 10 after 11",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 45243,
+      "remoteContains": "series index 9 after 11",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DeathKnightCampaignData.lua",
+      "quest": 46050,
+      "remoteContains": "between 45331 and 46050: 44783 From Bones They Rise, 46305 Thorim's Flame, 44787 The Bonemother",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 42669,
+      "remoteContains": "between 42775 and 42669: 42776 Two Worthies, 42777 Champion: Belath Dawnblade, 42701 Champion: Matron Mother Malevolence",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 42677,
+      "remoteContains": "between 42671 and 42677: 42690 Champion: Altruis the Sufferer, 42695 Champion: Kayn Sunfury, 42697 Champion: Asha Ravens",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 42749,
+      "remoteContains": "between 42736 and 42749: 42737 Rune Ruination: Runeskeld Rollo, 42738 Rune Ruination: Runelord Ragnar, 42739 Rune Ruinat",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/DemonHunterCampaignData.lua",
+      "quest": 42775,
+      "remoteContains": "between 42749 and 42775: 42752 Vault of the Wardens: Vault Break-In, 42753 Vault of the Wardens: Vault Break-In",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/MageCampaignData.lua",
+      "quest": 42940,
+      "remoteContains": "series index 1 after 3",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MageCampaignData.lua",
+      "quest": 45207,
+      "remoteContains": "between 46335 and 45207: 46338 A Creative Solution",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/MageCampaignData.lua",
+      "quest": 45614,
+      "remoteContains": "between 46705 and 45614: 46339 Keymaster Orlis, 46345 Into the Hornet's Nest, 44768 Nyell's Workshop, 44770 Secrets of t",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 42851,
+      "remoteContains": "series index 16 after 17",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 42890,
+      "remoteContains": "between 42888 and 42890: 43462 Mother Ozram",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 43488,
+      "remoteContains": "series index 2 after 3",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 43535,
+      "remoteContains": "between 43488 and 43535: 49812 Delas in Dalaran",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/PaladinCampaignData.lua",
+      "quest": 43933,
+      "remoteContains": "between 43492 and 43933: 43934 A New Path",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/PriestCampaignData.lua",
+      "quest": 43395,
+      "remoteContains": "series index 18 after 19",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/RogueCampaignData.lua",
+      "quest": 44178,
+      "remoteContains": "between 42730 and 44178: 91620 Noggenfogger's Reasonable Request",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 45725,
+      "remoteContains": "between 45706 and 45725: 45724 Snakes and Stones, 45723 The Crone's Wrath",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 45883,
+      "remoteContains": "between 44800 and 45883: 45763 Demonic Disruption, 45971 Infernal Phenomena, 45767 Elemental Cores, 45765 Brothers and S",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "chain-hole",
+      "file": "Data/Campaigns/ShamanCampaignData.lua",
+      "quest": 46258,
+      "remoteContains": "between 45883 and 46258: 45769 Conflagration",
+      "reason": "External source series includes branch, follower, mission-table, or optional support quests that StoryMode intentionally omits from the curated class campaign path."
+    },
+    {
+      "type": "order",
+      "file": "Data/Campaigns/WarriorCampaignData.lua",
+      "quest": 43425,
+      "remoteContains": "series index 6 after 7",
+      "reason": "External source ordering reflects parallel class-hall branches or post-campaign unlock indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44722,
+      "remoteContains": "series index 2 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44723,
+      "remoteContains": "series index 3 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44724,
+      "remoteContains": "series index 4 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44725,
+      "remoteContains": "series index 5 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44726,
+      "remoteContains": "series index 6 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44727,
+      "remoteContains": "series index 7 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44736,
+      "remoteContains": "series index 2 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44738,
+      "remoteContains": "series index 3 after 4",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44739,
+      "remoteContains": "series index 2 after 4",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44742,
+      "remoteContains": "series index 2 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44752,
+      "remoteContains": "series index 3 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44753,
+      "remoteContains": "series index 4 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44754,
+      "remoteContains": "series index 5 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44790,
+      "remoteContains": "series index 12 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44822,
+      "remoteContains": "series index 3 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44827,
+      "remoteContains": "series index 10 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44829,
+      "remoteContains": "series index 9 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44830,
+      "remoteContains": "series index 11 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44832,
+      "remoteContains": "series index 5 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44861,
+      "remoteContains": "series index 7 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44862,
+      "remoteContains": "series index 8 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44928,
+      "remoteContains": "series index 6 after 17",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 44964,
+      "remoteContains": "series index 2 after 3",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45209,
+      "remoteContains": "series index 4 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45261,
+      "remoteContains": "series index 1 after 8",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45262,
+      "remoteContains": "series index 1 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45265,
+      "remoteContains": "series index 1 after 12",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45266,
+      "remoteContains": "series index 1 after 4",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45267,
+      "remoteContains": "series index 1 after 6",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
+    },
+    {
+      "type": "order",
+      "file": "Data/Storylines/SuramarData.lua",
+      "quest": 45269,
+      "remoteContains": "series index 1 after 3",
+      "reason": "External source ordering reflects Suramar branching, reputation-gated, or hub-flow indexing; local order preserves StoryMode narrative flow."
     }
   ]
 }

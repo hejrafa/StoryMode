@@ -24,6 +24,8 @@ SM.DemonHunterCampaignData = {
     npcLocations = {
         ["Altruis the Sufferer"] = { mapID = 7502, x = 0.7480, y = 0.4860, location = "Dalaran" },
         ["Archmage Khadgar"] = { mapID = 7502, x = 0.2880, y = 0.4840, location = "Dalaran" },
+        ["Archmage Lan'dalock"] = { mapID = 7502, x = 0.2880, y = 0.4840, location = "Dalaran" },
+        ["Emmarel Shadewarden"] = { mapID = 7502, x = 0.4740, y = 0.4860, location = "Dalaran" },
         ["Kor'vas Bloodthorn"]          = { mapID = 720, x = 0.5900, y = 0.5100 },
         ["Kayn Sunfury"]                = { mapID = 720, x = 0.7460, y = 0.4860 },
         ["Jace Darkweaver"]             = { mapID = 720, x = 0.7400, y = 0.5140 },
@@ -31,7 +33,7 @@ SM.DemonHunterCampaignData = {
         ["Matron Mother Malevolence"]    = { mapID = 720, x = 0.5600, y = 0.5100 },
         ["Battlelord Gaardoun"]         = { mapID = 720, x = 0.5800, y = 0.4900 },
         ["Belath Dawnblade"]            = { mapID = 720, x = 0.6100, y = 0.5200 },
-        ["Malace Shade"]                = { mapID = 634, x = 0.5200, y = 0.5700 },
+        ["Malace Shade"]                = { mapID = 634, x = 0.6480, y = 0.5900 },
         ["Lady S'theno"]                = { mapID = 646, x = 0.4500, y = 0.6400 },
         ["Maiev Shadowsong"]            = { mapID = 646, x = 0.4450, y = 0.6250 },
     },
@@ -91,7 +93,7 @@ SM.DemonHunterCampaignData = {
             recap = "The Arcane Way opened a path back to the Black Temple — Illidan's fortress, now empty and echoing with memories. Belath Dawnblade led you through its halls where the ghosts of the Illidari's past still lingered. A confrontation with the temple's remaining defenses proved that the demon hunters had grown beyond what they once were. New recruits joined from among the temple's guards, and the Fel Hammer's ranks swelled.",
             quests = {
                 { id = 42593, name = "The Arcane Way",              npc = "Matron Mother Malevolence" },
-                { id = 42594, name = "Move Like No Other",          npc = "Matron Mother Malevolence" },
+                { id = 42594, name = "Move Like No Other",          npc = "Archmage Lan'dalock" },
                 { id = 42801, name = "Back in Black",               npc = "Belath Dawnblade" },
                 { id = 42921, name = "Confrontation at the Black Temple", npc = "Matron Mother Malevolence" },
                 { id = 42665, name = "Into Our Ranks",              npc = "Kayn Sunfury" },
@@ -117,7 +119,7 @@ SM.DemonHunterCampaignData = {
                 { id = 42810, name = "A Final Offer",               npc = "Jace Darkweaver" },
                 { id = 42920, name = "The Invasion of Niskara",     npc = "Jace Darkweaver" },
                 { id = 43186, name = "I Am the Slayer!",            npc = "Kayn Sunfury" },
-                { id = 43423, name = "A Hero's Weapon",             npc = "Kayn Sunfury" },
+                { id = 43423, name = "A Hero's Weapon",             npc = "Emmarel Shadewarden" },
             },
         },
 

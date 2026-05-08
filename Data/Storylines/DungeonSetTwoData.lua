@@ -40,7 +40,7 @@ SM.DungeonSetTwoData = {
         ["Lord Incendius"] = { mapID = 242, x = 0.5900, y = 0.6000, location = "Blackrock Depths" },
         ["Pyroguard Emberseer"] = { mapID = 250, x = 0.4300, y = 0.5000, location = "Upper Blackrock Spire" },
         ["Hermit Ortell"] = { mapID = 81, x = 0.6800, y = 0.7000, location = "southwestern Silithus" },
-        ["Duke Hydraxis"] = { mapID = 23, x = 0.7900, y = 0.7400, location = "island off the coast of Azshara" },
+        ["Duke Hydraxis"] = { mapID = 76, x = 0.7900, y = 0.7400, location = "island off the coast of Azshara" },
         ["Mataus the Wrathcaster"] = { mapID = 22, x = 0.4300, y = 0.8300, location = "Chillwind Camp, Western Plaguelands" },
         ["Spirit of Lord Valthalak"] = { mapID = 250, x = 0.7000, y = 0.3200, location = "Beast's room, Upper Blackrock Spire" },
     },

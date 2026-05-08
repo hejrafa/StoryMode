@@ -2341,7 +2341,7 @@ function SM.CreateQuestCard(parent)
 
         local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
         local questText = "|cffffd200" .. questName .. "|r"
-        if SM.IsQuestEntryComplete(self.questEntry) then
+        if self.questCompleteForClick or SM.IsQuestEntryComplete(self.questEntry) then
             storyFrame:Hide()
             print(L["Addon Prefix"] .. string.format(L["Quest Click Complete Format"], questText))
             return
@@ -2685,7 +2685,7 @@ LayoutSelectedChapter = function()
             local qDone = (not qInLog) and SM.IsQuestEffectivelyComplete(i, ch.quests)
             -- Display fallback: if the story has no next quest ("Story Finished"),
             -- treat remaining cards as complete for UI purposes.
-            local qDoneDisplay = qDone or (campaignFinished and not qInLog and not qOptional)
+            local qDoneDisplay = qDone or (chIsComplete and not qInLog and not qOptional) or (campaignFinished and not qInLog and not qOptional)
             local qIsNextRecommended = false
             if nextQuestID then
                 for _, questID in ipairs(SM.GetQuestIDs(q)) do
@@ -2701,6 +2701,7 @@ LayoutSelectedChapter = function()
             card.npcLabel:SetText(q.npc or "")
             card.questID = q.id
             card.questEntry = q
+            card.questCompleteForClick = qDoneDisplay
             card.storyData = data
             card.tooltipTitle = q.name
             card.tooltipNPC = q.npc

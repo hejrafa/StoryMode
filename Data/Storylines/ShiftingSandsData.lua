@@ -98,7 +98,7 @@ SM.ShiftingSandsData = {
             recap = "The green shard was not won by simple killing. Eranikus had fallen into nightmare, and Remulos needed the corruption named before it could be answered. The defense of Moonglade became one of Classic's rare public rituals: shades pouring from the Dream, Remulos holding the line, and Tyrande's grace turning a dragon's rage toward redemption.",
             quests = {
                 { id = 8733, name = "Eranikus, Tyrant of the Dream", npc = "Malfurion Stormrage" },
-                { id = 8734, name = "Tyrande and Remulos", npc = "Forest Wisp", mapID = 220, x = 0.6000, y = 0.5000, location = "Moonglade" },
+                { id = 8734, name = "Tyrande and Remulos", npc = "Forest Wisp", mapID = 220, x = 0.6000, y = 0.5000, location = "the Temple of Atal'Hakkar" },
                 { id = 8735, name = "The Nightmare's Corruption", npc = "Keeper Remulos" },
                 { id = 8736, name = "The Nightmare Manifests", npc = "Keeper Remulos" },
                 { id = 8741, name = "The Champion Returns", npc = "Keeper Remulos" },
@@ -140,8 +140,8 @@ SM.ShiftingSandsData = {
             recap = "When the shards were whole, the story stopped belonging to one adventurer. The Might of Kalimdor waited on the war effort, on the armies at the wall, and on a server holding its breath. Bang a Gong was not only a quest handoff. It was the moment Classic let a player touch the history of a realm, open Ahn'Qiraj, and become part of the memory everyone else would tell later.",
             quests = {
                 { id = 8742, name = "The Might of Kalimdor", npc = "Anachronos" },
-                { id = 8743, name = "Bang a Gong!", npc = "Scarab Gong", mapID = 71, x = 0.6400, y = 0.5000, location = "Scarab Wall, Silithus" },
-                { id = 8744, name = "A Carefully Wrapped Present", displayName = "Treasure of the Timeless One", npc = "Jonathan the Revelator", mapID = 71, x = 0.6400, y = 0.5000, location = "Scarab Wall, Silithus" },
+                { id = 8743, name = "Bang a Gong!", npc = "Scarab Gong", mapID = 81, x = 0.2868, y = 0.8914, location = "the Scarab Wall, Silithus" },
+                { id = 8744, name = "A Carefully Wrapped Present", displayName = "Treasure of the Timeless One", npc = "Jonathan the Revelator", mapID = 81, x = 0.2868, y = 0.8914, location = "the Scarab Wall, Silithus" },
             },
         },
     },

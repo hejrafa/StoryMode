@@ -22,7 +22,7 @@ SM.WarlockCampaignData = {
     startY = 0.6400,
 
     npcLocations = {
-        ["Revil Kost"] = { mapID = 10, x = 0.7740, y = 0.3620, location = "Duskwood" },
+        ["Revil Kost"] = { mapID = 47, x = 0.7740, y = 0.3620, location = "Duskwood" },
         ["Ritssyn Flamescowl"]          = { mapID = 717, x = 0.5800, y = 0.3500 },
         ["Calydus"]                     = { mapID = 717, x = 0.3760, y = 0.3160 },
         ["Gakin the Darkbinder"]        = { mapID = 717, x = 0.6660, y = 0.4600 },
