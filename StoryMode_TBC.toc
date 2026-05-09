@@ -12,6 +12,7 @@
 Locales\Localization.xml
 Data\Storylines\DefiasBrotherhoodData.lua
 Data\Storylines\ArugalData.lua
+Data\Storylines\ANewPlagueData.lua
 Data\Storylines\AlthalaxxData.lua
 Data\Storylines\DuskwoodData.lua
 Data\Storylines\RaenesCleansingData.lua
@@ -29,7 +30,6 @@ Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
 Data\Storylines\ChensEmptyKegData.lua
-Data\Storylines\ANewPlagueData.lua
 Data\Storylines\AgamandFamilyData.lua
 Data\Storylines\MankriksWifeData.lua
 Data\ClassQuests\ClassicClassQuestData.lua

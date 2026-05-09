@@ -41,10 +41,19 @@ SM.ANewPlagueData = {
 
     npcDisplayIDs = {
         ["Apothecary Johaan"] = 1565,
+        ["Apothecary Renferrel"] = 1661,
+        ["Master Apothecary Faranell"] = 1680,
+        ["Apothecary Lydon"] = 1660,
+        ["Umpi"] = 901,
+        ["Stanley"] = 855,
+        ["Captured Mountaineer"] = 11426,
     },
 
     chapterDisplayIDs = {
         ["Johaan's Formula"] = 1565,
+        ["A Recipe for Death"] = 1661,
+        ["Tarren Mill Trials"] = 1660,
+        ["Plagued Brew"] = 1660,
     },
 
     chapterIcons = {
