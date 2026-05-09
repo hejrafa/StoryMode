@@ -67,6 +67,7 @@ Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
 Data\Storylines\ChensEmptyKegData.lua
+Data\Storylines\ANewPlagueData.lua
 Data\Storylines\MankriksWifeData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua

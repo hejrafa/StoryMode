@@ -16,7 +16,7 @@ SM.ChensEmptyKegData = {
     achievements = {},
     color = { 0.78, 0.50, 0.23 },
     icon = 132792,
-    adventureCoverTexture = 131882, -- Wailing Caverns: closest Classic loading screen rooted in The Barrens
+    adventureCoverTexture = 131864, -- Razorfen Downs: Barrens-adjacent quilboar loading screen
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 819, name = "Chen's Empty Keg", npc = "Chen's Empty Keg", location = "one of several keg spawns around The Barrens" },
