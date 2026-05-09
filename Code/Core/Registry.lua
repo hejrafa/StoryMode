@@ -2,9 +2,10 @@ local addonName, SM = ...
 local L = SM.L
 
 local categories = {
-    { name = "Epic Storylines", displayName = L["Category Epic Storylines"], questlines = {} },
-    { name = "Character Stories", displayName = L["Category Character Stories"], questlines = {} },
+    { name = "Stories", displayName = L["Category Stories"], questlines = {} },
+    { name = "Epic Stories", displayName = L["Category Epic Stories"], questlines = {} },
     { name = "Short Stories", displayName = L["Category Short Stories"], questlines = {} },
+    { name = "Character Stories", displayName = L["Category Character Stories"], questlines = {} },
     { name = "Identity", displayName = string.format(L["Category Identity Format"], UnitRace("player"), UnitClass("player")), questlines = {} },
     { name = "More Coming Soon", displayName = L["Category More Coming Soon"], disabled = true, questlines = {} },
 }
@@ -26,8 +27,8 @@ local function RefreshPlayerContext()
     raceName, playerRace = UnitRace("player")
     className, playerClass = UnitClass("player")
     playerFaction = UnitFactionGroup("player")
-    if raceName and className and categories[4] then
-        categories[4].displayName = string.format(L["Category Identity Format"], raceName, className)
+    if raceName and className and categories[5] then
+        categories[5].displayName = string.format(L["Category Identity Format"], raceName, className)
     end
 end
 
@@ -257,23 +258,28 @@ function SM.RegisterQuestlines()
     RefreshPlayerContext()
     if not (playerClass and playerFaction and playerRace) then return end
 
+    local storyQuestlines = {}
+    AddContentData(storyQuestlines, SM.DefiasBrotherhoodData)
+    AddContentData(storyQuestlines, SM.ArugalData)
+    AddContentData(storyQuestlines, SM.ANewPlagueData)
+    AddContentData(storyQuestlines, SM.AlthalaxxData)
+    AddContentData(storyQuestlines, SM.DuskwoodData)
+    AddContentData(storyQuestlines, SM.RaenesCleansingData)
+    AddContentData(storyQuestlines, SM.BattleOfHillsbradData)
+    AddContentData(storyQuestlines, SM.MissingDiplomatData)
+    AddContentData(storyQuestlines, SM.PrincessMoiraData)
+    AddContentData(storyQuestlines, SM.TimbermawData)
+    for _, data in ipairs(storyQuestlines) do
+        if CanShowQuestline(data) then RegisterQuestline(data, "Stories") end
+    end
+
     local epicQuestlines = {}
-    AddContentData(epicQuestlines, SM.DefiasBrotherhoodData)
-    AddContentData(epicQuestlines, SM.ArugalData)
-    AddContentData(epicQuestlines, SM.ANewPlagueData)
-    AddContentData(epicQuestlines, SM.AlthalaxxData)
-    AddContentData(epicQuestlines, SM.DuskwoodData)
-    AddContentData(epicQuestlines, SM.RaenesCleansingData)
-    AddContentData(epicQuestlines, SM.BattleOfHillsbradData)
-    AddContentData(epicQuestlines, SM.MissingDiplomatData)
     AddContentData(epicQuestlines, SM.ScarletCrusadeData)
     AddContentData(epicQuestlines, SM.DarrowshireData)
     AddContentData(epicQuestlines, SM.FallenHeroData)
     AddContentData(epicQuestlines, SM.OnyxiaData)
     AddContentData(epicQuestlines, SM.DungeonSetTwoData)
     AddContentData(epicQuestlines, SM.ShiftingSandsData)
-    AddContentData(epicQuestlines, SM.PrincessMoiraData)
-    AddContentData(epicQuestlines, SM.TimbermawData)
     AddContentData(epicQuestlines, SM.FrozenThroneData)
     AddContentData(epicQuestlines, SM.JadeForestData)
     AddContentData(epicQuestlines, SM.DrustvarData)
@@ -281,15 +287,7 @@ function SM.RegisterQuestlines()
     AddContentData(epicQuestlines, SM.NazmirData)
     AddContentData(epicQuestlines, SM.RevendrethData)
     for _, data in ipairs(epicQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Epic Storylines") end
-    end
-
-    local characterQuestlines = {}
-    AddContentData(characterQuestlines, SM.SylvanasData)
-    AddContentData(characterQuestlines, SM.JainaData)
-    AddContentData(characterQuestlines, SM.LilianVossData)
-    for _, data in ipairs(characterQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Character Stories") end
+        if CanShowQuestline(data) then RegisterQuestline(data, "Epic Stories") end
     end
 
     local shortQuestlines = {}
@@ -302,6 +300,14 @@ function SM.RegisterQuestlines()
     AddContentData(shortQuestlines, SM.MankriksWifeData)
     for _, data in ipairs(shortQuestlines) do
         if CanShowQuestline(data) then RegisterQuestline(data, "Short Stories") end
+    end
+
+    local characterQuestlines = {}
+    AddContentData(characterQuestlines, SM.SylvanasData)
+    AddContentData(characterQuestlines, SM.JainaData)
+    AddContentData(characterQuestlines, SM.LilianVossData)
+    for _, data in ipairs(characterQuestlines) do
+        if CanShowQuestline(data) then RegisterQuestline(data, "Character Stories") end
     end
 
     local classCampaigns = {}

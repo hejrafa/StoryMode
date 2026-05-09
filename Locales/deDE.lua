@@ -8,10 +8,11 @@ L["Addon Prefix"] = "|cffffd200Story Mode|r › "
 L["Addon Debug Prefix"] = "|cff64b5f6StoryMode Debug:|r "
 L["Addon Legacy Prefix"] = "|cff64b5f6StoryMode:|r "
 
-L["Category Epic Storylines"] = "Epische Geschichten"
+L["Category Stories"] = "Geschichten"
+L["Category Epic Stories"] = "Epische Geschichten"
 L["Category Character Stories"] = "Charaktergeschichten"
 L["Category Short Stories"] = "Kurzgeschichten"
-L["Category Identity Format"] = "%s %s"
+L["Category Identity Format"] = "%s %s Geschichten"
 L["Category More Coming Soon"] = "Mehr folgt bald"
 
 L["Tab Adventure"] = "Abenteuer"
