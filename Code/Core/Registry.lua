@@ -21,6 +21,95 @@ local playerClass
 local playerFaction
 local playerRace
 
+local contentRegistry = {
+    { key = "DefiasBrotherhoodData", category = "Stories" },
+    { key = "ArugalData", category = "Stories" },
+    { key = "ANewPlagueData", category = "Stories" },
+    { key = "AlthalaxxData", category = "Stories" },
+    { key = "DuskwoodData", category = "Stories" },
+    { key = "RaenesCleansingData", category = "Stories" },
+    { key = "BattleOfHillsbradData", category = "Stories" },
+    { key = "MissingDiplomatData", category = "Stories" },
+    { key = "PrincessMoiraData", category = "Stories" },
+    { key = "TimbermawData", category = "Stories" },
+
+    { key = "ScarletCrusadeData", category = "Epic Stories" },
+    { key = "DarrowshireData", category = "Epic Stories" },
+    { key = "FallenHeroData", category = "Epic Stories" },
+    { key = "OnyxiaData", category = "Epic Stories" },
+    { key = "DungeonSetTwoData", category = "Epic Stories" },
+    { key = "ShiftingSandsData", category = "Epic Stories" },
+    { key = "FrozenThroneData", category = "Epic Stories" },
+    { key = "JadeForestData", category = "Epic Stories" },
+    { key = "DrustvarData", category = "Epic Stories" },
+    { key = "SuramarData", category = "Epic Stories" },
+    { key = "NazmirData", category = "Epic Stories" },
+    { key = "RevendrethData", category = "Epic Stories" },
+
+    { key = "TeddiesAndTeaData", category = "Short Stories" },
+    { key = "LinkenData", category = "Short Stories" },
+    { key = "CortellosRiddleData", category = "Short Stories" },
+    { key = "MissingCourierData", category = "Short Stories" },
+    { key = "ChensEmptyKegData", category = "Short Stories" },
+    { key = "AgamandFamilyData", category = "Short Stories" },
+    { key = "MankriksWifeData", category = "Short Stories" },
+
+    { key = "SylvanasData", category = "Character Stories" },
+    { key = "JainaData", category = "Character Stories" },
+    { key = "LilianVossData", category = "Character Stories" },
+
+    { key = "ClassicDruidQuestData", category = "Identity" },
+    { key = "ClassicHunterQuestData", category = "Identity" },
+    { key = "ClassicMageQuestData", category = "Identity" },
+    { key = "ClassicPaladinQuestData", category = "Identity" },
+    { key = "ClassicPriestQuestData", category = "Identity" },
+    { key = "ClassicRogueQuestData", category = "Identity" },
+    { key = "ClassicShamanQuestData", category = "Identity" },
+    { key = "ClassicWarlockQuestData", category = "Identity" },
+    { key = "ClassicWarriorQuestData", category = "Identity" },
+    { key = "DeathKnightCampaignData", category = "Identity" },
+    { key = "DemonHunterCampaignData", category = "Identity" },
+    { key = "DruidCampaignData", category = "Identity" },
+    { key = "HunterCampaignData", category = "Identity" },
+    { key = "MageCampaignData", category = "Identity" },
+    { key = "MonkCampaignData", category = "Identity" },
+    { key = "PaladinCampaignData", category = "Identity" },
+    { key = "PriestCampaignData", category = "Identity" },
+    { key = "RogueCampaignData", category = "Identity" },
+    { key = "ShamanCampaignData", category = "Identity" },
+    { key = "WarlockCampaignData", category = "Identity" },
+    { key = "WarriorCampaignData", category = "Identity" },
+    { key = "ForsakenHeritageData", category = "Identity" },
+    { key = "BloodElfHeritageData", category = "Identity" },
+    { key = "GoblinHeritageData", category = "Identity" },
+    { key = "TrollHeritageData", category = "Identity" },
+    { key = "OrcHeritageData", category = "Identity" },
+    { key = "TaurenHeritageData", category = "Identity" },
+    { key = "HumanHeritageData", category = "Identity" },
+    { key = "DwarfHeritageData", category = "Identity" },
+    { key = "GnomeHeritageData", category = "Identity" },
+    { key = "NightElfHeritageData", category = "Identity" },
+    { key = "WorgenHeritageData", category = "Identity" },
+    { key = "DraeneiHeritageData", category = "Identity" },
+    { key = "PandarenHeritageData", category = "Identity" },
+    { key = "DarkIronHeritageData", category = "Identity" },
+}
+
+local function GetContentRegistryData(entry)
+    local data = entry and SM[entry.key]
+    if data then
+        data.category = entry.category
+    end
+    return data
+end
+
+local function ForEachContentRegistryData(callback)
+    for _, entry in ipairs(contentRegistry) do
+        local data = GetContentRegistryData(entry)
+        if data then callback(data, entry) end
+    end
+end
+
 local function RefreshPlayerContext()
     local raceName
     local className
@@ -128,10 +217,6 @@ local function SortQuestlineCategories()
     end
 end
 
-local function AddContentData(list, data)
-    if data then list[#list + 1] = data end
-end
-
 function SM.GetQuestlineZoneText(data)
     RefreshPlayerContext()
     if not data then return "" end
@@ -178,79 +263,10 @@ function SM.FindQuestStoryByName(questName)
 end
 
 function SM.LocalizeContentRegistry()
-    local contentData = {}
-    AddContentData(contentData, SM.FrozenThroneData)
-    AddContentData(contentData, SM.DefiasBrotherhoodData)
-    AddContentData(contentData, SM.ArugalData)
-    AddContentData(contentData, SM.AlthalaxxData)
-    AddContentData(contentData, SM.DuskwoodData)
-    AddContentData(contentData, SM.RaenesCleansingData)
-    AddContentData(contentData, SM.BattleOfHillsbradData)
-    AddContentData(contentData, SM.FallenHeroData)
-    AddContentData(contentData, SM.MissingDiplomatData)
-    AddContentData(contentData, SM.OnyxiaData)
-    AddContentData(contentData, SM.DungeonSetTwoData)
-    AddContentData(contentData, SM.ScarletCrusadeData)
-    AddContentData(contentData, SM.DarrowshireData)
-    AddContentData(contentData, SM.ShiftingSandsData)
-    AddContentData(contentData, SM.PrincessMoiraData)
-    AddContentData(contentData, SM.TimbermawData)
-    AddContentData(contentData, SM.JadeForestData)
-    AddContentData(contentData, SM.DrustvarData)
-    AddContentData(contentData, SM.SuramarData)
-    AddContentData(contentData, SM.NazmirData)
-    AddContentData(contentData, SM.RevendrethData)
-    AddContentData(contentData, SM.SylvanasData)
-    AddContentData(contentData, SM.JainaData)
-    AddContentData(contentData, SM.LilianVossData)
-    AddContentData(contentData, SM.TeddiesAndTeaData)
-    AddContentData(contentData, SM.LinkenData)
-    AddContentData(contentData, SM.CortellosRiddleData)
-    AddContentData(contentData, SM.MissingCourierData)
-    AddContentData(contentData, SM.ChensEmptyKegData)
-    AddContentData(contentData, SM.ANewPlagueData)
-    AddContentData(contentData, SM.AgamandFamilyData)
-    AddContentData(contentData, SM.MankriksWifeData)
-    AddContentData(contentData, SM.ClassicDruidQuestData)
-    AddContentData(contentData, SM.ClassicHunterQuestData)
-    AddContentData(contentData, SM.ClassicMageQuestData)
-    AddContentData(contentData, SM.ClassicPaladinQuestData)
-    AddContentData(contentData, SM.ClassicPriestQuestData)
-    AddContentData(contentData, SM.ClassicRogueQuestData)
-    AddContentData(contentData, SM.ClassicShamanQuestData)
-    AddContentData(contentData, SM.ClassicWarlockQuestData)
-    AddContentData(contentData, SM.ClassicWarriorQuestData)
-    AddContentData(contentData, SM.DeathKnightCampaignData)
-    AddContentData(contentData, SM.DemonHunterCampaignData)
-    AddContentData(contentData, SM.DruidCampaignData)
-    AddContentData(contentData, SM.HunterCampaignData)
-    AddContentData(contentData, SM.MageCampaignData)
-    AddContentData(contentData, SM.MonkCampaignData)
-    AddContentData(contentData, SM.PaladinCampaignData)
-    AddContentData(contentData, SM.PriestCampaignData)
-    AddContentData(contentData, SM.RogueCampaignData)
-    AddContentData(contentData, SM.ShamanCampaignData)
-    AddContentData(contentData, SM.WarlockCampaignData)
-    AddContentData(contentData, SM.WarriorCampaignData)
-    AddContentData(contentData, SM.ForsakenHeritageData)
-    AddContentData(contentData, SM.BloodElfHeritageData)
-    AddContentData(contentData, SM.GoblinHeritageData)
-    AddContentData(contentData, SM.TrollHeritageData)
-    AddContentData(contentData, SM.OrcHeritageData)
-    AddContentData(contentData, SM.TaurenHeritageData)
-    AddContentData(contentData, SM.HumanHeritageData)
-    AddContentData(contentData, SM.DwarfHeritageData)
-    AddContentData(contentData, SM.GnomeHeritageData)
-    AddContentData(contentData, SM.NightElfHeritageData)
-    AddContentData(contentData, SM.WorgenHeritageData)
-    AddContentData(contentData, SM.DraeneiHeritageData)
-    AddContentData(contentData, SM.PandarenHeritageData)
-    AddContentData(contentData, SM.DarkIronHeritageData)
-
-    for _, data in ipairs(contentData) do
+    ForEachContentRegistryData(function(data)
         AssignStableQuestlineID(data)
         SM.LocalizeContentData(data)
-    end
+    end)
 end
 
 function SM.RegisterQuestlines()
@@ -258,102 +274,11 @@ function SM.RegisterQuestlines()
     RefreshPlayerContext()
     if not (playerClass and playerFaction and playerRace) then return end
 
-    local storyQuestlines = {}
-    AddContentData(storyQuestlines, SM.DefiasBrotherhoodData)
-    AddContentData(storyQuestlines, SM.ArugalData)
-    AddContentData(storyQuestlines, SM.ANewPlagueData)
-    AddContentData(storyQuestlines, SM.AlthalaxxData)
-    AddContentData(storyQuestlines, SM.DuskwoodData)
-    AddContentData(storyQuestlines, SM.RaenesCleansingData)
-    AddContentData(storyQuestlines, SM.BattleOfHillsbradData)
-    AddContentData(storyQuestlines, SM.MissingDiplomatData)
-    AddContentData(storyQuestlines, SM.PrincessMoiraData)
-    AddContentData(storyQuestlines, SM.TimbermawData)
-    for _, data in ipairs(storyQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Stories") end
-    end
-
-    local epicQuestlines = {}
-    AddContentData(epicQuestlines, SM.ScarletCrusadeData)
-    AddContentData(epicQuestlines, SM.DarrowshireData)
-    AddContentData(epicQuestlines, SM.FallenHeroData)
-    AddContentData(epicQuestlines, SM.OnyxiaData)
-    AddContentData(epicQuestlines, SM.DungeonSetTwoData)
-    AddContentData(epicQuestlines, SM.ShiftingSandsData)
-    AddContentData(epicQuestlines, SM.FrozenThroneData)
-    AddContentData(epicQuestlines, SM.JadeForestData)
-    AddContentData(epicQuestlines, SM.DrustvarData)
-    AddContentData(epicQuestlines, SM.SuramarData)
-    AddContentData(epicQuestlines, SM.NazmirData)
-    AddContentData(epicQuestlines, SM.RevendrethData)
-    for _, data in ipairs(epicQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Epic Stories") end
-    end
-
-    local shortQuestlines = {}
-    AddContentData(shortQuestlines, SM.TeddiesAndTeaData)
-    AddContentData(shortQuestlines, SM.LinkenData)
-    AddContentData(shortQuestlines, SM.CortellosRiddleData)
-    AddContentData(shortQuestlines, SM.MissingCourierData)
-    AddContentData(shortQuestlines, SM.ChensEmptyKegData)
-    AddContentData(shortQuestlines, SM.AgamandFamilyData)
-    AddContentData(shortQuestlines, SM.MankriksWifeData)
-    for _, data in ipairs(shortQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Short Stories") end
-    end
-
-    local characterQuestlines = {}
-    AddContentData(characterQuestlines, SM.SylvanasData)
-    AddContentData(characterQuestlines, SM.JainaData)
-    AddContentData(characterQuestlines, SM.LilianVossData)
-    for _, data in ipairs(characterQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Character Stories") end
-    end
-
-    local classCampaigns = {}
-    AddContentData(classCampaigns, SM.ClassicDruidQuestData)
-    AddContentData(classCampaigns, SM.ClassicHunterQuestData)
-    AddContentData(classCampaigns, SM.ClassicMageQuestData)
-    AddContentData(classCampaigns, SM.ClassicPaladinQuestData)
-    AddContentData(classCampaigns, SM.ClassicPriestQuestData)
-    AddContentData(classCampaigns, SM.ClassicRogueQuestData)
-    AddContentData(classCampaigns, SM.ClassicShamanQuestData)
-    AddContentData(classCampaigns, SM.ClassicWarlockQuestData)
-    AddContentData(classCampaigns, SM.ClassicWarriorQuestData)
-    AddContentData(classCampaigns, SM.DeathKnightCampaignData)
-    AddContentData(classCampaigns, SM.DemonHunterCampaignData)
-    AddContentData(classCampaigns, SM.DruidCampaignData)
-    AddContentData(classCampaigns, SM.HunterCampaignData)
-    AddContentData(classCampaigns, SM.MageCampaignData)
-    AddContentData(classCampaigns, SM.MonkCampaignData)
-    AddContentData(classCampaigns, SM.PaladinCampaignData)
-    AddContentData(classCampaigns, SM.PriestCampaignData)
-    AddContentData(classCampaigns, SM.RogueCampaignData)
-    AddContentData(classCampaigns, SM.ShamanCampaignData)
-    AddContentData(classCampaigns, SM.WarlockCampaignData)
-    AddContentData(classCampaigns, SM.WarriorCampaignData)
-    for _, data in ipairs(classCampaigns) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Identity") end
-    end
-
-    local heritageQuestlines = {}
-    AddContentData(heritageQuestlines, SM.ForsakenHeritageData)
-    AddContentData(heritageQuestlines, SM.BloodElfHeritageData)
-    AddContentData(heritageQuestlines, SM.GoblinHeritageData)
-    AddContentData(heritageQuestlines, SM.TrollHeritageData)
-    AddContentData(heritageQuestlines, SM.OrcHeritageData)
-    AddContentData(heritageQuestlines, SM.TaurenHeritageData)
-    AddContentData(heritageQuestlines, SM.HumanHeritageData)
-    AddContentData(heritageQuestlines, SM.DwarfHeritageData)
-    AddContentData(heritageQuestlines, SM.GnomeHeritageData)
-    AddContentData(heritageQuestlines, SM.NightElfHeritageData)
-    AddContentData(heritageQuestlines, SM.WorgenHeritageData)
-    AddContentData(heritageQuestlines, SM.DraeneiHeritageData)
-    AddContentData(heritageQuestlines, SM.PandarenHeritageData)
-    AddContentData(heritageQuestlines, SM.DarkIronHeritageData)
-    for _, data in ipairs(heritageQuestlines) do
-        if CanShowQuestline(data) then RegisterQuestline(data, "Identity") end
-    end
+    ForEachContentRegistryData(function(data, entry)
+        if CanShowQuestline(data) then
+            RegisterQuestline(data, data.category or entry.category)
+        end
+    end)
 
     SortQuestlineCategories()
     registryReady = true

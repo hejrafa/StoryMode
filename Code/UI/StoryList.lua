@@ -51,6 +51,22 @@ local function CategoryHasVisibleQuestlines(cat, activeSet)
     return false
 end
 
+local function BuildDisplayCategories(activeQuestlines)
+    local displayCategories = {}
+    if #activeQuestlines > 0 then
+        displayCategories[#displayCategories + 1] = {
+            name = "Active Stories",
+            displayName = L["Category Active Stories"],
+            active = true,
+            questlines = activeQuestlines,
+        }
+    end
+    for _, cat in ipairs(categories) do
+        displayCategories[#displayCategories + 1] = cat
+    end
+    return displayCategories
+end
+
 function SM.GetIntroStoryRow()
     return storyLeftRows[0]
 end
@@ -267,6 +283,290 @@ function SM.RefreshStoryListState(data)
     ApplyCurrentSelectionState()
 end
 
+local function CreateListCardFrame(cardHeight, cardPadding, yOffset, backgroundSublevel, classicShadeInset)
+    local card = RememberStoryListFrame(CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate"))
+    card:SetHeight(cardHeight)
+    card:SetPoint("TOPLEFT", SM.LeftStoryChild, "TOPLEFT", cardPadding, yOffset)
+    card:SetPoint("TOPRIGHT", SM.LeftStoryChild, "TOPRIGHT", -cardPadding, yOffset)
+    card:RegisterForClicks("AnyUp")
+    if SM.IsClassicClient() then
+        SM.ApplyClassicCardBackdrop(card, 0, 0.50)
+    end
+
+    local bg = card:CreateTexture(nil, "BACKGROUND", nil, backgroundSublevel)
+    if SM.IsRetailClient() then
+        bg:SetAtlas("housefinder_neighborhood-list-item-default", false)
+        bg:SetAllPoints()
+    else
+        SM.ClearCardFillTexture(bg)
+    end
+
+    if SM.IsClassicClient() then
+        card.shade = SM.CreateInsetCardShade(card, 0.38, classicShadeInset)
+    end
+
+    if SM.IsRetailClient() then
+        card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
+        card:GetHighlightTexture():SetAllPoints()
+    else
+        SM.SetSubtleCardHover(card)
+    end
+
+    return card, bg
+end
+
+local function CreateMaskedIcon(parent, texture)
+    local portFrame = CreateFrame("Frame", nil, parent)
+    portFrame:SetSize(PORT, PORT)
+    portFrame:SetPoint("LEFT", parent, "LEFT", 16, 0)
+
+    local iconTex = portFrame:CreateTexture(nil, "ARTWORK")
+    iconTex:SetSize(ICON, ICON)
+    iconTex:SetPoint("CENTER")
+    if texture then
+        iconTex:SetTexture(texture)
+    else
+        iconTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        iconTex:SetTexelSnappingBias(0)
+        iconTex:SetSnapToPixelGrid(false)
+    end
+
+    local iconMask = portFrame:CreateMaskTexture()
+    iconMask:SetTexture(
+        "Interface/CHARACTERFRAME/TempPortraitAlphaMask",
+        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    iconMask:SetAllPoints(iconTex)
+    iconTex:AddMaskTexture(iconMask)
+
+    return portFrame, iconTex
+end
+
+local function GetAchievementIcon(data)
+    if not data or not data.achievementID then return nil end
+    local _, _, _, _, _, _, _, _, _, achIcon = GetAchievementInfo(data.achievementID)
+    if achIcon and achIcon ~= 0 then return achIcon end
+    return nil
+end
+
+local function ApplyFallbackStoryIcon(iconTex, data)
+    if data and data.race and not data.class then
+        local heritageIcon = SM.HeritageIconByRace[data.race]
+        if heritageIcon and SM.SafeSetTexture(iconTex, heritageIcon) then return end
+    end
+    if data and data.race == "Pandaren" then
+        SM.SafeSetTexture(iconTex, SM.PandarenTabardIcon)
+    else
+        SM.SafeSetTexture(iconTex, SM.HeritageIconFallback)
+    end
+end
+
+local function ApplyStoryPortrait(iconTex, data)
+    if data.portraitDisplayID then
+        SetPortraitTextureFromCreatureDisplayID(iconTex, data.portraitDisplayID)
+        if not iconTex:GetTexture() then
+            local achievementIcon = GetAchievementIcon(data)
+            if achievementIcon then iconTex:SetTexture(achievementIcon) end
+            if not iconTex:GetTexture() and data.icon then
+                SM.SafeSetTexture(iconTex, data.icon)
+            end
+            if not iconTex:GetTexture() and data.race and not data.class then
+                ApplyFallbackStoryIcon(iconTex, data)
+            end
+        end
+    elseif data.race and not data.class and data.icon then
+        if not SM.SafeSetTexture(iconTex, data.icon) then
+            ApplyFallbackStoryIcon(iconTex, data)
+        end
+    elseif data.achievementID and not data.icon then
+        local achievementIcon = GetAchievementIcon(data)
+        if achievementIcon then iconTex:SetTexture(achievementIcon) end
+    elseif data.icon then
+        if not SM.SafeSetTexture(iconTex, data.icon) then
+            ApplyFallbackStoryIcon(iconTex, data)
+        end
+    elseif data.race and not data.class then
+        ApplyFallbackStoryIcon(iconTex, data)
+    end
+    if not iconTex:GetTexture() and data.race and not data.class then
+        ApplyFallbackStoryIcon(iconTex, data)
+    end
+end
+
+local function CreateCardCompletionRibbon(parent)
+    local checkmark = SM.CreateCompletionRibbon(parent)
+    if SM.IsRetailClient() then
+        checkmark:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -15, -1)
+    else
+        checkmark:SetPoint("RIGHT", parent, "RIGHT", -18, 0)
+    end
+    return checkmark
+end
+
+local function GetStoryCardSubline(data)
+    local zoneText = SM.GetQuestlineCardSubline(data)
+    local parts = {}
+    for part in zoneText:gmatch("[^/]+") do
+        parts[#parts + 1] = part:match("^%s*(.-)%s*$")
+    end
+    if SM.IsClassicClient() and #parts > 1 then
+        return parts[1]
+    elseif #parts > 2 then
+        return parts[1] .. " / " .. parts[2]
+    end
+    return zoneText
+end
+
+local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
+    local introCard, introBg = CreateListCardFrame(cardHeight, cardPadding, yOffset)
+    local _, introIcon = CreateMaskedIcon(introCard, SM.StoryModeIconTexture)
+
+    local introName = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+    introName:SetPoint("LEFT", introIcon, "RIGHT", 8, 0)
+    introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
+    introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
+    introName:SetMaxLines(1); introName:SetWordWrap(false)
+    introName:SetText(L["Addon Name"])
+    introName:SetTextColor(1.0, 1.0, 1.0)
+
+    introCard.checkmark = CreateCardCompletionRibbon(introCard)
+    introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
+
+    local row = {
+        btn       = introCard,
+        bg        = introBg,
+        icon      = introIcon,
+        nameLabel = introName,
+        zoneLabel = nil,
+        checkmark = introCard.checkmark,
+        isIntro   = true,
+    }
+    storyLeftRows[0] = row
+
+    introCard:SetScript("OnClick", function() SM.SelectStory(0) end)
+    introCard:SetScript("OnEnter", function()
+        SM.ApplyStoryCardBorderState(row, true)
+    end)
+    introCard:SetScript("OnLeave", function()
+        SM.ApplyStoryCardBorderState(row, false)
+    end)
+    SM.ApplyIntroCompletionState(row)
+
+    return row
+end
+
+local function CreateStoryListCard(data, idx, cardHeight, cardPadding, yOffset)
+    local card, bg = CreateListCardFrame(cardHeight, cardPadding, yOffset, 2, 4)
+
+    local coverTex = card:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
+    if SM.IsRetailClient() then
+        coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 7, -7)
+        coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -7, 7)
+        coverTex:SetAlpha(0.78)
+        coverTex:Hide()
+    else
+        coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 3, -3)
+        coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -3, 3)
+        coverTex:SetAlpha(0.72)
+        coverTex:SetShown(SM.SetAdventureCoverTexture(coverTex, data))
+    end
+
+    local portFrame, iconTex = CreateMaskedIcon(card)
+    ApplyStoryPortrait(iconTex, data)
+
+    local portBorder = portFrame:CreateTexture(nil, "OVERLAY")
+    if not SM.SafeSetAtlas(portBorder, "ui-frame-genericplayerchoice-portrait-border", false) then
+        portBorder:Hide()
+    end
+    portBorder:SetPoint("TOPLEFT", iconTex, "TOPLEFT", -3, 3)
+    portBorder:SetPoint("BOTTOMRIGHT", iconTex, "BOTTOMRIGHT", 3, -3)
+    portBorder:SetVertexColor(1.0, 0.82, 0.5)
+    portBorder:SetAlpha(0.85)
+    portFrame:Hide()
+
+    local nameLabel = SM.NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+    nameLabel:SetPoint("LEFT", card, "LEFT", 24, 0)
+    nameLabel:SetPoint("RIGHT", card, "RIGHT", -42, 0)
+    nameLabel:SetPoint("BOTTOM", card, "CENTER", 0, 1)
+    nameLabel:SetJustifyH("LEFT"); nameLabel:SetJustifyV("BOTTOM")
+    nameLabel:SetMaxLines(1); nameLabel:SetWordWrap(false)
+    nameLabel:SetText(data.title)
+    nameLabel:SetTextColor(1.0, 1.0, 1.0)
+
+    local zoneLabel = SM.NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+    zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
+    zoneLabel:SetPoint("RIGHT", card, "RIGHT", -42, 0)
+    zoneLabel:SetJustifyH("LEFT")
+    zoneLabel:SetText(GetStoryCardSubline(data))
+    zoneLabel:SetTextColor(1.0, 0.82, 0.36)
+
+    local cardCheckmark = CreateCardCompletionRibbon(card)
+    local state = SM.GetStoryState(data)
+    local gateReason = state and state.gateReason or nil
+    card.lockReason = gateReason
+    if gateReason then
+        cardCheckmark:Hide()
+    elseif state and state.isFinished then
+        cardCheckmark:Show()
+    else
+        cardCheckmark:Hide()
+    end
+
+    local row = {
+        btn       = card,
+        bg        = bg,
+        coverTex  = coverTex,
+        data      = data,
+        portBorder= portBorder,
+        nameLabel = nameLabel,
+        zoneLabel = zoneLabel,
+        checkmark = cardCheckmark,
+    }
+    storyLeftRows[idx] = row
+
+    card:SetScript("OnClick", function() SM.SelectStory(idx) end)
+    card:SetScript("OnEnter", function(self)
+        SM.ApplyStoryCardBorderState(row, true)
+        if not self.lockReason then return end
+        SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        SMTooltip:ClearLines()
+        SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
+        SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
+        SMTooltip:Show()
+    end)
+    card:SetScript("OnLeave", function()
+        SM.ApplyStoryCardBorderState(row, false)
+        SMTooltip:Hide()
+    end)
+
+    return row
+end
+
+local function AddCategoryDivider(text, yOffset, bottomPadding)
+    local divH, div = SM.CreateCatDivider(SM.LeftStoryChild, text, yOffset)
+    RememberStoryListFrame(div)
+    return yOffset - divH - bottomPadding
+end
+
+local function RenderStoryCategory(cat, activeSet, globalIdx, cardHeight, cardPadding, yOffset)
+    if cat.disabled then
+        return globalIdx, AddCategoryDivider(cat.displayName or cat.name, yOffset, 12)
+    end
+    if not CategoryHasVisibleQuestlines(cat, activeSet) then
+        return globalIdx, yOffset
+    end
+
+    yOffset = AddCategoryDivider(cat.displayName or cat.name, yOffset, 4)
+    for _, data in ipairs(cat.questlines) do
+        if not (activeSet[data] and not cat.active) then
+            globalIdx = globalIdx + 1
+            storyIndexToData[globalIdx] = data
+            CreateStoryListCard(data, globalIdx, cardHeight, cardPadding, yOffset)
+            yOffset = yOffset - cardHeight - 5
+        end
+    end
+    return globalIdx, yOffset - 8
+end
+
 
 function SM.BuildStoryWindow()
     if storyContentBuilt then
@@ -280,342 +580,20 @@ function SM.BuildStoryWindow()
     wipe(storyIndexToData)
     local activeQuestlines, activeSet = CollectActiveStorylines()
     activeStoriesSignature = GetActiveStoriesSignature(activeQuestlines)
-    local displayCategories = {}
-    if #activeQuestlines > 0 then
-        displayCategories[#displayCategories + 1] = {
-            name = "Active Stories",
-            displayName = L["Category Active Stories"],
-            active = true,
-            questlines = activeQuestlines,
-        }
-    end
-    for _, cat in ipairs(categories) do
-        displayCategories[#displayCategories + 1] = cat
-    end
+    local displayCategories = BuildDisplayCategories(activeQuestlines)
 
     local CARD_H   = (SM.IsRetailClient()) and 78 or 70
     local CARD_PAD = 4
     local yOffset  = -16
     local globalIdx = 0
 
-    -- ── Introduction card (index 0 = show intro text on right) ───────────
     local playerName = UnitName("player")
-    local introDivH, introDiv = SM.CreateCatDivider(SM.LeftStoryChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
-    RememberStoryListFrame(introDiv)
-    yOffset = yOffset - introDivH - 4
-
-    local introCard = RememberStoryListFrame(CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate"))
-    introCard:SetHeight(CARD_H)
-    introCard:SetPoint("TOPLEFT",  SM.LeftStoryChild, "TOPLEFT",  CARD_PAD, yOffset)
-    introCard:SetPoint("TOPRIGHT", SM.LeftStoryChild, "TOPRIGHT", -CARD_PAD, yOffset)
-    introCard:RegisterForClicks("AnyUp")
-    if SM.IsClassicClient() then
-        SM.ApplyClassicCardBackdrop(introCard, 0, 0.50)
-    end
-    local introBg = introCard:CreateTexture(nil, "BACKGROUND")
-    if SM.IsRetailClient() then
-        introBg:SetAtlas("housefinder_neighborhood-list-item-default", false)
-        introBg:SetAllPoints()
-    else
-        SM.ClearCardFillTexture(introBg)
-    end
-    if SM.IsClassicClient() then
-        introCard.shade = SM.CreateInsetCardShade(introCard, 0.38)
-    end
-    if SM.IsRetailClient() then
-        introCard:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
-        introCard:GetHighlightTexture():SetAllPoints()
-    else
-        SM.SetSubtleCardHover(introCard)
-    end
-
-    local introPort = CreateFrame("Frame", nil, introCard)
-    introPort:SetSize(PORT, PORT)
-    introPort:SetPoint("LEFT", introCard, "LEFT", 16, 0)
-
-    local introIcon = introPort:CreateTexture(nil, "ARTWORK")
-    introIcon:SetSize(ICON, ICON)
-    introIcon:SetPoint("CENTER")
-    introIcon:SetTexture(SM.StoryModeIconTexture)
-
-    local introIconMask = introPort:CreateMaskTexture()
-    introIconMask:SetTexture(
-        "Interface/CHARACTERFRAME/TempPortraitAlphaMask",
-        "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-    introIconMask:SetAllPoints(introIcon)
-    introIcon:AddMaskTexture(introIconMask)
-
-    local introName = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-    introName:SetPoint("LEFT",  introIcon, "RIGHT", 8, 0)
-    introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
-    introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
-    introName:SetMaxLines(1); introName:SetWordWrap(false)
-    introName:SetText(L["Addon Name"])
-    introName:SetTextColor(1.0, 1.0, 1.0)
-
-    local introZone = nil  -- no subline
-
-    introCard.checkmark = SM.CreateCompletionRibbon(introCard)
-    if SM.IsRetailClient() then
-        introCard.checkmark:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -15, -1)
-    else
-        introCard.checkmark:SetPoint("RIGHT", introCard, "RIGHT", -18, 0)
-    end
-    introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
-
-    -- Store intro card for select styling
-    storyLeftRows[0] = {
-        btn       = introCard,
-        bg        = introBg,
-        icon      = introIcon,
-        nameLabel = introName,
-        zoneLabel = introZone,
-        checkmark = introCard.checkmark,
-        isIntro   = true,
-    }
-    introCard:SetScript("OnClick", function() SM.SelectStory(0) end)
-    introCard:SetScript("OnEnter", function()
-        SM.ApplyStoryCardBorderState(storyLeftRows[0], true)
-    end)
-    introCard:SetScript("OnLeave", function()
-        SM.ApplyStoryCardBorderState(storyLeftRows[0], false)
-    end)
-    SM.ApplyIntroCompletionState(storyLeftRows[0])
-
+    yOffset = AddCategoryDivider(playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset, 4)
+    CreateIntroStoryCard(CARD_H, CARD_PAD, yOffset)
     yOffset = yOffset - CARD_H - 4
 
-    -- ── Questline cards ──────────────────────────────────────────────────
     for _, cat in ipairs(displayCategories) do
-        if cat.disabled then
-            local divH, div = SM.CreateCatDivider(SM.LeftStoryChild, cat.displayName or cat.name, yOffset)
-            RememberStoryListFrame(div)
-            yOffset = yOffset - divH - 12
-        elseif CategoryHasVisibleQuestlines(cat, activeSet) then
-            local divH, div = SM.CreateCatDivider(SM.LeftStoryChild, cat.displayName or cat.name, yOffset)
-            RememberStoryListFrame(div)
-            yOffset = yOffset - divH - 4
-            for _, data in ipairs(cat.questlines) do
-                if activeSet[data] and not cat.active then
-                    -- Active stories are shown in their pinned shelf only.
-                else
-                globalIdx = globalIdx + 1
-                local idx = globalIdx
-                storyIndexToData[idx] = data
-
-                -- ── Card frame ────────────────────────────────────────────────
-                local card = RememberStoryListFrame(CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate"))
-                card:SetHeight(CARD_H)
-                card:SetPoint("TOPLEFT",  SM.LeftStoryChild, "TOPLEFT",  CARD_PAD, yOffset)
-                card:SetPoint("TOPRIGHT", SM.LeftStoryChild, "TOPRIGHT", -CARD_PAD, yOffset)
-                card:RegisterForClicks("AnyUp")
-                if SM.IsClassicClient() then
-                    SM.ApplyClassicCardBackdrop(card, 0, 0.50)
-                end
-                -- House Finder card background
-                local bg = card:CreateTexture(nil, "BACKGROUND", nil, 2)
-                if SM.IsRetailClient() then
-                    bg:SetAtlas("housefinder_neighborhood-list-item-default", false)
-                    bg:SetAllPoints()
-                else
-                    SM.ClearCardFillTexture(bg)
-                end
-                if SM.IsClassicClient() then
-                    card.shade = SM.CreateInsetCardShade(card, 0.38, 4)
-                end
-
-                local coverTex = card:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
-                if SM.IsRetailClient() then
-                    coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 7, -7)
-                    coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -7, 7)
-                    coverTex:SetAlpha(0.78)
-                    coverTex:Hide()
-                else
-                    coverTex:SetPoint("TOPLEFT", card, "TOPLEFT", 3, -3)
-                    coverTex:SetPoint("BOTTOMRIGHT", card, "BOTTOMRIGHT", -3, 3)
-                    coverTex:SetAlpha(0.72)
-                    coverTex:SetShown(SM.SetAdventureCoverTexture(coverTex, data))
-                end
-                if SM.IsRetailClient() then
-                    card:SetHighlightAtlas("housefinder_neighborhood-list-item-highlight")
-                    card:GetHighlightTexture():SetAllPoints()
-                else
-                    SM.SetSubtleCardHover(card)
-                end
-
-                -- ── Portrait circle ───────────────────────────────────────────
-                local portFrame = CreateFrame("Frame", nil, card)
-                portFrame:SetSize(PORT, PORT)
-                portFrame:SetPoint("LEFT", card, "LEFT", 16, 0)
-
-                local iconTex = portFrame:CreateTexture(nil, "ARTWORK")
-                iconTex:SetSize(ICON, ICON)
-                iconTex:SetPoint("CENTER", portFrame, "CENTER", 0, 0)
-                iconTex:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-                iconTex:SetTexelSnappingBias(0)
-                iconTex:SetSnapToPixelGrid(false)
-
-                local iconMask = portFrame:CreateMaskTexture()
-                iconMask:SetTexture(
-                    "Interface/CHARACTERFRAME/TempPortraitAlphaMask",
-                    "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-                iconMask:SetAllPoints(iconTex)
-                iconTex:AddMaskTexture(iconMask)
-
-                if data.portraitDisplayID then
-                    SetPortraitTextureFromCreatureDisplayID(iconTex, data.portraitDisplayID)
-                    if not iconTex:GetTexture() then
-                        if data.achievementID then
-                            local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
-                            if achIcon and achIcon ~= 0 then
-                                iconTex:SetTexture(achIcon)
-                            end
-                        end
-                        if not iconTex:GetTexture() and data.icon then
-                            SM.SafeSetTexture(iconTex, data.icon)
-                        end
-                        if not iconTex:GetTexture() and data.race and not data.class then
-                            local heritageIcon = SM.HeritageIconByRace[data.race]
-                            if not (heritageIcon and SM.SafeSetTexture(iconTex, heritageIcon)) then
-                                if data.race == "Pandaren" then
-                                    SM.SafeSetTexture(iconTex, SM.PandarenTabardIcon)
-                                else
-                                    SM.SafeSetTexture(iconTex, SM.HeritageIconFallback)
-                                end
-                            end
-                        end
-                    end
-                elseif data.race and not data.class and data.icon then
-                    -- Heritage cards should reflect the configured questline card icon.
-                    if not SM.SafeSetTexture(iconTex, data.icon) then
-                        local heritageIcon = SM.HeritageIconByRace[data.race]
-                        if not (heritageIcon and SM.SafeSetTexture(iconTex, heritageIcon)) then
-                            if data.race == "Pandaren" then
-                                SM.SafeSetTexture(iconTex, SM.PandarenTabardIcon)
-                            else
-                                SM.SafeSetTexture(iconTex, SM.HeritageIconFallback)
-                            end
-                        end
-                    end
-                elseif data.achievementID and not data.icon then
-                    local _,_,_,_,_,_,_,_,_,achIcon = GetAchievementInfo(data.achievementID)
-                    if achIcon and achIcon ~= 0 then iconTex:SetTexture(achIcon) end
-                elseif data.icon then
-                    if not SM.SafeSetTexture(iconTex, data.icon) then
-                        if data.race == "Pandaren" then
-                            SM.SafeSetTexture(iconTex, SM.PandarenTabardIcon)
-                        else
-                            SM.SafeSetTexture(iconTex, SM.HeritageIconFallback)
-                        end
-                    end
-                elseif data.race and not data.class then
-                    -- Heritage cards: fallback to cloak/tabard style imagery.
-                    local heritageIcon = SM.HeritageIconByRace[data.race]
-                    if not (heritageIcon and SM.SafeSetTexture(iconTex, heritageIcon)) then
-                        if data.race == "Pandaren" then
-                            SM.SafeSetTexture(iconTex, SM.PandarenTabardIcon)
-                        else
-                            SM.SafeSetTexture(iconTex, SM.HeritageIconFallback)
-                        end
-                    end
-                end
-                if not iconTex:GetTexture() and data.race and not data.class then
-                    local heritageIcon = SM.HeritageIconByRace[data.race]
-                    if not (heritageIcon and SM.SafeSetTexture(iconTex, heritageIcon)) then
-                        if data.race == "Pandaren" then
-                            SM.SafeSetTexture(iconTex, SM.PandarenTabardIcon)
-                        else
-                            SM.SafeSetTexture(iconTex, SM.HeritageIconFallback)
-                        end
-                    end
-                end
-
-                -- Gold circle border around the portrait
-                local portBorder = portFrame:CreateTexture(nil, "OVERLAY")
-                if not SM.SafeSetAtlas(portBorder, "ui-frame-genericplayerchoice-portrait-border", false) then
-                    portBorder:Hide()
-                end
-                portBorder:SetPoint("TOPLEFT",     iconTex, "TOPLEFT",     -3,  3)
-                portBorder:SetPoint("BOTTOMRIGHT", iconTex, "BOTTOMRIGHT",  3, -3)
-                portBorder:SetVertexColor(1.0, 0.82, 0.5)
-                portBorder:SetAlpha(0.85)
-                portFrame:Hide()
-
-                -- ── Text labels (vertically centred on card) ──────────────────
-                local nameLabel = SM.NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-                nameLabel:SetPoint("LEFT",   card,      "LEFT",  24,  0)
-                nameLabel:SetPoint("RIGHT",  card,      "RIGHT", -42,  0)
-                nameLabel:SetPoint("BOTTOM", card,      "CENTER", 0,  1)
-                nameLabel:SetJustifyH("LEFT"); nameLabel:SetJustifyV("BOTTOM")
-                nameLabel:SetMaxLines(1); nameLabel:SetWordWrap(false)
-                nameLabel:SetText(data.title)
-                nameLabel:SetTextColor(1.0, 1.0, 1.0)
-
-                local zoneLabel = SM.NoShadow(card:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
-                zoneLabel:SetPoint("TOPLEFT", nameLabel, "BOTTOMLEFT", 0, -2)
-                zoneLabel:SetPoint("RIGHT",   card,      "RIGHT",     -42,  0)
-                zoneLabel:SetJustifyH("LEFT")
-                local zoneText = SM.GetQuestlineCardSubline(data)
-                local parts = {}
-                for part in zoneText:gmatch("[^/]+") do
-                    parts[#parts + 1] = part:match("^%s*(.-)%s*$")
-                end
-                if SM.IsClassicClient() and #parts > 1 then
-                    zoneText = parts[1]
-                elseif #parts > 2 then
-                    zoneText = parts[1] .. " / " .. parts[2]
-                end
-                zoneLabel:SetText(zoneText)
-                zoneLabel:SetTextColor(1.0, 0.82, 0.36)
-
-                -- ── Completion checkmark ──────────────────────────────────────
-                local cardCheckmark = SM.CreateCompletionRibbon(card)
-                if SM.IsRetailClient() then
-                    cardCheckmark:SetPoint("TOPRIGHT", card, "TOPRIGHT", -15, -1)
-                else
-                    cardCheckmark:SetPoint("RIGHT", card, "RIGHT", -18, 0)
-                end
-                local state = SM.GetStoryState(data)
-                local gateReason = state and state.gateReason or nil
-                card.lockReason = gateReason
-                if gateReason then
-                    cardCheckmark:Hide()
-                elseif state and state.isFinished then
-                    cardCheckmark:Show()
-                else
-                    cardCheckmark:Hide()
-                end
-
-                storyLeftRows[idx] = {
-                    btn       = card,
-                    bg        = bg,
-                    coverTex  = coverTex,
-                    data      = data,
-                    portBorder= portBorder,
-                    nameLabel = nameLabel,
-                    zoneLabel = zoneLabel,
-                    checkmark = cardCheckmark,
-                }
-
-                -- ── Click ──────────────────────────────────────────────────────
-                card:SetScript("OnClick", function() SM.SelectStory(idx) end)
-                card:SetScript("OnEnter", function(self)
-                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], true)
-                    if not self.lockReason then return end
-                    SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                    SMTooltip:ClearLines()
-                    SMTooltip:AddLine(L["Tooltip Story Locked"], 1, 1, 1)
-                    SMTooltip:AddLine(self.lockReason, 1.0, 0.82, 0.35, true)
-                    SMTooltip:Show()
-                end)
-                card:SetScript("OnLeave", function()
-                    SM.ApplyStoryCardBorderState(storyLeftRows[idx], false)
-                    SMTooltip:Hide()
-                end)
-                yOffset = yOffset - CARD_H - 5
-                end
-            end
-            yOffset = yOffset - 8
-        end
+        globalIdx, yOffset = RenderStoryCategory(cat, activeSet, globalIdx, CARD_H, CARD_PAD, yOffset)
     end
     SM.LeftStoryChild:SetHeight(math.abs(yOffset) + 16)
     ApplyCurrentSelectionState()

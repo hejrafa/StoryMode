@@ -6,12 +6,24 @@ const localeFiles = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
 
 function extractLocaleEntries(text) {
   const entries = new Map();
+  for (const record of extractLocaleEntryRecords(text)) {
+    entries.set(record.key, record.value);
+  }
+  return entries;
+}
+
+function extractLocaleEntryRecords(text) {
+  const records = [];
   const re = /L\["((?:[^"\\]|\\.)*)"\]\s*=\s*"((?:[^"\\]|\\.)*)"/g;
   let match;
   while ((match = re.exec(text))) {
-    entries.set(unescapeLuaString(match[1]), unescapeLuaString(match[2]));
+    records.push({
+      key: unescapeLuaString(match[1]),
+      value: unescapeLuaString(match[2]),
+      rawValue: match[2],
+    });
   }
-  return entries;
+  return records;
 }
 
 async function walk(dir) {
@@ -46,10 +58,39 @@ function specs(value) {
   return [...value.matchAll(/%(?:\d+\$)?[sdqfg]/g)].map((match) => match[0]).join(",");
 }
 
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const protectedTerms = ["Story Mode", "Dialogue UI", "Warcraft", "WoW"];
+const protectedTermPattern = protectedTerms.map(escapeRegex).join("|");
+const gluedProtectedTerm = new RegExp(`\\p{L}(?:${protectedTermPattern})|(?:${protectedTermPattern})\\p{L}`, "u");
+const gluedPlaceholder = /\p{L}%(?:\d+\$)?[sdqfg]|%(?:\d+\$)?[sdqfg]\p{L}/u;
+
+function localeValueFindings(value, rawValue) {
+  const findings = [];
+  if (/SMTOK|SMESC|__SM/i.test(value) || /SMTOK|SMESC|__SM/i.test(rawValue)) {
+    findings.push("machine token artifact");
+  }
+  if (/\\\\\d{2,3}/.test(rawValue)) {
+    findings.push("double-escaped numeric byte sequence");
+  }
+  if (value.includes("�")) {
+    findings.push("replacement character");
+  }
+  if (gluedProtectedTerm.test(value)) {
+    findings.push("protected term glued to surrounding text");
+  }
+  if (gluedPlaceholder.test(value)) {
+    findings.push("format placeholder glued to surrounding text");
+  }
+  return findings;
+}
+
 const enText = await readFile(`${root}/Locales/enUS.lua`, "utf8");
 const enEntries = extractLocaleEntries(enText);
 const contentStart = enText.indexOf("-- BEGIN CONTENT STRINGS");
-const contentEntries = extractLocaleEntries(enText.slice(contentStart));
+const contentEntries = extractLocaleEntries(contentStart >= 0 ? enText.slice(contentStart) : "");
 const sourceKeys = new Set(enEntries.keys());
 const dataFiles = await walk(`${root}/Data`);
 for (const dataFile of dataFiles) {
@@ -63,16 +104,21 @@ const findings = [];
 
 for (const locale of localeFiles) {
   const localePath = `${root}/Locales/${locale}.lua`;
-  const localeEntries = extractLocaleEntries(await readFile(localePath, "utf8"));
+  const localeText = await readFile(localePath, "utf8");
+  const localeRecords = extractLocaleEntryRecords(localeText);
+  const localeEntries = extractLocaleEntries(localeText);
   let contentOverrides = 0;
 
-  for (const [key, value] of localeEntries) {
+  for (const { key, value, rawValue } of localeRecords) {
     if (!sourceKeys.has(key)) {
       findings.push(`${localePath}: unknown key ${key}`);
       continue;
     }
     if (enEntries.has(key) && specs(enEntries.get(key)) !== specs(value)) {
       findings.push(`${localePath}: placeholder mismatch for ${key}`);
+    }
+    for (const valueFinding of localeValueFindings(value, rawValue)) {
+      findings.push(`${localePath}: ${valueFinding} for ${key}`);
     }
     if (contentEntries.has(key)) {
       contentOverrides += 1;

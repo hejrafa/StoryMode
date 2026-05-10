@@ -14,6 +14,9 @@
 - Closed the remaining Classic recap translation gaps across German, Spanish, French, Brazilian Portuguese, and Russian
 
 ### Maintenance
+- Refactored story list card construction into focused helpers without changing the visible layout
+- Centralized story category assignment so localization and registration share the same content registry
+- Tightened localization and recap coverage audits and added `_Dev/tools/prepare-release.mjs` for repeatable release checks
 - Added localized **Active Stories** category labels for German, Spanish, French, Brazilian Portuguese, and Russian clients
 - Bumped addon metadata to `1.8.1`
 

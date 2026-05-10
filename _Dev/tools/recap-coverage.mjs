@@ -3,7 +3,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const root = process.argv[2] || ".";
+const args = process.argv.slice(2);
+const root = args.find((arg) => !arg.startsWith("--")) || ".";
+const strict = args.includes("--strict");
 const dirs = ["Data/Storylines", "Data/Heritage", "Data/ClassQuests", "Data/Campaigns"];
 const locales = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
 
@@ -36,6 +38,8 @@ const localeKeys = Object.fromEntries(
 
 let total = 0;
 let missingByLocale = Object.fromEntries(locales.map((locale) => [locale, 0]));
+let totalMissing = 0;
+const missingFiles = [];
 
 for (const dir of dirs) {
   const files = fs
@@ -57,9 +61,21 @@ for (const dir of dirs) {
     }
 
     if (Object.values(missing).some(Boolean)) {
+      missingFiles.push({ file: rel, recaps: values.length, missing });
       console.log(`${rel}: ${values.length} recaps missing ${JSON.stringify(missing)}`);
     }
   }
 }
 
-console.log(JSON.stringify({ totalRecaps: total, missingByLocale }, null, 2));
+totalMissing = Object.values(missingByLocale).reduce((sum, count) => sum + count, 0);
+
+console.log(JSON.stringify({
+  totalRecaps: total,
+  missingByLocale,
+  missingFiles,
+  strict,
+}, null, 2));
+
+if (strict && totalMissing > 0) {
+  process.exit(1);
+}
