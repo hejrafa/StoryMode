@@ -1,4 +1,5 @@
 .claude/
 .DS_Store
+.release/
 .quest-audit-cache/
 .meta-audit-cache/

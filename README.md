@@ -108,9 +108,30 @@ The repository is structured so game-version support, localization, and future c
 - `DESCRIPTION.md` is the shorter addon listing text.
 - `CHANGELOG.md` records release notes and maintenance history.
 
+## Release Publishing
+
+GitHub Actions packages Story Mode when a version tag is pushed. The workflow validates the tag against the committed TOC/changelog metadata, builds the addon zip with the BigWigs WoW Packager, creates a GitHub release, and uploads the same package to CurseForge.
+
+Repository secrets required in GitHub:
+
+- `CF_API_KEY`: CurseForge API token.
+- `CF_PROJECT_ID`: CurseForge project ID from the project's About section.
+
+Release flow:
+
+```bash
+node _Dev/tools/prepare-release.mjs 1.8.2
+git add StoryMode.toc StoryMode_Vanilla.toc StoryMode_TBC.toc CHANGELOG.md
+git commit -m "Release 1.8.2"
+git tag v1.8.2
+git push origin main v1.8.2
+```
+
+The package rules live in `.pkgmeta`; `_Dev`, GitHub workflow files, and local audit caches are excluded from release zips.
+
 ## Content Notes
 
-New stories should be added as data files under `Data/`, then registered in `Code/StoryMode.lua` and loaded from each TOC. If a story should only appear on certain game clients, add a `gameVersions` table to the dataset.
+New stories should be added as data files under `Data/`, then assigned a category in `Code/Core/Registry.lua` and loaded from each TOC. If a story should only appear on certain game clients, add a `gameVersions` table to the dataset.
 
 Current localization uses English source strings as keys. When adding or editing dataset text, update `Locales/enUS.lua` so future locale files can override the same content cleanly.
 

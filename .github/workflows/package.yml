@@ -1,0 +1,64 @@
+name: Package Addon
+
+on:
+  push:
+    tags:
+      - "v*"
+      - "*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Package and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Lua compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.1
+          if ! command -v luac >/dev/null 2>&1 && command -v luac5.1 >/dev/null 2>&1; then
+            sudo ln -s "$(command -v luac5.1)" /usr/local/bin/luac
+          fi
+
+      - name: Validate release metadata
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          node _Dev/tools/prepare-release.mjs "$version" --no-check
+          if ! git diff --quiet; then
+            echo "::error::Release tag ${GITHUB_REF_NAME} does not match the committed TOC/changelog metadata."
+            echo "::error::Run 'node _Dev/tools/prepare-release.mjs ${version}' locally, commit the result, then retag."
+            git diff -- StoryMode.toc StoryMode_Vanilla.toc StoryMode_TBC.toc CHANGELOG.md
+            exit 1
+          fi
+          node _Dev/tools/prepare-release.mjs "$version"
+
+      - name: Check publishing secrets
+        env:
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          CF_PROJECT_ID: ${{ secrets.CF_PROJECT_ID }}
+        run: |
+          if [ -z "$CF_API_KEY" ]; then
+            echo "::error::Missing repository secret CF_API_KEY."
+            exit 1
+          fi
+          if [ -z "$CF_PROJECT_ID" ]; then
+            echo "::error::Missing repository secret CF_PROJECT_ID."
+            exit 1
+          fi
+
+      - name: Package and publish to GitHub and CurseForge
+        uses: BigWigsMods/packager@v2
+        env:
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: -p ${{ secrets.CF_PROJECT_ID }}

@@ -1,0 +1,12 @@
+package-as: StoryMode
+manual-changelog: CHANGELOG.md
+enable-nolib-creation: no
+
+ignore:
+  - .claude
+  - .github
+  - .meta-audit-cache
+  - .quest-audit-cache
+  - _Dev
+  - DESCRIPTION.md
+  - README.md
