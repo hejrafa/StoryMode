@@ -45,6 +45,8 @@ jobs:
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           CF_PROJECT_ID: ${{ secrets.CF_PROJECT_ID }}
+          WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
+          WAGO_PROJECT_ID: ${{ secrets.WAGO_PROJECT_ID }}
         run: |
           if [ -z "$CF_API_KEY" ]; then
             echo "::error::Missing repository secret CF_API_KEY."
@@ -54,11 +56,20 @@ jobs:
             echo "::error::Missing repository secret CF_PROJECT_ID."
             exit 1
           fi
+          if [ -z "$WAGO_API_TOKEN" ]; then
+            echo "::error::Missing repository secret WAGO_API_TOKEN."
+            exit 1
+          fi
+          if [ -z "$WAGO_PROJECT_ID" ]; then
+            echo "::error::Missing repository secret WAGO_PROJECT_ID."
+            exit 1
+          fi
 
-      - name: Package and publish to GitHub and CurseForge
+      - name: Package and publish to GitHub, CurseForge, and Wago
         uses: BigWigsMods/packager@v2
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: -p ${{ secrets.CF_PROJECT_ID }}
+          args: -p ${{ secrets.CF_PROJECT_ID }} -a ${{ secrets.WAGO_PROJECT_ID }}

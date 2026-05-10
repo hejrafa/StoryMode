@@ -110,12 +110,14 @@ The repository is structured so game-version support, localization, and future c
 
 ## Release Publishing
 
-GitHub Actions packages Story Mode when a version tag is pushed. The workflow validates the tag against the committed TOC/changelog metadata, builds the addon zip with the BigWigs WoW Packager, creates a GitHub release, and uploads the same package to CurseForge.
+GitHub Actions packages Story Mode when a version tag is pushed. The workflow validates the tag against the committed TOC/changelog metadata, builds the addon zip with the BigWigs WoW Packager, creates a GitHub release, and uploads the same package to CurseForge and Wago.
 
 Repository secrets required in GitHub:
 
 - `CF_API_KEY`: CurseForge API token.
 - `CF_PROJECT_ID`: CurseForge project ID from the project's About section.
+- `WAGO_API_TOKEN`: Wago Addons API token.
+- `WAGO_PROJECT_ID`: Wago project ID from the Wago developer dashboard.
 
 Release flow:
 
