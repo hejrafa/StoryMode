@@ -1,12 +1,9 @@
 # Changelog
 
-## 1.8.1
+## 1.8.2
 
 ### UI
 - Fixed Russian and other non-Latin clients showing square glyphs in Story Mode's custom tooltips by using Blizzard's locale-aware tooltip font
-- Added an **Active Stories** section below the Story Mode intro card for stories with quests currently in the player's quest log
-- Active stories are temporarily removed from their normal categories while pinned, avoiding duplicate cards in the story list
-- Refreshed the left story list when quest-log changes alter the active story set while preserving the selected story and scroll position
 
 ### Localization
 - Added Spanish locale coverage for European and Latin American Spanish clients (`esES`/`esMX`)
@@ -19,6 +16,16 @@
 - Refactored story list card construction into focused helpers without changing the visible layout
 - Centralized story category assignment so localization and registration share the same content registry
 - Tightened localization and recap coverage audits and added `_Dev/tools/prepare-release.mjs` for repeatable release checks
+- Bumped addon metadata to `1.8.2`
+
+## 1.8.1
+
+### UI
+- Added an **Active Stories** section below the Story Mode intro card for stories with quests currently in the player's quest log
+- Active stories are temporarily removed from their normal categories while pinned, avoiding duplicate cards in the story list
+- Refreshed the left story list when quest-log changes alter the active story set while preserving the selected story and scroll position
+
+### Maintenance
 - Added localized **Active Stories** category labels for German, Spanish, French, Brazilian Portuguese, and Russian clients
 - Bumped addon metadata to `1.8.1`
 

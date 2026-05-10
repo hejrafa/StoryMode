@@ -8,7 +8,7 @@
 ## Notes-ptBR: Acompanhe histórias de WoW capítulo por capítulo, com contexto e acompanhamento de progresso.|n|nAbra o Story Mode com o comando:|n/sm ou /storymode
 ## Notes-ruRU: Проходите истории WoW по главам, с контекстом и отслеживанием прогресса.|n|nОткройте Story Mode командой:|n/sm или /storymode
 ## SavedVariables: StoryModeDB
-## Version: 1.8.1
+## Version: 1.8.2
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\Art\Icons\storymode_icon
 ## AddonCompartmentFunc: StoryMode_AddonCompartment_OnClick
