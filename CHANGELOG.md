@@ -7,8 +7,14 @@
 - Active stories are temporarily removed from their normal categories while pinned, avoiding duplicate cards in the story list
 - Refreshed the left story list when quest-log changes alter the active story set while preserving the selected story and scroll position
 
+### Localization
+- Added Spanish locale coverage for European and Latin American Spanish clients (`esES`/`esMX`)
+- Added Brazilian Portuguese locale coverage (`ptBR`)
+- Added Spanish and Brazilian Portuguese TOC notes and included the new locales in localization audit tooling
+- Closed the remaining Classic recap translation gaps across German, Spanish, French, Brazilian Portuguese, and Russian
+
 ### Maintenance
-- Added localized **Active Stories** category labels for German, French, and Russian clients
+- Added localized **Active Stories** category labels for German, Spanish, French, Brazilian Portuguese, and Russian clients
 - Bumped addon metadata to `1.8.1`
 
 ## 1.8.0

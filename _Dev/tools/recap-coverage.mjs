@@ -5,7 +5,7 @@ import path from "node:path";
 
 const root = process.argv[2] || ".";
 const dirs = ["Data/Storylines", "Data/Heritage", "Data/ClassQuests", "Data/Campaigns"];
-const locales = ["deDE", "frFR", "ruRU"];
+const locales = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
 
 function read(file) {
   return fs.readFileSync(path.join(root, file), "utf8");

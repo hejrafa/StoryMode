@@ -2,7 +2,7 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.argv[2] || process.cwd();
-const localeFiles = ["deDE", "frFR", "ruRU"];
+const localeFiles = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
 
 function extractLocaleEntries(text) {
   const entries = new Map();

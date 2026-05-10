@@ -2,7 +2,10 @@
 ## Title: Story Mode
 ## Notes: Follow WoW stories chapter by chapter with context and progress tracking.|n|nOpen Story Mode with Slash Command:|n/sm or /storymode
 ## Notes-deDE: Folge WoW-Geschichten Kapitel für Kapitel mit Kontext und Fortschritt.|n|nÖffne Story Mode mit dem Chatbefehl:|n/sm oder /storymode
+## Notes-esES: Sigue historias de WoW capítulo a capítulo con contexto y seguimiento del progreso.|n|nAbre Story Mode con el comando:|n/sm o /storymode
+## Notes-esMX: Sigue historias de WoW capítulo a capítulo con contexto y seguimiento del progreso.|n|nAbre Story Mode con el comando:|n/sm o /storymode
 ## Notes-frFR: Suivez les histoires de WoW chapitre par chapitre, avec contexte et progression.|n|nOuvrez Story Mode avec la commande:|n/sm ou /storymode
+## Notes-ptBR: Acompanhe histórias de WoW capítulo por capítulo, com contexto e acompanhamento de progresso.|n|nAbra o Story Mode com o comando:|n/sm ou /storymode
 ## Notes-ruRU: Проходите истории WoW по главам, с контекстом и отслеживанием прогресса.|n|nОткройте Story Mode командой:|n/sm или /storymode
 ## SavedVariables: StoryModeDB
 ## Version: 1.8.1
