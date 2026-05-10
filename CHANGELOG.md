@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.8.1
+
+### UI
+- Added an **Active Stories** section below the Story Mode intro card for stories with quests currently in the player's quest log
+- Active stories are temporarily removed from their normal categories while pinned, avoiding duplicate cards in the story list
+- Refreshed the left story list when quest-log changes alter the active story set while preserving the selected story and scroll position
+
+### Maintenance
+- Added localized **Active Stories** category labels for German, French, and Russian clients
+- Bumped addon metadata to `1.8.1`
+
 ## 1.8.0
 
 ### Classic Era

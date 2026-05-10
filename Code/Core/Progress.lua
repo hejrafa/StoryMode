@@ -129,6 +129,20 @@ function SM.IsQuestEntryInLog(q)
     return false, nil
 end
 
+function SM.IsStoryActive(data)
+    if not data then return false end
+    for _, ch in ipairs(SM.GetAllChapters(data)) do
+        if ch.quests then
+            for _, q in ipairs(ch.quests) do
+                if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) and SM.IsQuestEntryInLog(q) then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
 function SM.GetAllChapters(data)
     if progressCache.allChapters[data] then return progressCache.allChapters[data] end
     local all = {}

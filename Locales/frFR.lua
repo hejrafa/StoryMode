@@ -9,6 +9,7 @@ L["Addon Debug Prefix"] = "|cff64b5f6StoryMode Debug :|r "
 L["Addon Legacy Prefix"] = "|cff64b5f6StoryMode :|r "
 
 L["Category Stories"] = "Histoires"
+L["Category Active Stories"] = "Histoires actives"
 L["Category Epic Stories"] = "Histoires épiques"
 L["Category Character Stories"] = "Histoires de personnages"
 L["Category Short Stories"] = "Histoires courtes"

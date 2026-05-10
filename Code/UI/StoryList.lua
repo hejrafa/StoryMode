@@ -8,6 +8,48 @@ local allQuestlines = SM.GetAllQuestlines()
 local storyLeftRows    = {}
 local storyContentBuilt = false
 local storyIndexToData = {}
+local storyListFrames = {}
+local activeStoriesSignature = ""
+
+local function RememberStoryListFrame(frame)
+    storyListFrames[#storyListFrames + 1] = frame
+    return frame
+end
+
+local function CollectActiveStorylines()
+    local activeQuestlines = {}
+    local activeSet = {}
+    if not SM.IsStoryActive then return activeQuestlines, activeSet end
+    for _, cat in ipairs(categories) do
+        if not cat.disabled then
+            for _, data in ipairs(cat.questlines) do
+                if not activeSet[data] and SM.IsStoryActive(data) then
+                    activeQuestlines[#activeQuestlines + 1] = data
+                    activeSet[data] = true
+                end
+            end
+        end
+    end
+    return activeQuestlines, activeSet
+end
+
+local function GetActiveStoriesSignature(activeQuestlines)
+    local parts = {}
+    for _, data in ipairs(activeQuestlines or {}) do
+        parts[#parts + 1] = data.id or data.title or tostring(data)
+    end
+    return table.concat(parts, "|")
+end
+
+local function CategoryHasVisibleQuestlines(cat, activeSet)
+    if not cat or not cat.questlines then return false end
+    for _, data in ipairs(cat.questlines) do
+        if cat.active or not activeSet[data] then
+            return true
+        end
+    end
+    return false
+end
 
 function SM.GetIntroStoryRow()
     return storyLeftRows[0]
@@ -47,6 +89,17 @@ function SM.ApplyStoryCardBorderState(row, isHover)
         color = SM.StoryCardBorderSelected
     end
     row.btn:SetBackdropBorderColor(color[1], color[2], color[3], color[4])
+end
+
+local function ApplyCurrentSelectionState()
+    local currentData = SM.GetCurrentStoryData and SM.GetCurrentStoryData() or nil
+    local selectedID = currentData and currentData.id or StoryModeDB and StoryModeDB.selectedQuestlineID or nil
+    for idx, row in pairs(storyLeftRows) do
+        row.isSelected = (idx == 0 and not selectedID) or (row.data and row.data.id == selectedID) or false
+        if row.btn then row.btn:UnlockHighlight() end
+        if row.portBorder then row.portBorder:SetAlpha(row.isSelected and 1.0 or 0.5) end
+        SM.ApplyStoryCardBorderState(row, false)
+    end
 end
 
 function SM.ApplyIntroCompletionState(row)
@@ -164,25 +217,81 @@ local function RefreshStoryRow(row)
     SM.ApplyStoryCardBorderState(row, false)
 end
 
+function SM.RebuildStoryWindow()
+    if not storyContentBuilt then return end
+    SM.SaveLeftStoryScroll()
+    for _, frame in ipairs(storyListFrames) do
+        frame:Hide()
+        frame:ClearAllPoints()
+    end
+    wipe(storyListFrames)
+    wipe(storyLeftRows)
+    wipe(storyIndexToData)
+    storyContentBuilt = false
+    SM.BuildStoryWindow()
+    local currentData = SM.GetCurrentStoryData and SM.GetCurrentStoryData() or nil
+    local selectedID = currentData and currentData.id or StoryModeDB and StoryModeDB.selectedQuestlineID or nil
+    local selectedIndex = selectedID and SM.GetStoryIndexByID(selectedID) or nil
+    if selectedIndex then
+        StoryModeDB.selectedQuestline = selectedIndex
+    elseif not selectedID then
+        StoryModeDB.selectedQuestline = 0
+    end
+    ApplyCurrentSelectionState()
+    SM.RestoreLeftStoryScroll()
+end
+
+local function RefreshActiveStorySection()
+    if not storyContentBuilt then return false end
+    local activeQuestlines = CollectActiveStorylines()
+    local signature = GetActiveStoriesSignature(activeQuestlines)
+    if signature == activeStoriesSignature then return false end
+    SM.RebuildStoryWindow()
+    return true
+end
+
 function SM.RefreshStoryListState(data)
+    local rebuilt = RefreshActiveStorySection()
+    if rebuilt then
+        data = nil
+    end
     if data then
         RefreshStoryRow(SM.GetStoryRowForData(data))
         RefreshStoryRow(storyLeftRows[0])
+        ApplyCurrentSelectionState()
         return
     end
     for _, row in pairs(storyLeftRows) do
         RefreshStoryRow(row)
     end
+    ApplyCurrentSelectionState()
 end
 
 
 function SM.BuildStoryWindow()
-    if storyContentBuilt then return end
+    if storyContentBuilt then
+        RefreshActiveStorySection()
+        return
+    end
     if SM.RegisterQuestlines then SM.RegisterQuestlines() end
     if SM.IsQuestlineRegistryReady and not SM.IsQuestlineRegistryReady() then return end
     storyContentBuilt = true
     for _, data in ipairs(allQuestlines) do SM.ResolveAchievementID(data) end
     wipe(storyIndexToData)
+    local activeQuestlines, activeSet = CollectActiveStorylines()
+    activeStoriesSignature = GetActiveStoriesSignature(activeQuestlines)
+    local displayCategories = {}
+    if #activeQuestlines > 0 then
+        displayCategories[#displayCategories + 1] = {
+            name = "Active Stories",
+            displayName = L["Category Active Stories"],
+            active = true,
+            questlines = activeQuestlines,
+        }
+    end
+    for _, cat in ipairs(categories) do
+        displayCategories[#displayCategories + 1] = cat
+    end
 
     local CARD_H   = (SM.IsRetailClient()) and 78 or 70
     local CARD_PAD = 4
@@ -191,10 +300,11 @@ function SM.BuildStoryWindow()
 
     -- ── Introduction card (index 0 = show intro text on right) ───────────
     local playerName = UnitName("player")
-    local introDivH = SM.CreateCatDivider(SM.LeftStoryChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
+    local introDivH, introDiv = SM.CreateCatDivider(SM.LeftStoryChild, playerName and string.format(L["Greeting Format"], playerName) or L["Greeting Fallback"], yOffset)
+    RememberStoryListFrame(introDiv)
     yOffset = yOffset - introDivH - 4
 
-    local introCard = CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate")
+    local introCard = RememberStoryListFrame(CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate"))
     introCard:SetHeight(CARD_H)
     introCard:SetPoint("TOPLEFT",  SM.LeftStoryChild, "TOPLEFT",  CARD_PAD, yOffset)
     introCard:SetPoint("TOPRIGHT", SM.LeftStoryChild, "TOPRIGHT", -CARD_PAD, yOffset)
@@ -275,20 +385,25 @@ function SM.BuildStoryWindow()
     yOffset = yOffset - CARD_H - 4
 
     -- ── Questline cards ──────────────────────────────────────────────────
-    for _, cat in ipairs(categories) do
+    for _, cat in ipairs(displayCategories) do
         if cat.disabled then
-            local divH = SM.CreateCatDivider(SM.LeftStoryChild, cat.displayName or cat.name, yOffset)
+            local divH, div = SM.CreateCatDivider(SM.LeftStoryChild, cat.displayName or cat.name, yOffset)
+            RememberStoryListFrame(div)
             yOffset = yOffset - divH - 12
-        elseif #cat.questlines > 0 then
-            local divH = SM.CreateCatDivider(SM.LeftStoryChild, cat.displayName or cat.name, yOffset)
+        elseif CategoryHasVisibleQuestlines(cat, activeSet) then
+            local divH, div = SM.CreateCatDivider(SM.LeftStoryChild, cat.displayName or cat.name, yOffset)
+            RememberStoryListFrame(div)
             yOffset = yOffset - divH - 4
             for _, data in ipairs(cat.questlines) do
+                if activeSet[data] and not cat.active then
+                    -- Active stories are shown in their pinned shelf only.
+                else
                 globalIdx = globalIdx + 1
                 local idx = globalIdx
                 storyIndexToData[idx] = data
 
                 -- ── Card frame ────────────────────────────────────────────────
-                local card = CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate")
+                local card = RememberStoryListFrame(CreateFrame("Button", nil, SM.LeftStoryChild, (SM.IsRetailClient()) and nil or "BackdropTemplate"))
                 card:SetHeight(CARD_H)
                 card:SetPoint("TOPLEFT",  SM.LeftStoryChild, "TOPLEFT",  CARD_PAD, yOffset)
                 card:SetPoint("TOPRIGHT", SM.LeftStoryChild, "TOPRIGHT", -CARD_PAD, yOffset)
@@ -497,9 +612,11 @@ function SM.BuildStoryWindow()
                     SMTooltip:Hide()
                 end)
                 yOffset = yOffset - CARD_H - 5
+                end
             end
             yOffset = yOffset - 8
         end
     end
     SM.LeftStoryChild:SetHeight(math.abs(yOffset) + 16)
+    ApplyCurrentSelectionState()
 end
