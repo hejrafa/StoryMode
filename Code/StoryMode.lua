@@ -2705,10 +2705,17 @@ LayoutSelectedChapter = function()
             card.storyData = data
             card.tooltipTitle = q.name
             card.tooltipNPC = q.npc
-            card.tooltipStatus = qDoneDisplay and ("|cff59c746" .. L["Quest Status Completed"] .. "|r")
-                or qInLog and ("|cffffd223" .. L["Quest Status In Progress"] .. "|r")
-                or qOptional and ("|cff808080" .. L["Quest Status Optional"] .. "|r")
-                or ("|cff808080" .. L["Quest Status Not Available"] .. "|r")
+            if qDoneDisplay then
+                card.tooltipStatus = "|cff59c746" .. L["Quest Status Completed"] .. "|r"
+            elseif qInLog then
+                card.tooltipStatus = "|cffffd223" .. L["Quest Status In Progress"] .. "|r"
+            elseif qOptional then
+                card.tooltipStatus = "|cff808080" .. L["Quest Status Optional"] .. "|r"
+            elseif lockReason then
+                card.tooltipStatus = "|cff808080" .. L["Quest Status Not Available"] .. "|r"
+            else
+                card.tooltipStatus = nil
+            end
             card.tooltipRequirement = lockReason
 
             card.icon:SetSize(14, 14)

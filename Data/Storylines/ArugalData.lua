@@ -91,8 +91,8 @@ SM.ArugalData = {
             recap = "Shadowfang Keep was the answer waiting above Silverpine's roads. High Executor Hadrec sent you in after Deathstalkers Adamant and Vincent, scouts who had vanished while gathering intelligence for the Forsaken assault. Keeper Bel'dugur wanted the Book of Ur from its halls, old magic worth studying even in a cursed keep. Dalar Dawnweaver wanted something simpler and bloodier: Arugal's head. In the end, the deathstalkers, the worgen, the ruined village below the keep, and the tower above it all pointed back to one mage whose mistake had become a whole region's wound. Arugal fell, and the Sepulcher had its proof.",
             quests = {
                 { id = 1098, name = "Deathstalkers in Shadowfang", npc = "High Executor Hadrec" },
-                { id = 1013, name = "The Book of Ur", npc = "Keeper Bel'dugur" },
-                { id = 1014, name = "Arugal Must Die", npc = "Dalar Dawnweaver" },
+                { id = 1013, name = "The Book of Ur", npc = "Keeper Bel'dugur", parallel = true },
+                { id = 1014, name = "Arugal Must Die", npc = "Dalar Dawnweaver", parallel = true },
             },
         },
     },

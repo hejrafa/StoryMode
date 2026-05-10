@@ -110,7 +110,8 @@ function SM.IsQuestEffectivelyComplete(questIndex, chapterQuests)
     end
 
     for i = questIndex + 1, #chapterQuests do
-        if SM.IsQuestForPlayer(chapterQuests[i]) and SM.IsQuestEntryComplete(chapterQuests[i]) then
+        local laterQuest = chapterQuests[i]
+        if laterQuest and not laterQuest.parallel and SM.IsQuestForPlayer(laterQuest) and SM.IsQuestEntryComplete(laterQuest) then
             return true
         end
     end
@@ -333,9 +334,15 @@ function SM.GetQuestLockReason(data, ch, questIndex)
         return string.format(L["Lock Complete Quest Format"], questName)
     end
 
-    if questIndex and questIndex > 1 then
-        local prevQuest = ch.quests and ch.quests[questIndex - 1]
-        if prevQuest and not SM.IsQuestEffectivelyComplete(questIndex - 1, ch.quests) then
+    local currentQuest = ch.quests and questIndex and ch.quests[questIndex] or nil
+    if questIndex and questIndex > 1 and not (currentQuest and currentQuest.parallel) then
+        local prevIndex = questIndex - 1
+        local prevQuest = ch.quests and ch.quests[prevIndex]
+        while prevQuest and (prevQuest.optional or not SM.IsQuestForPlayer(prevQuest) or SM.ShouldHideQuest(prevQuest)) do
+            prevIndex = prevIndex - 1
+            prevQuest = ch.quests and ch.quests[prevIndex]
+        end
+        if prevQuest and not SM.IsQuestEffectivelyComplete(prevIndex, ch.quests) then
             return string.format(L["Lock Complete Previous Quest Format"], Highlight(prevQuest.name or string.format(L["Quest ID Format"], tostring(prevQuest.id))))
         end
     end
