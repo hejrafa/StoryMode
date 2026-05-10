@@ -28,8 +28,10 @@ do
 
     local function TTLine(i)
         if not ttLines[i] then
-            local fs = tooltip:CreateFontString(nil, "OVERLAY")
-            fs:SetFont("Fonts/FRIZQT__.TTF", 12, "")
+            local fs = tooltip:CreateFontString(nil, "OVERLAY", "GameTooltipText")
+            if fs.SetFontObject and GameTooltipText then
+                fs:SetFontObject(GameTooltipText)
+            end
             fs:SetJustifyH("LEFT")
             ttLines[i] = fs
         end

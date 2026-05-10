@@ -8,6 +8,7 @@ const requiredModules = [
   "Code\\Core\\StoryState.lua",
   "Code\\Core\\Events.lua",
   "Code\\UI\\Pools.lua",
+  "Code\\UI\\Tooltip.lua",
   "Code\\UI\\LoadingScreenBrowser.lua",
   "Code\\UI\\StoryList.lua",
 ];
@@ -43,6 +44,11 @@ if (!eventsLua.includes("|Hquest:(%d+)")) {
 }
 if (!eventsLua.includes("NormalizeQuestAcceptedMessageQuestName")) {
   findings.push("Code/Core/Events.lua quest accepted system-message filter does not normalize linked quest names");
+}
+
+const tooltipLua = await readFile(`${root}/Code/UI/Tooltip.lua`, "utf8");
+if (/["']Fonts[\\/]/.test(tooltipLua)) {
+  findings.push("Code/UI/Tooltip.lua hardcodes a font path; use Blizzard font objects so non-Latin locales render correctly");
 }
 
 const luac = spawnSync("luac", ["-l", "-p", "Code/StoryMode.lua"], {
