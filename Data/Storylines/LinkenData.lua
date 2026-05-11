@@ -16,7 +16,7 @@ SM.LinkenData = {
     color = { 0.30, 0.66, 0.34 },
     icon = 135346,
     portraitDisplayID = 8012,
-    adventureCoverTexture = 131886,
+    adventureCoverTexture = 6213069, -- Demon Fall Canyon loading screen
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 3844, name = "It's a Secret to Everybody", npc = "A Wrecked Raft", location = "the Marshlands, Un'Goro Crater" },

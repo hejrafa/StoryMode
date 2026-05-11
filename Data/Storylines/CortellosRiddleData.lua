@@ -15,7 +15,7 @@ SM.CortellosRiddleData = {
     achievements = {},
     color = { 0.29, 0.54, 0.63 },
     icon = 134331,
-    adventureCoverTexture = 131872, -- Sunken Temple: closest Classic loading screen for the Swamp of Sorrows leg
+    adventureCoverTexture = 6213071, -- Tainted Scar loading screen
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 624, name = "Cortello's Riddle", npc = "Cortello's Riddle", location = "the Bloodsail ships off the Wild Shore, Stranglethorn Vale" },

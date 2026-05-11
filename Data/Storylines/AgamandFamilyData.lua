@@ -17,7 +17,7 @@ SM.AgamandFamilyData = {
     color = { 0.46, 0.56, 0.44 },
     icon = 136123,
     portraitDisplayID = 3516,
-    adventureCoverTexture = 131867, -- Ruins of Lordaeron battleground loading screen
+    adventureCoverTexture = 131829, -- Cave loading screen
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 404, name = "A Putrid Task", npc = "Deathguard Dillinger", location = "Brill, Tirisfal Glades" },
