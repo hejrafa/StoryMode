@@ -34,12 +34,11 @@ SM.ChensEmptyKegData = {
     },
 
     chapterDisplayIDs = {
-        ["A Keg in the Barrens"] = 3851,
         ["Stormstout Ingredients"] = 3851,
     },
 
     chapterIcons = {
-        ["A Keg in the Barrens"] = 132792,
+        ["A Keg in the Barrens"] = 132623, -- Chen's Empty Keg item icon
         ["Stormstout Ingredients"] = 132799,
     },
 
