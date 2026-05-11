@@ -30,12 +30,12 @@ SM.ChensEmptyKegData = {
     },
 
     npcDisplayIDs = {
-        ["Brewmaster Drohn"] = 4574,
+        ["Brewmaster Drohn"] = 3851,
     },
 
     chapterDisplayIDs = {
-        ["A Keg in the Barrens"] = 4574,
-        ["Stormstout Ingredients"] = 4574,
+        ["A Keg in the Barrens"] = 3851,
+        ["Stormstout Ingredients"] = 3851,
     },
 
     chapterIcons = {
