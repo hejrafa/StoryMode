@@ -1514,6 +1514,10 @@ SM.AdventureGuideLoadingScreenByMapID = {
 }
 
 SM.LoadingScreenChoices = {
+    { name = "Eastern Kingdoms", texture = 131839 },
+    { name = "Kalimdor", texture = 131848 },
+    { name = "Eastern Kingdoms (Wide)", texture = 343001 },
+    { name = "Kalimdor (Wide)", texture = 343002 },
     { name = "Ragefire Chasm", texture = 131862 },
     { name = "Wailing Caverns", texture = 131882 },
     { name = "The Deadmines", texture = 131833 },
@@ -1544,6 +1548,20 @@ SM.LoadingScreenChoices = {
     { name = "Arathi Basin", texture = 131820 },
     { name = "Warsong Gulch", texture = 131883 },
     { name = "Ruins of Lordaeron", texture = 131867 },
+    { name = "Deeprun Tram", texture = 131834 },
+    { name = "Champions' Hall", texture = 131831 },
+    { name = "Hall of Legends", texture = 131843 },
+    { name = "Cave", texture = 131829 },
+    { name = "Dungeon", texture = 131838 },
+    { name = "Raid", texture = 131863 },
+    { name = "Ruined City", texture = 131866 },
+    { name = "Demon Fall Canyon", texture = 6213069 },
+    { name = "Storm Cliffs", texture = 6213070 },
+    { name = "Tainted Scar", texture = 6213071 },
+    { name = "Scarlet Enclave", texture = 6422642 },
+    { name = "Karazhan Crypts", texture = 6514589 },
+    { name = "Crystal Vale", texture = 6650900 },
+    { name = "Nightmare Grove", texture = 6730949 },
 }
 
 function SM.NormalizeAdventureGuideName(name)
