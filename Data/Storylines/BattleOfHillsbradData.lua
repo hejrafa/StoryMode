@@ -28,6 +28,7 @@ SM.BattleOfHillsbradData = {
     npcLocations = {
         ["High Executor Darthalia"] = { mapID = 25, x = 0.6200, y = 0.1950, location = "Tarren Mill, Hillsbrad Foothills" },
         ["Deathguard Samsa"] = { mapID = 25, x = 0.6200, y = 0.2000, location = "Tarren Mill, Hillsbrad Foothills" },
+        ["WANTED"] = { mapID = 25, x = 0.6250, y = 0.1970, location = "the wanted poster outside the inn in Tarren Mill" },
         ["Varimathras"] = { mapID = 90, x = 0.5600, y = 0.9200, location = "the Royal Quarter, Undercity" },
         ["Hillsbrad Fields"] = { mapID = 25, x = 0.3200, y = 0.4500, location = "Hillsbrad Fields, Hillsbrad Foothills" },
         ["Hillsbrad Town"] = { mapID = 25, x = 0.3100, y = 0.4200, location = "Hillsbrad, Hillsbrad Foothills" },
@@ -60,6 +61,7 @@ SM.BattleOfHillsbradData = {
             quests = {
                 { id = 527, name = "Battle of Hillsbrad", displayName = "The Northern Farms", npc = "High Executor Darthalia" },
                 { id = 528, name = "Battle of Hillsbrad", displayName = "The Peasants", npc = "High Executor Darthalia" },
+                { id = 567, name = "Dangerous!", npc = "WANTED", optional = true },
                 { id = 546, name = "Souvenirs of Death", npc = "Deathguard Samsa", optional = true, showIf = 527 },
             },
         },
