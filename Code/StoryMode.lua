@@ -669,7 +669,7 @@ aCoverDividerR:SetGradient("HORIZONTAL",
     CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0.7),
     CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0))
 
-local aCoverLevel = SM.NoShadow(aCoverFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+local aCoverLevel = SM.NoShadow(aCoverFrame:CreateFontString(nil, "OVERLAY", "QuestFont"))
 aCoverLevel:SetJustifyH("CENTER")
 aCoverLevel:SetWordWrap(false)
 aCoverLevel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
