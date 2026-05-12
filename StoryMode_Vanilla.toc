@@ -20,6 +20,7 @@ Data\Storylines\AlthalaxxData.lua
 Data\Storylines\DuskwoodData.lua
 Data\Storylines\RaenesCleansingData.lua
 Data\Storylines\BattleOfHillsbradData.lua
+Data\Storylines\SavingYennikuData.lua
 Data\Storylines\FallenHeroData.lua
 Data\Storylines\MissingDiplomatData.lua
 Data\Storylines\OnyxiaData.lua

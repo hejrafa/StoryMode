@@ -29,6 +29,7 @@ local contentRegistry = {
     { key = "DuskwoodData", category = "Stories" },
     { key = "RaenesCleansingData", category = "Stories" },
     { key = "BattleOfHillsbradData", category = "Stories" },
+    { key = "SavingYennikuData", category = "Stories" },
     { key = "MissingDiplomatData", category = "Stories" },
     { key = "PrincessMoiraData", category = "Stories" },
     { key = "TimbermawData", category = "Stories" },

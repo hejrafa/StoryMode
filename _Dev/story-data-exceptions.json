@@ -92,6 +92,30 @@
     },
     {
       "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SavingYennikuData.lua",
+      "quest": 584,
+      "reason": "Saving Yenniku repeats this quest ID in chapter prerequisites so later cauldron tasks remain correctly gated."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SavingYennikuData.lua",
+      "quest": 585,
+      "reason": "Saving Yenniku repeats this quest ID in chapter prerequisites so the Mind's Eye chapter waits for both cauldron tasks."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SavingYennikuData.lua",
+      "quest": 586,
+      "reason": "Saving Yenniku repeats this quest ID in chapter prerequisites so the Mind's Eye chapter waits for both cauldron tasks."
+    },
+    {
+      "type": "duplicate-quest-in-story",
+      "file": "Data/Storylines/SavingYennikuData.lua",
+      "quest": 591,
+      "reason": "Saving Yenniku repeats this quest ID in chapter prerequisites so the final rescue waits for the Mind's Eye."
+    },
+    {
+      "type": "duplicate-quest-in-story",
       "file": "Data/Storylines/SuramarData.lua",
       "quest": 44955,
       "reason": "Suramar repeats several hub quests across Nightfallen and Insurrection chapters to preserve the playable story order."
