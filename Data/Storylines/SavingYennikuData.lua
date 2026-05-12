@@ -16,6 +16,7 @@ SM.SavingYennikuData = {
     achievements = {},
     color = { 0.28, 0.58, 0.32 },
     icon = "Interface\\Icons\\INV_Misc_Head_Troll_01",
+    portraitDisplayID = 4663,
     adventureCoverTexture = 131886, -- Zul'Gurub loading screen: closest Classic troll-jungle cover for Yenniku's story
     adventureCoverIsLoadingScreen = true,
 
@@ -30,10 +31,29 @@ SM.SavingYennikuData = {
         ["Kin'weelay"] = { mapID = 50, x = 0.3220, y = 0.2770, location = "beside the Bubbling Cauldron at Grom'gol Base Camp" },
         ["Bloodscalp Trolls"] = { mapID = 50, x = 0.2450, y = 0.1150, location = "the Bloodscalp ruins north of Grom'gol" },
         ["Gan'zulah and Nezzliok"] = { mapID = 50, x = 0.2380, y = 0.0900, location = "deep inside the Bloodscalp ruins north of Grom'gol" },
+        ["Gan'zulah"] = { mapID = 50, x = 0.2380, y = 0.0900, location = "deep inside the Bloodscalp ruins north of Grom'gol" },
+        ["Nezzliok the Dire"] = { mapID = 50, x = 0.2380, y = 0.0900, location = "deep inside the Bloodscalp ruins north of Grom'gol" },
         ["Skullsplitter Trophies"] = { mapID = 50, x = 0.4600, y = 0.3800, location = "the Skullsplitter ruins in eastern Stranglethorn Vale" },
         ["Crystalvein Mine"] = { mapID = 50, x = 0.4100, y = 0.5000, location = "Crystalvein Mine, southeastern Stranglethorn Vale" },
+        ["Mai'Zoth"] = { mapID = 50, x = 0.5200, y = 0.2700, location = "deep inside the Mosh'Ogg Ogre Mound" },
         ["Mosh'Ogg Ogre Mound"] = { mapID = 50, x = 0.5200, y = 0.2700, location = "Mosh'Ogg Ogre Mound, northern Stranglethorn Vale" },
         ["Yenniku"] = { mapID = 50, x = 0.3900, y = 0.5800, location = "the Ruins of Aboraz, along the Crystal Shore" },
+    },
+
+    npcDisplayIDs = {
+        ["Nimboya"] = 4569,
+        ["Kin'weelay"] = 4475,
+        ["Gan'zulah"] = 4582,
+        ["Nezzliok the Dire"] = 4584,
+        ["Mai'Zoth"] = 11546,
+        ["Yenniku"] = 4663,
+    },
+
+    chapterDisplayIDs = {
+        ["Bloodscalp Trail"] = 4569,
+        ["Heads in the Cauldron"] = 4584,
+        ["The Mind's Eye"] = 4475,
+        ["Zanzil's Hold"] = 4663,
     },
 
     chapterIcons = {
@@ -51,15 +71,15 @@ SM.SavingYennikuData = {
             quests = {
                 { id = 581, name = "Hunt for Yenniku", npc = "Nimboya" },
                 { id = 582, name = "Headhunting", npc = "Nimboya" },
-                { id = 584, name = "Bloodscalp Clan Heads", npc = "Bubbling Cauldron" },
+                { id = 584, name = "Bloodscalp Clan Heads", npc = "Nimboya" },
             },
         },
         {
             chapter = "Heads in the Cauldron",
-            summary = "The cauldron makes the dead speak, but Gan'zulah and Nezzliok both demand Skullsplitter trophies before revealing what happened to Yenniku.",
+            summary = "The cauldron makes the dead speak, but Gan'zulah and Nezzliok both demand revenge against the Skullsplitters before revealing what happened to Yenniku.",
             recap = "Death did not make the Bloodscalp leaders cooperative. Nezzliok wanted trophy skulls stolen from the Skullsplitters. Gan'zulah wanted Ana'thek's broken armor and a tally of Skullsplitter hunters, headhunters, and berserkers. The spirits were not redeemed by the cauldron. They were bribed, threatened, and indulged until they finally gave up the truth: Yenniku had not died with the Bloodscalps. Zanzil the Outcast had taken him.",
             prerequisites = {
-                { id = 584, name = "Bloodscalp Clan Heads", npc = "Bubbling Cauldron" },
+                { id = 584, name = "Bloodscalp Clan Heads", npc = "Nimboya" },
             },
             quests = {
                 { id = 585, name = "Speaking with Nezzliok", npc = "Bubbling Cauldron" },

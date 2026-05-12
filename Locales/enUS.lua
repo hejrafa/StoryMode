@@ -12,7 +12,6 @@ L["Category Epic Stories"] = "Epic Stories"
 L["Category Character Stories"] = "Character Stories"
 L["Category Short Stories"] = "Short Stories"
 L["Category Identity Format"] = "%s %s Stories"
-L["Category More Coming Soon"] = "More Coming Soon"
 
 L["Tab Adventure"] = "Adventure"
 L["Tab Progress"] = "Progress"

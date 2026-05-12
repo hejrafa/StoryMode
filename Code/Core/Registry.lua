@@ -7,7 +7,6 @@ local categories = {
     { name = "Short Stories", displayName = L["Category Short Stories"], questlines = {} },
     { name = "Character Stories", displayName = L["Category Character Stories"], questlines = {} },
     { name = "Identity", displayName = string.format(L["Category Identity Format"], UnitRace("player"), UnitClass("player")), questlines = {} },
-    { name = "More Coming Soon", displayName = L["Category More Coming Soon"], disabled = true, questlines = {} },
 }
 
 local allQuestlines = {}

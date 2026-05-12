@@ -2521,7 +2521,7 @@ LayoutSelectedChapter = function()
 
     -- Update track selection visuals: selected node gets gold ring + glow.
     -- Deselected nodes get their completion-state ring color restored.
-    -- Gated nodes (with prerequisites) use squareBorder instead of ring.
+    -- Retail gated nodes (with prerequisites) use squareBorder instead of ring.
     local function SetNodeBorder(node, r, g, b, a)
         if SM.IsRetailClient() then
             node.ring:SetVertexColor(r, g, b)
@@ -3241,11 +3241,11 @@ function SM.LayoutProgressTab(data, w, contentW, visibleContentW)
             node.borderR, node.borderG, node.borderB = node.ring:GetVertexColor()
             node.borderA = node.ring:GetAlpha()
 
-            -- Shape: gated chapters render as squares.
+            -- Shape: gated chapters render as squares on Retail.
             -- ch.prerequisites = explicit quest gate; ch.gated = manual flag for
             -- chapters locked behind progress that can't be expressed as a quest ID.
             local CIRC = "Interface/CHARACTERFRAME/TempPortraitAlphaMask"
-            local isGated = ch.prerequisites ~= nil or ch.gated == true
+            local isGated = SM.IsRetailClient() and (ch.prerequisites ~= nil or ch.gated == true)
             node.isGated = isGated
             if isGated then
                 node.portraitMask:SetTexture("Interface/Buttons/WHITE8x8")
