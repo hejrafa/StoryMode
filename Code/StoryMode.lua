@@ -669,6 +669,14 @@ aCoverDividerR:SetGradient("HORIZONTAL",
     CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0.7),
     CreateColor(C_GOLD[1], C_GOLD[2], C_GOLD[3], 0))
 
+local aCoverLevel = SM.NoShadow(aCoverFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"))
+aCoverLevel:SetJustifyH("CENTER")
+aCoverLevel:SetWordWrap(false)
+aCoverLevel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+aCoverLevel:SetShadowColor(0, 0, 0, 0.55)
+aCoverLevel:SetShadowOffset(1, -1)
+aCoverLevel:Hide()
+
 -- ════════════════════════════════════════════════════════════════════════════
 -- STORY TAB elements
 -- ════════════════════════════════════════════════════════════════════════════
@@ -1664,6 +1672,14 @@ end
 
 function SM.SetAdventureCover(data, displayTitle)
     aCoverTitle:SetText(displayTitle or (data and data.title) or "")
+    local levelText = SM.GetStorySuggestedLevelText and SM.GetStorySuggestedLevelText(data)
+    if levelText and levelText ~= "" then
+        aCoverLevel:SetText(levelText)
+        aCoverLevel:Show()
+    else
+        aCoverLevel:SetText("")
+        aCoverLevel:Hide()
+    end
     local texture, useFullTexCoords = SM.GetAdventureCoverTexture(data)
     local texCoords = data and data.adventureCoverTexCoords
     if texture then
@@ -2962,6 +2978,9 @@ function SM.LayoutStoryTab(data, w, contentW, visibleContentW)
         local titleW = aCoverTitle:GetStringWidth()
         if titleW < 60 then titleW = 60 end
         aCoverDivider:SetWidth(titleW)
+        aCoverLevel:SetWidth(visibleTargetW - 80)
+        aCoverLevel:ClearAllPoints()
+        aCoverLevel:SetPoint("TOP", aCoverDivider, "BOTTOM", 0, -6)
         aCoverFrame:Show()
 
         -- Story intro below hero

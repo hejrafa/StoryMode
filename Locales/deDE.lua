@@ -71,7 +71,7 @@ L["Lock Complete Previous Quest Format"] = "Schließe zuerst %s ab."
 L["Lock Speak Pick Up Quest Format"] = "Sprich mit %s und nimm %s an, um dieses Kapitel zu beginnen."
 L["Story Level Format"] = "Stufe %s"
 L["Story Level Zone Format"] = "Stufe %s \194\183 %s"
-L["Story Suggested Level Format"] = "|cffffd200Empfohlene Stufe:|r %s"
+L["Story Suggested Level Format"] = "Empfohlene Stufe: %s"
 
 L["Quest Status Completed"] = "Abgeschlossen"
 L["Quest Status In Progress"] = "In Arbeit"

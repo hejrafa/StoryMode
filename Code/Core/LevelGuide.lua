@@ -67,8 +67,11 @@ function SM.GetQuestlineCardSubline(data)
 end
 
 function SM.GetStoryIntroText(data)
-    local intro = data and data.description or ""
+    return data and data.description or ""
+end
+
+function SM.GetStorySuggestedLevelText(data)
     local levelText = SM.GetRecommendedLevelText(data)
-    if not levelText then return intro end
-    return string.format(L["Story Suggested Level Format"], levelText) .. "\n\n" .. intro
+    if not levelText then return nil end
+    return string.format(L["Story Suggested Level Format"], levelText)
 end
