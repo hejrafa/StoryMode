@@ -61,7 +61,6 @@ SM.BattleOfHillsbradData = {
             quests = {
                 { id = 527, name = "Battle of Hillsbrad", displayName = "The Northern Farms", npc = "High Executor Darthalia" },
                 { id = 528, name = "Battle of Hillsbrad", displayName = "The Peasants", npc = "High Executor Darthalia" },
-                { id = 567, name = "Dangerous!", npc = "WANTED", optional = true },
                 { id = 546, name = "Souvenirs of Death", npc = "Deathguard Samsa", optional = true, showIf = 527 },
             },
         },
@@ -72,6 +71,7 @@ SM.BattleOfHillsbradData = {
             quests = {
                 { id = 529, name = "Battle of Hillsbrad", displayName = "The Blacksmith", npc = "High Executor Darthalia" },
                 { id = 532, name = "Battle of Hillsbrad", displayName = "The Town Hall", npc = "High Executor Darthalia" },
+                { id = 567, name = "Dangerous!", npc = "WANTED", optional = true },
                 { id = 539, name = "Battle of Hillsbrad", displayName = "Azureload Mine", npc = "High Executor Darthalia" },
             },
         },
