@@ -6,6 +6,7 @@ ignore:
   - .claude
   - .github
   - .meta-audit-cache
+  - .packager
   - .quest-audit-cache
   - _Dev
   - DESCRIPTION.md
