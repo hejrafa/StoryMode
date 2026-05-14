@@ -49,6 +49,10 @@ L["No Factions Tracked"] = "Фракции не отслеживаются."
 
 L["Minimap Tooltip Title"] = "Story Mode"
 L["Minimap Tooltip Open"] = "Нажмите, чтобы открыть"
+L["Minimap Tooltip Settings"] = "Щелкните правой кнопкой, чтобы выбрать стиль значка"
+L["Minimap Icon Style"] = "Стиль значка мини-карты"
+L["Minimap Icon Style Borderless"] = "Без рамки"
+L["Minimap Icon Style Default"] = "Стандартная рамка AddOn"
 L["Error In Combat"] = "Нельзя переключать этот интерфейс в бою."
 
 L["Achievement Earned"] = "Получено"

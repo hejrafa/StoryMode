@@ -2,6 +2,15 @@ local addonName, SM = ...
 local L = SM.L
 
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
+local MINIMAP_STYLE_BORDERLESS = "borderless"
+local MINIMAP_STYLE_DEFAULT_BORDER = "defaultBorder"
+
+local function GetMinimapIconStyle()
+    if not StoryModeDB or StoryModeDB.minimapIconStyle ~= MINIMAP_STYLE_DEFAULT_BORDER then
+        return MINIMAP_STYLE_BORDERLESS
+    end
+    return MINIMAP_STYLE_DEFAULT_BORDER
+end
 
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
@@ -11,6 +20,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     minimapBtn:SetSize(buttonSize, buttonSize)
     minimapBtn:SetFrameStrata("MEDIUM")
     minimapBtn:SetFrameLevel(9)
+    minimapBtn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
     local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
     minimapIcon:SetSize(iconSize, iconSize)
@@ -22,6 +32,65 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
         "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
     minimapMask:SetAllPoints(minimapIcon)
     minimapIcon:AddMaskTexture(minimapMask)
+
+    local defaultBorder = minimapBtn:CreateTexture(nil, "OVERLAY", nil, 3)
+    defaultBorder:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    defaultBorder:SetSize(54, 54)
+    defaultBorder:SetPoint("TOPLEFT", minimapBtn, "TOPLEFT", -7, 7)
+
+    local function ApplyIconStyle()
+        defaultBorder:SetShown(GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER)
+    end
+
+    local minimapMenuFrame
+    local function SetIconStyle(style)
+        if StoryModeDB then StoryModeDB.minimapIconStyle = style end
+        ApplyIconStyle()
+    end
+
+    local function ShowIconStyleMenu(owner)
+        tooltip:Hide()
+
+        if MenuUtil and MenuUtil.CreateContextMenu then
+            MenuUtil.CreateContextMenu(owner, function(_, rootDescription)
+                rootDescription:CreateTitle(L["Minimap Icon Style"])
+                rootDescription:CreateRadio(
+                    L["Minimap Icon Style Borderless"],
+                    function() return GetMinimapIconStyle() == MINIMAP_STYLE_BORDERLESS end,
+                    function() SetIconStyle(MINIMAP_STYLE_BORDERLESS) end
+                )
+                rootDescription:CreateRadio(
+                    L["Minimap Icon Style Default"],
+                    function() return GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER end,
+                    function() SetIconStyle(MINIMAP_STYLE_DEFAULT_BORDER) end
+                )
+            end)
+            return
+        end
+
+        if EasyMenu then
+            if not minimapMenuFrame then
+                minimapMenuFrame = CreateFrame("Frame", "StoryModeMinimapIconStyleMenu", UIParent, "UIDropDownMenuTemplate")
+            end
+            EasyMenu({
+                {
+                    text = L["Minimap Icon Style"],
+                    isTitle = true,
+                    notCheckable = true,
+                },
+                {
+                    text = L["Minimap Icon Style Borderless"],
+                    checked = function() return GetMinimapIconStyle() == MINIMAP_STYLE_BORDERLESS end,
+                    func = function() SetIconStyle(MINIMAP_STYLE_BORDERLESS) end,
+                },
+                {
+                    text = L["Minimap Icon Style Default"],
+                    checked = function() return GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER end,
+                    func = function() SetIconStyle(MINIMAP_STYLE_DEFAULT_BORDER) end,
+                },
+            }, minimapMenuFrame, "cursor", 0, 0, "MENU")
+        end
+    end
 
     local function UpdatePosition(angle)
         local r = (Minimap:GetWidth() / 2) + edgeOffset  -- sit on the edge
@@ -49,7 +118,12 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
         self:SetScript("OnUpdate", nil)
     end)
 
-    minimapBtn:SetScript("OnClick", function()
+    minimapBtn:SetScript("OnClick", function(self, button)
+        if button == "RightButton" then
+            ShowIconStyleMenu(self)
+            return
+        end
+
         if InCombatLockdown() then
             UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
             return
@@ -68,6 +142,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
         tooltip:ClearLines()
         tooltip:AddLine(L["Minimap Tooltip Title"], 1, 1, 1)
         tooltip:AddLine(L["Minimap Tooltip Open"], bodyColor[1], bodyColor[2], bodyColor[3])
+        tooltip:AddLine(L["Minimap Tooltip Settings"], bodyColor[1], bodyColor[2], bodyColor[3])
         tooltip._minW = 0
         tooltip:Show()
     end)
@@ -113,6 +188,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     end)
 
     return function()
+        ApplyIconStyle()
         local angle = StoryModeDB and StoryModeDB.minimapAngle or 4.4  -- default: bottom
         UpdatePosition(angle)
     end

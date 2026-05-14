@@ -49,6 +49,10 @@ L["No Factions Tracked"] = "Keine Fraktionen verfolgt."
 
 L["Minimap Tooltip Title"] = "Story Mode"
 L["Minimap Tooltip Open"] = "Zum Öffnen klicken"
+L["Minimap Tooltip Settings"] = "Rechtsklick für den Symbolstil"
+L["Minimap Icon Style"] = "Minikartensymbol-Stil"
+L["Minimap Icon Style Borderless"] = "Ohne Rand"
+L["Minimap Icon Style Default"] = "Standard-AddOn-Rand"
 L["Error In Combat"] = "Du kannst diese UI im Kampf nicht ein- oder ausblenden."
 
 L["Achievement Earned"] = "Errungen"

@@ -49,6 +49,10 @@ L["No Factions Tracked"] = "Aucune faction suivie."
 
 L["Minimap Tooltip Title"] = "Story Mode"
 L["Minimap Tooltip Open"] = "Cliquer pour ouvrir"
+L["Minimap Tooltip Settings"] = "Clic droit pour le style de l'icône"
+L["Minimap Icon Style"] = "Style de l'icône de la minicarte"
+L["Minimap Icon Style Borderless"] = "Sans bordure"
+L["Minimap Icon Style Default"] = "Bordure AddOn par défaut"
 L["Error In Combat"] = "Vous ne pouvez pas afficher ou masquer cette interface en combat."
 
 L["Achievement Earned"] = "Obtenu"

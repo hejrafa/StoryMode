@@ -4,6 +4,7 @@ local defaults = {
     version = "1.7.0",
     selectedQuestline = 1,
     selectedQuestlineID = nil,
+    minimapIconStyle = "borderless",
     viewedLoreChapters = {},
     playedChapters = {},
 }
