@@ -46,7 +46,7 @@ L["No Achievements Tracked"] = "No achievements tracked."
 L["No Factions Tracked"] = "No factions tracked."
 
 L["Minimap Tooltip Title"] = "Story Mode"
-L["Minimap Tooltip Open"] = "Click to open"
+L["Minimap Tooltip Open"] = "Left-click to open"
 L["Minimap Tooltip Settings"] = "Right-click for icon style"
 L["Minimap Icon Style"] = "Minimap Icon Style"
 L["Minimap Icon Style Borderless"] = "No Border"

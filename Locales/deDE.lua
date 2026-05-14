@@ -48,7 +48,7 @@ L["No Achievements Tracked"] = "Keine Erfolge verfolgt."
 L["No Factions Tracked"] = "Keine Fraktionen verfolgt."
 
 L["Minimap Tooltip Title"] = "Story Mode"
-L["Minimap Tooltip Open"] = "Zum Öffnen klicken"
+L["Minimap Tooltip Open"] = "Linksklick zum Öffnen"
 L["Minimap Tooltip Settings"] = "Rechtsklick für den Symbolstil"
 L["Minimap Icon Style"] = "Minikartensymbol-Stil"
 L["Minimap Icon Style Borderless"] = "Ohne Rand"

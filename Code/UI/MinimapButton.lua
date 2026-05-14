@@ -14,16 +14,19 @@ end
 
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
-    local buttonSize = (SM.IsRetailClient()) and 42 or 34
-    local iconSize = (SM.IsRetailClient()) and 36 or 28
+    local borderlessButtonSize = (SM.IsRetailClient()) and 42 or 34
+    local borderlessIconSize = (SM.IsRetailClient()) and 36 or 28
+    local defaultButtonSize = (SM.IsRetailClient()) and 32 or 30
+    local defaultIconSize = (SM.IsRetailClient()) and 23 or 22
+    local defaultBorderSize = (SM.IsRetailClient()) and 50 or 53
     local edgeOffset = (SM.IsRetailClient()) and 8 or 5
-    minimapBtn:SetSize(buttonSize, buttonSize)
+    minimapBtn:SetSize(borderlessButtonSize, borderlessButtonSize)
     minimapBtn:SetFrameStrata("MEDIUM")
     minimapBtn:SetFrameLevel(9)
     minimapBtn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
     local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
-    minimapIcon:SetSize(iconSize, iconSize)
+    minimapIcon:SetSize(borderlessIconSize, borderlessIconSize)
     minimapIcon:SetPoint("CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
     minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
 
@@ -35,11 +38,24 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
 
     local defaultBorder = minimapBtn:CreateTexture(nil, "OVERLAY", nil, 3)
     defaultBorder:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
-    defaultBorder:SetSize(54, 54)
-    defaultBorder:SetPoint("TOPLEFT", minimapBtn, "TOPLEFT", -7, 7)
 
     local function ApplyIconStyle()
-        defaultBorder:SetShown(GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER)
+        minimapIcon:ClearAllPoints()
+        defaultBorder:ClearAllPoints()
+
+        if GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER then
+            minimapBtn:SetSize(defaultButtonSize, defaultButtonSize)
+            minimapIcon:SetSize(defaultIconSize, defaultIconSize)
+            minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", 0, 0)
+            defaultBorder:SetSize(defaultBorderSize, defaultBorderSize)
+            defaultBorder:SetPoint("TOPLEFT", minimapBtn, "TOPLEFT", 0, 0)
+            defaultBorder:Show()
+        else
+            minimapBtn:SetSize(borderlessButtonSize, borderlessButtonSize)
+            minimapIcon:SetSize(borderlessIconSize, borderlessIconSize)
+            minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
+            defaultBorder:Hide()
+        end
     end
 
     local minimapMenuFrame
