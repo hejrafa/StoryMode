@@ -419,8 +419,8 @@ leftSection:SetPoint("TOPLEFT", storyFrame, "TOPLEFT", 0, 0)
 SM.CreateStoryPanel(leftSection)
 
 -- Scrollable card list (no scrollbar — mousewheel only)
-local leftScrollTopInset = SM.PanelScrollTopInset - (SM.IsRetailClient() and 1 or 0)
-local leftScrollBottomInset = SM.PanelScrollBottomInset - (SM.IsRetailClient() and 1 or 0)
+local leftScrollTopInset = SM.PanelScrollTopInset - (SM.IsRetailClient() and 2 or 0)
+local leftScrollBottomInset = SM.PanelScrollBottomInset - (SM.IsRetailClient() and 2 or 0)
 local leftScroll = CreateFrame("ScrollFrame", nil, leftSection, "ScrollFrameTemplate")
 leftScroll:SetPoint("TOPLEFT",     leftSection, "TOPLEFT",     12, -leftScrollTopInset)
 leftScroll:SetPoint("BOTTOMRIGHT", leftSection, "BOTTOMRIGHT", -12, leftScrollBottomInset)
@@ -515,7 +515,7 @@ tabContainer:SetPoint("BOTTOMRIGHT", rightSection, "BOTTOMRIGHT", 0,  0)
 
 local detailScrollTemplate = (SM.IsRetailClient()) and "ScrollFrameTemplate" or "UIPanelScrollFrameTemplate"
 local detailScrollName = (SM.IsRetailClient()) and nil or "StoryModeDetailScrollFrame"
-local detailScrollBottomInset = SM.PanelScrollBottomInset - (SM.IsRetailClient() and 1 or 0)
+local detailScrollBottomInset = SM.PanelScrollBottomInset - (SM.IsRetailClient() and 2 or 0)
 local detailScroll = CreateFrame("ScrollFrame", detailScrollName, tabContainer, detailScrollTemplate)
 detailScroll:SetPoint("TOPLEFT",     tabContainer, "TOPLEFT",      2,  -2)
 detailScroll:SetPoint("BOTTOMRIGHT", tabContainer, "BOTTOMRIGHT", -2, detailScrollBottomInset)
