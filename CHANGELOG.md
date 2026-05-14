@@ -9,6 +9,10 @@
 - Updated Classic story cover choices and fixed Classic presentation details for **Chen's Empty Keg**, including Brewmaster Drohn's portrait and the keg icon on the opening chapter
 
 ### UI
+- Added a right-click minimap icon style menu so players can choose between the current borderless icon and Blizzard's default AddOn border
+- Updated the minimap tooltip to show both left-click open and right-click style actions
+- Tuned the bordered minimap icon layout separately for Retail and Classic/TBC so the masked icon sits centered in the default border
+- Expanded Retail story panel scroll areas slightly on the left panel top/bottom and right panel bottom while leaving Classic/TBC spacing unchanged
 - Moved Classic/TBC suggested level text onto the adventure cover under the title divider
 - Kept gated chapter nodes circular on Classic clients while preserving square gated nodes on Retail
 - Removed the disabled **More Coming Soon** category from all clients
