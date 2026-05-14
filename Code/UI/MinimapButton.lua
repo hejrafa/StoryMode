@@ -19,6 +19,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local defaultButtonSize = (SM.IsRetailClient()) and 32 or 30
     local defaultIconSize = (SM.IsRetailClient()) and 23 or 22
     local defaultBorderSize = (SM.IsRetailClient()) and 50 or 53
+    local defaultIconOffsetX = (SM.IsRetailClient()) and 2 or 1
     local edgeOffset = (SM.IsRetailClient()) and 8 or 5
     minimapBtn:SetSize(borderlessButtonSize, borderlessButtonSize)
     minimapBtn:SetFrameStrata("MEDIUM")
@@ -46,7 +47,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
         if GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER then
             minimapBtn:SetSize(defaultButtonSize, defaultButtonSize)
             minimapIcon:SetSize(defaultIconSize, defaultIconSize)
-            minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", 0, 0)
+            minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", defaultIconOffsetX, 0)
             defaultBorder:SetSize(defaultBorderSize, defaultBorderSize)
             defaultBorder:SetPoint("TOPLEFT", minimapBtn, "TOPLEFT", 0, 0)
             defaultBorder:Show()
