@@ -33,7 +33,6 @@ Data\Storylines\TimbermawData.lua
 Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
-Data\Storylines\ChensEmptyKegData.lua
 Data\Storylines\HoggerData.lua
 Data\Storylines\AgamandFamilyData.lua
 Data\Storylines\MankriksWifeData.lua

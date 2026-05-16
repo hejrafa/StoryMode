@@ -50,7 +50,6 @@ local contentRegistry = {
     { key = "LinkenData", category = "Short Stories" },
     { key = "CortellosRiddleData", category = "Short Stories" },
     { key = "MissingCourierData", category = "Short Stories" },
-    { key = "ChensEmptyKegData", category = "Short Stories" },
     { key = "HoggerData", category = "Short Stories" },
     { key = "AgamandFamilyData", category = "Short Stories" },
     { key = "MankriksWifeData", category = "Short Stories" },

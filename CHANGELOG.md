@@ -6,7 +6,6 @@
 - Added **Saving Yenniku**, a Horde Stranglethorn Vale story for the level 30-45 gap
 - Added **Souvenirs of Death** and **Dangerous!** as optional **Battle of Hillsbrad** side quests, with **Dangerous!** placed in the town-and-mine chapter
 - Improved **Arugal and Shadowfang Keep** guidance so parallel dungeon quests point players to their actual quest givers
-- Updated Classic story cover choices and fixed Classic presentation details for **Chen's Empty Keg**, including Brewmaster Drohn's portrait and the keg icon on the opening chapter
 
 ### UI
 - Added a right-click minimap icon style menu so players can choose between the current borderless icon and Blizzard's default AddOn border
