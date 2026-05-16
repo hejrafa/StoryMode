@@ -1,12 +1,21 @@
 # Changelog
 
+## 1.8.4
+
+### Classic Era
+- Removed **Chen's Empty Keg** from the Short Stories collection
+
+### Maintenance
+- Updated release packaging so CurseForge and Wago receive only the current version's changelog notes
+- Updated GitHub Actions packaging checkout to `actions/checkout@v5`
+- Bumped addon metadata to `1.8.4`
+
 ## 1.8.3
 
 ### Classic Era
 - Added **Saving Yenniku**, a Horde Stranglethorn Vale story for the level 30-45 gap
 - Added **Souvenirs of Death** and **Dangerous!** as optional **Battle of Hillsbrad** side quests, with **Dangerous!** placed in the town-and-mine chapter
 - Improved **Arugal and Shadowfang Keep** guidance so parallel dungeon quests point players to their actual quest givers
-- Removed **Chen's Empty Keg** from the Short Stories collection
 
 ### UI
 - Added a right-click minimap icon style menu so players can choose between the current borderless icon and Blizzard's default AddOn border
