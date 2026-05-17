@@ -41,55 +41,32 @@ local function GetActiveStoriesSignature(activeQuestlines)
     return table.concat(parts, "|")
 end
 
-local function GetStoryChatLink(data)
-    if not data or not data.id or not data.title then return nil end
-    return "|cff66d9ef|Hstorymode:" .. data.id .. "|h[Story Mode: " .. data.title .. "]|h|r"
+local function GetStoryChatText(data)
+    if not data or not data.title then return nil end
+    return "Story Mode: " .. data.title
 end
 
-local function InsertStoryChatLink(data)
-    if not ChatEdit_InsertLink then return false end
+local function InsertChatText(text)
+    if not text or text == "" then return false end
 
-    local link = GetStoryChatLink(data)
-    if link and ChatEdit_InsertLink(link) then
+    local editBox = ChatEdit_GetActiveWindow and ChatEdit_GetActiveWindow() or nil
+    if editBox and editBox.Insert then
+        editBox:Insert(text)
+        return true
+    end
+
+    if ChatFrame_OpenChat then
+        ChatFrame_OpenChat(text, DEFAULT_CHAT_FRAME)
         return true
     end
 
     return false
 end
 
-function SM.OpenStoryLink(storyID)
-    local data = SM.GetQuestlineByID(storyID)
-    if not data then return false end
-
-    local index = SM.GetStoryIndexByID(storyID)
-    if index then
-        StoryModeDB.selectedQuestline = index
-        StoryModeDB.selectedQuestlineID = storyID
-        StoryModeDB.selectedChapter = StoryModeDB.selectedChapter or 1
-        if storyContentBuilt then
-            SM.SelectStory(index)
-        end
-    end
-
-    if SM.ShowStoryModeFrame then
-        SM.ShowStoryModeFrame()
-    elseif SM.ToggleStoryModeFrame then
-        SM.ToggleStoryModeFrame()
-    end
-    return true
+local function InsertStoryChatText(data)
+    return InsertChatText(GetStoryChatText(data))
 end
 
-if not SM.storyLinkHandlerInstalled and SetItemRef then
-    local OriginalSetItemRef = SetItemRef
-    SetItemRef = function(link, text, button, chatFrame)
-        local storyID = link and link:match("^storymode:(.+)$")
-        if storyID and SM.OpenStoryLink and SM.OpenStoryLink(storyID) then
-            return
-        end
-        return OriginalSetItemRef(link, text, button, chatFrame)
-    end
-    SM.storyLinkHandlerInstalled = true
-end
 
 local function CategoryHasVisibleQuestlines(cat, activeSet)
     if not cat or not cat.questlines then return false end
@@ -574,7 +551,7 @@ local function CreateStoryListCard(data, idx, cardHeight, cardPadding, yOffset)
     storyLeftRows[idx] = row
 
     card:SetScript("OnClick", function(_, button)
-        if button == "LeftButton" and IsShiftKeyDown() and InsertStoryChatLink(data) then
+        if button == "LeftButton" and IsShiftKeyDown() and InsertStoryChatText(data) then
             return
         end
         SM.SelectStory(idx)

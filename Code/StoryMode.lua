@@ -4029,19 +4029,6 @@ function SM.ToggleStoryModeFrame()
     end)
 end
 
-function SM.ShowStoryModeFrame()
-    if InCombatLockdown() then
-        UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
-        return
-    end
-
-    C_Timer.After(0, function()
-        if not storyFrame:IsShown() then
-            storyFrame:Show()
-        end
-    end)
-end
-
 function StoryMode_AddonCompartment_OnClick(_, button)
     if button and button ~= "LeftButton" then return end
     SM.ToggleStoryModeFrame()
