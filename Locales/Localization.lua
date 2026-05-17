@@ -76,6 +76,10 @@ function SM.LocalizeContentData(data)
     if type(data) ~= "table" or data._localized then return data end
     data._localized = true
 
+    if type(data.title) == "string" and not data._originalTitle then
+        data._originalTitle = data.title
+    end
+
     LocalizeField(data, "title")
     LocalizeField(data, "achievementName")
     LocalizeField(data, "description")

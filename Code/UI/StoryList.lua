@@ -118,10 +118,19 @@ if not SM.storyLinkHandlerInstalled and SetItemRef then
     SM.storyLinkHandlerInstalled = true
 end
 
+local function NormalizeShareTitle(title)
+    title = type(title) == "string" and title or ""
+    title = title:match("^%s*(.-)%s*$")
+    return title:lower()
+end
+
 local function FindStoryByTitle(title)
     if not title or title == "" then return nil end
+    local target = NormalizeShareTitle(title)
     for _, data in ipairs(allQuestlines) do
-        if data.title == title then return data end
+        if NormalizeShareTitle(data.title) == target or NormalizeShareTitle(data._originalTitle) == target then
+            return data
+        end
     end
     return nil
 end
