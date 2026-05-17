@@ -127,7 +127,7 @@ local function FindStoryByTitle(title)
 end
 
 function SM.LinkifyStoryShares(message)
-    if not message or not message:find("%[Story Mode: ") then return false end
+    if not message or not message:find("%[Story Mode: ") then return false, message end
 
     local changed = false
     message = message:gsub("%[Story Mode: ([^%]]+)%]", function(title)

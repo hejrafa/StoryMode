@@ -2346,7 +2346,7 @@ if not SM.questLinkHandlerInstalled and SetItemRef then
 end
 
 function SM.LinkifyQuestShares(message)
-    if not message or not message:find("%(%d+%)") then return false end
+    if not message or not message:find("%(%d+%)") then return false, message end
 
     local changed = false
     message = message:gsub("%[([^%[%]]-) %((%d+)%)%]", function(questName, questIDText)
@@ -2416,8 +2416,10 @@ local function WrapChatFrameAddMessage(chatFrame)
 
     local originalAddMessage = chatFrame.AddMessage
     chatFrame.AddMessage = function(self, message, ...)
+        local originalMessage = message
         local changed
         changed, message = LinkifyShareMessage(message)
+        if message == nil then message = originalMessage end
         return originalAddMessage(self, message, ...)
     end
     chatFrame._storyModeShareWrapped = true
