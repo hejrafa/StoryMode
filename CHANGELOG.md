@@ -5,6 +5,9 @@
 ### Classic Era
 - Removed **Chen's Empty Keg** from the Short Stories collection
 
+### UI
+- Added shift-click sharing for story and quest cards, with Story Mode users seeing clickable chat links and other players seeing readable plain text
+
 ### Maintenance
 - Updated release packaging so CurseForge and Wago receive only the current version's changelog notes
 - Updated GitHub Actions packaging checkout to `actions/checkout@v5`
