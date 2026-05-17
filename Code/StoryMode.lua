@@ -2265,6 +2265,49 @@ end
 -- ── Quest card pool ─────────────────────────────────────────────────
 local dQuestCards = {}
 
+local function GetQuestChatLink(questID, questName)
+    if not questID then return nil end
+
+    if C_QuestLog and C_QuestLog.GetQuestLink then
+        local ok, link = pcall(C_QuestLog.GetQuestLink, questID)
+        if ok and link then return link end
+    end
+
+    local logIndex = SM.GetLogIndexForQuestID(questID)
+    if logIndex and GetQuestLink then
+        local ok, link = pcall(GetQuestLink, logIndex)
+        if ok and link then return link end
+    end
+
+    questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
+    if questName and questName ~= "" then
+        local playerLevel = (UnitLevel and UnitLevel("player")) or 0
+        return "|cffffff00|Hquest:" .. questID .. ":" .. playerLevel .. "|h[" .. questName .. "]|h|r"
+    end
+end
+
+local function InsertQuestChatLink(questEntry, questID, questName)
+    if not ChatEdit_InsertLink then return false end
+
+    local link = GetQuestChatLink(questID, questName)
+    if link and ChatEdit_InsertLink(link) then
+        return true
+    end
+
+    if questEntry then
+        for _, alternateQuestID in ipairs(SM.GetQuestIDs(questEntry)) do
+            if alternateQuestID ~= questID then
+                link = GetQuestChatLink(alternateQuestID, questName)
+                if link and ChatEdit_InsertLink(link) then
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
 function SM.CreateQuestCard(parent)
     local card = CreateFrame("Button", nil, parent, (SM.IsRetailClient()) and nil or "BackdropTemplate")
     card:EnableMouse(true)
@@ -2373,10 +2416,14 @@ function SM.CreateQuestCard(parent)
         SMTooltip:Show()
     end)
     card:SetScript("OnLeave", function() SMTooltip:Hide() end)
-    card:SetScript("OnClick", function(self)
+    card:SetScript("OnClick", function(self, button)
         if not self.questEntry then return end
 
         local questName = self.tooltipTitle or self.questEntry.name or L["Quest"]
+        if button == "LeftButton" and IsShiftKeyDown() and InsertQuestChatLink(self.questEntry, self.questID, questName) then
+            return
+        end
+
         local questText = "|cffffd200" .. questName .. "|r"
         if self.questCompleteForClick or SM.IsQuestEntryComplete(self.questEntry) then
             storyFrame:Hide()
