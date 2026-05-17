@@ -61,16 +61,21 @@ local function GetStoryChatLink(data)
     return "|Hstorymode:" .. EncodeStoryLinkID(data.id) .. ":" .. senderGUID .. "|h|cff66d9ef[Story Mode: " .. data.title .. "]|r|h"
 end
 
+local function GetStoryShareText(data)
+    if not data or not data.title then return nil end
+    return "[Story Mode: " .. data.title .. "]"
+end
+
 local function InsertStoryChatLink(data)
-    local link = GetStoryChatLink(data)
-    if not link then return false end
+    local shareText = GetStoryShareText(data)
+    if not shareText then return false end
 
     if ChatFrame1EditBox and not ChatFrame1EditBox:IsVisible() and ChatFrame_OpenChat then
-        ChatFrame_OpenChat(link)
+        ChatFrame_OpenChat(shareText)
         return true
     end
 
-    if ChatEdit_InsertLink and ChatEdit_InsertLink(link) then
+    if ChatEdit_InsertLink and ChatEdit_InsertLink(shareText) then
         return true
     end
 
@@ -111,6 +116,63 @@ if not SM.storyLinkHandlerInstalled and SetItemRef then
         return OriginalSetItemRef(link, text, button, chatFrame)
     end
     SM.storyLinkHandlerInstalled = true
+end
+
+local function FindStoryByTitle(title)
+    if not title or title == "" then return nil end
+    for _, data in ipairs(allQuestlines) do
+        if data.title == title then return data end
+    end
+    return nil
+end
+
+function SM.LinkifyStoryShares(message)
+    if not message or not message:find("%[Story Mode: ") then return false end
+
+    local changed = false
+    message = message:gsub("%[Story Mode: ([^%]]+)%]", function(title)
+        local data = FindStoryByTitle(title)
+        local link = data and GetStoryChatLink(data)
+        if link then
+            changed = true
+            return link
+        end
+        return "[Story Mode: " .. title .. "]"
+    end)
+
+    return changed, message
+end
+
+function SM.StoryShareMessageFilter(_, _, message, ...)
+    local changed
+    changed, message = SM.LinkifyStoryShares(message)
+    if changed then
+        return false, message, ...
+    end
+    return false
+end
+
+local function RegisterStoryShareFilters()
+    local addFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+    if not addFilter then return end
+
+    local events = {
+        "CHAT_MSG_PARTY", "CHAT_MSG_PARTY_LEADER",
+        "CHAT_MSG_RAID", "CHAT_MSG_RAID_LEADER", "CHAT_MSG_RAID_WARNING",
+        "CHAT_MSG_GUILD", "CHAT_MSG_OFFICER",
+        "CHAT_MSG_INSTANCE_CHAT", "CHAT_MSG_INSTANCE_CHAT_LEADER",
+        "CHAT_MSG_WHISPER", "CHAT_MSG_WHISPER_INFORM",
+        "CHAT_MSG_BN", "CHAT_MSG_BN_WHISPER", "CHAT_MSG_BN_WHISPER_INFORM",
+        "CHAT_MSG_CHANNEL", "CHAT_MSG_SAY", "CHAT_MSG_YELL", "CHAT_MSG_EMOTE",
+    }
+    for _, event in ipairs(events) do
+        addFilter(event, SM.StoryShareMessageFilter)
+    end
+end
+
+if not SM.storyShareFiltersRegistered then
+    RegisterStoryShareFilters()
+    SM.storyShareFiltersRegistered = true
 end
 
 

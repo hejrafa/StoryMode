@@ -2274,16 +2274,23 @@ local function GetQuestChatLink(questID, questName)
     return "|Hstorymodequest:" .. questID .. ":" .. senderGUID .. "|h|cffffff00[" .. questName .. "]|r|h"
 end
 
+local function GetQuestShareText(questID, questName)
+    if not questID then return nil end
+    questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
+    if not questName or questName == "" then return nil end
+    return "[" .. questName .. " (" .. questID .. ")]"
+end
+
 local function InsertQuestChatLink(questEntry, questID, questName)
-    local link = GetQuestChatLink(questID, questName)
-    if not link then return false end
+    local shareText = GetQuestShareText(questID, questName)
+    if not shareText then return false end
 
     if ChatFrame1EditBox and not ChatFrame1EditBox:IsVisible() and ChatFrame_OpenChat then
-        ChatFrame_OpenChat(link)
+        ChatFrame_OpenChat(shareText)
         return true
     end
 
-    if ChatEdit_InsertLink and ChatEdit_InsertLink(link) then
+    if ChatEdit_InsertLink and ChatEdit_InsertLink(shareText) then
         return true
     end
 
@@ -2336,6 +2343,95 @@ if not SM.questLinkHandlerInstalled and SetItemRef then
         return OriginalSetItemRef(link, text, button, chatFrame)
     end
     SM.questLinkHandlerInstalled = true
+end
+
+function SM.LinkifyQuestShares(message)
+    if not message or not message:find("%(%d+%)") then return false end
+
+    local changed = false
+    message = message:gsub("%[([^%[%]]-) %((%d+)%)%]", function(questName, questIDText)
+        local questID = tonumber(questIDText)
+        local data = questID and SM.FindQuestStory(questID)
+        local link = data and GetQuestChatLink(questID, questName)
+        if link then
+            changed = true
+            return link
+        end
+        return "[" .. questName .. " (" .. questIDText .. ")]"
+    end)
+
+    return changed, message
+end
+
+function SM.QuestShareMessageFilter(_, _, message, ...)
+    local changed
+    changed, message = SM.LinkifyQuestShares(message)
+    if changed then
+        return false, message, ...
+    end
+    return false
+end
+
+local function RegisterQuestShareFilters()
+    local addFilter = ChatFrameUtil and ChatFrameUtil.AddMessageEventFilter or ChatFrame_AddMessageEventFilter
+    if not addFilter then return end
+
+    local events = {
+        "CHAT_MSG_PARTY", "CHAT_MSG_PARTY_LEADER",
+        "CHAT_MSG_RAID", "CHAT_MSG_RAID_LEADER", "CHAT_MSG_RAID_WARNING",
+        "CHAT_MSG_GUILD", "CHAT_MSG_OFFICER",
+        "CHAT_MSG_INSTANCE_CHAT", "CHAT_MSG_INSTANCE_CHAT_LEADER",
+        "CHAT_MSG_WHISPER", "CHAT_MSG_WHISPER_INFORM",
+        "CHAT_MSG_BN", "CHAT_MSG_BN_WHISPER", "CHAT_MSG_BN_WHISPER_INFORM",
+        "CHAT_MSG_CHANNEL", "CHAT_MSG_SAY", "CHAT_MSG_YELL", "CHAT_MSG_EMOTE",
+    }
+    for _, event in ipairs(events) do
+        addFilter(event, SM.QuestShareMessageFilter)
+    end
+end
+
+if not SM.questShareFiltersRegistered then
+    RegisterQuestShareFilters()
+    SM.questShareFiltersRegistered = true
+end
+
+local function LinkifyShareMessage(message)
+    local changed = false
+    local storyChanged, questChanged
+
+    if SM.LinkifyStoryShares then
+        storyChanged, message = SM.LinkifyStoryShares(message)
+        changed = changed or storyChanged
+    end
+    if SM.LinkifyQuestShares then
+        questChanged, message = SM.LinkifyQuestShares(message)
+        changed = changed or questChanged
+    end
+
+    return changed, message
+end
+
+local function WrapChatFrameAddMessage(chatFrame)
+    if not chatFrame or chatFrame._storyModeShareWrapped or not chatFrame.AddMessage then return end
+
+    local originalAddMessage = chatFrame.AddMessage
+    chatFrame.AddMessage = function(self, message, ...)
+        local changed
+        changed, message = LinkifyShareMessage(message)
+        return originalAddMessage(self, message, ...)
+    end
+    chatFrame._storyModeShareWrapped = true
+end
+
+local function RegisterShareDisplayHooks()
+    for i = 1, (NUM_CHAT_WINDOWS or 10) do
+        WrapChatFrameAddMessage(_G["ChatFrame" .. i])
+    end
+end
+
+if not SM.shareDisplayHooksRegistered then
+    RegisterShareDisplayHooks()
+    SM.shareDisplayHooksRegistered = true
 end
 
 function SM.CreateQuestCard(parent)
