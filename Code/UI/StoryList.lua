@@ -62,8 +62,8 @@ local function GetStoryChatLink(data)
 end
 
 local function GetStoryShareText(data)
-    if not data or not data.id or not data.title then return nil end
-    return "[Story Mode: " .. data.title .. " (" .. data.id .. ")]"
+    if not data or not data.title then return nil end
+    return "[Story Mode: " .. data.title .. "]"
 end
 
 local function InsertStoryChatLink(data)
@@ -132,6 +132,9 @@ local function FindStoryByTitle(title)
             return data
         end
     end
+    if target == "lost in battle" then
+        return SM.GetQuestlineByID("lost-in-battle")
+    end
     return nil
 end
 
@@ -139,16 +142,6 @@ function SM.LinkifyStoryShares(message)
     if not message or not message:find("%[Story Mode: ") then return false, message end
 
     local changed = false
-    message = message:gsub("%[Story Mode: (.-) %(([%w%-]+)%)%]", function(title, storyID)
-        local data = SM.GetQuestlineByID(storyID) or FindStoryByTitle(title)
-        local link = data and GetStoryChatLink(data)
-        if link then
-            changed = true
-            return link
-        end
-        return "[Story Mode: " .. title .. " (" .. storyID .. ")]"
-    end)
-
     message = message:gsub("%[Story Mode: ([^%]]+)%]", function(title)
         local data = FindStoryByTitle(title)
         local link = data and GetStoryChatLink(data)
