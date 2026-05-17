@@ -41,6 +41,56 @@ local function GetActiveStoriesSignature(activeQuestlines)
     return table.concat(parts, "|")
 end
 
+local function GetStoryChatLink(data)
+    if not data or not data.id or not data.title then return nil end
+    return "|cff66d9ef|Hstorymode:" .. data.id .. "|h[Story Mode: " .. data.title .. "]|h|r"
+end
+
+local function InsertStoryChatLink(data)
+    if not ChatEdit_InsertLink then return false end
+
+    local link = GetStoryChatLink(data)
+    if link and ChatEdit_InsertLink(link) then
+        return true
+    end
+
+    return false
+end
+
+function SM.OpenStoryLink(storyID)
+    local data = SM.GetQuestlineByID(storyID)
+    if not data then return false end
+
+    local index = SM.GetStoryIndexByID(storyID)
+    if index then
+        StoryModeDB.selectedQuestline = index
+        StoryModeDB.selectedQuestlineID = storyID
+        StoryModeDB.selectedChapter = StoryModeDB.selectedChapter or 1
+        if storyContentBuilt then
+            SM.SelectStory(index)
+        end
+    end
+
+    if SM.ShowStoryModeFrame then
+        SM.ShowStoryModeFrame()
+    elseif SM.ToggleStoryModeFrame then
+        SM.ToggleStoryModeFrame()
+    end
+    return true
+end
+
+if not SM.storyLinkHandlerInstalled and SetItemRef then
+    local OriginalSetItemRef = SetItemRef
+    SetItemRef = function(link, text, button, chatFrame)
+        local storyID = link and link:match("^storymode:(.+)$")
+        if storyID and SM.OpenStoryLink and SM.OpenStoryLink(storyID) then
+            return
+        end
+        return OriginalSetItemRef(link, text, button, chatFrame)
+    end
+    SM.storyLinkHandlerInstalled = true
+end
+
 local function CategoryHasVisibleQuestlines(cat, activeSet)
     if not cat or not cat.questlines then return false end
     for _, data in ipairs(cat.questlines) do
@@ -523,7 +573,12 @@ local function CreateStoryListCard(data, idx, cardHeight, cardPadding, yOffset)
     }
     storyLeftRows[idx] = row
 
-    card:SetScript("OnClick", function() SM.SelectStory(idx) end)
+    card:SetScript("OnClick", function(_, button)
+        if button == "LeftButton" and IsShiftKeyDown() and InsertStoryChatLink(data) then
+            return
+        end
+        SM.SelectStory(idx)
+    end)
     card:SetScript("OnEnter", function(self)
         SM.ApplyStoryCardBorderState(row, true)
         if not self.lockReason then return end
