@@ -41,30 +41,76 @@ local function GetActiveStoriesSignature(activeQuestlines)
     return table.concat(parts, "|")
 end
 
-local function GetStoryChatText(data)
-    if not data or not data.title then return nil end
-    return "Story Mode: " .. data.title
+local function EncodeStoryLinkID(storyID)
+    storyID = tostring(storyID or "")
+    return storyID:gsub(".", function(char)
+        return string.format("%02x", char:byte())
+    end)
 end
 
-local function InsertChatText(text)
-    if not text or text == "" then return false end
+local function DecodeStoryLinkID(encoded)
+    if not encoded or encoded == "" or encoded:find("[^0-9a-fA-F]") then return nil end
+    return encoded:gsub("..", function(hex)
+        return string.char(tonumber(hex, 16))
+    end)
+end
 
-    local editBox = ChatEdit_GetActiveWindow and ChatEdit_GetActiveWindow() or nil
-    if editBox and editBox.Insert then
-        editBox:Insert(text)
+local function GetStoryChatLink(data)
+    if not data or not data.id or not data.title then return nil end
+    local senderGUID = UnitGUID and UnitGUID("player") or "0"
+    return "|Hstorymode:" .. EncodeStoryLinkID(data.id) .. ":" .. senderGUID .. "|h|cff66d9ef[Story Mode: " .. data.title .. "]|r|h"
+end
+
+local function InsertStoryChatLink(data)
+    local link = GetStoryChatLink(data)
+    if not link then return false end
+
+    if ChatFrame1EditBox and not ChatFrame1EditBox:IsVisible() and ChatFrame_OpenChat then
+        ChatFrame_OpenChat(link)
         return true
     end
 
-    if ChatFrame_OpenChat then
-        ChatFrame_OpenChat(text, DEFAULT_CHAT_FRAME)
+    if ChatEdit_InsertLink and ChatEdit_InsertLink(link) then
         return true
     end
 
     return false
 end
 
-local function InsertStoryChatText(data)
-    return InsertChatText(GetStoryChatText(data))
+function SM.OpenStoryLink(encodedStoryID)
+    local storyID = DecodeStoryLinkID(encodedStoryID) or encodedStoryID
+    local data = SM.GetQuestlineByID(storyID)
+    if not data then return false end
+
+    StoryModeDB.selectedQuestlineID = storyID
+    StoryModeDB.selectedChapter = StoryModeDB.selectedChapter or 1
+
+    local index = SM.GetStoryIndexByID(storyID)
+    if index then
+        StoryModeDB.selectedQuestline = index
+        if storyContentBuilt then
+            SM.SelectStory(index)
+        end
+    end
+
+    if SM.ShowStoryModeFrame then
+        SM.ShowStoryModeFrame()
+    elseif SM.ToggleStoryModeFrame then
+        SM.ToggleStoryModeFrame()
+    end
+    return true
+end
+
+if not SM.storyLinkHandlerInstalled and SetItemRef then
+    local OriginalSetItemRef = SetItemRef
+    SetItemRef = function(link, text, button, chatFrame)
+        local encodedStoryID = link and link:match("^storymode:(%x+):")
+        if encodedStoryID and SM.OpenStoryLink and SM.OpenStoryLink(encodedStoryID) then
+            return
+        end
+        return OriginalSetItemRef(link, text, button, chatFrame)
+    end
+    SM.storyLinkHandlerInstalled = true
 end
 
 
@@ -190,13 +236,13 @@ function SM.RestoreLeftStoryScroll()
     end
 end
 
-function SM.SelectStory(index)
+function SM.SelectStory(index, chapterIndex)
     SM.SaveLeftStoryScroll()
     PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
     StoryModeDB.selectedQuestline = index
     local selectedData = storyIndexToData[index]
     StoryModeDB.selectedQuestlineID = selectedData and selectedData.id or nil
-    StoryModeDB.selectedChapter = 1  -- reset to first chapter when switching stories
+    StoryModeDB.selectedChapter = chapterIndex or 1  -- reset to first chapter when switching stories
     for i, row in pairs(storyLeftRows) do
         local sel = (i == index)
         if row.btn then row.btn:UnlockHighlight() end
@@ -551,7 +597,7 @@ local function CreateStoryListCard(data, idx, cardHeight, cardPadding, yOffset)
     storyLeftRows[idx] = row
 
     card:SetScript("OnClick", function(_, button)
-        if button == "LeftButton" and IsShiftKeyDown() and InsertStoryChatText(data) then
+        if button == "LeftButton" and IsShiftKeyDown() and InsertStoryChatLink(data) then
             return
         end
         SM.SelectStory(idx)

@@ -2267,45 +2267,75 @@ local dQuestCards = {}
 
 local function GetQuestChatLink(questID, questName)
     if not questID then return nil end
-
-    if C_QuestLog and C_QuestLog.GetQuestLink then
-        local ok, link = pcall(C_QuestLog.GetQuestLink, questID)
-        if ok and link then return link end
-    end
-
-    local logIndex = SM.GetLogIndexForQuestID(questID)
-    if logIndex and GetQuestLink then
-        local ok, link = pcall(GetQuestLink, logIndex)
-        if ok and link then return link end
-    end
-
     questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
-    if questName and questName ~= "" then
-        local playerLevel = (UnitLevel and UnitLevel("player")) or 0
-        return "|cffffff00|Hquest:" .. questID .. ":" .. playerLevel .. "|h[" .. questName .. "]|h|r"
-    end
+    if not questName or questName == "" then return nil end
+
+    local senderGUID = UnitGUID and UnitGUID("player") or "0"
+    return "|Hstorymodequest:" .. questID .. ":" .. senderGUID .. "|h|cffffff00[" .. questName .. "]|r|h"
 end
 
 local function InsertQuestChatLink(questEntry, questID, questName)
-    if not ChatEdit_InsertLink then return false end
-
     local link = GetQuestChatLink(questID, questName)
-    if link and ChatEdit_InsertLink(link) then
+    if not link then return false end
+
+    if ChatFrame1EditBox and not ChatFrame1EditBox:IsVisible() and ChatFrame_OpenChat then
+        ChatFrame_OpenChat(link)
         return true
     end
 
-    if questEntry then
-        for _, alternateQuestID in ipairs(SM.GetQuestIDs(questEntry)) do
-            if alternateQuestID ~= questID then
-                link = GetQuestChatLink(alternateQuestID, questName)
-                if link and ChatEdit_InsertLink(link) then
-                    return true
-                end
-            end
-        end
+    if ChatEdit_InsertLink and ChatEdit_InsertLink(link) then
+        return true
     end
 
     return false
+end
+
+function SM.OpenQuestLink(questID)
+    questID = tonumber(questID)
+    if not questID then return false end
+
+    local data, _, chapter = SM.FindQuestStory(questID)
+    if not data then return false end
+
+    local storyID = data.id
+    local chapterIndex = chapter and chapter._chapterIndex or 1
+    StoryModeDB.selectedQuestlineID = storyID
+    StoryModeDB.selectedChapter = chapterIndex
+
+    local storyIndex = SM.GetStoryIndexByID(storyID)
+    if storyIndex then
+        StoryModeDB.selectedQuestline = storyIndex
+        if SM.SelectStory then
+            SM.SelectStory(storyIndex, chapterIndex)
+            C_Timer.After(0, function()
+                dSelectedChapter = chapterIndex
+                StoryModeDB.selectedChapter = chapterIndex
+                if LayoutSelectedChapter then LayoutSelectedChapter() end
+                if SM.CenterTrackOnSelected and dTrackClip then
+                    SM.CenterTrackOnSelected(dTrackClip:GetWidth())
+                end
+            end)
+        end
+    end
+
+    if SM.ShowStoryModeFrame then
+        SM.ShowStoryModeFrame()
+    elseif SM.ToggleStoryModeFrame then
+        SM.ToggleStoryModeFrame()
+    end
+    return true
+end
+
+if not SM.questLinkHandlerInstalled and SetItemRef then
+    local OriginalSetItemRef = SetItemRef
+    SetItemRef = function(link, text, button, chatFrame)
+        local questID = link and link:match("^storymodequest:(%d+):")
+        if questID and SM.OpenQuestLink and SM.OpenQuestLink(questID) then
+            return
+        end
+        return OriginalSetItemRef(link, text, button, chatFrame)
+    end
+    SM.questLinkHandlerInstalled = true
 end
 
 function SM.CreateQuestCard(parent)
@@ -3246,6 +3276,10 @@ function SM.LayoutProgressTab(data, w, contentW, visibleContentW)
             local cd, ct = SM.GetChapterProgress(ch)
             if cd < ct or ct == 0 then currentChapter = i; break end
         end
+        local savedChapter = tonumber(StoryModeDB.selectedChapter)
+        if savedChapter and savedChapter >= 1 and savedChapter <= #chapters then
+            currentChapter = savedChapter
+        end
         dSelectedChapter = currentChapter
         dTrackChapterCount = #chapters
 
@@ -4001,7 +4035,7 @@ storyFrame:SetScript("OnShow", function()
             end
             -- Validate saved index exists
             if savedIdx > 0 and SM.GetStoryDataByIndex(savedIdx) then
-                SM.SelectStory(savedIdx)
+                SM.SelectStory(savedIdx, StoryModeDB.selectedChapter)
             else
                 SM.SelectStory(0)  -- default to Introduction card
             end
@@ -4024,6 +4058,19 @@ function SM.ToggleStoryModeFrame()
         if storyFrame:IsShown() then
             storyFrame:Hide()
         else
+            storyFrame:Show()
+        end
+    end)
+end
+
+function SM.ShowStoryModeFrame()
+    if InCombatLockdown() then
+        UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
+        return
+    end
+
+    C_Timer.After(0, function()
+        if not storyFrame:IsShown() then
             storyFrame:Show()
         end
     end)
