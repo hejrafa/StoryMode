@@ -26,10 +26,19 @@ function SM.GetQuestIDs(q)
     return ids
 end
 
+local function GetQuestLinkColor(color)
+    color = color or "ffd200"
+    if color:match("^ff%x%x%x%x%x%x$") then
+        color = color:sub(3)
+    end
+    return color
+end
+
 function SM.GetQuestChatLink(questOrID, questName, color)
+    color = GetQuestLinkColor(color)
     local questID = type(questOrID) == "table" and SM.GetQuestIDs(questOrID)[1] or questOrID
     if not questID then
-        return questName and ("|cff" .. (color or "ffffd200") .. questName .. "|r") or nil
+        return questName and ("|cff" .. color .. questName .. "|r") or nil
     end
 
     if not questName and type(questOrID) == "table" then
@@ -41,7 +50,7 @@ function SM.GetQuestChatLink(questOrID, questName, color)
     end
 
     local senderGUID = UnitGUID and UnitGUID("player") or "0"
-    return "|Hstorymodequest:" .. questID .. ":" .. senderGUID .. "|h|cff" .. (color or "ffffd200") .. "[" .. questName .. "]|r|h"
+    return "|Hstorymodequest:" .. questID .. ":" .. senderGUID .. "|h|cff" .. color .. "[" .. questName .. "]|r|h"
 end
 
 local function NewWeakKeyCache()

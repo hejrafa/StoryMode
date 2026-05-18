@@ -2343,7 +2343,7 @@ function SM.LinkifyQuestShares(message)
     message = message:gsub("%[([^%[%]]-) %((%d+)%)%]", function(questName, questIDText)
         local questID = tonumber(questIDText)
         local data = questID and SM.FindQuestStory(questID)
-        local link = data and SM.GetQuestChatLink(questID, questName, "ffffff00")
+        local link = data and SM.GetQuestChatLink(questID, questName, "ffff00")
         if link then
             changed = true
             return link
