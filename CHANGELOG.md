@@ -7,6 +7,7 @@
 
 ### UI
 - Added shift-click sharing for story and quest cards, with Story Mode users seeing clickable chat links and other players seeing readable plain text
+- Updated Story Mode quest chat prints to include clickable quest links while preserving the original print colors
 
 ### Maintenance
 - Updated release packaging so CurseForge and Wago receive only the current version's changelog notes
