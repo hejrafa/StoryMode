@@ -288,7 +288,7 @@ function SM.PrintTrackResult(result, quest, data)
     local loc = type(result) == "table" and result.location or GetQuestLocation(data, quest)
     local zone = loc and GetZoneName(loc.mapID) or nil
     local place = GetLocationText(data, quest, loc)
-    local Q = "|cffffd200" .. quest.name .. "|r"
+    local Q = SM.GetQuestChatLink(quest, quest.name)
     local NPC = quest.npc and ("|cffffd200" .. quest.npc .. "|r") or nil
     local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
     local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil

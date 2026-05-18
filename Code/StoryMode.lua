@@ -2265,15 +2265,6 @@ end
 -- ── Quest card pool ─────────────────────────────────────────────────
 local dQuestCards = {}
 
-local function GetQuestChatLink(questID, questName)
-    if not questID then return nil end
-    questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
-    if not questName or questName == "" then return nil end
-
-    local senderGUID = UnitGUID and UnitGUID("player") or "0"
-    return "|Hstorymodequest:" .. questID .. ":" .. senderGUID .. "|h|cffffff00[" .. questName .. "]|r|h"
-end
-
 local function GetQuestShareText(questID, questName)
     if not questID then return nil end
     questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
@@ -2352,7 +2343,7 @@ function SM.LinkifyQuestShares(message)
     message = message:gsub("%[([^%[%]]-) %((%d+)%)%]", function(questName, questIDText)
         local questID = tonumber(questIDText)
         local data = questID and SM.FindQuestStory(questID)
-        local link = data and GetQuestChatLink(questID, questName)
+        local link = data and SM.GetQuestChatLink(questID, questName, "ffffff00")
         if link then
             changed = true
             return link
@@ -2552,7 +2543,7 @@ function SM.CreateQuestCard(parent)
             return
         end
 
-        local questText = "|cffffd200" .. questName .. "|r"
+        local questText = SM.GetQuestChatLink(self.questEntry, questName)
         if self.questCompleteForClick or SM.IsQuestEntryComplete(self.questEntry) then
             storyFrame:Hide()
             print(L["Addon Prefix"] .. string.format(L["Quest Click Complete Format"], questText))

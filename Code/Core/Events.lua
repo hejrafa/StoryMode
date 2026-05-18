@@ -75,7 +75,7 @@ end
 function SM.PrintQuestAcceptedStory(questID)
     local data, quest = SM.FindQuestStory(questID)
     if data and data.title and data.title ~= "" and quest and quest.name then
-        print(L["Addon Prefix"] .. string.format(L["Quest Accepted Story Format"], "|cffffd200" .. quest.name .. "|r", "|cffffd200" .. data.title .. "|r"))
+        print(L["Addon Prefix"] .. string.format(L["Quest Accepted Story Format"], SM.GetQuestChatLink(quest, quest.name), "|cffffd200" .. data.title .. "|r"))
     end
 end
 
@@ -215,7 +215,7 @@ function SM.InitializeSlashCommands()
                                     or (flagged and "|cffaaaaaa[done]|r")
                                     or (effective and "|cffff8800[eff-done]|r")
                                     or "|cffff4444[incomplete]|r"
-                                print(string.format("    %s %d %s", tag, q.id, q.name or "?"))
+                                print(string.format("    %s %s", tag, SM.GetQuestChatLink(q, q.name) or "?"))
                             end
                         end
                     end

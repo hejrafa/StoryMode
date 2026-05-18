@@ -26,6 +26,24 @@ function SM.GetQuestIDs(q)
     return ids
 end
 
+function SM.GetQuestChatLink(questOrID, questName, color)
+    local questID = type(questOrID) == "table" and SM.GetQuestIDs(questOrID)[1] or questOrID
+    if not questID then
+        return questName and ("|cff" .. (color or "ffffd200") .. questName .. "|r") or nil
+    end
+
+    if not questName and type(questOrID) == "table" then
+        questName = questOrID.name or questOrID.displayName
+    end
+    questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
+    if not questName or questName == "" then
+        questName = string.format(SM.L["Quest ID Format"], tostring(questID))
+    end
+
+    local senderGUID = UnitGUID and UnitGUID("player") or "0"
+    return "|Hstorymodequest:" .. questID .. ":" .. senderGUID .. "|h|cff" .. (color or "ffffd200") .. "[" .. questName .. "]|r|h"
+end
+
 local function NewWeakKeyCache()
     return setmetatable({}, { __mode = "k" })
 end
@@ -317,6 +335,10 @@ function SM.GetQuestLockReason(data, ch, questIndex)
         return "|cffffd200" .. text .. "|r"
     end
 
+    local function QuestLink(quest)
+        return SM.GetQuestChatLink(quest, quest and quest.name)
+    end
+
     local playerLevel = UnitLevel("player") or 0
     if data.requiredLevel and playerLevel < data.requiredLevel then
         return string.format(L["Lock Required Level Format"], data.requiredLevel)
@@ -327,7 +349,7 @@ function SM.GetQuestLockReason(data, ch, questIndex)
 
     local unmetPrereq = SM.GetFirstUnmetChapterPrerequisite(ch)
     if unmetPrereq then
-        local questName = Highlight(unmetPrereq.name or string.format(L["Quest ID Format"], tostring(unmetPrereq.id)))
+        local questName = QuestLink(unmetPrereq)
         if unmetPrereq.npc and unmetPrereq.npc ~= "" then
             return string.format(L["Lock Pick Up Quest Format"], questName, Highlight(unmetPrereq.npc))
         end
@@ -343,7 +365,7 @@ function SM.GetQuestLockReason(data, ch, questIndex)
             prevQuest = ch.quests and ch.quests[prevIndex]
         end
         if prevQuest and not SM.IsQuestEffectivelyComplete(prevIndex, ch.quests) then
-            return string.format(L["Lock Complete Previous Quest Format"], Highlight(prevQuest.name or string.format(L["Quest ID Format"], tostring(prevQuest.id))))
+            return string.format(L["Lock Complete Previous Quest Format"], QuestLink(prevQuest))
         end
     end
 
