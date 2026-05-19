@@ -31,7 +31,6 @@ local contentRegistry = {
     { key = "SavingYennikuData", category = "Stories" },
     { key = "MissingDiplomatData", category = "Stories" },
     { key = "PrincessMoiraData", category = "Stories" },
-    { key = "TimbermawData", category = "Stories" },
 
     { key = "ScarletCrusadeData", category = "Epic Stories" },
     { key = "DarrowshireData", category = "Epic Stories" },
@@ -52,6 +51,7 @@ local contentRegistry = {
     { key = "MissingCourierData", category = "Short Stories" },
     { key = "HoggerData", category = "Short Stories" },
     { key = "AgamandFamilyData", category = "Short Stories" },
+    { key = "KingsTributeData", category = "Short Stories" },
     { key = "MankriksWifeData", category = "Short Stories" },
 
     { key = "SylvanasData", category = "Character Stories" },

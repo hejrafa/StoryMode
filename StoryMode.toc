@@ -49,7 +49,6 @@ Data\Storylines\ScarletCrusadeData.lua
 Data\Storylines\DarrowshireData.lua
 Data\Storylines\ShiftingSandsData.lua
 Data\Storylines\PrincessMoiraData.lua
-Data\Storylines\TimbermawData.lua
 Data\Storylines\RevendrethData.lua
 Data\Storylines\FrozenThroneData.lua
 Data\Campaigns\DeathKnightCampaignData.lua
@@ -71,6 +70,7 @@ Data\Storylines\TeddiesAndTeaData.lua
 Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
+Data\Storylines\KingsTributeData.lua
 Data\Storylines\MankriksWifeData.lua
 Code\Core\Compatibility.lua
 Code\Core\SavedVariables.lua

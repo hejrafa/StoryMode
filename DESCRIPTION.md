@@ -39,6 +39,7 @@ It turns scattered quest chains into guided adventures with chapter progress, st
 **Short Stories**
 - Lost in Battle
 - The Agamand Family
+- A King's Tribute
 
 **Identity**
 - Classic class quest chains for druids, hunters, mages, paladins, priests, rogues, shamans, warlocks, and warriors

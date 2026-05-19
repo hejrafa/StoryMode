@@ -15,13 +15,6 @@
       "reason": "ClassicDB returns 500 for this old druid Cure Poison quest page; local start was checked against adjacent chain data."
     },
     {
-      "type": "title",
-      "file": "Data/Storylines/TimbermawData.lua",
-      "quest": 8460,
-      "source": "classic",
-      "reason": "ClassicDB does not expose the Timbermaw Ally repeatable reputation quest page; the local Classic Timbermaw opener is retained."
-    },
-    {
       "type": "location",
       "file": "Data/Storylines/DungeonSetTwoData.lua",
       "npc": "Ysida Harmon",

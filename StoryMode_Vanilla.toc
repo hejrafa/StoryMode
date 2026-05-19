@@ -29,12 +29,12 @@ Data\Storylines\ScarletCrusadeData.lua
 Data\Storylines\DarrowshireData.lua
 Data\Storylines\ShiftingSandsData.lua
 Data\Storylines\PrincessMoiraData.lua
-Data\Storylines\TimbermawData.lua
 Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
 Data\Storylines\HoggerData.lua
 Data\Storylines\AgamandFamilyData.lua
+Data\Storylines\KingsTributeData.lua
 Data\Storylines\MankriksWifeData.lua
 Data\ClassQuests\ClassicClassQuestData.lua
 Code\Core\Compatibility.lua

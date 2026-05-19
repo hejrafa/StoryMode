@@ -4,6 +4,8 @@
 
 ### Classic Era
 - Removed **Chen's Empty Keg** from the Short Stories collection
+- Removed **Timbermaw Hold** from the Classic story collection
+- Added **A King's Tribute** as a Classic Alliance short story
 
 ### UI
 - Added shift-click sharing for story and quest cards, with Story Mode users seeing clickable chat links and other players seeing readable plain text
