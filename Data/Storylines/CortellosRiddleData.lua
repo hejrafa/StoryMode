@@ -15,7 +15,7 @@ SM.CortellosRiddleData = {
     achievements = {},
     color = { 0.29, 0.54, 0.63 },
     icon = 134331,
-    adventureCoverTexture = 6213071, -- Tainted Scar loading screen
+    adventureCoverTexture = 131886, -- Zul'Gurub loading screen: shared Classic/TBC jungle cover
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 624, name = "Cortello's Riddle", npc = "Cortello's Riddle", location = "the Bloodsail ships off the Wild Shore, Stranglethorn Vale" },

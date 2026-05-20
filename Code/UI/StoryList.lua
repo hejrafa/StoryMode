@@ -269,13 +269,13 @@ local function ApplyCurrentSelectionState()
 end
 
 function SM.ApplyIntroCompletionState(row)
-    if not row or not row.btn or not row.nameLabel then return end
+    if not row or not row.btn then return end
     local allComplete = SM.AreAllStoriesFinished()
 
     if row.coverTex then
         row.coverTex:SetTexture(SM.StoryModeCardTexture)
         row.coverTex:SetTexCoord(0, 1, 0, 1)
-        row.coverTex:SetAlpha((SM.IsRetailClient()) and 1 or 0.72)
+        row.coverTex:SetAlpha(1)
         row.coverTex:Show()
     end
 
@@ -283,11 +283,13 @@ function SM.ApplyIntroCompletionState(row)
         row.checkmark:SetShown(allComplete)
     end
 
-    row.nameLabel:ClearAllPoints()
-    row.nameLabel:SetPoint("LEFT", row.icon or row.btn, row.icon and "RIGHT" or "LEFT", row.icon and 8 or 24, 0)
-    row.nameLabel:SetPoint("RIGHT", row.btn, "RIGHT", -8, 0)
-    row.nameLabel:SetPoint("CENTER", row.btn, "CENTER", 0, 0)
-    row.nameLabel:SetJustifyV("MIDDLE")
+    if row.nameLabel then
+        row.nameLabel:ClearAllPoints()
+        row.nameLabel:SetPoint("LEFT", row.icon or row.btn, row.icon and "RIGHT" or "LEFT", row.icon and 8 or 24, 0)
+        row.nameLabel:SetPoint("RIGHT", row.btn, "RIGHT", -8, 0)
+        row.nameLabel:SetPoint("CENTER", row.btn, "CENTER", 0, 0)
+        row.nameLabel:SetJustifyV("MIDDLE")
+    end
 end
 
 -- Portrait circle sizes (Delve companion style)
@@ -335,7 +337,7 @@ function SM.SelectStory(index, chapterIndex)
                 row.coverTex:SetTexture(SM.StoryModeCardTexture)
                 row.coverTex:SetTexCoord(0, 1, 0, 1)
                 row.coverTex:SetShown(true)
-                row.coverTex:SetAlpha((SM.IsRetailClient()) and 1 or 0.72)
+                row.coverTex:SetAlpha(1)
             elseif SM.IsRetailClient() then
                 local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
@@ -351,7 +353,7 @@ function SM.SelectStory(index, chapterIndex)
         row.bg:SetAlpha(1.0)
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
-        row.nameLabel:SetTextColor(1.0, 1.0, 1.0)
+        if row.nameLabel then row.nameLabel:SetTextColor(1.0, 1.0, 1.0) end
         if row.zoneLabel then row.zoneLabel:SetTextColor(1.0, 0.82, 0.36) end
         local state = row.data and SM.GetStoryState(row.data) or nil
         local gateReason = state and state.gateReason or nil
@@ -580,29 +582,19 @@ end
 
 local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
     local introCard, introBg = CreateListCardFrame(cardHeight, cardPadding, yOffset, 2, 4)
+    if introCard.shade then introCard.shade:Hide() end
 
     local coverTex = introCard:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
     if SM.IsRetailClient() then
         coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 7, -7)
         coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -7, 7)
-        coverTex:SetAlpha(0.78)
     else
         coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 3, -3)
         coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -3, 3)
-        coverTex:SetAlpha(0.72)
     end
+    coverTex:SetAlpha(1)
     coverTex:SetTexture(SM.StoryModeCardTexture)
     coverTex:SetTexCoord(0, 1, 0, 1)
-
-    local _, introIcon = CreateMaskedIcon(introCard, SM.StoryModeIconTexture)
-
-    local introName = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
-    introName:SetPoint("LEFT", introIcon, "RIGHT", 8, 0)
-    introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
-    introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
-    introName:SetMaxLines(1); introName:SetWordWrap(false)
-    introName:SetText(L["Addon Name"])
-    introName:SetTextColor(1.0, 1.0, 1.0)
 
     introCard.checkmark = CreateCardCompletionRibbon(introCard)
     introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
@@ -611,8 +603,8 @@ local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
         btn       = introCard,
         bg        = introBg,
         coverTex  = coverTex,
-        icon      = introIcon,
-        nameLabel = introName,
+        icon      = nil,
+        nameLabel = nil,
         zoneLabel = nil,
         checkmark = introCard.checkmark,
         isIntro   = true,

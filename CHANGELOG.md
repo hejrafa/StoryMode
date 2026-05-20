@@ -6,10 +6,12 @@
 - Removed **Chen's Empty Keg** from the Short Stories collection
 - Removed **Timbermaw Hold** from the Classic story collection
 - Added **A King's Tribute** as a Classic Alliance short story
+- Aligned **Cortello's Riddle** and **Linken's Adventure** cover art with Classic/TBC-safe loading screens
 
 ### UI
 - Added shift-click sharing for story and quest cards, with Story Mode users seeing clickable chat links and other players seeing readable plain text
 - Updated Story Mode quest chat prints to include clickable quest links while preserving the original print colors
+- Replaced the Story Mode intro/card artwork with a shared banner treatment and removed the extra card text/icon overlay
 
 ### Maintenance
 - Updated release packaging so CurseForge and Wago receive only the current version's changelog notes

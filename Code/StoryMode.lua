@@ -57,9 +57,8 @@ local SOLID    = "Interface\\Buttons\\WHITE8x8"
 SM.SOLID_TEXTURE = SOLID
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
 SM.StoryModeIconTexture = STORYMODE_ICON_TEXTURE
-local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_hero"
-local STORYMODE_BG_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_bg"
-SM.StoryModeCardTexture = STORYMODE_BG_TEXTURE
+local STORYMODE_BANNER_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_banner"
+SM.StoryModeCardTexture = STORYMODE_BANNER_TEXTURE
 local COVER_FADE_MASK_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Masks\\CoverFadeMask"
 SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
@@ -553,8 +552,8 @@ local INTRO = {
     coverMaxW = 1200,
     coverAspectW = 0.67,
     coverAspectH = 0.17,
-    heroAspectW = 2,
-    heroAspectH = 1,
+    bannerAspectW = 2508,
+    bannerAspectH = 627,
     coverMaskVisibleX = 432 / 512,
 }
 
@@ -572,7 +571,7 @@ introCoverFrame:Hide()
 
 local introCoverTexture = introCoverFrame:CreateTexture(nil, "ARTWORK")
 introCoverTexture:SetPoint("CENTER")
-introCoverTexture:SetTexture(STORYMODE_HERO_TEXTURE)
+introCoverTexture:SetTexture(STORYMODE_BANNER_TEXTURE)
 introCoverTexture:SetTexCoord(0, 1, 0, 1)
 AddCoverFadeMask(introCoverFrame, introCoverTexture, introCoverFrame)
 
@@ -606,7 +605,7 @@ local function LayoutIntro()
     introCoverFrame:ClearAllPoints()
     introCoverFrame:SetPoint("TOPLEFT", detailChild, "TOPLEFT", CP - hBleed, INTRO.top)
     introCoverFrame:SetSize(coverW, coverH)
-    introCoverTexture:SetSize(coverH * (INTRO.heroAspectW / INTRO.heroAspectH), coverH)
+    introCoverTexture:SetSize(coverH * (INTRO.bannerAspectW / INTRO.bannerAspectH), coverH)
     introCoverTexture:SetTexCoord(0, 1, 0, 1)
 
     introText:ClearAllPoints()
