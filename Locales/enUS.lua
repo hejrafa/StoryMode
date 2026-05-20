@@ -18,7 +18,7 @@ L["Tab Progress"] = "Progress"
 L["Tab Journal"] = "Journal"
 
 L["Intro Text"] = "Some stories begin with a letter, a rumor, a missing traveler, or a name spoken quietly at the edge of town.\n\nStory Mode gathers those stories and lays them out chapter by chapter: where to begin, what still waits, and what you have already seen.\n\nCompleted chapters are kept in your journal as a quiet record of the people you met, the dangers you faced, and the names worth remembering.\n\nRelive your adventure."
-L["Intro Text Complete"] = "Every marked story has been followed. The old roads are known to you now: hidden letters, long errands, dungeon doors, and the names that waited behind them.\n\nYour journal holds the record. Return to any chapter when you wish to remember where the trail began and what it cost to see it through."
+L["Intro Text Complete"] = "Every marked story has been completed. Letters, warnings, lost names, hidden patrons, dungeon doors, family debts, and strange treasures now stand together in your journal.\n\nThat is no small feat. You followed each clue, answered each call, and saw every chapter through until a scattered collection of rumors became a record of deeds earned by your own hands.\n\nLet this journal stand as proof: the stories were not merely found. They were finished, remembered, and made part of your adventure."
 
 L["Button Begin Story"] = "Begin This Story"
 L["Button Continue Story"] = "Continue Story"

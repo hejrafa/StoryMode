@@ -278,7 +278,6 @@ function SM.ApplyIntroCompletionState(row)
         row.coverTex:SetAlpha(1)
         row.coverTex:Show()
     end
-
     if row.checkmark then
         row.checkmark:SetShown(allComplete)
     end
@@ -350,7 +349,7 @@ function SM.SelectStory(index, chapterIndex)
         end
         row.isSelected = sel
         SM.ApplyStoryCardBorderState(row, false)
-        row.bg:SetAlpha(1.0)
+        if row.bg then row.bg:SetAlpha(1.0) end
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         if row.nameLabel then row.nameLabel:SetTextColor(1.0, 1.0, 1.0) end
