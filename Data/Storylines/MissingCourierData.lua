@@ -64,7 +64,7 @@ SM.MissingCourierData = {
     chapters = {
         {
             chapter = "Wreckage",
-            summary = "Latronicus sends you to Ginro Hearthkindle, who asks you to search the Feralas coast for Raschal's missing boat.",
+            summary = "Latronicus sends you to Ginro Hearthkindle, who needs the Feralas coast searched for Raschal's missing boat.",
             recap = "The investigation began with resignation. Latronicus had already declared Raschal missing in action, and Ginro Hearthkindle had spent a week searching Feralas for nothing but gnoll teeth and disappointment. The wrecked row boat on the Forgotten Coast changed that. It was shredded almost in two, marked with Feathermoon's crest, and hiding one small clue in the mud: Raschal's knife.",
             quests = {
                 { id = 4124, name = "The Missing Courier", displayName = "Ginro Hearthkindle", npc = "Latronicus Moonspear" },
@@ -74,7 +74,7 @@ SM.MissingCourierData = {
         },
         {
             chapter = "The Knife",
-            summary = "Ginro brings in Quintis Jonespyre, whose psychometric reading turns the knife into a vision of Raschal's last movements.",
+            summary = "Bring Raschal's knife to Quintis Jonespyre and let the blade show what ordinary searching could not.",
             recap = "Ginro's next idea was strange even by night elf standards: give the knife to Quintis Jonespyre and let psychometry do what ordinary tracking could not. Quintis saw Raschal taking two large leather backpacks inland, worrying over Woodpaw gnolls, and failing to notice water elementals forming behind him. The knife did not solve the mystery, but it gave the search a direction and a new fear: Raschal had found something worse than gnolls.",
             quests = {
                 { id = 4129, name = "The Knife Revealed", npc = "Ginro Hearthkindle" },
@@ -83,8 +83,8 @@ SM.MissingCourierData = {
         },
         {
             chapter = "The Courier's Trail",
-            summary = "The Woodpaw camps hold Raschal's backpacks, a parcel for Thalanaar, and a note pointing south to the Writhing Deep.",
-            recap = "The Woodpaw trail looked at first like scavenging. Then you found Raschal's backpacks pinned to a tree, still bearing Feathermoon insignia. One parcel could be delivered to Thalanaar, a small act of completion in the middle of the search. The other evidence mattered more: a note about strange insect creatures south of the gnoll camps. Raschal had not merely been attacked. He had chosen to investigate a threat under Feralas.",
+            summary = "Search the Woodpaw camps for Raschal's backpacks and the note that points toward the Writhing Deep.",
+            recap = "The Woodpaw trail looked at first like scavenging. Then you found Raschal's backpacks pinned to a tree, still bearing Feathermoon insignia. One parcel could be delivered to Thalanaar, a small duty completed in the middle of the search. The other evidence mattered more: a note about strange insect creatures south of the gnoll camps. Raschal had not merely been attacked. He had chosen to investigate a threat under Feralas.",
             quests = {
                 { id = 4131, name = "The Woodpaw Gnolls", npc = "Ginro Hearthkindle" },
                 { id = 4281, name = "Thalanaar Delivery", npc = "Undelivered Parcel", optional = true },
@@ -92,8 +92,8 @@ SM.MissingCourierData = {
         },
         {
             chapter = "The Writhing Deep",
-            summary = "Inside the Zukk'ash hive, Raschal is alive inside a pod. Saving him turns the missing-courier case into an early warning about the silithid.",
-            recap = "The Writhing Deep made the whole case larger. Raschal was alive, sealed inside an alien pod by the Zukk'ash, and his report confirmed that Feralas was facing something more dangerous than a local hive. Shandris Feathermoon sent the warning to Darnassus, where Gracina Spiritmight named the threat: silithid. What began as a missing courier ended as one of Classic's quiet early glimpses of the insect menace waiting beneath Azeroth's southern deserts.",
+            summary = "Enter the Zukk'ash hive and find what became of Raschal beneath Feralas.",
+            recap = "The Writhing Deep made the whole case larger. Raschal was alive, sealed inside an alien pod by the Zukk'ash, and his report confirmed that Feralas was facing something more dangerous than a local hive. Shandris Feathermoon sent the warning to Darnassus, where Gracina Spiritmight named the threat: silithid. What began as a missing courier ended as an early warning about the insect menace waiting beneath Azeroth's southern deserts.",
             quests = {
                 { id = 4135, name = "The Writhing Deep", npc = "Large Leather Backpacks" },
                 { id = 4265, name = "Freed from the Hive", npc = "Zukk'ash Pod" },

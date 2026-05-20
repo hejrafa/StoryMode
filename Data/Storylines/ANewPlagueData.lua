@@ -66,8 +66,8 @@ SM.ANewPlagueData = {
     chapters = {
         {
             chapter = "Johaan's Formula",
-            summary = "Apothecary Johaan gathers blood, scales, and venom around Brill, then tests his first drink on a captive mountaineer.",
-            recap = "The Royal Apothecary Society's work began in Brill with a simple promise from Sylvanas: make a plague deadly enough to ruin Arthas. Johaan started like a scientist with no patience for ethics, moving from darkhound blood to murloc scales and spider venom. Once the mixture was ready, theory became practice in the Gallows' End cellar. A captured mountaineer drank the first dose, and the Forsaken plague stopped being an idea.",
+            summary = "Gather Johaan's ingredients around Brill and bring the mixture to the prisoner in the Gallows' End Tavern.",
+            recap = "Apothecary Johaan began with blood, scales, and venom gathered from the creatures near Brill. In the tavern cellar, a captured mountaineer became the first proof that the new plague could be more than theory.",
             quests = {
                 { id = 367, name = "A New Plague", displayName = "Darkhound Blood", npc = "Apothecary Johaan" },
                 { id = 368, name = "A New Plague", displayName = "Vile Fin Scales", npc = "Apothecary Johaan" },
@@ -78,8 +78,8 @@ SM.ANewPlagueData = {
         },
         {
             chapter = "A Recipe for Death",
-            summary = "Renferrel carries Johaan's work into Silverpine, where Berard's lost research and Faranell's Undercity lab push the recipe forward.",
-            recap = "Silverpine turned Johaan's notes into something larger. Apothecary Renferrel gathered spider blood and bear hearts for Faranell, then sent you into cursed Pyrewood Village to recover Berard's journal before Arugal's magic swallowed the research for good. The journal pointed back to Lake Lordamere, where dead murloc tumors and lake-creature moss preserved clues from an older plague. By the time Faranell had the samples, the Society was no longer improvising. It had a recipe.",
+            summary = "Take Johaan's work to Silverpine, recover Berard's research, and bring Faranell the samples he requires.",
+            recap = "Renferrel and Faranell carried the work beyond Brill. Berard's journal, Pyrewood's danger, and the samples from Lake Lordamere gave the apothecaries older knowledge to add to their new recipe.",
             quests = {
                 { id = 447, name = "A Recipe For Death", npc = "Apothecary Renferrel" },
                 { id = 450, name = "A Recipe For Death", displayName = "Berard's Journal", npc = "Master Apothecary Faranell" },
@@ -88,8 +88,8 @@ SM.ANewPlagueData = {
         },
         {
             chapter = "Tarren Mill Trials",
-            summary = "In Hillsbrad, Apothecary Lydon turns plague research into local experiments on Umpi and Stanley.",
-            recap = "Tarren Mill made the plague feel intimate and ugly. Lydon hated the living world with theatrical cheer, but his work was practical: collect tongues, ichor, and mountain lion blood, brew the agents, and see what happens. Umpi received the Elixir of Suffering. Stanley, Farmer Ray's dog, received the Elixir of Pain and changed violently enough to prove the mixture worked. The tests were small, but the intent was enormous.",
+            summary = "Report to Apothecary Lydon in Hillsbrad and gather what he needs for his next field trials.",
+            recap = "Lydon's work in Tarren Mill turned research into local experiment. Tongues, ichor, and mountain lion blood became elixirs, and the tests on Umpi and Stanley showed how cruelly effective they could be.",
             quests = {
                 { id = 496, name = "Elixir of Suffering", npc = "Apothecary Lydon" },
                 { id = 499, name = "Elixir of Suffering", displayName = "Umpi", npc = "Apothecary Lydon" },
@@ -99,8 +99,8 @@ SM.ANewPlagueData = {
         },
         {
             chapter = "Plagued Brew",
-            summary = "Lydon's final elixir moves through Faranell's lab, Dun Garok's stolen stout, and a room of captured farmers.",
-            recap = "The Elixir of Agony chain was Lydon at his most gleeful. Mudsnout blossoms became a composite; Faranell added decay; Lydon activated the mixture with troll blood, murloc eyes, and naga scales. Then came the delivery system: stolen dwarven stout from Dun Garok. The finished keg went upstairs in the Tarren Mill inn, where captured farmers became the last proof that the Forsaken could turn ordinary hospitality into a weapon.",
+            summary = "Help Lydon finish the Elixir of Agony and find a way to deliver it to the captured farmers upstairs.",
+            recap = "The Elixir of Agony passed from blossom to composite, from Faranell's decay to Lydon's final activation. With Dun Garok stout as the vessel, the inn itself became the last test.",
             quests = {
                 { id = 509, name = "Elixir of Agony", displayName = "Mudsnout Blossoms", npc = "Apothecary Lydon" },
                 { id = 513, name = "Elixir of Agony", displayName = "Mudsnout Composite", npc = "Apothecary Lydon" },

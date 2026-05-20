@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.LinkenData = {
     title = "Linken's Adventure",
-    description = "A battered raft in Un'Goro holds a few odd belongings: a compass, a map, a key, and a photograph. There is no proper quest giver, only the sense that someone lost more than supplies in the crater.\n\nFollow the clues from Marshal's Refuge and help piece together what happened to their owner. The trail is strange, old-fashioned, and not eager to explain itself.",
+    description = "A battered raft in Un'Goro holds a few odd belongings: a compass, a map, a key, and a photograph. No one stands nearby to explain them. Only the crater, the wreckage, and the sense that someone lost more than supplies.\n\nFollow the clues from Marshal's Refuge and help piece together what happened to their owner. The trail is strange, old-fashioned, and not eager to explain itself.",
     zone = "Un'Goro Crater / Tanaris / Felwood / Winterspring",
     expansion = "Classic",
     recommendedLevel = { min = 47, max = 56 },
@@ -62,8 +62,8 @@ SM.LinkenData = {
     chapters = {
         {
             chapter = "A Secret to Everybody",
-            summary = "A wrecked raft and a small pack lead to Linken at Marshal's Refuge. He has the look of a hero, but not the memory to explain why.",
-            recap = "The raft in Un'Goro was absurdly specific: a compass, a curled map, a lion-headed key, and a photograph pointing toward a gnome in green. Linken recognized the belongings and almost recognized himself. The crater had swallowed the context, leaving only the shape of an adventure and the sense that someone had once handed him a sword for a reason.",
+            summary = "Search the wrecked raft in Un'Goro and bring the small pack to Linken at Marshal's Refuge.",
+            recap = "The raft in Un'Goro held a compass, a curled map, a lion-headed key, and a photograph of a gnome in green. Linken knew the belongings, but memory would not come with them. The crater had left him with fragments of an errand, a blade without its tale, and the sense that someone had once entrusted him with more than he could remember.",
             quests = {
                 { id = 3844, name = "It's a Secret to Everybody", npc = "A Wrecked Raft" },
                 { id = 3845, name = "It's a Secret to Everybody", npc = "A Small Pack" },
@@ -72,8 +72,8 @@ SM.LinkenData = {
         },
         {
             chapter = "Linken's Memory",
-            summary = "The Videre Elixir sends you through Tanaris and Winterspring, then back by way of a grave. Linken's sword begins to remember before Linken does.",
-            recap = "Linken's memory did not return like a clean answer. It came through strange errands, ghostly meetings, and a sword that changed in flashes of light. Donova, Gaeriyan, and the grave outside Gadgetzan turned the lost gnome's story into a ritual of recovery. By the time the sword was reforged, Linken still did not fully understand himself, but the adventure had momentum again.",
+            summary = "Use the Videre Elixir, seek the grave outside Gadgetzan, and help Linken's sword remember what he cannot.",
+            recap = "Linken's memory did not return like a clean answer. It came through strange errands, ghostly meetings, and a sword that changed in flashes of light. Donova, Gaeriyan, and the grave outside Gadgetzan turned the lost gnome's fragments into a rite of recovery. By the time the sword was reforged, Linken still did not fully understand himself, but the road was opening before him again.",
             quests = {
                 { id = 3909, name = "The Videre Elixir", npc = "Donova Snowden" },
                 { id = 3912, name = "Meet at the Grave", npc = "Donova Snowden" },
@@ -85,8 +85,8 @@ SM.LinkenData = {
         },
         {
             chapter = "Aquementas",
-            summary = "Eridan Bluewind sends you after a silver heart and the elemental Aquementas. Linken's broken adventure gains a totem and a purpose.",
-            recap = "Felwood gave the quest its older magic. Eridan Bluewind understood the silver heart Linken had been trying to make and sent you into Winterspring's old forests before Aquementas rose in Un'Goro. The elemental's power became a silver totem, the key to stripping away the final guardian's protection. The joke was still playful, but the ritual had become real.",
+            summary = "Seek Eridan Bluewind, complete the silver heart, and face Aquementas for the totem Linken will need.",
+            recap = "Felwood gave the search older magic. Eridan Bluewind understood the silver heart Linken had been trying to make and sent you into Winterspring's old forests before Aquementas rose in Un'Goro. The elemental's power became a silver totem, the key to stripping away the final guardian's protection. The errand had strange humor about it, but the ritual was real.",
             quests = {
                 { id = 4084, name = "Silver Heart", npc = "Eridan Bluewind" },
                 { id = 4005, name = "Aquementas", npc = "Eridan Bluewind" },
@@ -95,8 +95,8 @@ SM.LinkenData = {
         },
         {
             chapter = "It's Dangerous to Go Alone",
-            summary = "Linken sends you to Fire Plume Ridge with the Silver Totem of Aquementas. Blazerunner waits with the Golden Flame.",
-            recap = "At the end, Linken's adventure became exactly what it had been hinting at all along: a hero, a sword, a strange tool, a mountain, and a dangerous guardian. Blazerunner's flame was protected until the totem broke its shield. When the Golden Flame came back to Marshal's Refuge, Linken's memory was still imperfect, but the story knew what it was. It was dangerous to go alone. So he sent you.",
+            summary = "Carry the Silver Totem to Fire Plume Ridge and break Blazerunner's ward before taking the Golden Flame.",
+            recap = "At Fire Plume Ridge, the strange tools finally proved their worth. The Silver Totem stripped Blazerunner's shield, the sword found its purpose, and the Golden Flame was carried back to Marshal's Refuge. Linken's memory was still imperfect, but the road had given him a shape to follow: hero, blade, flame, and a companion brave enough to see it done.",
             quests = {
                 { id = 3962, name = "It's Dangerous to Go Alone", npc = "Linken" },
             },

@@ -58,8 +58,8 @@ SM.AlthalaxxData = {
     chapters = {
         {
             chapter = "The Dark Strand",
-            summary = "Auberdine asks you to find Balthule Shadowstrike near the Tower of Althalaxx, where warlocks have begun gathering in force.",
-            recap = "At first, the tower was only a worry on the edge of Darkshore. Sentinel Elissa Starbreeze had sent Balthule Shadowstrike to watch it, and he had not returned. Balthule was alive, but his news was grim: warlocks had taken the tower, and their parchments named a cult he did not understand. The message had to reach Delgren the Purifier in Ashenvale before the Dark Strand's work ripened into something worse.",
+            summary = "Find Balthule Shadowstrike near the Tower of Althalaxx and learn what gathers on Darkshore's northern coast.",
+            recap = "Sentinel Elissa's missing scout was alive, but Balthule's report was grave. Warlocks held the tower, their parchments spoke of the Dark Strand, and the warning had to reach Ashenvale.",
             quests = {
                 { id = 965, name = "The Tower of Althalaxx", displayName = "Find Balthule", npc = "Sentinel Elissa Starbreeze" },
                 { id = 966, name = "The Tower of Althalaxx", displayName = "Worn Parchments", npc = "Balthule Shadowstrike" },
@@ -68,8 +68,8 @@ SM.AlthalaxxData = {
         },
         {
             chapter = "Ashenvale Soul Gems",
-            summary = "Delgren follows the cult into Ashenvale, from Ordil'Aran to Fire Scar Shrine, Night Run, and Satyrnaar.",
-            recap = "Delgren understood the shape of the threat at once. The Dark Strand had allies and artifacts scattered through Ashenvale: a soul gem at Ordil'Aran, Ilkrud Magthrull's writings at Fire Scar Shrine, and Highborne souls trapped in satyr places that remembered older sins. Each shard of the trail weakened Athrikus Narassin's hold and made the return to the tower inevitable.",
+            summary = "Carry Balthule's warning to Delgren and follow the Dark Strand's trail through Ashenvale.",
+            recap = "Delgren sent you after the cult's soul gems and writings from Ordil'Aran to Fire Scar Shrine and Satyrnaar. Each recovered piece loosened the hold of the power behind Althalaxx.",
             quests = {
                 { id = 970, name = "The Tower of Althalaxx", displayName = "Glowing Soul Gem", npc = "Delgren the Purifier" },
                 { id = 973, name = "The Tower of Althalaxx", displayName = "Ilkrud Magthrull's Tome", npc = "Delgren the Purifier" },
@@ -79,8 +79,8 @@ SM.AlthalaxxData = {
         },
         {
             chapter = "Athrikus Narassin",
-            summary = "With Athrikus weakened, Balthule sends you back into the tower to kill the warlock at its summit.",
-            recap = "The screams and lightning from the tower left little mystery. Athrikus Narassin was exposed, weakened, and still dangerous. Balthule sent you into the tower itself, past the warlocks who had made Althalaxx their sanctuary. Athrikus died where the cult had gathered, and Delgren's final blessing turned a strange errand from Auberdine into one of the first great victories of the Night Elf lands.",
+            summary = "Return to the tower with Balthule's command and face Athrikus Narassin at the summit.",
+            recap = "With Athrikus Narassin weakened, Balthule sent you back into Althalaxx. You climbed past the warlocks of the Dark Strand and ended their master where he had gathered them.",
             quests = {
                 { id = 1143, name = "The Tower of Althalaxx part 8", displayName = "Athrikus Narassin", npc = "Balthule Shadowstrike" },
                 { id = 981, name = "The Tower of Althalaxx", displayName = "Report to Delgren", npc = "Balthule Shadowstrike" },

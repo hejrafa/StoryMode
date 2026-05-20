@@ -66,7 +66,7 @@ SM.SavingYennikuData = {
     chapters = {
         {
             chapter = "Bloodscalp Trail",
-            summary = "Nimboya begins the search by sending you against the Bloodscalp trolls who may have taken Yenniku.",
+            summary = "Begin Nimboya's search by pressing the Bloodscalp trolls for any sign of Yenniku.",
             recap = "Nimboya's search began with a fear no Darkspear wanted confirmed. Yenniku, the chief's youngest son, had vanished after being given to the Gurubashi, and the Bloodscalp tribe looked like the only trail left. Tusks proved you could hunt them. Shrunken heads proved Yenniku was not among their trophies. Finally, Gan'zulah and Nezzliok had to die so their heads could be forced to answer from the cauldron at Grom'gol.",
             quests = {
                 { id = 581, name = "Hunt for Yenniku", npc = "Nimboya" },
@@ -76,7 +76,7 @@ SM.SavingYennikuData = {
         },
         {
             chapter = "Heads in the Cauldron",
-            summary = "The cauldron makes the dead speak, but Gan'zulah and Nezzliok both demand revenge against the Skullsplitters before revealing what happened to Yenniku.",
+            summary = "Bring the dead leaders to the cauldron and answer the price they demand before they speak.",
             recap = "Death did not make the Bloodscalp leaders cooperative. Nezzliok wanted trophy skulls stolen from the Skullsplitters. Gan'zulah wanted Ana'thek's broken armor and a tally of Skullsplitter hunters, headhunters, and berserkers. The spirits were not redeemed by the cauldron. They were bribed, threatened, and indulged until they finally gave up the truth: Yenniku had not died with the Bloodscalps. Zanzil the Outcast had taken him.",
             prerequisites = {
                 { id = 584, name = "Bloodscalp Clan Heads", npc = "Nimboya" },
@@ -88,7 +88,7 @@ SM.SavingYennikuData = {
         },
         {
             chapter = "The Mind's Eye",
-            summary = "Kin'weelay turns the rescue toward stronger magic: singing crystals, the Mind's Eye, and a Soul Gem powerful enough to break Zanzil's hold.",
+            summary = "Gather singing crystals and the Mind's Eye so Kin'weelay can make a Soul Gem for Yenniku.",
             recap = "Nezzliok's answer made the rescue feel almost impossible. Zanzil controlled Yenniku body and soul, and ordinary weapons could not solve that. Kin'weelay found one thin chance in the legends of Stranglethorn: the Mind's Eye. Pulsing blue shards from Crystalvein Mine prepared the ritual, and Mai'Zoth's ogres guarded the Eye itself inside the Mosh'Ogg mound. With both in hand, Kin'weelay could reshape the magic into a Soul Gem.",
             prerequisites = {
                 { id = 585, name = "Speaking with Nezzliok", npc = "Bubbling Cauldron" },
@@ -102,8 +102,8 @@ SM.SavingYennikuData = {
         },
         {
             chapter = "Zanzil's Hold",
-            summary = "The Soul Gem must be used on Yenniku himself at the Ruins of Aboraz, where Zanzil's magic still holds him.",
-            recap = "The last step was not to kill Yenniku, but to reach him. At the Ruins of Aboraz, beside Zanzil's servants and the haunted Crystal Shore, the Soul Gem turned violence into rescue. Yenniku's soul was pulled free of Zanzil's control and carried back to Nimboya. The mission that had begun with trophies and cauldron smoke ended as a Darkspear promise: the tribe would remember the one who brought the chief's son home.",
+            summary = "Use the Soul Gem on Yenniku at the Ruins of Aboraz before Zanzil's magic claims him fully.",
+            recap = "The last step was not to kill Yenniku, but to reach him. At the Ruins of Aboraz, beside Zanzil's servants and the haunted Crystal Shore, the Soul Gem turned violence into rescue. Yenniku's soul was pulled free of Zanzil's control and carried back to Nimboya. The work that had begun with trophies and cauldron smoke ended as a Darkspear promise: the tribe would remember the one who brought the chief's son home.",
             prerequisites = {
                 { id = 591, name = "The Mind's Eye", npc = "Kin'weelay" },
             },

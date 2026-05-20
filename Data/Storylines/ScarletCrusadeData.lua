@@ -111,7 +111,7 @@ SM.ScarletCrusadeData = {
         {
             chapter = "Deathknell's Red Messenger",
             faction = "Horde",
-            summary = "The newly risen Forsaken meet the Scarlet Crusade almost immediately. A red messenger rides out of Deathknell carrying word that the undead have awakened.",
+            summary = "Deathknell's newly risen are not alone. Strike the Scarlet converts and take the courier's message before it leaves the valley.",
             recap = "Deathknell taught the Forsaken their first lesson about Lordaeron's living survivors: the Scarlet Crusade did not see people, only infection. Executor Arren sent you against Scarlet converts and their courier, then read the stolen intelligence and understood the warning. The Crusade was watching Deathknell, counting the dead, and preparing for war.",
             quests = {
                 { id = 381, name = "The Scarlet Crusade", npc = "Executor Arren" },
@@ -122,8 +122,8 @@ SM.ScarletCrusadeData = {
         {
             chapter = "The Brill Campaign",
             faction = "Horde",
-            summary = "Brill turns the Deathknell warning into an open campaign. The Forsaken test Scarlet prisoners, poison pumpkins, and push into the camps west of town.",
-            recap = "By the time you reached Brill, the Scarlet Crusade was no rumor. Deathguard Simmer's stolen pumpkins became Apothecary Johaan's experiment, and a captured Scarlet Zealot learned exactly how the Royal Apothecary Society meant to answer holy certainty. Outside town, Executor Zygand sent you into the Scarlet camps again and again until their officers broke. Brill's campaign was not only defense. It was Forsaken warcraft taking shape.",
+            summary = "In Brill, the Forsaken answer the Crusade with prisoners, poison, and attacks against the camps west of town.",
+            recap = "By the time you reached Brill, the Scarlet Crusade was no rumor. Deathguard Simmer's stolen pumpkins became Apothecary Johaan's experiment, and a captured Scarlet Zealot learned how the Royal Apothecary Society meant to answer holy certainty. Outside town, Executor Zygand sent you into the Scarlet camps again and again until their officers broke. Brill's campaign was not only defense. It was the Forsaken answer taking shape.",
             quests = {
                 { id = 365, name = "Fields of Grief", npc = "Deathguard Simmer" },
                 { id = 407, name = "Fields of Grief", npc = "Apothecary Johaan" },
@@ -137,7 +137,7 @@ SM.ScarletCrusadeData = {
         {
             chapter = "The Scarlet Path",
             faction = "Alliance",
-            summary = "Alliance priests follow reports of Scarlet activity from Stormwind to Desolace and Southshore. Raleigh the Devout turns the investigation toward the Monastery.",
+            summary = "Alliance priests carry word of Scarlet activity from Stormwind to Desolace, Southshore, and finally the Monastery.",
             recap = "For the Alliance, the Scarlet Crusade first looked like a distant Lordaeron problem: troubling enough for Brother Crowley to send word to Brother Anton, and troubling enough for Anton to send you onward. Raleigh the Devout understood what the red tabards meant. The Monastery was not merely a garrison. It was the heart of a militant faith losing its way.",
             quests = {
                 { id = 6141, name = "Brother Anton", npc = "Brother Crowley" },
@@ -147,8 +147,8 @@ SM.ScarletCrusadeData = {
         },
         {
             chapter = "Graveyard and Library",
-            summary = "The Monastery's outer wings reveal prisoners, stolen histories, and a crusade that polices memory as fiercely as it hunts the undead.",
-            recap = "The Graveyard and Library showed the Crusade's machinery from the inside. Vorrel Sengutz lay tortured by Interrogator Vishas. Scholars wanted books the Crusade had locked away. Horde agents wanted the Compendium of the Fallen; Alliance scholars wanted the Mythology of the Titans. Every shelf and cell told the same story: the Scarlet Crusade did not only kill enemies. It controlled what its followers were allowed to know.",
+            summary = "Enter the Monastery's graveyard and library for prisoners, forbidden books, and the records the Crusade keeps locked away.",
+            recap = "The Graveyard and Library showed the Crusade's order from the inside. Vorrel Sengutz lay tortured by Interrogator Vishas. Scholars wanted books the Crusade had locked away. Horde agents wanted the Compendium of the Fallen; Alliance scholars wanted the Mythology of the Titans. Every shelf and cell told the same truth: the Scarlet Crusade did not only kill enemies. It controlled what its followers were allowed to know.",
             quests = {
                 { id = 1051, name = "Vorrel's Revenge", npc = "Vorrel Sengutz" },
                 { id = 1049, name = "Compendium of the Fallen", npc = "Sage Truthseeker", faction = "Horde" },
@@ -158,8 +158,8 @@ SM.ScarletCrusadeData = {
         },
         {
             chapter = "Armory and Cathedral",
-            summary = "The Crusade's champions wait deeper within: Houndmaster Loksey, Herod, Mograine, and Whitemane. The Monastery becomes a judgment hall.",
-            recap = "The Armory and Cathedral were the Crusade's sermon made flesh. Houndmaster Loksey guarded the Library with trained violence. Herod turned recruits into fanatics through spectacle and blood. In the Cathedral, Scarlet Commander Mograine and High Inquisitor Whitemane embodied the order's beautiful lie: holy words wrapped around endless war. Whether sent by Varimathras or Raleigh, you cut through the Monastery's saints and executioners alike.",
+            summary = "Push into the Armory and Cathedral, where the Crusade's champions guard the heart of the Monastery.",
+            recap = "The Armory and Cathedral were the Crusade's creed made flesh. Houndmaster Loksey guarded the Library with trained violence. Herod turned recruits into zealots through spectacle and blood. In the Cathedral, Scarlet Commander Mograine and High Inquisitor Whitemane embodied the order's shining lie: holy words wrapped around endless war. Whether sent by Varimathras or Raleigh, you cut through the Monastery's saints and executioners alike.",
             quests = {
                 { id = 1048, name = "Into The Scarlet Monastery", npc = "Varimathras", faction = "Horde" },
                 { id = 1053, name = "In the Name of the Light", npc = "Raleigh the Devout", faction = "Alliance" },
@@ -167,7 +167,7 @@ SM.ScarletCrusadeData = {
         },
         {
             chapter = "Stratholme's Scarlet Secret",
-            summary = "Stratholme's living quarter exposes the archive and the demon hiding behind the Crusade's holy face.",
+            summary = "In Stratholme, search the Scarlet Bastion for the archive and the truth hidden behind its holy face.",
             recap = "The Scarlet Bastion in Stratholme did not only guard soldiers and sermons. Its archive held the evidence Duke Nicholas Zverenhoff wanted burned, and Balnazzar's fall showed the deeper rot under the Crusade's purity. The order's zeal was not merely human cruelty. Something worse had been wearing it like a vestment.",
             quests = {
                 { id = 5251, name = "The Archivist", npc = "Duke Nicholas Zverenhoff" },
@@ -177,8 +177,8 @@ SM.ScarletCrusadeData = {
         },
         {
             chapter = "Hearthglen Reconnaissance",
-            summary = "Kirsta Deepshadow sends you into the Scarlet lines around Hearthglen to kill their specialists, commanders, and scout the fortress from above.",
-            recap = "Before the Fordring tragedy narrowed the story to father and son, Hearthglen already stood as a military problem. Kirsta Deepshadow wanted the Scarlet Crusade measured in practical terms: medics, hunters, magi, knights, named officers, and the strength of the town itself. The reconnaissance made one thing clear. Hearthglen was not a remnant. It was an army still drilling under red banners.",
+            summary = "Kirsta Deepshadow sends you into the Scarlet lines around Hearthglen to kill their specialists and scout the fortress.",
+            recap = "Before Tirion Fordring's search for his son, Hearthglen already stood as a military problem. Kirsta Deepshadow wanted the Scarlet Crusade measured in practical terms: medics, hunters, magi, knights, named officers, and the strength of the town itself. The reconnaissance made one thing clear. Hearthglen was not a remnant. It was an army still drilling under red banners.",
             quests = {
                 { id = 6004, name = "Unfinished Business", npc = "Kirsta Deepshadow" },
                 { id = 6023, name = "Unfinished Business", npc = "Kirsta Deepshadow" },
@@ -188,7 +188,7 @@ SM.ScarletCrusadeData = {
         {
             chapter = "Tyr's Hand",
             faction = "Horde",
-            summary = "Nathanos turns Scarlet orders against Tyr's Hand, sending you under disguise to expose the Crusade's next move.",
+            summary = "Turn stolen Scarlet orders against Tyr's Hand and use Nathanos' disguise to walk inside their ranks.",
             recap = "Nathanos Blightcaller understood the Scarlet Crusade as an enemy of logistics as much as faith. The Crimson Courier carried command papers through the Plaguelands. Varimathras wanted them read. Nathanos wanted them used. With a rotten apple and a Scarlet disguise, you walked into Tyr's Hand as if you belonged there, then returned with enough truth to send Demetria and her escort to their deaths on the road.",
             quests = {
                 { id = 6144, name = "The Call to Command", npc = "Nathanos Blightcaller" },
@@ -200,8 +200,8 @@ SM.ScarletCrusadeData = {
         },
         {
             chapter = "The Fordring Name",
-            summary = "In the Plaguelands, the Scarlet Crusade's tragedy narrows to one family. Tirion Fordring sends you through Stratholme's Scarlet Bastion and risks everything to reach Taelan inside Hearthglen.",
-            recap = "The Plaguelands proved the Crusade had become more than a monastery. Scarlet banners flew over towers and towns, Stratholme's living quarter hid the Fordring family painting, and Hearthglen stood as a fortress of certainty. Tirion Fordring, exiled and alone, still believed his son could be saved from it. Forgotten memories, lost honor, and the painting became weapons against indoctrination. Disguised as Scarlet, you reached Taelan and watched him remember who he was before the Crusade taught him whom to hate.",
+            summary = "Tirion Fordring sends you through Stratholme and Hearthglen, risking everything to reach Taelan.",
+            recap = "The Plaguelands proved the Crusade had become more than a monastery. Scarlet banners flew over towers and towns, Stratholme's living quarter hid the Fordring family painting, and Hearthglen stood as a fortress of certainty. Tirion Fordring, exiled and alone, still believed his son could be saved from it. Forgotten memories, lost honor, and the painting became weapons against fanatic teaching. Disguised as Scarlet, you reached Taelan and watched him remember who he was before the Crusade taught him whom to hate.",
             quests = {
                 { id = 5096, name = "Scarlet Diversions", npc = "High Executor Derrington", faction = "Horde" },
                 { id = 5097, name = "All Along the Watchtowers", npc = "Commander Ashlam Valorfist", faction = "Alliance", optional = true },

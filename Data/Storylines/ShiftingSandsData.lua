@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ShiftingSandsData = {
     title = "The Scepter of the Shifting Sands",
-    description = "In Silithus, the Bronze Dragonflight does not hand trust to strangers. Before anyone can challenge what waits behind Ahn'Qiraj's gates, someone must prove they are more than another mortal asking for legends.\n\nBegin with the Brood of Nozdormu and follow the old scepter's trail through dragons, raids, bargains, and errands that sound impossible until someone does them.",
+    description = "In Silithus, the Bronze Dragonflight does not hand trust to strangers. Before anyone can challenge what waits behind Ahn'Qiraj's gates, someone must prove they are more than another mortal asking for legends.\n\nBegin with the Brood of Nozdormu and follow the old scepter's trail through dragonflights, hidden lairs, bargains, and errands that sound impossible until someone does them.",
     zone = "Silithus / Tanaris / Moonglade / Azshara / Blackwing Lair",
     expansion = "Classic",
     recommendedLevel = 60,
@@ -72,7 +72,7 @@ SM.ShiftingSandsData = {
     chapters = {
         {
             chapter = "The Brood of Nozdormu",
-            summary = "Baristolth sends you to Anachronos and then to Blackwing Lair. Broodlord Lashlayer's head begins the long work of earning Nozdormu's trust.",
+            summary = "Baristolth sends you to Anachronos and then to Blackwing Lair. Broodlord Lashlayer's head begins the work of earning Nozdormu's trust.",
             recap = "The bronze dragonflight did not greet mortals as allies. Baristolth's trial led to Anachronos, then back through Blackwing Lair and into the Silithus hives. The Head of Broodlord Lashlayer proved strength; the carapace fragments proved endurance. Before the scepter could be repaired, a champion first had to become someone the Brood of Nozdormu would even address.",
             quests = {
                 { id = 8286, name = "What Tomorrow Brings", npc = "Baristolth of the Shifting Sands" },
@@ -84,8 +84,8 @@ SM.ShiftingSandsData = {
         },
         {
             chapter = "The Charge of the Dragonflights",
-            summary = "At the Scarab Wall, Anachronos shows the War of the Shifting Sands and names the lost shards held by Eranikus, Vaelastrasz, and Azuregos.",
-            recap = "The red tear outside Ahn'Qiraj was memory made visible. Anachronos let the past speak: the night elves, dragons, and qiraji locked in a war old enough to feel mythic even in Classic. The scepter had broken across dragonflights and tragedies. To open the gates, the champion would have to follow those wounds into the Emerald Dream, Blackwing Lair, and Azshara's blue-dragon riddles.",
+            summary = "At the Scarab Wall, Anachronos shows the old war and names the lost shards held by Eranikus, Vaelastrasz, and Azuregos.",
+            recap = "The red tear outside Ahn'Qiraj was memory made visible. Anachronos let the past speak: the night elves, dragons, and qiraji locked in a war old enough to feel mythic. The scepter had broken across dragonflights and tragedies. To open the gates, the champion would have to follow those wounds into the Emerald Dream, Blackwing Lair, and Azshara's blue-dragon riddles.",
             quests = {
                 { id = 8305, name = "Long Forgotten Memories", npc = "Anachronos" },
                 { id = 8519, name = "A Pawn on the Eternal Board", npc = "Crystalline Tear" },
@@ -95,7 +95,7 @@ SM.ShiftingSandsData = {
         {
             chapter = "Green Scepter Shard",
             summary = "Malfurion and Remulos guide the path to Eranikus. The Nightmare's corruption must be confronted in Moonglade.",
-            recap = "The green shard was not won by simple killing. Eranikus had fallen into nightmare, and Remulos needed the corruption named before it could be answered. The defense of Moonglade became one of Classic's rare public rituals: shades pouring from the Dream, Remulos holding the line, and Tyrande's grace turning a dragon's rage toward redemption.",
+            recap = "The green shard was not won by simple killing. Eranikus had fallen into nightmare, and Remulos needed the corruption named before it could be answered. The defense of Moonglade became a rite before all who came to stand there: shades pouring from the Dream, Remulos holding the line, and Tyrande's grace turning a dragon's rage toward redemption.",
             quests = {
                 { id = 8733, name = "Eranikus, Tyrant of the Dream", npc = "Malfurion Stormrage" },
                 { id = 8734, name = "Tyrande and Remulos", npc = "Forest Wisp", mapID = 220, x = 0.6000, y = 0.5000, location = "the Temple of Atal'Hakkar" },
@@ -106,16 +106,16 @@ SM.ShiftingSandsData = {
         },
         {
             chapter = "Red Scepter Shard",
-            summary = "Vaelastrasz's corruption leaves no time for ceremony. Nefarian holds the red shard, and Blackwing Lair must answer quickly.",
-            recap = "The red shard was the bluntest path and perhaps the cruelest. Vaelastrasz, already broken by Nefarian, could only point toward the master of Blackwing Lair and set a clock running. The shard came from defeating Nefarian under pressure, a raid victory pressed into the shape of a single person's impossible errand.",
+            summary = "Vaelastrasz gives little time for ceremony. Nefarian holds the red shard, and Blackwing Lair must answer quickly.",
+            recap = "The red shard was the bluntest path and perhaps the cruelest. Vaelastrasz, already broken by Nefarian, could only point toward the master of Blackwing Lair and set a clock running. The shard was taken from Nefarian under pressure, a raid victory folded into the long duty of the scepter.",
             quests = {
                 { id = 8730, name = "Nefarius's Corruption", npc = "Vaelastrasz the Corrupt" },
             },
         },
         {
             chapter = "Blue Scepter Shard",
-            summary = "Azuregos sends you to Narain Soothfancy, whose ledger explodes into goggles, chimaerok chops, ransom notes, Draconic pages, and the Wrath of Neptulon.",
-            recap = "The blue shard was Classic maximalism at full sprint. Azuregos hid cosmic importance behind jokes about minnows. Narain turned the task into errands involving Molten Core goggles, a five-hundred-pound chicken, a stolen book, a fake ransom drop, Onyxia, Ragnaros, and finally a shark off Azshara's coast. It was absurd, exhausting, and somehow exactly what a legendary scepter needed.",
+            summary = "Azuregos sends you to Narain Soothfancy, whose ledger runs through goggles, chops, ransom notes, Draconic pages, and the sea.",
+            recap = "The blue shard hid grave purpose beneath impossible errands. Azuregos sent you to Narain, and Narain's ledger demanded Molten Core goggles, a great chimaerok meal, a stolen book, a ransom drop, pages from dragons, the fires of Onyxia and Ragnaros, and Neptulon's wrath off Azshara's coast. Strange as it was, each step pulled the shard closer to the scepter.",
             quests = {
                 { id = 8575, name = "Azuregos's Magical Ledger", npc = "Azuregos" },
                 { id = 8576, name = "Translating the Ledger", npc = "Narain Soothfancy" },
@@ -136,8 +136,8 @@ SM.ShiftingSandsData = {
         },
         {
             chapter = "Bang a Gong",
-            summary = "With the three shards restored, Anachronos grants the Scepter of the Shifting Sands. The Scarab Gong turns one player's chain into a realm event.",
-            recap = "When the shards were whole, the story stopped belonging to one adventurer. The Might of Kalimdor waited on the war effort, on the armies at the wall, and on a server holding its breath. Bang a Gong was not only a quest handoff. It was the moment Classic let a player touch the history of a realm, open Ahn'Qiraj, and become part of the memory everyone else would tell later.",
+            summary = "With the three shards restored, take up the Scepter of the Shifting Sands and return to the Scarab Gong.",
+            recap = "When the shards were whole, the matter no longer belonged to one champion. The Might of Kalimdor waited on the war effort, the armies at the wall, and all who had prepared for the gates to open. The gong turned a repaired scepter into history: Ahn'Qiraj opened, and the war beyond the Scarab Wall began.",
             quests = {
                 { id = 8742, name = "The Might of Kalimdor", npc = "Anachronos" },
                 { id = 8743, name = "Bang a Gong!", npc = "Scarab Gong", mapID = 81, x = 0.2868, y = 0.8914, location = "the Scarab Wall, Silithus" },

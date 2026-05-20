@@ -87,8 +87,8 @@ SM.OnyxiaData = {
         {
             chapter = "The True Masters",
             faction = "Alliance",
-            summary = "The Alliance trail starts in the Burning Steppes. Helendis Riverhorn sends you against black dragonkin, and the reports carry you from Lakeshire to Stormwind and back to Morgan's Vigil.",
-            recap = "The first signs of Onyxia's reach were not in Stormwind's throne room. They were in the Burning Steppes, where Helendis Riverhorn watched black dragonkin gathering strength. Magistrate Solomon treated the threat as a kingdom matter, Bolvar Fordragon weighed it from Stormwind Keep, and Marshal Maxwell became the Alliance's field anchor. The question was no longer whether dragons were moving. It was who in Stormwind had allowed the rot to spread.",
+            summary = "Begin in the Burning Steppes with Helendis Riverhorn and carry the black dragon reports between Lakeshire, Stormwind, and Morgan's Vigil.",
+            recap = "The first signs of Onyxia's reach came from the Burning Steppes, where Helendis Riverhorn watched black dragonkin gathering strength. Magistrate Solomon treated the threat as a kingdom matter, Bolvar Fordragon weighed it from Stormwind Keep, and Marshal Maxwell became the Alliance's field anchor. The question was no longer whether dragons were moving. It was who in Stormwind had allowed the threat to spread.",
             quests = {
                 { id = 4182, name = "Dragonkin Menace", npc = "Helendis Riverhorn" },
                 { id = 4183, name = "The True Masters", displayName = "To Lakeshire", npc = "Helendis Riverhorn" },
@@ -102,7 +102,7 @@ SM.OnyxiaData = {
         {
             chapter = "Marshal Windsor",
             faction = "Alliance",
-            summary = "Ragged John's story points to Marshal Reginald Windsor, imprisoned in Blackrock Depths. Windsor has the evidence, but freeing him means returning to the heart of the mountain.",
+            summary = "Hear Ragged John's tale, find Marshal Windsor in Blackrock Depths, and recover the proof taken from him.",
             recap = "Ragged John gave the conspiracy a name and a survivor: Marshal Reginald Windsor. Finding Windsor in Blackrock Depths did not bring immediate victory. He had lost hope, and the proof had been torn away from him. A crumpled note and a shred of evidence changed that. Windsor remembered his duty, gathered the missing information, and prepared for the impossible part: walking out of Blackrock Depths alive.",
             quests = {
                 { id = 4241, name = "Marshal Windsor", npc = "Marshal Maxwell" },
@@ -115,7 +115,7 @@ SM.OnyxiaData = {
         {
             chapter = "The Great Masquerade",
             faction = "Alliance",
-            summary = "Windsor returns to Stormwind and marches into the keep. Lady Katrana Prestor's mask finally breaks, revealing Onyxia's hand inside the Alliance.",
+            summary = "Escort Marshal Windsor back to Stormwind and stand with him when he names the traitor in the king's own keep.",
             recap = "Marshal Windsor's return turned suspicion into spectacle. At the gates of Stormwind, he gathered himself for one last duty and marched through the city toward the keep. The guards, nobles, and courtiers saw what the dragon had hidden from them: Lady Katrana Prestor was no noble advisor. She was Onyxia, broodmother of the black dragonflight. Windsor died exposing her, but his sacrifice broke the illusion around Bolvar and gave the Alliance a clear enemy at last.",
             quests = {
                 { id = 6402, name = "Stormwind Rendezvous", npc = "Marshal Maxwell" },
@@ -125,8 +125,8 @@ SM.OnyxiaData = {
         {
             chapter = "The Drakefire Amulet",
             faction = "Alliance",
-            summary = "Bolvar sends you to Haleh in Winterspring. Her magic turns the blood of General Drakkisath into the Drakefire Amulet, the key to Onyxia's Lair.",
-            recap = "With Onyxia exposed, the Alliance still needed a way into her lair. Bolvar sent you to Haleh, hidden in Winterspring, and Haleh named the final price: the blood of General Drakkisath from Upper Blackrock Spire. The black dragonflight's own champion became the material for the Drakefire Amulet. The court conspiracy was over. The raid on Onyxia could begin.",
+            summary = "Seek Haleh in Winterspring and bring her General Drakkisath's blood to make the Drakefire Amulet.",
+            recap = "With Onyxia exposed, the Alliance still needed a way into her lair. Bolvar sent you to Haleh, hidden in Winterspring, and Haleh named the final price: the blood of General Drakkisath from Upper Blackrock Spire. The black dragonflight's own champion became the material for the Drakefire Amulet. The court conspiracy was over. The assault on Onyxia could begin.",
             quests = {
                 { id = 6501, name = "The Dragon's Eye", npc = "Highlord Bolvar Fordragon" },
                 { id = 6502, name = "Drakefire Amulet", npc = "Haleh" },
@@ -135,8 +135,8 @@ SM.OnyxiaData = {
         {
             chapter = "For the Horde",
             faction = "Horde",
-            summary = "The Horde path begins in Kargath and Blackrock Spire. Warlord Goretooth sends you after Rend Blackhand's command, and Thrall answers the false warchief directly.",
-            recap = "The Horde's road to Onyxia began with Blackrock command papers and the old wound of the Blackhand name. Warlord Goretooth demanded proof from Lower Blackrock Spire, Eitrigg weighed the report in Orgrimmar, and Thrall sent you to kill Warchief Rend Blackhand. Rend's death was more than an attunement step. It was a declaration that the Horde would not bow to a false warchief propped up by dragons.",
+            summary = "In Kargath, take Warlord Goretooth's orders into Blackrock Spire and bring Rend Blackhand's command to Thrall.",
+            recap = "The Horde's road to Onyxia began with Blackrock command papers and the old wound of the Blackhand name. Warlord Goretooth demanded proof from Lower Blackrock Spire, Eitrigg weighed the report in Orgrimmar, and Thrall sent you to kill Warchief Rend Blackhand. Rend's death was a declaration that the Horde would not bow to a false warchief propped up by dragons.",
             quests = {
                 { id = 4903, name = "Warlord's Command", npc = "Warlord Goretooth" },
                 { id = 4941, name = "Eitrigg's Wisdom", npc = "Warlord Goretooth" },
@@ -147,7 +147,7 @@ SM.OnyxiaData = {
         {
             chapter = "Rexxar's Testament",
             faction = "Horde",
-            summary = "Thrall sends you to Rexxar, whose testimony and disguise magic lead through Myranda the Hag, Upper Blackrock Spire, and Emberstrife's den.",
+            summary = "Find Rexxar and follow his road through Myranda's disguise magic, Blackrock Spire, and Emberstrife's den.",
             recap = "Thrall knew Onyxia's threat reached beyond Blackrock Mountain, so he sent you to Rexxar. The champion of the Horde carried old knowledge and a hard road: find Myranda, wear an illusion, gather dragon eyes in Upper Blackrock Spire, and use that disguise to reach Emberstrife. Where the Alliance exposed a dragon in court, the Horde had to deceive a dragon servant into opening the next gate.",
             quests = {
                 { id = 6567, name = "The Champion of the Horde", npc = "Thrall" },
@@ -159,8 +159,8 @@ SM.OnyxiaData = {
         {
             chapter = "The Test of Skulls",
             faction = "Horde",
-            summary = "Emberstrife tests your worth through four dragons: Scryer, Somnus, Chronalis, and Axtroz. Each skull brings the amulet closer to ascension.",
-            recap = "Emberstrife's tests scattered the Horde across Azeroth. Scryer waited in Winterspring, Somnus haunted Swamp of Sorrows, Chronalis guarded the Caverns of Time, and Axtroz patrolled the road to Grim Batol. Each skull was a trophy, a key, and a proof of strength. By the time the fourth dragon fell, Emberstrife's amulet was ready for the last transformation.",
+            summary = "Emberstrife demands the skulls of four dragons: Scryer, Somnus, Chronalis, and Axtroz.",
+            recap = "Emberstrife's tests scattered the Horde across Azeroth. Scryer waited in Winterspring, Somnus haunted Swamp of Sorrows, Chronalis guarded the Caverns of Time, and Axtroz patrolled the road to Grim Batol. Each skull was trophy, key, and proof of strength. By the time the fourth dragon fell, Emberstrife's amulet was ready for the last transformation.",
             quests = {
                 { id = 6582, name = "The Test of Skulls, Scryer", npc = "Emberstrife" },
                 { id = 6583, name = "The Test of Skulls, Somnus", npc = "Emberstrife" },
@@ -172,8 +172,8 @@ SM.OnyxiaData = {
         {
             chapter = "Blood of the Black Dragon Champion",
             faction = "Horde",
-            summary = "Rexxar sends you back into Upper Blackrock Spire for General Drakkisath's blood. The completed Drakefire Amulet opens the way to Onyxia.",
-            recap = "The final Horde proof came from the same black dragon champion the Alliance needed to overcome. General Drakkisath's blood completed the amulet's power, and Rexxar turned the long chain of commands, disguises, skulls, and trials into a single key. The Horde had its answer to Onyxia: not courtly revelation, but strength tested across the world and deep inside Blackrock Spire.",
+            summary = "Bring General Drakkisath's blood to Rexxar and complete the Drakefire Amulet.",
+            recap = "The final proof came from General Drakkisath himself. His blood completed the amulet's power, and Rexxar turned the long road of commands, disguises, skulls, and trials into a single key. The Horde had its answer to Onyxia: strength tested across the world and deep inside Blackrock Spire.",
             quests = {
                 { id = 6602, name = "Blood of the Black Dragon Champion", npc = "Rexxar" },
             },

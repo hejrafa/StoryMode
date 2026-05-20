@@ -73,8 +73,8 @@ SM.FallenHeroData = {
         {
             chapter = "Orders That Never Came",
             faction = "Horde",
-            summary = "The Fallen Hero tells Horde adventurers how his regiment died waiting for orders. Stonard's commander sends you into the southern swamps, where the missing command may still be in murloc hands.",
-            recap = "The Fallen Hero's shame began with obedience. He led his soldiers toward the Blasted Lands and waited for orders that never arrived. Dispatch Commander Ruag remembered the lost message, Bengor remembered the ambush, and the Swamp Talker still held the Warchief's command. The truth was cruel: the regiment had been ordered to withdraw. The hero's men died because the order never reached them.",
+            summary = "The Fallen Hero speaks of a regiment lost waiting for orders. Begin in Stonard and search the southern swamps for the command that never reached him.",
+            recap = "The Fallen Hero's grief began with obedience. He led his soldiers toward the Blasted Lands and waited for orders that never came. Dispatch Commander Ruag remembered the lost message, Bengor remembered the ambush, and the Swamp Talker still held the Warchief's command. The truth was bitter: the regiment had been told to withdraw. The order never reached them.",
             quests = {
                 { id = 2784, name = "Fall From Grace", npc = "Fallen Hero of the Horde" },
                 { id = 2621, name = "The Disgraced One", npc = "Fallen Hero of the Horde" },
@@ -84,8 +84,8 @@ SM.FallenHeroData = {
         },
         {
             chapter = "A Tale of Sorrow",
-            summary = "Alliance adventurers are sent from Nethergarde, while Horde adventurers return with the missing orders. The Fallen Hero reveals what Razelikh did to the regiment after it crossed into the Blasted Lands.",
-            recap = "Whether you came from Nethergarde or from Stonard, the road ended at the same ghost. The Fallen Hero told the rest of the story: his soldiers had not merely fallen. Razelikh's servants captured them, stripped away their peace, and bound their bodies to stones of demonic power. The hero's regret became a command of its own. If his men could not be saved, they could at least be freed.",
+            summary = "Return with the lost command, or answer Nethergarde's summons, and hear what Razelikh did to the soldiers who crossed into the Blasted Lands.",
+            recap = "From Stonard or Nethergarde, the road ended at the same ghost. The Fallen Hero told what waited beyond the swamp: Razelikh's servants took his fallen regiment, denied them rest, and bound them to stones of demonic power. His regret became an order of its own. If his soldiers could not live, they could still be set free.",
             quests = {
                 { id = 2783, name = "Petty Squabbles", npc = "Ambassador Ardalan", faction = "Alliance" },
                 { id = 2801, name = "A Tale of Sorrow", npc = "Fallen Hero of the Horde" },
@@ -94,7 +94,7 @@ SM.FallenHeroData = {
         },
         {
             chapter = "The Last Souls",
-            summary = "The stones break, but the regiment's story is not finished. Corporal Thund Splithoof leaves one last gift, and Lieutenant Kirith's fate points toward Razelikh's deeper protections.",
+            summary = "Break the Stones of Binding and seek the last names left to the Fallen Hero: Corporal Thund Splithoof and Lieutenant Kirith.",
             recap = "Breaking the Stones of Binding turned battle into mercy. One by one, the servants of Razelikh, Grol, Allistarj, and Sevine lost their anchors, and the dead soldiers were released from a fate worse than death. Corporal Thund Splithoof appeared long enough to honor the work and leave a token behind. Then one name remained: Lieutenant Kirith. Finding him in the Serpent's Coil revealed the next truth. Razelikh could not be reached until his protections were understood.",
             quests = {
                 { id = 2701, name = "Heroes of Old", displayName = "Corporal Thund", npc = "Corporal Thund Splithoof" },
@@ -105,8 +105,8 @@ SM.FallenHeroData = {
         },
         {
             chapter = "Loramus and the Beast's Name",
-            summary = "The Fallen Hero sends you to Azshara, where Loramus Thalipedes knows how demons protect themselves. The trail leads through Arkkoroc, Hetaera, and the first pieces of Felbane's making.",
-            recap = "The fight moved from ghostly remorse to demon-hunting craft. Loramus Thalipedes understood Razelikh's ward, but knowledge had to be earned. Lord Arkkoroc gave up the beast's name only after Hetaera's heads were brought from the Bay of Storms, and Loramus used the blood to name the enemy properly. The demon's protections were no longer a mystery. Now they needed a weapon that could bite through them.",
+            summary = "Seek Loramus Thalipedes in Azshara. The demon hunter knows how Razelikh is warded, but he needs a name torn from the deep.",
+            recap = "The fight moved from ghostly remorse to demon-hunter craft. Loramus Thalipedes understood Razelikh's ward, but knowledge had to be earned. Lord Arkkoroc gave up the beast's name only after Hetaera's heads were brought from the Bay of Storms, and Loramus used the blood to name the enemy properly. The demon's protections were no longer a mystery. Felbane had to be made.",
             quests = {
                 { id = 2744, name = "The Demon Hunter", npc = "Fallen Hero of the Horde" },
                 { id = 3141, name = "Loramus", npc = "Loramus Thalipedes" },
@@ -119,8 +119,8 @@ SM.FallenHeroData = {
         },
         {
             chapter = "Felbane",
-            summary = "Azsharite must be shaped into a weapon that can pierce Razelikh's wards. Loramus sends the crystal to Galvan the Ancient, who forges Felbane and sends you back to the Blasted Lands.",
-            recap = "The Azsharite was raw possibility: crystal from a dangerous coast, named by a demon hunter, and meant for a foe normal steel could not touch. Galvan the Ancient gave that possibility form. Felbane was not an heirloom or a trophy. It was a tool for one brutal task: wound Razelikh's protected servants, gather the shattered amulet, and open the way to the demon himself.",
+            summary = "Carry the Azsharite to Galvan the Ancient so Felbane can be forged for the Blasted Lands.",
+            recap = "The Azsharite was raw possibility: crystal from a dangerous coast, named by a demon hunter, and meant for a foe normal steel could not touch. Galvan the Ancient gave that possibility form. Felbane was not an heirloom or a trophy. It was a blade for one brutal task: wound Razelikh's protected servants, gather the shattered amulet, and open the way to the demon himself.",
             quests = {
                 { id = 3621, name = "The Formation of Felbane", npc = "Loramus Thalipedes" },
                 { id = 3625, name = "Enchanted Azsharite Fel Weaponry", npc = "Galvan the Ancient" },
@@ -129,8 +129,8 @@ SM.FallenHeroData = {
         },
         {
             chapter = "Rakh'likh",
-            summary = "With Felbane in hand, the final work begins. Grol, Allistarj, and Sevine hold the amulet's pieces; Razelikh waits above the Blasted Lands for the reckoning the Fallen Hero could not finish alone.",
-            recap = "The last climb belonged to the dead as much as the living. Grol the Destroyer, Archmage Allistarj, and Lady Sevine each held a piece of Razelikh's power, and Felbane made them mortal enough to fall. The united ward opened the Rise of the Defiler. There, above the ruined land that had swallowed a Horde regiment, Razelikh finally answered for the souls he chained. The Fallen Hero could not undo his failure, but he could see the demon broken and his soldiers released.",
+            summary = "With Felbane in hand, strike down Grol, Allistarj, and Sevine, then carry the shattered amulet to the Rise of the Defiler.",
+            recap = "The last climb belonged to the dead as much as the living. Grol the Destroyer, Archmage Allistarj, and Lady Sevine each held a piece of Razelikh's power, and Felbane made them mortal enough to fall. The united ward opened the Rise of the Defiler. There, above the ruined land that had swallowed a Horde regiment, Razelikh finally answered for the souls he chained. The Fallen Hero could not undo his failure, but he saw the demon broken and his soldiers released.",
             quests = {
                 { id = 3627, name = "Uniting the Shattered Amulet", npc = "Fallen Hero of the Horde" },
                 { id = 3628, name = "You Are Rakh'likh, Demon", npc = "Fallen Hero of the Horde" },

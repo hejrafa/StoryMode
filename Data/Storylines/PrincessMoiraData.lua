@@ -61,8 +61,8 @@ SM.PrincessMoiraData = {
         {
             chapter = "Kharan's Tale",
             faction = "Alliance",
-            summary = "Ironforge's historians point back to old Thaurissan, then Magni sends you into Blackrock Depths to find Kharan Mighthammer, the guard who knows what happened to Princess Moira.",
-            recap = "The story began before Moira's disappearance, in the ruins left by the first Thaurissan and the War of the Three Hammers. Ironforge's old wound led straight into Blackrock Depths, where Kharan Mighthammer's prison cell held the news Magni did not want to hear. Moira was in the heart of the Dark Iron kingdom, and the rescue he wanted was already tangled in questions of love, control, succession, and inherited hatred.",
+            summary = "Hear the old tale of Thaurissan, then enter Blackrock Depths to find Kharan Mighthammer and the truth of Moira's fate.",
+            recap = "Moira's disappearance led backward to old Thaurissan and the War of the Three Hammers. Ironforge's old wound led straight into Blackrock Depths, where Kharan Mighthammer's prison cell held the news Magni did not want to hear. Moira was in the heart of the Dark Iron kingdom, and the rescue he wanted was already tangled in questions of love, control, succession, and inherited hatred.",
             quests = {
                 { id = 3702, name = "The Smoldering Ruins of Thaurissan", npc = "Royal Historian Archesonus" },
                 { id = 3701, name = "The Smoldering Ruins of Thaurissan", displayName = "Burning Steppes", npc = "Royal Historian Archesonus" },
@@ -84,7 +84,7 @@ SM.PrincessMoiraData = {
         {
             chapter = "The Warchief's Rescue",
             faction = "Horde",
-            summary = "A message from Commander Gor'shak pulls the Horde into Blackrock Depths. Thrall sees Moira's captivity as a threat to the balance of the Eastern Kingdoms.",
+            summary = "Commander Gor'shak's message pulls the Horde into Blackrock Depths, where Moira's captivity may shape more than one kingdom.",
             recap = "The Horde path entered the same crisis through a different door: a commander in chains, a prisoner with information, and Thrall reading the politics beneath the dungeon walls. Freeing Moira was not mercy alone. It was strategy. If a Dark Iron child could inherit Ironforge, then Blackrock Depths was not only a prison. It was a future capital waiting in the dark.",
             quests = {
                 { id = 3981, name = "Commander Gor'shak", npc = "Galamav the Marksman" },

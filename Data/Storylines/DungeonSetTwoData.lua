@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DungeonSetTwoData = {
     title = "The Brazier of Invocation",
-    description = "At level 58, Deliana or Mokvar will look at your old dungeon armor and offer work that sounds simple enough: bring the right pieces, prove you are ready, and keep following instructions.\n\nThe errands soon reach far beyond a single set of bracers. Expect old dungeons, stranger patrons, expensive favors, and a brazier whose purpose is not explained all at once.",
+    description = "When your old dungeon armor has seen enough battle, Deliana or Mokvar will offer work that sounds simple enough: bring the right pieces, prove you are ready, and keep following instructions.\n\nThe errands soon reach far beyond a single set of bracers. Expect old dungeons, stranger patrons, expensive favors, and a brazier whose purpose is not explained all at once.",
     zone = "Ironforge / Orgrimmar / Silithus / Dire Maul / Stratholme / Blackrock Mountain",
     zoneByFaction = {
         Alliance = "Ironforge / Silithus / Dire Maul / Stratholme / Blackrock Mountain",
@@ -91,8 +91,8 @@ SM.DungeonSetTwoData = {
         {
             chapter = "A Bracer at the Gate",
             requiredLevel = 58,
-            summary = "The chain starts only after you have a Dungeon Set 1 bracer. Deliana or Mokvar takes that proof and sends you to Mux Manascrambler.",
-            recap = "The first exchange feels almost too small for the road it opens. You bring a worn class bracer from the old dungeon set, and Deliana or Mokvar treats it as proof that you belong in the work ahead. The reward is not power yet. It is permission: a first upgrade, a warning that stranger work is coming, and a name in Gadgetzan.",
+            summary = "Bring a Dungeon Set 1 bracer to Deliana or Mokvar and accept the first upgrade work.",
+            recap = "The first exchange began with a worn class bracer and a simple test of readiness. Deliana or Mokvar made the first improvement and sent you onward to Gadgetzan.",
             quests = {
                 { id = 8906, name = "An Earnest Proposition", npc = "Deliana", faction = "Alliance", class = "HUNTER" },
                 { id = 8907, name = "An Earnest Proposition", npc = "Deliana", faction = "Alliance", class = "MAGE" },
@@ -116,8 +116,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "Mux's Supernatural Device",
-            summary = "Mux needs ectoplasm, a portable power source, and goblin parts before the belt and gloves can be upgraded.",
-            recap = "Mux Manascrambler does not make the chain feel more dignified. His supernatural device needs ghost residue from three corners of the world, a volatile power source from Winterspring, and parts from a shifty merchant before it will do anything useful. The errands are ridiculous, expensive, and strangely perfect: the old armor is not being polished. It is being dragged through Azeroth's weirdest machinery until it wakes up.",
+            summary = "Gather ectoplasm, a power source, and goblin parts so Mux can finish his device.",
+            recap = "Mux Manascrambler's device required ghostly residue, strange power, and parts only a goblin would trust. Once complete, it pointed the armor work toward matters no smith could see unaided.",
             quests = {
                 { id = 8921, name = "The Ectoplasmic Distiller", npc = "Mux Manascrambler" },
                 { id = 8924, name = "Hunting for Ectoplasm", npc = "Mux Manascrambler" },
@@ -145,8 +145,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "Anthion and the Dead Man's Plea",
-            summary = "The device reveals Anthion Harmon outside Stratholme. His sister Ysida is trapped inside, and saving her means beating the baron on a timer.",
-            recap = "The supernatural device points to a ghost with a living grief. Anthion Harmon is trapped outside Stratholme, unable to save Ysida from the city that killed so many people slowly and then all at once. The chain suddenly stops being a shopping list. You race through Stratholme, kill Baron Rivendare before the prisoner dies, and bring proof back to the brother who could only beg from the road.",
+            summary = "Use Mux's device near Stratholme, then race the city to save Ysida Harmon from the baron.",
+            recap = "The device revealed Anthion Harmon, a ghost bound by his sister's danger. You entered Stratholme, reached Ysida in time, and returned to the brother who had waited outside its gates.",
             quests = {
                 { id = 8929, name = "In Search of Anthion", npc = "Deliana", faction = "Alliance" },
                 { id = 8930, name = "In Search of Anthion", npc = "Mokvar", faction = "Horde" },
@@ -158,8 +158,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "Falrin's Vendetta",
-            summary = "Falrin Treeshaper draws the chain into Dire Maul and sends you after ogres, undead, and the enchantment needed for the next trial.",
-            recap = "Falrin Treeshaper carries his own wound into the chain. Dire Maul's library becomes a quiet command post, and his vendetta sends you against the creatures that ruined his people and his home. When the enchantment is complete, it is not just a reagent. It is a challenge letter, written in grudges, for an arena deep under Blackrock.",
+            summary = "Meet Falrin Treeshaper in Dire Maul and gather what he needs for the next challenge.",
+            recap = "Falrin Treeshaper's vendetta turned Dire Maul's library into your next post. The creatures he named were hunted, the enchantment was made, and a challenge was prepared for Blackrock Depths.",
             quests = {
                 { id = 8949, name = "Falrin's Vendetta", npc = "Falrin Treeshaper" },
                 { id = 8950, name = "The Instigator's Enchantment", npc = "Falrin Treeshaper" },
@@ -167,8 +167,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "The Challenge",
-            summary = "Theldren and his gladiators wait in Blackrock Depths. Win the arena and Anthion can complete the shoulder and boot upgrades.",
-            recap = "Blackrock Depths turns the upgrade into spectacle. Theldren gathers his challengers in the Ring of Law, and the only argument they respect is survival. When the fight is over, Anthion's parting words feel earned: you have crossed from errands into trials, and the armor is beginning to carry a story as much as a stat line.",
+            summary = "Win Theldren's challenge in Blackrock Depths so Anthion can continue the armor work.",
+            recap = "Theldren's challengers waited in the Ring of Law, where words meant little. You survived the arena, and Anthion had what he needed for the next pieces.",
             quests = {
                 { id = 9015, name = "The Challenge", npc = "Falrin Treeshaper" },
                 { id = 8952, name = "Anthion's Parting Words", npc = "Anthion Harmon", faction = "Alliance", class = "HUNTER" },
@@ -191,8 +191,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "Bodley's Unfortunate Fate",
-            summary = "Bodley is found near Blackrock Spire, caught between a bad bargain and Lord Valthalak's broken amulet.",
-            recap = "Bodley is not a grand champion, which is why he works. He is frightened, talkative, and in over his head. Through him the armor chain reveals its real center: Lord Valthalak, a spirit bound by pride, betrayal, and a shattered amulet. Before you can summon that story, Bodley needs flame, reputation, and the first hard confession of what went wrong.",
+            summary = "Find Bodley near Blackrock Spire and learn why Lord Valthalak's amulet matters.",
+            recap = "Bodley was frightened, talkative, and deeply entangled in Lord Valthalak's fate. Through him, the armor work became a matter of flame, reputation, and a shattered amulet.",
             quests = {
                 { id = 8323, name = "True Believers", npc = "Hermit Ortell", optional = true },
                 { id = 8960, name = "Bodley's Unfortunate Fate", npc = "Deliana", faction = "Alliance" },
@@ -202,8 +202,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "The Amulet of Lord Valthalak",
-            summary = "Bodley sends you after two halves of Valthalak's amulet. The component targets vary, but the road always crosses dangerous old dungeons.",
-            recap = "The amulet hunt is the chain at its most sprawling. Bodley points you toward components and missing pieces, and the exact assignment can shift: Isalien, Jarien and Sothos, Mor Grayhoof, Kormok, and other summoned echoes haunt the route. The result is the same every time. You are not merely gathering parts. You are rebuilding a key to a dead lord's pride.",
+            summary = "Recover the amulet pieces and components Bodley names from the old dungeons of Azeroth.",
+            recap = "The amulet hunt sent you after pieces, components, and summoned echoes in dangerous places. Each recovery brought Lord Valthalak's broken pride closer to being called forth.",
             quests = {
                 { id = 8963, altIds = { 8962, 8965, 8964 }, name = "Components of Importance", npc = "Bodley" },
                 { id = 8968, altIds = { 8969, 8966, 8967 }, name = "The Left Piece of Lord Valthalak's Amulet", npc = "Bodley" },
@@ -214,8 +214,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "Final Preparations",
-            summary = "The last materials turn the Brazier of Invocation into the tool that can call Valthalak's spirit inside Upper Blackrock Spire.",
-            recap = "By now the old armor has passed through ghosts, goblins, gladiators, elementals, and summoned dungeon shades. Final preparations feel almost ceremonial. Bodley gathers the last materials, the brazier is readied, and the chain narrows to one room in Upper Blackrock Spire where Lord Valthalak's spirit can finally answer.",
+            summary = "Gather the final materials and ready the Brazier of Invocation for Upper Blackrock Spire.",
+            recap = "The last preparations made the brazier ready. After ghosts, goblins, gladiators, and dungeon shades, the path narrowed to the chamber where Valthalak could answer.",
             quests = {
                 { id = 8994, name = "Final Preparations", npc = "Bodley" },
                 { id = 8995, name = "Mea Culpa, Lord Valthalak", npc = "Bodley" },
@@ -226,8 +226,8 @@ SM.DungeonSetTwoData = {
         },
         {
             chapter = "Saving the Best for Last",
-            summary = "Return to Deliana or Mokvar for the final class turn-in and claim the chest, helm, and pants upgrades.",
-            recap = "The final reward is a return to the beginning with a very different weight. The bracer that opened the chain has become a full memory of Azeroth's old endgame: every dungeon errand, every summoned spirit, every timed rescue, every expensive component, every long flight. Deliana or Mokvar completes the last exchange, and Dungeon Set 2 stops being a checklist. It becomes proof that you crossed the world for a set with a story.",
+            summary = "Return to Deliana or Mokvar for the final exchange and complete the armor upgrade.",
+            recap = "You returned to the one who started the work with a full trail behind you: rescues, bargains, spirits, and old dungeons. The final pieces made the upgraded set a record of where you had been.",
             quests = {
                 { id = 9000, name = "Saving the Best for Last", npc = "Deliana", faction = "Alliance", class = "HUNTER" },
                 { id = 9001, name = "Saving the Best for Last", npc = "Deliana", faction = "Alliance", class = "MAGE" },

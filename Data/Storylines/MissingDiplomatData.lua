@@ -74,7 +74,7 @@ SM.MissingDiplomatData = {
     chapters = {
         {
             chapter = "A Discreet Matter",
-            summary = "Thomas quietly sends you to Bishop DeLavey in Stormwind Keep. The bishop reveals that a diplomat bound for Theramore never arrived and asks you to follow his private contacts.",
+            summary = "Thomas sends you quietly to Bishop DeLavey in Stormwind Keep, where a missing envoy has become a private matter.",
             recap = "The investigation began with secrecy, not ceremony. Thomas found you near the Cathedral and sent you to Bishop DeLavey, who admitted that a diplomat sent to meet Jaina Proudmoore had disappeared. DeLavey suspected the Defias but could not prove it, so he pulled in people outside the usual channels: Jorgen by the Valley of Heroes, then Elling Trias above the cheese shop. The case had already moved from church business to spy work.",
             quests = {
                 { id = 1274, name = "The Missing Diplomat", displayName = "Bishop DeLavey", npc = "Thomas" },
@@ -85,7 +85,7 @@ SM.MissingDiplomatData = {
         },
         {
             chapter = "The Defias Docket",
-            summary = "Watcher Backus points you toward Addle's Stead in Duskwood, where Defias agents left behind a docket. The document is too serious for a simple decoy.",
+            summary = "Follow Watcher Backus to Addle's Stead and bring the Defias docket back to Trias.",
             recap = "Duskwood supplied the first hard evidence. Watcher Backus remembered Defias agents gathering around Addle's Stead, and the small farmhouse held the proof: a docket official enough to worry even a veteran watchman. Backus sent it back to Trias, and Trias saw the shape of the next lead in one familiar word: Fist.",
             quests = {
                 { id = 1244, name = "The Missing Diplomat", displayName = "Addle's Stead", npc = "Watcher Backus" },
@@ -94,7 +94,7 @@ SM.MissingDiplomatData = {
         },
         {
             chapter = "Fist",
-            summary = "Trias sends you into Old Town after Dashel Stonefist. Beating answers out of him turns the case toward Menethil Harbor and a man called Slim.",
+            summary = "Trias sends you into Old Town after Dashel Stonefist, whose answers point toward Menethil Harbor.",
             recap = "Dashel Stonefist was exactly the sort of contact Trias expected: violent, useful, and unwilling to talk until persuaded. Once subdued, he admitted that his part had ended when the first plan failed. The backup plan involved someone from Menethil Harbor, a man called Slim. Trias knew enough to send you across the sea before the trail went cold.",
             quests = {
                 { id = 1246, name = "The Missing Diplomat", displayName = "Find Dashel", npc = "Elling Trias" },
@@ -105,8 +105,8 @@ SM.MissingDiplomatData = {
         },
         {
             chapter = "Slim's Confession",
-            summary = "At the Deepwater Tavern, Mikhail spots Tapoke Jahn listening too closely. Slim runs, fights, and finally admits the truth: the missing diplomat was King Varian Wrynn.",
-            recap = "Menethil Harbor made the conspiracy plain. Mikhail noticed a listener by the tavern door, and Tapoke \"Slim\" Jahn tried to run before the questions reached him. When he broke, the case changed completely. The Defias had not taken a mere diplomat. They had taken Stormwind's king, and Slim had helped place Hendel aboard the king's ship. Mikhail could only do one thing: send you to Theramore before the trail disappeared into military silence.",
+            summary = "At the Deepwater Tavern, follow the man who listens too closely and make Tapoke Jahn tell what he knows.",
+            recap = "Menethil Harbor made the conspiracy plain. Mikhail noticed a listener by the tavern door, and Tapoke \"Slim\" Jahn tried to run before the questions reached him. When he broke, the case changed completely. The Defias had not taken a mere diplomat. They had taken Stormwind's king, and Slim had helped place Hendel aboard the king's ship. Mikhail could only send you to Theramore before the trail disappeared into military silence.",
             quests = {
                 { id = 1249, name = "The Missing Diplomat", displayName = "Find Slim", npc = "Mikhail" },
                 { id = 1250, name = "The Missing Diplomat", displayName = "Slim's Confession", npc = "Tapoke \"Slim\" Jahn" },
@@ -115,8 +115,8 @@ SM.MissingDiplomatData = {
         },
         {
             chapter = "Hendel",
-            summary = "Theramore's officers help you find Private Hendel near Sentry Point. Subduing him brings Jaina Proudmoore herself into the investigation, but the king's fate remains unresolved.",
-            recap = "Theramore brought the mystery into the open without solving it. Commander Samaul sent you to Sentry Point, Archmage Tervosh guided you to Private Hendel, and Hendel's guard post became the last fight of the trail. When Hendel yielded, Jaina Proudmoore appeared to take charge of the prisoner and thank you quietly for services that could not be publicly named. You had exposed the kidnapping of King Varian Wrynn, but Classic left the larger wound open: the king was still missing, and someone powerful enough to use the Defias had not yet shown their face.",
+            summary = "In Theramore, find Private Hendel near Sentry Point and bring him in alive if you can.",
+            recap = "Theramore brought the mystery into the open without solving it. Commander Samaul sent you to Sentry Point, Archmage Tervosh guided you to Private Hendel, and Hendel's guard post became the last fight of the trail. When Hendel yielded, Jaina Proudmoore appeared to take charge of the prisoner and thank you quietly for services that could not be publicly named. You had exposed the kidnapping of King Varian Wrynn, but the larger wound remained open: the king was still missing, and someone powerful enough to use the Defias had not yet shown their face.",
             quests = {
                 { id = 1265, name = "The Missing Diplomat", displayName = "Sentry Point", npc = "Commander Samaul" },
                 { id = 1266, name = "The Missing Diplomat", displayName = "Private Hendel", npc = "Archmage Tervosh" },

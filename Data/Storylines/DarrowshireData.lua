@@ -57,8 +57,8 @@ SM.DarrowshireData = {
     chapters = {
         {
             chapter = "Pamela's Doll",
-            summary = "Marlene or Jessica Redpath sends you to Darrowshire, where Pamela's ghost waits among burned houses and asks for the scattered pieces of her doll.",
-            recap = "Darrowshire did not introduce itself with soldiers or strategy. It introduced itself with Pamela Redpath, alone in a ruined village and still thinking like the child she had been when the battle came. Finding the pieces of her doll made the truth harder to avoid: Pamela had not merely been lost. She had died here, and the people who loved her had been broken across the Plaguelands.",
+            summary = "Find Pamela Redpath in Darrowshire and help gather the pieces of the doll she has lost.",
+            recap = "Marlene's request led you to Pamela Redpath, alone among the ruins and still asking after her doll. Returning the pieces brought comfort, and also the first hard truth of Darrowshire.",
             quests = {
                 { id = 5142, altIds = { 5601 }, name = "Little Pamela", npc = "Marlene Redpath" },
                 { id = 5149, name = "Pamela's Doll", npc = "Pamela Redpath" },
@@ -66,8 +66,8 @@ SM.DarrowshireData = {
         },
         {
             chapter = "The Annals of Darrowshire",
-            summary = "Pamela sends you to her aunt and uncle. Marlene points toward Chromie and the Annals of Darrowshire, while Carlin carries the grief east to Light's Hope Chapel.",
-            recap = "Pamela's family survived only in fragments: Marlene's guilt near Andorhal, Jessica's exile in Winterspring, and Carlin's grief at Light's Hope. Chromie gave those fragments a shape. The Annals of Darrowshire were not only a history book. In her hands, they became a way to read beyond the last page and ask whether one doomed night could be answered.",
+            summary = "Follow Pamela's family trail to Marlene, Carlin, and Chromie, who seeks the Annals of Darrowshire.",
+            recap = "Pamela's family was scattered by grief: Marlene near Andorhal, Jessica far away, and Carlin at Light's Hope. Chromie gave their sorrow a shape by asking for the Annals of Darrowshire.",
             quests = {
                 { id = 5152, name = "Auntie Marlene", npc = "Pamela Redpath" },
                 { id = 5153, name = "A Strange Historian", npc = "Marlene Redpath" },
@@ -79,8 +79,8 @@ SM.DarrowshireData = {
         },
         {
             chapter = "The Redpath Relics",
-            summary = "Carlin and Chromie send you after the villains, heroes, and marauders of Darrowshire: relics from Horgus, Marduk, Davil, Redpath, and the Scourge champions who joined the battle.",
-            recap = "The battle could not be touched until its names were recovered. Horgus and Marduk left relics of cruelty. Davil Lightfire and Joseph Redpath left relics of defense. The marauders left skulls that still resonated with the night Darrowshire fell. Each object made the past less abstract and more dangerous, as if history itself were being assembled into a spell.",
+            summary = "Recover the relics and skulls tied to Darrowshire's old defenders, villains, and marauders.",
+            recap = "Carlin and Chromie needed names made into relics: Horgus, Marduk, Davil, Joseph, and the marauders who joined the slaughter. Each recovered piece brought the last battle closer to being answered.",
             quests = {
                 { id = 5181, name = "Villains of Darrowshire", npc = "Carlin Redpath" },
                 { id = 5168, name = "Heroes of Darrowshire", npc = "Carlin Redpath" },
@@ -90,8 +90,8 @@ SM.DarrowshireData = {
         },
         {
             chapter = "Darrowshire Rewritten",
-            summary = "Chromie sends you back into Darrowshire's last battle. If the defenders hold, Joseph Redpath's spirit can be freed and Pamela can finally stop waiting.",
-            recap = "The dead of Darrowshire rose to fight their last battle again. Davil had to stand long enough for Horgus to fall. Joseph Redpath had to live long enough to become the corrupted thing history remembered, and then be defeated before that corruption owned the end of his story. When Pamela heard the fighting stop, her father came home at last. Darrowshire was not saved in the ordinary sense, but one wound in it finally closed.",
+            summary = "Return to Darrowshire with Chromie's relic bundle and stand with the town in its final battle.",
+            recap = "The dead of Darrowshire rose to fight again. You held the line, faced the corrupted Joseph Redpath, and gave Pamela the peace of knowing her father had come home.",
             quests = {
                 { id = 5721, name = "The Battle of Darrowshire", npc = "Chromie" },
                 { id = 5942, name = "Hidden Treasures", npc = "Pamela Redpath" },

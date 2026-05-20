@@ -47,8 +47,8 @@ SM.HoggerData = {
     chapters = {
         {
             chapter = "The Scourge of Elwynn",
-            summary = "A wanted poster outside Westbrook Garrison sends you after Hogger, the Riverpaw gnoll terrorizing southwestern Elwynn. Bring his huge claw back to Marshal Dughan in Goldshire.",
-            recap = "Hogger's bounty was small on paper: read the poster at Westbrook Garrison, walk into the Riverpaw camps at Forest's Edge, bring back one huge claw. In practice, it became one of the Alliance's earliest rites of passage. Hogger was only a gnoll in southwestern Elwynn, but he hit hard, stood among friends, and taught new humans that some wanted posters were really invitations to find a party. When Marshal Dughan took the claw in Goldshire, the road to Westfall felt a little less safe and a little more like Classic.",
+            summary = "Read the wanted poster outside Westbrook Garrison and hunt Hogger, the Riverpaw gnoll terrorizing southwestern Elwynn.",
+            recap = "The notice at Westbrook Garrison named a gnoll and a claw. Forest's Edge taught the rest. Hogger stood among the Riverpaw with enough strength to make a simple bounty feel like a hard lesson in the wilds beyond Elwynn's roads. When Marshal Dughan received the claw, the border toward Westfall felt less like open countryside and more like a warning.",
             quests = {
                 { id = 176, name = "Wanted: \"Hogger\"", npc = "Wanted Poster" },
             },

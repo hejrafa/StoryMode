@@ -103,8 +103,8 @@ SM.DefiasBrotherhoodData = {
     chapters = {
         {
             chapter = "Red Masks in Elwynn",
-            summary = "Before Westfall has a name for the crisis, Northshire and Elwynn already have red masks. Deputy Willem sends you to Milly Osworth, whose harvest has been stolen by Defias thieves. Sara Timberlain knows their bandanas, and Marshal Dughan finds a collector stealing from the mines.",
-            recap = "The first Defias you met were not masterminds in a hidden shipyard. They were thugs across the river from Northshire, stealing Milly Osworth's harvest and following Garrick Padfoot. In Elwynn, the same gang wore better cloth, camped along the roads, and collected money from the kingdom's mines. Morgan the Collector's ring made the clue harder to ignore: this was not only banditry. The Defias had roots in Stormwind's own past, and the question stopped being whether the red masks were dangerous. It became who had taught them to organize.",
+            summary = "Begin with the red masks near Northshire and follow the same bandit sign through Elwynn.",
+            recap = "The first Defias were thieves in the vineyards and bandits on the roads. By the time Morgan the Collector's ring reached Marshal Dughan, the red masks looked less like chance and more like organization.",
             quests = {
                 { id = 18, name = "Brotherhood of Thieves", npc = "Deputy Willem" },
                 { id = 3903, name = "Milly Osworth", npc = "Deputy Willem" },
@@ -117,8 +117,8 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "A Favor in Lakeshire",
-            summary = "Gryan Stoutmantle sends you beyond Westfall to cash in an old favor. Wiley the Black's note turns bandits into a wider conspiracy: gnolls, kobolds, goblins, the Stonemasons, and a secret network reaching toward Stormwind itself.",
-            recap = "Sentinel Hill did not have an army to spare, only the People's Militia and a suspicion that Westfall's troubles were connected. Gryan Stoutmantle sent you to Wiley the Black in Lakeshire, who confirmed the Defias were not acting alone. Wiley's note named allies, machinery, hidden routes, and one old word that changed the shape of the case: Stonemasons. Mathias Shaw made the link explicit. Edwin VanCleef, the man who helped rebuild Stormwind and was cheated for it, had become the mind behind the red masks.",
+            summary = "Aid Gryan Stoutmantle in Westfall and seek Wiley the Black's note in Lakeshire.",
+            recap = "Gryan Stoutmantle suspected that Westfall's troubles reached beyond scattered bandits. Wiley's note confirmed allies, machinery, hidden routes, and the old grievance of the Stonemasons.",
             quests = {
                 { id = 12, name = "The People's Militia", npc = "Gryan Stoutmantle" },
                 { id = 13, name = "The People's Militia", npc = "Gryan Stoutmantle" },
@@ -131,8 +131,8 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "The Messenger and the Traitor",
-            summary = "The investigation returns to Westfall. A Defias Messenger carries the proof Stoutmantle needs, and a captured traitor can lead you straight to the Brotherhood's hidden door in Moonbrook.",
-            recap = "Shaw's report gave Gryan a name, but not enough proof. The trail moved back to Westfall's roads, where a Defias Messenger carried word between Moonbrook, the mines, and the quarry. The stolen message revealed the Brotherhood's movement clearly enough for Stoutmantle to use a prisoner of his own. The Defias Traitor walked you through Moonbrook and pointed out the entrance beneath the ruined town. VanCleef was not hiding in the hills. He was building something under Westfall's feet.",
+            summary = "Return to Westfall, find the Defias Messenger, and use the traitor to locate the Brotherhood's hideout.",
+            recap = "Shaw's report gave Gryan a name, but the messenger gave him movement. The Defias Traitor then led you through Moonbrook to the hidden entrance beneath the ruined town.",
             quests = {
                 { id = 142, name = "The Defias Brotherhood", displayName = "The Messenger", npc = "Gryan Stoutmantle" },
                 { id = 155, name = "The Defias Brotherhood", displayName = "The Traitor", npc = "The Defias Traitor" },
@@ -141,8 +141,8 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "VanCleef",
-            summary = "The Deadmines are not just a mine. They are a factory, a hideout, and a shipyard. Fight through goblin machines and Defias guards to reach Edwin VanCleef aboard his hidden warship.",
-            recap = "The Deadmines revealed the scale of VanCleef's revenge. Behind Moonbrook's broken streets, the Brotherhood had built a fortress of laborers, mercenaries, goblin engineers, harvest watchers, and shipwrights. At its heart waited Edwin VanCleef, not as a roadside bandit, but as a revolutionary captain standing on the deck of a vessel meant for Stormwind. You killed him there and brought his head to Gryan Stoutmantle. Westfall had survived its first crisis, but VanCleef left one more piece behind: an unsent letter.",
+            summary = "Enter the Deadmines beneath Moonbrook and bring Edwin VanCleef's head back to Sentinel Hill.",
+            recap = "The Deadmines were mine, factory, shipyard, and fortress. At the heart of it all stood Edwin VanCleef, whose death ended Westfall's immediate crisis and left one final letter behind.",
             quests = {
                 { id = 2040, name = "Underground Assault", npc = "Shoni the Shilent", optional = true },
                 { id = 166, name = "The Defias Brotherhood", displayName = "VanCleef's Head", npc = "Gryan Stoutmantle" },
@@ -150,8 +150,8 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "The Unsent Letter",
-            summary = "VanCleef's letter turns a local victory into a political wound. Baros Alexston remembers the Stonemasons, and Bazil Thredd's riot in the Stockade may expose what VanCleef's lieutenants still know.",
-            recap = "The letter from VanCleef was addressed to Baros Alexston, Stormwind's city architect and one of the few people who truly understood the Stonemasons' betrayal. Baros did not defend VanCleef's crimes, but he did not pretend the kingdom's hands were clean. He sent you to Warden Thelwater, where Bazil Thredd had turned the Stockade into a riot. If Thredd knew what remained of VanCleef's plan, the only way to get answers was through the prison blocks.",
+            summary = "Carry VanCleef's letter to Baros Alexston and follow the matter into the Stockade.",
+            recap = "VanCleef's letter reached Baros Alexston, who remembered the Stonemasons better than most. His concern led to Warden Thelwater, Bazil Thredd, and the riot within the Stockade.",
             quests = {
                 { id = 387, name = "Quell The Uprising", npc = "Warden Thelwater", optional = true },
                 { id = 373, name = "The Unsent Letter", npc = "Edwin VanCleef" },
@@ -161,8 +161,8 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "The Noble Thread",
-            summary = "Thredd's death sends the trail back into Stormwind. A hidden visitor, old friends, and SI:7 work reveal that VanCleef's revenge still has friends inside the city.",
-            recap = "Bazil Thredd's head ended the riot, but the Defias trail did not end in the Stockade. Thelwater pointed you toward a strange visitor. Baros sent you to Mathias Shaw. Shaw sent you to Elling Trias, whose quiet cheese shop hid the old habits of an intelligence man. Trias knew someone who could get closer to the truth: Tyrion, an old friend with a spybot, a disguise, and a plan to expose Lord Gregor Lescovar's connection to the Brotherhood.",
+            summary = "Follow Thelwater, Baros, Shaw, and Trias as the Defias trail returns to Stormwind.",
+            recap = "The Stockade did not end the matter. Thelwater's visitor, Baros' warning, Shaw's caution, and Trias' quiet knowledge all pointed toward a dangerous friend of the Brotherhood inside Stormwind.",
             quests = {
                 { id = 392, name = "The Curious Visitor", npc = "Warden Thelwater" },
                 { id = 393, name = "Shadow of the Past", npc = "Baros Alexston" },
@@ -173,8 +173,8 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "Lescovar's Fall",
-            summary = "Tyrion's spybot draws Lescovar and Marzon into the open. Their deaths close the conspiracy, and the report finally reaches the king.",
-            recap = "With silk, dye, and a rotten apple, Tyrion prepared the spybot's disguise and baited the meeting. In Stormwind Keep's garden, Lord Gregor Lescovar dismissed his guards and met Marzon the Silent Blade. Their conversation confirmed the Defias connection. You struck before the guards returned, killing both conspirators and carrying the truth back through Trias, Baros, and finally to King Varian Wrynn. The Brotherhood's first great plot was broken, but the story left a harder truth behind: VanCleef's rage had grown from a wound Stormwind chose not to heal.",
+            summary = "Help Tyrion prepare the spybot and expose Lescovar's meeting before the guards return.",
+            recap = "Tyrion's disguise and spybot drew Lord Gregor Lescovar and Marzon the Silent Blade into the open. Their deaths carried the truth back through Trias, Baros, and the king's court.",
             quests = {
                 { id = 434, name = "The Attack!", npc = "Tyrion" },
                 { id = 394, name = "The Head of the Beast", npc = "Elling Trias" },

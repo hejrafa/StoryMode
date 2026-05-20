@@ -102,8 +102,8 @@ SM.DuskwoodData = {
     chapters = {
         {
             chapter = "Darkshire Holds",
-            summary = "Commander Althea Ebonlocke's Night Watch is all that stands between Darkshire and Raven Hill. The first patrols send you against the skeletal dead, then deeper into the cemetery's worst ground.",
-            recap = "Darkshire did not begin with grand strategy. It began with the Night Watch asking for one more blade. Commander Althea sent you into Raven Hill to cull skeletons, then horrors, then the stronger dead that kept rising around the graves. Every report came back to the same truth: Stormwind was far away, the roads were dangerous, and Darkshire's defense depended on whoever was willing to stand watch.",
+            summary = "Join Commander Althea's Night Watch and begin clearing the dead around Raven Hill.",
+            recap = "Darkshire's first need was simple: more blades for the Night Watch. You answered Althea's call at Raven Hill and helped hold a town Stormwind could not easily protect.",
             quests = {
                 { id = 56, name = "The Night Watch", displayName = "Skeletal Warriors", npc = "Commander Althea Ebonlocke" },
                 { id = 57, name = "The Night Watch", displayName = "Skeletal Horrors", npc = "Commander Althea Ebonlocke" },
@@ -112,8 +112,8 @@ SM.DuskwoodData = {
         },
         {
             chapter = "Raven Hill",
-            summary = "Raven Hill's corruption has a name. Sven's murdered family, Jitters' journal, and Morbent Fel's shadow turn a graveyard problem into deliberate necromancy.",
-            recap = "Raven Hill was not only haunted. It was being worked. Sven's grief pointed toward the western farms, where a hidden book opened the trail to Jitters and the shadowy figure behind his terror. The hunt stretched from Darkshire to Stormwind, Menethil Harbor, and back again before Morbent's Bane was ready. Morbent Fel waited in the house beyond the graves, proof that Duskwood's horrors were not all accidents of a cursed forest. Some of them had authors.",
+            summary = "Follow Sven's grief, Jitters' journal, and the shadow over Raven Hill toward Morbent Fel.",
+            recap = "Sven's murdered family and Jitters' fear showed that Raven Hill was being worked by a darker hand. With Morbent's Bane prepared, you ended the necromancer beyond the graves.",
             quests = {
                 { id = 95, name = "Sven's Revenge", npc = "Sven Yorgen" },
                 { id = 230, name = "Sven's Camp", npc = "Mound of loose dirt" },
@@ -135,8 +135,8 @@ SM.DuskwoodData = {
         },
         {
             chapter = "Morgan Ladimore",
-            summary = "A weathered grave north of Raven Hill opens the tragedy of Morgan Ladimore. Darkshire knows him now as Mor'Ladim, an undead knight whose grief still walks the cemetery.",
-            recap = "The grave gave you a name before anyone in Darkshire wanted to say it. Morgan Ladimore had once been a knight, a husband, and a father. War took him from home; grief and horror broke what returned. By the time the Night Watch knew him, he was Mor'Ladim, an armored dead man wandering Raven Hill and cutting down anyone who came too close. Killing him ended the danger, but not the wound. Sarah Ladimore survived him, and the last act was not victory. It was bringing a daughter the truth.",
+            summary = "Read the weathered grave north of Raven Hill and learn why Mor'Ladim still walks.",
+            recap = "Morgan Ladimore's grave led to a sorrow Darkshire had tried to bury. You ended Mor'Ladim's wandering and brought Sarah Ladimore the truth of her father.",
             quests = {
                 { id = 225, name = "The Weathered Grave", npc = "A Weathered Grave" },
                 { id = 227, name = "Morgan Ladimore", npc = "Sirra Von'Indi" },
@@ -147,8 +147,8 @@ SM.DuskwoodData = {
         },
         {
             chapter = "The Legend of Stalvan",
-            summary = "Madame Eva's cards begin a murder investigation that crosses Duskwood, Stormwind, Elwynn, and Westfall. The trail of Stalvan Mistmantle is written in registries, letters, and old locked rooms.",
-            recap = "Stalvan Mistmantle's story unfolded like a case file that did not want to stay buried. Clerk Daltry's records, Stormwind's canals, Goldshire's inn, Marshal Haggard's old chest, Moonbrook's footlocker, and the pages left behind all pointed to a tutor whose obsession curdled into murder. When the trail returned to Duskwood, Stalvan was not a rumor anymore. He was waiting at Mistmantle Manor, and the legend ended with his ring in Madame Eva's hands.",
+            summary = "Follow Madame Eva's cards through old records, locked chests, and the trail of Stalvan Mistmantle.",
+            recap = "The records, letters, and keepsakes led from Duskwood to Stormwind, Elwynn, Westfall, and back again. At Mistmantle Manor, Stalvan's legend ended with his ring in Madame Eva's hands.",
             quests = {
                 { id = 66, name = "The Legend of Stalvan", displayName = "Madame Eva's Vision", npc = "Madame Eva" },
                 { id = 67, name = "The Legend of Stalvan", displayName = "Daltry's Registry", npc = "Clerk Daltry" },
@@ -167,8 +167,8 @@ SM.DuskwoodData = {
         },
         {
             chapter = "Worgen in the Woods",
-            summary = "Calor's private hunt turns from shadow weavers to dark runners, vile fangs, and finally Master Carevin himself. Duskwood's curse has teeth in the orchards.",
-            recap = "The worgen were not part of the graveyard's rot. They were a different fear, moving through Brightwood Grove and the Rotting Orchard as if the woods had learned to bare its teeth. Calor tested you against shadow weavers, runners, and vile fangs before sending you to Master Carevin. Carevin called it vigilance. Darkshire called anything that kept the walls standing a blessing. But even here, the answer to horror was more hunting in the dark.",
+            summary = "Help Calor and Carevin hunt the worgen moving through Brightwood Grove and the Rotting Orchard.",
+            recap = "The worgen were another fear in the dark, hunting through grove and orchard. Calor tested you against them until Master Carevin accepted that you could help keep their teeth from Darkshire.",
             quests = {
                 { id = 173, name = "Worgen in the Woods", displayName = "Shadow Weavers", npc = "Calor" },
                 { id = 221, name = "Worgen in the Woods", displayName = "Dark Runners", npc = "Calor" },
@@ -178,8 +178,8 @@ SM.DuskwoodData = {
         },
         {
             chapter = "The Embalmer",
-            summary = "Madame Eva worries about a harmless old hermit near Raven Hill. Abercrombie's errands seem sad and strange until the pieces become a bride, a heart, and Stitches on the road to Darkshire.",
-            recap = "Abercrombie sounded lonely before he sounded dangerous. He needed ghost hair, zombie juice, rot blossoms, ribs, and a stolen crate, and each favor was easy to explain if you wanted the story to stay kind. Then his note reached Ello Ebonlocke, Sirra translated it, and the children's tale became real. The Embalmer had not been asking for comfort. He had been rebuilding horror. Stitches lurched toward Darkshire, Eliza rose from her grave, and Abercrombie's still-beating heart became the price of saving the town.",
+            summary = "Run Abercrombie's errands near Raven Hill and learn what the old hermit means to build.",
+            recap = "Abercrombie's requests sounded lonely before they sounded dangerous. Hair, juice, blossoms, ribs, and a stolen crate became Stitches on the road, and Darkshire learned what the hermit had been making.",
             quests = {
                 { id = 165, name = "The Hermit", npc = "Elaine Carevin", optional = true },
                 { id = 148, name = "Supplies from Darkshire", npc = "Abercrombie" },

@@ -62,8 +62,8 @@ SM.AgamandFamilyData = {
     chapters = {
         {
             chapter = "The Haunted Mills",
-            summary = "Brill sends you north to the Agamand Mills, where the dead are stripping bones clean and the Agamand children still wander their ruined home.",
-            recap = "The Agamand Mills were not abandoned so much as inherited by the dead. Deathguard Dillinger wanted the bones and skulls cleared from the grounds, while Coleman Farthing wanted the remains of the family itself: Devlin first, then Gregor, Nissa, and Thurman. Each return made the story smaller and sadder. These were not nameless undead at the edge of town. They were a household, still trapped under their own sign.",
+            summary = "Go north of Brill to the Agamand Mills, clear the dead, and recover what remains of the family.",
+            recap = "The Agamand Mills still bore the family name, though the family itself had joined Tirisfal's dead. You brought Coleman Farthing the remains he asked for and helped clear the grounds for Brill.",
             quests = {
                 { id = 404, name = "A Putrid Task", npc = "Deathguard Dillinger" },
                 { id = 426, name = "The Mills Overrun", npc = "Deathguard Dillinger" },
@@ -74,8 +74,8 @@ SM.AgamandFamilyData = {
         },
         {
             chapter = "The Family Crypt",
-            summary = "Coleman sends you to Magistrate Sevren, who points below the mills to the family crypt and Captain Dargol's skull.",
-            recap = "Coleman could name the family tragedy, but Sevren knew it had deeper roots. Beneath the mills, the Agamand crypt held older dead: wailing ancestors, rotting ancestors, and Captain Dargol guarding the last piece Sevren needed. The work began as cleanup around Brill and ended as an exorcism of a whole estate, one skull and one set of remains at a time.",
+            summary = "Take Coleman's concern to Magistrate Sevren and descend into the crypt beneath the mills.",
+            recap = "Magistrate Sevren knew the trouble went below the mills. In the family crypt you found older dead, wailing ancestors, and Captain Dargol's skull, ending the matter one grave at a time.",
             quests = {
                 { id = 355, name = "Speak with Sevren", npc = "Coleman Farthing" },
                 { id = 408, name = "The Family Crypt", npc = "Magistrate Sevren" },

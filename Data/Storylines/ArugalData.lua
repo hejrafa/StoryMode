@@ -62,8 +62,8 @@ SM.ArugalData = {
     chapters = {
         {
             chapter = "Arugal's Folly",
-            summary = "Dalar Dawnweaver sends you against the Moonrage worgen and the magic Arugal left behind in Silverpine.",
-            recap = "Dalar Dawnweaver spoke of Arugal like an insult that had learned to cast spells. The Forsaken wanted Silverpine secured for the Dark Lady, but Arugal's worgen still prowled the fields and mines. You proved yourself against the Moonrage packs, stole the Remedy of Arugal from the old farm, gathered shackles from cursed beasts, and struck down Grimson the Pale and other tainted servants. Each task made the same point clearer: Silverpine's danger was not random. Arugal's magic had soaked into the place.",
+            summary = "Dalar Dawnweaver asks you to thin the Moonrage worgen and recover signs of Arugal's magic.",
+            recap = "Dalar Dawnweaver wanted proof that Arugal's curse still stained Silverpine. You hunted Moonrage worgen, recovered the Remedy of Arugal, and struck down those most touched by the mage's work.",
             quests = {
                 { id = 421, name = "Prove Your Worth", npc = "Dalar Dawnweaver" },
                 { id = 422, name = "Arugal's Folly", displayName = "The Remedy of Arugal", npc = "Dalar Dawnweaver" },
@@ -74,8 +74,8 @@ SM.ArugalData = {
         },
         {
             chapter = "Ambermill",
-            summary = "The Sepulcher turns from worgen to Dalaran. Crates, runes, pendants, and a hidden ley project lead you to Ambermill's archmage.",
-            recap = "The Dalaran wizards were not only holding Ambermill. They were moving supplies, studying runes, and trying to wake a ley node under Silverpine. Shadow Priest Allister and Dalar Dawnweaver picked apart the trail: crates near Pyrewood, a rune-inscribed pendant, and enough Dalaran pendants to show the scale of the work. At the end stood Archmage Ataeric, the weaver guiding the project. Killing him did not make Silverpine safe, but it stopped one more force from deciding the forest's future without the Forsaken.",
+            summary = "Turn from worgen to Dalaran, gathering crates, pendants, and rune-work around Ambermill.",
+            recap = "The Dalaran wizards at Ambermill were moving supplies and waking old ley-work beneath Silverpine. Shadow Priest Allister and Dalar Dawnweaver followed the evidence until Archmage Ataeric stood exposed.",
             quests = {
                 { id = 477, name = "Border Crossings", npc = "Shadow Priest Allister" },
                 { id = 478, name = "Maps and Runes", npc = "Dalaran Crate" },
@@ -87,8 +87,8 @@ SM.ArugalData = {
         },
         {
             chapter = "Shadowfang Keep",
-            summary = "The trail ends inside Shadowfang Keep, where the Forsaken search for missing deathstalkers, forbidden lore, and Arugal himself.",
-            recap = "Shadowfang Keep was the answer waiting above Silverpine's roads. High Executor Hadrec sent you in after Deathstalkers Adamant and Vincent, scouts who had vanished while gathering intelligence for the Forsaken assault. Keeper Bel'dugur wanted the Book of Ur from its halls, old magic worth studying even in a cursed keep. Dalar Dawnweaver wanted something simpler and bloodier: Arugal's head. In the end, the deathstalkers, the worgen, the ruined village below the keep, and the tower above it all pointed back to one mage whose mistake had become a whole region's wound. Arugal fell, and the Sepulcher had its proof.",
+            summary = "Enter Shadowfang Keep for the missing deathstalkers, the Book of Ur, and the mage who rules above the forest.",
+            recap = "High Executor Hadrec's missing deathstalkers, Bel'dugur's forbidden book, and Dalar's demand all led into Shadowfang Keep. Arugal fell there, and the Sepulcher received the proof it required.",
             quests = {
                 { id = 1098, name = "Deathstalkers in Shadowfang", npc = "High Executor Hadrec" },
                 { id = 1013, name = "The Book of Ur", npc = "Keeper Bel'dugur", parallel = true },

@@ -44,8 +44,8 @@ SM.MankriksWifeData = {
     chapters = {
         {
             chapter = "Lost in Battle",
-            summary = "Mankrik survived a quillboar attack on the Gold Road. His wife, Olgra, did not return with him. He asks you to search the road south of the Crossroads, then turns his grief toward the Bristleback quillboar.",
-            recap = "Mankrik's request was plain enough to become famous: find his wife. The Barrens was enormous, the directions were thin, and the road south of the Crossroads was full of danger. When you found Olgra's body, the search stopped being a joke about getting lost in a huge zone. It became one of Classic's smallest, sharpest losses: a husband waiting in the dust for news that could only hurt him. What came after was exactly what the quest name promised. Mankrik's grief had nowhere gentle to go, so it became hatred, measured in Bristleback tusks.",
+            summary = "Mankrik survived a quillboar attack on the Gold Road, but Olgra did not return. Search the road south of the Crossroads for his wife.",
+            recap = "Mankrik's request was painfully plain: find his wife. The Barrens offered little direction and less mercy, only a long road south of the Crossroads and quillboar waiting in the dust. When Olgra was found, the search became grief. Mankrik had asked for hope and received a body. What followed was the only answer his pain could bear: Bristleback tusks, brought back one by one.",
             quests = {
                 { id = 4921, name = "Lost in Battle", npc = "Mankrik" },
                 { id = 899, name = "Consumed by Hatred", npc = "Mankrik" },

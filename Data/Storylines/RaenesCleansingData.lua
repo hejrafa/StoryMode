@@ -56,7 +56,7 @@ SM.RaenesCleansingData = {
     chapters = {
         {
             chapter = "Teronis' Journal",
-            summary = "Raene sends you to find Teronis near Lake Falathim. His body and journal turn a missing-person search into a mission to finish his work.",
+            summary = "Search for Teronis near Lake Falathim and return with whatever remains of his work.",
             recap = "Raene Wolfrunner feared for Teronis, and Ashenvale answered with a corpse. The murlocs near Lake Falathim had killed him, but his journal survived, along with the trail to a glowing gem. Returning both to Astranaar changed the task. Teronis had died looking for a way to slow the furbolg attacks, and Raene asked you to carry that hope forward.",
             quests = {
                 { id = 991, name = "Raene's Cleansing", displayName = "Find Teronis", npc = "Raene Wolfrunner" },
@@ -66,7 +66,7 @@ SM.RaenesCleansingData = {
         },
         {
             chapter = "Dartol's Rod",
-            summary = "Shael'dryn guides you through treants, Dor'danil, and a hidden shrine to rebuild and empower Dartol's Rod of Transformation.",
+            summary = "Follow Shael'dryn's guidance through treants, Dor'danil, and the hidden shrine tied to Dartol's Rod.",
             recap = "Shael'dryn knew what Teronis had been chasing: Dartol's Rod, broken into pieces and hidden across Ashenvale's corrupted places. The iron shaft lay behind a key carried by twisted treants near Felwood. The iron pommel had passed through Dor'danil's dead and into the slime. When the rod was remade, a hidden shrine gave it power again. By then, Teronis' errand had become something stranger: not a weapon, but a way to speak across the line between the uncorrupted and the lost.",
             quests = {
                 { id = 1026, name = "Raene's Cleansing", displayName = "Iron Shaft", npc = "Shael'dryn" },
@@ -77,7 +77,7 @@ SM.RaenesCleansingData = {
         },
         {
             chapter = "The Uncorrupted Furbolg",
-            summary = "Dartol's Rod lets you approach Krolg, who sends you against Ran Bloodtooth and the corrupted furbolg threatening Ashenvale.",
+            summary = "Use Dartol's Rod to reach Krolg and turn against Ran Bloodtooth's corrupted furbolg.",
             recap = "The rod transformed more than your shape. It let you approach Krolg, an uncorrupted furbolg who still carried grief and anger for what had happened to his people. Krolg blamed the night elves, but he also knew Ran Bloodtooth had become a threat no one could ignore. Killing Ran and his guards did not cleanse Ashenvale, but it proved Teronis had not died for nothing. Raene kept the skull and the rod as proof that the forest could still be defended.",
             quests = {
                 { id = 1030, name = "Raene's Cleansing", displayName = "Find Krolg", npc = "Raene Wolfrunner" },

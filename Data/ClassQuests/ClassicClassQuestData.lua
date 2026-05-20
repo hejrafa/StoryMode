@@ -32,8 +32,8 @@ SM.ClassicDruidQuestData = {
         {
             chapter = "Bear Form",
             requiredLevel = 10,
-            summary = "Answer the call to Moonglade, speak with the Great Bear Spirit, and earn the form that lets a young druid stand their ground.",
-            recap = "Your first true lesson came from the wild itself. The path led through Moonglade to the Great Bear Spirit, whose strength was not rage but endurance. When you returned to your people, you carried that lesson in your bones.",
+            summary = "Travel to Moonglade, hear the Great Bear Spirit, and return ready for the trial of body and heart.",
+            recap = "You answered the call to Moonglade and learned from the Great Bear Spirit. When the final trial was done, the strength of the bear was yours to call upon in battle.",
             quests = {
                 { id = 5923, name = "Heeding the Call", npc = "Kal", faction = "Alliance", mapID = 57, x = 0.5595, y = 0.6156, location = "Kal, Teldrassil" },
                 { id = 5921, name = "Moonglade", npc = "Mathrengyl Bearwalker", faction = "Alliance", mapID = 89, x = 0.3537, y = 0.0840, location = "Mathrengyl Bearwalker, Darnassus" },
@@ -50,8 +50,8 @@ SM.ClassicDruidQuestData = {
         {
             chapter = "Cure Poison",
             requiredLevel = 14,
-            summary = "Track a corruption spreading through beasts and waters, gather the cure, and learn to cleanse poison from the living.",
-            recap = "The Circle's work was not always grand. Sometimes it meant kneeling beside sick creatures, following rot to its source, and learning that restoration is as much a weapon as claw or fang.",
+            summary = "Follow the Circle's instructions, gather what is needed for a cure, and cleanse the sick beasts you find.",
+            recap = "The Circle sent you from lesson to remedy. You found the source of the sickness, gathered the cure, and restored creatures that had been left to suffer.",
             quests = {
                 { id = 6121, name = "Lessons Anew", npc = "Mathrengyl Bearwalker", faction = "Alliance", mapID = 89, x = 0.3537, y = 0.0840, location = "Mathrengyl Bearwalker, Darnassus" },
                 { id = 6122, name = "The Principal Source", npc = "Dendrite Starblaze", faction = "Alliance", mapID = 80, x = 0.5621, y = 0.3064, location = "Dendrite Starblaze, Nighthaven, Moonglade" },
@@ -68,8 +68,8 @@ SM.ClassicDruidQuestData = {
         {
             chapter = "Aquatic Form",
             requiredLevel = 16,
-            summary = "Cross lake and sea for the pendant pieces that unlock the shape of the seal.",
-            recap = "The water trial sent you farther than any trainer's lesson had before. Lake, coast, and current became the classroom, and when the pendant was whole, the depths opened.",
+            summary = "Seek the halves of the pendant across lake and sea so the form of the sea lion may be taught.",
+            recap = "The water trial carried you beyond the safety of your trainer. When the pendant was made whole, the sea lion form answered, and deeper waters opened to you.",
             quests = {
                 { id = 27, name = "A Lesson to Learn", npc = "Mathrengyl Bearwalker", faction = "Alliance", mapID = 89, x = 0.3537, y = 0.0840, location = "Mathrengyl Bearwalker, Darnassus" },
                 { id = 28, name = "Trial of the Lake", npc = "Dendrite Starblaze", faction = "Alliance", mapID = 80, x = 0.5621, y = 0.3064, location = "Dendrite Starblaze, Nighthaven, Moonglade" },
@@ -86,7 +86,7 @@ SM.ClassicDruidQuestData = {
 
 SM.ClassicHunterQuestData = {
     title = "The Hunter's Path",
-    description = "At level ten, hunter trainers stop speaking only of weapons and begin speaking of trust. Learn to tame and train a beast, then answer a stranger calling if an ancient leaf ever finds its way into your hands.",
+    description = "When your hunter trainer turns from weapons to trust, learn how to tame and train a beast. Later, if an ancient leaf ever finds its way into your hands, answer the stranger calling from Felwood.",
     zone = "Teldrassil / Dun Morogh / Mulgore / Durotar / Felwood / Molten Core",
     expansion = "Classic",
     class = "HUNTER",
@@ -110,8 +110,8 @@ SM.ClassicHunterQuestData = {
         {
             chapter = "Taming the Beast",
             requiredLevel = 10,
-            summary = "Learn the hunter's defining bond by taming wild beasts and earning the right to train a companion.",
-            recap = "The first lesson was humility: approach the wild, survive it, and earn trust without breaking it. When the final beast answered your call, you stopped traveling alone.",
+            summary = "Use the taming rod on the beasts your trainer names, then return to learn how to keep a companion.",
+            recap = "You approached the wild as a hunter must: with patience, caution, and respect. When the final beast yielded, you were no longer meant to travel alone.",
             quests = {
                 { id = 6071, name = "The Hunter's Path", npc = "Jocaste", race = "NightElf", faction = "Alliance", mapID = 89, x = 0.4038, y = 0.0854, location = "Jocaste, Darnassus" },
                 { id = 6063, name = "Taming the Beast", npc = "Dazalar", race = "NightElf", mapID = 57, x = 0.5668, y = 0.5949, location = "Dazalar, Teldrassil" },
@@ -139,8 +139,8 @@ SM.ClassicHunterQuestData = {
         {
             chapter = "Rhok'delar",
             requiredLevel = 60,
-            summary = "Bring the Ancient Petrified Leaf to Felwood, hunt the demons named by the ancients, and claim the living bow.",
-            recap = "The Ancient Petrified Leaf was not a trophy. It was a summons. The ancients named four demons loose in the world, and the trial demanded the thing every hunter claims to have: control. Alone, precise, and patient, you earned Rhok'delar.",
+            summary = "Bring the Ancient Petrified Leaf to Felwood and hear what the ancients require of a hunter.",
+            recap = "The Ancient Petrified Leaf proved to be a summons. The ancients named the demons, and by hunting them alone you earned the right to carry Rhok'delar.",
             quests = {
                 { id = 7632, name = "The Ancient Leaf", npc = "Ancient Petrified Leaf", mapID = 77, x = 0.4800, y = 0.2400, location = "Irontree Woods, Felwood" },
                 { id = 7636, name = "Stave of the Ancients", npc = "Vartrus the Ancient", mapID = 77, x = 0.4800, y = 0.2400, location = "Vartrus the Ancient, Irontree Woods, Felwood" },
@@ -153,7 +153,7 @@ SM.ClassicHunterQuestData = {
 
 SM.ClassicMageQuestData = {
     title = "Mage's Wand",
-    description = "Your mage trainer sends you to Tabetha in Dustwallow Marsh, where practical magic begins with travel, errands, and materials that will not gather themselves.\n\nFollow the lessons that turn study into tools: a wand, a strange polymorph, and food enough for an adventuring party.",
+    description = "Your mage trainer sends you to Tabetha in Dustwallow Marsh, where practical magic begins with travel, errands, and materials that will not gather themselves.\n\nFollow the lessons that turn study into tools: a wand, a strange polymorph, and food enough for hungry companions.",
     zone = "Dustwallow Marsh / Scarlet Monastery / Azshara / Dire Maul",
     expansion = "Classic",
     class = "MAGE",
@@ -178,8 +178,8 @@ SM.ClassicMageQuestData = {
         {
             chapter = "Mage's Wand",
             requiredLevel = 30,
-            summary = "Travel to Tabetha, recover lost magical knowledge, and choose the wand that fits your path.",
-            recap = "Tabetha's lesson was part scholarship, part field work, and part old-fashioned danger. The final ritual gave your magic a focus of its own: fire, frost, or arcane power bound into a wand.",
+            summary = "Go to Tabetha in Dustwallow Marsh, recover the knowledge she needs, and prepare a wand of your chosen school.",
+            recap = "Tabetha's work asked for texts, materials, and a measure of field sense. When the ritual was complete, your studies had a proper focus in hand.",
             quests = {
                 { id = 1947, name = "Journey to the Marsh", npc = "Jennea Cannon", faction = "Alliance", mapID = 84, x = 0.3854, y = 0.7934, location = "Jennea Cannon, Stormwind" },
                 { id = 1947, name = "Journey to the Marsh", npc = "Deino", faction = "Horde", mapID = 85, x = 0.3845, y = 0.8613, location = "Deino, Orgrimmar" },
@@ -193,8 +193,8 @@ SM.ClassicMageQuestData = {
         {
             chapter = "Polymorph: Pig",
             requiredLevel = 60,
-            summary = "Azshara's magic is volatile enough to teach a ridiculous but useful spell.",
-            recap = "A mage's dignity rarely survives contact with field research. Warlord Krellian's magic fractured into something stranger, and the result was practical, pink, and humiliating.",
+            summary = "Answer Archmage Xylem's request in Azshara and study the magic left by Warlord Krellian.",
+            recap = "Krellian's magic broke apart in curious ways, and Xylem knew what to make of it. The result was odd, useful, and unmistakably a mage's lesson.",
             quests = {
                 { id = 9362, name = "Warlord Krellian", npc = "Archmage Xylem", mapID = 76, x = 0.2971, y = 0.4052, location = "Archmage Xylem, Azshara" },
                 { id = 9364, name = "Fragmented Magic", npc = "Archmage Xylem", mapID = 76, x = 0.2971, y = 0.4052, location = "Archmage Xylem, Azshara" },
@@ -203,8 +203,8 @@ SM.ClassicMageQuestData = {
         {
             chapter = "Arcane Refreshment",
             requiredLevel = 60,
-            summary = "Enter Dire Maul and recover the spell that lets a mage conjure proper water for allies.",
-            recap = "Every veteran mage eventually learns that power is not always a fireball. Sometimes it is arriving prepared, feeding the group, and making a dungeon run smoother before the first pull.",
+            summary = "Enter Dire Maul and recover the knowledge Lorekeeper Lydros keeps in the Athenaeum.",
+            recap = "Lorekeeper Lydros entrusted you with a spell every company of adventurers comes to value. Power is not always flame and frost; sometimes it is preparation.",
             quests = {
                 { id = 7463, name = "Arcane Refreshment", npc = "Lorekeeper Lydros", mapID = 234, x = 0.2470, y = 0.6480, location = "Lorekeeper Lydros, Athenaeum, Dire Maul" },
             },
@@ -240,8 +240,8 @@ SM.ClassicPaladinQuestData = {
         {
             chapter = "The Tome of Valor",
             requiredLevel = 20,
-            summary = "Carry the lesson of sacrifice from Stormwind to Westfall and learn what it means to protect the helpless.",
-            recap = "Valor was not a speech in a cathedral. It was a wounded woman, a dangerous road, and the choice to spend your strength for someone who could not repay it.",
+            summary = "Carry Duthorian Rall's lesson to Westfall and prove that valor protects those who cannot stand alone.",
+            recap = "The Tome of Valor led you to Daphne Stilwell and a hard lesson in service. Valor was not spoken over you; it was proven on a dangerous road.",
             quests = {
                 { id = 1793, name = "The Tome of Valor", npc = "Duthorian Rall", faction = "Alliance", mapID = 84, x = 0.3981, y = 0.2980, location = "Duthorian Rall, Stormwind" },
                 { id = 1649, name = "The Tome of Valor", npc = "Daphne Stilwell", faction = "Alliance", mapID = 52, x = 0.4175, y = 0.8913, location = "Daphne Stilwell, Westfall" },
@@ -253,8 +253,8 @@ SM.ClassicPaladinQuestData = {
         {
             chapter = "The Test of Righteousness",
             requiredLevel = 20,
-            summary = "Gather rare materials from distant dangers and forge Verigan's Fist.",
-            recap = "The weapon was not handed down. It had to be assembled from effort, travel, and stubborn faith. When Verigan's Fist was complete, it felt earned.",
+            summary = "Gather Jordan Stilwell's materials from distant dangers and help forge Verigan's Fist.",
+            recap = "You carried ore, gems, and other hard-won materials back to Jordan Stilwell. Verigan's Fist was not granted by ceremony alone; it was made through effort.",
             quests = {
                 { id = 1653, name = "The Test of Righteousness", npc = "Duthorian Rall", faction = "Alliance", mapID = 84, x = 0.3981, y = 0.2980, location = "Duthorian Rall, Stormwind" },
                 { id = 1654, name = "The Test of Righteousness", npc = "Jordan Stilwell", faction = "Alliance", mapID = 27, x = 0.5249, y = 0.3692, location = "Jordan Stilwell, Dun Morogh" },
@@ -266,8 +266,8 @@ SM.ClassicPaladinQuestData = {
         {
             chapter = "The Charger",
             requiredLevel = 60,
-            summary = "Redeem a charger spirit through sacrifice, craft, Stratholme, and Scholomance.",
-            recap = "A paladin's charger was not bought. It was rescued from darkness. The trial moved through plague, craft, divination, and judgment until the mount answered the Light again.",
+            summary = "Begin Lord Grayson Shadowbreaker's rite and prepare yourself for the charger's judgment.",
+            recap = "The charger's trial demanded sacrifice, craft, and courage in haunted places. At the end, the spirit answered the Light and came to your side.",
             quests = {
                 { id = 7638, name = "Lord Grayson Shadowbreaker", npc = "Duthorian Rall", faction = "Alliance", mapID = 84, x = 0.3981, y = 0.2980, location = "Duthorian Rall, Stormwind" },
                 { id = 7639, name = "To Show Due Judgment", npc = "High Priest Rohan", faction = "Alliance", mapID = 87, x = 0.2323, y = 0.0719, location = "High Priest Rohan, Ironforge" },
@@ -288,7 +288,7 @@ SM.ClassicPaladinQuestData = {
 
 SM.ClassicPriestQuestData = {
     title = "Benediction",
-    description = "If the Eye of Divinity comes into your possession, seek Eris Havenfire in the Eastern Plaguelands. She has a trial that asks for more than damage or healing numbers.\n\nStand between panic and shadow, save who you can, and learn whether your faith holds when every mistake has a cost.",
+    description = "If the Eye of Divinity comes into your possession, seek Eris Havenfire in the Eastern Plaguelands. She has a trial that asks for more than quick hands and bright prayers.\n\nStand between panic and shadow, save who you can, and learn whether your faith holds when every mistake has a cost.",
     zone = "Molten Core / Eastern Plaguelands",
     expansion = "Classic",
     class = "PRIEST",
@@ -311,8 +311,8 @@ SM.ClassicPriestQuestData = {
         {
             chapter = "The Balance of Light and Shadow",
             requiredLevel = 60,
-            summary = "With the Eye of Divinity in hand, protect the spirits of the fallen and earn Benediction.",
-            recap = "The trial was not a duel. It was triage under pressure, compassion sharpened into discipline, and shadow waiting for every mistake. When the last spirit survived, the staff answered.",
+            summary = "With the Eye of Divinity in hand, seek Eris Havenfire and protect the spirits entrusted to you.",
+            recap = "Eris Havenfire's trial tested mercy under pressure. You kept the fallen moving, held shadow at bay, and earned Benediction through discipline and compassion.",
             quests = {
                 { id = 7622, name = "The Balance of Light and Shadow", npc = "Eris Havenfire", mapID = 23, x = 0.1700, y = 0.1400, location = "Eris Havenfire, Eastern Plaguelands" },
             },
@@ -355,8 +355,8 @@ SM.ClassicRogueQuestData = {
         {
             chapter = "Poisons",
             requiredLevel = 20,
-            summary = "Infiltrate hostile ground, prove you can work quietly, and unlock the rogue's most infamous tool.",
-            recap = "The lesson was simple: a rogue who cannot enter unseen, open what is locked, and survive their own antidote has no business handling poison.",
+            summary = "Follow your faction's rogue trainer into guarded ground, locked boxes, and the antidote work needed for poisons.",
+            recap = "Your poison training taught the trade plainly: enter unseen, open what is locked, and survive the danger you mean to wield.",
             quests = {
                 { id = 2360, name = "Mathias and the Defias", npc = "Master Mathias Shaw", faction = "Alliance", mapID = 84, x = 0.7578, y = 0.5984, location = "Master Mathias Shaw, Stormwind" },
                 { id = 2359, name = "Klaven's Tower", npc = "Agent Kearnen", faction = "Alliance", mapID = 52, x = 0.6849, y = 0.7008, location = "Agent Kearnen, Westfall" },
@@ -372,8 +372,8 @@ SM.ClassicRogueQuestData = {
         {
             chapter = "Ravenholdt",
             requiredLevel = 24,
-            summary = "Find the manor hidden in the hills and step into the wider rogue world.",
-            recap = "Ravenholdt was not a city trainer's lesson. It was a door into the profession behind the profession: signals, reputation, and thieves who understood exactly what you were becoming.",
+            summary = "Find Ravenholdt Manor and present yourself to the rogues who keep their own company in the hills.",
+            recap = "Ravenholdt opened a door beyond ordinary city training. There were signals to learn, reputations to mind, and thieves who knew the craft by its older rules.",
             quests = {
                 { id = 6681, name = "The Manor, Ravenholdt", npc = "Osborne the Night Man", faction = "Alliance", mapID = 84, x = 0.7400, y = 0.5200, location = "SI:7, Old Town, Stormwind, then Ravenholdt Manor" },
                 { id = 6681, name = "The Manor, Ravenholdt", npc = "Gest", faction = "Horde", mapID = 85, x = 0.4300, y = 0.5360, location = "Cleft of Shadow, Orgrimmar, then Ravenholdt Manor" },
@@ -412,8 +412,8 @@ SM.ClassicShamanQuestData = {
         {
             chapter = "Call of Earth",
             requiredLevel = 4,
-            summary = "Seek the earth's trial and earn your first totem.",
-            recap = "The earth did not answer because you asked. It answered because you listened, carried its sapta, and proved you could stand steady.",
+            summary = "Seek the earth's sapta, speak with its manifestation, and return with your first totem.",
+            recap = "You carried the sapta, listened to the earth, and proved steady enough to bear its totem. The first element had answered.",
             quests = {
                 { id = 1516, name = "Call of Earth", npc = "Canaga Earthcaller", race = { "Orc", "Troll" }, faction = "Horde", mapID = 1, x = 0.4240, y = 0.6917, location = "Canaga Earthcaller, Durotar" },
                 { id = 1517, name = "Call of Earth", npc = "Canaga Earthcaller", race = { "Orc", "Troll" }, faction = "Horde", mapID = 1, x = 0.4240, y = 0.6917, location = "Canaga Earthcaller, Durotar" },
@@ -425,8 +425,8 @@ SM.ClassicShamanQuestData = {
         {
             chapter = "Call of Fire",
             requiredLevel = 10,
-            summary = "Carry the fire sapta through danger and earn the flame's service.",
-            recap = "Fire demanded motion, risk, and offering. By the end, the flame was no longer just destruction. It was a companion at your feet.",
+            summary = "Follow the call of fire through offerings, reagents, and the flame that waits in Durotar.",
+            recap = "Fire asked for risk, offering, and obedience to the rite. When the brazier answered, the flame became a servant at your side.",
             quests = {
                 { id = 1522, name = "Call of Fire", npc = "Searn Firewarder", faction = "Horde", mapID = 85, x = 0.3796, y = 0.3773, location = "Searn Firewarder, Orgrimmar" },
                 { id = 1524, name = "Call of Fire", npc = "Kranal Fiss", faction = "Horde", mapID = 10, x = 0.5603, y = 0.1989, location = "Kranal Fiss, The Barrens" },
@@ -438,8 +438,8 @@ SM.ClassicShamanQuestData = {
         {
             chapter = "Call of Water",
             requiredLevel = 20,
-            summary = "Travel farther than any earlier totem trial, carrying waters between distant lands.",
-            recap = "Water was the long lesson. It sent you through Barrens dust, Ashenvale green, and Hillsbrad roads until patience became part of the ritual.",
+            summary = "Carry waters between distant places and learn why this totem asks for patience.",
+            recap = "The call of water sent you farther than the earlier trials. Through Barrens dust and distant roads, you learned the patience the element required.",
             quests = {
                 { id = 1528, name = "Call of Water", npc = "Searn Firewarder", faction = "Horde", mapID = 85, x = 0.3796, y = 0.3773, location = "Searn Firewarder, Orgrimmar" },
                 { id = 1530, name = "Call of Water", npc = "Islen Waterseer", faction = "Horde", mapID = 10, x = 0.6583, y = 0.4378, location = "Islen Waterseer, The Barrens" },
@@ -454,8 +454,8 @@ SM.ClassicShamanQuestData = {
         {
             chapter = "Call of Air",
             requiredLevel = 30,
-            summary = "The final leveling totem comes quickly, but it completes the shaman's elemental kit.",
-            recap = "Air was brief but essential. With the last totem earned, the circle of elements finally closed around you.",
+            summary = "Return to your trainer and receive the last totem needed to complete the circle of elements.",
+            recap = "The call of air was brief, but it completed what the earlier trials began. Earth, fire, water, and air now stood with you.",
             quests = {
                 { id = 1531, name = "Call of Air", npc = "Searn Firewarder", faction = "Horde", mapID = 85, x = 0.3796, y = 0.3773, location = "Searn Firewarder, Orgrimmar" },
             },
@@ -463,8 +463,8 @@ SM.ClassicShamanQuestData = {
         {
             chapter = "Elemental Mastery",
             requiredLevel = 50,
-            summary = "Gather proofs of air, fire, earth, and water for the Sunken Temple class trial.",
-            recap = "The temple trial asked for more than a single element. It asked whether you could carry all four at once and still know your own voice among them.",
+            summary = "Bring proof of the elements to the temple trial and show that the four powers can be held together.",
+            recap = "The Sunken Temple trial asked you to carry the elements as one calling. When the proofs were gathered, your mastery had been tested in full.",
             quests = {
                 { id = 8410, name = "Elemental Mastery", npc = "Kardris Dreamseeker", faction = "Horde", mapID = 85, x = 0.3880, y = 0.3637, location = "Kardris Dreamseeker, Orgrimmar" },
             },
@@ -501,8 +501,8 @@ SM.ClassicWarlockQuestData = {
         {
             chapter = "Voidwalker",
             requiredLevel = 10,
-            summary = "Learn the first serious rule of warlock power: summon, bind, command.",
-            recap = "The voidwalker was your first true bargain with something that did not want to serve. Names, circles, and willpower turned a threat into a shield.",
+            summary = "Answer your trainer's summons, draw a voidwalker into the circle, and bind it to your will.",
+            recap = "The first binding taught the warlock's bargain clearly. A creature of the void answered, resisted, and was made to serve.",
             quests = {
                 { id = 1685, name = "Gakin's Summons", npc = "Remen Marcot", race = { "Human", "Gnome" }, faction = "Alliance", mapID = 37, x = 0.4449, y = 0.6627, location = "Remen Marcot, Elwynn Forest" },
                 { id = 1715, name = "The Slaughtered Lamb", npc = "Lago Blackwrench", race = { "Human", "Gnome" }, faction = "Alliance", mapID = 87, x = 0.4763, y = 0.0926, location = "Lago Blackwrench, Ironforge" },
@@ -519,8 +519,8 @@ SM.ClassicWarlockQuestData = {
         {
             chapter = "Succubus",
             requiredLevel = 20,
-            summary = "Follow the Devourer of Souls chain and bind a subtler demon.",
-            recap = "Not every demon breaks a door down. Some smile first. The succubus trial taught you that control had to survive temptation as well as terror.",
+            summary = "Follow the Devourer of Souls chain and prepare the binding of a subtler demon.",
+            recap = "The succubus trial warned that not every danger arrives with brute force. You gathered what was required and bound temptation to command.",
             quests = {
                 { id = 1472, name = "Devourer of Souls", npc = "Carendin Halgar", faction = "Horde", mapID = 90, x = 0.8506, y = 0.2599, location = "Carendin Halgar, Undercity" },
                 { id = 1476, name = "Hearts of the Pure", npc = "Godrick Farsan", faction = "Horde", mapID = 90, x = 0.8481, y = 0.1483, location = "Godrick Farsan, Undercity" },
@@ -533,8 +533,8 @@ SM.ClassicWarlockQuestData = {
         {
             chapter = "Felhunter",
             requiredLevel = 30,
-            summary = "Seek Strahad Farsan and assemble the Tome of the Cabal.",
-            recap = "The felhunter was not muscle. It was hunger shaped into an answer to enemy magic. Binding one meant proving you could handle a demon made to hunt power itself.",
+            summary = "Seek Strahad Farsan, assemble the Tome of the Cabal, and prepare the felhunter binding.",
+            recap = "The Tome of the Cabal led through old contacts and dangerous errands. When the binding was done, the felhunter's hunger became your weapon against magic.",
             quests = {
                 { id = 3001, name = "Seeking Strahad", npc = "Carendin Halgar", mapID = 90, x = 0.8506, y = 0.2599, location = "Carendin Halgar, Undercity" },
                 { id = 1801, name = "Tome of the Cabal", npc = "Strahad Farsan", faction = "Alliance", mapID = 10, x = 0.6263, y = 0.3550, location = "Strahad Farsan, The Barrens" },
@@ -549,8 +549,8 @@ SM.ClassicWarlockQuestData = {
         {
             chapter = "Felsteed",
             requiredLevel = 40,
-            summary = "Bind your first demonic mount.",
-            recap = "The felsteed was a promise that the road itself could be bent to your will. Other riders bought reins. You made a pact.",
+            summary = "Speak with the proper trainer and bind the felsteed that will carry you on darker roads.",
+            recap = "The felsteed was not purchased like an ordinary mount. It was called, bound, and made to bear the one who mastered the ritual.",
             quests = {
                 { id = 4489, name = "Summon Felsteed", npc = "Kaal Soulreaper", faction = "Horde", mapID = 90, x = 0.8621, y = 0.1593, location = "Kaal Soulreaper, Undercity" },
                 { id = 4490, name = "Summon Felsteed", npc = "Strahad Farsan", mapID = 10, x = 0.6263, y = 0.3550, location = "Strahad Farsan, Ratchet, The Barrens" },
@@ -559,8 +559,8 @@ SM.ClassicWarlockQuestData = {
         {
             chapter = "Dreadsteed",
             requiredLevel = 60,
-            summary = "Prepare the ritual, bargain in Jaedenar, and open the way to Xoroth in Dire Maul.",
-            recap = "The dreadsteed chain was everything warlock training warned about and promised. Blood, stardust, crafted ritual tools, Scholomance errands, and a portal to Xoroth. When the smoke cleared, the nightmare served.",
+            summary = "Begin Mor'zul Bloodbringer's work, gather the ritual tools, and prepare the road to Xoroth.",
+            recap = "Mor'zul and Gorzeeki sent you through blood, stardust, Jaedenar, and Scholomance. In Dire Maul the rite opened, and the dreadsteed came through bound to your command.",
             quests = {
                 { id = 7562, name = "Mor'zul Bloodbringer", npc = "Spackle Thornberry", faction = "Alliance", mapID = 84, x = 0.2566, y = 0.7766, location = "Spackle Thornberry, Stormwind" },
                 { id = 7562, name = "Mor'zul Bloodbringer", npc = "Kurgul", faction = "Horde", mapID = 85, x = 0.4752, y = 0.4672, location = "Kurgul, Orgrimmar" },
@@ -606,8 +606,8 @@ SM.ClassicWarriorQuestData = {
         {
             chapter = "Defensive Stance",
             requiredLevel = 10,
-            summary = "Complete your first warrior trial and learn the stance that keeps you alive.",
-            recap = "The first warrior lesson was not about hitting harder. It was about taking the hit, holding your ground, and understanding that survival can be trained.",
+            summary = "Complete your first warrior trial and learn the stance that keeps you standing when blows fall.",
+            recap = "Your first warrior lesson was not about striking harder. You learned to take the blow, hold your ground, and live long enough to answer.",
             quests = {
                 { id = 1638, name = "A Warrior's Training", npc = "Lyria Du Lac", race = "Human", faction = "Alliance", mapID = 37, x = 0.4109, y = 0.6577, location = "Lyria Du Lac, Elwynn Forest" },
                 { id = 1639, name = "Bartleby the Drunk", npc = "Harry Burlguard", race = "Human", faction = "Alliance", mapID = 84, x = 0.7426, y = 0.3725, location = "Harry Burlguard, Stormwind" },
@@ -626,8 +626,8 @@ SM.ClassicWarriorQuestData = {
         {
             chapter = "Whirlwind Weapon",
             requiredLevel = 30,
-            summary = "Survive the Islander, gather elemental charms, summon Cyclonian, and claim your weapon.",
-            recap = "The Whirlwind trial was a warrior rite of passage: bruising, inconvenient, and absolutely worth it. When Cyclonian fell, your reward could carry you for levels.",
+            summary = "Seek the Islander, gather the charms, and answer Bath'rah's summons for the whirlwind weapon.",
+            recap = "The Islander tested your mettle, Bath'rah named the charms, and Cyclonian answered the call. When the storm was defeated, the weapon was yours.",
             quests = {
                 { id = 1718, name = "The Islander", npc = "Wu Shen", faction = "Alliance", mapID = 84, x = 0.7868, y = 0.4579, location = "Wu Shen, Stormwind, then Fray Island, The Barrens" },
                 { id = 1718, name = "The Islander", npc = "Sorek", faction = "Horde", mapID = 85, x = 0.8039, y = 0.3238, location = "Sorek, Orgrimmar, then Fray Island, The Barrens" },

@@ -56,8 +56,8 @@ SM.BattleOfHillsbradData = {
     chapters = {
         {
             chapter = "Hillsbrad Fields",
-            summary = "High Executor Darthalia opens the campaign by sending you against Hillsbrad's farms and fleeing peasants.",
-            recap = "Darthalia did not dress the campaign in noble language. Varimathras wanted the humans of Hillsbrad removed, and Tarren Mill needed soldiers willing to do the removing. The first raids struck the farms: farmers, farmhands, and landowners first, then peasants fleeing into the fields. The Forsaken were not defending a border here. They were testing how quickly a human town could be made afraid.",
+            summary = "Report to High Executor Darthalia and carry her first orders against the farms of Hillsbrad.",
+            recap = "Darthalia's first orders were plain: strike the farms, kill those who worked them, and leave the town afraid. Tarren Mill's campaign had begun.",
             quests = {
                 { id = 527, name = "Battle of Hillsbrad", displayName = "The Northern Farms", npc = "High Executor Darthalia" },
                 { id = 528, name = "Battle of Hillsbrad", displayName = "The Peasants", npc = "High Executor Darthalia" },
@@ -66,8 +66,8 @@ SM.BattleOfHillsbradData = {
         },
         {
             chapter = "Town and Mine",
-            summary = "The campaign turns from fields to infrastructure: the blacksmith, town hall, registry, and Azureload Mine.",
-            recap = "The town did not collapse as quickly as Darthalia expected. Its blacksmith armed the people, its leaders rallied them, and its mine supplied Alliance ore. So the orders became more precise. Verringtan and his apprentices had to die. Magistrate Burnside, the council, the town registry, and the proclamation had to be erased or stolen. Then Azureload Mine had to be taken by killing Foreman Bonds and the miners who still worked there. Hillsbrad was being dismantled piece by piece.",
+            summary = "Move from fields to town records, workers, leaders, and the mine that keeps Hillsbrad supplied.",
+            recap = "Hillsbrad's strength lay in its smithy, leaders, registry, and mine. Darthalia sent you against each in turn, breaking the town by removing the people and records that held it together.",
             quests = {
                 { id = 529, name = "Battle of Hillsbrad", displayName = "The Blacksmith", npc = "High Executor Darthalia" },
                 { id = 532, name = "Battle of Hillsbrad", displayName = "The Town Hall", npc = "High Executor Darthalia" },
@@ -77,8 +77,8 @@ SM.BattleOfHillsbradData = {
         },
         {
             chapter = "Dun Garok",
-            summary = "Darthalia's final field order sends you against Dun Garok before she writes a commendation for Varimathras himself.",
-            recap = "The last obstacle was not Hillsbrad's farmers or leaders, but the dwarves of Dun Garok. Darthalia sent you into their stronghold to kill mountaineers, riflemen, priests, and Captain Ironhill. When Dun Garok fell, she wrote a sealed commendation and sent it to the Undercity. Varimathras received it as proof that the human problem in Hillsbrad could be solved by force, and that you had become useful to the Dark Lady's war.",
+            summary = "March on Dun Garok and bring Darthalia the victory she needs for her sealed commendation.",
+            recap = "Dun Garok stood as the last hard point in Darthalia's campaign. When its mountaineers, priests, riflemen, and Captain Ironhill were dead, her commendation could be carried to Varimathras.",
             quests = {
                 { id = 541, name = "Battle of Hillsbrad", displayName = "Dun Garok", npc = "High Executor Darthalia" },
                 { id = 550, name = "Battle of Hillsbrad", displayName = "Darthalia's Commendation", npc = "High Executor Darthalia" },
