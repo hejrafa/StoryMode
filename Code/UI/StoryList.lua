@@ -89,6 +89,9 @@ function SM.OpenStoryLink(encodedStoryID)
 
     StoryModeDB.selectedQuestlineID = storyID
     StoryModeDB.selectedChapter = StoryModeDB.selectedChapter or 1
+    if SM.SetActiveTab then
+        SM.SetActiveTab("story")
+    end
 
     local index = SM.GetStoryIndexByID(storyID)
     if index then

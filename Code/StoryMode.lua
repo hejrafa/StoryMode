@@ -2299,12 +2299,14 @@ function SM.OpenQuestLink(questID)
     local chapterIndex = chapter and chapter._chapterIndex or 1
     StoryModeDB.selectedQuestlineID = storyID
     StoryModeDB.selectedChapter = chapterIndex
+    SM.SetActiveTab("progress")
 
     local storyIndex = SM.GetStoryIndexByID(storyID)
     if storyIndex then
         StoryModeDB.selectedQuestline = storyIndex
         if SM.SelectStory then
             SM.SelectStory(storyIndex, chapterIndex)
+            detailScroll:SetVerticalScroll(0)
             C_Timer.After(0, function()
                 dSelectedChapter = chapterIndex
                 StoryModeDB.selectedChapter = chapterIndex
