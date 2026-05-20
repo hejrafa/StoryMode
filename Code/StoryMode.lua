@@ -551,11 +551,9 @@ local INTRO = {
     top = -18,
     textGap = 40,
     coverMaxW = 1200,
-    coverAspectW = 0.67,
-    coverAspectH = 0.17,
+    coverAspectW = 2,
+    coverAspectH = 1,
     coverMaskVisibleX = 432 / 512,
-    coverTexTop = 0.246,
-    coverTexBottom = 0.754,
 }
 
 local function AddCoverFadeMask(parent, texture)
@@ -607,7 +605,7 @@ local function LayoutIntro()
     introCoverFrame:SetPoint("TOPLEFT", detailChild, "TOPLEFT", CP - hBleed, INTRO.top)
     introCoverFrame:SetSize(coverW, coverH)
     introCoverTexture:SetSize(coverW, coverH)
-    introCoverTexture:SetTexCoord(0, 1, INTRO.coverTexTop, INTRO.coverTexBottom)
+    introCoverTexture:SetTexCoord(0, 1, 0, 1)
 
     introText:ClearAllPoints()
     introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(coverH + INTRO.textGap))
