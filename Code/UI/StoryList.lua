@@ -272,6 +272,13 @@ function SM.ApplyIntroCompletionState(row)
     if not row or not row.btn or not row.nameLabel then return end
     local allComplete = SM.AreAllStoriesFinished()
 
+    if row.coverTex then
+        row.coverTex:SetTexture(SM.StoryModeCardTexture)
+        row.coverTex:SetTexCoord(0, 1, 0, 1)
+        row.coverTex:SetAlpha((SM.IsRetailClient()) and 1 or 0.72)
+        row.coverTex:Show()
+    end
+
     if row.checkmark then
         row.checkmark:SetShown(allComplete)
     end
@@ -324,7 +331,12 @@ function SM.SelectStory(index, chapterIndex)
         local sel = (i == index)
         if row.btn then row.btn:UnlockHighlight() end
         if row.coverTex then
-            if SM.IsRetailClient() then
+            if row.isIntro then
+                row.coverTex:SetTexture(SM.StoryModeCardTexture)
+                row.coverTex:SetTexCoord(0, 1, 0, 1)
+                row.coverTex:SetShown(true)
+                row.coverTex:SetAlpha((SM.IsRetailClient()) and 1 or 0.72)
+            elseif SM.IsRetailClient() then
                 local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
                 row.coverTex:SetAlpha(1)
@@ -567,7 +579,21 @@ local function GetStoryCardSubline(data)
 end
 
 local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
-    local introCard, introBg = CreateListCardFrame(cardHeight, cardPadding, yOffset)
+    local introCard, introBg = CreateListCardFrame(cardHeight, cardPadding, yOffset, 2, 4)
+
+    local coverTex = introCard:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
+    if SM.IsRetailClient() then
+        coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 7, -7)
+        coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -7, 7)
+        coverTex:SetAlpha(0.78)
+    else
+        coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 3, -3)
+        coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -3, 3)
+        coverTex:SetAlpha(0.72)
+    end
+    coverTex:SetTexture(SM.StoryModeCardTexture)
+    coverTex:SetTexCoord(0, 1, 0, 1)
+
     local _, introIcon = CreateMaskedIcon(introCard, SM.StoryModeIconTexture)
 
     local introName = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
@@ -584,6 +610,7 @@ local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
     local row = {
         btn       = introCard,
         bg        = introBg,
+        coverTex  = coverTex,
         icon      = introIcon,
         nameLabel = introName,
         zoneLabel = nil,

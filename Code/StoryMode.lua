@@ -59,6 +59,7 @@ local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storym
 SM.StoryModeIconTexture = STORYMODE_ICON_TEXTURE
 local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_hero"
 local STORYMODE_BG_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_bg"
+SM.StoryModeCardTexture = STORYMODE_BG_TEXTURE
 local COVER_FADE_MASK_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Masks\\CoverFadeMask"
 SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
@@ -547,36 +548,15 @@ local CP  = 80   -- content padding (left/right) — narrower than dividers
 
 -- ── Intro (visible when no story is selected) ──────────────────────────────
 local INTRO = {
-    top = -34,
-    gap = 18,
-    cardW = 308,
-    cardMinH = 338,
-    cardPadX = 24,
-    cardPadY = 24,
-    heroW = 360,
-    heroH = 180,
-    artAspectW = 2,
-    artAspectH = 1,
+    top = -18,
+    textGap = 40,
+    coverMaxW = 1200,
+    coverAspectW = 0.67,
+    coverAspectH = 0.17,
+    coverMaskVisibleX = 432 / 512,
+    coverTexTop = 0.246,
+    coverTexBottom = 0.754,
 }
-
-local function SetCenteredCoverTexCoord(texture, sourceW, sourceH, targetW, targetH)
-    if not texture or not sourceW or not sourceH or not targetW or not targetH
-        or sourceW <= 0 or sourceH <= 0 or targetW <= 0 or targetH <= 0 then
-        return
-    end
-
-    local sourceAspect = sourceW / sourceH
-    local targetAspect = targetW / targetH
-    if targetAspect < sourceAspect then
-        local visibleW = targetAspect / sourceAspect
-        local left = (1 - visibleW) / 2
-        texture:SetTexCoord(left, 1 - left, 0, 1)
-    else
-        local visibleH = sourceAspect / targetAspect
-        local top = (1 - visibleH) / 2
-        texture:SetTexCoord(0, 1, top, 1 - top)
-    end
-end
 
 local function AddCoverFadeMask(parent, texture)
     if not parent or not texture then return nil end
@@ -587,69 +567,55 @@ local function AddCoverFadeMask(parent, texture)
     return mask
 end
 
-local introCard = CreateFrame("Frame", nil, detailChild, "BackdropTemplate")
-introCard:SetSize(INTRO.cardW, INTRO.cardMinH)
-SM.ApplyClassicCardBackdrop(introCard, 0.52, 0.64)
+local introCoverFrame = CreateFrame("Frame", nil, detailChild)
+introCoverFrame:Hide()
 
-local introCardBg = introCard:CreateTexture(nil, "ARTWORK", nil, 0)
-introCardBg:SetPoint("TOPLEFT", introCard, "TOPLEFT", 3, -3)
-introCardBg:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -3, 3)
-introCardBg:SetTexture(STORYMODE_BG_TEXTURE)
-introCardBg:SetVertexColor(1, 1, 1, 0.64)
-AddCoverFadeMask(introCard, introCardBg)
+local introCoverTexture = introCoverFrame:CreateTexture(nil, "ARTWORK")
+introCoverTexture:SetPoint("CENTER")
+introCoverTexture:SetTexture(STORYMODE_HERO_TEXTURE)
+introCoverTexture:SetTexCoord(0, 1, 0, 1)
+AddCoverFadeMask(introCoverFrame, introCoverTexture)
 
-local introCardShade = introCard:CreateTexture(nil, "ARTWORK", nil, 1)
-SM.SetSolidTexture(introCardShade, 0.015, 0.012, 0.010, 0.70)
-introCardShade:SetPoint("TOPLEFT", introCard, "TOPLEFT", 4, -4)
-introCardShade:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -4, 4)
-
-local introText = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "QuestFont"))
-introText:SetPoint("TOPLEFT",  introCard, "TOPLEFT",  INTRO.cardPadX, -INTRO.cardPadY)
-introText:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -INTRO.cardPadX, -INTRO.cardPadY)
+local introText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
 introText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 introText:SetText(L["Intro Text"])
-introText:SetWidth(INTRO.cardW - INTRO.cardPadX * 2)
-
-local introHeroFrame = CreateFrame("Frame", nil, detailChild)
-introHeroFrame:SetSize(INTRO.heroW, INTRO.heroH)
-
-local introHero = introHeroFrame:CreateTexture(nil, "ARTWORK")
-introHero:SetAllPoints(introHeroFrame)
-introHero:SetTexture(STORYMODE_HERO_TEXTURE)
-introHero:SetTexCoord(0, 1, 0, 1)
-AddCoverFadeMask(introHeroFrame, introHero)
+introText:Hide()
 
 local function SetIntroVisible(show)
     if show then
-        introCard:Show()
-        introHeroFrame:Show()
+        introCoverFrame:Show()
+        introText:Show()
     else
-        introCard:Hide()
-        introHeroFrame:Hide()
+        introCoverFrame:Hide()
+        introText:Hide()
     end
 end
 
 SetIntroVisible(false)
 
 local function LayoutIntro()
-    local textW = INTRO.cardW - INTRO.cardPadX * 2
-    introText:SetWidth(textW)
+    local w = detailChild:GetWidth()
+    local contentW = w - CP * 2
+    local visibleTargetW = math.min(INTRO.coverMaxW, contentW)
+    if visibleTargetW < 360 then visibleTargetW = 360 end
+    local coverW = visibleTargetW / INTRO.coverMaskVisibleX
+    local coverH = coverW * (INTRO.coverAspectH / INTRO.coverAspectW)
+    local hBleed = (coverW - visibleTargetW) / 2
+
+    introCoverFrame:ClearAllPoints()
+    introCoverFrame:SetPoint("TOPLEFT", detailChild, "TOPLEFT", CP - hBleed, INTRO.top)
+    introCoverFrame:SetSize(coverW, coverH)
+    introCoverTexture:SetSize(coverW, coverH)
+    introCoverTexture:SetTexCoord(0, 1, INTRO.coverTexTop, INTRO.coverTexBottom)
+
+    introText:ClearAllPoints()
+    introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(coverH + INTRO.textGap))
+    introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -(coverH + INTRO.textGap))
+    if contentW > 20 then introText:SetWidth(contentW) end
+
     local textH = introText:GetStringHeight() or 0
-    local cardH = math.max(INTRO.cardMinH, math.ceil(textH + INTRO.cardPadY * 2))
-
-    introCard:ClearAllPoints()
-    introCard:SetPoint("TOP", detailChild, "TOP", -((INTRO.heroW + INTRO.gap) / 2), INTRO.top)
-    introCard:SetSize(INTRO.cardW, cardH)
-
-    introHeroFrame:ClearAllPoints()
-    introHeroFrame:SetPoint("TOP", detailChild, "TOP", ((INTRO.cardW + INTRO.gap) / 2), INTRO.top)
-    introHeroFrame:SetSize(INTRO.heroW, INTRO.heroH)
-
-    SetCenteredCoverTexCoord(introCardBg, INTRO.artAspectW, INTRO.artAspectH, INTRO.cardW, cardH)
-    introHero:SetTexCoord(0, 1, 0, 1)
-
-    detailChild:SetHeight(math.max(cardH - INTRO.top + 34, 400))
+    detailChild:SetHeight(math.max(coverH + textH + INTRO.textGap + 40, 400))
 end
 
 -- ══════════════════════════════════════════════════════════════════════════════

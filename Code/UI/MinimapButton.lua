@@ -15,8 +15,8 @@ end
 
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     local minimapBtn = CreateFrame("Button", nil, Minimap)
-    local borderlessButtonSize = (SM.IsRetailClient()) and 42 or 34
-    local borderlessIconSize = (SM.IsRetailClient()) and 36 or 28
+    local borderlessButtonSize = (SM.IsRetailClient()) and 42 or 38
+    local borderlessIconSize = (SM.IsRetailClient()) and 36 or 32
     local defaultButtonSize = (SM.IsRetailClient()) and 32 or 30
     local defaultIconSize = (SM.IsRetailClient()) and 25 or 22
     local defaultBorderSize = (SM.IsRetailClient()) and 50 or 53
