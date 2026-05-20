@@ -2,6 +2,7 @@ local addonName, SM = ...
 local L = SM.L
 
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
+local STORYMODE_AVATAR_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_avatar"
 local MINIMAP_STYLE_BORDERLESS = "borderless"
 local MINIMAP_STYLE_DEFAULT_BORDER = "defaultBorder"
 
@@ -48,6 +49,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
             minimapBtn:SetSize(defaultButtonSize, defaultButtonSize)
             minimapIcon:SetSize(defaultIconSize, defaultIconSize)
             minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", defaultIconOffsetX, 0)
+            minimapIcon:SetTexture(STORYMODE_AVATAR_TEXTURE)
             defaultBorder:SetSize(defaultBorderSize, defaultBorderSize)
             defaultBorder:SetPoint("TOPLEFT", minimapBtn, "TOPLEFT", 0, 0)
             defaultBorder:Show()
@@ -55,6 +57,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
             minimapBtn:SetSize(borderlessButtonSize, borderlessButtonSize)
             minimapIcon:SetSize(borderlessIconSize, borderlessIconSize)
             minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
+            minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
             defaultBorder:Hide()
         end
     end

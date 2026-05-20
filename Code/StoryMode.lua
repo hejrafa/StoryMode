@@ -58,6 +58,8 @@ SM.SOLID_TEXTURE = SOLID
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
 SM.StoryModeIconTexture = STORYMODE_ICON_TEXTURE
 local STORYMODE_HERO_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_hero"
+local STORYMODE_BG_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_bg"
+local COVER_FADE_MASK_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Masks\\CoverFadeMask"
 SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
 SM.ClassicPortraitRing = "Interface\\Common\\portrait-ring-withbg"
@@ -544,21 +546,111 @@ local DP  = 32   -- divider padding (left/right)
 local CP  = 80   -- content padding (left/right) — narrower than dividers
 
 -- ── Intro (visible when no story is selected) ──────────────────────────────
-local INTRO_HERO_W = 256
-local INTRO_HERO_H = 128
+local INTRO = {
+    top = -34,
+    gap = 18,
+    cardW = 308,
+    cardMinH = 338,
+    cardPadX = 24,
+    cardPadY = 24,
+    heroW = 360,
+    heroH = 180,
+    artAspectW = 2,
+    artAspectH = 1,
+}
 
-local introHero = detailChild:CreateTexture(nil, "ARTWORK")
-introHero:SetSize(INTRO_HERO_W, INTRO_HERO_H)
-introHero:SetPoint("TOP", detailChild, "TOP", 0, -34)
-introHero:SetTexture(STORYMODE_HERO_TEXTURE)
-introHero:SetTexCoord(0, 1, 0, 1)
+local function SetCenteredCoverTexCoord(texture, sourceW, sourceH, targetW, targetH)
+    if not texture or not sourceW or not sourceH or not targetW or not targetH
+        or sourceW <= 0 or sourceH <= 0 or targetW <= 0 or targetH <= 0 then
+        return
+    end
 
-local introText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
-introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(INTRO_HERO_H + 48))
-introText:SetPoint("TOPRIGHT", detailChild, "TOPRIGHT", -CP, -(INTRO_HERO_H + 48))
+    local sourceAspect = sourceW / sourceH
+    local targetAspect = targetW / targetH
+    if targetAspect < sourceAspect then
+        local visibleW = targetAspect / sourceAspect
+        local left = (1 - visibleW) / 2
+        texture:SetTexCoord(left, 1 - left, 0, 1)
+    else
+        local visibleH = sourceAspect / targetAspect
+        local top = (1 - visibleH) / 2
+        texture:SetTexCoord(0, 1, top, 1 - top)
+    end
+end
+
+local function AddCoverFadeMask(parent, texture)
+    if not parent or not texture then return nil end
+    local mask = parent:CreateMaskTexture()
+    mask:SetTexture(COVER_FADE_MASK_TEXTURE, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    mask:SetAllPoints(texture)
+    texture:AddMaskTexture(mask)
+    return mask
+end
+
+local introCard = CreateFrame("Frame", nil, detailChild, "BackdropTemplate")
+introCard:SetSize(INTRO.cardW, INTRO.cardMinH)
+SM.ApplyClassicCardBackdrop(introCard, 0.52, 0.64)
+
+local introCardBg = introCard:CreateTexture(nil, "ARTWORK", nil, 0)
+introCardBg:SetPoint("TOPLEFT", introCard, "TOPLEFT", 3, -3)
+introCardBg:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -3, 3)
+introCardBg:SetTexture(STORYMODE_BG_TEXTURE)
+introCardBg:SetVertexColor(1, 1, 1, 0.64)
+AddCoverFadeMask(introCard, introCardBg)
+
+local introCardShade = introCard:CreateTexture(nil, "ARTWORK", nil, 1)
+SM.SetSolidTexture(introCardShade, 0.015, 0.012, 0.010, 0.70)
+introCardShade:SetPoint("TOPLEFT", introCard, "TOPLEFT", 4, -4)
+introCardShade:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -4, 4)
+
+local introText = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "QuestFont"))
+introText:SetPoint("TOPLEFT",  introCard, "TOPLEFT",  INTRO.cardPadX, -INTRO.cardPadY)
+introText:SetPoint("TOPRIGHT", introCard, "TOPRIGHT", -INTRO.cardPadX, -INTRO.cardPadY)
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
 introText:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 introText:SetText(L["Intro Text"])
+introText:SetWidth(INTRO.cardW - INTRO.cardPadX * 2)
+
+local introHeroFrame = CreateFrame("Frame", nil, detailChild)
+introHeroFrame:SetSize(INTRO.heroW, INTRO.heroH)
+
+local introHero = introHeroFrame:CreateTexture(nil, "ARTWORK")
+introHero:SetAllPoints(introHeroFrame)
+introHero:SetTexture(STORYMODE_HERO_TEXTURE)
+introHero:SetTexCoord(0, 1, 0, 1)
+AddCoverFadeMask(introHeroFrame, introHero)
+
+local function SetIntroVisible(show)
+    if show then
+        introCard:Show()
+        introHeroFrame:Show()
+    else
+        introCard:Hide()
+        introHeroFrame:Hide()
+    end
+end
+
+SetIntroVisible(false)
+
+local function LayoutIntro()
+    local textW = INTRO.cardW - INTRO.cardPadX * 2
+    introText:SetWidth(textW)
+    local textH = introText:GetStringHeight() or 0
+    local cardH = math.max(INTRO.cardMinH, math.ceil(textH + INTRO.cardPadY * 2))
+
+    introCard:ClearAllPoints()
+    introCard:SetPoint("TOP", detailChild, "TOP", -((INTRO.heroW + INTRO.gap) / 2), INTRO.top)
+    introCard:SetSize(INTRO.cardW, cardH)
+
+    introHeroFrame:ClearAllPoints()
+    introHeroFrame:SetPoint("TOP", detailChild, "TOP", ((INTRO.cardW + INTRO.gap) / 2), INTRO.top)
+    introHeroFrame:SetSize(INTRO.heroW, INTRO.heroH)
+
+    SetCenteredCoverTexCoord(introCardBg, INTRO.artAspectW, INTRO.artAspectH, INTRO.cardW, cardH)
+    introHero:SetTexCoord(0, 1, 0, 1)
+
+    detailChild:SetHeight(math.max(cardH - INTRO.top + 34, 400))
+end
 
 -- ══════════════════════════════════════════════════════════════════════════════
 -- Detail view — centered portrait hero + clean sections
@@ -633,8 +725,7 @@ aCoverTexture:SetTexCoord(
 -- all four sides. Authored in Figma, exported as 32-bit TGA. The mask stretches
 -- to fit the cover, so changing fade thickness is a matter of re-exporting.
 local aCoverFadeMask = aCoverFrame:CreateMaskTexture()
-aCoverFadeMask:SetTexture("Interface\\AddOns\\StoryMode\\Art\\Masks\\CoverFadeMask",
-    "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+aCoverFadeMask:SetTexture(COVER_FADE_MASK_TEXTURE, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
 aCoverFadeMask:SetAllPoints(aCoverTexture)
 aCoverTexture:AddMaskTexture(aCoverFadeMask)
 
@@ -3627,29 +3718,28 @@ function SM.UpdateStoryDetail(data)
         SM.SetSecureOverlayActive(false)
         dCompleteText:Hide()
         introText:SetText(SM.AreAllStoriesFinished() and L["Intro Text Complete"] or L["Intro Text"])
-        introHero:Show(); introText:Show()
+        SetIntroVisible(true)
         heroIcon:SetTexture(nil)
         smHeaderSub:SetText("")
         SM.SetActiveTab("story")
         -- Hide tabs on intro page
         tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabJournalLabel:Hide()
         tabStoryHit:Hide(); tabProgressHit:Hide(); tabJournalHit:Hide()
+        LayoutIntro()
         C_Timer.After(0, function()
             local w = detailScroll:GetWidth()
             if w > 20 then
                 detailChild:SetWidth(w)
-                introText:SetWidth(w - CP * 2)
             end
             C_Timer.After(0, function()
-                local h = introText:GetStringHeight()
-                detailChild:SetHeight(math.max((h or 0) + 80, 400))
+                LayoutIntro()
             end)
         end)
         return
     end
 
     currentStoryData = data
-    introHero:Hide(); introText:Hide(); SM.ShowDetail(true)
+    SetIntroVisible(false); SM.ShowDetail(true)
     tabStoryLabel:Show(); tabProgressLabel:Show(); tabJournalLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show(); tabJournalHit:Show()
 
