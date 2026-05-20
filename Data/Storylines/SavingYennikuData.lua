@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.SavingYennikuData = {
     title = "Saving Yenniku",
-    description = "At Grom'gol Base Camp, Nimboya is searching for Yenniku, the youngest son of the Darkspear chief. The Bloodscalp trolls may know what happened to him, but the truth is buried under rival tribes, severed heads, old spirits, and darker jungle magic.\n\nHunt through northern Stranglethorn, force the dead to speak from a bubbling cauldron, claim the Mind's Eye from the Mosh'Ogg ogres, and use it to free Yenniku from Zanzil's control.",
+    description = "At Grom'gol, Nimboya asks after Yenniku, youngest son of the Darkspear chief. The Bloodscalp trolls may know where he was taken, but Stranglethorn rarely gives up a captive cleanly.\n\nPress the jungle tribes for answers, listen when older spirits are called, and keep following the trail even when it turns toward magic no troll should take lightly.",
     zone = "Stranglethorn Vale",
     expansion = "Classic",
     recommendedLevel = { min = 30, max = 45 },

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.RaenesCleansingData = {
     title = "Raene's Cleansing",
-    description = "In Astranaar, Raene Wolfrunner sends you west after Teronis, a missing friend who was searching for a way to slow the furbolg attacks. His death leaves behind a journal, a gem, and the unfinished work of Dartol's Rod.\n\nRebuild the rod, speak to one of the last uncorrupted furbolg, and bring down Ran Bloodtooth before Ashenvale's corruption swallows more than the forest.",
+    description = "Raene Wolfrunner sends you west from Astranaar to look for Teronis, who went searching for answers to the furbolg attacks and did not return.\n\nFollow his trail through Ashenvale's moonwells, ruins, and old magic. If the forest is being changed, Raene wants to know how, and who is helping it spread.",
     zone = "Ashenvale",
     expansion = "Classic",
     recommendedLevel = { min = 18, max = 30 },

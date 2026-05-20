@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DarrowshireData = {
     title = "The Battle of Darrowshire",
-    description = "In the Plaguelands, a little girl waits in the ruins of Darrowshire with no memory of what really happened to her family. Pamela Redpath wants her doll back. Her surviving kin want answers. Chromie wants history's broken pieces gathered carefully enough to be touched again.\n\nFollow the Redpath family through one of Classic's most remembered tragedies, from Pamela's burned home to the battle where Joseph Redpath can finally be saved from what the Scourge made of him.",
+    description = "Marlene Redpath asks you to find her niece Pamela in Darrowshire. In the ruins, a lonely child is still waiting for family and trying to remember where her doll has gone.\n\nBegin with Pamela's small request and follow the Redpath family through old grief, missing records, and the question of what really happened on Darrowshire's last night.",
     zone = "Western Plaguelands / Eastern Plaguelands",
     expansion = "Classic",
     recommendedLevel = { min = 50, max = 60 },

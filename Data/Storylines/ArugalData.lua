@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ArugalData = {
     title = "Arugal and Shadowfang Keep",
-    description = "Silverpine Forest belongs to the Forsaken only on paper. The roads are stalked by worgen, the mages of Dalaran fortify Ambermill, and Arugal's mistake still howls from Shadowfang Keep.\n\nServe the Sepulcher, uncover the magic loose in Silverpine, break the Dalaran weaving at Ambermill, and carry Arugal's head back as proof that the forest can be claimed.",
+    description = "The Sepulcher needs help holding Silverpine Forest. Worgen stalk the roads, Dalaran mages keep their own counsel at Ambermill, and rumors from Shadowfang Keep have not grown quieter.\n\nTake the Forsaken orders one by one and learn why the forest still refuses to be claimed.",
     zone = "Silverpine Forest / Shadowfang Keep",
     expansion = "Classic",
     recommendedLevel = { min = 9, max = 27 },

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.MissingDiplomatData = {
     title = "The Missing Diplomat",
-    description = "A quiet request from the Cathedral becomes one of Classic's strangest Alliance mysteries. A diplomat bound for Theramore has vanished, Bishop DeLavey wants discretion, and every contact points toward a plot larger than a missing courier.\n\nFollow the trail from Stormwind to Duskwood, Menethil Harbor, and Theramore as the Defias connection gives way to a more dangerous truth: the missing diplomat may be Stormwind's own king.",
+    description = "Thomas has been asked to find an adventurer for Bishop DeLavey in Stormwind Keep. The bishop will not speak of the matter openly, only that discretion matters and the kingdom may have need of you.\n\nBegin in Stormwind and follow a quiet trail of favors, contacts, and rumors. What starts as a missing man soon points beyond a simple disappearance.",
     zone = "Stormwind / Duskwood / Wetlands / Dustwallow Marsh",
     expansion = "Classic",
     recommendedLevel = { min = 28, max = 38 },

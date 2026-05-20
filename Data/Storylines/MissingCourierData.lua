@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.MissingCourierData = {
     title = "The Missing Courier",
-    description = "A courier named Raschal vanished on the route from Feathermoon Stronghold to Thalanaar. His boat should have made the trip quietly along the Feralas coast. Instead, only wreckage remains.\n\nSearch the shoreline, follow the knife and the gnoll trail inland, and uncover why one missing courier matters to more than a single stronghold.",
+    description = "Feathermoon Stronghold expected a courier from Thalanaar. He never arrived, and the coast of Feralas has a way of swallowing small boats and easy answers.\n\nSearch the wreckage, carry back what proof you can, and follow the signs inland if the sea is not the whole story.",
     zone = "Feralas / Darnassus",
     expansion = "Classic",
     recommendedLevel = { min = 43, max = 46 },

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ClassicDruidQuestData = {
     title = "The Cenarion Path",
-    description = "A druid's training is not learned from a trainer alone. It is answered in Moonglade, tested by spirits, carried through poison and water, and bound to the quiet duties of the Cenarion Circle.",
+    description = "Your trainer sends you to Moonglade for lessons that cannot be taught in a city. The Cenarion Circle has work for young druids who are ready to listen to spirits, heal sick beasts, and follow the call of distant waters.",
     zone = "Moonglade / Darkshore / Westfall / The Barrens",
     expansion = "Classic",
     class = "DRUID",
@@ -86,7 +86,7 @@ SM.ClassicDruidQuestData = {
 
 SM.ClassicHunterQuestData = {
     title = "The Hunter's Path",
-    description = "A hunter is measured by patience, bond, and precision. Tame your first companion, then follow the ancient leaf into one of Classic's sharpest class trials.",
+    description = "At level ten, hunter trainers stop speaking only of weapons and begin speaking of trust. Learn to tame and train a beast, then answer a stranger calling if an ancient leaf ever finds its way into your hands.",
     zone = "Teldrassil / Dun Morogh / Mulgore / Durotar / Felwood / Molten Core",
     expansion = "Classic",
     class = "HUNTER",
@@ -153,7 +153,7 @@ SM.ClassicHunterQuestData = {
 
 SM.ClassicMageQuestData = {
     title = "Mage's Wand",
-    description = "Tabetha's marsh hut becomes the center of a mage's practical education: old texts, charged materials, and a wand shaped to your chosen school.",
+    description = "Your mage trainer sends you to Tabetha in Dustwallow Marsh, where practical magic begins with travel, errands, and materials that will not gather themselves.\n\nFollow the lessons that turn study into tools: a wand, a strange polymorph, and food enough for an adventuring party.",
     zone = "Dustwallow Marsh / Scarlet Monastery / Azshara / Dire Maul",
     expansion = "Classic",
     class = "MAGE",
@@ -214,7 +214,7 @@ SM.ClassicMageQuestData = {
 
 SM.ClassicPaladinQuestData = {
     title = "The Tome of Valor",
-    description = "The paladin's road is written in vows: resurrection, sacrifice, righteous arms, and the charger earned through judgment and redemption.",
+    description = "Speak with Duthorian Rall and take up the Tome of Valor. A paladin's lessons are not only prayers; they ask for aid given, judgment shown, and materials gathered with care.\n\nFollow the order's tests from early duty to the rites reserved for those who have carried the Light long enough to be trusted with more.",
     zone = "Stormwind / Ironforge / Western Plaguelands / Scholomance",
     expansion = "Classic",
     class = "PALADIN",
@@ -288,7 +288,7 @@ SM.ClassicPaladinQuestData = {
 
 SM.ClassicPriestQuestData = {
     title = "Benediction",
-    description = "A priest's greatest Classic trial begins with the Eye of Divinity and ends in the balance between saving the living and resisting shadow.",
+    description = "If the Eye of Divinity comes into your possession, seek Eris Havenfire in the Eastern Plaguelands. She has a trial that asks for more than damage or healing numbers.\n\nStand between panic and shadow, save who you can, and learn whether your faith holds when every mistake has a cost.",
     zone = "Molten Core / Eastern Plaguelands",
     expansion = "Classic",
     class = "PRIEST",
@@ -322,7 +322,7 @@ SM.ClassicPriestQuestData = {
 
 SM.ClassicRogueQuestData = {
     title = "Poisons",
-    description = "A rogue's craft lives in preparation: hidden towers, lockboxes, antidotes, and the first deadly edge on a blade.",
+    description = "Master Mathias Shaw and Shenthul do not teach by lecture. They send rogues into guarded places, locked boxes, and situations where an antidote matters as much as a blade.\n\nBegin with your faction's poison work, then follow the hints that lead beyond city trainers into a wider trade of signals and reputation.",
     zone = "Westfall / The Barrens / Hillsbrad Foothills / Ravenholdt",
     zoneByFaction = {
         Alliance = "Westfall / Ravenholdt",
@@ -384,7 +384,7 @@ SM.ClassicRogueQuestData = {
 
 SM.ClassicShamanQuestData = {
     title = "Call of the Elements",
-    description = "The shaman earns power by answering the elements one by one: earth, fire, water, air, and the deeper mastery waiting in the temple.",
+    description = "Your first totem begins with a call, not a command. The elements answer through trials, offerings, and long walks between trainers, spirits, and hidden shrines.\n\nFollow earth, fire, water, and air as each power is earned in turn. Later, the same lessons point toward a deeper test of balance.",
     zone = "Durotar / Mulgore / The Barrens / Sunken Temple",
     expansion = "Classic",
     class = "SHAMAN",
@@ -474,7 +474,7 @@ SM.ClassicShamanQuestData = {
 
 SM.ClassicWarlockQuestData = {
     title = "The Binding",
-    description = "The warlock's path is a chain of bargains: demons named, bound, dismissed, and finally ridden out of Xoroth itself.",
+    description = "Warlock trainers do not offer power freely. They give names, errands, and circles, then ask whether you can bind what answers.\n\nBegin with the first summons and follow the darker lessons through demons, tomes, mounts, and bargains that always ask for more than coin.",
     zone = "Capital Cities / The Barrens / Burning Steppes / Dire Maul",
     expansion = "Classic",
     class = "WARLOCK",
@@ -582,7 +582,7 @@ SM.ClassicWarlockQuestData = {
 
 SM.ClassicWarriorQuestData = {
     title = "Whirlwind Weapon",
-    description = "The warrior's Classic trials begin with stance discipline and end by calling Cyclonian down for the weapon every leveling warrior remembers.",
+    description = "Your warrior trainer has a practical lesson first: learn to stand, endure, and fight with discipline. After that, older tests wait beyond the starting grounds.\n\nSeek the instructors who send warriors to brawls, islands, charms, and a windwatcher's summons. The reward is a weapon, but the road is the real trial.",
     zone = "The Barrens / Stranglethorn Vale / Arathi Highlands",
     expansion = "Classic",
     class = "WARRIOR",

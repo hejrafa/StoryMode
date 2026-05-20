@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ANewPlagueData = {
     title = "A New Plague",
-    description = "Lady Sylvanas wants a weapon that can destroy Arthas's Scourge and the living enemies pressing in around Lordaeron. The Royal Apothecary Society answers with blood samples, old disease records, and a willingness to test anything on anyone.\n\nFollow the Forsaken plague program from Apothecary Johaan's cellar experiments in Brill through Silverpine's stolen research and Apothecary Lydon's increasingly grim field trials in Tarren Mill.",
+    description = "Apothecary Johaan has work in Brill, and it is not the sort of work the living would approve of. The Forsaken need samples, records, and willing hands if they are to learn what can still kill the dead.\n\nBegin with the Royal Apothecary Society's errands in Tirisfal and follow the plague work into Silverpine and Hillsbrad. Each vial answers one question and raises another.",
     zone = "Tirisfal Glades / Silverpine Forest / Hillsbrad Foothills",
     expansion = "Classic",
     recommendedLevel = { min = 6, max = 32 },

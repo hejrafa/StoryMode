@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.BattleOfHillsbradData = {
     title = "Battle of Hillsbrad",
-    description = "From Tarren Mill, High Executor Darthalia turns Hillsbrad Foothills into a proving ground for the Forsaken war machine. Farmers, peasants, town leaders, miners, and Dun Garok's dwarves all become targets in a campaign meant to break human control of the region.\n\nCarry out Darthalia's orders, then bring her sealed commendation to Varimathras in the Undercity.",
+    description = "High Executor Darthalia has work for anyone willing to serve Tarren Mill. The humans of Hillsbrad still farm, trade, and guard the roads as if the Forsaken claim means nothing.\n\nReport for orders and carry the campaign from the fields to the mines and beyond. Darthalia will tell you who must fall next.",
     zone = "Hillsbrad Foothills",
     expansion = "Classic",
     recommendedLevel = { min = 19, max = 32 },

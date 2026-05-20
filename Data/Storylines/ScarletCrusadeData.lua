@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ScarletCrusadeData = {
     title = "The Scarlet Crusade",
-    description = "The Scarlet Crusade calls itself the last pure flame of Lordaeron, but its crusade burns everyone it touches: Forsaken farmers, human dissenters, prisoners in the Monastery, and even its own sons.\n\nFollow the Scarlet trail from Deathknell and Southshore into Scarlet Monastery, through Stratholme's Scarlet Bastion, and north to Hearthglen, where Tirion Fordring tries to save Taelan from the order's fanatic heart.",
+    description = "The Scarlet Crusade claims to defend Lordaeron from the undead, but its soldiers do not always wait to ask who is innocent. In Tirisfal, Southshore, and the Plaguelands, people have reasons to send you against the red tabard.\n\nFollow the Crusade's trail through farms, prisons, monasteries, and northern keeps. Each order you uncover makes their righteousness harder to trust.",
     zone = "Tirisfal / Monastery / Stratholme / Plaguelands",
     expansion = "Classic",
     recommendedLevel = { min = 2, max = 60 },

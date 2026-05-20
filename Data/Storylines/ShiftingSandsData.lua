@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.ShiftingSandsData = {
     title = "The Scepter of the Shifting Sands",
-    description = "Before the gates of Ahn'Qiraj could open, one champion had to earn the trust of the Brood of Nozdormu, gather the scattered shards of the ancient scepter, and carry the war effort of an entire realm to the Scarab Gong.\n\nFollow Classic's most legendary questline: Blackwing Lair, Silithus, the Nightmare, Azuregos, Narain's absurd errands, and the moment Azeroth rang the gong.",
+    description = "In Silithus, the Bronze Dragonflight does not hand trust to strangers. Before anyone can challenge what waits behind Ahn'Qiraj's gates, someone must prove they are more than another mortal asking for legends.\n\nBegin with the Brood of Nozdormu and follow the old scepter's trail through dragons, raids, bargains, and errands that sound impossible until someone does them.",
     zone = "Silithus / Tanaris / Moonglade / Azshara / Blackwing Lair",
     expansion = "Classic",
     recommendedLevel = 60,

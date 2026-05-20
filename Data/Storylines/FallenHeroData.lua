@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.FallenHeroData = {
     title = "A Tale of Sorrow",
-    description = "A dead warrior stands at the road into the Blasted Lands, bound to the failure that killed his regiment. His orders never came. His soldiers were captured, broken, and chained to demonic stones, and the demon lord Razelikh still rules from the mountains.\n\nFollow one of Classic's longest old-world epics from Swamp of Sorrows and Nethergarde Keep into the Blasted Lands, Azshara, Stranglethorn Vale, and the final battle against Rakh'likh.",
+    description = "At the edge of the Blasted Lands, a fallen hero still waits for orders that never came. His regiment is gone, and the demons beyond Nethergarde have had years to make use of what was left behind.\n\nListen to the dead man's account and follow the scattered trail of soldiers, relics, and old command. The road is long because the failure was not simple.",
     zone = "Swamp of Sorrows / Blasted Lands / Azshara / Stranglethorn Vale",
     expansion = "Classic",
     recommendedLevel = { min = 45, max = 60 },

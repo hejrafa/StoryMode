@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.AlthalaxxData = {
     title = "The Tower of Althalaxx",
-    description = "Auberdine sends a scout north to watch a lonely tower, and the report that comes back is worse than anyone hoped. Warlocks of the Cult of the Dark Strand are gathering around Althalaxx, with their trail reaching from Darkshore into Ashenvale.\n\nFollow Balthule Shadowstrike and Delgren the Purifier through parchments, soul gems, satyr ruins, and the final climb to Athrikus Narassin.",
+    description = "Auberdine's watchers have seen trouble near the Tower of Althalaxx. Speak with Balthule Shadowstrike and learn what the Cult of the Dark Strand is doing on the northern coast.\n\nWhat begins as a report from Darkshore pulls you toward Ashenvale, where parchments, gems, and old corruption point to a threat still gathering strength.",
     zone = "Darkshore / Ashenvale",
     expansion = "Classic",
     recommendedLevel = { min = 13, max = 31 },

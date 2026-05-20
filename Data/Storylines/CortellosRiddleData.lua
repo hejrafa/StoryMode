@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.CortellosRiddleData = {
     title = "Cortello's Riddle",
-    description = "A small scroll hidden aboard the Bloodsail ships south of Booty Bay offers no quest giver, no speech, and no explanation. Just a rhyme and a place to search.\n\nFollow Cortello's clues from Stranglethorn Vale to the Swamp of Sorrows, Dustwallow Marsh, and the waterfall coast of the Hinterlands for one of Classic's purest treasure hunts.",
+    description = "A small scroll waits aboard a Bloodsail ship south of Booty Bay. It gives no proper quest giver, only a riddle and enough direction to make you wonder what was hidden.\n\nTake Cortello's words seriously and follow the clues wherever they send you. The treasure is not marked for anyone who wants a straight road.",
     zone = "Stranglethorn Vale / Swamp of Sorrows / Dustwallow Marsh / The Hinterlands",
     expansion = "Classic",
     recommendedLevel = { min = 43, max = 51 },

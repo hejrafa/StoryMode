@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.KingsTributeData = {
     title = "A King's Tribute",
-    description = "Beneath the ruined span between Wetlands and Arathi, a dead dwarf still clutches the last words he never brought home. The letter is small, hard to see, and easy to miss, which is exactly why the story lands so sharply when you find it.\n\nCarry Sully Balloo's letter to Ironforge, bring Sara Balloo's grief before King Magni Bronzebeard, and help raise a memorial for one soldier and every life spent on the Alliance's wars.",
+    description = "Under the broken Thandol Span, a dwarf's remains lie where few travelers think to look. Among them is a letter that never reached the woman waiting in Ironforge.\n\nCarry Sully Balloo's words home and let Sara Balloo decide what should be done with them. Some duties begin after the battle is already over.",
     zone = "Arathi Highlands / Ironforge / Hillsbrad Foothills",
     expansion = "Classic",
     recommendedLevel = { min = 26, max = 31 },

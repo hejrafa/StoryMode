@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DuskwoodData = {
     title = "The Long Watch",
-    description = "Duskwood is what happens when a human town is left holding a lantern at the edge of too much darkness. Darkshire's Night Watch fights undead from Raven Hill, worgen from the orchards, old murders, cursed graves, and the terrible kindness of a hermit who only wants his wife back.\n\nFollow Classic Duskwood's gothic stories from the roads outside Darkshire to Mor'Ladim, Stalvan Mistmantle, Morbent Fel, Abercrombie, and the long walk of Stitches.",
+    description = "Darkshire keeps its lanterns lit because the woods do not. Commander Althea Ebonlocke needs help with the Night Watch, and every road out of town seems to carry another rumor, corpse, or warning.\n\nTake up the town's work and follow Duskwood's troubles as the locals give them to you: graves, worgen, missing people, and names spoken carefully after dark.",
     zone = "Duskwood",
     expansion = "Classic",
     recommendedLevel = { min = 17, max = 35 },

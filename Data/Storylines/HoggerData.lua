@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.HoggerData = {
     title = "Hogger",
-    description = "The wanted poster outside Westbrook Garrison looks almost routine: a huge Riverpaw gnoll is prowling the woods, the Stormwind Army has posted a bounty, and Marshal Dughan wants proof.\n\nThen you follow the road southwest, step into Hogger's camp, and learn why one low-level elite became a Classic legend.",
+    description = "Marshal Dughan has posted a bounty at Westbrook Garrison. A Riverpaw brute named Hogger is prowling the woods, and Stormwind wants proof that the roads are safer.\n\nTake the warrant, follow the ridge southwest, and see why the locals speak his name with more concern than a single gnoll should earn.",
     zone = "Elwynn Forest",
     expansion = "Classic",
     recommendedLevel = { min = 5, max = 11 },

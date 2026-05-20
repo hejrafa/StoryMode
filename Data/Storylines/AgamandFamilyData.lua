@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.AgamandFamilyData = {
     title = "The Agamand Family",
-    description = "North of Brill, the Agamand Mills still carry the family name, but the family itself has become part of Tirisfal's dead. Coleman Farthing wants proof, Deathguard Dillinger wants the mills cleared, and Magistrate Sevren knows the family crypt has not been quiet either.\n\nRecover the remains of Devlin, Nissa, Thurman, and Gregor Agamand, then descend into the crypt where the old dead of the estate still wail under the earth.",
+    description = "North of Brill, the Agamand Mills still carry the family name. Coleman Farthing wants proof of what happened there, Deathguard Dillinger wants the dead cleared out, and Magistrate Sevren has heard enough about the family crypt to be concerned.\n\nSearch the old estate, bring back what the Forsaken ask for, and see why Tirisfal's dead rarely stay where they are put.",
     zone = "Tirisfal Glades",
     expansion = "Classic",
     recommendedLevel = { min = 4, max = 13 },

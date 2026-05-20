@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DefiasBrotherhoodData = {
     title = "The Defias Brotherhood",
-    description = "The red masks appear first as a local nuisance: thieves across the river from Northshire, bandits in Elwynn, and a collector shaking down the kingdom's own mines. Then Westfall reveals the pattern. Gryan Stoutmantle thinks the Defias are more than a bandit problem, and every errand pulls the thread tighter: Lakeshire, SI:7, the Stonemasons, Moonbrook, and finally the ship hidden beneath the Deadmines.\n\nFollow the Alliance's first great conspiracy story from Northshire to Sentinel Hill, from Edwin VanCleef to the letter he never sent, and into the noble rot still waiting inside Stormwind.",
+    description = "Deputy Willem has a simple problem near Northshire: thieves in red masks have stolen from the abbey's vineyards. In Elwynn and Westfall, the same masks keep turning up in places they should not.\n\nHelp the local marshals and the People's Militia follow the Defias trail. What begins as bandit work soon asks who is organizing it, and why.",
     zone = "Northshire / Elwynn / Westfall / Stormwind",
     expansion = "Classic",
     recommendedLevel = { min = 2, max = 31 },

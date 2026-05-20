@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.LinkenData = {
     title = "Linken's Adventure",
-    description = "A wrecked raft in Un'Goro holds a compass, a map, a key, and a faded photograph. Their owner is alive at Marshal's Refuge, but Linken remembers almost nothing about himself or the strange sword he carried into the crater.\n\nFollow one of Classic's strangest and most beloved treasure-hunt stories from Un'Goro to Tanaris, Felwood, Winterspring, and back to Fire Plume Ridge.",
+    description = "A battered raft in Un'Goro holds a few odd belongings: a compass, a map, a key, and a photograph. There is no proper quest giver, only the sense that someone lost more than supplies in the crater.\n\nFollow the clues from Marshal's Refuge and help piece together what happened to their owner. The trail is strange, old-fashioned, and not eager to explain itself.",
     zone = "Un'Goro Crater / Tanaris / Felwood / Winterspring",
     expansion = "Classic",
     recommendedLevel = { min = 47, max = 56 },

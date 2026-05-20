@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.DungeonSetTwoData = {
     title = "The Brazier of Invocation",
-    description = "A strange invitation waits at level 58, but it is not charity. Deliana in Ironforge and Mokvar in Orgrimmar will only begin if you bring the bracers from your first dungeon set. From there the errand becomes a pilgrimage through Azeroth's old endgame: ghosts in Silithus, fuel in Winterspring, Dire Maul, Stratholme, Blackrock Depths, Lower and Upper Blackrock Spire, Scholomance, and the Plaguelands.\n\nUpgrade the old Dungeon Set 1 armor into its epic Dungeon Set 2 form, uncover Bodley's bargain, reforge Lord Valthalak's shattered amulet, and carry the Brazier of Invocation into the room where the chain finally stops being an errand and becomes a reckoning.",
+    description = "At level 58, Deliana or Mokvar will look at your old dungeon armor and offer work that sounds simple enough: bring the right pieces, prove you are ready, and keep following instructions.\n\nThe errands soon reach far beyond a single set of bracers. Expect old dungeons, stranger patrons, expensive favors, and a brazier whose purpose is not explained all at once.",
     zone = "Ironforge / Orgrimmar / Silithus / Dire Maul / Stratholme / Blackrock Mountain",
     zoneByFaction = {
         Alliance = "Ironforge / Silithus / Dire Maul / Stratholme / Blackrock Mountain",

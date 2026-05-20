@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.MankriksWifeData = {
     title = "Lost in Battle",
-    description = "At the Crossroads, Mankrik asks every passing adventurer the same desperate question: have you seen his wife? Somewhere on the Gold Road, between quillboar camps and the wide heat of the Barrens, a small domestic story has already turned into grief.\n\nFind what happened to Olgra, carry the truth back to the husband still waiting for her, and follow the hatred that grief leaves behind.",
+    description = "At the Crossroads, Mankrik is looking for his wife. He last saw her on the Gold Road, and the Barrens offers little comfort to anyone searching through quillboar territory.\n\nTake his question with you into the heat and dust. What you find, if you find anything, belongs first to the husband still waiting.",
     zone = "The Barrens",
     expansion = "Classic",
     recommendedLevel = { min = 14, max = 20 },

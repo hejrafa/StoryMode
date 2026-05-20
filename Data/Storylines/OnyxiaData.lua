@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.OnyxiaData = {
     title = "The Drakefire Amulet",
-    description = "The black dragonflight works through disguises, puppet kings, false warchiefs, and servants hidden in plain sight. For the Alliance, the trail exposes Lady Katrana Prestor in Stormwind Keep. For the Horde, it runs through Rend Blackhand, Rexxar, Emberstrife, and a gauntlet of dragons.\n\nFollow the Classic attunement stories that lead both factions to the Drakefire Amulet and the lair of Onyxia, broodmother of the black dragonflight.",
+    description = "In the Burning Steppes, Helendis Riverhorn has orders for the Alliance against black dragonkin gathering near Morgan's Vigil. In Kargath, Warlord Goretooth has a command for the Horde that points into Blackrock Spire.\n\nTake the first report and follow your faction's chain of summons, proofs, and dangerous names. The amulet at the end of the road is not given to anyone who has only heard rumors of dragons.",
     zone = "Burning Steppes / Blackrock Mountain / Stormwind / Dustwallow Marsh",
     expansion = "Classic",
     recommendedLevel = { min = 48, max = 60 },

@@ -7,7 +7,7 @@ local addonName, SM = ...
 
 SM.PrincessMoiraData = {
     title = "The Princess of Ironforge",
-    description = "Princess Moira Bronzebeard vanished into Blackrock Depths, and both Ironforge and Orgrimmar read danger in the same name: Emperor Dagran Thaurissan. To Magni, she is a daughter to be rescued. To Thrall, she is a political crisis that could place a Dark Iron heir inside Ironforge itself.\n\nFollow the Blackrock Depths chains that turn a dungeon rescue into one of Classic's sharpest succession stories.",
+    description = "In Blackrock Depths, rumors about Princess Moira Bronzebeard have become too serious for Ironforge to ignore. The Dark Irons say one thing, the kingdom fears another, and no one outside the mountain has the full truth.\n\nEnter the depths on your faction's orders and find out what became of the princess. Rescue may not be as simple as it sounds.",
     zone = "Blackrock Depths / Ironforge / Orgrimmar",
     expansion = "Classic",
     recommendedLevel = { min = 48, max = 60 },
