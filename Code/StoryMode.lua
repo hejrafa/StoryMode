@@ -551,16 +551,18 @@ local INTRO = {
     top = -18,
     textGap = 40,
     coverMaxW = 1200,
-    coverAspectW = 2,
-    coverAspectH = 1,
+    coverAspectW = 0.67,
+    coverAspectH = 0.17,
+    heroAspectW = 2,
+    heroAspectH = 1,
     coverMaskVisibleX = 432 / 512,
 }
 
-local function AddCoverFadeMask(parent, texture)
+local function AddCoverFadeMask(parent, texture, maskAnchor)
     if not parent or not texture then return nil end
     local mask = parent:CreateMaskTexture()
     mask:SetTexture(COVER_FADE_MASK_TEXTURE, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-    mask:SetAllPoints(texture)
+    mask:SetAllPoints(maskAnchor or texture)
     texture:AddMaskTexture(mask)
     return mask
 end
@@ -572,7 +574,7 @@ local introCoverTexture = introCoverFrame:CreateTexture(nil, "ARTWORK")
 introCoverTexture:SetPoint("CENTER")
 introCoverTexture:SetTexture(STORYMODE_HERO_TEXTURE)
 introCoverTexture:SetTexCoord(0, 1, 0, 1)
-AddCoverFadeMask(introCoverFrame, introCoverTexture)
+AddCoverFadeMask(introCoverFrame, introCoverTexture, introCoverFrame)
 
 local introText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
@@ -604,7 +606,7 @@ local function LayoutIntro()
     introCoverFrame:ClearAllPoints()
     introCoverFrame:SetPoint("TOPLEFT", detailChild, "TOPLEFT", CP - hBleed, INTRO.top)
     introCoverFrame:SetSize(coverW, coverH)
-    introCoverTexture:SetSize(coverW, coverH)
+    introCoverTexture:SetSize(coverH * (INTRO.heroAspectW / INTRO.heroAspectH), coverH)
     introCoverTexture:SetTexCoord(0, 1, 0, 1)
 
     introText:ClearAllPoints()
