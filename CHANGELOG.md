@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.5
+
+### UI
+- Aligned Story Mode's private tooltip styling with Blizzard tooltip templates while keeping the taint-safe custom tooltip behavior
+
+### Maintenance
+- Bumped addon metadata to `1.8.5`
+
 ## 1.8.4
 
 ### Classic Era

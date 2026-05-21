@@ -4266,8 +4266,8 @@ function StoryMode_AddonCompartment_OnEnter(nameOrButton, maybeButton)
 
     SMTooltip:SetOwner(menuButton, "ANCHOR_LEFT")
     SMTooltip:ClearLines()
-    SMTooltip:AddLine(L["Minimap Tooltip Title"], 1, 1, 1)
-    SMTooltip:AddLine(L["Minimap Tooltip Open"], C_BODY[1], C_BODY[2], C_BODY[3])
+    SMTooltip:AddLine(L["Minimap Tooltip Title"])
+    SMTooltip:AddLine(L["Minimap Tooltip Open"])
     SMTooltip._minW = 0
     SMTooltip:Show()
 end
