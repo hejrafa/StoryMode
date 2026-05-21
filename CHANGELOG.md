@@ -7,15 +7,25 @@
 - Removed **Timbermaw Hold** from the Classic story collection
 - Added **A King's Tribute** as a Classic Alliance short story
 - Aligned **Cortello's Riddle** and **Linken's Adventure** cover art with Classic/TBC-safe loading screens
+- Reworked Classic story descriptions, summaries, recaps, and intro copy to better match the tone of original Classic quest text while avoiding heavy spoilers
+- Added refreshed Classic story text translations across supported locales
 
 ### UI
 - Added shift-click sharing for story and quest cards, with Story Mode users seeing clickable chat links and other players seeing readable plain text
 - Updated Story Mode quest chat prints to include clickable quest links while preserving the original print colors
+- Updated shared story and quest links so clicking them opens the correct story page and chapter
 - Rebuilt the Story Mode intro/card artwork around split background and layout images, with a smaller card overlay and no extra card text/icon overlay
+- Refined the Story Mode intro and completed-overview copy
+- Added a hover glow for the borderless minimap icon style
+- Brightened the Retail Story Mode card artwork while keeping its native frame treatment
+
+### Retail
+- Updated **Lion's Heritage** to use the Deadmines loading screen as its cover art
 
 ### Maintenance
 - Updated release packaging so CurseForge and Wago receive only the current version's changelog notes
 - Updated GitHub Actions packaging checkout to `actions/checkout@v5`
+- Refreshed the CurseForge project description for the current Story Mode pitch
 - Bumped addon metadata to `1.8.4`
 
 ## 1.8.3
