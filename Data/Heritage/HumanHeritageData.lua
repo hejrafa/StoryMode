@@ -13,6 +13,8 @@ SM.HumanHeritageData = {
     color = { 0.22, 0.45, 0.86 },
     icon = "Interface\\Icons\\inv_misc_tournaments_banner_human",
     adventureGuideInstanceName = "Deadmines",
+    adventureCoverTexture = 131833, -- Deadmines loading screen
+    adventureCoverIsLoadingScreen = true,
     startQuest = { id = 72644, name = "An Urgent Matter", npc = "Agent Render", location = "Stormwind Embassy" },
     npcLocations = {
         ["Agent Render"] = { mapID = 84, x = 0.5220, y = 0.1350 }, -- Stormwind Embassy (approx)

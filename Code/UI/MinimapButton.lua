@@ -2,6 +2,7 @@ local addonName, SM = ...
 local L = SM.L
 
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
+local STORYMODE_ICON_GLOW_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon_glow"
 local STORYMODE_AVATAR_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_avatar"
 local MINIMAP_STYLE_BORDERLESS = "borderless"
 local MINIMAP_STYLE_DEFAULT_BORDER = "defaultBorder"
@@ -38,11 +39,22 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     minimapMask:SetAllPoints(minimapIcon)
     minimapIcon:AddMaskTexture(minimapMask)
 
+    local minimapIconGlow = minimapBtn:CreateTexture(nil, "OVERLAY", nil, 4)
+    minimapIconGlow:SetTexture(STORYMODE_ICON_GLOW_TEXTURE)
+    minimapIconGlow:SetTexCoord(0, 1, 0, 1)
+    minimapIconGlow:Hide()
+
     local defaultBorder = minimapBtn:CreateTexture(nil, "OVERLAY", nil, 3)
     defaultBorder:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 
+    local isHoveringMinimapButton = false
+    local function UpdateIconGlow()
+        minimapIconGlow:SetShown(isHoveringMinimapButton and GetMinimapIconStyle() == MINIMAP_STYLE_BORDERLESS)
+    end
+
     local function ApplyIconStyle()
         minimapIcon:ClearAllPoints()
+        minimapIconGlow:ClearAllPoints()
         defaultBorder:ClearAllPoints()
 
         if GetMinimapIconStyle() == MINIMAP_STYLE_DEFAULT_BORDER then
@@ -50,6 +62,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
             minimapIcon:SetSize(defaultIconSize, defaultIconSize)
             minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", defaultIconOffsetX, 0)
             minimapIcon:SetTexture(STORYMODE_AVATAR_TEXTURE)
+            minimapIconGlow:Hide()
             defaultBorder:SetSize(defaultBorderSize, defaultBorderSize)
             defaultBorder:SetPoint("TOPLEFT", minimapBtn, "TOPLEFT", 0, 0)
             defaultBorder:Show()
@@ -58,8 +71,11 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
             minimapIcon:SetSize(borderlessIconSize, borderlessIconSize)
             minimapIcon:SetPoint("CENTER", minimapBtn, "CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
             minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
+            minimapIconGlow:SetSize(borderlessButtonSize, borderlessButtonSize)
+            minimapIconGlow:SetPoint("CENTER", minimapBtn, "CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
             defaultBorder:Hide()
         end
+        UpdateIconGlow()
     end
 
     local minimapMenuFrame
@@ -158,6 +174,8 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     end)
 
     minimapBtn:SetScript("OnEnter", function(self)
+        isHoveringMinimapButton = true
+        UpdateIconGlow()
         tooltip:SetOwner(self, "ANCHOR_LEFT")
         tooltip:ClearLines()
         tooltip:AddLine(L["Minimap Tooltip Title"], 1, 1, 1)
@@ -166,7 +184,11 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
         tooltip._minW = 0
         tooltip:Show()
     end)
-    minimapBtn:SetScript("OnLeave", function() tooltip:Hide() end)
+    minimapBtn:SetScript("OnLeave", function()
+        isHoveringMinimapButton = false
+        UpdateIconGlow()
+        tooltip:Hide()
+    end)
 
     -- Idle hide: invisible until cursor is near the minimap.
     minimapBtn:SetAlpha(0)

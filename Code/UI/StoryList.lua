@@ -240,7 +240,16 @@ SM.StoryCardBorderSelected = {1.00, 0.70, 0.12, 0.90}
 local STORYMODE_BG_W, STORYMODE_BG_H = 1774, 887
 local STORYMODE_LAYOUT_W, STORYMODE_LAYOUT_H = 256, 171
 local STORYMODE_LAYOUT_SCALE = 0.5
-local STORYMODE_BG_ALPHA = 0.8
+local STORYMODE_CLASSIC_BG_ALPHA = 0.8
+local STORYMODE_RETAIL_FRAME_ALPHA = 0.6
+
+local function GetStoryModeCardBgAlpha()
+    return (SM.IsRetailClient()) and 1 or STORYMODE_CLASSIC_BG_ALPHA
+end
+
+local function GetStoryModeCardFrameAlpha()
+    return (SM.IsRetailClient()) and STORYMODE_RETAIL_FRAME_ALPHA or 1
+end
 
 local function LayoutIntroCardArt(row)
     if not row or not row.btn then return end
@@ -298,7 +307,7 @@ function SM.ApplyIntroCompletionState(row)
 
     if row.coverTex then
         row.coverTex:SetTexture(SM.StoryModeCardTexture)
-        row.coverTex:SetAlpha(STORYMODE_BG_ALPHA)
+        row.coverTex:SetAlpha(GetStoryModeCardBgAlpha())
         row.coverTex:Show()
     end
     if row.layoutTex then
@@ -309,6 +318,9 @@ function SM.ApplyIntroCompletionState(row)
     LayoutIntroCardArt(row)
     if row.checkmark then
         row.checkmark:SetShown(allComplete)
+    end
+    if row.bg then
+        row.bg:SetAlpha(GetStoryModeCardFrameAlpha())
     end
 
     if row.nameLabel then
@@ -365,7 +377,7 @@ function SM.SelectStory(index, chapterIndex)
                 row.coverTex:SetTexture(SM.StoryModeCardTexture)
                 row.coverTex:SetTexCoord(0, 1, 0, 1)
                 row.coverTex:SetShown(true)
-                row.coverTex:SetAlpha(STORYMODE_BG_ALPHA)
+                row.coverTex:SetAlpha(GetStoryModeCardBgAlpha())
             elseif SM.IsRetailClient() then
                 local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
@@ -378,7 +390,7 @@ function SM.SelectStory(index, chapterIndex)
         end
         row.isSelected = sel
         SM.ApplyStoryCardBorderState(row, false)
-        if row.bg then row.bg:SetAlpha(1.0) end
+        if row.bg then row.bg:SetAlpha(row.isIntro and GetStoryModeCardFrameAlpha() or 1.0) end
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         if row.nameLabel then row.nameLabel:SetTextColor(1.0, 1.0, 1.0) end
@@ -611,6 +623,7 @@ end
 local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
     local introCard, introBg = CreateListCardFrame(cardHeight, cardPadding, yOffset, 2, 4)
     if introCard.shade then introCard.shade:Hide() end
+    if introBg then introBg:SetAlpha(GetStoryModeCardFrameAlpha()) end
 
     local coverTex = introCard:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
     if SM.IsRetailClient() then
@@ -620,7 +633,7 @@ local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
         coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 3, -3)
         coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -3, 3)
     end
-    coverTex:SetAlpha(STORYMODE_BG_ALPHA)
+    coverTex:SetAlpha(GetStoryModeCardBgAlpha())
     coverTex:SetTexture(SM.StoryModeCardTexture)
     coverTex:SetTexCoord(0, 1, 0, 1)
 
