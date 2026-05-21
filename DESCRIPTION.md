@@ -1,71 +1,96 @@
-# Story Mode - Narrative Questline Companion
+# Story Mode - Relive Your Adventure
 
-**Story Mode** is a World of Warcraft addon for players who want to experience Azeroth's quest stories in a clearer, more intentional order.
+**Turn World of Warcraft's best quest chains into guided adventures you can actually follow.**
 
-It turns scattered quest chains into guided adventures with chapter progress, story context, next-step tracking, cover art, achievements, faction reputation notes, and practical quest guidance.
+Azeroth is full of memorable stories, but many of them are scattered across old quest hubs, faction branches, dungeon finales, attunements, and quest chains that are easy to outlevel or lose. Story Mode gives those adventures a proper journal: cover art, chapters, progress, recaps, and a clear next step when you are ready to continue.
 
-## Version 1.6.5 Highlights
+Pick a story, read the setup, and let the addon keep track of where you are without spoiling where the chain is going.
 
-- **Classic Era and Burning Crusade Classic support** now includes a growing library of curated Classic stories, short stories, and class quest chains.
-- **The Brazier of Invocation** joins Epic Storylines, guiding the Dungeon Set 2 upgrade chain across Azeroth, Blackrock Depths, Dire Maul, Stratholme, Upper Blackrock Spire, and more.
-- **The Agamand Family** joins Short Stories, following Brill's early Forsaken quests into the Agamand Mills and the family crypt.
-- **Classic story audits** expand and correct The Scarlet Crusade, The Long Watch, The Missing Diplomat, and The Defias Brotherhood with additional quests, corrected quest names, NPCs, locations, and portraits.
-- **Quest cards are clickable**: in-log quests open the quest log, missing quests print pickup guidance, completed quests print a completion message, and Story Mode closes before handing control back to the game.
-- **Classic card polish** adds selected-story borders, brighter border hover, subtle fill hover, native spellbook navigation arrows, clearer quest-card states, and better class quest cover art.
+## Why You Should Try It
 
-## What Story Mode Does
+- **Classic stories feel like campaigns.** Defias, Scarlet Crusade, Darrowshire, Onyxia, the Missing Diplomat, class quests, and smaller local tales are organized into readable chapters instead of loose quest breadcrumbs.
+- **One button finds the next step.** If the quest is in your log, Story Mode opens it. If you need to pick it up, it tells you who to find and where. If you already finished it, it moves on.
+- **Built for story, not speedrunning.** This is not an autopilot route. It preserves the game and gives the quests a clean table of contents.
+- **Character-aware from the start.** Your class, race, faction, level, and client version decide what you see, so your journal stays relevant.
+- **Progress feels good.** Chapter progress, full-story completion, achievements, reputation notes, and completion banners make long chains easier to return to.
+- **Works across clients.** Classic Era, Burning Crusade Classic, and Retail are supported, with Classic/TBC-safe guidance where modern map tools do not exist.
 
-- Curates major zone stories, character arcs, class campaigns, class quests, short stories, and heritage armor quests.
-- Breaks each adventure into readable chapters with summaries, recaps, key characters, and quest flow.
-- Finds your real next quest by skipping completed, hidden, optional, or faction-ineligible steps.
-- Tracks chapter, story, achievement, and reputation progress in one place.
-- Filters class, race, faction, and game-version-specific content so your character sees the stories they can actually play.
-- Sends you toward the next objective with WoW's built-in quest tracking, quest log, map guidance, or Classic-safe pickup hints.
-- Shows real-time completion banners when quests, chapters, and full stories finish.
+## What It Adds In Game
 
-## Included Adventures
+- A Story Mode journal opened from the minimap button or addon compartment.
+- Story cards with cover art, suggested levels, character restrictions, and completion state.
+- Chapter pages with summaries, recaps, key characters, quest cards, and progress.
+- A **Begin This Story** / **Continue Story** flow that sends you to the right quest, map, or pickup hint.
+- Clickable story and quest chat links for sharing with other Story Mode users.
+- Localized addon UI support for English, German, Spanish, French, Brazilian Portuguese, and Russian.
 
-### Classic Era and Burning Crusade Classic
+## Great First Adventures
+
+If you want to see the addon at its best, start with one of these:
+
+- **Alliance Classic:** The Defias Brotherhood, The Long Watch, The Missing Diplomat, The Princess of Ironforge, A King's Tribute
+- **Horde Classic:** The Scarlet Crusade, A New Plague, Battle of Hillsbrad, Saving Yenniku, Lost in Battle
+- **Cross-faction Classic:** The Drakefire Amulet, A Tale of Sorrow, The Battle of Darrowshire, The Brazier of Invocation, The Scepter of the Shifting Sands
+- **Short Classic tales:** Hogger, Cortello's Riddle, Linken's Adventure, The Agamand Family, The Missing Courier
+- **Identity stories:** Classic class quest chains for druids, hunters, mages, paladins, priests, rogues, shamans, warlocks, and warriors
+
+## Included Classic Era and TBC Adventures
+
+**Storylines**
+
+- The Defias Brotherhood
+- Arugal and Shadowfang Keep
+- A New Plague
+- The Tower of Althalaxx
+- The Long Watch
+- Raene's Cleansing
+- Battle of Hillsbrad
+- Saving Yenniku
+- The Missing Diplomat
+- The Princess of Ironforge
 
 **Epic Storylines**
-- The Defias Brotherhood
+
 - The Scarlet Crusade
-- The Long Watch
+- The Battle of Darrowshire
 - A Tale of Sorrow
-- The Missing Diplomat
 - The Drakefire Amulet
 - The Brazier of Invocation
+- The Scepter of the Shifting Sands
 
 **Short Stories**
+
+- Hogger
 - Lost in Battle
 - The Agamand Family
 - A King's Tribute
+- Cortello's Riddle
+- Linken's Adventure
+- The Missing Courier
 
 **Identity**
-- Classic class quest chains for druids, hunters, mages, paladins, priests, rogues, shamans, warlocks, and warriors
 
-### Retail
+- Classic class quest chains for all nine Classic classes
 
-**Epic Storylines**
+## Retail Stories
+
+Retail support includes a curated collection of major campaigns, character stories, class order hall campaigns, and heritage armor questlines, including:
+
 - The Frozen Throne
 - What Is Worth Fighting For
 - Insurrection
 - The Dark Heart of Nazmir
 - The Master of Revendreth
 - The Witchwood of Drustvar
-
-**Character Stories**
 - The Banshee Queen
 - Daughter of the Sea
 - The Forsaken Daughter
-
-**Short Stories**
 - A Tea Party
-
-**Identity**
 - All 12 Legion class order hall campaigns
 - 14 heritage armor questlines
 
-## Why Use Story Mode
+## Not A Quest Helper Replacement
 
-WoW has wonderful storylines, but they are often spread across old quest hubs, faction variants, dungeon finales, achievements, class requirements, and patch-era prerequisites. Story Mode gives those stories a clean table of contents, a readable journal, and a practical "what do I do next?" button while still letting the game be the game.
+Story Mode does not try to do everything. It is a story companion for curated quest chains. Use it when you want to know which adventure to follow next, where the next chapter begins, how much of the chain you have finished, and what the quests are building toward.
+
+Relive Your Adventure.
