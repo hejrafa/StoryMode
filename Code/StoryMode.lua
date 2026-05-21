@@ -57,8 +57,11 @@ local SOLID    = "Interface\\Buttons\\WHITE8x8"
 SM.SOLID_TEXTURE = SOLID
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
 SM.StoryModeIconTexture = STORYMODE_ICON_TEXTURE
-local STORYMODE_BANNER_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_banner"
-SM.StoryModeCardTexture = STORYMODE_BANNER_TEXTURE
+local STORYMODE_BG_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_bg"
+local STORYMODE_LAYOUT_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_layout"
+local STORYMODE_LAYOUT_SMALL_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Hero\\storymode_layout_small"
+SM.StoryModeCardTexture = STORYMODE_BG_TEXTURE
+SM.StoryModeCardLayoutTexture = STORYMODE_LAYOUT_SMALL_TEXTURE
 local COVER_FADE_MASK_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Masks\\CoverFadeMask"
 SM.ClassicCardTexture = "Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 SM.ClassicCardBorder = "Interface\\Tooltips\\UI-Tooltip-Border"
@@ -552,10 +555,32 @@ local INTRO = {
     coverMaxW = 1200,
     coverAspectW = 0.67,
     coverAspectH = 0.17,
-    bannerAspectW = 2508,
-    bannerAspectH = 627,
+    bgAspectW = 1774,
+    bgAspectH = 887,
+    layoutAspectW = 1536,
+    layoutAspectH = 1024,
+    layoutScale = 0.5,
     coverMaskVisibleX = 432 / 512,
 }
+
+function SM.SetCenteredCoverTexCoord(texture, sourceW, sourceH, targetW, targetH)
+    if not texture or not sourceW or not sourceH or not targetW or not targetH
+        or sourceW <= 0 or sourceH <= 0 or targetW <= 0 or targetH <= 0 then
+        return
+    end
+
+    local sourceAspect = sourceW / sourceH
+    local targetAspect = targetW / targetH
+    if targetAspect < sourceAspect then
+        local visibleW = targetAspect / sourceAspect
+        local left = (1 - visibleW) / 2
+        texture:SetTexCoord(left, 1 - left, 0, 1)
+    else
+        local visibleH = sourceAspect / targetAspect
+        local top = (1 - visibleH) / 2
+        texture:SetTexCoord(0, 1, top, 1 - top)
+    end
+end
 
 local function AddCoverFadeMask(parent, texture, maskAnchor)
     if not parent or not texture then return nil end
@@ -571,9 +596,14 @@ introCoverFrame:Hide()
 
 local introCoverTexture = introCoverFrame:CreateTexture(nil, "ARTWORK")
 introCoverTexture:SetPoint("CENTER")
-introCoverTexture:SetTexture(STORYMODE_BANNER_TEXTURE)
+introCoverTexture:SetTexture(STORYMODE_BG_TEXTURE)
 introCoverTexture:SetTexCoord(0, 1, 0, 1)
 AddCoverFadeMask(introCoverFrame, introCoverTexture, introCoverFrame)
+
+local introCoverLayout = introCoverFrame:CreateTexture(nil, "OVERLAY")
+introCoverLayout:SetPoint("CENTER")
+introCoverLayout:SetTexture(STORYMODE_LAYOUT_TEXTURE)
+introCoverLayout:SetTexCoord(0, 1, 0, 1)
 
 local introText = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
 introText:SetJustifyH("LEFT"); introText:SetSpacing(5)
@@ -605,8 +635,11 @@ local function LayoutIntro()
     introCoverFrame:ClearAllPoints()
     introCoverFrame:SetPoint("TOPLEFT", detailChild, "TOPLEFT", CP - hBleed, INTRO.top)
     introCoverFrame:SetSize(coverW, coverH)
-    introCoverTexture:SetSize(coverH * (INTRO.bannerAspectW / INTRO.bannerAspectH), coverH)
-    introCoverTexture:SetTexCoord(0, 1, 0, 1)
+    introCoverTexture:SetSize(coverW, coverH)
+    SM.SetCenteredCoverTexCoord(introCoverTexture, INTRO.bgAspectW, INTRO.bgAspectH, coverW, coverH)
+    local layoutW = coverW * INTRO.layoutScale
+    introCoverLayout:SetSize(layoutW, layoutW * (INTRO.layoutAspectH / INTRO.layoutAspectW))
+    introCoverLayout:SetTexCoord(0, 1, 0, 1)
 
     introText:ClearAllPoints()
     introText:SetPoint("TOPLEFT",  detailChild, "TOPLEFT",  CP, -(coverH + INTRO.textGap))
