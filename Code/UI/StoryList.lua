@@ -237,39 +237,6 @@ SM.StoryCardBorderNormal   = {0.48, 0.36, 0.18, 0.56}
 SM.StoryCardBorderHover    = {1.00, 0.82, 0.18, 0.95}
 SM.StoryCardBorderSelected = {1.00, 0.70, 0.12, 0.90}
 
-local STORYMODE_BG_W, STORYMODE_BG_H = 1774, 887
-local STORYMODE_LAYOUT_W, STORYMODE_LAYOUT_H = 256, 171
-local STORYMODE_LAYOUT_SCALE = 0.5
-local STORYMODE_CLASSIC_BG_ALPHA = 0.8
-local STORYMODE_RETAIL_FRAME_ALPHA = 0.6
-
-local function GetStoryModeCardBgAlpha()
-    return (SM.IsRetailClient()) and 1 or STORYMODE_CLASSIC_BG_ALPHA
-end
-
-local function GetStoryModeCardFrameAlpha()
-    return (SM.IsRetailClient()) and STORYMODE_RETAIL_FRAME_ALPHA or 1
-end
-
-local function LayoutIntroCardArt(row)
-    if not row or not row.btn then return end
-    local w = row.btn:GetWidth()
-    local h = row.btn:GetHeight()
-    if not w or not h or w <= 0 or h <= 0 then return end
-
-    local inset = (SM.IsRetailClient()) and 7 or 3
-    if row.coverTex then
-        SM.SetCenteredCoverTexCoord(row.coverTex, STORYMODE_BG_W, STORYMODE_BG_H, w - inset * 2, h - inset * 2)
-    end
-    if row.layoutTex then
-        row.layoutTex:ClearAllPoints()
-        row.layoutTex:SetPoint("CENTER", row.btn, "CENTER", 0, 0)
-        local layoutW = w * STORYMODE_LAYOUT_SCALE
-        row.layoutTex:SetSize(layoutW, layoutW * (STORYMODE_LAYOUT_H / STORYMODE_LAYOUT_W))
-        row.layoutTex:SetTexCoord(0, 1, 0, 1)
-    end
-end
-
 function SM.ApplyStoryCardBorderState(row, isHover)
     if not row or not row.btn then return end
     if SM.IsRetailClient() then
@@ -305,22 +272,11 @@ function SM.ApplyIntroCompletionState(row)
     if not row or not row.btn then return end
     local allComplete = SM.AreAllStoriesFinished()
 
-    if row.coverTex then
-        row.coverTex:SetTexture(SM.StoryModeCardTexture)
-        row.coverTex:SetAlpha(GetStoryModeCardBgAlpha())
-        row.coverTex:Show()
-    end
-    if row.layoutTex then
-        row.layoutTex:SetTexture(SM.StoryModeCardLayoutTexture)
-        row.layoutTex:SetAlpha(1)
-        row.layoutTex:Show()
-    end
-    LayoutIntroCardArt(row)
     if row.checkmark then
         row.checkmark:SetShown(allComplete)
     end
     if row.bg then
-        row.bg:SetAlpha(GetStoryModeCardFrameAlpha())
+        row.bg:SetAlpha(1.0)
     end
 
     if row.nameLabel then
@@ -373,12 +329,7 @@ function SM.SelectStory(index, chapterIndex)
         local sel = (i == index)
         if row.btn then row.btn:UnlockHighlight() end
         if row.coverTex then
-            if row.isIntro then
-                row.coverTex:SetTexture(SM.StoryModeCardTexture)
-                row.coverTex:SetTexCoord(0, 1, 0, 1)
-                row.coverTex:SetShown(true)
-                row.coverTex:SetAlpha(GetStoryModeCardBgAlpha())
-            elseif SM.IsRetailClient() then
+            if SM.IsRetailClient() then
                 local hasCover = SM.SetAdventureCoverTexture(row.coverTex, row.data)
                 row.coverTex:SetShown(hasCover)
                 row.coverTex:SetAlpha(1)
@@ -390,7 +341,7 @@ function SM.SelectStory(index, chapterIndex)
         end
         row.isSelected = sel
         SM.ApplyStoryCardBorderState(row, false)
-        if row.bg then row.bg:SetAlpha(row.isIntro and GetStoryModeCardFrameAlpha() or 1.0) end
+        if row.bg then row.bg:SetAlpha(1.0) end
         if row.portBorder then row.portBorder:SetAlpha(sel and 1.0 or 0.5) end
         if i == 0 then SM.ApplyIntroCompletionState(row) end
         if row.nameLabel then row.nameLabel:SetTextColor(1.0, 1.0, 1.0) end
@@ -622,26 +573,15 @@ end
 
 local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
     local introCard, introBg = CreateListCardFrame(cardHeight, cardPadding, yOffset, 2, 4)
-    if introCard.shade then introCard.shade:Hide() end
-    if introBg then introBg:SetAlpha(GetStoryModeCardFrameAlpha()) end
+    local _, introIcon = CreateMaskedIcon(introCard, SM.StoryModeIconTexture)
 
-    local coverTex = introCard:CreateTexture(nil, "BACKGROUND", nil, (SM.IsRetailClient()) and 0 or 2)
-    if SM.IsRetailClient() then
-        coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 7, -7)
-        coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -7, 7)
-    else
-        coverTex:SetPoint("TOPLEFT", introCard, "TOPLEFT", 3, -3)
-        coverTex:SetPoint("BOTTOMRIGHT", introCard, "BOTTOMRIGHT", -3, 3)
-    end
-    coverTex:SetAlpha(GetStoryModeCardBgAlpha())
-    coverTex:SetTexture(SM.StoryModeCardTexture)
-    coverTex:SetTexCoord(0, 1, 0, 1)
-
-    local layoutTex = introCard:CreateTexture(nil, "OVERLAY", nil, 7)
-    layoutTex:SetPoint("CENTER", introCard, "CENTER", 0, 0)
-    layoutTex:SetTexture(SM.StoryModeCardLayoutTexture)
-    layoutTex:SetTexCoord(0, 1, 0, 1)
-    layoutTex:SetAlpha(1)
+    local introName = SM.NoShadow(introCard:CreateFontString(nil, "OVERLAY", "GameFontNormal"))
+    introName:SetPoint("LEFT", introIcon, "RIGHT", 8, 0)
+    introName:SetPoint("RIGHT", introCard, "RIGHT", -8, 0)
+    introName:SetJustifyH("LEFT"); introName:SetJustifyV("MIDDLE")
+    introName:SetMaxLines(1); introName:SetWordWrap(false)
+    introName:SetText(L["Addon Name"])
+    introName:SetTextColor(1.0, 1.0, 1.0)
 
     introCard.checkmark = CreateCardCompletionRibbon(introCard)
     introCard.checkmark:SetShown(SM.AreAllStoriesFinished())
@@ -649,18 +589,13 @@ local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
     local row = {
         btn       = introCard,
         bg        = introBg,
-        coverTex  = coverTex,
-        layoutTex = layoutTex,
-        icon      = nil,
-        nameLabel = nil,
+        icon      = introIcon,
+        nameLabel = introName,
         zoneLabel = nil,
         checkmark = introCard.checkmark,
         isIntro   = true,
     }
     storyLeftRows[0] = row
-    introCard:HookScript("OnSizeChanged", function()
-        LayoutIntroCardArt(row)
-    end)
 
     introCard:SetScript("OnClick", function() SM.SelectStory(0) end)
     introCard:SetScript("OnEnter", function()
@@ -670,7 +605,6 @@ local function CreateIntroStoryCard(cardHeight, cardPadding, yOffset)
         SM.ApplyStoryCardBorderState(row, false)
     end)
     SM.ApplyIntroCompletionState(row)
-    C_Timer.After(0, function() LayoutIntroCardArt(row) end)
 
     return row
 end
