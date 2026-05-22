@@ -129,7 +129,7 @@ SM.FallenHeroData = {
         },
         {
             chapter = "Rakh'likh",
-            summary = "With Felbane in hand, strike down Grol, Allistarj, and Sevine, then carry the shattered amulet to the Rise of the Defiler.",
+            summary = "With Felbane in hand, follow the last names the Fallen Hero gives you and prepare for the demon's reckoning.",
             recap = "The last climb belonged to the dead as much as the living. Grol the Destroyer, Archmage Allistarj, and Lady Sevine each held a piece of Razelikh's power, and Felbane made them mortal enough to fall. The united ward opened the Rise of the Defiler. There, above the ruined land that had swallowed a Horde regiment, Razelikh finally answered for the souls he chained. The Fallen Hero could not undo his failure, but he saw the demon broken and his soldiers released.",
             quests = {
                 { id = 3627, name = "Uniting the Shattered Amulet", npc = "Fallen Hero of the Horde" },

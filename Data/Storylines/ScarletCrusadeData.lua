@@ -200,7 +200,7 @@ SM.ScarletCrusadeData = {
         },
         {
             chapter = "The Fordring Name",
-            summary = "Tirion Fordring sends you through Stratholme and Hearthglen, risking everything to reach Taelan.",
+            summary = "Tirion Fordring asks for aid in a personal matter that leads through Stratholme and Scarlet-held country.",
             recap = "The Plaguelands proved the Crusade had become more than a monastery. Scarlet banners flew over towers and towns, Stratholme's living quarter hid the Fordring family painting, and Hearthglen stood as a fortress of certainty. Tirion Fordring, exiled and alone, still believed his son could be saved from it. Forgotten memories, lost honor, and the painting became weapons against fanatic teaching. Disguised as Scarlet, you reached Taelan and watched him remember who he was before the Crusade taught him whom to hate.",
             quests = {
                 { id = 5096, name = "Scarlet Diversions", npc = "High Executor Derrington", faction = "Horde" },

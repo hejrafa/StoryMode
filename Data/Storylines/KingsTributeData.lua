@@ -51,7 +51,7 @@ SM.KingsTributeData = {
     chapters = {
         {
             chapter = "The Waterlogged Letter",
-            summary = "Recover the waterlogged letter beneath the Thandol Span and carry Sully Balloo's last words to Sara Balloo in Ironforge.",
+            summary = "Recover the waterlogged letter beneath the Thandol Span and carry its last words home.",
             recap = "The trail began beneath the broken Thandol Span, beside a dwarf pinned in the riverbed. Sully Balloo's letter was not a weapon, a map, or a royal order. It was a husband's goodbye, written before war turned private love into public loss. Sara Balloo received the letter in Ironforge and asked for only one thing more: that her king know what had been given in his name.",
             quests = {
                 { id = 637, name = "Sully Balloo's Letter", npc = "Waterlogged Envelope" },

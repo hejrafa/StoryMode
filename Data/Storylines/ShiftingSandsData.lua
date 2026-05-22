@@ -84,7 +84,7 @@ SM.ShiftingSandsData = {
         },
         {
             chapter = "The Charge of the Dragonflights",
-            summary = "At the Scarab Wall, Anachronos shows the old war and names the lost shards held by Eranikus, Vaelastrasz, and Azuregos.",
+            summary = "At the Scarab Wall, Anachronos shows the old war and names the broken road a scepter bearer must follow.",
             recap = "The red tear outside Ahn'Qiraj was memory made visible. Anachronos let the past speak: the night elves, dragons, and qiraji locked in a war old enough to feel mythic. The scepter had broken across dragonflights and tragedies. To open the gates, the champion would have to follow those wounds into the Emerald Dream, Blackwing Lair, and Azshara's blue-dragon riddles.",
             quests = {
                 { id = 8305, name = "Long Forgotten Memories", npc = "Anachronos" },
@@ -106,7 +106,7 @@ SM.ShiftingSandsData = {
         },
         {
             chapter = "Red Scepter Shard",
-            summary = "Vaelastrasz gives little time for ceremony. Nefarian holds the red shard, and Blackwing Lair must answer quickly.",
+            summary = "Vaelastrasz gives little time for ceremony. The red shard must be claimed before the chance is lost.",
             recap = "The red shard was the bluntest path and perhaps the cruelest. Vaelastrasz, already broken by Nefarian, could only point toward the master of Blackwing Lair and set a clock running. The shard was taken from Nefarian under pressure, a raid victory folded into the long duty of the scepter.",
             quests = {
                 { id = 8730, name = "Nefarius's Corruption", npc = "Vaelastrasz the Corrupt" },

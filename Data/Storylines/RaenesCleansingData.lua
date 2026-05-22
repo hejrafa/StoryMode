@@ -66,7 +66,7 @@ SM.RaenesCleansingData = {
         },
         {
             chapter = "Dartol's Rod",
-            summary = "Follow Shael'dryn's guidance through treants, Dor'danil, and the hidden shrine tied to Dartol's Rod.",
+            summary = "Follow Shael'dryn's guidance through old Ashenvale magic and the work left unfinished by Teronis.",
             recap = "Shael'dryn knew what Teronis had been chasing: Dartol's Rod, broken into pieces and hidden across Ashenvale's corrupted places. The iron shaft lay behind a key carried by twisted treants near Felwood. The iron pommel had passed through Dor'danil's dead and into the slime. When the rod was remade, a hidden shrine gave it power again. By then, Teronis' errand had become something stranger: not a weapon, but a way to speak across the line between the uncorrupted and the lost.",
             quests = {
                 { id = 1026, name = "Raene's Cleansing", displayName = "Iron Shaft", npc = "Shael'dryn" },

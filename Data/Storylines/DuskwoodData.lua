@@ -112,7 +112,7 @@ SM.DuskwoodData = {
         },
         {
             chapter = "Raven Hill",
-            summary = "Follow Sven's grief, Jitters' journal, and the shadow over Raven Hill toward Morbent Fel.",
+            summary = "Follow Sven's grief, Jitters' journal, and the shadow that hangs over Raven Hill.",
             recap = "Sven's murdered family and Jitters' fear showed that Raven Hill was being worked by a darker hand. With Morbent's Bane prepared, you ended the necromancer beyond the graves.",
             quests = {
                 { id = 95, name = "Sven's Revenge", npc = "Sven Yorgen" },

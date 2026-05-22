@@ -83,7 +83,7 @@ SM.MissingCourierData = {
         },
         {
             chapter = "The Courier's Trail",
-            summary = "Search the Woodpaw camps for Raschal's backpacks and the note that points toward the Writhing Deep.",
+            summary = "Search the Woodpaw camps for Raschal's missing packs and any sign of where his errand went next.",
             recap = "The Woodpaw trail looked at first like scavenging. Then you found Raschal's backpacks pinned to a tree, still bearing Feathermoon insignia. One parcel could be delivered to Thalanaar, a small duty completed in the middle of the search. The other evidence mattered more: a note about strange insect creatures south of the gnoll camps. Raschal had not merely been attacked. He had chosen to investigate a threat under Feralas.",
             quests = {
                 { id = 4131, name = "The Woodpaw Gnolls", npc = "Ginro Hearthkindle" },
@@ -92,7 +92,7 @@ SM.MissingCourierData = {
         },
         {
             chapter = "The Writhing Deep",
-            summary = "Enter the Zukk'ash hive and find what became of Raschal beneath Feralas.",
+            summary = "Follow the last sign into the hive and learn whether Raschal's errand can still be answered.",
             recap = "The Writhing Deep made the whole case larger. Raschal was alive, sealed inside an alien pod by the Zukk'ash, and his report confirmed that Feralas was facing something more dangerous than a local hive. Shandris Feathermoon sent the warning to Darnassus, where Gracina Spiritmight named the threat: silithid. What began as a missing courier ended as an early warning about the insect menace waiting beneath Azeroth's southern deserts.",
             quests = {
                 { id = 4135, name = "The Writhing Deep", npc = "Large Leather Backpacks" },

@@ -38,7 +38,7 @@ SM.CortellosRiddleData = {
     chapters = {
         {
             chapter = "The Soggy Scroll",
-            summary = "Read the scroll found aboard the Bloodsail ship and follow its first clue toward the Swamp of Sorrows.",
+            summary = "Read the scroll found aboard the Bloodsail ship and follow only the clue Cortello left behind.",
             recap = "The first scroll waited in the hold of a Bloodsail ship with no one to explain it. Its verse led you beneath a bridge in the Swamp of Sorrows, where the next clue lay in the mud.",
             quests = {
                 { id = 624, name = "Cortello's Riddle", npc = "Cortello's Riddle" },
@@ -46,7 +46,7 @@ SM.CortellosRiddleData = {
         },
         {
             chapter = "Bloodfen Burrow",
-            summary = "Take the soggy clue across the sea to Dustwallow Marsh and search the Bloodfen raptor cave.",
+            summary = "Take the soggy clue at its word and look for the next scrap where the riddle says it waits.",
             recap = "The second clue turned the riddle into a journey across the sea. In Dustwallow, among Bloodfen raptors, another scrap waited for anyone stubborn enough to keep reading.",
             quests = {
                 { id = 625, name = "Cortello's Riddle", npc = "A Soggy Scroll" },
@@ -54,7 +54,7 @@ SM.CortellosRiddleData = {
         },
         {
             chapter = "Under the Great Falls",
-            summary = "Follow the musty scroll to the eastern falls of the Hinterlands and search beneath the water.",
+            summary = "Trust the musty scroll's final verse and search where Cortello chose to hide his prize.",
             recap = "The final clue led to the great falls on the Hinterlands coast. Under the water, after pirates, mud, and raptors, Cortello's chest waited with a reward fit for a traveler.",
             quests = {
                 { id = 626, name = "Cortello's Riddle", npc = "Musty Scroll", mapID = 70, x = 0.3100, y = 0.6600, location = "Bloodfen Burrow, southwestern Dustwallow Marsh" },

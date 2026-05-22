@@ -72,7 +72,7 @@ SM.LinkenData = {
         },
         {
             chapter = "Linken's Memory",
-            summary = "Use the Videre Elixir, seek the grave outside Gadgetzan, and help Linken's sword remember what he cannot.",
+            summary = "Follow Linken's memory through strange visions and help his sword remember what he cannot.",
             recap = "Linken's memory did not return like a clean answer. It came through strange errands, ghostly meetings, and a sword that changed in flashes of light. Donova, Gaeriyan, and the grave outside Gadgetzan turned the lost gnome's fragments into a rite of recovery. By the time the sword was reforged, Linken still did not fully understand himself, but the road was opening before him again.",
             quests = {
                 { id = 3909, name = "The Videre Elixir", npc = "Donova Snowden" },
@@ -85,7 +85,7 @@ SM.LinkenData = {
         },
         {
             chapter = "Aquementas",
-            summary = "Seek Eridan Bluewind, complete the silver heart, and face Aquementas for the totem Linken will need.",
+            summary = "Follow the next names in Linken's tale and prepare the totem he will need.",
             recap = "Felwood gave the search older magic. Eridan Bluewind understood the silver heart Linken had been trying to make and sent you into Winterspring's old forests before Aquementas rose in Un'Goro. The elemental's power became a silver totem, the key to stripping away the final guardian's protection. The errand had strange humor about it, but the ritual was real.",
             quests = {
                 { id = 4084, name = "Silver Heart", npc = "Eridan Bluewind" },
@@ -95,7 +95,7 @@ SM.LinkenData = {
         },
         {
             chapter = "It's Dangerous to Go Alone",
-            summary = "Carry the Silver Totem to Fire Plume Ridge and break Blazerunner's ward before taking the Golden Flame.",
+            summary = "Carry the Silver Totem into Linken's final trial and see whether the old adventure can be finished.",
             recap = "At Fire Plume Ridge, the strange tools finally proved their worth. The Silver Totem stripped Blazerunner's shield, the sword found its purpose, and the Golden Flame was carried back to Marshal's Refuge. Linken's memory was still imperfect, but the road had given him a shape to follow: hero, blade, flame, and a companion brave enough to see it done.",
             quests = {
                 { id = 3962, name = "It's Dangerous to Go Alone", npc = "Linken" },

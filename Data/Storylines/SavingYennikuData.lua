@@ -102,7 +102,7 @@ SM.SavingYennikuData = {
         },
         {
             chapter = "Zanzil's Hold",
-            summary = "Use the Soul Gem on Yenniku at the Ruins of Aboraz before Zanzil's magic claims him fully.",
+            summary = "Carry Kin'weelay's Soul Gem into the jungle and look for the moment to free Yenniku.",
             recap = "The last step was not to kill Yenniku, but to reach him. At the Ruins of Aboraz, beside Zanzil's servants and the haunted Crystal Shore, the Soul Gem turned violence into rescue. Yenniku's soul was pulled free of Zanzil's control and carried back to Nimboya. The work that had begun with trophies and cauldron smoke ended as a Darkspear promise: the tribe would remember the one who brought the chief's son home.",
             prerequisites = {
                 { id = 591, name = "The Mind's Eye", npc = "Kin'weelay" },

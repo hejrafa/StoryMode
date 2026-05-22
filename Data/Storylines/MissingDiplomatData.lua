@@ -94,7 +94,7 @@ SM.MissingDiplomatData = {
         },
         {
             chapter = "Fist",
-            summary = "Trias sends you into Old Town after Dashel Stonefist, whose answers point toward Menethil Harbor.",
+            summary = "Trias sends you into Old Town after Dashel Stonefist, whose answers pull the matter beyond Stormwind.",
             recap = "Dashel Stonefist was exactly the sort of contact Trias expected: violent, useful, and unwilling to talk until persuaded. Once subdued, he admitted that his part had ended when the first plan failed. The backup plan involved someone from Menethil Harbor, a man called Slim. Trias knew enough to send you across the sea before the trail went cold.",
             quests = {
                 { id = 1246, name = "The Missing Diplomat", displayName = "Find Dashel", npc = "Elling Trias" },

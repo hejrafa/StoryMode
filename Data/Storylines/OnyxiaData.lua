@@ -115,7 +115,7 @@ SM.OnyxiaData = {
         {
             chapter = "The Great Masquerade",
             faction = "Alliance",
-            summary = "Escort Marshal Windsor back to Stormwind and stand with him when he names the traitor in the king's own keep.",
+            summary = "Escort Marshal Windsor back to Stormwind and stand with him when his proof is finally heard.",
             recap = "Marshal Windsor's return turned suspicion into spectacle. At the gates of Stormwind, he gathered himself for one last duty and marched through the city toward the keep. The guards, nobles, and courtiers saw what the dragon had hidden from them: Lady Katrana Prestor was no noble advisor. She was Onyxia, broodmother of the black dragonflight. Windsor died exposing her, but his sacrifice broke the illusion around Bolvar and gave the Alliance a clear enemy at last.",
             quests = {
                 { id = 6402, name = "Stormwind Rendezvous", npc = "Marshal Maxwell" },
@@ -147,7 +147,7 @@ SM.OnyxiaData = {
         {
             chapter = "Rexxar's Testament",
             faction = "Horde",
-            summary = "Find Rexxar and follow his road through Myranda's disguise magic, Blackrock Spire, and Emberstrife's den.",
+            summary = "Find Rexxar and follow the trials he sets before the amulet can be completed.",
             recap = "Thrall knew Onyxia's threat reached beyond Blackrock Mountain, so he sent you to Rexxar. The champion of the Horde carried old knowledge and a hard road: find Myranda, wear an illusion, gather dragon eyes in Upper Blackrock Spire, and use that disguise to reach Emberstrife. Where the Alliance exposed a dragon in court, the Horde had to deceive a dragon servant into opening the next gate.",
             quests = {
                 { id = 6567, name = "The Champion of the Horde", npc = "Thrall" },

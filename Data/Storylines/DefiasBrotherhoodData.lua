@@ -131,7 +131,7 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "The Messenger and the Traitor",
-            summary = "Return to Westfall, find the Defias Messenger, and use the traitor to locate the Brotherhood's hideout.",
+            summary = "Return to Westfall, watch the Brotherhood's movements, and let the trail show where it leads.",
             recap = "Shaw's report gave Gryan a name, but the messenger gave him movement. The Defias Traitor then led you through Moonbrook to the hidden entrance beneath the ruined town.",
             quests = {
                 { id = 142, name = "The Defias Brotherhood", displayName = "The Messenger", npc = "Gryan Stoutmantle" },
@@ -141,7 +141,7 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "VanCleef",
-            summary = "Enter the Deadmines beneath Moonbrook and bring Edwin VanCleef's head back to Sentinel Hill.",
+            summary = "Enter the Deadmines beneath Moonbrook and confront the Brotherhood at the heart of its hideout.",
             recap = "The Deadmines were mine, factory, shipyard, and fortress. At the heart of it all stood Edwin VanCleef, whose death ended Westfall's immediate crisis and left one final letter behind.",
             quests = {
                 { id = 2040, name = "Underground Assault", npc = "Shoni the Shilent", optional = true },
@@ -173,7 +173,7 @@ SM.DefiasBrotherhoodData = {
         },
         {
             chapter = "Lescovar's Fall",
-            summary = "Help Tyrion prepare the spybot and expose Lescovar's meeting before the guards return.",
+            summary = "Help Tyrion prepare the spybot and learn what quiet meeting it was built to uncover.",
             recap = "Tyrion's disguise and spybot drew Lord Gregor Lescovar and Marzon the Silent Blade into the open. Their deaths carried the truth back through Trias, Baros, and the king's court.",
             quests = {
                 { id = 434, name = "The Attack!", npc = "Tyrion" },

@@ -61,7 +61,7 @@ SM.PrincessMoiraData = {
         {
             chapter = "Kharan's Tale",
             faction = "Alliance",
-            summary = "Hear the old tale of Thaurissan, then enter Blackrock Depths to find Kharan Mighthammer and the truth of Moira's fate.",
+            summary = "Hear the old tale of Thaurissan, then enter Blackrock Depths to learn what the mountain is hiding.",
             recap = "Moira's disappearance led backward to old Thaurissan and the War of the Three Hammers. Ironforge's old wound led straight into Blackrock Depths, where Kharan Mighthammer's prison cell held the news Magni did not want to hear. Moira was in the heart of the Dark Iron kingdom, and the rescue he wanted was already tangled in questions of love, control, succession, and inherited hatred.",
             quests = {
                 { id = 3702, name = "The Smoldering Ruins of Thaurissan", npc = "Royal Historian Archesonus" },
@@ -74,7 +74,7 @@ SM.PrincessMoiraData = {
         {
             chapter = "The Royal Rescue",
             faction = "Alliance",
-            summary = "Magni orders a rescue. Emperor Thaurissan must die, but Moira must survive.",
+            summary = "Magni orders a rescue, but Blackrock Depths may make it more complicated than an ordinary fight.",
             recap = "The order sounded simple because grief needed it to be simple: kill Thaurissan, spare Moira, bring the princess home. Blackrock Depths answered with something crueler. When the emperor fell, Moira did not thank her rescuers. She mourned her husband, named her unborn child heir to Ironforge, and sent Magni a future he could not command away.",
             quests = {
                 { id = 4362, name = "The Fate of the Kingdom", npc = "King Magni Bronzebeard" },
