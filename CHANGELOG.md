@@ -2,6 +2,9 @@
 
 ## 1.8.5
 
+### Classic Era
+- Added **Poor Old Blanchy** as a Classic/TBC Alliance short story
+
 ### UI
 - Aligned Story Mode's private tooltip styling with Blizzard tooltip templates while keeping the taint-safe custom tooltip behavior
 
