@@ -33,6 +33,7 @@ Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
 Data\Storylines\HoggerData.lua
+Data\Storylines\PoorOldBlanchyData.lua
 Data\Storylines\AgamandFamilyData.lua
 Data\Storylines\KingsTributeData.lua
 Data\Storylines\MankriksWifeData.lua
