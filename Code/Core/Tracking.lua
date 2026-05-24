@@ -185,13 +185,21 @@ local function GetQuestLocation(data, quest)
     return nil
 end
 
-local function TrackResult(kind, questID, loc, openedQuestLog)
+local function GetQuestGuidanceOverride(quest)
+    if type(quest) ~= "table" or type(quest.guidanceQuest) ~= "table" then return nil end
+    if SM.IsQuestEntryInLog(quest) then return nil end
+    if quest.id and SM.IsQuestComplete(quest.id) then return nil end
+    return quest.guidanceQuest
+end
+
+local function TrackResult(kind, questID, loc, openedQuestLog, questOverride)
     return {
         kind = kind,
         questID = questID,
         mapID = loc and loc.mapID or nil,
         location = loc,
         openedQuestLog = openedQuestLog == true,
+        quest = questOverride,
     }
 end
 
@@ -205,6 +213,10 @@ function SM.SetWaypointForQuest(data, quest)
                 return TrackResult("classic_in_log_opened", activeQuestID, nil, true)
             end
             return TrackResult("classic_in_log", activeQuestID)
+        end
+        local guidanceQuest = GetQuestGuidanceOverride(quest)
+        if guidanceQuest then
+            return TrackResult("classic_guidance", nil, GetQuestLocation(data, guidanceQuest), false, guidanceQuest)
         end
         return TrackResult("classic_guidance", GetTrackedQuestID(quest))
     end
@@ -224,10 +236,12 @@ function SM.SetWaypointForQuest(data, quest)
         return TrackResult("supertracked", qid, loc)
     end
 
-    local loc = GetQuestLocation(data, quest)
-    local qid = GetTrackedQuestID(quest)
+    local guidanceQuest = GetQuestGuidanceOverride(quest)
+    local trackQuest = guidanceQuest or quest
+    local loc = GetQuestLocation(data, trackQuest)
+    local qid = GetTrackedQuestID(trackQuest)
 
-    if C_SuperTrack and C_SuperTrack.SetSuperTrackedMapPin
+    if qid and C_SuperTrack and C_SuperTrack.SetSuperTrackedMapPin
         and Enum and Enum.SuperTrackingMapPinType and Enum.SuperTrackingMapPinType.QuestOffer then
         C_SuperTrack.SetSuperTrackedMapPin(Enum.SuperTrackingMapPinType.QuestOffer, qid)
     end
@@ -240,18 +254,18 @@ function SM.SetWaypointForQuest(data, quest)
             C_SuperTrack.SetSuperTrackedUserWaypoint(true)
         end
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
-        return TrackResult("waypoint", qid, loc)
+        return TrackResult("waypoint", qid, loc, false, guidanceQuest)
     end
 
     if loc then
         PingOnWorldMap(loc.mapID, loc.x, loc.y)
-        return TrackResult("waypoint_approx", qid, loc)
+        return TrackResult("waypoint_approx", qid, loc, false, guidanceQuest)
     end
 
     if data.startMapID then
         OpenStoryMap(data.startMapID)
     end
-    return TrackResult("no_location", qid)
+    return TrackResult("no_location", qid, nil, false, guidanceQuest)
 end
 
 local function GetZoneName(mapID)
@@ -284,14 +298,16 @@ end
 
 function SM.PrintTrackResult(result, quest, data)
     local resultKind = type(result) == "table" and result.kind or result
+    local printQuest = type(result) == "table" and result.quest or nil
+    printQuest = printQuest or quest
     local P = L["Addon Prefix"]
-    local loc = type(result) == "table" and result.location or GetQuestLocation(data, quest)
+    local loc = type(result) == "table" and result.location or GetQuestLocation(data, printQuest)
     local zone = loc and GetZoneName(loc.mapID) or nil
-    local place = GetLocationText(data, quest, loc)
-    local Q = SM.GetQuestChatLink(quest, quest.name)
-    local NPC = quest.npc and ("|cffffd200" .. quest.npc .. "|r") or nil
+    local place = GetLocationText(data, printQuest, loc)
+    local Q = SM.GetQuestChatLink(printQuest, printQuest.name)
+    local NPC = printQuest.npc and ("|cffffd200" .. printQuest.npc .. "|r") or nil
     local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
-    local CH = quest._isPrerequisiteForChapter and ("|cffffd200" .. quest._isPrerequisiteForChapter .. "|r") or nil
+    local CH = printQuest._isPrerequisiteForChapter and ("|cffffd200" .. printQuest._isPrerequisiteForChapter .. "|r") or nil
 
     if resultKind == "classic_in_log" or resultKind == "classic_in_log_opened" then
         print(P .. string.format(L["Tracking Classic In Log Format"], Q))

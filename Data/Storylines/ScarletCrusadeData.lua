@@ -32,6 +32,8 @@ SM.ScarletCrusadeData = {
         ["Captured Scarlet Zealot"] = { mapID = 18, x = 0.5900, y = 0.5200, location = "cellar of Gallows' End Tavern, Brill" },
         ["Varimathras"] = { mapID = 90, x = 0.5600, y = 0.9200, location = "the Royal Quarter, Undercity" },
         ["Master Apothecary Faranell"] = { mapID = 90, x = 0.4800, y = 0.6900, location = "the Apothecarium, Undercity" },
+        ["Parqual Fintallas"] = { mapID = 90, x = 0.5700, y = 0.6500, location = "the Apothecarium, Undercity" },
+        ["Dorn Plainstalker"] = { mapID = 64, x = 0.5380, y = 0.4160, location = "Weathered Nook, Thousand Needles" },
         ["Sage Truthseeker"] = { mapID = 88, x = 0.3400, y = 0.4700, location = "Thunder Bluff" },
         ["Brother Crowley"] = { mapID = 84, x = 0.4253, y = 0.2445, location = "Cathedral Square, Stormwind" },
         ["Brother Anton"] = { mapID = 66, x = 0.6600, y = 0.0700, location = "Nijel's Point, Desolace" },
@@ -148,10 +150,13 @@ SM.ScarletCrusadeData = {
         {
             chapter = "Graveyard and Library",
             summary = "Enter the Monastery's graveyard and library for prisoners, forbidden books, and the records the Crusade keeps locked away.",
-            recap = "The Graveyard and Library showed the Crusade's order from the inside. Vorrel Sengutz lay tortured by Interrogator Vishas. Scholars wanted books the Crusade had locked away. Horde agents wanted the Compendium of the Fallen; Alliance scholars wanted the Mythology of the Titans. Every shelf and cell told the same truth: the Scarlet Crusade did not only kill enemies. It controlled what its followers were allowed to know.",
+            recap = "The Graveyard and Library showed the Crusade's order from the inside. Vorrel Sengutz lay tortured by Interrogator Vishas. Scholars wanted books the Crusade had locked away. Horde agents wanted the Compendium of the Fallen, and Parqual Fintallas wanted the book the Crusade used to teach itself how to fight the dead. Alliance scholars wanted the Mythology of the Titans. Every shelf and cell told the same truth: the Scarlet Crusade did not only kill enemies. It controlled what its followers were allowed to know.",
             quests = {
                 { id = 1051, name = "Vorrel's Revenge", npc = "Vorrel Sengutz" },
                 { id = 1049, name = "Compendium of the Fallen", npc = "Sage Truthseeker", faction = "Horde" },
+                { id = 1160, name = "Test of Lore", npc = "Parqual Fintallas", faction = "Horde", optional = true,
+                    guidanceQuest = { name = "Test of Faith", npc = "Dorn Plainstalker", mapID = 64, x = 0.5380, y = 0.4160, location = "Weathered Nook, Thousand Needles" },
+                },
                 { id = 1050, name = "Mythology of the Titans", npc = "Librarian Mae Paledust", faction = "Alliance" },
                 { id = 1113, name = "Hearts of Zeal", npc = "Master Apothecary Faranell", faction = "Horde", optional = true },
             },

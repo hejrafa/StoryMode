@@ -43,6 +43,7 @@ local function LocalizeQuest(quest)
     LocalizeField(quest, "displayName")
     LocalizeField(quest, "npc")
     LocalizeField(quest, "location")
+    LocalizeQuest(quest.guidanceQuest)
 end
 
 local function LocalizeChapter(chapter)
