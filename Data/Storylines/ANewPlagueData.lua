@@ -17,7 +17,7 @@ SM.ANewPlagueData = {
     color = { 0.45, 0.72, 0.36 },
     icon = 136066,
     portraitDisplayID = 1565,
-    adventureCoverTexture = 6514589, -- Karazhan Crypts loading screen
+    adventureCoverTexture = 131868, -- Scholomance loading screen
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 367, name = "A New Plague", npc = "Apothecary Johaan", location = "Gallows' End Tavern, Brill" },

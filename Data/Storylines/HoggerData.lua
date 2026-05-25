@@ -17,7 +17,7 @@ SM.HoggerData = {
     color = { 0.78, 0.55, 0.28 },
     icon = "Interface\\Icons\\INV_Misc_MonsterClaw_04",
     portraitDisplayID = 384,
-    adventureCoverTexture = 131833, -- Deadmines: closest Classic loading screen for Elwynn's Westfall border
+    adventureCoverTexture = 131838, -- Dungeon: darker Classic loading screen for Hogger's lair mood
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 176, name = "Wanted: \"Hogger\"", npc = "Wanted Poster", location = "Westbrook Garrison, Elwynn Forest" },
