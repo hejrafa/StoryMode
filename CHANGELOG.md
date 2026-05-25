@@ -4,9 +4,13 @@
 
 ### Classic Era
 - Added **Poor Old Blanchy** as a Classic/TBC Alliance short story
+- Expanded **Poor Old Blanchy** into a small Furlbrow family arc with **The Forgotten Heirloom** and optional **Furlbrow's Deed** context
+- Added optional **Test of Lore** coverage to **The Scarlet Crusade**, with guidance that sends players to the **Test of Faith** chain starter first
+- Updated Classic/TBC short-story cover art: **Poor Old Blanchy** now uses Ruined City, **Hogger** uses Dungeon, and **A New Plague** uses Scholomance
 
 ### UI
 - Aligned Story Mode's private tooltip styling with Blizzard tooltip templates while keeping the taint-safe custom tooltip behavior
+- Hardened Story Mode chat filters so non-Story Mode chat messages pass through with their original arguments untouched
 
 ### Maintenance
 - Bumped addon metadata to `1.8.5`
