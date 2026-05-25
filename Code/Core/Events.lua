@@ -60,8 +60,11 @@ function SM.ShouldSuppressQuestAcceptedSystemMessage(message)
     return false
 end
 
-function SM.QuestAcceptedSystemMessageFilter(_, _, message)
-    return SM.ShouldSuppressQuestAcceptedSystemMessage(message)
+function SM.QuestAcceptedSystemMessageFilter(_, _, message, ...)
+    if SM.ShouldSuppressQuestAcceptedSystemMessage(message) then
+        return true
+    end
+    return false, message, ...
 end
 
 function SM.RegisterQuestAcceptedSystemMessageFilter()

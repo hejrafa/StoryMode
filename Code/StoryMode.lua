@@ -2425,7 +2425,7 @@ if not SM.questLinkHandlerInstalled and SetItemRef then
 end
 
 function SM.LinkifyQuestShares(message)
-    if not message or not message:find("%(%d+%)") then return false, message end
+    if type(message) ~= "string" or not message:find("%(%d+%)") then return false, message end
 
     local changed = false
     message = message:gsub("%[([^%[%]]-) %((%d+)%)%]", function(questName, questIDText)
@@ -2448,7 +2448,7 @@ function SM.QuestShareMessageFilter(_, _, message, ...)
     if changed then
         return false, message, ...
     end
-    return false
+    return false, message, ...
 end
 
 local function RegisterQuestShareFilters()
