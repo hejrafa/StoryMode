@@ -54,6 +54,7 @@ local contentRegistry = {
     { key = "AgamandFamilyData", category = "Short Stories" },
     { key = "KingsTributeData", category = "Short Stories" },
     { key = "MankriksWifeData", category = "Short Stories" },
+    { key = "NothingButTheTruthData", category = "Short Stories" },
 
     { key = "SylvanasData", category = "Character Stories" },
     { key = "JainaData", category = "Character Stories" },

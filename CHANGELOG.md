@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.6
+
+### Classic Era
+- Added **Nothing But The Truth** as a Classic/TBC Horde short story, covering the Forsaken agents at Beggar's Haunt and Stonard's prisoner
+
+### Maintenance
+- Bumped addon metadata to `1.8.6`
+
 ## 1.8.5
 
 ### Classic Era
