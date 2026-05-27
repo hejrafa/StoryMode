@@ -87,25 +87,14 @@ function SM.OpenStoryLink(encodedStoryID)
     local data = SM.GetQuestlineByID(storyID)
     if not data then return false end
 
+    if SM.OpenStoryModeToSelection then
+        return SM.OpenStoryModeToSelection(storyID, StoryModeDB.selectedChapter or 1, "story")
+    end
+
     StoryModeDB.selectedQuestlineID = storyID
     StoryModeDB.selectedChapter = StoryModeDB.selectedChapter or 1
-    if SM.SetActiveTab then
-        SM.SetActiveTab("story")
-    end
-
-    local index = SM.GetStoryIndexByID(storyID)
-    if index then
-        StoryModeDB.selectedQuestline = index
-        if storyContentBuilt then
-            SM.SelectStory(index)
-        end
-    end
-
-    if SM.ShowStoryModeFrame then
-        SM.ShowStoryModeFrame()
-    elseif SM.ToggleStoryModeFrame then
-        SM.ToggleStoryModeFrame()
-    end
+    if SM.SetActiveTab then SM.SetActiveTab("story") end
+    if SM.ShowStoryModeFrame then SM.ShowStoryModeFrame() end
     return true
 end
 

@@ -2375,34 +2375,52 @@ local function InsertQuestChatLink(questEntry, questID, questName)
     return false
 end
 
-function SM.OpenQuestLink(questID)
-    questID = tonumber(questID)
-    if not questID then return false end
+function SM.OpenStoryModeToSelection(storyID, chapterIndex, tab)
+    if not storyID then return false end
 
-    local data, _, chapter = SM.FindQuestStory(questID)
-    if not data then return false end
-
-    local storyID = data.id
-    local chapterIndex = chapter and chapter._chapterIndex or 1
     StoryModeDB.selectedQuestlineID = storyID
-    StoryModeDB.selectedChapter = chapterIndex
-    SM.SetActiveTab("progress")
+    StoryModeDB.selectedChapter = chapterIndex or StoryModeDB.selectedChapter or 1
+    if tab and SM.SetActiveTab then
+        SM.SetActiveTab(tab)
+    end
 
-    local storyIndex = SM.GetStoryIndexByID(storyID)
-    if storyIndex then
+    local attempts = 0
+    local function applySelection()
+        attempts = attempts + 1
+        if not storyFrame:IsShown() and attempts < 5 then
+            C_Timer.After(0, applySelection)
+            return
+        end
+
+        if SM.BuildStoryWindow then SM.BuildStoryWindow() end
+
+        local storyIndex = SM.GetStoryIndexByID and SM.GetStoryIndexByID(storyID) or nil
+        if not storyIndex and attempts < 5 then
+            C_Timer.After(0, applySelection)
+            return
+        end
+        if not storyIndex then return end
+
         StoryModeDB.selectedQuestline = storyIndex
+        if tab and SM.SetActiveTab then
+            SM.SetActiveTab(tab)
+        end
         if SM.SelectStory then
-            SM.SelectStory(storyIndex, chapterIndex)
-            detailScroll:SetVerticalScroll(0)
-            C_Timer.After(0, function()
-                dSelectedChapter = chapterIndex
-                StoryModeDB.selectedChapter = chapterIndex
+            SM.SelectStory(storyIndex, StoryModeDB.selectedChapter)
+        end
+        detailScroll:SetVerticalScroll(0)
+
+        C_Timer.After(0, function()
+            if tab == "progress" then
+                dSelectedChapter = StoryModeDB.selectedChapter or 1
                 if LayoutSelectedChapter then LayoutSelectedChapter() end
                 if SM.CenterTrackOnSelected and dTrackClip then
                     SM.CenterTrackOnSelected(dTrackClip:GetWidth())
                 end
-            end)
-        end
+            elseif SM.LayoutDetailTab then
+                SM.LayoutDetailTab()
+            end
+        end)
     end
 
     if SM.ShowStoryModeFrame then
@@ -2410,7 +2428,27 @@ function SM.OpenQuestLink(questID)
     elseif SM.ToggleStoryModeFrame then
         SM.ToggleStoryModeFrame()
     end
+
+    if storyFrame:IsShown() then
+        applySelection()
+    else
+        -- The first Classic open can need a frame for the panel and scroll
+        -- child to exist at their final size before selecting the linked page.
+        C_Timer.After(0, applySelection)
+    end
+
     return true
+end
+
+function SM.OpenQuestLink(questID)
+    questID = tonumber(questID)
+    if not questID then return false end
+
+    local data, _, chapter = SM.FindQuestStory(questID)
+    if not data then return false end
+
+    local chapterIndex = chapter and chapter._chapterIndex or 1
+    return SM.OpenStoryModeToSelection(data.id, chapterIndex, "progress")
 end
 
 if not SM.questLinkHandlerInstalled and SetItemRef then

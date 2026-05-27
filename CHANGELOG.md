@@ -16,6 +16,7 @@
 - Corrected Castle Nathria's Aftermath so its dungeon side quest stays optional without blocking chapter completion
 - Added prerequisite-style guidance to manual watched/played and branch-gated chapters so players know where to view, replay, or continue them
 - Set the Sylvanas manual/replay/branch guidance chapters to use rectangle chapter nodes
+- Stabilized story and quest chat-link opens so first-time Classic clicks build the window before selecting the linked page
 
 ### Maintenance
 - Bumped addon metadata to `1.8.6`
