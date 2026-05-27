@@ -281,6 +281,8 @@ SM.SylvanasData = {
         {
             chapter = "The War of Thorns",
             loreOnly = true,
+            chapterNodeStyle = "rectangle",
+            note = "Travel to Darkshore and speak with Zidormi outside Lor'danel to view the time before the burning of Teldrassil.",
             summary = "The Warchief sets her sights on Darkshore. What unfolds there will make the Fourth War impossible to contain.",
             recap = "The Horde marched into Ashenvale with speed and purpose. You pushed through Night Elf defenses, secured the roads, and drove toward the coast beneath Teldrassil. The Night Elves fought well but the Horde had the numbers and Sylvanas had a plan. The World Tree loomed at the end of it — massive, ancient, and full of civilians who had not escaped in time. Sylvanas stood at its base with the battle won and the tree in reach. A Night Elf prisoner asked what the people inside had done to deserve this. Sylvanas spoke about hope being the enemy. Then she gave the order. Teldrassil burned. The smoke was visible from Stormwind. Whatever Sylvanas had been building toward, this was no longer a war anyone could call limited.",
             quests = {},
@@ -290,6 +292,8 @@ SM.SylvanasData = {
         {
             chapter = "The Battle for Lordaeron",
             replayable = true,
+            chapterNodeStyle = "rectangle",
+            note = "Play or replay this scenario from Archivist Sylvia in Orgrimmar's Valley of Wisdom. If you still have the original quest, begin with High Overlord Saurfang in Grommash Hold.",
             summary = "The Alliance has come for Lordaeron. Sylvanas holds the walls of the Forsaken capital as Jaina and Anduin lead the siege.",
             recap = "Jaina and Anduin brought the Alliance's hammer down on Lordaeron. The Horde fought from the walls, but the siege was overwhelming. When the gates could no longer hold, Sylvanas triggered the plague systems beneath the city — releasing the Blight on her own capital rather than let the Alliance take it. Soldiers on both sides choked and died. The Undercity was lost, left poisoned and empty behind her. The Forsaken had no home left. Again.",
             quests = {
@@ -336,6 +340,8 @@ SM.SylvanasData = {
         -- CHAPTER 9: The Horde fractures
         {
             chapter = "Breaking the Cycle",
+            chapterNodeStyle = "rectangle",
+            note = "Complete Stay of Execution, then follow the path you chose: loyalists continue with Nathanos Blightcaller in Grommash Hold, while rebels continue with Lor'themar Theron at the Dranosh'ar Blockade outside Orgrimmar.",
             summary = "The Horde has split in two. Saurfang rallies those who oppose Sylvanas, while loyalists prepare to crush the rebellion.",
             recap = "After Baine's rescue, the Horde fractured completely. Some followed Saurfang to Razor Hill, others remained loyal to Sylvanas in Orgrimmar. The stage was set for the final confrontation — not between Alliance and Horde, but within the Horde itself.",
             quests = {
@@ -406,6 +412,8 @@ SM.SylvanasData = {
         {
             chapter = "Torghast Visions",
             loreOnly = true,
+            chapterNodeStyle = "rectangle",
+            note = "Speak with Highlord Bolvar Fordragon in the Ring of Fates, Oribos, and follow the Torghast campaign until the Anduin and Kingsmourne vision. If Bolvar no longer offers the chain, the game has already moved this character past it.",
             summary = "Bolvar's visions reveal the Jailer's next weapon: Anduin, bound to a mourneblade. Sylvanas still tries to call it a choice.",
             recap = "Before the assault on the Sanctum, Bolvar saw fragments of what was happening inside Torghast. The Jailer forged Kingsmourne, a mourneblade shaped around Anduin's own weapon and a soul crystal. Sylvanas brought the blade to Anduin and demanded he join their cause willingly or be made to serve. Anduin saw the wound she was trying to hide: she kept offering him the choice Arthas had stolen from her. Blizzard later removed or auto-completed much of this Torghast questline for catch-up characters, but the vision is the emotional bridge into Chains of Domination.",
             quests = {},

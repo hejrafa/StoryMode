@@ -280,7 +280,7 @@ function SM.GetChapterProgress(ch)
                 if SM.IsQuestEntryComplete(q) then optionalDone = optionalDone + 1 end
             else
                 total = total + 1
-                if SM.IsQuestEntryComplete(q) then done = done + 1 end
+                if SM.IsQuestEffectivelyComplete(i, ch.quests) then done = done + 1 end
             end
         end
     end

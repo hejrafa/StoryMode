@@ -2116,7 +2116,7 @@ dChapterSummary:SetJustifyH("LEFT"); dChapterSummary:SetSpacing(4); dChapterSumm
 dChapterSummary:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
 dChapterSummary:Hide()
 
--- Prerequisite note — shown when a chapter has a .note field
+-- Chapter note — shown for prerequisite, gated, and manual viewed/played guidance.
 local dChapterNote = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Shadow_Small"))
 dChapterNote:SetJustifyH("LEFT"); dChapterNote:SetSpacing(3); dChapterNote:SetWordWrap(true)
 dChapterNote:SetTextColor(1.0, 0.82, 0.35)
@@ -2812,19 +2812,32 @@ LayoutSelectedChapter = function()
     end
     for i, node in ipairs(dTrackNodes) do
         if not node:IsShown() then break end
+        local thCh = chapters[i]
+        local cd, ct = 0, 0
+        local isComp, isAct = false, false
+        if thCh then
+            cd, ct = SM.GetChapterProgress(thCh)
+            isComp = cd == ct and ct > 0
+            isAct = cd > 0 and not isComp
+            node.tooltipProgress = cd .. " / " .. ct .. " quests"
+        end
+
         if i == dSelectedChapter then
             SetNodeBorder(node, C_GOLD[1], C_GOLD[2], C_GOLD[3], 1.0)
+            if isComp then
+                node.checkmark:Show()
+            else
+                node.checkmark:Hide()
+            end
             node.activeGlow:Show()
             node.downArrow:Show()
         else
             node.activeGlow:Hide()
             node.downArrow:Hide()
             -- Restore completion-state border color so it doesn't stay gold.
-            local thCh = chapters[i]
             if thCh then
                 if thCh.loreOnly then
-                    local loreViewed = SM.IsLoreChapterViewed(data.title, thCh.chapter)
-                    if loreViewed then
+                    if isComp then
                         SetNodeBorder(node, RING_GREEN_R, RING_GREEN_G, RING_GREEN_B, 0.8)
                         node.checkmark:Show()
                     else
@@ -2832,9 +2845,6 @@ LayoutSelectedChapter = function()
                         node.checkmark:Hide()
                     end
                 else
-                    local cd, ct = SM.GetChapterProgress(thCh)
-                    local isComp = cd == ct and ct > 0
-                    local isAct  = cd > 0 and not isComp
                     if isComp then
                         SetNodeBorder(node, RING_GREEN_R, RING_GREEN_G, RING_GREEN_B, 0.8)
                     elseif isAct then
@@ -2865,7 +2875,7 @@ LayoutSelectedChapter = function()
         dChapterNote:SetText(string.format(L["Lock Required Level Format"], chapterRequiredLevel))
         dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
-    elseif ch.gated and ch.note then
+    elseif ch.note then
         dChapterNote:SetText(ch.note)
         dChapterNote:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         dChapterNote:Show()
@@ -3521,11 +3531,12 @@ function SM.LayoutProgressTab(data, w, contentW, visibleContentW)
             node.borderR, node.borderG, node.borderB = node.ring:GetVertexColor()
             node.borderA = node.ring:GetAlpha()
 
-            -- Shape: gated chapters render as squares on Retail.
+            -- Shape: gated and flagged special chapters render as squares on Retail.
             -- ch.prerequisites = explicit quest gate; ch.gated = manual flag for
             -- chapters locked behind progress that can't be expressed as a quest ID.
             local CIRC = "Interface/CHARACTERFRAME/TempPortraitAlphaMask"
-            local isGated = SM.IsRetailClient() and (ch.prerequisites ~= nil or ch.gated == true)
+            local isGated = SM.IsRetailClient()
+                and (ch.prerequisites ~= nil or ch.gated == true or ch.chapterNodeStyle == "rectangle")
             node.isGated = isGated
             if isGated then
                 node.portraitMask:SetTexture("Interface/Buttons/WHITE8x8")

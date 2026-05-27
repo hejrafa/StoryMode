@@ -11,7 +11,11 @@
 - Made manual chapter watched/played flags character-specific so new characters start with fresh chapter state
 - Kept optional-only chapters unfinished until their optional quest is actually completed
 - Prevented account-wide achievements from marking quest-based chapters complete on fresh characters
-- Limited quest and chapter checkmarks to exact character quest completion instead of inferred story progress
+- Limited quest checkmarks to exact character quest completion while allowing required chapter progress to infer passed chain steps
+- Refreshed the selected chapter node immediately after marking a chapter watched or played
+- Corrected Castle Nathria's Aftermath so its dungeon side quest stays optional without blocking chapter completion
+- Added prerequisite-style guidance to manual watched/played and branch-gated chapters so players know where to view, replay, or continue them
+- Set the Sylvanas manual/replay/branch guidance chapters to use rectangle chapter nodes
 
 ### Maintenance
 - Bumped addon metadata to `1.8.6`

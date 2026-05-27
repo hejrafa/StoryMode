@@ -214,7 +214,7 @@ SM.RevendrethData = {
             recap = "Castle Nathria fell, but Revendreth was not finished with its former ruler. In the Sanguine Depths, General Draven found Z'rali, the naaru whose Light had wounded the realm and whose mercy might yet help contain its sins. Then Remornia, Denathrius's living blade, became the prison that would hold him. The rebellion did not simply execute its master. It chose the harsher, stranger work Revendreth was built for: to bind arrogance, preserve what could still be redeemed, and let time do what vengeance could not.",
             quests = {
                 { id = 60502, name = "Sanguine Depths: An Ally Within", npc = "General Draven", optional = true },
-                { id = 60501, name = "Redemption for the Redeemer", npc = "Remornia", optional = true, location = "General Draven at Sinfall", mapID = 1525, x = 0.2600, y = 0.4360 },
+                { id = 60501, name = "Redemption for the Redeemer", npc = "Remornia", location = "General Draven at Sinfall", mapID = 1525, x = 0.2600, y = 0.4360 },
                 { id = 63645, name = "The Dawnkeep Prisoner", npc = "Prince Renathal", optional = true, hideIf = 60501 },
             },
         },
