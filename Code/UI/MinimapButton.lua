@@ -4,6 +4,7 @@ local L = SM.L
 local STORYMODE_ICON_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon"
 local STORYMODE_ICON_GLOW_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_icon_glow"
 local STORYMODE_AVATAR_TEXTURE = "Interface\\AddOns\\StoryMode\\Art\\Icons\\storymode_avatar"
+local MINIMAP_BUTTON_NAME = "StoryModeMinimapButton"
 local MINIMAP_STYLE_BORDERLESS = "borderless"
 local MINIMAP_STYLE_DEFAULT_BORDER = "defaultBorder"
 
@@ -14,8 +15,52 @@ local function GetMinimapIconStyle()
     return MINIMAP_STYLE_DEFAULT_BORDER
 end
 
+local function IsButtonGrabbed(button)
+    return button and button.GetParent and button:GetParent() ~= Minimap
+end
+
+local function ToggleStoryFrame(storyFrame)
+    if InCombatLockdown() then
+        UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
+        return
+    end
+
+    C_Timer.After(0, function()
+        if storyFrame:IsShown() then
+            storyFrame:Hide()
+        else
+            storyFrame:Show()
+        end
+    end)
+end
+
+local function RegisterDataBrokerLauncher(storyFrame)
+    if SM.DataBrokerObject or type(LibStub) ~= "function" then return end
+
+    local ldb = LibStub("LibDataBroker-1.1", true)
+    if not ldb or type(ldb.NewDataObject) ~= "function" then return end
+
+    SM.DataBrokerObject = ldb:NewDataObject(addonName or "StoryMode", {
+        type = "launcher",
+        text = L["Addon Name"],
+        label = L["Addon Name"],
+        icon = STORYMODE_ICON_TEXTURE,
+        OnClick = function(_, button)
+            if button and button ~= "LeftButton" then return end
+            ToggleStoryFrame(storyFrame)
+        end,
+        OnTooltipShow = function(tooltip)
+            if not tooltip or type(tooltip.AddLine) ~= "function" then return end
+            tooltip:AddLine(L["Minimap Tooltip Title"])
+            tooltip:AddLine(L["Minimap Tooltip Open"])
+        end,
+    })
+end
+
 function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
-    local minimapBtn = CreateFrame("Button", nil, Minimap)
+    RegisterDataBrokerLauncher(storyFrame)
+
+    local minimapBtn = CreateFrame("Button", MINIMAP_BUTTON_NAME, Minimap)
     local borderlessButtonSize = (SM.IsRetailClient()) and 42 or 38
     local borderlessIconSize = (SM.IsRetailClient()) and 36 or 32
     local defaultButtonSize = (SM.IsRetailClient()) and 32 or 30
@@ -27,11 +72,17 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     minimapBtn:SetFrameStrata("MEDIUM")
     minimapBtn:SetFrameLevel(9)
     minimapBtn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    minimapBtn:SetMovable(true)
+    minimapBtn:SetClampedToScreen(true)
+    minimapBtn.isMinimapButton = true
+    minimapBtn.isStoryModeMinimapButton = true
 
     local minimapIcon = minimapBtn:CreateTexture(nil, "ARTWORK", nil, 2)
     minimapIcon:SetSize(borderlessIconSize, borderlessIconSize)
     minimapIcon:SetPoint("CENTER", 0, (SM.IsRetailClient()) and 2 or 1)
     minimapIcon:SetTexture(STORYMODE_ICON_TEXTURE)
+    minimapBtn.icon = minimapIcon
+    minimapBtn.Icon = minimapIcon
 
     local minimapMask = minimapBtn:CreateMaskTexture()
     minimapMask:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask",
@@ -129,6 +180,8 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     end
 
     local function UpdatePosition(angle)
+        if IsButtonGrabbed(minimapBtn) then return end
+
         local r = (Minimap:GetWidth() / 2) + edgeOffset  -- sit on the edge
         local x = math.cos(angle) * r
         local y = math.sin(angle) * r
@@ -138,6 +191,8 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
 
     minimapBtn:RegisterForDrag("LeftButton")
     minimapBtn:SetScript("OnDragStart", function(self)
+        if IsButtonGrabbed(self) then return end
+
         self.dragging = true
         self:SetScript("OnUpdate", function()
             local mx, my = Minimap:GetCenter()
@@ -160,17 +215,7 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
             return
         end
 
-        if InCombatLockdown() then
-            UIErrorsFrame:AddMessage(L["Error In Combat"], 1, 0.1, 0.1)
-            return
-        end
-        C_Timer.After(0, function()
-            if storyFrame:IsShown() then
-                storyFrame:Hide()
-            else
-                storyFrame:Show()
-            end
-        end)
+        ToggleStoryFrame(storyFrame)
     end)
 
     minimapBtn:SetScript("OnEnter", function(self)
@@ -202,11 +247,27 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
     mmFoAlpha:SetFromAlpha(1); mmFoAlpha:SetToAlpha(0); mmFoAlpha:SetDuration(0.4); mmFoAlpha:SetSmoothing("IN")
     mmFadeOut:SetScript("OnFinished", function() minimapBtn:SetAlpha(0) end)
 
-    local mmProximity = CreateFrame("Frame", nil, Minimap)
+    local mmProximity
+    local function EnsureGrabberVisibility()
+        if not IsButtonGrabbed(minimapBtn) then return false end
+
+        if mmProximity and mmProximity.fadeTimer then
+            mmProximity.fadeTimer:Cancel()
+            mmProximity.fadeTimer = nil
+        end
+        mmFadeIn:Stop()
+        mmFadeOut:Stop()
+        minimapBtn:SetAlpha(1)
+        return true
+    end
+
+    mmProximity = CreateFrame("Frame", nil, Minimap)
     mmProximity:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -30, 30)
     mmProximity:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 30, -30)
     mmProximity.isNear = false
     mmProximity:SetScript("OnUpdate", function(self)
+        if EnsureGrabberVisibility() then return end
+
         local cx, cy = GetCursorPosition()
         local scale = self:GetEffectiveScale()
         cx, cy = cx / scale, cy / scale
