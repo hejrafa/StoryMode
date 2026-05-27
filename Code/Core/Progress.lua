@@ -270,6 +270,31 @@ function SM.GetChapterProgress(ch)
         progressCache.chapterProgress[ch] = { done = 1, total = 1 }
         return 1, 1
     end
+
+    local total, done = 0, 0
+    local optionalTotal, optionalDone = 0, 0
+    for i, q in ipairs(ch.quests) do
+        if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
+            if q.optional then
+                optionalTotal = optionalTotal + 1
+                if SM.IsQuestEntryComplete(q) then optionalDone = optionalDone + 1 end
+            else
+                total = total + 1
+                if SM.IsQuestEntryComplete(q) then done = done + 1 end
+            end
+        end
+    end
+
+    if total == 0 and optionalTotal > 0 then
+        progressCache.chapterProgress[ch] = { done = optionalDone, total = optionalTotal }
+        return optionalDone, optionalTotal
+    end
+
+    if total > 0 then
+        progressCache.chapterProgress[ch] = { done = done, total = total }
+        return done, total
+    end
+
     if ch.achievementID then
         local _, _, _, completed = GetAchievementInfo(ch.achievementID)
         if completed then
@@ -285,25 +310,8 @@ function SM.GetChapterProgress(ch)
         end
     end
 
-    local total, done = 0, 0
-    local optionalTotal, optionalDone = 0, 0
-    for i, q in ipairs(ch.quests) do
-        if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
-            if q.optional then
-                optionalTotal = optionalTotal + 1
-                if SM.IsQuestEffectivelyComplete(i, ch.quests) then optionalDone = optionalDone + 1 end
-            else
-                total = total + 1
-                if SM.IsQuestEffectivelyComplete(i, ch.quests) then done = done + 1 end
-            end
-        end
-    end
-    if total == 0 and optionalTotal > 0 then
-        progressCache.chapterProgress[ch] = { done = optionalDone, total = optionalTotal }
-        return optionalDone, optionalTotal
-    end
-    progressCache.chapterProgress[ch] = { done = done, total = total }
-    return done, total
+    progressCache.chapterProgress[ch] = { done = 0, total = 0 }
+    return 0, 0
 end
 
 function SM.GetCampaignProgress(data)
@@ -319,10 +327,6 @@ function SM.GetCampaignProgress(data)
         end
     end
 
-    local nextQuest = SM.FindNextQuest(data)
-    if not nextQuest and total > 0 then
-        done = total
-    end
     progressCache.campaignProgress[data] = { done = done, total = total }
     return done, total
 end

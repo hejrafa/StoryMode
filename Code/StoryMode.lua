@@ -1902,9 +1902,10 @@ function SM.SetChapterPortrait(portraitTex, displayID, iconPath, questID)
 end
 
 -- Resolve chapter portrait source: explicit chapter override first, then first quest's NPC portrait.
+-- The third return value marks a data-backed source so quest portrait fallback does not override it.
 function SM.GetChapterPortraitSource(data, chapter)
     if not data or not chapter then
-        return nil, nil
+        return nil, nil, false
     end
     local playerFaction = UnitFactionGroup("player")
 
@@ -1913,13 +1914,13 @@ function SM.GetChapterPortraitSource(data, chapter)
         if data.chapterDisplayIDs then
             local chapterDisplayID = data.chapterDisplayIDs[chapter.chapter]
             if chapterDisplayID and chapterDisplayID ~= 0 then
-                return chapterDisplayID, nil
+                return chapterDisplayID, nil, true
             end
         end
         if data.chapterIcons then
             local chapterIcon = data.chapterIcons[chapter.chapter]
-            if chapterIcon and chapterIcon ~= "" then
-                return nil, chapterIcon
+            if chapterIcon and chapterIcon ~= "" and chapterIcon ~= 0 then
+                return nil, chapterIcon, true
             end
         end
         if data.npcDisplayIDs and chapter.quests then
@@ -1927,25 +1928,25 @@ function SM.GetChapterPortraitSource(data, chapter)
                 if not q.faction or q.faction == playerFaction then
                     local id = q.npc and data.npcDisplayIDs[q.npc]
                     if id and id ~= 0 then
-                        return id, nil
+                        return id, nil, true
                     end
                 end
             end
         end
-        return nil, nil
+        return nil, nil, false
     end
 
     if data.chapterDisplayIDs then
         local chapterDisplayID = data.chapterDisplayIDs[chapter.chapter]
         if chapterDisplayID and chapterDisplayID ~= 0 then
-            return chapterDisplayID, nil
+            return chapterDisplayID, nil, true
         end
     end
 
     if data.chapterIcons then
         local chapterIcon = data.chapterIcons[chapter.chapter]
-        if chapterIcon and chapterIcon ~= "" then
-            return nil, chapterIcon
+        if chapterIcon and chapterIcon ~= "" and chapterIcon ~= 0 then
+            return nil, chapterIcon, true
         end
     end
 
@@ -1955,13 +1956,13 @@ function SM.GetChapterPortraitSource(data, chapter)
             if not q.faction or q.faction == playerFaction then
                 local id = q.npc and data.npcDisplayIDs[q.npc]
                 if id and id ~= 0 then
-                    return id, nil
+                    return id, nil, true
                 end
             end
         end
     end
 
-    return nil, nil
+    return nil, nil, false
 end
 
 -- ══ Renown-Track Style Chapter Selector + Quest Cards ══════════════════
@@ -2961,7 +2962,6 @@ LayoutSelectedChapter = function()
     -- Quest cards — skipped for replayable chapters (button is the sole interaction point)
     local nextQuest = SM.FindNextQuest(data)
     local nextQuestID = nextQuest and nextQuest.id
-    local campaignFinished = (nextQuestID == nil)
 
     for i, q in ipairs(ch.quests) do
         if not dQuestCards[i] then
@@ -2973,10 +2973,8 @@ LayoutSelectedChapter = function()
         else
             local qOptional = q.optional == true
             local qInLog = SM.IsQuestEntryInLog(q)
-            local qDone = (not qInLog) and SM.IsQuestEffectivelyComplete(i, ch.quests)
-            -- Display fallback: if the story has no next quest ("Story Finished"),
-            -- treat remaining cards as complete for UI purposes.
-            local qDoneDisplay = qDone or (chIsComplete and not qInLog and not qOptional) or (campaignFinished and not qInLog and not qOptional)
+            local qDoneDisplay = (not qInLog) and SM.IsQuestEntryComplete(q)
+            local qPassed = (not qInLog) and SM.IsQuestEffectivelyComplete(i, ch.quests)
             local qIsNextRecommended = false
             if nextQuestID then
                 for _, questID in ipairs(SM.GetQuestIDs(q)) do
@@ -2986,7 +2984,7 @@ LayoutSelectedChapter = function()
                     end
                 end
             end
-            local lockReason = (not qDoneDisplay and not qInLog and not qOptional) and SM.GetQuestLockReason(data, ch, i) or nil
+            local lockReason = (not qDoneDisplay and not qInLog and not qOptional and not qPassed) and SM.GetQuestLockReason(data, ch, i) or nil
 
             card.title:SetText(q.displayName or q.name)
             card.npcLabel:SetText(q.npc or "")
@@ -3475,8 +3473,10 @@ function SM.LayoutProgressTab(data, w, contentW, visibleContentW)
             local isActive = cDone > 0 and not isComplete
 
             -- NPC portrait
-            local displayID, chapterIcon = SM.GetChapterPortraitSource(data, ch)
-            SM.SetChapterPortrait(node.portrait, displayID, chapterIcon, ch.quests and ch.quests[1] and ch.quests[1].id)
+            local displayID, chapterIcon, hasDataBackedPortrait = SM.GetChapterPortraitSource(data, ch)
+            local questPortraitID = ch.quests and ch.quests[1] and ch.quests[1].id
+            if hasDataBackedPortrait then questPortraitID = nil end
+            SM.SetChapterPortrait(node.portrait, displayID, chapterIcon, questPortraitID)
 
             -- Tooltip
             node.tooltipTitle = ch.chapter

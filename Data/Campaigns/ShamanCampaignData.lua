@@ -45,19 +45,23 @@ SM.ShamanCampaignData = {
     },
 
     npcDisplayIDs = {
+        ["Baron Scaldius"]              = 69829,
         ["Thrall"]                      = 61727,
         ["Farseer Nobundo"]             = 64939,
         ["Advisor Sevel"]               = 16385,
         ["Stormcaller Mylra"]           = 33020,
+        ["Erunak Stonespeaker"]         = 30408,
         ["Consular Celestos"]           = 47254,
         ["Thunderaan"]                  = 71137,
         ["Muln Earthfury"]              = 38658,
         ["Rehgar Earthfury"]            = 64946,
         ["Therazane"]                   = 32913,
-        ["Firelord Smolderon"]          = 38621,
+        ["Firelord Smolderon"]          = 38793,
+        ["Lord Smolderon"]              = 38793,
         ["Elementalist Janai"]          = 36894,
         ["Highlord Demitrian"]          = 14395,
         ["Magatha Grimtotem"]           = 74531,
+        ["Maiev Shadowsong"]            = 77009,
     },
 
     chapters = {

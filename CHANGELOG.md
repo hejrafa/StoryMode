@@ -7,6 +7,11 @@
 
 ### UI
 - Improved minimap button compatibility with minimap button grabbers and broker-style collectors
+- Corrected Shaman Farseer campaign chapter art so chapter nodes use the first quest giver portrait
+- Made manual chapter watched/played flags character-specific so new characters start with fresh chapter state
+- Kept optional-only chapters unfinished until their optional quest is actually completed
+- Prevented account-wide achievements from marking quest-based chapters complete on fresh characters
+- Limited quest and chapter checkmarks to exact character quest completion instead of inferred story progress
 
 ### Maintenance
 - Bumped addon metadata to `1.8.6`

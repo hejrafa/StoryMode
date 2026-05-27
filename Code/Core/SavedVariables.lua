@@ -5,12 +5,57 @@ local defaults = {
     selectedQuestline = 1,
     selectedQuestlineID = nil,
     minimapIconStyle = "borderless",
+    characterChapterFlags = {},
     viewedLoreChapters = {},
     playedChapters = {},
 }
 
 local function ChapterFlagKey(storylineTitle, chapterName)
     return (storylineTitle or "") .. "|" .. (chapterName or "")
+end
+
+local function CharacterKey()
+    local name, realm
+    if UnitFullName then
+        name, realm = UnitFullName("player")
+    end
+    if not name or name == "" then
+        name = UnitName and UnitName("player")
+    end
+    if not name or name == "" then
+        return nil
+    end
+    if not realm or realm == "" then
+        realm = GetNormalizedRealmName and GetNormalizedRealmName()
+    end
+    if not realm or realm == "" then
+        realm = GetRealmName and GetRealmName()
+    end
+    return (realm or "UnknownRealm") .. ":" .. name
+end
+
+local function GetCharacterChapterFlags(flagType, create)
+    if not StoryModeDB then return nil end
+
+    local characterKey = CharacterKey()
+    if not characterKey then return nil end
+
+    if create and not StoryModeDB.characterChapterFlags then
+        StoryModeDB.characterChapterFlags = {}
+    end
+    local allCharacterFlags = StoryModeDB.characterChapterFlags
+    if not allCharacterFlags then return nil end
+
+    if create and not allCharacterFlags[characterKey] then
+        allCharacterFlags[characterKey] = {}
+    end
+    local characterFlags = allCharacterFlags[characterKey]
+    if not characterFlags then return nil end
+
+    if create and not characterFlags[flagType] then
+        characterFlags[flagType] = {}
+    end
+    return characterFlags[flagType]
 end
 
 function SM.ApplySavedVariableDefaults()
@@ -23,25 +68,27 @@ function SM.ApplySavedVariableDefaults()
 end
 
 function SM.IsLoreChapterViewed(storylineTitle, chapterName)
-    if not StoryModeDB or not StoryModeDB.viewedLoreChapters then return false end
-    return StoryModeDB.viewedLoreChapters[ChapterFlagKey(storylineTitle, chapterName)] == true
+    local viewedLoreChapters = GetCharacterChapterFlags("viewedLoreChapters", false)
+    if not viewedLoreChapters then return false end
+    return viewedLoreChapters[ChapterFlagKey(storylineTitle, chapterName)] == true
 end
 
 function SM.SetLoreChapterViewed(storylineTitle, chapterName)
-    if not StoryModeDB then return end
-    if not StoryModeDB.viewedLoreChapters then StoryModeDB.viewedLoreChapters = {} end
-    StoryModeDB.viewedLoreChapters[ChapterFlagKey(storylineTitle, chapterName)] = true
+    local viewedLoreChapters = GetCharacterChapterFlags("viewedLoreChapters", true)
+    if not viewedLoreChapters then return end
+    viewedLoreChapters[ChapterFlagKey(storylineTitle, chapterName)] = true
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
 function SM.IsChapterPlayed(storylineTitle, chapterName)
-    if not StoryModeDB or not StoryModeDB.playedChapters then return false end
-    return StoryModeDB.playedChapters[ChapterFlagKey(storylineTitle, chapterName)] == true
+    local playedChapters = GetCharacterChapterFlags("playedChapters", false)
+    if not playedChapters then return false end
+    return playedChapters[ChapterFlagKey(storylineTitle, chapterName)] == true
 end
 
 function SM.SetChapterPlayed(storylineTitle, chapterName)
-    if not StoryModeDB then return end
-    if not StoryModeDB.playedChapters then StoryModeDB.playedChapters = {} end
-    StoryModeDB.playedChapters[ChapterFlagKey(storylineTitle, chapterName)] = true
+    local playedChapters = GetCharacterChapterFlags("playedChapters", true)
+    if not playedChapters then return end
+    playedChapters[ChapterFlagKey(storylineTitle, chapterName)] = true
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
