@@ -79,6 +79,7 @@ L["Quest Status Completed"] = "Completed"
 L["Quest Status In Progress"] = "In Progress"
 L["Quest Status Optional"] = "Optional"
 L["Quest Status Not Available"] = "Not yet available"
+L["Quest Tooltip Loading"] = "Loading quest details..."
 
 L["Tracking Enabled Trivial Format"] = "Enabled |cffffd200%s|r tracking so you can see quest markers for this storyline."
 L["Quest Accepted Story Format"] = "Accepted %s. Part of %s."

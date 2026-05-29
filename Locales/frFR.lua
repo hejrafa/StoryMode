@@ -76,6 +76,7 @@ L["Quest Status Completed"] = "Terminée"
 L["Quest Status In Progress"] = "En cours"
 L["Quest Status Optional"] = "Facultative"
 L["Quest Status Not Available"] = "Pas encore disponible"
+L["Quest Tooltip Loading"] = "Chargement des détails de la quête..."
 
 L["Tracking Enabled Trivial Format"] = "Suivi de |cffffd200%s|r activé afin d'afficher les marqueurs de quête pour cette histoire."
 L["Quest Accepted Story Format"] = "%s acceptée. Fait partie de %s."

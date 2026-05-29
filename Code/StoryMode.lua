@@ -2351,6 +2351,82 @@ end
 
 -- ── Quest card pool ─────────────────────────────────────────────────
 local dQuestCards = {}
+local activeQuestTooltipCard = nil
+local questTooltipRefreshToken = 0
+
+local function IsQuestTooltipDataCached(questID)
+    if questID and C_QuestLog and C_QuestLog.IsQuestDataCached then
+        local ok, cached = pcall(C_QuestLog.IsQuestDataCached, questID)
+        if ok then return cached and true or false end
+    end
+    return nil
+end
+
+local function QuestCardHasQuestID(card, questID)
+    if not (card and questID) then return false end
+    if card.questID == questID then return true end
+    if card.questEntry and SM.GetQuestIDs then
+        for _, id in ipairs(SM.GetQuestIDs(card.questEntry)) do
+            if id == questID then return true end
+        end
+    end
+    return false
+end
+
+local function IsQuestTooltipCardActive(card)
+    return card
+        and activeQuestTooltipCard == card
+        and card:IsShown()
+        and card:IsMouseOver()
+end
+
+local function QueueQuestTooltipRefresh(card, delay)
+    if not (C_Timer and C_Timer.After) then return end
+    questTooltipRefreshToken = questTooltipRefreshToken + 1
+    local token = questTooltipRefreshToken
+    C_Timer.After(delay or 0, function()
+        if token ~= questTooltipRefreshToken then return end
+        if SM.RefreshQuestCardTooltip and IsQuestTooltipCardActive(card) then
+            SM.RefreshQuestCardTooltip(card, false)
+        end
+    end)
+end
+
+local function EnsureQuestTooltipEvents()
+    if SM.questTooltipEventFrame then return end
+
+    SM.questTooltipEventFrame = CreateFrame("Frame")
+    SM.questTooltipEventFrame:RegisterEvent("QUEST_LOG_UPDATE")
+    if C_QuestLog and C_QuestLog.RequestLoadQuestByID then
+        pcall(SM.questTooltipEventFrame.RegisterEvent, SM.questTooltipEventFrame, "QUEST_DATA_LOAD_RESULT")
+    end
+
+    SM.questTooltipEventFrame:SetScript("OnEvent", function(_, event, questID, success)
+        local card = activeQuestTooltipCard
+        if not IsQuestTooltipCardActive(card) then return end
+
+        if event == "QUEST_DATA_LOAD_RESULT" then
+            if not success or not QuestCardHasQuestID(card, questID) then return end
+            QueueQuestTooltipRefresh(card, 0)
+        elseif event == "QUEST_LOG_UPDATE" then
+            QueueQuestTooltipRefresh(card, 0.05)
+        end
+    end)
+end
+
+local function RequestQuestTooltipData(card)
+    local questID = card and card.questID
+    if not (questID and C_QuestLog and C_QuestLog.RequestLoadQuestByID) then
+        return false
+    end
+
+    EnsureQuestTooltipEvents()
+    local ok = pcall(C_QuestLog.RequestLoadQuestByID, questID)
+    if ok then
+        QueueQuestTooltipRefresh(card, 0.35)
+    end
+    return ok
+end
 
 local function GetQuestShareText(questID, questName)
     if not questID then return nil end
@@ -2373,6 +2449,59 @@ local function InsertQuestChatLink(questEntry, questID, questName)
     end
 
     return false
+end
+
+function SM.RefreshQuestCardTooltip(card, requestQuestData)
+    if not (card and card.questID) then return end
+
+    local questDataCached = IsQuestTooltipDataCached(card.questID)
+    local requestedQuestData = requestQuestData and RequestQuestTooltipData(card) or false
+
+    SMTooltip:SetOwner(card, "ANCHOR_RIGHT")
+    SMTooltip:ClearLines()
+
+    local qName = (QuestUtils_GetQuestName and QuestUtils_GetQuestName(card.questID)) or card.tooltipTitle or ""
+    SMTooltip:AddLine(qName, 1, 1, 1)
+
+    if card.tooltipNPC then
+        SMTooltip:AddLine(card.tooltipNPC, C_BODY[1], C_BODY[2], C_BODY[3])
+    end
+
+    -- Objectives are only useful for active, incomplete quests. Completed
+    -- quests no longer keep live counters, which makes old objective lines stale.
+    local qComplete = SM.IsQuestFlaggedCompleted(card.questID)
+    local hasObjectives = false
+    if not qComplete then
+        local objectives = SM.GetQuestObjectives(card.questID)
+        if objectives and #objectives > 0 then
+            SMTooltip:AddLine(" ")
+            for _, obj in ipairs(objectives) do
+                if obj.text and obj.text ~= "" then
+                    hasObjectives = true
+                    if obj.finished then
+                        SMTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
+                    else
+                        SMTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
+                    end
+                end
+            end
+        end
+
+        if requestedQuestData and questDataCached ~= true and not hasObjectives then
+            SMTooltip:AddLine(" ")
+            SMTooltip:AddLine(L["Quest Tooltip Loading"], C_DIM[1], C_DIM[2], C_DIM[3], true)
+        end
+    end
+
+    if card.tooltipStatus then
+        SMTooltip:AddLine(" ")
+        SMTooltip:AddLine(card.tooltipStatus)
+    end
+    if card.tooltipRequirement then
+        SMTooltip:AddLine(card.tooltipRequirement, 1.0, 0.82, 0.35, true)
+    end
+
+    SMTooltip:Show()
 end
 
 function SM.OpenStoryModeToSelection(storyID, chapterIndex, tab)
@@ -2620,48 +2749,20 @@ function SM.CreateQuestCard(parent)
     npcLabel:SetWordWrap(false)
     card.npcLabel = npcLabel
 
-    -- Tooltip — native quest tooltip with requirements lines removed
+    -- Tooltip — refreshes in place when Blizzard finishes loading quest data.
     card:SetScript("OnEnter", function(self)
         if not self.questID then return end
-        SMTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        SMTooltip:ClearLines()
-        -- Quest name
-        local qName = QuestUtils_GetQuestName(self.questID) or self.tooltipTitle or ""
-        SMTooltip:AddLine(qName, 1, 1, 1)
-        -- Quest giver
-        if self.tooltipNPC then
-            SMTooltip:AddLine(self.tooltipNPC, C_BODY[1], C_BODY[2], C_BODY[3])
-        end
-        -- Objectives — skip for completed quests; the log no longer tracks
-        -- their counters so they always show stale "0/1" text.
-        local qComplete = SM.IsQuestFlaggedCompleted(self.questID)
-        if not qComplete then
-            local objectives = SM.GetQuestObjectives(self.questID)
-            if objectives and #objectives > 0 then
-                SMTooltip:AddLine(" ")
-                for _, obj in ipairs(objectives) do
-                    if obj.text and obj.text ~= "" then
-                        if obj.finished then
-                            SMTooltip:AddLine(obj.text, 0.45, 0.90, 0.35, true)
-                        else
-                            SMTooltip:AddLine(obj.text, 0.9, 0.9, 0.9, true)
-                        end
-                    end
-                end
-            end
-        end
-        -- Status
-        if self.tooltipStatus then
-            SMTooltip:AddLine(" ")
-            SMTooltip:AddLine(self.tooltipStatus)
-        end
-        if self.tooltipRequirement then
-            SMTooltip:AddLine(self.tooltipRequirement, 1.0, 0.82, 0.35, true)
-        end
-
-        SMTooltip:Show()
+        activeQuestTooltipCard = self
+        EnsureQuestTooltipEvents()
+        SM.RefreshQuestCardTooltip(self, true)
     end)
-    card:SetScript("OnLeave", function() SMTooltip:Hide() end)
+    card:SetScript("OnLeave", function(self)
+        if activeQuestTooltipCard == self then
+            activeQuestTooltipCard = nil
+            questTooltipRefreshToken = questTooltipRefreshToken + 1
+        end
+        SMTooltip:Hide()
+    end)
     card:SetScript("OnClick", function(self, button)
         if not self.questEntry then return end
 
