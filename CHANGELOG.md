@@ -4,6 +4,7 @@
 
 ### Classic Era
 - Added **Nothing But The Truth** as a Classic/TBC Horde short story, covering the Forsaken agents at Beggar's Haunt and Stonard's prisoner
+- Corrected **Compendium of the Fallen** guidance so it points Horde players to retrieve the book from Scarlet Monastery, then return to Sage Truthseeker with linked and color-styled chat output
 
 ### UI
 - Improved minimap button compatibility with minimap button grabbers and broker-style collectors
