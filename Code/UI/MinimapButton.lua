@@ -235,63 +235,11 @@ function SM.CreateMinimapButton(storyFrame, tooltip, bodyColor)
         tooltip:Hide()
     end)
 
-    -- Idle hide: invisible until cursor is near the minimap.
-    minimapBtn:SetAlpha(0)
-    local mmFadeIn = minimapBtn:CreateAnimationGroup()
-    local mmFiAlpha = mmFadeIn:CreateAnimation("Alpha")
-    mmFiAlpha:SetFromAlpha(0); mmFiAlpha:SetToAlpha(1); mmFiAlpha:SetDuration(0.25); mmFiAlpha:SetSmoothing("OUT")
-    mmFadeIn:SetScript("OnFinished", function() minimapBtn:SetAlpha(1) end)
-
-    local mmFadeOut = minimapBtn:CreateAnimationGroup()
-    local mmFoAlpha = mmFadeOut:CreateAnimation("Alpha")
-    mmFoAlpha:SetFromAlpha(1); mmFoAlpha:SetToAlpha(0); mmFoAlpha:SetDuration(0.4); mmFoAlpha:SetSmoothing("IN")
-    mmFadeOut:SetScript("OnFinished", function() minimapBtn:SetAlpha(0) end)
-
-    local mmProximity
-    local function EnsureGrabberVisibility()
-        if not IsButtonGrabbed(minimapBtn) then return false end
-
-        if mmProximity and mmProximity.fadeTimer then
-            mmProximity.fadeTimer:Cancel()
-            mmProximity.fadeTimer = nil
-        end
-        mmFadeIn:Stop()
-        mmFadeOut:Stop()
-        minimapBtn:SetAlpha(1)
-        return true
-    end
-
-    mmProximity = CreateFrame("Frame", nil, Minimap)
-    mmProximity:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -30, 30)
-    mmProximity:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 30, -30)
-    mmProximity.isNear = false
-    mmProximity:SetScript("OnUpdate", function(self)
-        if EnsureGrabberVisibility() then return end
-
-        local cx, cy = GetCursorPosition()
-        local scale = self:GetEffectiveScale()
-        cx, cy = cx / scale, cy / scale
-        local l, b, w, h = self:GetRect()
-        local inside = cx >= l and cx <= l + w and cy >= b and cy <= b + h
-        if inside and not self.isNear then
-            self.isNear = true
-            if self.fadeTimer then self.fadeTimer:Cancel(); self.fadeTimer = nil end
-            mmFadeOut:Stop()
-            mmFadeIn:Play()
-        elseif not inside and self.isNear then
-            self.isNear = false
-            mmFadeIn:Stop()
-            if not self.fadeTimer then
-                self.fadeTimer = C_Timer.NewTimer(1.0, function()
-                    mmProximity.fadeTimer = nil
-                    if not mmProximity.isNear then mmFadeOut:Play() end
-                end)
-            end
-        end
-    end)
+    minimapBtn:SetAlpha(1)
 
     return function()
         ApplyIconStyle()
+        minimapBtn:SetAlpha(1)
         local angle = StoryModeDB and StoryModeDB.minimapAngle or 4.4  -- default: bottom
         UpdatePosition(angle)
     end
