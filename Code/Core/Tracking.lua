@@ -274,26 +274,49 @@ local function GetZoneName(mapID)
 end
 
 local TRACK_LOCATION_COLOR = "|cffffffff"
+local TRACK_NPC_COLOR = "|cffffd200"
+
+local function ColorTrackingNPC(text)
+    return text and (TRACK_NPC_COLOR .. text .. "|r") or nil
+end
+
+local function ColorTrackingLocation(text)
+    return text and (TRACK_LOCATION_COLOR .. text .. "|r") or nil
+end
 
 local function GetLocationText(data, quest, loc)
     if quest and quest.location then
-        return TRACK_LOCATION_COLOR .. quest.location .. "|r"
+        return ColorTrackingLocation(quest.location)
     end
 
     if loc and loc.location then
-        return TRACK_LOCATION_COLOR .. (L[loc.location] or loc.location) .. "|r"
+        return ColorTrackingLocation(L[loc.location] or loc.location)
     end
 
     local zone = loc and GetZoneName(loc.mapID) or nil
     if zone then
-        return TRACK_LOCATION_COLOR .. zone .. "|r"
+        return ColorTrackingLocation(zone)
     end
 
     if data and data.startQuest and quest and quest.id == data.startQuest.id and data.startQuest.location then
-        return TRACK_LOCATION_COLOR .. data.startQuest.location .. "|r"
+        return ColorTrackingLocation(data.startQuest.location)
     end
 
     return nil
+end
+
+local function GetTrackingHintText(quest, printQuest)
+    if not printQuest then return nil end
+    if printQuest.trackingHintFormat then
+        local linkedQuest = printQuest.trackingHintQuestID or quest or printQuest
+        local linkedQuestName = printQuest.trackingHintQuestName or (quest and quest.name) or printQuest.name
+        local Q = SM.GetQuestChatLink(linkedQuest, linkedQuestName)
+        local place = ColorTrackingLocation(printQuest.trackingHintPlace)
+        local npc = ColorTrackingNPC(printQuest.trackingHintNPC)
+        local destination = ColorTrackingLocation(printQuest.trackingHintDestination)
+        return string.format(L[printQuest.trackingHintFormat] or printQuest.trackingHintFormat, Q or "", place or "", npc or "", destination or "")
+    end
+    return printQuest.trackingHint
 end
 
 function SM.PrintTrackResult(result, quest, data)
@@ -301,11 +324,16 @@ function SM.PrintTrackResult(result, quest, data)
     local printQuest = type(result) == "table" and result.quest or nil
     printQuest = printQuest or quest
     local P = L["Addon Prefix"]
+    local trackingHint = GetTrackingHintText(quest, printQuest)
+    if trackingHint then
+        print(P .. trackingHint)
+        return
+    end
     local loc = type(result) == "table" and result.location or GetQuestLocation(data, printQuest)
     local zone = loc and GetZoneName(loc.mapID) or nil
     local place = GetLocationText(data, printQuest, loc)
     local Q = SM.GetQuestChatLink(printQuest, printQuest.name)
-    local NPC = printQuest.npc and ("|cffffd200" .. printQuest.npc .. "|r") or nil
+    local NPC = ColorTrackingNPC(printQuest.npc)
     local Z = zone and ("|cff64b5f6" .. zone .. "|r") or nil
     local CH = printQuest._isPrerequisiteForChapter and ("|cffffd200" .. printQuest._isPrerequisiteForChapter .. "|r") or nil
 

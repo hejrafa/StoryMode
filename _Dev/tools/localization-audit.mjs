@@ -46,7 +46,7 @@ function unescapeLuaString(value) {
 
 function extractDataStrings(text) {
   const strings = new Set();
-  const re = /\b(?:title|description|zone|expansion|adventureGuideInstanceName|chapter|summary|recap|note|achievementName|name|displayName|npc|location|faction|level)\s*=\s*"((?:[^"\\]|\\.)*)"/g;
+  const re = /\b(?:title|description|zone|expansion|adventureGuideInstanceName|chapter|summary|recap|note|achievementName|name|displayName|npc|location|faction|level|trackingHint|trackingHintFormat|trackingHintQuestName|trackingHintPlace|trackingHintNPC|trackingHintDestination)\s*=\s*"((?:[^"\\]|\\.)*)"/g;
   let match;
   while ((match = re.exec(text))) {
     strings.add(unescapeLuaString(match[1]));

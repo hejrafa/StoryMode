@@ -43,6 +43,12 @@ local function LocalizeQuest(quest)
     LocalizeField(quest, "displayName")
     LocalizeField(quest, "npc")
     LocalizeField(quest, "location")
+    LocalizeField(quest, "trackingHint")
+    LocalizeField(quest, "trackingHintFormat")
+    LocalizeField(quest, "trackingHintQuestName")
+    LocalizeField(quest, "trackingHintPlace")
+    LocalizeField(quest, "trackingHintNPC")
+    LocalizeField(quest, "trackingHintDestination")
     LocalizeQuest(quest.guidanceQuest)
 end
 
