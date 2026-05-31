@@ -7,6 +7,8 @@
 
 ### UI
 - Improved minimap button compatibility with minimap button grabbers and broker-style collectors
+- Kept the Story Mode minimap icon visible instead of fading it out when idle
+- Refreshed quest-card tooltips in place when Blizzard finishes loading quest data so first-hover details can fill in without hovering again
 - Corrected Shaman Farseer campaign chapter art so chapter nodes use the first quest giver portrait
 - Made manual chapter watched/played flags character-specific so new characters start with fresh chapter state
 - Kept optional-only chapters unfinished until their optional quest is actually completed
