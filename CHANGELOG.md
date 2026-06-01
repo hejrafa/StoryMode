@@ -4,7 +4,11 @@
 
 ### Classic Era
 - Added **Nothing But The Truth** as a Classic/TBC Horde short story, covering the Forsaken agents at Beggar's Haunt and Stonard's prisoner
+- Added **The Shady Rest Inn** as a Dustwallow Marsh short story for Alliance and Horde investigators, with faction-specific clue paths and the later hidden-hand chapter
 - Corrected **Compendium of the Fallen** guidance so it points Horde players to retrieve the book from Scarlet Monastery, then return to Sage Truthseeker with linked and color-styled chat output
+
+### Localization
+- Added full supported-locale coverage for **The Shady Rest Inn**
 
 ### UI
 - Improved minimap button compatibility with minimap button grabbers and broker-style collectors
