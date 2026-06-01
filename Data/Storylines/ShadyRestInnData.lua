@@ -1,20 +1,22 @@
 local addonName, SM = ...
 
 -- =============================================================================
--- Classic/TBC: The Shady Rest Inn
--- A Dustwallow mystery with faction-specific investigations and a TBC ending.
+-- Dustwallow: The Shady Rest Inn
+-- A burned-inn mystery with faction-specific investigations.
 -- =============================================================================
 
 SM.ShadyRestInnData = {
     title = "The Shady Rest Inn",
-    description = "On the road between Dustwallow Marsh and the Barrens, the Shady Rest Inn is nothing but ash, hoofprints, a scorched shield, and a guard badge that should not be there.\n\nFollow the clues before they are buried in faction blame. In Classic Era the investigation reaches the old dead end; in TBC Classic, the trail continues to the Grimtotem culprits.",
+    description = "On the road between Dustwallow Marsh and the Barrens, the Shady Rest Inn is nothing but ash, hoofprints, a scorched shield, and a guard badge that should not be there.\n\nFollow the clues before faction blame buries the truth. What begins as a burned waystation becomes an investigation through evidence that may have been left to tell too simple a story.",
     zone = "Dustwallow Marsh",
-    expansion = "Classic / The Burning Crusade",
+    expansion = "World of Warcraft",
     recommendedLevel = { min = 30, max = 39 },
     gameVersions = { classicEra = true, tbc = true },
     achievements = {},
     color = { 0.66, 0.52, 0.34 },
     icon = "Interface\\Icons\\INV_Misc_Note_01",
+    adventureCoverTexture = 131871, -- Stratholme loading screen: burned-city mood for the Shady Rest investigation
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1284, name = "Suspicious Hoofprints", npc = "Hoofprints", location = "the ruins of the Shady Rest Inn, Dustwallow Marsh", mapID = 70, x = 0.2970, y = 0.4770 },
     startMapID = 70,
@@ -42,7 +44,7 @@ SM.ShadyRestInnData = {
         ["The Ruins"] = "Interface\\Icons\\Ability_Tracking",
         ["The Black Shield"] = "Interface\\Icons\\INV_Shield_09",
         ["Paval Reethe"] = "Interface\\Icons\\INV_Misc_Note_01",
-        ["The Grimtotem Trail"] = "Interface\\Icons\\Spell_Nature_EarthBindTotem",
+        ["The Hidden Hand"] = "Interface\\Icons\\Spell_Nature_EarthBindTotem",
     },
 
     chapters = {
@@ -82,10 +84,10 @@ SM.ShadyRestInnData = {
             },
         },
         {
-            chapter = "The Grimtotem Trail",
+            chapter = "The Hidden Hand",
             faction = "Alliance",
             gameVersions = { tbc = true },
-            summary = "The TBC-era conclusion carries the evidence north to the Grimtotem and then south to Tabetha.",
+            summary = "The evidence carries you north to one more camp, then south to Tabetha for a clearer look at the hand behind the fire.",
             recap = "The missing piece was not a deserter or a city guard, but a Grimtotem move meant to poison Theramore and the Horde against each other. Captain Darill's evidence exposed Blackhoof Village as part of the plot, while Tabetha pointed to Direhorn Post as the real source of the attack. When the camp burned, the Shady Rest finally had an answer.",
             quests = {
                 { id = 11143, name = "A Grim Connection", npc = "Captain Garran Vimes" },
@@ -131,10 +133,10 @@ SM.ShadyRestInnData = {
             },
         },
         {
-            chapter = "The Grimtotem Trail",
+            chapter = "The Hidden Hand",
             faction = "Horde",
             gameVersions = { tbc = true },
-            summary = "Mosarn's new lead brings the Horde investigation back to Krog and on toward the Grimtotem.",
+            summary = "Mosarn's new lead brings the investigation back to Krog, then south to Tabetha for a clearer look at the hand behind the fire.",
             recap = "Mosarn's memory reopened the case and pulled the scattered clues into one line: the Grimtotem had used the inn to inflame Theramore and the Horde. Krog's evidence and Tabetha's certainty led to Direhorn Post. Burning it down did not restore the Shady Rest, but it stopped the lie from doing more work.",
             quests = {
                 { id = 11204, name = "Return to Krog", npc = "Mosarn" },
