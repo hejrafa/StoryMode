@@ -84,6 +84,7 @@ function SM.IsQuestEntryComplete(q)
 end
 
 function SM.IsQuestForPlayer(q)
+    if not SM.IsContentAvailableForClient(q) then return false end
     if q.faction and q.faction ~= GetPlayerFaction() then return false end
     if q.class then
         local playerClass = GetPlayerClass()
@@ -177,6 +178,7 @@ function SM.GetAllChapters(data)
     local playerFaction = GetPlayerFaction()
 
     local function ShouldShowChapter(ch)
+        if not SM.IsContentAvailableForClient(ch) then return false end
         return not ch.faction or ch.faction == playerFaction
     end
 
