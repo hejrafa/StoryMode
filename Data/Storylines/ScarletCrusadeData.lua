@@ -172,7 +172,9 @@ SM.ScarletCrusadeData = {
                     guidanceQuest = { name = "Test of Faith", npc = "Dorn Plainstalker", mapID = 64, x = 0.5380, y = 0.4160, location = "Weathered Nook, Thousand Needles" },
                 },
                 { id = 1050, name = "Mythology of the Titans", npc = "Librarian Mae Paledust", faction = "Alliance" },
-                { id = 1113, name = "Hearts of Zeal", npc = "Master Apothecary Faranell", faction = "Horde", optional = true },
+                { id = 1113, name = "Hearts of Zeal", npc = "Master Apothecary Faranell", faction = "Horde", optional = true,
+                    guidanceQuest = { id = 1109, name = "Going, Going, Guano!", npc = "Master Apothecary Faranell", mapID = 90, x = 0.4800, y = 0.6900, location = "the Apothecarium, Undercity" },
+                },
             },
         },
         {

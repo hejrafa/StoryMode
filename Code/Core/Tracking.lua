@@ -189,7 +189,9 @@ local function GetQuestGuidanceOverride(quest)
     if type(quest) ~= "table" or type(quest.guidanceQuest) ~= "table" then return nil end
     if SM.IsQuestEntryInLog(quest) then return nil end
     if quest.id and SM.IsQuestComplete(quest.id) then return nil end
-    return quest.guidanceQuest
+    local guidanceQuest = quest.guidanceQuest
+    if guidanceQuest.id and SM.IsQuestComplete(guidanceQuest.id) then return nil end
+    return guidanceQuest
 end
 
 local function TrackResult(kind, questID, loc, openedQuestLog, questOverride)
