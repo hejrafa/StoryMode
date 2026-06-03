@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.7
+
+### Quest Guidance
+- Corrected **Hearts of Zeal** guidance so it points players to complete **Going, Going, Guano!** before returning to Master Apothecary Faranell for the follow-up
+
+### Maintenance
+- Bumped addon metadata to `1.8.7`
+
 ## 1.8.6
 
 ### Classic Era
