@@ -1,12 +1,12 @@
 local addonName, SM = ...
 
 -- =============================================================================
--- Classic: Saving Yenniku
+-- Classic: Hunt for Yenniku
 -- Nimboya's search for the chief's son, from Bloodscalp trophies to Zanzil.
 -- =============================================================================
 
 SM.SavingYennikuData = {
-    title = "Saving Yenniku",
+    title = "Hunt for Yenniku",
     description = "At Grom'gol, Nimboya asks after Yenniku, youngest son of the Darkspear chief. The Bloodscalp trolls may know where he was taken, but Stranglethorn rarely gives up a captive cleanly.\n\nPress the jungle tribes for answers, listen when older spirits are called, and keep following the trail even when it turns toward magic no troll should take lightly.",
     zone = "Stranglethorn Vale",
     expansion = "Classic",
