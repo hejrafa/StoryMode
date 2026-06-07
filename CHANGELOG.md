@@ -4,6 +4,7 @@
 
 ### Quest Guidance
 - Corrected **Hearts of Zeal** guidance so it points players to complete **Going, Going, Guano!** before returning to Master Apothecary Faranell for the follow-up
+- Renamed the Yenniku story to **Hunt for Yenniku** to keep the title focused on the search
 
 ### Maintenance
 - Bumped addon metadata to `1.8.7`
@@ -82,7 +83,7 @@
 ## 1.8.3
 
 ### Classic Era
-- Added **Saving Yenniku**, a Horde Stranglethorn Vale story for the level 30-45 gap
+- Added **Hunt for Yenniku**, a Horde Stranglethorn Vale story for the level 30-45 gap
 - Added **Souvenirs of Death** and **Dangerous!** as optional **Battle of Hillsbrad** side quests, with **Dangerous!** placed in the town-and-mine chapter
 - Improved **Arugal and Shadowfang Keep** guidance so parallel dungeon quests point players to their actual quest givers
 
