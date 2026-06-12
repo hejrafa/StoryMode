@@ -2,6 +2,14 @@
 
 ## 1.8.8
 
+### Classic Era
+- Added **The Hakkari Trail**, covering Yeh'kinya, the Mosh'aru Tablets, Hakkar, and the road to Zul'Gurub
+- Added **The Scythe of Elune** as an Alliance story linking Ashenvale, Velinde Starsong, Duskwood, and the worgen mystery
+- Added **Scholomance** coverage for the Skeleton Key, Sarkhoff/Kirtonos chain, Ras Frostwhisper, and Barov inheritance quests
+- Added **Maraudon** coverage for Vyle corruption, the Scepter of Celebras, Theradras, Zaetar, and the Seed of Life
+- Added **Secrets of Uldaman** coverage for Hammertoe, the Shattered Necklace, the Tablet of Will, and the Platinum Discs
+- Added full supported-locale coverage for the new Classic story text
+
 ### Quest Guidance
 - Corrected **Compendium of the Fallen** so undead characters do not see it, while other Horde characters can pick it up without a prerequisite
 

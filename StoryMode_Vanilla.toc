@@ -19,6 +19,7 @@ Data\Storylines\ArugalData.lua
 Data\Storylines\ANewPlagueData.lua
 Data\Storylines\AlthalaxxData.lua
 Data\Storylines\DuskwoodData.lua
+Data\Storylines\ScytheOfEluneData.lua
 Data\Storylines\NothingButTheTruthData.lua
 Data\Storylines\RaenesCleansingData.lua
 Data\Storylines\BattleOfHillsbradData.lua
@@ -29,6 +30,10 @@ Data\Storylines\OnyxiaData.lua
 Data\Storylines\DungeonSetTwoData.lua
 Data\Storylines\ScarletCrusadeData.lua
 Data\Storylines\DarrowshireData.lua
+Data\Storylines\HakkariTrailData.lua
+Data\Storylines\ScholomanceData.lua
+Data\Storylines\MaraudonData.lua
+Data\Storylines\UldamanData.lua
 Data\Storylines\ShiftingSandsData.lua
 Data\Storylines\PrincessMoiraData.lua
 Data\Storylines\LinkenData.lua
