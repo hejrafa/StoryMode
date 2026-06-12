@@ -13,6 +13,16 @@ local function GetPlayerClass()
     return select(2, UnitClass("player"))
 end
 
+local function PlayerMatches(value, playerValue)
+    if type(value) == "table" then
+        for _, candidate in ipairs(value) do
+            if candidate == playerValue then return true end
+        end
+        return false
+    end
+    return value == playerValue
+end
+
 function SM.GetQuestIDs(q)
     if type(q) ~= "table" then return { q } end
     if q._questIDs then return q._questIDs end
@@ -88,25 +98,15 @@ function SM.IsQuestForPlayer(q)
     if q.faction and q.faction ~= GetPlayerFaction() then return false end
     if q.class then
         local playerClass = GetPlayerClass()
-        if type(q.class) == "table" then
-            local classMatch = false
-            for _, class in ipairs(q.class) do
-                if class == playerClass then classMatch = true; break end
-            end
-            if not classMatch then return false end
-        elseif q.class ~= playerClass then
-            return false
-        end
+        if not PlayerMatches(q.class, playerClass) then return false end
     end
     if q.race then
         local playerRace = GetPlayerRace()
-        if type(q.race) == "table" then
-            for _, race in ipairs(q.race) do
-                if race == playerRace then return true end
-            end
-            return false
-        end
-        return q.race == playerRace
+        if not PlayerMatches(q.race, playerRace) then return false end
+    end
+    if q.excludeRace then
+        local playerRace = GetPlayerRace()
+        if PlayerMatches(q.excludeRace, playerRace) then return false end
     end
     return true
 end

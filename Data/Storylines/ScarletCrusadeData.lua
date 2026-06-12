@@ -153,7 +153,7 @@ SM.ScarletCrusadeData = {
             recap = "The Graveyard and Library showed the Crusade's order from the inside. Vorrel Sengutz lay tortured by Interrogator Vishas. Scholars wanted books the Crusade had locked away. Horde agents wanted the Compendium of the Fallen, and Parqual Fintallas wanted the book the Crusade used to teach itself how to fight the dead. Alliance scholars wanted the Mythology of the Titans. Every shelf and cell told the same truth: the Scarlet Crusade did not only kill enemies. It controlled what its followers were allowed to know.",
             quests = {
                 { id = 1051, name = "Vorrel's Revenge", npc = "Vorrel Sengutz" },
-                { id = 1049, name = "Compendium of the Fallen", npc = "Sage Truthseeker", faction = "Horde",
+                { id = 1049, name = "Compendium of the Fallen", npc = "Sage Truthseeker", faction = "Horde", excludeRace = "Scourge", parallel = true,
                     guidanceQuest = {
                         name = "Compendium of the Fallen",
                         mapID = 435,

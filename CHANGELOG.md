@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.8
+
+### Quest Guidance
+- Corrected **Compendium of the Fallen** so undead characters do not see it, while other Horde characters can pick it up without a prerequisite
+
+### Maintenance
+- Bumped addon metadata to `1.8.8`
+
 ## 1.8.7
 
 ### Quest Guidance

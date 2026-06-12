@@ -9,7 +9,7 @@
 ## Notes-ruRU: Проходите истории WoW по главам, с контекстом и отслеживанием прогресса.|n|nОткройте Story Mode командой:|n/sm или /storymode
 ## SavedVariables: StoryModeDB
 ## OptionalDeps: LibDataBroker-1.1
-## Version: 1.8.7
+## Version: 1.8.8
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\Art\Icons\storymode_icon
 
@@ -51,10 +51,19 @@ Code\Core\StoryState.lua
 Code\Core\Events.lua
 Code\Core\PingPin.xml
 Code\Core\Tracking.lua
+Code\Core\ShareLinks.lua
 Code\UI\Tooltip.lua
 Code\UI\Pools.lua
+Code\UI\Style.lua
+Code\UI\AdventureCover.lua
 Code\UI\Banners.lua
 Code\UI\MinimapButton.lua
 Code\UI\LoadingScreenBrowser.lua
+Code\UI\FactionCards.lua
+Code\UI\QuestCard.lua
+Code\UI\LeftContextPanel.lua
+Code\UI\StoryTab.lua
+Code\UI\JournalTab.lua
+Code\UI\ProgressTab.lua
 Code\UI\StoryList.lua
 Code\StoryMode.lua
