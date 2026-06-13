@@ -362,11 +362,31 @@ function SM.SetChapterPortrait(portraitTex, displayID, iconPath, questID)
     end
 end
 
+local function GetFirstQuestGiverDisplayID(data, chapter, playerFaction)
+    if not data or not data.npcDisplayIDs or not chapter or not chapter.quests then
+        return nil
+    end
+    for _, q in ipairs(chapter.quests) do
+        if not q.faction or q.faction == playerFaction then
+            local id = q.npc and data.npcDisplayIDs[q.npc]
+            if id and id ~= 0 then
+                return id
+            end
+        end
+    end
+    return nil
+end
+
 function SM.GetChapterPortraitSource(data, chapter)
     if not data or not chapter then
         return nil, nil, false
     end
     local playerFaction = UnitFactionGroup("player")
+    local firstQuestGiverDisplayID = GetFirstQuestGiverDisplayID(data, chapter, playerFaction)
+
+    if firstQuestGiverDisplayID then
+        return firstQuestGiverDisplayID, nil, true
+    end
 
     if data.race and not data.class then
         if data.chapterDisplayIDs then
@@ -379,16 +399,6 @@ function SM.GetChapterPortraitSource(data, chapter)
             local chapterIcon = data.chapterIcons[chapter.chapter]
             if chapterIcon and chapterIcon ~= "" and chapterIcon ~= 0 then
                 return nil, chapterIcon, true
-            end
-        end
-        if data.npcDisplayIDs and chapter.quests then
-            for _, q in ipairs(chapter.quests) do
-                if not q.faction or q.faction == playerFaction then
-                    local id = q.npc and data.npcDisplayIDs[q.npc]
-                    if id and id ~= 0 then
-                        return id, nil, true
-                    end
-                end
             end
         end
         return nil, nil, false
@@ -405,17 +415,6 @@ function SM.GetChapterPortraitSource(data, chapter)
         local chapterIcon = data.chapterIcons[chapter.chapter]
         if chapterIcon and chapterIcon ~= "" and chapterIcon ~= 0 then
             return nil, chapterIcon, true
-        end
-    end
-
-    if (SM.IsRetailClient()) and data.npcDisplayIDs and chapter.quests then
-        for _, q in ipairs(chapter.quests) do
-            if not q.faction or q.faction == playerFaction then
-                local id = q.npc and data.npcDisplayIDs[q.npc]
-                if id and id ~= 0 then
-                    return id, nil, true
-                end
-            end
         end
     end
 

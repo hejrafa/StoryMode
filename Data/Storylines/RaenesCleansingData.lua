@@ -17,7 +17,7 @@ SM.RaenesCleansingData = {
     color = { 0.42, 0.58, 0.36 },
     icon = 135139,
     portraitDisplayID = 1980,
-    adventureCoverTexture = 131878, -- Blackfathom Deeps loading screen; closest Ashenvale/Night Elf ruin art
+    adventureCoverTexture = 131823, -- Blackfathom Deeps: Ashenvale's dungeon cover for Raene's zone story
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 991, name = "Raene's Cleansing", displayName = "Finding Teronis", npc = "Raene Wolfrunner", location = "Astranaar, Ashenvale" },

@@ -16,7 +16,7 @@ SM.ScytheOfEluneData = {
     achievements = {},
     color = { 0.42, 0.54, 0.78 },
     icon = 135139,
-    adventureCoverTexture = 131878, -- Blackfathom Deeps: night elf ruin mood for the scythe's Ashenvale origin
+    adventureCoverTexture = 131869, -- Shadowfang Keep: closest Classic cover for the worgen trail into Duskwood
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 1022, name = "The Howling Vale", npc = "Sentinel Melyria Frostshadow", location = "Forest Song, Ashenvale" },
@@ -34,6 +34,13 @@ SM.ScytheOfEluneData = {
         ["Clerk Daltry"] = { mapID = 47, x = 0.7230, y = 0.4660, location = "Darkshire Town Hall, Duskwood" },
         ["Jonathan Carevin"] = { mapID = 47, x = 0.7530, y = 0.4890, location = "Darkshire, Duskwood" },
         ["Mound of Dirt"] = { mapID = 47, x = 0.7300, y = 0.7900, location = "Roland's Doom, Duskwood" },
+    },
+
+    npcDisplayIDs = {
+        ["Sentinel Melyria Frostshadow"] = 1957,
+        ["Thyn'tel Bladeweaver"] = 7275,
+        ["Clerk Daltry"] = 1720,
+        ["Jonathan Carevin"] = 4338,
     },
 
     chapterIcons = {
