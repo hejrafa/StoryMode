@@ -13,12 +13,50 @@ const separator = "\n⟦STORY_MODE_LOCALE_SEPARATOR⟧\n";
 const maxChunkChars = 3200;
 const cacheDir = path.join(root, ".localization-cache");
 const cachePath = path.join(cacheDir, "google-translate-cache.json");
+const luaByteDecoder = new TextDecoder("utf-8");
 
 function unescapeLuaString(value) {
-  return value
-    .replace(/\\n/g, "\n")
-    .replace(/\\"/g, '"')
-    .replace(/\\\\/g, "\\");
+  let output = "";
+  let byteRun = [];
+  const flushBytes = () => {
+    if (byteRun.length === 0) return;
+    output += luaByteDecoder.decode(Uint8Array.from(byteRun));
+    byteRun = [];
+  };
+  for (let index = 0; index < value.length; index += 1) {
+    const char = value[index];
+    if (char !== "\\") {
+      flushBytes();
+      output += char;
+      continue;
+    }
+    const next = value[index + 1];
+    if (next === undefined) {
+      flushBytes();
+      output += "\\";
+      continue;
+    }
+    if (/\d/.test(next)) {
+      let digits = next;
+      index += 1;
+      while (digits.length < 3 && /\d/.test(value[index + 1] || "")) {
+        digits += value[index + 1];
+        index += 1;
+      }
+      byteRun.push(Number(digits));
+      continue;
+    }
+    flushBytes();
+    index += 1;
+    if (next === "n") output += "\n";
+    else if (next === "r") output += "\r";
+    else if (next === "t") output += "\t";
+    else if (next === '"') output += '"';
+    else if (next === "\\") output += "\\";
+    else output += next;
+  }
+  flushBytes();
+  return output;
 }
 
 function escapeLuaString(value) {

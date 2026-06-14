@@ -22,6 +22,7 @@
 
 ### Maintenance
 - Added a dev-only localization fill tool and tightened the localization audit so English fallback keys fail validation
+- Added dev-only localization quality-pass tooling for official quest-name lookups and glossary drift candidate reports
 - Bumped addon metadata to `1.8.8`
 
 ## 1.8.7
