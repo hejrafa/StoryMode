@@ -104,6 +104,7 @@ L["Tracking Begin Format"] = "Begin %s."
 L["Tracking Next NPC Zone Format"] = "Your next chapter is %s with %s in %s."
 L["Tracking Next NPC Format"] = "Your next chapter is %s with %s."
 L["Tracking Next Format"] = "Your next chapter is %s."
+L["Tracking Hearts of Zeal Guano Prereq Format"] = "Complete %s first; it unlocks Hearts of Zeal."
 
 L["Slash Test Quest Name"] = "Test Quest Name"
 L["Slash No Questline Data"] = "No questline data to test."

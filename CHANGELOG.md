@@ -7,6 +7,7 @@
 - Added **The Scythe of Elune** as an Alliance story linking Ashenvale, Velinde Starsong, Duskwood, and the worgen mystery
 - Adjusted chapter portraits to prefer the first quest giver's face when NPC display data is available
 - Corrected **Raene's Cleansing** to use the Blackfathom Deeps loading screen cover
+- Corrected **The Scarlet Crusade** so **Tyr's Hand** uses Nathanos Blightcaller's Classic portrait
 - Added **Scholomance** coverage for the Skeleton Key, Sarkhoff/Kirtonos chain, Ras Frostwhisper, and Barov inheritance quests
 - Added **Maraudon** coverage for Vyle corruption, the Scepter of Celebras, Theradras, Zaetar, and the Seed of Life
 - Added **Secrets of Uldaman** coverage for Hammertoe, the Shattered Necklace, the Tablet of Will, and the Platinum Discs
@@ -14,6 +15,7 @@
 
 ### Quest Guidance
 - Corrected **Compendium of the Fallen** so undead characters do not see it, while other Horde characters can pick it up without a prerequisite
+- Clarified **Hearts of Zeal** chat guidance so **Going, Going, Guano!** is named as the prerequisite
 
 ### Maintenance
 - Bumped addon metadata to `1.8.8`
