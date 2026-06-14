@@ -234,6 +234,19 @@ function safePhraseCandidate(value) {
   return true;
 }
 
+function normalizeQuestName(value) {
+  return (value || "")
+    .toLowerCase()
+    .replace(/[“”"'’]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function isEnglishFallbackName(official, english) {
+  return normalizeQuestName(official) === normalizeQuestName(english);
+}
+
 const datasets = await loadDatasets(root);
 const questBySourceID = new Map();
 for (const data of datasets) {
@@ -252,6 +265,7 @@ const cache = await loadCache();
 for (const [locale, localeInfo] of Object.entries(localeTargets)) {
   console.log(`${locale}: ${cacheOnly ? "checking cached official names" : "fetching official names"} for ${quests.length} quest IDs`);
   const officialByEnglish = new Map();
+  let englishFallbacks = 0;
   let processed = 0;
   await mapLimit(quests, requestConcurrency, async (quest) => {
     const official = await fetchOfficialName(quest, locale, localeInfo, cache);
@@ -261,6 +275,10 @@ for (const [locale, localeInfo] of Object.entries(localeTargets)) {
       await saveCache(cache);
     }
     if (!official) return;
+    if (isEnglishFallbackName(official, quest.name)) {
+      englishFallbacks += 1;
+      return;
+    }
     const names = officialByEnglish.get(quest.name) || new Map();
     names.set(official, (names.get(official) || 0) + 1);
     officialByEnglish.set(quest.name, names);
@@ -294,7 +312,7 @@ for (const [locale, localeInfo] of Object.entries(localeTargets)) {
   if (applyChanges) {
     await writeFile(localePath, result.text, "utf8");
   }
-  console.log(`${locale}: ${directUpdates.size} quest-title keys, ${result.changedEntries} locale entries ${applyChanges ? "changed" : "would change"}, ${conflicts.length} conflicts skipped`);
+  console.log(`${locale}: ${directUpdates.size} quest-title keys, ${result.changedEntries} locale entries ${applyChanges ? "changed" : "would change"}, ${conflicts.length} conflicts skipped, ${englishFallbacks} English-fallback names skipped`);
   if (conflicts.length > 0) {
     console.log(`${locale}: skipped conflicts: ${conflicts.slice(0, 10).map((c) => c.english).join(", ")}${conflicts.length > 10 ? "..." : ""}`);
   }

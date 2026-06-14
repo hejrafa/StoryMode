@@ -172,6 +172,7 @@ Useful local checks:
 ```bash
 node _Dev/tools/check-core-behavior.mjs .
 node _Dev/tools/localization-audit.mjs .
+node _Dev/tools/localization-prose-quality-pass.mjs .
 node _Dev/tools/recap-coverage.mjs . --strict
 node _Dev/tools/validate-story-data.mjs .
 ```

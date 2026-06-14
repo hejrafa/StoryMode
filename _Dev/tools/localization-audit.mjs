@@ -66,6 +66,7 @@ const protectedTerms = ["Story Mode", "Dialogue UI", "Warcraft", "WoW"];
 const protectedTermPattern = protectedTerms.map(escapeRegex).join("|");
 const gluedProtectedTerm = new RegExp(`\\p{L}(?:${protectedTermPattern})|(?:${protectedTermPattern})\\p{L}`, "u");
 const gluedPlaceholder = /\p{L}%(?:\d+\$)?[sdqfg]|%(?:\d+\$)?[sdqfg]\p{L}/u;
+const invisibleSpacing = /[\u00A0\u1680\u180E\u2000-\u200F\u2028\u2029\u202F\u205F\u2060\uFEFF]/u;
 
 function localeValueFindings(value, rawValue) {
   const findings = [];
@@ -77,6 +78,9 @@ function localeValueFindings(value, rawValue) {
   }
   if (value.includes("�")) {
     findings.push("replacement character");
+  }
+  if (invisibleSpacing.test(value)) {
+    findings.push("invisible or non-breaking spacing character");
   }
   if (gluedProtectedTerm.test(value)) {
     findings.push("protected term glued to surrounding text");

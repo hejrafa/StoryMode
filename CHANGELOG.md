@@ -19,10 +19,16 @@
 
 ### Localization
 - Filled remaining supported-locale story and content fallbacks for German, Spanish, French, Portuguese, and Russian
+- Fixed second-pass German and Spanish prose QA findings where generated translations left English source sentences in localized story text
+- Removed invisible generated spacing artifacts from supported locale files
+- Polished mixed English title residues in localized prose and updated `The Writhing Deep` to official localized quest titles
 
 ### Maintenance
 - Added a dev-only localization fill tool and tightened the localization audit so English fallback keys fail validation
 - Added dev-only localization quality-pass tooling for official quest-name lookups and glossary drift candidate reports
+- Added a dev-only prose quality audit to catch source-sentence residue in localized content
+- Expanded localization validation to fail hidden Unicode spacing artifacts
+- Hardened official quest-title QA to skip English fallback names and expanded prose QA to catch embedded source-title residue
 - Bumped addon metadata to `1.8.8`
 
 ## 1.8.7

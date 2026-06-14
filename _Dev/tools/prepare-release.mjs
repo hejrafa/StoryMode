@@ -116,6 +116,7 @@ function runChecks() {
     run("luac", ["-p", ...luaFiles]),
     run(process.execPath, ["_Dev/tools/check-core-behavior.mjs", root]),
     run(process.execPath, ["_Dev/tools/localization-audit.mjs", root]),
+    run(process.execPath, ["_Dev/tools/localization-prose-quality-pass.mjs", root]),
     run(process.execPath, ["_Dev/tools/recap-coverage.mjs", root, "--strict"]),
     run(process.execPath, ["_Dev/tools/validate-story-data.mjs", root]),
     run("git", ["diff", "--check"]),
