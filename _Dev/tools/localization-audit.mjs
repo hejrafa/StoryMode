@@ -130,6 +130,9 @@ for (const locale of localeFiles) {
     contentOverrides,
     englishFallback: enEntries.size - localeEntries.size,
   };
+  if (report[locale].englishFallback > 0) {
+    findings.push(`${localePath}: ${report[locale].englishFallback} keys fall back to English`);
+  }
 }
 
 if (findings.length > 0) {

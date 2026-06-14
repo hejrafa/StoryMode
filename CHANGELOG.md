@@ -17,7 +17,11 @@
 - Corrected **Compendium of the Fallen** so undead characters do not see it, while other Horde characters can pick it up without a prerequisite
 - Clarified **Hearts of Zeal** chat guidance so **Going, Going, Guano!** is named as the prerequisite
 
+### Localization
+- Filled remaining supported-locale story and content fallbacks for German, Spanish, French, Portuguese, and Russian
+
 ### Maintenance
+- Added a dev-only localization fill tool and tightened the localization audit so English fallback keys fail validation
 - Bumped addon metadata to `1.8.8`
 
 ## 1.8.7

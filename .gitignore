@@ -4,3 +4,4 @@
 .release/
 .quest-audit-cache/
 .meta-audit-cache/
+.localization-cache/

@@ -310,8 +310,8 @@ end
 local function GetTrackingHintText(quest, printQuest)
     if not printQuest then return nil end
     if printQuest.trackingHintFormat then
-        local linkedQuest = printQuest.trackingHintQuestID or quest or printQuest
-        local linkedQuestName = printQuest.trackingHintQuestName or (quest and quest.name) or printQuest.name
+        local linkedQuest = printQuest.trackingHintQuestID or printQuest or quest
+        local linkedQuestName = printQuest.trackingHintQuestName or printQuest.name or (quest and quest.name)
         local Q = SM.GetQuestChatLink(linkedQuest, linkedQuestName)
         local place = ColorTrackingLocation(printQuest.trackingHintPlace)
         local npc = ColorTrackingNPC(printQuest.trackingHintNPC)
