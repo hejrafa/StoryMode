@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9.0
+
+### Maintenance
+- Bumped addon metadata to `1.9.0`
+
 ## 1.8.9
 
 ### Retail
