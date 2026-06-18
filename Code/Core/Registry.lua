@@ -49,7 +49,12 @@ local contentRegistry = {
     { key = "SuramarData", category = "Epic Stories" },
     { key = "NazmirData", category = "Epic Stories" },
     { key = "RevendrethData", category = "Epic Stories" },
+    { key = "BlueDragonflightData", category = "Epic Stories" },
 
+    { key = "RheasLastEggData", category = "Short Stories" },
+    { key = "RunasTheShamedData", category = "Short Stories" },
+    { key = "VeritistraszData", category = "Short Stories" },
+    { key = "MourningRiseData", category = "Short Stories" },
     { key = "TeddiesAndTeaData", category = "Short Stories" },
     { key = "LinkenData", category = "Short Stories" },
     { key = "CortellosRiddleData", category = "Short Stories" },

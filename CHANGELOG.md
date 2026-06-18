@@ -2,6 +2,12 @@
 
 ## 1.9.0
 
+### Retail
+- Added **A Blue Dawn**, covering Kalecgos and the restored blue dragonflight questline
+- Added retail short stories for **Rhea's Last Egg**, **Runas the Shamed**, **Stay a While**, and **Mourning Rise**
+- Set new chapter portraits to the first quest giver's NPC face wherever each chapter begins
+- Added full supported-locale coverage for the new retail story text
+
 ### Maintenance
 - Bumped addon metadata to `1.9.0`
 

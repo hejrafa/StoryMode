@@ -35,6 +35,7 @@ Data\Storylines\SuramarData.lua
 Data\Storylines\DrustvarData.lua
 Data\Storylines\NazmirData.lua
 Data\Storylines\JadeForestData.lua
+Data\Storylines\BlueDragonflightData.lua
 Data\Storylines\DefiasBrotherhoodData.lua
 Data\Storylines\ArugalData.lua
 Data\Storylines\ANewPlagueData.lua
@@ -69,6 +70,10 @@ Data\Storylines\LilianVossData.lua
 Data\Storylines\SylvanasData.lua
 Data\Storylines\JainaData.lua
 Data\Storylines\TeddiesAndTeaData.lua
+Data\Storylines\RheasLastEggData.lua
+Data\Storylines\RunasTheShamedData.lua
+Data\Storylines\VeritistraszData.lua
+Data\Storylines\MourningRiseData.lua
 Data\Storylines\LinkenData.lua
 Data\Storylines\CortellosRiddleData.lua
 Data\Storylines\MissingCourierData.lua
