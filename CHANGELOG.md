@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.9
+
+### Retail
+- Added support for WoW Retail 12.0.7 interface `120007` while retaining `120005` compatibility
+
+### Maintenance
+- Bumped addon metadata to `1.8.9`
+
 ## 1.8.8
 
 ### Classic Era
