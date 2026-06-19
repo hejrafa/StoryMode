@@ -14,6 +14,9 @@ SM.VeritistraszData = {
     achievements = {},
     color = { 0.78, 0.25, 0.18 },
     portraitDisplayID = 108383, -- Veritistrasz
+    adventureGuideInstanceName = "Ruby Life Pools",
+    adventureCoverTexture = 4550300, -- Ruby Life Pools loading screen
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 70132, name = "Stay a While", npc = "Veritistrasz", location = "Ruby Lifeshrine, The Waking Shores" },
     startMapID = 2022,

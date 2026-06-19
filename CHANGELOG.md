@@ -7,6 +7,10 @@
 - Added retail short stories for **Rhea's Last Egg**, **Runas the Shamed**, **Stay a While**, and **Mourning Rise**
 - Set new chapter portraits to the first quest giver's NPC face wherever each chapter begins
 - Added full supported-locale coverage for the new retail story text
+- Assigned explicit high-quality cover textures to the new retail stories, preferring dungeon loading screens where available
+- Moved longer retail chains over ten quests from **Short Stories** into **Stories**
+- Added Fuselight prerequisite tracking for **Rhea's Last Egg** when Rhea does not offer the opening quest yet
+- Replaced **Runas the Shamed**'s low-resolution Eye of Azshara UI cover with a high-resolution Nightborne loading-screen cover
 
 ### Localization
 - Replaced the Russian progress and level dividers with `|` to avoid a missing-glyph square in the Russian client font

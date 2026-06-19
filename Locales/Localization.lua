@@ -50,6 +50,11 @@ local function LocalizeQuest(quest)
     LocalizeField(quest, "trackingHintNPC")
     LocalizeField(quest, "trackingHintDestination")
     LocalizeQuest(quest.guidanceQuest)
+    if type(quest.guidanceQuests) == "table" then
+        for _, guidanceQuest in ipairs(quest.guidanceQuests) do
+            LocalizeQuest(guidanceQuest)
+        end
+    end
 end
 
 local function LocalizeChapter(chapter)

@@ -14,6 +14,9 @@ SM.MourningRiseData = {
     achievements = {},
     color = { 0.74, 0.58, 0.36 },
     portraitDisplayID = 117255, -- Korgran
+    adventureGuideInstanceName = "The Stonevault",
+    adventureCoverTexture = 5795799, -- The Stonevault loading screen
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 78743, name = "Before I Depart", npc = "Korgran", location = "Mourning Rise, Isle of Dorn" },
     startMapID = 2248,

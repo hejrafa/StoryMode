@@ -185,13 +185,28 @@ local function GetQuestLocation(data, quest)
     return nil
 end
 
+local function IsGuidanceQuestPending(guidanceQuest)
+    if type(guidanceQuest) ~= "table" then return false end
+    if guidanceQuest.id and SM.IsQuestComplete(guidanceQuest.id) then return false end
+    return true
+end
+
 local function GetQuestGuidanceOverride(quest)
-    if type(quest) ~= "table" or type(quest.guidanceQuest) ~= "table" then return nil end
+    if type(quest) ~= "table" then return nil end
     if SM.IsQuestEntryInLog(quest) then return nil end
     if quest.id and SM.IsQuestComplete(quest.id) then return nil end
+
+    if type(quest.guidanceQuests) == "table" then
+        for _, guidanceQuest in ipairs(quest.guidanceQuests) do
+            if IsGuidanceQuestPending(guidanceQuest) then
+                return guidanceQuest
+            end
+        end
+    end
+
     local guidanceQuest = quest.guidanceQuest
-    if guidanceQuest.id and SM.IsQuestComplete(guidanceQuest.id) then return nil end
-    return guidanceQuest
+    if IsGuidanceQuestPending(guidanceQuest) then return guidanceQuest end
+    return nil
 end
 
 local function TrackResult(kind, questID, loc, openedQuestLog, questOverride)

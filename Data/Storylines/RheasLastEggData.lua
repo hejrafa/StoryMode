@@ -14,6 +14,9 @@ SM.RheasLastEggData = {
     achievements = {},
     color = { 0.62, 0.27, 0.16 },
     portraitDisplayID = 35212, -- Rhea
+    adventureGuideInstanceName = "Blackrock Caverns",
+    adventureCoverTexture = 418218, -- Blackrock Caverns loading screen
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 27765, name = "First Sample: Wild Eggs", npc = "Rhea", location = "Lethlor Ravine, Badlands" },
     startMapID = 15,
@@ -80,7 +83,12 @@ SM.RheasLastEggData = {
             summary = "Rhea asks for black dragon samples and slowly reveals why she is risking everything in the Badlands.",
             recap = "Rhea's errands looked like field work at first: wild eggs, whelps, implanted eggs, and a strange fog that hid more than geography. Then she revealed the truth. She was Rheastrasza, a red dragon trying to rescue the future of the black dragonflight before Deathwing's corruption consumed it forever.\n\nThe samples were not trophies. They were the last chance to create an uncorrupted black dragon egg.",
             quests = {
-                { id = 27765, name = "First Sample: Wild Eggs", npc = "Rhea" },
+                { id = 27765, name = "First Sample: Wild Eggs", npc = "Rhea",
+                    guidanceQuests = {
+                        { id = 27774, name = "Easily Swayed", npc = "Dolph Blastus", mapID = 15, x = 0.6500, y = 0.3820, location = "Fuselight, Badlands", trackingHintFormat = "Tracking Rhea Fuselight Prereq Format", trackingHintQuestName = "Easily Swayed", trackingHintPlace = "Fuselight, Badlands" },
+                        { id = 27764, name = "A Strange Request", npc = "Dolph Blastus", mapID = 15, x = 0.6500, y = 0.3820, location = "Fuselight, Badlands", trackingHintFormat = "Tracking Rhea Fuselight Prereq Format", trackingHintQuestName = "A Strange Request", trackingHintPlace = "Fuselight, Badlands" },
+                    },
+                },
                 { id = 27766, name = "Second Sample: Whelps", npc = "Rhea" },
                 { id = 27770, name = "Lifting the Veil", npc = "Rhea" },
                 { id = 27771, name = "Third Sample: Implanted Eggs", npc = "Rhea" },

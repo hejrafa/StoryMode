@@ -15,6 +15,9 @@ SM.BlueDragonflightData = {
     recommendedLevel = { min = 60, max = 70 },
     color = { 0.28, 0.50, 0.95 },
     portraitDisplayID = 75614, -- Kalecgos
+    adventureGuideInstanceName = "The Azure Vault",
+    adventureCoverTexture = 4566643, -- The Azure Vault loading screen
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 72900, name = "Keeper of the Ossuary", npc = "Kalecgos", location = "The Azure Archives, The Azure Span" },
     startMapID = 2024,

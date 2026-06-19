@@ -14,7 +14,9 @@ SM.RunasTheShamedData = {
     achievements = {},
     color = { 0.42, 0.62, 0.95 },
     portraitDisplayID = 64545, -- Stellagosa
-    adventureGuideInstanceName = "Eye of Azshara",
+    adventureGuideInstanceName = "Court of Stars",
+    adventureCoverTexture = 1477131, -- Court of Stars loading screen: high-resolution Nightborne arcane art for Runas' Nightborne threat
+    adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 37957, name = "Runas the Shamed", npc = "Stellagosa", location = "Azurewing Repose, Azsuna" },
     startMapID = 630,

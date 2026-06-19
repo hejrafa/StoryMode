@@ -34,6 +34,9 @@ local contentRegistry = {
     { key = "PrincessMoiraData", category = "Stories" },
     { key = "MaraudonData", category = "Stories" },
     { key = "UldamanData", category = "Stories" },
+    { key = "RheasLastEggData", category = "Stories" },
+    { key = "RunasTheShamedData", category = "Stories" },
+    { key = "MourningRiseData", category = "Stories" },
 
     { key = "ScarletCrusadeData", category = "Epic Stories" },
     { key = "DarrowshireData", category = "Epic Stories" },
@@ -51,10 +54,7 @@ local contentRegistry = {
     { key = "RevendrethData", category = "Epic Stories" },
     { key = "BlueDragonflightData", category = "Epic Stories" },
 
-    { key = "RheasLastEggData", category = "Short Stories" },
-    { key = "RunasTheShamedData", category = "Short Stories" },
     { key = "VeritistraszData", category = "Short Stories" },
-    { key = "MourningRiseData", category = "Short Stories" },
     { key = "TeddiesAndTeaData", category = "Short Stories" },
     { key = "LinkenData", category = "Short Stories" },
     { key = "CortellosRiddleData", category = "Short Stories" },
