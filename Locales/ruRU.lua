@@ -31,7 +31,7 @@ L["Button Mark Played"] = "Отметить как пройденное"
 L["Tooltip Story Locked"] = "История заблокирована"
 
 L["Campaign Complete"] = "|A:common-icon-checkmark:0:0|a Кампания завершена"
-L["Progress Summary Format"] = "%d/%d глав  \194\183  %d/%d заданий"
+L["Progress Summary Format"] = "%d/%d глав  |  %d/%d заданий"
 L["Journal Header"] = "Ваша история до сих пор"
 L["Journal Header Complete"] = "Ваша история"
 L["Journal Empty Title"] = "Первая страница пока пуста."
@@ -69,7 +69,7 @@ L["Lock Complete Quest Format"] = "Завершите %s, чтобы откры�
 L["Lock Complete Previous Quest Format"] = "Сначала завершите %s."
 L["Lock Speak Pick Up Quest Format"] = "Поговорите с %s и возьмите %s, чтобы начать эту главу."
 L["Story Level Format"] = "Ур. %s"
-L["Story Level Zone Format"] = "Ур. %s \194\183 %s"
+L["Story Level Zone Format"] = "Ур. %s | %s"
 L["Story Suggested Level Format"] = "Рекомендуемый уровень: %s"
 
 L["Quest Status Completed"] = "Завершено"

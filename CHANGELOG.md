@@ -8,6 +8,9 @@
 - Set new chapter portraits to the first quest giver's NPC face wherever each chapter begins
 - Added full supported-locale coverage for the new retail story text
 
+### Localization
+- Replaced the Russian progress and level dividers with `|` to avoid a missing-glyph square in the Russian client font
+
 ### Maintenance
 - Bumped addon metadata to `1.9.0`
 
