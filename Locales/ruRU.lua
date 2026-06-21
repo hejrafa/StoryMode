@@ -1339,6 +1339,7 @@ L["The Platinum Discs"] = "Платиновые диски"
 L["Defeat Archaedas, consult the stone watcher, and carry the miniature discs to your faction's scholar."] = "Победите Архедаса, посоветуйтесь с каменным наблюдателем и отнесите миниатюрные диски учёному вашей фракции."
 L["Behind Archaedas, the Discs of Norgannon spoke with the calm weight of titan memory. They named the Creators, the Earthen, and the deep history beneath dwarven stone. The portable discs went from Uldaman to Ironforge or Thunder Bluff, where scholars understood that the find was not only treasure. It was origin."] = "Позади Архедаса Диски Норганнона говорили со спокойной тяжестью титанической памяти. Они назвали Создателей, Землян и глубокую историю под дварфийским камнем. Переносные диски отправились из Ульдамана в Стальгорн или Громовой Утес, где учёные поняли, что находка — не просто сокровище. Это было происхождение."
 L["Discs of Norgannon"] = "Диски Норганнона"
+L["High Explorer Magellas"] = "Старший исследователь Магеллас"
 -- Generated full content localization for remaining English fallbacks.
 L["A \"Humble\" Request"] = "«Смиренная» просьба"
 L["A Beastly Expedition"] = "Зверская экспедиция"

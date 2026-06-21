@@ -1341,6 +1341,7 @@ L["The Platinum Discs"] = "Die Platinscheiben"
 L["Defeat Archaedas, consult the stone watcher, and carry the miniature discs to your faction's scholar."] = "Besiege Archaedas, konsultiere den Steinwächter und bringe die Miniaturscheiben zum Gelehrten deiner Fraktion."
 L["Behind Archaedas, the Discs of Norgannon spoke with the calm weight of titan memory. They named the Creators, the Earthen, and the deep history beneath dwarven stone. The portable discs went from Uldaman to Ironforge or Thunder Bluff, where scholars understood that the find was not only treasure. It was origin."] = "Hinter Archaedas sprachen die Scheiben von Norgannon mit dem ruhigen Gewicht der Titanenerinnerung. Sie nannten die Schöpfer, die Irdenen und die tiefe Geschichte unter dem Zwergenstein. Die tragbaren Scheiben gingen von Uldaman nach Ironforge oder Thunder Bluff, wo Gelehrte erkannten, dass es sich bei dem Fund nicht nur um einen Schatz handelte. Es war Ursprung."
 L["Discs of Norgannon"] = "Scheiben von Norgannon"
+L["High Explorer Magellas"] = "Hochforscher Magellas"
 -- Generated full content localization for remaining English fallbacks.
 L["A \"Humble\" Request"] = "Eine „bescheidene“ Bitte"
 L["A Beastly Expedition"] = "Eine tierische Expedition"

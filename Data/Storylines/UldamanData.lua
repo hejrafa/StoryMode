@@ -20,7 +20,7 @@ SM.UldamanData = {
     color = { 0.64, 0.54, 0.34 },
     icon = 134459,
     adventureGuideInstanceName = "Uldaman",
-    adventureCoverTexture = 131824, -- Blackrock Depths: closest Classic dwarven stonework loading screen
+    adventureCoverTexture = 131876, -- Uldaman loading screen
     adventureCoverIsLoadingScreen = true,
 
     startQuest = { id = 720, name = "A Sign of Hope", npc = "Crumpled Map", location = "Hammertoe's Digsite, Badlands", faction = "Alliance" },
@@ -42,15 +42,22 @@ SM.UldamanData = {
         ["Remains of a Paladin"] = { mapID = 230, x = 0.3900, y = 0.3000, location = "near Revelosh's chamber, Uldaman" },
         ["Jarkal Mossmeld"] = { mapID = 15, x = 0.0200, y = 0.4700, location = "Kargath, Badlands" },
         ["Discs of Norgannon"] = { mapID = 230, x = 0.7200, y = 0.3000, location = "the treasure chamber beyond Archaedas, Uldaman" },
+        ["High Explorer Magellas"] = { mapID = 87, x = 0.6993, y = 0.1855, location = "the Hall of Explorers, Ironforge" },
         ["Dinita Stonemantle"] = { mapID = 87, x = 0.3300, y = 0.6000, location = "the Vault, Ironforge" },
         ["Sage Truthseeker"] = { mapID = 88, x = 0.3400, y = 0.4700, location = "Thunder Bluff" },
         ["Bena Winterhoof"] = { mapID = 88, x = 0.4600, y = 0.3300, location = "Thunder Bluff" },
     },
 
+    npcDisplayIDs = {
+        ["Prospector Ryedol"] = 4900,
+        ["Talvash del Kissel"] = 5647,
+        ["Dran Droffers"] = 5769,
+    },
+
     chapterDisplayIDs = {
         ["Hammertoe's Warning"] = 1265,
         ["The Shattered Necklace"] = 1466,
-        ["The Platinum Discs"] = 7207,
+        ["The Platinum Discs"] = 6589, -- Stone Watcher of Norgannon
     },
 
     chapterIcons = {
@@ -105,8 +112,8 @@ SM.UldamanData = {
             recap = "Behind Archaedas, the Discs of Norgannon spoke with the calm weight of titan memory. They named the Creators, the Earthen, and the deep history beneath dwarven stone. The portable discs went from Uldaman to Ironforge or Thunder Bluff, where scholars understood that the find was not only treasure. It was origin.",
             quests = {
                 { id = 2278, name = "The Platinum Discs", npc = "Discs of Norgannon" },
-                { id = 2439, name = "The Platinum Discs", npc = "Discs of Norgannon", faction = "Alliance" },
-                { id = 2440, name = "The Platinum Discs", npc = "Discs of Norgannon", faction = "Horde" },
+                { id = 2439, name = "The Platinum Discs", npc = "High Explorer Magellas", faction = "Alliance" },
+                { id = 2440, name = "The Platinum Discs", npc = "Sage Truthseeker", faction = "Horde" },
             },
         },
     },

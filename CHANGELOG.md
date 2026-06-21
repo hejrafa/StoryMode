@@ -2,6 +2,9 @@
 
 ## 1.9.0
 
+### Classic Era
+- Corrected **Secrets of Uldaman** to use the Uldaman loading-screen cover and faction-appropriate first quest giver chapter portraits
+
 ### Retail
 - Added **A Blue Dawn**, covering Kalecgos and the restored blue dragonflight questline
 - Added retail short stories for **Rhea's Last Egg**, **Runas the Shamed**, **Stay a While**, and **Mourning Rise**
