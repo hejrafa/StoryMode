@@ -21,6 +21,90 @@ local function RefreshVisibleStoryList(data)
     if SM.RefreshStoryListState then SM.RefreshStoryListState(data) end
 end
 
+local SCARLET_REVEAL_THRESHOLD = 100
+local SCARLET_VOSS_THRESHOLD = 1000
+local SCARLET_WHISPERS = { [25] = true, [50] = true, [75] = true }
+
+-- CLEU destName arrives localized, so the tally gate needs per-locale name
+-- fragments (plain find, case-sensitive). ruRU lists the adjective declensions
+-- of "Алый орден"; the Romance locales use lowercase-safe substrings.
+local SCARLET_NAME_FRAGMENTS = {
+    deDE = { "Scharlach" },
+    esES = { "scarlata" },
+    esMX = { "scarlata" },
+    ptBR = { "scarlate" },
+    frFR = { "carlate" },
+    ruRU = { "Алый", "Алая", "Алое", "Алого", "Алой", "Алому", "Алым", "Алых", "Алые" },
+    koKR = { "진홍" },
+    zhCN = { "血色" },
+    zhTW = { "血色" },
+}
+local scarletNameFragments = SCARLET_NAME_FRAGMENTS[GetLocale and GetLocale() or ""] or { "Scarlet" }
+
+function SM.IsScarletMobName(name)
+    if not name or name == "" then return false end
+    for _, fragment in ipairs(scarletNameFragments) do
+        if name:find(fragment, 1, true) then return true end
+    end
+    return false
+end
+
+local function RefreshScarletStoryViews()
+    InvalidateProgress()
+    RefreshVisibleStoryList()
+    if SM.RefreshCurrentStoryDetail then
+        local currentData = SM.GetCurrentStoryData and SM.GetCurrentStoryData() or nil
+        if currentData then SM.RefreshCurrentStoryDetail(currentData) end
+    end
+end
+
+local function HandleScarletCombatEvent()
+    if not CombatLogGetCurrentEventInfo then return end
+    local _, subevent, _, sourceGUID, _, _, _, destGUID, destName = CombatLogGetCurrentEventInfo()
+    if subevent ~= "PARTY_KILL" then return end
+    if not destName or destName == "" then return end
+
+    local playerGUID = UnitGUID("player")
+    local petGUID = UnitGUID("pet")
+    if sourceGUID ~= playerGUID and (not petGUID or sourceGUID ~= petGUID) then return end
+
+    -- Only NPCs feed the ledger: without this, battleground kills on players
+    -- named "Scarlett" (or renamed enemy pets) would count toward the secret.
+    local guidType = destGUID and destGUID:match("^(%a+)")
+    if guidType ~= "Creature" and guidType ~= "Vehicle" then return end
+
+    -- Named Crusade figures (Herod, Whitemane, ...) don't all carry "Scarlet"
+    -- in their name, so the ledger check runs before the tally gate.
+    if SM.GetScarletNamedTargetKey and SM.RecordScarletNamedKill then
+        local npcID = tonumber(select(6, strsplit("-", destGUID)) or nil)
+        SM.RecordScarletNamedKill(SM.GetScarletNamedTargetKey(npcID, destName))
+    end
+
+    if not SM.IsScarletMobName(destName) then return end
+    if not SM.IncrementScarletKillCount then return end
+    local count = SM.IncrementScarletKillCount()
+
+    if SCARLET_WHISPERS[count] and not SM.IsScarletCrusaderRevealed() then
+        print("|cff9d9d9d" .. L["Scarlet Whisper " .. count] .. "|r")
+    end
+
+    if count >= SCARLET_REVEAL_THRESHOLD and not SM.IsScarletCrusaderRevealed() then
+        SM.SetScarletCrusaderRevealed()
+        if SM.ShowStoryBanner then
+            SM.ShowStoryBanner(L["Scarlet Crusader Reveal Header"], L["Scarlet Crusader Reveal Title"], nil, nil, true)
+        end
+        RefreshScarletStoryViews()
+    end
+
+    if count >= SCARLET_VOSS_THRESHOLD and SM.IsScarletCrusaderRevealed()
+        and SM.IsScarletVossBannerShown and not SM.IsScarletVossBannerShown() then
+        SM.SetScarletVossBannerShown()
+        if SM.ShowStoryBanner then
+            SM.ShowStoryBanner(L["Scarlet Voss Banner Header"], L["Scarlet Voss Banner Title"], nil, nil, true)
+        end
+    end
+end
+
 function SM.GetQuestAcceptedMessageQuestID(message)
     local questID = message and message:match("|Hquest:(%d+)")
     return questID and tonumber(questID) or nil
@@ -184,6 +268,30 @@ function SM.InitializeSlashCommands()
                 print(L["Addon Legacy Prefix"] .. L["Slash No Questline Data"])
             end
             return
+        elseif msg:match("^scarlet") then
+            local arg = msg:match("^scarlet%s+(%S+)$")
+            if arg == "reveal" then
+                if not SM.IsScarletCrusaderRevealed() then
+                    SM.SetScarletCrusaderRevealed()
+                    SM.ShowStoryBanner(L["Scarlet Crusader Reveal Header"], L["Scarlet Crusader Reveal Title"], nil, nil, true)
+                    RefreshScarletStoryViews()
+                    print(L["Addon Debug Prefix"] .. "Scarlet Crusader tab revealed")
+                else
+                    print(L["Addon Debug Prefix"] .. "Scarlet Crusader already revealed")
+                end
+                return
+            elseif tonumber(arg) then
+                SM.SetScarletKillCount(tonumber(arg))
+                print(L["Addon Debug Prefix"] .. "Scarlet count set to " .. SM.GetScarletKillCount())
+                return
+            end
+            -- The secret keeps its own counsel: no tally for the unrevealed.
+            if SM.IsScarletCrusaderRevealed() then
+                print(L["Addon Prefix"] .. string.format(L["Scarlet Crusader Note Format"], SM.GetScarletKillCount()))
+            else
+                print(L["Addon Prefix"] .. L["Scarlet Command Unrevealed"])
+            end
+            return
         elseif msg == "track" or msg == "next" then
             -- Slash commands execute in an insecure Lua context; the in-UI
             -- Continue Story button remains the preferred waypoint path.
@@ -243,7 +351,18 @@ function SM.InitializeCoreEvents(storyFrame)
     eventFrame:RegisterEvent("PLAYER_LEVEL_UP")
     eventFrame:RegisterEvent("PLAYER_LOGIN")
     eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+    -- The Scarlet secret lives where its host story lives: on clients where
+    -- The Scarlet Crusade isn't registered (e.g. retail), never count kills —
+    -- otherwise the reveal would announce a tab that cannot exist.
+    if SM.ScarletCrusadeData and SM.IsContentAvailableForClient
+        and SM.IsContentAvailableForClient(SM.ScarletCrusadeData) then
+        eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+    end
     eventFrame:SetScript("OnEvent", function(_, event, arg1, arg2)
+        if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+            HandleScarletCombatEvent()
+            return
+        end
         if event == "PLAYER_REGEN_DISABLED" then
             if storyFrame and storyFrame:IsShown() then storyFrame:Hide() end
             return

@@ -18,6 +18,7 @@ SM.ScarletCrusadeData = {
     adventureGuideInstanceName = "Scarlet Monastery",
     adventureCoverTexture = 645156,
     adventureCoverIsLoadingScreen = true,
+    secretTab = true,  -- unlocks "The Scarlet Crusader" tab once revealed (see Events.lua Scarlet kill counter)
 
     startMapID = 18,
     startX = 0.3260,

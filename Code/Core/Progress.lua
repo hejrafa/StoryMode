@@ -275,7 +275,7 @@ function SM.GetChapterProgress(ch)
 
     local total, done = 0, 0
     local optionalTotal, optionalDone = 0, 0
-    for i, q in ipairs(ch.quests) do
+    for i, q in ipairs(ch.quests or {}) do
         if SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
             if q.optional then
                 optionalTotal = optionalTotal + 1
@@ -321,7 +321,7 @@ function SM.GetCampaignProgress(data)
     if cached then return cached.done, cached.total end
     local total, done = 0, 0
     for _, ch in ipairs(SM.GetAllChapters(data)) do
-        for _, q in ipairs(ch.quests) do
+        for _, q in ipairs(ch.quests or {}) do
             if not q.optional and SM.IsQuestForPlayer(q) and not SM.ShouldHideQuest(q) then
                 total = total + 1
                 if SM.IsQuestEntryComplete(q) then done = done + 1 end
@@ -443,7 +443,7 @@ function SM.FindNextQuest(data)
                 if chDone < chTotal then
                     local section = ch._section or 1
 
-                    for j, q in ipairs(ch.quests) do
+                    for j, q in ipairs(ch.quests or {}) do
                         if not SM.IsQuestForPlayer(q) then
                             -- skip opposing-faction variant
                         elseif SM.IsQuestEntryInLog(q) then

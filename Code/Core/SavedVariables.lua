@@ -80,6 +80,86 @@ function SM.SetLoreChapterViewed(storylineTitle, chapterName)
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
+local function GetCharacterRecord(create)
+    if not StoryModeDB then return nil end
+    local characterKey = CharacterKey()
+    if not characterKey then return nil end
+    if create and not StoryModeDB.characterChapterFlags then
+        StoryModeDB.characterChapterFlags = {}
+    end
+    local allCharacterFlags = StoryModeDB.characterChapterFlags
+    if not allCharacterFlags then return nil end
+    if create and not allCharacterFlags[characterKey] then
+        allCharacterFlags[characterKey] = {}
+    end
+    return allCharacterFlags[characterKey]
+end
+
+function SM.GetScarletKillCount()
+    local record = GetCharacterRecord(false)
+    return (record and tonumber(record.scarletKills)) or 0
+end
+
+function SM.IncrementScarletKillCount()
+    local record = GetCharacterRecord(true)
+    if not record then return 0 end
+    record.scarletKills = (tonumber(record.scarletKills) or 0) + 1
+    if not record.scarletFirstKillAt then
+        record.scarletFirstKillAt = time()
+    end
+    return record.scarletKills
+end
+
+function SM.SetScarletKillCount(count)
+    local record = GetCharacterRecord(true)
+    if not record then return 0 end
+    record.scarletKills = math.max(0, math.floor(tonumber(count) or 0))
+    return record.scarletKills
+end
+
+function SM.IsScarletCrusaderRevealed()
+    local record = GetCharacterRecord(false)
+    return (record and record.scarletCrusaderRevealed == true) or false
+end
+
+function SM.SetScarletCrusaderRevealed()
+    local record = GetCharacterRecord(true)
+    if not record or record.scarletCrusaderRevealed then return end
+    record.scarletCrusaderRevealed = true
+    record.scarletRevealedAt = record.scarletRevealedAt or time()
+    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
+end
+
+function SM.GetScarletWarTimestamps()
+    local record = GetCharacterRecord(false)
+    if not record then return nil, nil end
+    return record.scarletFirstKillAt, record.scarletRevealedAt
+end
+
+function SM.RecordScarletNamedKill(key)
+    if not key then return end
+    local record = GetCharacterRecord(true)
+    if not record then return end
+    record.scarletNames = record.scarletNames or {}
+    record.scarletNames[key] = true
+end
+
+function SM.GetScarletNamedKills()
+    local record = GetCharacterRecord(false)
+    return record and record.scarletNames or nil
+end
+
+function SM.IsScarletVossBannerShown()
+    local record = GetCharacterRecord(false)
+    return (record and record.scarletVossBanner == true) or false
+end
+
+function SM.SetScarletVossBannerShown()
+    local record = GetCharacterRecord(true)
+    if not record then return end
+    record.scarletVossBanner = true
+end
+
 function SM.IsChapterPlayed(storylineTitle, chapterName)
     local playedChapters = GetCharacterChapterFlags("playedChapters", false)
     if not playedChapters then return false end

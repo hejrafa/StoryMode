@@ -150,6 +150,21 @@ local tabJournalHit = CreateFrame("Button", nil, rightHeader)
 tabJournalHit:SetPoint("TOPLEFT", tabJournalLabel, "TOPLEFT", -4, 4)
 tabJournalHit:SetPoint("BOTTOMRIGHT", tabJournalLabel, "BOTTOMRIGHT", 4, -4)
 
+-- Secret tab: only shown for stories with data.secretTab once the player's
+-- Scarlet kill tally has revealed it (see Events.lua).
+local C_SCARLET = { 0.90, 0.16, 0.16 }
+local tabScarletLabel = SM.NoShadow(rightHeader:CreateFontString(nil, "OVERLAY", "QuestFont_Large"))
+tabScarletLabel:SetPoint("LEFT", tabJournalLabel, "RIGHT", 24, 0)
+tabScarletLabel:SetPoint("BOTTOM", rightHeader, "BOTTOM", 0, 18)
+tabScarletLabel:SetText(L["Tab Scarlet Crusader"])
+tabScarletLabel:SetTextColor(C_SCARLET[1], C_SCARLET[2], C_SCARLET[3])
+tabScarletLabel:Hide()
+
+local tabScarletHit = CreateFrame("Button", nil, rightHeader)
+tabScarletHit:SetPoint("TOPLEFT", tabScarletLabel, "TOPLEFT", -4, 4)
+tabScarletHit:SetPoint("BOTTOMRIGHT", tabScarletLabel, "BOTTOMRIGHT", 4, -4)
+tabScarletHit:Hide()
+
 local activeTab = "story"
 
 -- Kept for backward compat in UpdateStoryDetail
@@ -589,8 +604,61 @@ function SM.GetJournalEntry(idx)
     return sJournalEntries[idx]
 end
 
+-- SCARLET CRUSADER TAB elements (secret page, see Events.lua kill counter)
+local sScarletTitle = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Huge"))
+sScarletTitle:SetJustifyH("CENTER")
+sScarletTitle:SetTextColor(0.90, 0.16, 0.16)
+sScarletTitle:SetText(L["Tab Scarlet Crusader"])
+sScarletTitle:Hide()
+
+local sScarletCount = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+sScarletCount:SetJustifyH("CENTER")
+sScarletCount:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+sScarletCount:Hide()
+
+local sScarletCountBtn = CreateFrame("Button", nil, detailChild)
+sScarletCountBtn:Hide()
+sScarletCountBtn:SetScript("OnClick", function()
+    if IsShiftKeyDown() and SM.InsertScarletLedgerChatLink then
+        SM.InsertScarletLedgerChatLink()
+    end
+end)
+sScarletCountBtn:SetScript("OnEnter", function(self)
+    if not SM.Tooltip then return end
+    SM.Tooltip:SetOwner(self, "ANCHOR_RIGHT")
+    SM.Tooltip:ClearLines()
+    SM.Tooltip:AddLine(L["Scarlet Share Hint"], 0.5, 0.5, 0.5)
+    SM.Tooltip:Show()
+end)
+sScarletCountBtn:SetScript("OnLeave", function()
+    if SM.Tooltip then SM.Tooltip:Hide() end
+end)
+
+local sScarletDate = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
+sScarletDate:SetJustifyH("CENTER")
+sScarletDate:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
+sScarletDate:Hide()
+
+local sScarletBody = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+sScarletBody:SetJustifyH("LEFT"); sScarletBody:SetSpacing(4); sScarletBody:SetWordWrap(true)
+sScarletBody:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+sScarletBody:SetText(L["Scarlet Tab Body"])
+sScarletBody:Hide()
+
+local sScarletNamesHeader = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
+sScarletNamesHeader:SetJustifyH("LEFT")
+sScarletNamesHeader:SetTextColor(0.90, 0.16, 0.16)
+sScarletNamesHeader:SetText(L["Scarlet Names Header"])
+sScarletNamesHeader:Hide()
+
+local sScarletNames = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+sScarletNames:SetJustifyH("LEFT"); sScarletNames:SetSpacing(6); sScarletNames:SetWordWrap(true)
+sScarletNames:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+sScarletNames:Hide()
+
 local storyElements = { sIntro, sTrackBtn, sCompleteText }
 local journalElements = { sJournalHeader, sJournalSubline, sJournalEmptyTitle, sJournalEmptyText, sFactionHeader }
+local scarletElements = { sScarletTitle, sScarletCount, sScarletCountBtn, sScarletDate, sScarletBody, sScarletNamesHeader, sScarletNames }
 
 local FactionUI = SM.FactionUI
 
@@ -1217,6 +1285,13 @@ SM.DetailUI = {
     sJournalEmptyText = sJournalEmptyText,
     sFactionHeader = sFactionHeader,
     sJournalEntries = sJournalEntries,
+    sScarletTitle = sScarletTitle,
+    sScarletCount = sScarletCount,
+    sScarletCountBtn = sScarletCountBtn,
+    sScarletDate = sScarletDate,
+    sScarletBody = sScarletBody,
+    sScarletNamesHeader = sScarletNamesHeader,
+    sScarletNames = sScarletNames,
     dTitle = dTitle,
     dProgSummary = dProgSummary,
     dTrackContainer = dTrackContainer,
@@ -1617,6 +1692,7 @@ function SM.ShowTab(tab)
     for _, el in ipairs(journalElements) do el:Hide() end
     for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
     for _, el in ipairs(progressElements) do el:Hide() end
+    for _, el in ipairs(scarletElements) do el:Hide() end
     for _, node in ipairs(dTrackNodes) do node:Hide() end
     for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
     for _, card in ipairs(dQuestCards) do card:Hide() end
@@ -1639,6 +1715,8 @@ function SM.ShowTab(tab)
         for _, el in ipairs(storyElements) do el:Show() end
     elseif tab == "journal" then
         for _, el in ipairs(journalElements) do el:Show() end
+    elseif tab == "scarlet" then
+        for _, el in ipairs(scarletElements) do el:Show() end
     elseif tab == "progress" then
         heroPort:Hide()
         heroFrame:SetHeight(50)
@@ -1651,18 +1729,18 @@ end
 
 function SM.SetActiveTab(tab)
     activeTab = tab
+    tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    tabScarletLabel:SetTextColor(C_SCARLET[1], C_SCARLET[2], C_SCARLET[3])
     if tab == "story" then
         tabStoryLabel:SetTextColor(1, 1, 1)
-        tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     elseif tab == "journal" then
-        tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
-        tabProgressLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabJournalLabel:SetTextColor(1, 1, 1)
+    elseif tab == "scarlet" then
+        tabScarletLabel:SetTextColor(1, 1, 1)
     else
-        tabStoryLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
         tabProgressLabel:SetTextColor(1, 1, 1)
-        tabJournalLabel:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
     end
 end
 
@@ -1671,6 +1749,7 @@ function SM.HideInitialDetailElements()
     for _, el in ipairs(storyElements) do el:Hide() end
     for _, el in ipairs(journalElements) do el:Hide() end
     for _, el in ipairs(progressElements) do el:Hide() end
+    for _, el in ipairs(scarletElements) do el:Hide() end
 end
 
 SM.HideInitialDetailElements()
@@ -1703,6 +1782,8 @@ function SM.LayoutDetailTab()
         SM.LayoutStoryTab(data, w, contentW, visibleContentW)
     elseif activeTab == "journal" then
         SM.LayoutJournalTab(data, w, contentW, visibleContentW)
+    elseif activeTab == "scarlet" then
+        SM.LayoutScarletTab(data, w, contentW, visibleContentW)
     elseif activeTab == "progress" then
         SM.LayoutProgressTab(data, w, contentW, visibleContentW)
     end
@@ -1754,6 +1835,21 @@ tabJournalHit:SetScript("OnClick", function()
     end
 end)
 
+tabScarletHit:SetScript("OnEnter", function()
+    if activeTab ~= "scarlet" then tabScarletLabel:SetTextColor(1, 1, 1) end
+end)
+tabScarletHit:SetScript("OnLeave", function()
+    if activeTab ~= "scarlet" then tabScarletLabel:SetTextColor(C_SCARLET[1], C_SCARLET[2], C_SCARLET[3]) end
+end)
+tabScarletHit:SetScript("OnClick", function()
+    if activeTab ~= "scarlet" and currentStoryData then
+        PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
+        SM.SetActiveTab("scarlet")
+        detailScroll:SetVerticalScroll(0)
+        SM.LayoutDetailTab()
+    end
+end)
+
 -- ── Main entry point ────────────────────────────────────────────────────────
 function SM.UpdateStoryDetail(data)
     if not data then
@@ -1764,6 +1860,7 @@ function SM.UpdateStoryDetail(data)
         for _, el in ipairs(journalElements) do el:Hide() end
         for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
         for _, el in ipairs(progressElements) do el:Hide() end
+        for _, el in ipairs(scarletElements) do el:Hide() end
         for _, node in ipairs(dTrackNodes) do node:Hide() end
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end
@@ -1778,6 +1875,7 @@ function SM.UpdateStoryDetail(data)
         -- Hide tabs on intro page
         tabStoryLabel:Hide(); tabProgressLabel:Hide(); tabJournalLabel:Hide()
         tabStoryHit:Hide(); tabProgressHit:Hide(); tabJournalHit:Hide()
+        tabScarletLabel:Hide(); tabScarletHit:Hide()
         LayoutIntro()
         C_Timer.After(0, function()
             local w = detailScroll:GetWidth()
@@ -1795,6 +1893,14 @@ function SM.UpdateStoryDetail(data)
     SetIntroVisible(false); SM.ShowDetail(true)
     tabStoryLabel:Show(); tabProgressLabel:Show(); tabJournalLabel:Show()
     tabStoryHit:Show(); tabProgressHit:Show(); tabJournalHit:Show()
+
+    local showScarletTab = data.secretTab == true
+        and SM.IsScarletCrusaderRevealed and SM.IsScarletCrusaderRevealed()
+    tabScarletLabel:SetShown(showScarletTab)
+    tabScarletHit:SetShown(showScarletTab)
+    if activeTab == "scarlet" and not showScarletTab then
+        SM.SetActiveTab("story")
+    end
 
     -- Portrait icon (creature portrait or texture)
     heroIcon:SetTexture(nil)

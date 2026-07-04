@@ -78,6 +78,65 @@ function SM.LinkifyStoryShares(message)
     return changed, message
 end
 
+-- Scarlet ledger countersign. The wire format is deliberately fixed English:
+-- to anyone without the addon (or without the reveal) it stays plain text;
+-- only another revealed Scarlet Crusader's client turns it into a link.
+local SCARLET_SHARE_PREFIX = "[Story Mode: A Private War — "
+local SCARLET_SHARE_PATTERN = "%[Story Mode: A Private War — (%d+)%]"
+
+function SM.GetScarletLedgerShareText()
+    if not (SM.IsScarletCrusaderRevealed and SM.IsScarletCrusaderRevealed()) then return nil end
+    local count = SM.GetScarletKillCount and SM.GetScarletKillCount() or 0
+    return SCARLET_SHARE_PREFIX .. count .. "]"
+end
+
+function SM.InsertScarletLedgerChatLink()
+    local shareText = SM.GetScarletLedgerShareText()
+    if not shareText then return false end
+
+    if ChatFrame1EditBox and not ChatFrame1EditBox:IsVisible() and ChatFrame_OpenChat then
+        ChatFrame_OpenChat(shareText)
+        return true
+    end
+
+    if ChatEdit_InsertLink and ChatEdit_InsertLink(shareText) then
+        return true
+    end
+
+    return false
+end
+
+function SM.LinkifyScarletShares(message)
+    if type(message) ~= "string" or not message:find("%[Story Mode: A Private War") then return false, message end
+    if not (SM.IsScarletCrusaderRevealed and SM.IsScarletCrusaderRevealed()) then return false, message end
+    -- Both the CHAT_MSG filter and the AddMessage wrapper run this; a second
+    -- pass over already-linkified text must not nest another |H...|h layer.
+    if message:find("|Hstorymodescarlet:", 1, true) then return false, message end
+
+    local changed = false
+    message = message:gsub(SCARLET_SHARE_PATTERN, function(count)
+        changed = true
+        return "|Hstorymodescarlet:" .. count .. "|h|cffe62929" .. SCARLET_SHARE_PREFIX .. count .. "]|r|h"
+    end)
+
+    return changed, message
+end
+
+function SM.OpenScarletLedgerLink(theirCount)
+    theirCount = tonumber(theirCount)
+    if not theirCount then return false end
+    if not (SM.IsScarletCrusaderRevealed and SM.IsScarletCrusaderRevealed()) then return false end
+    -- Navigating to an unregistered story would strand activeTab on a tab
+    -- that doesn't exist; bail before OpenStoryModeToSelection mutates state.
+    if not (SM.GetQuestlineByID and SM.GetQuestlineByID("the-scarlet-crusade")) then return false end
+    if not (SM.OpenStoryModeToSelection and SM.OpenStoryModeToSelection("the-scarlet-crusade", 1, "scarlet")) then
+        return false
+    end
+    local myCount = SM.GetScarletKillCount and SM.GetScarletKillCount() or 0
+    print(SM.L["Addon Prefix"] .. string.format(SM.L["Scarlet Link Compare Format"], theirCount, myCount))
+    return true
+end
+
 local function GetQuestShareText(questID, questName)
     if not questID then return nil end
     questName = questName or (QuestUtils_GetQuestName and QuestUtils_GetQuestName(questID))
@@ -157,6 +216,11 @@ local function DispatchItemRef(link)
         return true
     end
 
+    local scarletCount = link and link:match("^storymodescarlet:(%d+)")
+    if scarletCount and SM.OpenScarletLedgerLink and SM.OpenScarletLedgerLink(scarletCount) then
+        return true
+    end
+
     return false
 end
 
@@ -183,8 +247,11 @@ local SHARE_EVENTS = {
 
 function SM.StoryModeShareMessageFilter(_, _, message, ...)
     local changed = false
-    local storyChanged, questChanged
+    local scarletChanged, storyChanged, questChanged
 
+    -- Scarlet first: its bracket text also matches the generic story pattern.
+    scarletChanged, message = SM.LinkifyScarletShares(message)
+    changed = changed or scarletChanged
     storyChanged, message = SM.LinkifyStoryShares(message)
     changed = changed or storyChanged
     questChanged, message = SM.LinkifyQuestShares(message)
@@ -209,8 +276,10 @@ end
 
 local function LinkifyShareMessage(message)
     local changed = false
-    local storyChanged, questChanged
+    local scarletChanged, storyChanged, questChanged
 
+    scarletChanged, message = SM.LinkifyScarletShares(message)
+    changed = changed or scarletChanged
     storyChanged, message = SM.LinkifyStoryShares(message)
     changed = changed or storyChanged
     questChanged, message = SM.LinkifyQuestShares(message)

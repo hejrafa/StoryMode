@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.9.1
+
+### Classic Era
+- Added a hidden secret to **The Scarlet Crusade**: slaying 100 Scarlet-named foes reveals **The Scarlet Crusader**, a fourth crimson journal tab telling the story of your private war, with a live tally that keeps counting
+- Added quiet ledger pages that appear at higher tallies, ending in a payoff for the name **Voss**
+- Added ledger entries for personally felling the Crusade's named figures, from Interrogator Vishas to High Inquisitor Whitemane
+- Added unattributed chat whispers that foreshadow the secret before it reveals itself
+- Added a date line recording when your private war began
+- Added a shareable ledger countersign chat link that only other revealed Scarlet Crusaders can see as a link
+- Added a tooltip line on living Scarlet foes once the secret is revealed
+- Added a capstone at five thousand: the ledger stops showing its number
+- `/sm scarlet` shows your tally once revealed; before that, the secret keeps its own counsel
+- Localized the kill detection for all supported client languages and gated it to NPC kills only
+
+### Maintenance
+- Bumped addon metadata to `1.9.1`
+
 ## 1.9.0
 
 ### Classic Era
