@@ -104,9 +104,6 @@ function SM.IncrementScarletKillCount()
     local record = GetCharacterRecord(true)
     if not record then return 0 end
     record.scarletKills = (tonumber(record.scarletKills) or 0) + 1
-    if not record.scarletFirstKillAt then
-        record.scarletFirstKillAt = time()
-    end
     return record.scarletKills
 end
 
@@ -126,22 +123,37 @@ function SM.SetScarletCrusaderRevealed()
     local record = GetCharacterRecord(true)
     if not record or record.scarletCrusaderRevealed then return end
     record.scarletCrusaderRevealed = true
-    record.scarletRevealedAt = record.scarletRevealedAt or time()
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
-function SM.GetScarletWarTimestamps()
+function SM.SetScarletCrusaderHidden()
     local record = GetCharacterRecord(false)
-    if not record then return nil, nil end
-    return record.scarletFirstKillAt, record.scarletRevealedAt
+    if not record then return end
+    record.scarletCrusaderRevealed = nil
+    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
+end
+
+function SM.ResetScarletState()
+    local record = GetCharacterRecord(false)
+    if not record then return end
+    record.scarletKills = nil
+    record.scarletCrusaderRevealed = nil
+    record.scarletRevealedAt = nil
+    record.scarletFirstKillAt = nil
+    record.scarletVossBanner = nil
+    record.scarletCapstoneBanner = nil
+    record.scarletNames = nil
+    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 
 function SM.RecordScarletNamedKill(key)
-    if not key then return end
+    if not key then return false end
     local record = GetCharacterRecord(true)
-    if not record then return end
+    if not record then return false end
     record.scarletNames = record.scarletNames or {}
+    if record.scarletNames[key] then return false end
     record.scarletNames[key] = true
+    return true
 end
 
 function SM.GetScarletNamedKills()
@@ -158,6 +170,17 @@ function SM.SetScarletVossBannerShown()
     local record = GetCharacterRecord(true)
     if not record then return end
     record.scarletVossBanner = true
+end
+
+function SM.IsScarletCapstoneBannerShown()
+    local record = GetCharacterRecord(false)
+    return (record and record.scarletCapstoneBanner == true) or false
+end
+
+function SM.SetScarletCapstoneBannerShown()
+    local record = GetCharacterRecord(true)
+    if not record then return end
+    record.scarletCapstoneBanner = true
 end
 
 function SM.IsChapterPlayed(storylineTitle, chapterName)

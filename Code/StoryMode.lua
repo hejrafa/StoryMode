@@ -618,12 +618,15 @@ sScarletCount:Hide()
 
 local sScarletCountBtn = CreateFrame("Button", nil, detailChild)
 sScarletCountBtn:Hide()
+sScarletCountBtn:RegisterForClicks("AnyUp")
 sScarletCountBtn:SetScript("OnClick", function()
-    if IsShiftKeyDown() and SM.InsertScarletLedgerChatLink then
-        SM.InsertScarletLedgerChatLink()
+    if not (IsShiftKeyDown() and SM.InsertScarletLedgerChatLink) then return end
+    if not SM.InsertScarletLedgerChatLink() then
+        print(L["Addon Debug Prefix"] .. "Ledger share could not open a chat input")
     end
 end)
 sScarletCountBtn:SetScript("OnEnter", function(self)
+    sScarletCount:SetTextColor(1, 1, 1)
     if not SM.Tooltip then return end
     SM.Tooltip:SetOwner(self, "ANCHOR_RIGHT")
     SM.Tooltip:ClearLines()
@@ -631,34 +634,44 @@ sScarletCountBtn:SetScript("OnEnter", function(self)
     SM.Tooltip:Show()
 end)
 sScarletCountBtn:SetScript("OnLeave", function()
+    sScarletCount:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
     if SM.Tooltip then SM.Tooltip:Hide() end
 end)
 
-local sScarletDate = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall"))
-sScarletDate:SetJustifyH("CENTER")
-sScarletDate:SetTextColor(C_DIM[1], C_DIM[2], C_DIM[3])
-sScarletDate:Hide()
+-- Scarlet ledger sections mirror the Journal's entry pool: gold chapter-style
+-- title above a prose body, created on demand as pages unlock.
+local sScarletSections = {}
 
-local sScarletBody = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
-sScarletBody:SetJustifyH("LEFT"); sScarletBody:SetSpacing(4); sScarletBody:SetWordWrap(true)
-sScarletBody:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-sScarletBody:SetText(L["Scarlet Tab Body"])
-sScarletBody:Hide()
+function SM.GetScarletSection(idx)
+    if sScarletSections[idx] then return sScarletSections[idx] end
+    local title = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
+    title:SetJustifyH("CENTER")
+    title:SetTextColor(C_GOLD[1], C_GOLD[2], C_GOLD[3])
+    local body = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+    body:SetJustifyH("LEFT"); body:SetSpacing(4); body:SetWordWrap(true)
+    body:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
+    sScarletSections[idx] = { title = title, body = body }
+    return sScarletSections[idx]
+end
 
-local sScarletNamesHeader = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont_Large"))
-sScarletNamesHeader:SetJustifyH("LEFT")
-sScarletNamesHeader:SetTextColor(0.90, 0.16, 0.16)
-sScarletNamesHeader:SetText(L["Scarlet Names Header"])
-sScarletNamesHeader:Hide()
+-- Scarlet hunt list: one centered name per row, struck through once felled.
+local sScarletHuntRows = {}
 
-local sScarletNames = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
-sScarletNames:SetJustifyH("LEFT"); sScarletNames:SetSpacing(6); sScarletNames:SetWordWrap(true)
-sScarletNames:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])
-sScarletNames:Hide()
+function SM.GetScarletHuntRow(idx)
+    if sScarletHuntRows[idx] then return sScarletHuntRows[idx] end
+    local text = SM.NoShadow(detailChild:CreateFontString(nil, "ARTWORK", "QuestFont"))
+    text:SetJustifyH("CENTER")
+    text:SetMaxLines(1); text:SetWordWrap(false)
+    local strike = detailChild:CreateTexture(nil, "OVERLAY")
+    SM.SetSolidTexture(strike, 0.90, 0.16, 0.16, 0.85)
+    strike:SetHeight(1.2)
+    sScarletHuntRows[idx] = { text = text, strike = strike }
+    return sScarletHuntRows[idx]
+end
 
 local storyElements = { sIntro, sTrackBtn, sCompleteText }
 local journalElements = { sJournalHeader, sJournalSubline, sJournalEmptyTitle, sJournalEmptyText, sFactionHeader }
-local scarletElements = { sScarletTitle, sScarletCount, sScarletCountBtn, sScarletDate, sScarletBody, sScarletNamesHeader, sScarletNames }
+local scarletElements = { sScarletTitle, sScarletCount, sScarletCountBtn }
 
 local FactionUI = SM.FactionUI
 
@@ -1288,10 +1301,8 @@ SM.DetailUI = {
     sScarletTitle = sScarletTitle,
     sScarletCount = sScarletCount,
     sScarletCountBtn = sScarletCountBtn,
-    sScarletDate = sScarletDate,
-    sScarletBody = sScarletBody,
-    sScarletNamesHeader = sScarletNamesHeader,
-    sScarletNames = sScarletNames,
+    sScarletSections = sScarletSections,
+    sScarletHuntRows = sScarletHuntRows,
     dTitle = dTitle,
     dProgSummary = dProgSummary,
     dTrackContainer = dTrackContainer,
@@ -1693,6 +1704,8 @@ function SM.ShowTab(tab)
     for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
     for _, el in ipairs(progressElements) do el:Hide() end
     for _, el in ipairs(scarletElements) do el:Hide() end
+    for _, entry in ipairs(sScarletSections) do entry.title:Hide(); entry.body:Hide() end
+    for _, row in ipairs(sScarletHuntRows) do row.text:Hide(); row.strike:Hide() end
     for _, node in ipairs(dTrackNodes) do node:Hide() end
     for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
     for _, card in ipairs(dQuestCards) do card:Hide() end
@@ -1861,6 +1874,8 @@ function SM.UpdateStoryDetail(data)
         for _, entry in ipairs(sJournalEntries) do entry.title:Hide(); entry.body:Hide() end
         for _, el in ipairs(progressElements) do el:Hide() end
         for _, el in ipairs(scarletElements) do el:Hide() end
+        for _, entry in ipairs(sScarletSections) do entry.title:Hide(); entry.body:Hide() end
+        for _, row in ipairs(sScarletHuntRows) do row.text:Hide(); row.strike:Hide() end
         for _, node in ipairs(dTrackNodes) do node:Hide() end
         for _, arrow in ipairs(dTrackArrows) do arrow:Hide() end
         for _, card in ipairs(dQuestCards) do card:Hide() end

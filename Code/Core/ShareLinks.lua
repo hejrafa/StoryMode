@@ -94,12 +94,25 @@ function SM.InsertScarletLedgerChatLink()
     local shareText = SM.GetScarletLedgerShareText()
     if not shareText then return false end
 
-    if ChatFrame1EditBox and not ChatFrame1EditBox:IsVisible() and ChatFrame_OpenChat then
-        ChatFrame_OpenChat(shareText)
+    -- An already-active edit box takes the text directly.
+    if ChatEdit_InsertLink and ChatEdit_InsertLink(shareText) then
         return true
     end
 
-    if ChatEdit_InsertLink and ChatEdit_InsertLink(shareText) then
+    -- Otherwise activate one: "visible but inactive" edit boxes (IM-style
+    -- chat, classic clients) make the IsVisible check unreliable, so
+    -- activate-and-insert explicitly before falling back to OpenChat.
+    if ChatEdit_ChooseBoxForSend and ChatEdit_ActivateChat then
+        local editBox = ChatEdit_ChooseBoxForSend()
+        if editBox then
+            ChatEdit_ActivateChat(editBox)
+            editBox:Insert(shareText)
+            return true
+        end
+    end
+
+    if ChatFrame_OpenChat then
+        ChatFrame_OpenChat(shareText)
         return true
     end
 
@@ -120,6 +133,16 @@ function SM.LinkifyScarletShares(message)
     end)
 
     return changed, message
+end
+
+function SM.GetScarletTabChatLink()
+    return "|Hstorymodescarlettab:0|h|cffe62929[" .. (SM.L["Tab Scarlet Crusader"] or "The Scarlet Crusader") .. "]|r|h"
+end
+
+function SM.OpenScarletTabLink()
+    if not (SM.IsScarletCrusaderRevealed and SM.IsScarletCrusaderRevealed()) then return false end
+    if not (SM.GetQuestlineByID and SM.GetQuestlineByID("the-scarlet-crusade")) then return false end
+    return SM.OpenStoryModeToSelection and SM.OpenStoryModeToSelection("the-scarlet-crusade", 1, "scarlet") or false
 end
 
 function SM.OpenScarletLedgerLink(theirCount)
@@ -214,6 +237,10 @@ local function DispatchItemRef(link)
     local questID = link and link:match("^storymodequest:(%d+):")
     if questID and SM.OpenQuestLink and SM.OpenQuestLink(questID) then
         return true
+    end
+
+    if link and link:match("^storymodescarlettab:") then
+        return SM.OpenScarletTabLink and SM.OpenScarletTabLink() or false
     end
 
     local scarletCount = link and link:match("^storymodescarlet:(%d+)")

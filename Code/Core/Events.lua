@@ -24,6 +24,7 @@ end
 local SCARLET_REVEAL_THRESHOLD = 100
 local SCARLET_VOSS_THRESHOLD = 1000
 local SCARLET_WHISPERS = { [25] = true, [50] = true, [75] = true }
+SM.ScarletCapstoneThreshold = 5000
 
 -- CLEU destName arrives localized, so the tally gate needs per-locale name
 -- fragments (plain find, case-sensitive). ruRU lists the adjective declensions
@@ -58,6 +59,11 @@ local function RefreshScarletStoryViews()
     end
 end
 
+local function PrintScarletRevealChatLink()
+    if not SM.GetScarletTabChatLink then return end
+    print(L["Addon Prefix"] .. string.format(L["Scarlet Reveal Chat Format"], SM.GetScarletTabChatLink()))
+end
+
 local function HandleScarletCombatEvent()
     if not CombatLogGetCurrentEventInfo then return end
     local _, subevent, _, sourceGUID, _, _, _, destGUID, destName = CombatLogGetCurrentEventInfo()
@@ -77,7 +83,16 @@ local function HandleScarletCombatEvent()
     -- in their name, so the ledger check runs before the tally gate.
     if SM.GetScarletNamedTargetKey and SM.RecordScarletNamedKill then
         local npcID = tonumber(select(6, strsplit("-", destGUID)) or nil)
-        SM.RecordScarletNamedKill(SM.GetScarletNamedTargetKey(npcID, destName))
+        local key = SM.GetScarletNamedTargetKey(npcID, destName)
+        if key and SM.RecordScarletNamedKill(key) and SM.IsScarletCrusaderRevealed() then
+            print("|cffff8040" .. L["Scarlet Ledger " .. key] .. "|r")
+            local fallenName = destName
+            C_Timer.After(1.5, function()
+                if SM.ShowStoryBanner then
+                    SM.ShowStoryBanner(L["Scarlet Named Banner Header"], fallenName, nil, nil, true)
+                end
+            end)
+        end
     end
 
     if not SM.IsScarletMobName(destName) then return end
@@ -85,7 +100,7 @@ local function HandleScarletCombatEvent()
     local count = SM.IncrementScarletKillCount()
 
     if SCARLET_WHISPERS[count] and not SM.IsScarletCrusaderRevealed() then
-        print("|cff9d9d9d" .. L["Scarlet Whisper " .. count] .. "|r")
+        print("|cffff8040" .. L["Scarlet Whisper " .. count] .. "|r")
     end
 
     if count >= SCARLET_REVEAL_THRESHOLD and not SM.IsScarletCrusaderRevealed() then
@@ -93,6 +108,7 @@ local function HandleScarletCombatEvent()
         if SM.ShowStoryBanner then
             SM.ShowStoryBanner(L["Scarlet Crusader Reveal Header"], L["Scarlet Crusader Reveal Title"], nil, nil, true)
         end
+        PrintScarletRevealChatLink()
         RefreshScarletStoryViews()
     end
 
@@ -101,6 +117,14 @@ local function HandleScarletCombatEvent()
         SM.SetScarletVossBannerShown()
         if SM.ShowStoryBanner then
             SM.ShowStoryBanner(L["Scarlet Voss Banner Header"], L["Scarlet Voss Banner Title"], nil, nil, true)
+        end
+    end
+
+    if count >= SM.ScarletCapstoneThreshold and SM.IsScarletCrusaderRevealed()
+        and SM.IsScarletCapstoneBannerShown and not SM.IsScarletCapstoneBannerShown() then
+        SM.SetScarletCapstoneBannerShown()
+        if SM.ShowStoryBanner then
+            SM.ShowStoryBanner(L["Scarlet Capstone Banner Header"], L["Scarlet Capstone Banner Title"], nil, nil, true)
         end
     end
 end
@@ -269,11 +293,52 @@ function SM.InitializeSlashCommands()
             end
             return
         elseif msg:match("^scarlet") then
-            local arg = msg:match("^scarlet%s+(%S+)$")
-            if arg == "reveal" then
+            local arg = msg:match("^scarlet%s+(.-)%s*$")
+            local nameKey = arg and arg:match("^name%s+(%S+)$")
+            if nameKey then
+                if nameKey == "all" then
+                    for _, target in ipairs(SM.ScarletNamedTargets or {}) do
+                        SM.RecordScarletNamedKill(target.key)
+                    end
+                    RefreshScarletStoryViews()
+                    print(L["Addon Debug Prefix"] .. "All named Scarlet kills recorded")
+                    return
+                end
+                for _, target in ipairs(SM.ScarletNamedTargets or {}) do
+                    if target.key:lower() == nameKey then
+                        local isNew = SM.RecordScarletNamedKill(target.key)
+                        RefreshScarletStoryViews()
+                        if isNew and SM.IsScarletCrusaderRevealed() then
+                            print("|cffff8040" .. L["Scarlet Ledger " .. target.key] .. "|r")
+                            SM.ShowStoryBanner(L["Scarlet Named Banner Header"], L[target.name], nil, nil, true)
+                        else
+                            print(L["Addon Debug Prefix"] .. "Recorded named kill: " .. target.key)
+                        end
+                        return
+                    end
+                end
+                local keys = {}
+                for _, target in ipairs(SM.ScarletNamedTargets or {}) do
+                    keys[#keys + 1] = target.key:lower()
+                end
+                print(L["Addon Debug Prefix"] .. "Unknown name. Keys: all, " .. table.concat(keys, ", "))
+                return
+            end
+            if arg == "reset" then
+                SM.ResetScarletState()
+                RefreshScarletStoryViews()
+                print(L["Addon Debug Prefix"] .. "Scarlet state reset (count, reveal, ledger)")
+                return
+            elseif arg == "hidden" then
+                SM.SetScarletCrusaderHidden()
+                RefreshScarletStoryViews()
+                print(L["Addon Debug Prefix"] .. "Scarlet Crusader tab hidden (count and ledger kept)")
+                return
+            elseif arg == "reveal" then
                 if not SM.IsScarletCrusaderRevealed() then
                     SM.SetScarletCrusaderRevealed()
                     SM.ShowStoryBanner(L["Scarlet Crusader Reveal Header"], L["Scarlet Crusader Reveal Title"], nil, nil, true)
+                    PrintScarletRevealChatLink()
                     RefreshScarletStoryViews()
                     print(L["Addon Debug Prefix"] .. "Scarlet Crusader tab revealed")
                 else
