@@ -63,6 +63,7 @@ end
 
 function SM.LinkifyStoryShares(message)
     if type(message) ~= "string" or not message:find("%[Story Mode: ") then return false, message end
+    if message:find("|Hstorymode:", 1, true) then return false, message end
 
     local changed = false
     message = message:gsub("%[Story Mode: ([^%]]+)%]", function(title)
@@ -185,6 +186,7 @@ end
 
 function SM.LinkifyQuestShares(message)
     if type(message) ~= "string" or not message:find("%(%d+%)") then return false, message end
+    if message:find("|Hstorymodequest:", 1, true) then return false, message end
 
     local changed = false
     message = message:gsub("%[([^%[%]]-) %((%d+)%)%]", function(questName, questIDText)
