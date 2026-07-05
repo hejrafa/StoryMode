@@ -107,13 +107,6 @@ function SM.IncrementScarletKillCount()
     return record.scarletKills
 end
 
-function SM.SetScarletKillCount(count)
-    local record = GetCharacterRecord(true)
-    if not record then return 0 end
-    record.scarletKills = math.max(0, math.floor(tonumber(count) or 0))
-    return record.scarletKills
-end
-
 function SM.IsScarletCrusaderRevealed()
     local record = GetCharacterRecord(false)
     return (record and record.scarletCrusaderRevealed == true) or false
@@ -123,26 +116,6 @@ function SM.SetScarletCrusaderRevealed()
     local record = GetCharacterRecord(true)
     if not record or record.scarletCrusaderRevealed then return end
     record.scarletCrusaderRevealed = true
-    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
-end
-
-function SM.SetScarletCrusaderHidden()
-    local record = GetCharacterRecord(false)
-    if not record then return end
-    record.scarletCrusaderRevealed = nil
-    if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
-end
-
-function SM.ResetScarletState()
-    local record = GetCharacterRecord(false)
-    if not record then return end
-    record.scarletKills = nil
-    record.scarletCrusaderRevealed = nil
-    record.scarletRevealedAt = nil
-    record.scarletFirstKillAt = nil
-    record.scarletVossBanner = nil
-    record.scarletCapstoneBanner = nil
-    record.scarletNames = nil
     if SM.InvalidateProgressCache then SM.InvalidateProgressCache() end
 end
 

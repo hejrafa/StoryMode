@@ -11,7 +11,6 @@
 - Added a persistent chat link when the secret reveals itself, so the moment can be found again
 - Added a shareable ledger countersign chat link that only other revealed Scarlet Crusaders can see as a link
 - Added a capstone at five thousand: the ledger stops showing its number
-- `/sm scarlet` shows your tally once revealed; before that, the secret keeps its own counsel
 - Localized the kill detection for all supported client languages and gated it to NPC kills only
 
 ### Localization
