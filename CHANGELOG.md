@@ -17,6 +17,9 @@
 - Translated all Scarlet Crusader secret text into German, Spanish, French, Brazilian Portuguese, and Russian, using each locale's official NPC names
 - Reworded the in-combat error to name Story Mode instead of "this UI" across all locales
 
+### Fixes
+- Guarded story and quest chat links against being linkified twice, which could render shared links with broken formatting
+
 ### Maintenance
 - Bumped addon metadata to `1.9.1`
 
