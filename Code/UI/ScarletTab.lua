@@ -34,15 +34,6 @@ SM.ScarletNamedTargets = {
     { key = "BenedictusVoss", npcID = 39097, name = "High Priest Benedictus Voss", listOnly = true, showAtCount = 1000 },
 }
 
-function SM.GetScarletNamedTargetKey(npcID, destName)
-    for _, target in ipairs(SM.ScarletNamedTargets) do
-        if not target.listOnly
-            and ((npcID and target.npcID == npcID) or (destName and target.name == destName)) then
-            return target.key
-        end
-    end
-    return nil
-end
 
 local function BuildScarletSections(count)
     local sections = {

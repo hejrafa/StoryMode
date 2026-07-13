@@ -4,7 +4,7 @@
 
 ### Classic Era
 - Added a hidden secret to **The Scarlet Crusade**: slaying 100 Scarlet-named foes reveals **The Scarlet Crusader**, a fourth crimson journal tab telling the story of your private war, with a live tally that keeps counting
-- Added **The List**, a hunt roster of the Crusade's named figures — names are struck through in crimson as you personally fell them, and the roster grows in stages as the ledger deepens
+- Added **The List**, a hunt roster of the Crusade's named figures — names are struck through in crimson as you bring them down, and the roster grows in stages as the ledger deepens
 - Added quiet ledger pages at higher tallies, saving the name **Voss** for a late reveal
 - Added kill notes and a banner the first time each named figure falls, plus rare banners at the ledger's deepest milestones
 - Added unattributed chat whispers that foreshadow the secret before it reveals itself

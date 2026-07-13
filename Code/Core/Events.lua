@@ -64,36 +64,93 @@ local function PrintScarletRevealChatLink()
     print(L["Addon Prefix"] .. string.format(L["Scarlet Reveal Chat Format"], SM.GetScarletTabChatLink()))
 end
 
+-- Damage subevents that count as "you fought this target." Healing, buffs,
+-- and misses do not tag — only landing damage marks a name for the ledger.
+local SCARLET_DAMAGE_SUBEVENTS = {
+    SWING_DAMAGE = true, RANGE_DAMAGE = true, SPELL_DAMAGE = true,
+    SPELL_PERIODIC_DAMAGE = true, SPELL_BUILDING_DAMAGE = true,
+    DAMAGE_SHIELD = true, DAMAGE_SPLIT = true,
+}
+
+-- npcID -> ledger key, built lazily (SM.ScarletNamedTargets lives in the UI
+-- file, which loads after this Core file). listOnly names never tag.
+local scarletNamedByNpcID
+local function EnsureScarletNamedMap()
+    if scarletNamedByNpcID then return scarletNamedByNpcID end
+    local targets = SM.ScarletNamedTargets
+    if not targets then return nil end
+    scarletNamedByNpcID = {}
+    for _, target in ipairs(targets) do
+        if target.npcID and not target.listOnly then
+            scarletNamedByNpcID[target.npcID] = target.key
+        end
+    end
+    return scarletNamedByNpcID
+end
+
+local function ScarletNpcID(guid)
+    -- 6th field of Creature-0-server-instance-zone-<npcID>-spawn; nil for players/pets.
+    return guid and tonumber(guid:match("^Creature%-%d+%-%d+%-%d+%-%d+%-(%d+)"))
+end
+
+-- Named targets you (or your pet) have damaged but not yet seen die. Runtime
+-- only, never saved: a party kill you took part in still strikes the name,
+-- even when a groupmate lands the finishing blow.
+local scarletTaggedNamed = {}
+local scarletPlayerGUID
+local scarletPetGUID
+
+local function CreditScarletNamedKill(key, fallenName)
+    if not key or not SM.RecordScarletNamedKill then return end
+    if not SM.RecordScarletNamedKill(key) then return end  -- already on the list
+    RefreshScarletStoryViews()
+    if not SM.IsScarletCrusaderRevealed() then return end   -- recorded silently pre-reveal
+    print("|cffff8040" .. L["Scarlet Ledger " .. key] .. "|r")
+    C_Timer.After(1.5, function()
+        if SM.ShowStoryBanner then
+            SM.ShowStoryBanner(L["Scarlet Named Banner Header"], fallenName, nil, nil, true)
+        end
+    end)
+end
+
 local function HandleScarletCombatEvent()
     if not CombatLogGetCurrentEventInfo then return end
     local _, subevent, _, sourceGUID, _, _, _, destGUID, destName = CombatLogGetCurrentEventInfo()
-    if subevent ~= "PARTY_KILL" then return end
+
+    -- A named figure you tagged has died — credit it regardless of who
+    -- landed the killing blow (this is what makes party kills feel fair).
+    if subevent == "UNIT_DIED" then
+        local key = destGUID and scarletTaggedNamed[destGUID]
+        if key then
+            scarletTaggedNamed[destGUID] = nil
+            CreditScarletNamedKill(key, destName)
+        end
+        return
+    end
+
+    if subevent ~= "PARTY_KILL" and not SCARLET_DAMAGE_SUBEVENTS[subevent] then return end
+
+    scarletPlayerGUID = scarletPlayerGUID or UnitGUID("player")
+    if sourceGUID ~= scarletPlayerGUID and sourceGUID ~= scarletPetGUID then return end
+
+    -- Your damage tags a named figure so its later death counts toward the list.
+    if subevent ~= "PARTY_KILL" then
+        local map = EnsureScarletNamedMap()
+        if map then
+            local key = map[ScarletNpcID(destGUID) or 0]
+            if key then scarletTaggedNamed[destGUID] = key end
+        end
+        return
+    end
+
+    -- PARTY_KILL: your own killing blow. The overall tally counts these only —
+    -- deliberately stricter than the named list, since it is *your* private war.
     if not destName or destName == "" then return end
 
-    local playerGUID = UnitGUID("player")
-    local petGUID = UnitGUID("pet")
-    if sourceGUID ~= playerGUID and (not petGUID or sourceGUID ~= petGUID) then return end
-
-    -- Only NPCs feed the ledger: without this, battleground kills on players
+    -- Only NPCs feed the tally: without this, battleground kills on players
     -- named "Scarlett" (or renamed enemy pets) would count toward the secret.
     local guidType = destGUID and destGUID:match("^(%a+)")
     if guidType ~= "Creature" and guidType ~= "Vehicle" then return end
-
-    -- Named Crusade figures (Herod, Whitemane, ...) don't all carry "Scarlet"
-    -- in their name, so the ledger check runs before the tally gate.
-    if SM.GetScarletNamedTargetKey and SM.RecordScarletNamedKill then
-        local npcID = tonumber(select(6, strsplit("-", destGUID)) or nil)
-        local key = SM.GetScarletNamedTargetKey(npcID, destName)
-        if key and SM.RecordScarletNamedKill(key) and SM.IsScarletCrusaderRevealed() then
-            print("|cffff8040" .. L["Scarlet Ledger " .. key] .. "|r")
-            local fallenName = destName
-            C_Timer.After(1.5, function()
-                if SM.ShowStoryBanner then
-                    SM.ShowStoryBanner(L["Scarlet Named Banner Header"], fallenName, nil, nil, true)
-                end
-            end)
-        end
-    end
 
     if not SM.IsScarletMobName(destName) then return end
     if not SM.IncrementScarletKillCount then return end
@@ -357,10 +414,16 @@ function SM.InitializeCoreEvents(storyFrame)
     if SM.ScarletCrusadeData and SM.IsContentAvailableForClient
         and SM.IsContentAvailableForClient(SM.ScarletCrusadeData) then
         eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+        eventFrame:RegisterEvent("UNIT_PET")
     end
     eventFrame:SetScript("OnEvent", function(_, event, arg1, arg2)
         if event == "COMBAT_LOG_EVENT_UNFILTERED" then
             HandleScarletCombatEvent()
+            return
+        end
+        if event == "UNIT_PET" then
+            -- Cache the pet GUID so the combat-log hot path never queries it.
+            if arg1 == "player" then scarletPetGUID = UnitGUID("pet") end
             return
         end
         if event == "PLAYER_REGEN_DISABLED" then
@@ -378,6 +441,7 @@ function SM.InitializeCoreEvents(storyFrame)
             InvalidateProgress()
             SM.PrimeCompletionCaches()
             RefreshVisibleStoryList()
+            scarletPetGUID = UnitGUID("pet")
         elseif event == "QUEST_TURNED_IN" then
             InvalidateProgress()
             SM.CheckQuestCompletion(arg1)
