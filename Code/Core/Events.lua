@@ -35,6 +35,7 @@ local SCARLET_NAME_FRAGMENTS = {
     esMX = { "scarlata" },
     ptBR = { "scarlate" },
     frFR = { "carlate" },
+    itIT = { "carlat" },
     ruRU = { "Алый", "Алая", "Алое", "Алого", "Алой", "Алому", "Алым", "Алых", "Алые" },
     koKR = { "진홍" },
     zhCN = { "血色" },

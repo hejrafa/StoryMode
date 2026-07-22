@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.9.2
+
+### Classic Era
+- Added support for WoW Classic Era 1.15.9 interface `11509` while retaining `11507` compatibility
+
+### Fixes
+- Added the missing Italian name fragment so Scarlet kill detection works on itIT clients, where the secret was previously unreachable
+
+### Maintenance
+- Bumped addon metadata to `1.9.2`
+
 ## 1.9.1
 
 ### Classic Era
