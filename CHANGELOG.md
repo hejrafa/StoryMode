@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.9.3
+
+### Burning Crusade Classic
+- Added support for TBC Classic 2.5.6 interface `20506` while retaining `20505` compatibility
+
+### Retail
+- Added support for WoW Retail 12.1.0 interface `120100` while retaining `120005` and `120007` compatibility
+
+### Maintenance
+- Bumped addon metadata to `1.9.3`
+
 ## 1.9.2
 
 ### Classic Era
