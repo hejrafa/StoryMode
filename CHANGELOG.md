@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.9.4
+
+### Classic Era
+- **The List** now shows any named Scarlet figure you have already brought down, struck through, even when its stage has not been reached yet — earned names are never hidden
+
+### Fixes
+- Fixed a Lua error when tracking a story step whose guidance comes from a quest without an ID, such as **Test of Faith** for **Test of Lore**
+
+### Maintenance
+- Bumped addon metadata to `1.9.4`
+
 ## 1.9.3
 
 ### Burning Crusade Classic

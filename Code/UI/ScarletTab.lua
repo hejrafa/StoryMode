@@ -99,10 +99,12 @@ function SM.LayoutScarletTab(data, w, contentW, visibleContentW)
     local rowAnchor = listEntry.title
     local shownRows = 0
     for _, target in ipairs(SM.ScarletNamedTargets) do
-        if not target.showAtCount or count >= target.showAtCount then
+        -- A name shows once its tier unlocks, or the moment you fell it —
+        -- never hide a target you have already struck from the list.
+        local isStruck = recorded[target.key] and true or false
+        if not target.showAtCount or count >= target.showAtCount or isStruck then
             shownRows = shownRows + 1
             local row = SM.GetScarletHuntRow(shownRows)
-            local isStruck = recorded[target.key] and true or false
 
             row.text:SetText(L[target.name])
             row.text:SetTextColor(C_BODY[1], C_BODY[2], C_BODY[3])

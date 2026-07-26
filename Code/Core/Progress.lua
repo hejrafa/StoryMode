@@ -46,7 +46,15 @@ end
 
 function SM.GetQuestChatLink(questOrID, questName, color)
     color = GetQuestLinkColor(color)
-    local questID = type(questOrID) == "table" and SM.GetQuestIDs(questOrID)[1] or questOrID
+    -- Guidance quests carry no id, so GetQuestIDs returns an empty list. Keep
+    -- questID nil in that case (the plain-text fallback below handles it)
+    -- rather than letting `and/or` fall through to the quest table itself.
+    local questID
+    if type(questOrID) == "table" then
+        questID = SM.GetQuestIDs(questOrID)[1]
+    else
+        questID = questOrID
+    end
     if not questID then
         return questName and ("|cff" .. color .. questName .. "|r") or nil
     end
