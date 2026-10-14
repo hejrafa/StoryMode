@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.9.5
+
+### Retail
+- Added support for WoW Retail 12.1.5 interface `120105` while retaining `120005`, `120007`, and `120100` compatibility
+
+### Maintenance
+- Bumped addon metadata to `1.9.5`
+
 ## 1.9.4
 
 ### Classic Era
