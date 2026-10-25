@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.10.0
+
+### Localization
+- Story Mode is now fully translated into every language the WoW client offers: added Italian (`itIT`), Korean (`koKR`), Simplified Chinese (`zhCN`), Traditional Chinese (`zhTW`), and a dedicated Latin American Spanish (`esMX`) translation
+- Reworked the German, Spanish, French, Brazilian Portuguese, and Russian translations for natural, consistent wording
+- Quest, character, place, dungeon, faction, and achievement names now use Blizzard's official localized names; Classic-only stories use the Classic client's names
+- Dungeon names now match the Adventure Guide on every client, so story cover art resolves on localized clients
+- Added localized TOC notes for the new languages
+
+### Classic Era
+- Korean clients now count Scarlet Crusade kills toward **The List**
+
+### Fixes
+- **Rhea's Last Egg** locations in the Badlands no longer show in English on non-English clients
+- Corrected lore errors in the **Daughter of the Sea** and **The Tirisgarde Reborn** recaps
+
+### Maintenance
+- Bumped addon metadata to `1.10.0`
+- The localization audit now flags story text missing from `enUS.lua` and accepts positional placeholders (`%2$s`)
+- Moved `_Dev/tools/official-locale-name-pass.mjs` to Wowhead's tooltip API and taught the localization tools the new languages
+
 ## 1.9.5
 
 ### Retail

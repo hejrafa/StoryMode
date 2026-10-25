@@ -12,7 +12,7 @@
 ## Notes-zhTW: 逐章追隨魔獸世界的故事，了解來龍去脈並追蹤進度。|n|n使用聊天指令開啟 Story Mode：|n/sm 或 /storymode
 ## SavedVariables: StoryModeDB
 ## OptionalDeps: LibDataBroker-1.1
-## Version: 1.9.5
+## Version: 1.10.0
 ## Author: Rafael Polutta
 ## IconTexture: Interface\AddOns\StoryMode\Art\Icons\storymode_icon
 
