@@ -7,7 +7,7 @@ const args = process.argv.slice(2);
 const root = args.find((arg) => !arg.startsWith("--")) || ".";
 const strict = args.includes("--strict");
 const dirs = ["Data/Storylines", "Data/Heritage", "Data/ClassQuests", "Data/Campaigns"];
-const locales = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
+const locales = ["deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"];
 
 function read(file) {
   return fs.readFileSync(path.join(root, file), "utf8");

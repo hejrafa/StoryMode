@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = process.argv[2] || process.cwd();
 const reportOnly = process.argv.includes("--report-only");
-const localeFiles = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
+const localeFiles = ["deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"];
 const reportPath = path.join(root, ".localization-cache", "prose-quality-candidates.json");
 const luaByteDecoder = new TextDecoder("utf-8");
 
@@ -15,9 +15,14 @@ const englishStopWords = new Set(
 const localeStopPatterns = {
   deDE: /\b(?:der|die|das|und|ist|war|du|sie|mit|von|zu|den|dem|eine|ein|nicht|hat|haben|wurde|werden|durch|für)\b/i,
   esES: /\b(?:el|la|los|las|y|de|que|en|con|para|por|una|un|no|se|su|sus|del|al|como)\b/i,
+  esMX: /\b(?:el|la|los|las|y|de|que|en|con|para|por|una|un|no|se|su|sus|del|al|como)\b/i,
   frFR: /\b(?:le|la|les|et|de|des|que|dans|avec|pour|par|une|un|pas|vous|ses|sur|du|au)\b/i,
+  itIT: /\b(?:il|lo|la|gli|le|e|di|che|in|con|per|una|un|non|si|suo|sua|del|della|al)\b/i,
+  koKR: /[가-힣]/,
   ptBR: /\b(?:o|a|os|as|e|de|que|em|com|para|por|uma|um|não|se|seu|sua|dos|das)\b/i,
   ruRU: /[А-Яа-я]/,
+  zhCN: /[一-鿿]/,
+  zhTW: /[一-鿿]/,
 };
 
 const allowedSourceTitlePhrases = new Set([

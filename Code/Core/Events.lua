@@ -28,7 +28,8 @@ SM.ScarletCapstoneThreshold = 5000
 
 -- CLEU destName arrives localized, so the tally gate needs per-locale name
 -- fragments (plain find, case-sensitive). ruRU lists the adjective declensions
--- of "Алый орден"; the Romance locales use lowercase-safe substrings.
+-- of "Алый орден"; the Romance locales use lowercase-safe substrings; koKR
+-- names every Scarlet Crusade mob "붉은십자군 ...".
 local SCARLET_NAME_FRAGMENTS = {
     deDE = { "Scharlach" },
     esES = { "scarlata" },
@@ -36,7 +37,7 @@ local SCARLET_NAME_FRAGMENTS = {
     ptBR = { "scarlate" },
     frFR = { "carlate" },
     ruRU = { "Алый", "Алая", "Алое", "Алого", "Алой", "Алому", "Алым", "Алых", "Алые" },
-    koKR = { "진홍" },
+    koKR = { "붉은십자군" },
     zhCN = { "血色" },
     zhTW = { "血色" },
 }

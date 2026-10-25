@@ -22,7 +22,7 @@ It is not a leveling guide and it is not trying to list every quest. It is a cur
 - Native quest tracking, quest-log opening, map guidance, and pickup hints depending on what the client supports.
 - Clickable story and quest chat links for sharing with other Story Mode users.
 - Completion banners for quests, chapters, and full stories.
-- Localized addon UI and story text for English, German, Spanish, French, Brazilian Portuguese, and Russian.
+- Localized addon UI and story text for English, German, Spanish (Spain and Latin America), French, Italian, Korean, Brazilian Portuguese, Russian, and Simplified and Traditional Chinese, using Blizzard's official quest, character, and place names.
 
 ## Classic Era And TBC Stories
 

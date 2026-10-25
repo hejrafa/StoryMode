@@ -5,12 +5,18 @@ import { loadDatasets } from "./story-data-utils.mjs";
 const root = process.argv[2] || process.cwd();
 const applyChanges = process.argv.includes("--apply");
 const cacheOnly = process.argv.includes("--cache-only");
+// Wowhead tooltip locale IDs.
 const localeTargets = {
-  deDE: { path: "de", key: "name_dede" },
-  esES: { path: "es", key: "name_eses" },
-  frFR: { path: "fr", key: "name_frfr" },
-  ptBR: { path: "pt", key: "name_ptbr" },
-  ruRU: { path: "ru", key: "name_ruru" },
+  deDE: { wowhead: 3, classic: true },
+  esES: { wowhead: 6, classic: true },
+  esMX: { wowhead: 11, classic: true },
+  frFR: { wowhead: 2, classic: true },
+  itIT: { wowhead: 9, classic: false },
+  koKR: { wowhead: 1, classic: true },
+  ptBR: { wowhead: 8, classic: true },
+  ruRU: { wowhead: 7, classic: true },
+  zhCN: { wowhead: 4, classic: true },
+  zhTW: { wowhead: 10, classic: true },
 };
 const cacheDir = path.join(root, ".localization-cache");
 const cachePath = path.join(cacheDir, "official-wowhead-quest-names.json");
@@ -93,47 +99,16 @@ function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function titleFromHtml(html) {
-  const h1 = html.match(/<h1[^>]*>(.*?)<\/h1>/s)?.[1];
-  if (h1) return htmlDecode(h1.replace(/<[^>]+>/g, "").trim());
-  const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
-  if (!title) return null;
-  return htmlDecode(title.split(" - ")[0].trim());
+// Wowhead's quest pages block scripted requests; the tooltip API serves the same
+// localized names. dataEnv 1 is retail, 4 is Classic Era.
+function questTooltipUrl(source, wowheadLocale, id) {
+  return `https://nether.wowhead.com/tooltip/quest/${id}?dataEnv=${source === "classic" ? 4 : 1}&locale=${wowheadLocale}`;
 }
 
-function htmlDecode(value) {
-  return (value || "")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
-
-function officialNameFromHtml(html, id, preferredKey) {
-  const gatherer = html.match(new RegExp(`WH\\.Gatherer\\.addData\\(5,\\s*\\d+,\\s*(\\{[^\\n]*"${id}"[\\s\\S]*?\\})\\);`));
-  if (gatherer) {
-    try {
-      const parsed = JSON.parse(gatherer[1]);
-      const entry = parsed[String(id)];
-      if (entry) {
-        if (entry[preferredKey]) return entry[preferredKey];
-        const localized = Object.entries(entry).find(([key]) => key.startsWith("name_"));
-        if (localized) return localized[1];
-        if (entry.name) return entry.name;
-      }
-    } catch {}
-  }
-  return titleFromHtml(html);
-}
-
-function questUrl(source, localePath, id) {
-  if (source === "classic") {
-    return `https://www.wowhead.com/classic/${localePath}/quest=${id}`;
-  }
-  return `https://www.wowhead.com/${localePath}/quest=${id}`;
+function officialNameFromTooltip(json) {
+  const name = typeof json?.name === "string" ? json.name.trim() : "";
+  // Untranslated entries come back as "[English Name]".
+  return name && !/^\[.*\]$/.test(name) ? name : null;
 }
 
 async function loadCache() {
@@ -166,19 +141,21 @@ async function fetchOfficialName(quest, locale, localeInfo, cache) {
   const cacheKey = `${locale}\u0000${quest.source}\u0000${quest.id}`;
   if (cache[cacheKey] !== undefined) return cache[cacheKey] || null;
   if (cacheOnly) return null;
+  // Classic Era never shipped an Italian client.
+  if (quest.source === "classic" && !localeInfo.classic) return null;
 
-  const url = questUrl(quest.source, localeInfo.path, quest.id);
+  const url = questTooltipUrl(quest.source, localeInfo.wowhead, quest.id);
   for (let attempt = 1; attempt <= 4; attempt++) {
     try {
       const response = await fetch(url, {
-        headers: {
-          "user-agent": "StoryMode official localization pass",
-          "accept-language": `${localeInfo.path},en;q=0.8`,
-        },
+        headers: { "user-agent": "StoryMode official localization pass" },
       });
+      if (response.status === 404) {
+        cache[cacheKey] = "";
+        return null;
+      }
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const html = await response.text();
-      const official = officialNameFromHtml(html, quest.id, localeInfo.key);
+      const official = officialNameFromTooltip(await response.json());
       cache[cacheKey] = official || "";
       return official || null;
     } catch (error) {

@@ -22,7 +22,7 @@ Pick a story, read the setup, and let the addon keep track of where you are with
 - Chapter pages with summaries, recaps, key characters, quest cards, and progress.
 - A **Begin This Story** / **Continue Story** flow that sends you to the right quest, map, or pickup hint.
 - Clickable story and quest chat links for sharing with other Story Mode users.
-- Localized addon UI support for English, German, Spanish, French, Brazilian Portuguese, and Russian.
+- Localized addon UI and story text for English, German, Spanish (Spain and Latin America), French, Italian, Korean, Brazilian Portuguese, Russian, and Simplified and Traditional Chinese, using Blizzard's official quest, character, and place names.
 
 ## Great First Adventures
 

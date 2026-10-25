@@ -4,8 +4,8 @@ import { loadDatasets } from "./story-data-utils.mjs";
 
 const root = process.argv[2] || process.cwd();
 const applyChanges = process.argv.includes("--apply");
-const locales = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
-const nonLatinApplyLocales = new Set(["ruRU"]);
+const locales = ["deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"];
+const nonLatinApplyLocales = new Set(["koKR", "ruRU", "zhCN", "zhTW"]);
 const reportPath = path.join(root, ".localization-cache", "glossary-protection-candidates.json");
 const dictionaryPath = "/usr/share/dict/words";
 const luaByteDecoder = new TextDecoder("utf-8");

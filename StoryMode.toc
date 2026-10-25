@@ -2,11 +2,15 @@
 ## Title: Story Mode
 ## Notes: Follow WoW stories chapter by chapter with context and progress tracking.|n|nOpen Story Mode with Slash Command:|n/sm or /storymode
 ## Notes-deDE: Folge WoW-Geschichten Kapitel für Kapitel mit Kontext und Fortschritt.|n|nÖffne Story Mode mit dem Chatbefehl:|n/sm oder /storymode
-## Notes-esES: Sigue historias de WoW capítulo a capítulo con contexto y seguimiento del progreso.|n|nAbre Story Mode con el comando:|n/sm o /storymode
-## Notes-esMX: Sigue historias de WoW capítulo a capítulo con contexto y seguimiento del progreso.|n|nAbre Story Mode con el comando:|n/sm o /storymode
-## Notes-frFR: Suivez les histoires de WoW chapitre par chapitre, avec contexte et progression.|n|nOuvrez Story Mode avec la commande:|n/sm ou /storymode
-## Notes-ptBR: Acompanhe histórias de WoW capítulo por capítulo, com contexto e acompanhamento de progresso.|n|nAbra o Story Mode com o comando:|n/sm ou /storymode
+## Notes-esES: Sigue las historias de WoW capítulo a capítulo, con contexto y seguimiento de tu progreso.|n|nAbre Story Mode con el comando:|n/sm o /storymode
+## Notes-esMX: Sigue historias de WoW capítulo por capítulo, con contexto y seguimiento de tu progreso.|n|nAbre Story Mode con el comando:|n/sm o /storymode
+## Notes-frFR: Suivez les histoires de WoW chapitre par chapitre, avec leur contexte et votre progression.|n|nOuvrez Story Mode avec la commande :|n/sm ou /storymode
+## Notes-itIT: Segui le storie di WoW capitolo per capitolo, con contesto e progressi sempre sotto controllo.|n|nApri Story Mode con il comando:|n/sm o /storymode
+## Notes-koKR: WoW 이야기를 장별로 따라가며 줄거리와 진행 상황을 확인하세요.|n|n채팅 명령어로 Story Mode를 여세요:|n/sm 또는 /storymode
+## Notes-ptBR: Acompanhe as histórias de WoW capítulo por capítulo, com contexto e seu progresso.|n|nAbra o Story Mode com o comando:|n/sm ou /storymode
 ## Notes-ruRU: Проходите истории WoW по главам, с контекстом и отслеживанием прогресса.|n|nОткройте Story Mode командой:|n/sm или /storymode
+## Notes-zhCN: 逐章追随魔兽世界的故事，了解来龙去脉并追踪进度。|n|n使用聊天命令打开 Story Mode：|n/sm 或 /storymode
+## Notes-zhTW: 逐章追隨魔獸世界的故事，了解來龍去脈並追蹤進度。|n|n使用聊天指令開啟 Story Mode：|n/sm 或 /storymode
 ## SavedVariables: StoryModeDB
 ## OptionalDeps: LibDataBroker-1.1
 ## Version: 1.9.5

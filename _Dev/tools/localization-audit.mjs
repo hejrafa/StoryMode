@@ -2,7 +2,7 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.argv[2] || process.cwd();
-const localeFiles = ["deDE", "esES", "frFR", "ptBR", "ruRU"];
+const localeFiles = ["deDE", "esES", "esMX", "frFR", "itIT", "koKR", "ptBR", "ruRU", "zhCN", "zhTW"];
 
 function extractLocaleEntries(text) {
   const entries = new Map();
@@ -54,8 +54,13 @@ function extractDataStrings(text) {
   return strings;
 }
 
+// Positional arguments (%2$s) may reorder a sentence; compare the type expected at each argument index.
 function specs(value) {
-  return [...value.matchAll(/%(?:\d+\$)?[sdqfg]/g)].map((match) => match[0]).join(",");
+  return [...value.matchAll(/%(?:(\d+)\$)?([sdqfg])/g)]
+    .map((match, index) => [match[1] ? Number(match[1]) : index + 1, match[2]])
+    .sort((a, b) => a[0] - b[0])
+    .map(([position, type]) => `${position}:${type}`)
+    .join(",");
 }
 
 function escapeRegex(value) {
@@ -68,7 +73,11 @@ const gluedProtectedTerm = new RegExp(`\\p{L}(?:${protectedTermPattern})|(?:${pr
 const gluedPlaceholder = /\p{L}%(?:\d+\$)?[sdqfg]|%(?:\d+\$)?[sdqfg]\p{L}/u;
 const invisibleSpacing = /[\u00A0\u1680\u180E\u2000-\u200F\u2028\u2029\u202F\u205F\u2060\uFEFF]/u;
 
-function localeValueFindings(value, rawValue) {
+// Chinese writes without spaces and Korean attaches particles directly ("Story Mode를"), so
+// adjacency to letters is normal there rather than a sign of a broken machine join.
+const unspacedLocales = new Set(["koKR", "zhCN", "zhTW"]);
+
+function localeValueFindings(value, rawValue, locale) {
   const findings = [];
   if (/SMTOK|SMESC|__SM/i.test(value) || /SMTOK|SMESC|__SM/i.test(rawValue)) {
     findings.push("machine token artifact");
@@ -81,6 +90,9 @@ function localeValueFindings(value, rawValue) {
   }
   if (invisibleSpacing.test(value)) {
     findings.push("invisible or non-breaking spacing character");
+  }
+  if (unspacedLocales.has(locale)) {
+    return findings;
   }
   if (gluedProtectedTerm.test(value)) {
     findings.push("protected term glued to surrounding text");
@@ -97,14 +109,22 @@ const contentStart = enText.indexOf("-- BEGIN CONTENT STRINGS");
 const contentEntries = extractLocaleEntries(contentStart >= 0 ? enText.slice(contentStart) : "");
 const sourceKeys = new Set(enEntries.keys());
 const dataFiles = await walk(`${root}/Data`);
+const dataKeysMissingFromEnglish = new Set();
 for (const dataFile of dataFiles) {
   for (const key of extractDataStrings(await readFile(dataFile, "utf8"))) {
     sourceKeys.add(key);
+    if (!enEntries.has(key)) dataKeysMissingFromEnglish.add(key);
   }
 }
 
 const report = {};
 const findings = [];
+
+// A data string with no enUS entry never reaches the locale files, so every
+// client shows it in English.
+for (const key of dataKeysMissingFromEnglish) {
+  findings.push(`${root}/Locales/enUS.lua: missing data string ${key}`);
+}
 
 for (const locale of localeFiles) {
   const localePath = `${root}/Locales/${locale}.lua`;
@@ -121,7 +141,7 @@ for (const locale of localeFiles) {
     if (enEntries.has(key) && specs(enEntries.get(key)) !== specs(value)) {
       findings.push(`${localePath}: placeholder mismatch for ${key}`);
     }
-    for (const valueFinding of localeValueFindings(value, rawValue)) {
+    for (const valueFinding of localeValueFindings(value, rawValue, locale)) {
       findings.push(`${localePath}: ${valueFinding} for ${key}`);
     }
     if (contentEntries.has(key)) {

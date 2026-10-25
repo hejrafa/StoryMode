@@ -5,9 +5,14 @@ const root = process.argv[2] || process.cwd();
 const localeTargets = {
   deDE: "de",
   esES: "es",
+  esMX: "es",
   frFR: "fr",
+  itIT: "it",
+  koKR: "ko",
   ptBR: "pt",
   ruRU: "ru",
+  zhCN: "zh-CN",
+  zhTW: "zh-TW",
 };
 const separator = "\n⟦STORY_MODE_LOCALE_SEPARATOR⟧\n";
 const maxChunkChars = 3200;

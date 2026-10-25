@@ -65,7 +65,7 @@ SM.MageCampaignData = {
         {
             chapter = "The Tirisgarde Reborn",
             summary = "Meryl Felstorm, an ancient mage, pleads for help against a dreadlord. Together you reforge the Tirisgarde in the Hall of the Guardian.",
-            recap = "Meryl Felstorm appeared with an urgent plea — Kathra'natir, a cunning dreadlord, had broken free of his prison and threatened all of Dalaran. You fought the demon back and descended into the Hall of the Guardian, an ancient sanctum beneath the city. There, Meryl revealed the Tirisgarde — an order of mage-hunters founded centuries ago. With a weapon of legend in hand and The Great Akazamzarak's theatrical assistance, you reforged the order and took your place as its champion.",
+            recap = "Meryl Felstorm appeared with an urgent plea — Kathra'natir, a cunning dreadlord, had broken free of his prison and threatened all of Dalaran. You fought the demon back and descended into the Hall of the Guardian, an ancient sanctum beneath the city. There, Meryl revealed the Tirisgarde — an ancient order of mages sworn to defend Azeroth against the Burning Legion. With a weapon of legend in hand and The Great Akazamzarak's theatrical assistance, you reforged the order and took your place as its champion.",
             quests = {
                 { id = 41035, name = "Felstorm's Plea",            npc = "Meryl Felstorm" },
                 { id = 41036, name = "The Dreadlord's Prize",       npc = "Meryl Felstorm" },
