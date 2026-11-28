@@ -204,6 +204,8 @@ local LEGACY = {
     shield = "Legacy-Tree-Frame-Points-icon",
 }
 local UNDISCOVERED_ICON = "Interface\\Icons\\INV_Misc_QuestionMark"
+-- An item's icon from the game's item data, which needs no item cache.
+local GetItemIconByID = (C_Item and C_Item.GetItemIconByID) or GetItemIcon
 
 -- Offsets from the Legacy card (Blizzard_LegacyChallengeButton.lua and
 -- LegacyChallengeTemplate), from the card's top left.
@@ -317,7 +319,9 @@ local function GetQuestGiverText(data, quest)
     if location and location ~= "" then
         -- Class quest lines already name the giver in their location
         -- ("Myrokos Silentform, Ravenholdt Manor, Alterac Mountains").
-        if npc == "" or location:sub(1, #npc) == npc then return location end
+        -- A place on its own starts the line, so it gets a capital.
+        if npc == "" then return SM.CapitalizeFirst(location) end
+        if location:sub(1, #npc) == npc then return location end
         return npc .. ", " .. location
     end
     return npc
@@ -763,12 +767,18 @@ local function CreateLegacyQuestCard(parent)
 
         local displayID = quest and SM.GetQuestGiverDisplayID(data, quest.npc)
         local iconPath = data and ((data.chapterIcons and chapter and data.chapterIcons[chapter.chapter]) or data.icon)
+        -- An item step with no giver to picture (q.item, no npc) shows its item.
+        local itemIcon = quest and quest.item and not displayID and GetItemIconByID
+            and GetItemIconByID(quest.item)
         if undiscovered then
             self.portrait:SetTexCoord(0.07, 0.93, 0.07, 0.93)
             self.portrait:SetTexture(UNDISCOVERED_ICON)
             self.title:SetText(L["Quest Undiscovered Title"])
             self.tooltipTitle, self.tooltipNPC = L["Quest Undiscovered Title"], nil
             self.tooltipStatus, self.tooltipRequirement = nil, nil
+        elseif itemIcon then
+            self.portrait:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+            self.portrait:SetTexture(itemIcon)
         else
             SM.SetChapterPortrait(self.portrait, displayID, iconPath, quest and quest.id)
         end

@@ -77,6 +77,31 @@ function SM.ApplyGenderTokens(text)
     end))
 end
 
+-- The text with its first letter capitalized. Story data writes places in
+-- lower case ("the Altar of Zul, The Hinterlands") so chat lines can use them
+-- mid-sentence; a line that starts with one capitalizes it. string.upper only
+-- knows A to Z, so accented Latin and Cyrillic first letters are mapped here.
+function SM.CapitalizeFirst(text)
+    if type(text) ~= "string" or text == "" then return text end
+    local a, b = text:byte(1, 2)
+    if a >= 97 and a <= 122 then
+        return string.char(a - 32) .. text:sub(2)
+    end
+    if not b then return text end
+    if a == 0xC3 and b >= 0xA0 and b <= 0xBE and b ~= 0xB7 then
+        b = b - 0x20                -- à to þ: À to Þ
+    elseif a == 0xD0 and b >= 0xB0 and b <= 0xBF then
+        b = b - 0x20                -- а to п: А to П
+    elseif a == 0xD1 and b >= 0x80 and b <= 0x8F then
+        a, b = 0xD0, b + 0x20       -- р to я: Р to Я
+    elseif a == 0xD1 and b == 0x91 then
+        a, b = 0xD0, 0x81           -- ё: Ё
+    else
+        return text
+    end
+    return string.char(a, b) .. text:sub(3)
+end
+
 -- A chapter's intro (summary) or journal entry (recap) for the player. Where
 -- the Alliance and the Horde live a chapter differently, it keeps one for
 -- each (summaryAlliance, recapHorde...) beside the shared one.
